@@ -6,29 +6,29 @@ build()
 
 async function build () {
   try {
-    console.log('\n🛠  Building app...\n')
-    var { stdout, stderr } = await exec('rm -rf ./build.zip && INLINE_RUNTIME_CHUNK=false GENERATE_SOURCEMAP=false SKIP_PREFLIGHT_CHECK=true react-scripts build')
-    if (stderr) throw stderr
-    console.log(stdout)
+    await cmd('echo "\n🛠  Building app...\n"')
+    await cmd('rm -rf ./build.zip && INLINE_RUNTIME_CHUNK=false GENERATE_SOURCEMAP=false SKIP_PREFLIGHT_CHECK=true react-scripts build')
     
-    console.log('\n📦 Bundling everything inside index.html...\n')
-    var { stdout, stderr } = await exec('npx gulp')
-    if (stderr) throw stderr
-    console.log(stdout)
-
-    console.log('\n🧹 Removing unnecessary files...\n')
-    var { stdout, stderr } = await exec('rm -rfv ./build/static ./build/asset-manifest.json')
-    if (stderr) throw stderr
-    console.log(stdout)
-
-    console.log('\n🤐 Zipping the build...\n')
-    var { stdout, stderr } = await exec('zip -r build.zip build && rm -rfv build')
-    if (stderr) throw stderr
-    console.log(stdout)
-
-    console.log('\n🍸 That\'s all good my friend!\n')
+    if (process.argv[2] === '--onefile') {
+      await cmd('echo "\n📦 Bundling everything inside index.html...\n"')
+      await cmd('npx gulp')
+      
+      await cmd('echo "\n🧹 Removing unnecessary files...\n"')
+      await cmd('rm -rfv ./build/static ./build/asset-manifest.json')
+    }
+    
+    await cmd('echo "\n🤐 Zipping the build...\n"')
+    await cmd('zip -r build.zip build')
+    
+    await cmd('echo "\n🍸 That\'s all good my friend!\n"')
   } catch (err) {
     console.log('\n', err)
     process.exit(1)
   }
+}
+
+async function cmd (line) {
+  const { stdout, stderr } = await exec(line)
+  if (stderr) throw stderr
+  console.log(stdout)
 }
