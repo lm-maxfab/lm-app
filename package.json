@@ -7,7 +7,6 @@
     "@types/node": "^15.6.1",
     "@types/react": "^17.0.6",
     "@types/react-dom": "^17.0.5",
-    "preact": "^10.5.13",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "4.0.3",
@@ -18,7 +17,9 @@
     "start": "react-scripts start",
     "build": "node ./build.js",
     "build-snippet": "node ./build.js --onefile",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "standard": "ts-standard --verbose | snazzy",
+    "standard-fix": "ts-standard --fix --verbose | snazzy"
   },
   "eslintConfig": {
     "extends": [
@@ -47,6 +48,8 @@
     "eslint-plugin-react-hooks": "^4.2.0",
     "gulp": "^4.0.2",
     "gulp-inline-source": "^4.0.0",
-    "gulp-replace": "^1.1.3"
+    "gulp-replace": "^1.1.3",
+    "snazzy": "^9.0.0",
+    "ts-standard": "^10.0.0"
   }
 }
