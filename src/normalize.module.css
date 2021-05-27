@@ -1,0 +1,181 @@
+.normalized {
+  background: green;
+  line-height: 1.15;
+}
+
+.normalized html {
+  line-height: 1.15; /* 1 */
+  -webkit-text-size-adjust: 100%; /* 2 */
+}
+
+.normalized body {
+  margin: 0;
+}
+
+.normalized h1 {
+  color: orange;
+  font-size: 2em;
+  margin: 0.67em 0;
+}
+
+.normalized hr {
+  box-sizing: content-box; /* 1 */
+  height: 0; /* 1 */
+  overflow: visible; /* 2 */
+}
+
+.normalized pre {
+  font-family: monospace, monospace; /* 1 */
+  font-size: 1em; /* 2 */
+}
+
+.normalized a {
+  background-color: transparent;
+}
+
+.normalized abbr[title] {
+  border-bottom: none; /* 1 */
+  text-decoration: underline; /* 2 */
+  text-decoration: underline dotted; /* 2 */
+}
+
+.normalized b,
+.normalized strong {
+  font-weight: bolder;
+}
+
+.normalized code,
+.normalized kbd,
+.normalized samp {
+  font-family: monospace, monospace; /* 1 */
+  font-size: 1em; /* 2 */
+}
+
+.normalized small {
+  font-size: 80%;
+}
+
+.normalized sub,
+.normalized sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+.normalized sub {
+  bottom: -0.25em;
+}
+
+.normalized sup {
+  top: -0.5em;
+}
+
+.normalized img {
+  border-style: none;
+}
+
+.normalized button,
+.normalized input,
+.normalized optgroup,
+.normalized select,
+.normalized textarea {
+  font-family: inherit; /* 1 */
+  font-size: 100%; /* 1 */
+  line-height: 1.15; /* 1 */
+  margin: 0; /* 2 */
+}
+
+.normalized button,
+.normalized input { /* 1 */
+  overflow: visible;
+}
+
+.normalized button,
+.normalized select { /* 1 */
+  text-transform: none;
+}
+
+.normalized button,
+.normalized [type="button"],
+.normalized [type="reset"],
+.normalized [type="submit"] {
+  -webkit-appearance: button;
+}
+
+.normalized button::-moz-focus-inner,
+.normalized [type="button"]::-moz-focus-inner,
+.normalized [type="reset"]::-moz-focus-inner,
+.normalized [type="submit"]::-moz-focus-inner {
+  border-style: none;
+  padding: 0;
+}
+
+.normalized button:-moz-focusring,
+.normalized [type="button"]:-moz-focusring,
+.normalized [type="reset"]:-moz-focusring,
+.normalized [type="submit"]:-moz-focusring {
+  outline: 1px dotted ButtonText;
+}
+
+.normalized fieldset {
+  padding: 0.35em 0.75em 0.625em;
+}
+
+.normalized legend {
+  box-sizing: border-box; /* 1 */
+  color: inherit; /* 2 */
+  display: table; /* 1 */
+  max-width: 100%; /* 1 */
+  padding: 0; /* 3 */
+  white-space: normal; /* 1 */
+}
+
+.normalized progress {
+  vertical-align: baseline;
+}
+
+.normalized textarea {
+  overflow: auto;
+}
+
+.normalized [type="checkbox"],
+.normalized [type="radio"] {
+  box-sizing: border-box; /* 1 */
+  padding: 0; /* 2 */
+}
+
+.normalized [type="number"]::-webkit-inner-spin-button,
+.normalized [type="number"]::-webkit-outer-spin-button {
+  height: auto;
+}
+
+.normalized [type="search"] {
+  -webkit-appearance: textfield; /* 1 */
+  outline-offset: -2px; /* 2 */
+}
+
+.normalized [type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+
+.normalized ::-webkit-file-upload-button {
+  -webkit-appearance: button; /* 1 */
+  font: inherit; /* 2 */
+}
+
+.normalized details {
+  display: block;
+}
+
+.normalized summary {
+  display: list-item;
+}
+
+.normalized template {
+  display: none;
+}
+
+.normalized [hidden] {
+  display: none;
+}
