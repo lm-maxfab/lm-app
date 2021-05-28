@@ -6,6 +6,13 @@ const exec = promisify(_exec)
 
 build()
 
+/*
+ * WIP
+ * - Dev in site simulation, build in empty template
+ * - Auto commit on build
+ * - Build correctly the assets and stuff
+ */
+
 async function build () {
   try {
     await cmd('echo "\n👀 $(tput bold)Running standard.js...$(tput sgr0)\n"')

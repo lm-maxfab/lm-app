@@ -1,6 +1,14 @@
 .wrapper {
-  background: coral;
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.headline {
+  font-family: "Marr-Sans-Condensed";
+  font-weight: 700;
+}
+
+.signature {
+  
 }

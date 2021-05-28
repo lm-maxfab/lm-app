@@ -9,12 +9,8 @@ class Header extends Component<{}, {}> {
   render (): ReactNode {
     return (
       <div className={clss('prenoms-head', styles.wrapper)}>
-        <div className={styles.headline}>
-          Le prénom des gens.
-        </div>
-        <div className={styles.signature}>
-          Chroniques de Baptiste Coulmont
-        </div>
+        <h1 className={styles.headline}>Le prénom des gens.</h1>
+        <p className={styles.signature}>Chroniques de Baptiste Coulmont</p>
       </div>
     )
   }

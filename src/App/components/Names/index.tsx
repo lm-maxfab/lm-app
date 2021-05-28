@@ -1,15 +1,10 @@
-import { Component, ReactNode, FunctionComponent as FC } from 'react'
+import React from 'react'
 import clss from 'classnames'
 import styles from './styles.module.css'
+import Name from '../Name'
+import type { Props as NameProps } from '../Name'
 
-interface NameData {
-  name: string
-  display_name: string
-  intro: string
-  text: string
-}
-
-const data: NameData[] = [{
+const data: NameProps[] = [{
   name: 'Jeanne',
   display_name: 'Jeanne',
   intro: ', lorem ipsum dolor sit amet !',
@@ -21,34 +16,28 @@ const data: NameData[] = [{
   text: 'Lorem ipsum dolor sit amet consectutor napam sed tortor !'
 }]
 
-const Name: FC<{data: NameData}> = props => {
-  return (
-    <div>
-      <div>
-        <span>{props.data.display_name}</span>
-        <span>{props.data.intro}</span>
-      </div>
-      <div>
-        {props.data.text}
-      </div>
-    </div>
-  )
+interface Props {
+  className?: string
+  style?: any
 }
 
-class Names extends Component<{}, {}> {
+class Names extends React.Component<Props, {}> {
   /* * * * * * * * * * * * * * *
    * RENDER
    * * * * * * * * * * * * * * */
-  render (): ReactNode {
-    const classes: string = clss('prenoms-names', styles.wrapper)
+  render (): React.ReactNode {
+    const { props } = this
+    const classes: string = clss('prenoms-names', styles.wrapper, props.className)
+    const inlineStyle = { ...props.style }
     return (
-      <div className={classes}>
-        {data.map((item: NameData, i: number): ReactNode => {
-          return <Name data={item} key={i} />
+      <div className={classes} style={inlineStyle}>
+        {data.map((name: NameProps, i: number): React.ReactNode => {
+          return <Name {...name} key={i} />
         })}
       </div>
     )
   }
 }
 
+export type { Props }
 export default Names

@@ -7,21 +7,21 @@ interface Props {
   style?: any
 }
 
-class Template extends React.Component<Props, {}> {
+class GoNext extends React.Component<Props, {}> {
   /* * * * * * * * * * * * * * *
    * RENDER
    * * * * * * * * * * * * * * */
   render (): React.ReactNode {
     const { props } = this
-    const classes: string = clss('TEMPLATE', styles.wrapper, props.className)
+    const classes: string = clss('prenoms-go-next', styles.wrapper, props.className)
     const inlineStyle = { ...props.style }
     return (
-      <div className={classes} style={inlineStyle}>
-        TSX component template.
-      </div>
+      <button className={classes} style={inlineStyle}>
+        Go next.
+      </button>
     )
   }
 }
 
 export type { Props }
-export default Template
+export default GoNext

@@ -1,0 +1,75 @@
+/* Normalize */
+.normalized { line-height: 1.15; }
+.normalized html { line-height: 1.15; -webkit-text-size-adjust: 100%; }
+.normalized body { margin: 0; }
+.normalized h1 { font-size: 2em; margin: 0.67em 0; }
+.normalized hr { box-sizing: content-box; height: 0; overflow: visible; }
+.normalized pre { font-family: monospace, monospace; font-size: 1em; }
+.normalized a { background-color: transparent; }
+.normalized abbr[title] { border-bottom: none; text-decoration: underline; text-decoration: underline dotted; }
+.normalized b, .normalized strong { font-weight: bolder; }
+.normalized code, .normalized kbd, .normalized samp { font-family: monospace, monospace; font-size: 1em; }
+.normalized small { font-size: 80%; }
+.normalized sub,
+.normalized sup { font-size: 75%; line-height: 0; position: relative; vertical-align: baseline; }
+.normalized sub { bottom: -0.25em; }
+.normalized sup { top: -0.5em; }
+.normalized img { border-style: none; }
+.normalized button,
+.normalized input,
+.normalized optgroup,
+.normalized select,
+.normalized textarea { font-family: inherit; font-size: 100%; line-height: 1.15; margin: 0; }
+.normalized button,
+.normalized input { overflow: visible; }
+.normalized button,
+.normalized select { text-transform: none; }
+.normalized button,
+.normalized [type="button"],
+.normalized [type="reset"],
+.normalized [type="submit"] { -webkit-appearance: button; }
+.normalized button::-moz-focus-inner,
+.normalized [type="button"]::-moz-focus-inner,
+.normalized [type="reset"]::-moz-focus-inner,
+.normalized [type="submit"]::-moz-focus-inner { border-style: none; padding: 0; }
+.normalized button:-moz-focusring,
+.normalized [type="button"]:-moz-focusring,
+.normalized [type="reset"]:-moz-focusring,
+.normalized [type="submit"]:-moz-focusring { outline: 1px dotted ButtonText; }
+.normalized fieldset { padding: 0.35em 0.75em 0.625em; }
+.normalized legend { box-sizing: border-box; color: inherit; display: table; max-width: 100%; padding: 0; white-space: normal; }
+.normalized progress { vertical-align: baseline; }
+.normalized textarea { overflow: auto; }
+.normalized [type="checkbox"],
+.normalized [type="radio"] { box-sizing: border-box; padding: 0; }
+.normalized [type="number"]::-webkit-inner-spin-button,
+.normalized [type="number"]::-webkit-outer-spin-button { height: auto; }
+.normalized [type="search"] { -webkit-appearance: textfield; outline-offset: -2px; }
+.normalized [type="search"]::-webkit-search-decoration { -webkit-appearance: none; }
+.normalized ::-webkit-file-upload-button { -webkit-appearance: button; font: inherit; }
+.normalized details { display: block; }
+.normalized summary { display: list-item; }
+.normalized template { display: none; }
+.normalized [hidden] { display: none; }
+
+/* App root */
+.app-root {
+  font-size: 1.6rem;
+}
+
+.app-root, .app-root * {
+  font-family: initial;
+  color: initial;
+  box-sizing: border-box;
+}
+
+.app-root,
+.app-root h1,
+.app-root h2,
+.app-root h3,
+.app-root h4,
+.app-root h5,
+.app-root h6,
+.app-root p {
+  margin: 0;
+}

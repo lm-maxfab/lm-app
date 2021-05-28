@@ -1,1 +1,5 @@
-.wrapper {}
+.wrapper {
+  background-image: url('./assets/grid-background.png');
+  background-position: top center;
+  background-size: 6em;
+}
