@@ -13,7 +13,7 @@ class Template extends React.Component<Props, {}> {
    * * * * * * * * * * * * * * */
   render (): React.ReactNode {
     const { props } = this
-    const classes: string = clss('TEMPLATE', styles.wrapper, props.className)
+    const classes: string = clss('TEMPLATE', styles['wrapper'], props.className)
     const inlineStyle = { ...props.style }
     return (
       <div className={classes} style={inlineStyle}>

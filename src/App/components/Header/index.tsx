@@ -2,18 +2,32 @@ import { Component, ReactNode } from 'react'
 import clss from 'classnames'
 import styles from './styles.module.css'
 
-class Header extends Component<{}, {}> {
+interface Props {
+  className?: string
+  style?: any
+}
+
+class Header extends Component<Props, {}> {
   /* * * * * * * * * * * * * * *
    * RENDER
    * * * * * * * * * * * * * * */
   render (): ReactNode {
+    const { props } = this
+    const classes: string = clss('prenoms-head', styles['wrapper'], props.className)
+    const inlineStyle = { ...props.style }
+
     return (
-      <div className={clss('prenoms-head', styles.wrapper)}>
-        <h1 className={styles.headline}>Le prénom des gens.</h1>
-        <p className={styles.signature}>Chroniques de Baptiste Coulmont</p>
+      <div className={classes} style={inlineStyle}>
+        <h1 className={styles['headline']}>
+          <span className={styles['headline-first-line']}>Le</span>
+          <span className={styles['headline-second-line']}>prénom</span>
+          <span className={styles['headline-third-line']}>des gens.</span>
+        </h1>
+        <p className={styles['signature']}>Chroniques de Baptiste Coulmont</p>
       </div>
     )
   }
 }
 
+export type { Props }
 export default Header

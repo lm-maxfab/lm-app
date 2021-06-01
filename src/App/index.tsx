@@ -17,14 +17,14 @@ class App extends React.Component<Props, {}> {
    * * * * * * * * * * * * * * */
   render (): React.ReactNode {
     const { props } = this
-    const classes: string = clss('lm-app', 'prenoms', styles.wrapper, props.className)
+    const classes: string = clss('lm-app', 'prenoms', styles['app'], props.className)
     const inlineStyle = { ...props.style }
     return (
       <div className={classes} style={inlineStyle}>
-        <Header />
-        <Intro />
-        <Names />
-        <GoNext />
+        <Header className={styles['header']} />
+        <Intro className={styles['intro']} />
+        <Names className={styles['names']} />
+        <GoNext className={styles['go-next']} />
       </div>
     )
   }

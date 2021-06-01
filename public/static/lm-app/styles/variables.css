@@ -1,0 +1,24 @@
+.lm-app-root {
+ /* * * * * * * * * * * * * * *
+  *
+  * COLORS
+  *
+  * * * * * * * * * * * * * * */
+  --c-red: 212, 36, 71;
+
+ /* * * * * * * * * * * * * * *
+  *
+  * FONT-FAMILIES
+  *
+  * * * * * * * * * * * * * * */
+  --ff-heading: "Marr-Sans-Condensed", Arial, sans-serif;
+  --ff-statement: "Marr-Sans", Arial, sans-serif;
+  --ff-current: "The-Antiiqua-B", Georgia, serif;
+
+ /* * * * * * * * * * * * * * *
+  *
+  * LENGTHS
+  *
+  * * * * * * * * * * * * * * */
+  --l-rem: 16px
+}

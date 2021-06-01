@@ -1,5 +1,25 @@
-.wrapper {
+.app {
+  --c-prenoms-beige: 252, 223, 203;
+  --c-prenoms-black: 0, 0, 0;
+  background-color: rgba(var(--c-prenoms-beige));
   background-image: url('./assets/grid-background.png');
   background-position: top center;
-  background-size: 6em;
+  background-size: 9.6rem;
+}
+
+.header {
+  margin-bottom: 64px;
+  display: none;
+}
+
+.intro {
+
+}
+
+.names {
+
+}
+
+.go-next {
+  
 }
