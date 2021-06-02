@@ -8,7 +8,7 @@ import GoNext from './components/GoNext'
 
 interface Props {
   className?: string
-  style?: any
+  style?: React.CSSProperties
 }
 
 class App extends React.Component<Props, {}> {

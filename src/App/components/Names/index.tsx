@@ -18,7 +18,7 @@ const data: NameProps[] = [{
 
 interface Props {
   className?: string
-  style?: any
+  style?: React.CSSProperties
 }
 
 class Names extends React.Component<Props, {}> {

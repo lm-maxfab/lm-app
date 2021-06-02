@@ -4,7 +4,7 @@ import styles from './styles.module.css'
 
 interface Props {
   className?: string
-  style?: any
+  style?: React.CSSProperties
 }
 
 class Template extends React.Component<Props, {}> {

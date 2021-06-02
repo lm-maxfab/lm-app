@@ -1,6 +1,7 @@
 .app {
   --c-prenoms-beige: 252, 223, 203;
   --c-prenoms-black: 0, 0, 0;
+  --c-prenoms-white: 255, 255, 255;
   background-color: rgba(var(--c-prenoms-beige));
   background-image: url('./assets/grid-background.png');
   background-position: top center;
@@ -8,12 +9,12 @@
 }
 
 .header {
-  margin-bottom: 64px;
-  display: none;
+  display: inline-block;
 }
 
 .intro {
-
+  max-width: calc(42 * 16px);
+  margin: 0 auto;
 }
 
 .names {

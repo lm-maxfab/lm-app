@@ -1,3 +1,15 @@
 .wrapper {
-  
+  font-family: var(--ff-current);
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 20px;
+}
+
+.wrapper p {
+  margin-bottom: 16px;
+}
+
+.wrapper p em {
+  font-style: normal;
+  background: rgba(var(--c-prenoms-white), .6);
 }
