@@ -6,6 +6,9 @@
   background-image: url('./assets/grid-background.png');
   background-position: top center;
   background-size: 9.6rem;
+  position: relative;
+  padding: 0 4rem;
+  padding-bottom: calc(8 * 16px);
 }
 
 .header {
@@ -15,12 +18,61 @@
 .intro {
   max-width: calc(42 * 16px);
   margin: 0 auto;
+  margin-bottom: calc(4 * 16px);
 }
 
 .names {
+  max-width: calc(42 * 16px);
+  margin: 0 auto;
+}
 
+.name {
+  margin-bottom: calc(3 * 16px);
 }
 
 .go-next {
-  
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+@media screen and (max-width: 1008px) {
+  .intro {
+    margin-bottom: calc(3.5 * 16px);
+  }
+
+  .name {
+    margin-bottom: calc(3 * 16px);
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .app {
+    padding: 0 2rem;
+    padding-bottom: calc(6 * 16px);
+  }
+
+  .intro {
+    margin-bottom: calc(2.75 * 16px);
+  }
+
+  .name {
+    margin-bottom: calc(2.5 * 16px);
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .app {
+    padding: 0 1rem;
+    padding-bottom: calc(4 * 16px);
+  }
+
+  .intro {
+    margin-bottom: calc(2.25 * 16px);
+  }
+
+  .name {
+    margin-bottom: calc(2 * 16px);
+  }
 }

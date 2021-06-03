@@ -16,9 +16,9 @@ class GoNext extends React.Component<Props, {}> {
     const classes: string = clss('prenoms-go-next', styles.wrapper, props.className)
     const inlineStyle = { ...props.style }
     return (
-      <button className={classes} style={inlineStyle}>
-        Go next.
-      </button>
+      <div className={classes} style={inlineStyle}>
+        <button>↓ Aller à la chronique suivante</button>
+      </div>
     )
   }
 }
