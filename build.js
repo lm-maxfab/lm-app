@@ -22,10 +22,13 @@ async function build () {
     await cmd('git status')
 
     await cmd('echo "\n🧹 $(tput bold)Removing previous builds...$(tput sgr0)\n"')
-    await cmd('rm -rfv build build.zip')
+    await cmd('rm -rfv ./build ./build.zip')
 
     await cmd('echo "\n🛠  $(tput bold)Building the app...$(tput sgr0)\n"')
     await cmd('INLINE_RUNTIME_CHUNK=false GENERATE_SOURCEMAP=false SKIP_PREFLIGHT_CHECK=true react-scripts build')
+
+    await cmd('echo "\n🧽 $(tput bold)Removing asset-manifest.json...$(tput sgr0)\n"')
+    await cmd('rm -rfv ./build/asset-manifest.json')
 
     if (process.argv[2] === '--onefile') {
       await cmd('echo "\n🤖 $(tput bold)Creating gulpfile.js ...$(tput sgr0)\n"')
@@ -45,11 +48,15 @@ async function build () {
       await cmd('npx gulp')
 
       await cmd('echo "\n🧽 $(tput bold)Removing bundled files...$(tput sgr0)\n"')
-      await cmd('rm -rfv gulpfile.js build/static')
+      await cmd('rm -rfv build/static')
+
+      await cmd('echo "\n🧽 $(tput bold)Removing gulpfile.js...$(tput sgr0)\n"')
+      await cmd('rm -rfv gulpfile.js')
     }
 
-    await cmd('echo "\n🤷‍♀️ $(tput bold)Removing asset-manifest.json...$(tput sgr0)\n"')
-    await cmd('rm -rfv build/asset-manifest.json')
+    await cmd('touch build/.DS_Store')
+    await cmd('echo "\n🧽 $(tput bold)Removing .DS_Store files...$(tput sgr0)\n"')
+    await cmd('find . -name ".DS_Store" -print -delete')
 
     await cmd('echo "\n🤐 $(tput bold)Zipping the build...$(tput sgr0)\n"')
     await cmd('zip -r build.zip build')
