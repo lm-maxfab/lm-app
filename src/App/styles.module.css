@@ -11,8 +11,18 @@
   padding-bottom: calc(8 * 16px);
 }
 
+.app > * {
+  position: relative;
+}
+
 .parallax {
   display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 200vh;
+  opacity: .2;
 }
 
 .header {

@@ -109,7 +109,9 @@ class App extends React.Component<Props, State> {
         className={classes}
         style={inlineStyle}
         ref={n => this.$root = n}>
-        <Parallax className={styles['parallax']} />
+        <div className={styles['parallax']}>
+          <Parallax />
+        </div>
         <Header className={styles['header']} />
         <Intro className={styles['intro']} />
         <Names />

@@ -74,7 +74,7 @@ class Parallax extends React.Component<Props, State> {
     const height = bottom - top
     const viewportHeight = document.documentElement.clientHeight
     const minTop = 0
-    const maxTop = -1 * height
+    const maxTop = -1 * (height - viewportHeight)
     const scrollPercent = (top - minTop) / (maxTop - minTop)
     this.setState({ scrollPercent })
   }
