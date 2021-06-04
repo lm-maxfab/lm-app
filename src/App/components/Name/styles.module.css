@@ -42,6 +42,7 @@
 }
 
 .text iframe,
+.text figure,
 .text :global(.article__reactions),
 .text :global(.author),
 .text :global(.catcher) {
