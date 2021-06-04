@@ -1,6 +1,7 @@
 import React from 'react'
 import clss from 'classnames'
 import styles from './styles.module.css'
+import Parallax from './components/Parallax'
 import Header from './components/Header'
 import Intro from './components/Intro'
 import Name from './components/Name'
@@ -48,8 +49,7 @@ class App extends React.Component<Props, State> {
         else return { ...curr, currentName: name }
       }, () => resolve(true))
     })
-    if (this.$root === null) return
-    if (this.state.currentName === null) return
+    if (this.$root === null || this.state.currentName === null) return
     const $name: Element|null = this.$root.querySelector(`#${name}`)
     if ($name === null) return
     const nameY = $name.getBoundingClientRect().top
@@ -84,29 +84,35 @@ class App extends React.Component<Props, State> {
     const currentName = state.currentName
     const currentNamePos = data.findIndex((name: NameProps) => name.name === currentName)
     const currentNameIsLast = currentNamePos === data.length - 1
+
+    const Names = () => (
+      <div className={styles['names']}>
+        {data.map((name: NameProps, i: number): React.ReactNode => {
+          const expanded = currentName === name.name
+          const onToggle = () => { this.activateName(name.name) }
+          return <div
+            key={name.name}
+            id={name.name}
+            className={styles['name']}
+            style={{ top: '200px' }}>
+            <Name
+              {...name}
+              expanded={expanded}
+              onToggle={onToggle} />
+          </div>
+        })}
+      </div>
+    )
+
     return (
       <div
         className={classes}
         style={inlineStyle}
         ref={n => this.$root = n}>
+        <Parallax className={styles['parallax']} />
         <Header className={styles['header']} />
         <Intro className={styles['intro']} />
-        <div className={styles['names']}>
-          {data.map((name: NameProps, i: number): React.ReactNode => {
-            const expanded = currentName === name.name
-            const onToggle = () => { this.activateName(name.name) }
-            return <div
-              key={name.name}
-              id={name.name}
-              className={styles['name']}
-              style={{ top: '200px' }}>
-              <Name
-                {...name}
-                expanded={expanded}
-                onToggle={onToggle} />
-            </div>
-          })}
-        </div>
+        <Names />
         {currentName
           && !currentNameIsLast
           && <div

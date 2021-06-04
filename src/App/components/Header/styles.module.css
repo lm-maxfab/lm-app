@@ -8,7 +8,6 @@
 }
 
 .headline {
-  --d-transition-duration-basis: 300ms;
   font-family: var(--ff-heading);
   font-size: calc(9 * 16px);
   line-height: calc(9 * 16px);

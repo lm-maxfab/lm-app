@@ -1,0 +1,7 @@
+.wrapper {
+  background: green;
+  height: 1500px;
+  position: relative;
+  margin-top: 400px;
+  overflow: hidden;
+}

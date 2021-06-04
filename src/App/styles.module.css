@@ -3,12 +3,16 @@
   --c-prenoms-black: 0, 0, 0;
   --c-prenoms-white: 255, 255, 255;
   background-color: rgba(var(--c-prenoms-beige));
-  background-image: url('./assets/grid-background.png');
+  background-image: url("./assets/grid-background.png");
   background-position: top center;
   background-size: 9.6rem;
   position: relative;
   padding: 0 4rem;
   padding-bottom: calc(8 * 16px);
+}
+
+.parallax {
+  display: block;
 }
 
 .header {
