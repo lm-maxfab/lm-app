@@ -5,8 +5,11 @@ import Parallax from './components/Parallax'
 import Header from './components/Header'
 import Intro from './components/Intro'
 import Name from './components/Name'
-import GoNext from './components/GoNext'
 import type { Props as NameProps } from './components/Name'
+import GoNext from './components/GoNext'
+import berceauSrc from './assets/berceau.png'
+import baguetteSrc from './assets/fee-baguette.png'
+import poidsSrc from './assets/fee-poids.png'
 
 const data: NameProps[] = new Array(10).fill(null).map((e, i) => {
   return {
@@ -110,7 +113,37 @@ class App extends React.Component<Props, State> {
         style={inlineStyle}
         ref={n => this.$root = n}>
         <div className={styles['parallax']}>
-          <Parallax />
+          <Parallax
+            anchor='top'
+            render={(percent: number):React.ReactNode => {
+              const opacity = Math.pow(1 - percent, 4)
+              const berceauStyle:React.CSSProperties = {
+                opacity,
+                top: `${percent * 27}%`
+              }
+              const baguetteStyle:React.CSSProperties = {
+                opacity,
+                top: `${percent * 18}%`
+              }
+              const poidsStyle:React.CSSProperties = {
+                opacity,
+                top: `${percent * 9}%`
+              }
+              return <>
+                <img
+                  src={berceauSrc}
+                  className={clss(styles['parallax-asset'], styles['parallax-asset_berceau'])}
+                  style={berceauStyle} />
+                <img
+                  src={baguetteSrc}
+                  className={clss(styles['parallax-asset'], styles['parallax-asset_baguette'])}
+                  style={baguetteStyle} />
+                <img
+                  src={poidsSrc}
+                  className={clss(styles['parallax-asset'], styles['parallax-asset_poids'])}
+                  style={poidsStyle} />
+              </>
+            }} />
         </div>
         <Header className={styles['header']} />
         <Intro className={styles['intro']} />

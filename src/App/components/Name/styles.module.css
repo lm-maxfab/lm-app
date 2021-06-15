@@ -62,7 +62,7 @@
   cursor: pointer;
 }
 
-@media screen and (max-width: 1008px) {
+@media screen and (max-width: 1024px) {
   .head {
     font-size: calc(3.5 * 16px);
     line-height: calc(3.5 * 16px);

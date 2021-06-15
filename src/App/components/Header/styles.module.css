@@ -9,8 +9,8 @@
 
 .headline {
   font-family: var(--ff-heading);
-  font-size: calc(9 * 16px);
-  line-height: calc(9 * 16px);
+  font-size: calc(7 * 16px);
+  line-height: calc(7 * 16px);
   font-weight: 700;
   display: flex;
   flex-direction: column;
@@ -29,26 +29,21 @@
   font-weight: 400;
   font-size: calc(1.125 * 16px);
   line-height: calc(1.25 * 16px);
-  margin-bottom: calc(6 * 16px);
 }
 
-@media screen and (max-width: 1008px) {
+@media screen and (max-width: 1024px) {
   .headline {
-    font-size: calc(8 * 16px);
-    line-height: calc(8 * 16px);
+    font-size: calc(6 * 16px);
+    line-height: calc(6 * 16px);
     margin-top: calc(1.5 * 16px);
     margin-bottom: calc(3 * 16px);
-  }
-
-  .signature {
-    margin-bottom: calc(4 * 16px);
   }
 }
 
 @media screen and (max-width: 640px) {
   .headline {
-    font-size: calc(6 * 16px);
-    line-height: calc(6 * 16px);
+    font-size: calc(5 * 16px);
+    line-height: calc(5 * 16px);
     margin-top: calc(1 * 16px);
     margin-bottom: calc(2 * 16px);
   }
@@ -70,6 +65,5 @@
   .signature {
     font-size: calc(.875 * 16px);
     line-height: calc(.875 * 16px);
-    margin-bottom: calc(3 * 16px);
   }
 }

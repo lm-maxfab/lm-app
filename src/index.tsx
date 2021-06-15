@@ -12,7 +12,11 @@ const rootNodeId: string = 'lm-app-root'
 const rootNode: HTMLElement|null = document.getElementById(rootNodeId)
 
 // Rendered app
-const rendered = <React.StrictMode><App /></React.StrictMode>
+const rendered = (
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+)
 
 // Render app
 if (rootNode === null) console.error(`App root node '#${rootNodeId}' not found.`)
