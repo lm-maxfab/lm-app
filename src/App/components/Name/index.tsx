@@ -2,7 +2,7 @@ import React from 'react'
 import clss from 'classnames'
 import styles from './styles.module.css'
 import FancyHover from '../FancyHoverableText'
-import StrToHtml from '../../../modules/Text/StrToHtml'
+import StrToHtml from '../../../modules/text/StrToHtml'
 
 interface Props {
   className?: string
@@ -48,8 +48,6 @@ class Name extends React.Component<Props, State> {
    * * * * * * * * * * * * * * */
   render (): React.ReactNode {
     const { props, state } = this
-    const classes: string = clss('prenoms-name', styles.wrapper, props.className)
-    const inlineStyle = { ...props.style }
     const expanded = props.expanded ?? state.expanded
 
     const textStyle: React.CSSProperties = {
@@ -59,12 +57,20 @@ class Name extends React.Component<Props, State> {
       transition: 'opacity 1000ms, transform 1000ms'
     }
 
+    const classes: string = clss(
+      'prenoms-name',
+      styles.wrapper,
+      props.className,
+      expanded ? styles['wrapper_expanded'] : null
+    )
+    const inlineStyle = { ...props.style }
+
     return (
       <div className={classes} style={inlineStyle}>
         <div
           className={styles.head}
           onClick={this.handleToggleClick}>
-          <FancyHover
+          {/*<FancyHover
             animationSpeed='1000ms'
             fillStartColor='rgba(var(--c-prenoms-beige))'
             fillEndColor='rgba(var(--c-prenoms-black))'
@@ -74,7 +80,9 @@ class Name extends React.Component<Props, State> {
             hover={expanded ? true : undefined}>
             <span className='prenoms-name__name'>{props.displayName}</span>
             <span className='prenoms-name__name-intro'>{props.intro}</span>
-          </FancyHover>
+          </FancyHover>*/}
+          <span className={styles['display-name']}>{props.displayName}</span>
+          <span className={styles['name-intro']}>{props.intro}</span>
         </div>
         <div className={styles.text} style={textStyle}>
           <StrToHtml content={props.text} />

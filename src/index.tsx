@@ -2,7 +2,7 @@ import React from 'react'
 import { render, hydrate } from 'react-dom'
 import 'whatwg-fetch'
 import smoothscroll from 'smoothscroll-polyfill'
-import App from './App'
+import App from './App2'
 
 // Enable smoothscroll polyfill
 smoothscroll.polyfill()
