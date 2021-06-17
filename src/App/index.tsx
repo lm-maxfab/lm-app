@@ -7,9 +7,6 @@ import Intro from './components/Intro'
 import Name from './components/Name'
 import GoNext from './components/GoNext'
 import type { Props as NameProps } from './components/Name'
-import berceauSrc from './assets/berceau.png'
-import baguetteSrc from './assets/fee-baguette.png'
-import poidsSrc from './assets/fee-poids.png'
 
 interface Props {
   className?: string
@@ -114,15 +111,15 @@ class App extends React.Component<Props, State> {
               const poidsStyle:React.CSSProperties = { opacity, top: `${percent * 9 * 1.8}%` }
               return <>
                 <img
-                  src={berceauSrc}
+                  src='https://assets-decodeurs.lemonde.fr/redacweb/1-2105-prenoms-assets/berceau.png'
                   className={clss(styles['parallax-asset'], styles['parallax-asset_berceau'])}
                   style={berceauStyle} />
                 <img
-                  src={baguetteSrc}
+                  src='https://assets-decodeurs.lemonde.fr/redacweb/1-2105-prenoms-assets/fee-baguette.png'
                   className={clss(styles['parallax-asset'], styles['parallax-asset_baguette'])}
                   style={baguetteStyle} />
                 <img
-                  src={poidsSrc}
+                  src='https://assets-decodeurs.lemonde.fr/redacweb/1-2105-prenoms-assets/fee-poids.png'
                   className={clss(styles['parallax-asset'], styles['parallax-asset_poids'])}
                   style={poidsStyle} />
               </>

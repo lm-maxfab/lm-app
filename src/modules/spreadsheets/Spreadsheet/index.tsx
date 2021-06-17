@@ -1,5 +1,5 @@
 import React from 'react'
-import tsvBaseToJsObject from '../tsv-base-to-js-object'
+import tsvBaseToJsObject from '../tsv-base-to-js-object-base'
 import fetchTsvBase from '../fetch-tsv-base'
 import type { Props as NameProps } from '../../../App/components/Name'
 
