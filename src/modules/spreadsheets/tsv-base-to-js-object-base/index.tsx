@@ -1,3 +1,5 @@
+import { threadId } from "worker_threads"
+
 /* * * * * * * * * * * * * * *
  * TSV TO ENCODED TSV
  * * * * * * * * * * * * * * */
@@ -63,56 +65,239 @@ function tsvTo2DArray (tsv: string): string[][] {
 /* * * * * * * * * * * * * * *
  * GET COLLECTIONS META
  * * * * * * * * * * * * * * */
-interface CollectionsMeta {
-  tut: 2
+interface FieldProps {
+  raw?: string
+  key?: string
+  name?: string
+  type?: string
+  line?: number
+  entry?: Entry
 }
 
-function getCollectionsMeta (arrayTsvBase: any): CollectionsMeta {
+class Field implements FieldProps {
+  raw: string
+  key: string
+  name: string
+  type: string
+  line: number
+  entry: Entry
+  
+  constructor (props: FieldProps) {
+    this.raw = props.raw ?? ''
+    this.key = props.key ?? ''
+    this.name = props.name ?? ''
+    this.type = props.type ?? ''
+    this.line = props.line ?? 0
+    this.entry = props.entry ?? new Entry({})
+  }
+  
+  get value (): any { return false }
+  valueOf () { return this.value }
+}
+
+interface EntryProps {
+  id?: string
+  collection?: Collection
+  fields?: Field[]
+  column?: number
+}
+
+class Entry implements EntryProps {
+  id: string
+  collection: Collection
+  column: number
+  private _fields: Field[]
+  get fields () { return this._fields }
+  
+  constructor (props: EntryProps) {
+    this.id = props.id ?? ''
+    this.collection = props.collection ?? new Collection({})
+    this.column = props.column ?? 0
+    this._fields = props.fields ?? []
+  }
+  
+  get value (): Field[] { return this.fields }
+  valueOf () { return this.value }
+
+  findFieldByKey (key: string): Field|undefined {
+    const found = this.fields.find(field => field.key === key)
+    return found
+  }
+
+  createField (props: FieldProps): Field {
+    const key = props.key ?? ''
+    const name = props.name ?? ''
+    const type = props.type ?? ''
+    const line = props.line ?? 0
+    const raw = props.raw ?? ''
+    const fieldAlreadyExists = this.findFieldByKey(key) !== undefined
+    const newField = new Field({ key, name, type, line, raw, entry: this })
+    if (fieldAlreadyExists) this.deleteField(key)
+    this.fields.push(newField)
+    return newField
+  }
+
+  deleteField (key: string): undefined {
+    const fieldIndex = this.fields.findIndex(field => field.key === key)
+    if (fieldIndex === -1) return
+    this._fields = [
+      ...this._fields.slice(0, fieldIndex),
+      ...this._fields.slice(fieldIndex + 1)
+    ]
+    return
+  }
+}
+
+interface CollectionProps {
+  id?: string
+  name?: string
+  keys?: string[]
+  entries?: Entry[]
+  base?: SheetBase
+}
+
+class Collection implements CollectionProps {
+  id: string
+  name: string
+  base: SheetBase
+  private _keys: string[]
+  private _entries: Entry[]
+  get keys () { return this._keys }
+  get entries () { return this._entries }
+
+  constructor (props: CollectionProps) {
+    this._keys = props.keys ?? []
+    this._entries = props.entries ?? []
+    this.id = props.id ?? ''
+    this.name = props.name ?? ''
+    this.base = props.base ?? new SheetBase()
+  }
+
+  get value (): Entry[] { return this.entries }
+  valueOf() { return this.value }
+
+  rename (name: string): Collection {
+    this.name = name
+    return this
+  }
+
+  findEntryById (id: string): Entry|undefined {
+    const found = this.entries.find(entry => entry.id === id)
+    return found
+  }
+
+  findEntryByColumn (column: number): Entry|undefined {
+    const found = this.entries.find(entry => entry.column === column)
+    return found
+  }
+
+  createEntry (id: string, column: number): Entry {
+    const idAlreadyExists = this.findEntryById(id) !== undefined
+    const newEntry = new Entry({ id, column })
+    if (idAlreadyExists) this.deleteEntry(id)
+    this.entries.push(newEntry)
+    return newEntry
+  }
+
+  deleteEntry (id: string): undefined {
+    const entryIndex = this.entries.findIndex(entry => entry.id === id)
+    if (entryIndex === -1) return
+    this._entries = [
+      ...this._entries.slice(0, entryIndex),
+      ...this._entries.slice(entryIndex + 1)
+    ]
+    return
+  }
+}
+
+class SheetBase extends Array implements Array<Collection> {
+  private _collections: Collection[] = []
+  get collections () { return this._collections }
+  
+  findCollectionById (id: string): Collection|undefined {
+    const found = this.collections.find(col => col.id === id)
+    return found
+  }
+
+  createCollection (id: string, name: string): Collection {
+    const collection = this.findCollectionById(id)
+    if (collection === undefined) {
+      const newCollection = new Collection({ id, name })
+      this.collections.push(newCollection)
+      return newCollection
+    } else {
+      collection.rename(name)
+      return collection
+    }
+  }
+}
+
+function arrayTsvBaseToSheetBase (arrayTsvBase: any): SheetBase {
+  // Separate document head and body
   const head = arrayTsvBase[0]
   const body = arrayTsvBase.slice(1)
-  const keyColPos = head.findIndex((cell: string) => cell === 'key')
-  const labelColPos = head.findIndex((cell: string) => cell === 'label')
-  const typeColPos = head.findIndex((cell: string) => cell === 'type')
+  // Spot key, name and type column positions
+  const keyColPos: number = head.findIndex((cell: string) => cell === 'key')
+  const nameColPos: number = head.findIndex((cell: string) => cell === 'name')
+  const typeColPos: number = head.findIndex((cell: string) => cell === 'type')
   if (keyColPos === -1
-    || labelColPos === -1
-    || typeColPos === -1) throw new Error('TSV base heads should contain at least a key, a label and a type field.')
-  let currentCollection: string|null = null
+    || nameColPos === -1
+    || typeColPos === -1) throw new Error('TSV base heads should contain at least a key, a name and a type field.')
+  // If the columns are present, start reading each line of the document
+  let currentCollectionId: string|null = null
   let currentCollectionName: string|null = null
-  const cleverCells = body.map((lineData: string[], linePos: number) => {
-    const key = lineData[keyColPos]
-    const label = lineData[labelColPos]
-    const type = lineData[typeColPos]
-    if (type === 'id') {
-      currentCollection = key
-      currentCollectionName = label
+  const sheetBase = new SheetBase()
+  body.forEach((lineData: string[], linePos: number) => {
+    const lineKey = lineData[keyColPos]
+    const lineName = lineData[nameColPos]
+    const lineType = lineData[typeColPos]
+    // If the line has no key field, we can leave it alone
+    if (lineKey === '') return
+    // If the line is of id type, detect that we enter in a new collection
+    if (lineType === 'id') {
+      currentCollectionId = lineKey
+      currentCollectionName = lineName
+      sheetBase.createCollection(currentCollectionId, currentCollectionName)  
     }
-    return lineData.map((cellData: string, colPos: number) => ({
-      key,
-      label,
-      type,
-      collection: currentCollection,
-      collectionName: currentCollectionName,
-      rawData: cellData,
-      col: colPos,
-      line: linePos
-    }))
+    // If we still didn't see a new collection line, then leave the line alone
+    if (currentCollectionId === null) return
+    // Else, grab the current collection in sheetBase
+    const currentCollection = sheetBase.findCollectionById(currentCollectionId)
+    if (currentCollection === undefined) return
+    // For each cell of the line, create if needed the correct entry
+    // then fill it with it's fields
+    lineData.forEach((rawCell: string, colPos: number) => {
+      if (colPos === keyColPos
+        || colPos === nameColPos
+        || colPos === typeColPos
+        || lineKey === '') return
+      if (lineType === 'id') {
+        if (rawCell === '') return
+        currentCollection.createEntry(rawCell, colPos)
+      } else {
+        const currentEntry = currentCollection.findEntryByColumn(colPos)
+        if (currentEntry === undefined) return
+        currentEntry.createField({
+          key: lineKey,
+          name: lineName,
+          type: lineType,
+          line: linePos + 1,
+          raw: rawCell
+        })
+      }
+    })
   })
 
-  
-  console.log(cleverCells)
-  
-  
-  return { tut: 2 }
+  return sheetBase
 }
 
-function tsvBaseToJsObjectsBase (tsvBase: string): number[] {
+function tsvBaseToJsObjectsBase (tsvBase: string): SheetBase {
   const tsvBaseWithEncCells = tsvToEncodedTsv(tsvBase)
   const arrayTsvBase = tsvTo2DArray(tsvBaseWithEncCells)
   const unescapedArrayTsvBase = arrayTsvBase.map(line => line.map(cell => encodedTsvToTsv(cell)))
-  const collectionsMeta = getCollectionsMeta(unescapedArrayTsvBase)
-  console.log(collectionsMeta)
-
-  return [1, 2, 4]
+  const sheetBase = arrayTsvBaseToSheetBase(unescapedArrayTsvBase)
+  console.log(sheetBase.collections)
+  return sheetBase
 }
 
 export default tsvBaseToJsObjectsBase
