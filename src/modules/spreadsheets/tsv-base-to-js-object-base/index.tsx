@@ -300,4 +300,16 @@ function tsvBaseToJsObjectsBase (tsvBase: string): SheetBase {
   return sheetBase
 }
 
+// const myObject = new MyObject()
+// myObject.add('some_prop', 'some_value')
+// myObject.add('some_other_prop', 'some_other_value')
+// myObject.add('some_third_prop', 'some_third_value')
+// myObject['some_prop'] // 'some_value'
+// myObject[0] // 'some_value'
+// myObject[1] // 'some_other_value'
+// myObject.delete('some_other_prop')
+// myObject[1] // undefined
+// myObject.delete(2)
+// myObject[2] // undefined
+
 export default tsvBaseToJsObjectsBase
