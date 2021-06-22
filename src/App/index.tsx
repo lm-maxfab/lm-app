@@ -7,11 +7,12 @@ import Intro from './components/Intro'
 import Name from './components/Name'
 import GoNext from './components/GoNext'
 import type { Props as NameProps } from './components/Name'
+import type { SheetBase } from '../modules/spreadsheets/tsv-base-to-js-object-base'
 
 interface Props {
   className?: string
   style?: React.CSSProperties
-  data: NameProps[]
+  data: SheetBase
 }
 
 interface State {
@@ -58,11 +59,14 @@ class App extends React.Component<Props, State> {
    * HANDLE GO NEXK CLICK
    * * * * * * * * * * * * * * */
   handleGoNextClick (e: React.MouseEvent) {
-    const currentName = this.state.currentName
-    const currPos = this.props.data.findIndex(name => name.name === currentName)
+    const { props, state } = this
+    const sheetBase = props.data
+    const names = sheetBase.value.names
+    const currentName = state.currentName
+    const currPos = names.findIndex(entry => entry.id === currentName)
     const nextPos = currPos + 1
-    if (nextPos === this.props.data.length) return
-    const nextName = this.props.data[nextPos].name
+    if (nextPos === names.length) return
+    const nextName = names[nextPos].name
     this.activateName(nextName)
   }
   
@@ -71,30 +75,41 @@ class App extends React.Component<Props, State> {
    * * * * * * * * * * * * * * */
   render (): React.ReactNode {
     const { props, state } = this
-    const classes: string = clss('lm-app', 'prenoms', styles['app'], props.className)
-    const inlineStyle = { ...props.style }
+    const sheetBase = props.data
+    const names = sheetBase.value.names
+    const settings = sheetBase.value.settings ? sheetBase.value.settings[0] : {}
+
     const currentName = state.currentName
-    const currentNamePos = props.data.findIndex((name: NameProps) => name.name === currentName)
-    const currentNameIsLast = currentNamePos === props.data.length - 1
+    const currentNamePos = names.findIndex((entry) => entry.id === currentName)
+    const currentNameIsLast = currentNamePos === names.length - 1
 
     const Names = () => (
       <div className={styles['names']}>
-        {props.data.map((name: NameProps, i: number): React.ReactNode => {
-          const expanded = currentName === name.name
-          const onToggle = () => { this.activateName(name.name) }
+        {names.map((entry, i): React.ReactNode => {
+          const expanded = currentName === entry.id
+          const onToggle = () => { this.activateName(entry.id) }
+          const nameProps: NameProps = {
+            displayName: entry.display_name,
+            intro: entry.intro,
+            text: entry.text
+          }
+          console.log(entry)
           return <div
-            key={name.name}
-            id={name.name}
+            key={entry.id}
+            id={entry.id}
             className={styles['name']}
             style={{ top: '200px' }}>
             <Name
-              {...name}
+              {...nameProps}
               expanded={expanded}
               onToggle={onToggle} />
           </div>
         })}
       </div>
     )
+
+    const classes: string = clss('lm-app', 'prenoms', styles['app'], props.className)
+    const inlineStyle = { ...props.style }
 
     return (
       <div

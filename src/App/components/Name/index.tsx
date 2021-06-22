@@ -7,7 +7,6 @@ import StrToHtml from '../../../modules/text/StrToHtml'
 interface Props {
   className?: string
   style?: React.CSSProperties
-  name: string
   displayName: string
   intro: string
   text: string

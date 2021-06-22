@@ -2,7 +2,9 @@ import React from 'react'
 import clss from 'classnames'
 import styles from './styles.module.css'
 import Spreadsheet from '../modules/spreadsheets/Spreadsheet'
+import type { SheetBase } from '../modules/spreadsheets/tsv-base-to-js-object-base'
 import App from '../App'
+import preload from '../preload'
 
 interface Props {
   className?: string
@@ -22,9 +24,9 @@ class App2 extends React.Component<Props, State> {
     return (
       <div className={classes} style={inlineStyle}>
         <Spreadsheet
-          preload={[1, 2, 3]}
+          preload={preload}
           url='https://assets-decodeurs.lemonde.fr/sheets/M76L8xg8JCyheXG-n84Lytui-i0ZMg_634'
-          render={(data:any) => <App data={data} />} />
+          render={(data: SheetBase) => <App data={data} />} />
       </div>
     )
   }

@@ -1,4 +1,247 @@
-import { threadId } from "worker_threads"
+import StrToHtml from "../../text/StrToHtml"
+
+/* * * * * * * * * * * * * * *
+ * SHEET BASE OBJECTS
+ * * * * * * * * * * * * * * */
+interface FieldProps {
+  raw?: string
+  key?: string
+  name?: string
+  type?: string
+  line?: number
+  entry?: Entry
+}
+
+class Field implements FieldProps {
+  raw: string
+  key: string
+  name: string
+  type: string
+  line: number
+  entry: Entry
+  
+  constructor (props: FieldProps) {
+    this.raw = props.raw ?? ''
+    this.key = props.key ?? ''
+    this.name = props.name ?? ''
+    this.type = props.type ?? 'text'
+    this.line = props.line ?? 0
+    this.entry = props.entry ?? new Entry({})
+  }
+  
+  get value (): any {
+    /* * * * * * * * * * * * * *
+     * PRIMITIVES
+     * * * * * * * * * * * * * */
+    // String / Text
+    if (this.type === 'string' || this.type === 'text') {
+      return this.raw
+    }
+    // Number
+    if (this.type === 'number') {
+      const replacedCommas = this.raw.replace(/,/gm, '.')
+      return window.parseFloat(replacedCommas)
+    } 
+    // BigInt
+    if (this.type === 'bigint') {
+      return BigInt(this.raw)
+    }
+    // Boolean
+    if (this.type === 'boolean') {
+      const isTrue = this.raw === '1' || this.raw === 'true'
+      return isTrue
+    }
+    // Null
+    if (this.type === 'null') {
+      return null
+    }
+    // Undefined
+    if (this.type === 'undefined') {
+      return undefined
+    }
+
+    /* * * * * * * * * * * * * *
+     * COMPLEX
+     * * * * * * * * * * * * * */
+    // HTML
+    if (this.type === 'html') {
+      return <StrToHtml content={this.raw} />
+    }
+
+    return this.raw
+  }
+
+  valueOf () { return this.value }
+}
+
+interface EntryProps {
+  id?: string
+  collection?: Collection
+  fields?: Field[]
+  column?: number
+}
+
+interface EntryValue {
+  [key: string]: any
+}
+
+class Entry implements EntryProps {
+  id: string
+  collection: Collection
+  column: number
+  private _fields: Field[]
+  get fields () { return this._fields }
+  
+  constructor (props: EntryProps) {
+    this.id = props.id ?? ''
+    this.collection = props.collection ?? new Collection({})
+    this.column = props.column ?? 0
+    this._fields = props.fields ?? []
+  }
+
+  get value (): EntryValue {
+    const returned: EntryValue = {}
+    this.fields.forEach(field => {
+      returned[field.key] = field.value
+    })
+    return returned
+  }
+
+  valueOf () { return this.value }
+
+  findFieldByKey (key: string): Field|undefined {
+    const found = this.fields.find(field => field.key === key)
+    return found
+  }
+
+  createField (props: FieldProps): Field {
+    const key = props.key ?? ''
+    const name = props.name ?? ''
+    const type = props.type ?? ''
+    const line = props.line ?? 0
+    const raw = props.raw ?? ''
+    const fieldAlreadyExists = this.findFieldByKey(key) !== undefined
+    const newField = new Field({ key, name, type, line, raw, entry: this })
+    if (fieldAlreadyExists) this.deleteField(key)
+    this.fields.push(newField)
+    return newField
+  }
+
+  deleteField (key: string): undefined {
+    const fieldIndex = this.fields.findIndex(field => field.key === key)
+    if (fieldIndex === -1) return
+    this._fields = [
+      ...this._fields.slice(0, fieldIndex),
+      ...this._fields.slice(fieldIndex + 1)
+    ]
+    return
+  }
+}
+
+interface CollectionProps {
+  id?: string
+  name?: string
+  keys?: string[]
+  entries?: Entry[]
+  base?: SheetBase
+}
+
+type CollectionValue = Array<EntryValue>
+
+class Collection implements CollectionProps {
+  id: string
+  name: string
+  base: SheetBase
+  private _keys: string[]
+  private _entries: Entry[]
+  get keys () { return this._keys }
+  get entries () { return this._entries }
+
+  constructor (props: CollectionProps) {
+    this._keys = props.keys ?? []
+    this._entries = props.entries ?? []
+    this.id = props.id ?? ''
+    this.name = props.name ?? ''
+    this.base = props.base ?? new SheetBase()
+  }
+
+  get value (): CollectionValue {
+    const returned: CollectionValue = []
+    this.entries.forEach(entry => {
+      returned.push(entry.value)
+    })
+    return returned
+  }
+  
+  valueOf() { return this.value }
+
+  rename (name: string): Collection {
+    this.name = name
+    return this
+  }
+
+  findEntryById (id: string): Entry|undefined {
+    const found = this.entries.find(entry => entry.id === id)
+    return found
+  }
+
+  findEntryByColumn (column: number): Entry|undefined {
+    const found = this.entries.find(entry => entry.column === column)
+    return found
+  }
+
+  createEntry (id: string, column: number): Entry {
+    const idAlreadyExists = this.findEntryById(id) !== undefined
+    const newEntry = new Entry({ id, column })
+    if (idAlreadyExists) this.deleteEntry(id)
+    this.entries.push(newEntry)
+    return newEntry
+  }
+
+  deleteEntry (id: string): undefined {
+    const entryIndex = this.entries.findIndex(entry => entry.id === id)
+    if (entryIndex === -1) return
+    this._entries = [
+      ...this._entries.slice(0, entryIndex),
+      ...this._entries.slice(entryIndex + 1)
+    ]
+    return
+  }
+}
+
+interface SheetBaseValue {
+  [collectionName: string]: CollectionValue
+}
+
+class SheetBase extends Array implements Array<Collection> {
+  private _collections: Collection[] = []
+  get collections () { return this._collections }
+
+  get value (): SheetBaseValue {
+    const returned: SheetBaseValue = {}
+    this.collections.forEach(collection => {
+      returned[collection.id] = collection.value
+    })
+    return returned
+  }
+  
+  findCollectionById (id: string): Collection|undefined {
+    const found = this.collections.find(col => col.id === id)
+    return found
+  }
+
+  createCollection (id: string, name: string): Collection {
+    const collection = this.findCollectionById(id)
+    if (collection === undefined) {
+      const newCollection = new Collection({ id, name })
+      this.collections.push(newCollection)
+      return newCollection
+    } else {
+      collection.rename(name)
+      return collection
+    }
+  }
+}
 
 /* * * * * * * * * * * * * * *
  * TSV TO ENCODED TSV
@@ -54,184 +297,17 @@ function encodedTsvToTsv (encodedTsv: string): string {
 }
 
 /* * * * * * * * * * * * * * *
- * TSV TO 2D OBJECT
+ * TSV TO ARRAY TSV
  * * * * * * * * * * * * * * */
-function tsvTo2DArray (tsv: string): string[][] {
+function tsvToArrayTsv (tsv: string): string[][] {
   return tsv
     .split('\n')
     .map(line => line.split('\t'))
 }
 
 /* * * * * * * * * * * * * * *
- * GET COLLECTIONS META
+ * ARRAY TSV BASE TO SHEET BASE
  * * * * * * * * * * * * * * */
-interface FieldProps {
-  raw?: string
-  key?: string
-  name?: string
-  type?: string
-  line?: number
-  entry?: Entry
-}
-
-class Field implements FieldProps {
-  raw: string
-  key: string
-  name: string
-  type: string
-  line: number
-  entry: Entry
-  
-  constructor (props: FieldProps) {
-    this.raw = props.raw ?? ''
-    this.key = props.key ?? ''
-    this.name = props.name ?? ''
-    this.type = props.type ?? ''
-    this.line = props.line ?? 0
-    this.entry = props.entry ?? new Entry({})
-  }
-  
-  get value (): any { return false }
-  valueOf () { return this.value }
-}
-
-interface EntryProps {
-  id?: string
-  collection?: Collection
-  fields?: Field[]
-  column?: number
-}
-
-class Entry implements EntryProps {
-  id: string
-  collection: Collection
-  column: number
-  private _fields: Field[]
-  get fields () { return this._fields }
-  
-  constructor (props: EntryProps) {
-    this.id = props.id ?? ''
-    this.collection = props.collection ?? new Collection({})
-    this.column = props.column ?? 0
-    this._fields = props.fields ?? []
-  }
-  
-  get value (): Field[] { return this.fields }
-  valueOf () { return this.value }
-
-  findFieldByKey (key: string): Field|undefined {
-    const found = this.fields.find(field => field.key === key)
-    return found
-  }
-
-  createField (props: FieldProps): Field {
-    const key = props.key ?? ''
-    const name = props.name ?? ''
-    const type = props.type ?? ''
-    const line = props.line ?? 0
-    const raw = props.raw ?? ''
-    const fieldAlreadyExists = this.findFieldByKey(key) !== undefined
-    const newField = new Field({ key, name, type, line, raw, entry: this })
-    if (fieldAlreadyExists) this.deleteField(key)
-    this.fields.push(newField)
-    return newField
-  }
-
-  deleteField (key: string): undefined {
-    const fieldIndex = this.fields.findIndex(field => field.key === key)
-    if (fieldIndex === -1) return
-    this._fields = [
-      ...this._fields.slice(0, fieldIndex),
-      ...this._fields.slice(fieldIndex + 1)
-    ]
-    return
-  }
-}
-
-interface CollectionProps {
-  id?: string
-  name?: string
-  keys?: string[]
-  entries?: Entry[]
-  base?: SheetBase
-}
-
-class Collection implements CollectionProps {
-  id: string
-  name: string
-  base: SheetBase
-  private _keys: string[]
-  private _entries: Entry[]
-  get keys () { return this._keys }
-  get entries () { return this._entries }
-
-  constructor (props: CollectionProps) {
-    this._keys = props.keys ?? []
-    this._entries = props.entries ?? []
-    this.id = props.id ?? ''
-    this.name = props.name ?? ''
-    this.base = props.base ?? new SheetBase()
-  }
-
-  get value (): Entry[] { return this.entries }
-  valueOf() { return this.value }
-
-  rename (name: string): Collection {
-    this.name = name
-    return this
-  }
-
-  findEntryById (id: string): Entry|undefined {
-    const found = this.entries.find(entry => entry.id === id)
-    return found
-  }
-
-  findEntryByColumn (column: number): Entry|undefined {
-    const found = this.entries.find(entry => entry.column === column)
-    return found
-  }
-
-  createEntry (id: string, column: number): Entry {
-    const idAlreadyExists = this.findEntryById(id) !== undefined
-    const newEntry = new Entry({ id, column })
-    if (idAlreadyExists) this.deleteEntry(id)
-    this.entries.push(newEntry)
-    return newEntry
-  }
-
-  deleteEntry (id: string): undefined {
-    const entryIndex = this.entries.findIndex(entry => entry.id === id)
-    if (entryIndex === -1) return
-    this._entries = [
-      ...this._entries.slice(0, entryIndex),
-      ...this._entries.slice(entryIndex + 1)
-    ]
-    return
-  }
-}
-
-class SheetBase extends Array implements Array<Collection> {
-  private _collections: Collection[] = []
-  get collections () { return this._collections }
-  
-  findCollectionById (id: string): Collection|undefined {
-    const found = this.collections.find(col => col.id === id)
-    return found
-  }
-
-  createCollection (id: string, name: string): Collection {
-    const collection = this.findCollectionById(id)
-    if (collection === undefined) {
-      const newCollection = new Collection({ id, name })
-      this.collections.push(newCollection)
-      return newCollection
-    } else {
-      collection.rename(name)
-      return collection
-    }
-  }
-}
-
 function arrayTsvBaseToSheetBase (arrayTsvBase: any): SheetBase {
   // Separate document head and body
   const head = arrayTsvBase[0]
@@ -273,7 +349,15 @@ function arrayTsvBaseToSheetBase (arrayTsvBase: any): SheetBase {
         || lineKey === '') return
       if (lineType === 'id') {
         if (rawCell === '') return
-        currentCollection.createEntry(rawCell, colPos)
+        const currentEntry = currentCollection.createEntry(rawCell, colPos)
+        if (currentEntry === undefined) return
+        currentEntry.createField({
+          key: 'id',
+          name: lineName,
+          type: lineType,
+          line: linePos + 1,
+          raw: rawCell
+        })
       } else {
         const currentEntry = currentCollection.findEntryByColumn(colPos)
         if (currentEntry === undefined) return
@@ -291,25 +375,33 @@ function arrayTsvBaseToSheetBase (arrayTsvBase: any): SheetBase {
   return sheetBase
 }
 
+/* * * * * * * * * * * * * * *
+ * TSV BASE TO JS OBJECTS BASE
+ * * * * * * * * * * * * * * */
 function tsvBaseToJsObjectsBase (tsvBase: string): SheetBase {
   const tsvBaseWithEncCells = tsvToEncodedTsv(tsvBase)
-  const arrayTsvBase = tsvTo2DArray(tsvBaseWithEncCells)
+  console.log(tsvBaseWithEncCells)
+  const arrayTsvBase = tsvToArrayTsv(tsvBaseWithEncCells)
+  console.log(arrayTsvBase)
   const unescapedArrayTsvBase = arrayTsvBase.map(line => line.map(cell => encodedTsvToTsv(cell)))
   const sheetBase = arrayTsvBaseToSheetBase(unescapedArrayTsvBase)
-  console.log(sheetBase.collections)
   return sheetBase
 }
 
-// const myObject = new MyObject()
-// myObject.add('some_prop', 'some_value')
-// myObject.add('some_other_prop', 'some_other_value')
-// myObject.add('some_third_prop', 'some_third_value')
-// myObject['some_prop'] // 'some_value'
-// myObject[0] // 'some_value'
-// myObject[1] // 'some_other_value'
-// myObject.delete('some_other_prop')
-// myObject[1] // undefined
-// myObject.delete(2)
-// myObject[2] // undefined
-
 export default tsvBaseToJsObjectsBase
+export {
+  tsvToEncodedTsv,
+  encodedTsvToTsv,
+  tsvToArrayTsv,
+  arrayTsvBaseToSheetBase,
+  tsvBaseToJsObjectsBase,
+  Field,
+  Entry,
+  Collection,
+  SheetBase
+}
+export type {
+  FieldProps,
+  EntryProps,
+  CollectionProps
+}
