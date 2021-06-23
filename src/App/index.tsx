@@ -61,12 +61,12 @@ class App extends React.Component<Props, State> {
   handleGoNextClick (e: React.MouseEvent) {
     const { props, state } = this
     const sheetBase = props.data
-    const names = sheetBase.value.names
+    const names = sheetBase.value.names.filter(name => name.publish)
     const currentName = state.currentName
     const currPos = names.findIndex(entry => entry.id === currentName)
     const nextPos = currPos + 1
     if (nextPos === names.length) return
-    const nextName = names[nextPos].name
+    const nextName = names[nextPos].id
     this.activateName(nextName)
   }
   
@@ -76,13 +76,12 @@ class App extends React.Component<Props, State> {
   render (): React.ReactNode {
     const { props, state } = this
     const sheetBase = props.data
-    const names = sheetBase.value.names
+    const names = sheetBase.value.names.filter(name => name.publish)
     const settings = sheetBase.value.settings ? sheetBase.value.settings[0] : {}
-
     const currentName = state.currentName
     const currentNamePos = names.findIndex((entry) => entry.id === currentName)
     const currentNameIsLast = currentNamePos === names.length - 1
-
+    
     const Names = () => (
       <div className={styles['names']}>
         {names.map((entry, i): React.ReactNode => {
@@ -93,7 +92,6 @@ class App extends React.Component<Props, State> {
             intro: entry.intro,
             text: entry.text
           }
-          console.log(entry)
           return <div
             key={entry.id}
             id={entry.id}
@@ -140,8 +138,13 @@ class App extends React.Component<Props, State> {
               </>
             }} />
         </div>
-        <Header className={styles['header']} />
-        <Intro className={styles['intro']} />
+        <Header
+          className={styles['header']}
+          title={settings.title}
+          credits={settings.credits} />
+        <Intro
+          className={styles['intro']}
+          text={settings.introduction} />
         <Names />
         {currentName
           && !currentNameIsLast

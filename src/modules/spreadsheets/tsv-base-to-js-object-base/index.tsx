@@ -48,7 +48,7 @@ class Field implements FieldProps {
     }
     // Boolean
     if (this.type === 'boolean') {
-      const isTrue = this.raw === '1' || this.raw === 'true'
+      const isTrue = this.raw.toLowerCase() === '1' || this.raw.toLowerCase() === 'true'
       return isTrue
     }
     // Null
@@ -380,15 +380,14 @@ function arrayTsvBaseToSheetBase (arrayTsvBase: any): SheetBase {
  * * * * * * * * * * * * * * */
 function tsvBaseToJsObjectsBase (tsvBase: string): SheetBase {
   const tsvBaseWithEncCells = tsvToEncodedTsv(tsvBase)
-  console.log(tsvBaseWithEncCells)
   const arrayTsvBase = tsvToArrayTsv(tsvBaseWithEncCells)
-  console.log(arrayTsvBase)
   const unescapedArrayTsvBase = arrayTsvBase.map(line => line.map(cell => encodedTsvToTsv(cell)))
   const sheetBase = arrayTsvBaseToSheetBase(unescapedArrayTsvBase)
   return sheetBase
 }
 
 export default tsvBaseToJsObjectsBase
+
 export {
   tsvToEncodedTsv,
   encodedTsvToTsv,
@@ -400,6 +399,7 @@ export {
   Collection,
   SheetBase
 }
+
 export type {
   FieldProps,
   EntryProps,

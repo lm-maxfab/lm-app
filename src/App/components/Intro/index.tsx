@@ -5,6 +5,7 @@ import styles from './styles.module.css'
 interface Props {
   className?: string
   style?: React.CSSProperties
+  text?: JSX.Element
 }
 
 class Intro extends Component<Props, {}> {
@@ -18,8 +19,7 @@ class Intro extends Component<Props, {}> {
 
     return (
       <div className={classes} style={inlineStyle}>
-        <p>Morbi et felis ante. <em>Nullam lobortis enim ut enim</em> imperdiet ultrices. Pellentesque sed euismod tellus, accumsan sagittis lorem.</p>
-        <p>Eu auctor risus <em>metus porttitor diam</em>. Praesent convallis lorem velit, ac dignissim tellus vestibulum in. Phasellus non sem ut orci <em>efficitur molestie vitae</em> a mi.</p>
+        {props.text}
       </div>
     )
   }

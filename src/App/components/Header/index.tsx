@@ -6,6 +6,8 @@ import FancyHover from '../FancyHoverableText'
 interface Props {
   className?: string
   style?: React.CSSProperties
+  title?: string
+  credits?: JSX.Element
 }
 
 interface State {
@@ -38,6 +40,8 @@ class Header extends Component<Props, State> {
     const classes: string = clss('prenoms-head', styles['wrapper'], props.className)
     const inlineStyle = { ...props.style }
 
+    const titleLines = props.title?.split('<br />') ?? []
+
     return (
       <div className={classes} style={inlineStyle}>
         <h1
@@ -53,9 +57,9 @@ class Header extends Component<Props, State> {
             shadowDefinition={16}
             shadowSize='2px'
             hover={state.titleHovered}>
-            Le
+            {titleLines[0]}
           </FancyHover>
-          <span>prénom</span>
+          <span>{titleLines[1]}</span>
           <FancyHover
             animationSpeed='500ms'
             fillEndColor='rgba(var(--c-prenoms-black))'
@@ -65,11 +69,11 @@ class Header extends Component<Props, State> {
             shadowDefinition={16}
             shadowSize='2px'
             hover={state.titleHovered}>
-            des gens.
+            {titleLines[2]}
           </FancyHover>
         </h1>
         <p className={styles['signature']}>
-          Chroniques de Baptiste Coulmont
+          {props.credits}
         </p>
       </div>
     )

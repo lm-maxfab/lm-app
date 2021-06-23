@@ -84,7 +84,8 @@ class Name extends React.Component<Props, State> {
           <span className={styles['name-intro']}>{props.intro}</span>
         </div>
         <div className={styles.text} style={textStyle}>
-          <StrToHtml content={props.text} />
+          {props.text}
+          {/*<StrToHtml content={props.text} />*/}
         </div>
         {!expanded && <button
           className={styles.toggle}

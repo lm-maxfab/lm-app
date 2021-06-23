@@ -4,12 +4,33 @@
   --c-prenoms-white: 255, 255, 255;
   --len-header-height: 90vh;
   background-color: rgba(var(--c-prenoms-beige));
-  background-image: url("https://assets-decodeurs.lemonde.fr/redacweb/1-2105-prenoms-assets/grid-background.png");
+  background-image: url("https://assets-decodeurs.lemonde.fr/redacweb/1-2105-prenoms-assets/grid-background-lg.png");
   background-position: top center;
   background-size: 9.6rem;
   position: relative;
   padding: 0 4rem;
   padding-bottom: calc(8 * 16px);
+}
+
+@media screen and (max-width: 64rem) {
+  .app {
+    background-image: url("https://assets-decodeurs.lemonde.fr/redacweb/1-2105-prenoms-assets/grid-background-md.png");
+    background-size: 6.4rem;
+  }
+}
+
+@media screen and (max-width: 40rem) {
+  .app {
+    background-image: url("https://assets-decodeurs.lemonde.fr/redacweb/1-2105-prenoms-assets/grid-background-sm.png");
+    background-size: 5.6rem;
+  }
+}
+
+@media screen and (max-width: 30rem) {
+  .app {
+    background-image: url("https://assets-decodeurs.lemonde.fr/redacweb/1-2105-prenoms-assets/grid-background-xs.png");
+    background-size: 4.8rem;
+  }
 }
 
 .app > * {

@@ -53,7 +53,7 @@
 .text {
   font-family: var(--ff-current);
   font-size: calc(1.125 * 16px);
-  line-height: calc(1.25 * 16px);
+  line-height: 1.7;
 }
 
 .text > * {
@@ -70,13 +70,18 @@
   font-weight: 600;
   font-size: 22px;
   line-height: 24px;
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
+
+.text p {
+  margin-top: 16px;
+  margin-bottom: 16px;
 }
 
 .text iframe,
 .text figure,
-.text :global(.article__reactions),
-.text :global(.author),
-.text :global(.catcher) {
+.text section {
   display: none;
 }
 
@@ -109,7 +114,7 @@
 
   .text {
     font-size: calc(1 * 16px);
-    line-height: calc(1.125 * 16px);
+    line-height: 1.6;
   }
 }
 
