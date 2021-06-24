@@ -6,7 +6,9 @@ import Header from './components/Header'
 import Intro from './components/Intro'
 import Name from './components/Name'
 import GoNext from './components/GoNext'
+import Outro from './components/Outro'
 import type { Props as NameProps } from './components/Name'
+import type { Credits as OutroCredits } from './components/Outro'
 import type { SheetBase } from '../modules/spreadsheets/tsv-base-to-js-object-base'
 
 interface Props {
@@ -78,6 +80,7 @@ class App extends React.Component<Props, State> {
     const sheetBase = props.data
     const names = sheetBase.value.names.filter(name => name.publish)
     const settings = sheetBase.value.settings ? sheetBase.value.settings[0] : {}
+    const credits: OutroCredits[] = sheetBase.value.credits as OutroCredits[]
     const currentName = state.currentName
     const currentNamePos = names.findIndex((entry) => entry.id === currentName)
     const currentNameIsLast = currentNamePos === names.length - 1
@@ -114,38 +117,46 @@ class App extends React.Component<Props, State> {
         className={classes}
         style={inlineStyle}
         ref={n => this.$root = n}>
-        <div className={styles['parallax']}>
-          <Parallax
-            anchor='top'
-            render={(percent: number):React.ReactNode => {
-              const opacity = Math.pow(1 - percent, 4)
-              const berceauStyle:React.CSSProperties = { opacity, top: `${percent * 27 * 1.8}%` }
-              const baguetteStyle:React.CSSProperties = { opacity, top: `${percent * 18 * 1.8}%` }
-              const poidsStyle:React.CSSProperties = { opacity, top: `${percent * 9 * 1.8}%` }
-              return <>
-                <img
-                  src='https://assets-decodeurs.lemonde.fr/redacweb/1-2105-prenoms-assets/berceau.png'
-                  className={clss(styles['parallax-asset'], styles['parallax-asset_berceau'])}
-                  style={berceauStyle} />
-                <img
-                  src='https://assets-decodeurs.lemonde.fr/redacweb/1-2105-prenoms-assets/fee-baguette.png'
-                  className={clss(styles['parallax-asset'], styles['parallax-asset_baguette'])}
-                  style={baguetteStyle} />
-                <img
-                  src='https://assets-decodeurs.lemonde.fr/redacweb/1-2105-prenoms-assets/fee-poids.png'
-                  className={clss(styles['parallax-asset'], styles['parallax-asset_poids'])}
-                  style={poidsStyle} />
-              </>
-            }} />
+        <div className={styles['content-wrapper']}>
+          <div className={styles['parallax']}>
+            <Parallax
+              anchor='top'
+              render={(percent: number):React.ReactNode => {
+                const opacity = Math.pow(1 - percent, 4)
+                const berceauStyle:React.CSSProperties = { opacity, top: `${percent * 27 * 1.8}%` }
+                const baguetteStyle:React.CSSProperties = { opacity, top: `${percent * 18 * 1.8}%` }
+                const poidsStyle:React.CSSProperties = { opacity, top: `${percent * 9 * 1.8}%` }
+                return <>
+                  <img
+                    src='https://assets-decodeurs.lemonde.fr/redacweb/1-2105-prenoms-assets/berceau.png'
+                    className={clss(styles['parallax-asset'], styles['parallax-asset_berceau'])}
+                    style={berceauStyle} />
+                  <img
+                    src='https://assets-decodeurs.lemonde.fr/redacweb/1-2105-prenoms-assets/fee-baguette.png'
+                    className={clss(styles['parallax-asset'], styles['parallax-asset_baguette'])}
+                    style={baguetteStyle} />
+                  <img
+                    src='https://assets-decodeurs.lemonde.fr/redacweb/1-2105-prenoms-assets/fee-poids.png'
+                    className={clss(styles['parallax-asset'], styles['parallax-asset_poids'])}
+                    style={poidsStyle} />
+                </>
+              }} />
+          </div>
+          <Header
+            className={styles['header']}
+            title={settings.title}
+            credits={settings.credits} />
+          <Intro
+            className={styles['intro']}
+            text={settings.introduction} />
+          <Names />
         </div>
-        <Header
-          className={styles['header']}
-          title={settings.title}
-          credits={settings.credits} />
-        <Intro
-          className={styles['intro']}
-          text={settings.introduction} />
-        <Names />
+        <div className={styles['outro-wrapper']}>
+          <Outro
+            className={`${styles['outro']} ma-bitch`}
+            outro={settings.outroduction}
+            credits={credits} />
+        </div>
         {currentName
           && !currentNameIsLast
           && <div

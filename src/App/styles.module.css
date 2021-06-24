@@ -3,38 +3,71 @@
   --c-prenoms-black: 0, 0, 0;
   --c-prenoms-white: 255, 255, 255;
   --len-header-height: 90vh;
+}
+
+.content-wrapper {
   background-color: rgba(var(--c-prenoms-beige));
   background-image: url("https://assets-decodeurs.lemonde.fr/redacweb/1-2105-prenoms-assets/grid-background-lg.png");
   background-position: top center;
   background-size: 9.6rem;
   position: relative;
-  padding: 0 4rem;
   padding-bottom: calc(8 * 16px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.content-wrapper > * {
+  margin-left: 4rem;
+  margin-right: 4rem;
+  position: relative;
+}
+
+.content-wrapper > .parallax {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.outro-wrapper {
+  background-color: rgba(var(--c-prenoms-white));
+  background-image: url("https://assets-decodeurs.lemonde.fr/redacweb/1-2105-prenoms-assets/grid-background-lg.png");
+  background-position: top center;
+  background-size: 9.6rem;
+  position: relative;
 }
 
 @media screen and (max-width: 64rem) {
-  .app {
+  .content-wrapper,
+  .outro-wrapper {
     background-image: url("https://assets-decodeurs.lemonde.fr/redacweb/1-2105-prenoms-assets/grid-background-md.png");
     background-size: 6.4rem;
   }
 }
 
 @media screen and (max-width: 40rem) {
-  .app {
+  .content-wrapper,
+  .outro-wrapper {
     background-image: url("https://assets-decodeurs.lemonde.fr/redacweb/1-2105-prenoms-assets/grid-background-sm.png");
     background-size: 5.6rem;
+  }
+
+  .content-wrapper > * {
+    margin-left: 2rem;
+    margin-right: 2rem;
   }
 }
 
 @media screen and (max-width: 30rem) {
-  .app {
+  .content-wrapper,
+  .outro-wrapper {
     background-image: url("https://assets-decodeurs.lemonde.fr/redacweb/1-2105-prenoms-assets/grid-background-xs.png");
     background-size: 4.8rem;
   }
-}
 
-.app > * {
-  position: relative;
+  .content-wrapper > * {
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
 }
 
 .parallax {
@@ -77,14 +110,14 @@
 
 .intro {
   max-width: calc(42 * 16px);
-  margin: 0 auto;
+  /* margin: 0 auto; */
   margin-bottom: calc(4 * 16px);
   margin-top: calc(6 * 16px);
 }
 
 .names {
   max-width: calc(42 * 16px);
-  margin: 0 auto;
+  /* margin: 0 auto; */
 }
 
 .name {
@@ -126,11 +159,6 @@
 }
 
 @media screen and (max-width: 40rem) {
-  .app {
-    padding: 0 2rem;
-    padding-bottom: calc(6 * 16px);
-  }
-
   .parallax .parallax-asset_berceau {
     left: 56%;
     margin-top: calc(var(--len-header-height) - 580px);
@@ -162,8 +190,6 @@
 
 @media screen and (max-width: 30rem) {
   .app {
-    padding: 0 1rem;
-    padding-bottom: calc(4 * 16px);
     --len-header-height: calc(100vh - 16px);
   }
   

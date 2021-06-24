@@ -62,6 +62,9 @@
 
 .text em {
   font-style: italic;
+}
+
+.text :global(em.highlight) {
   background: rgba(var(--c-prenoms-white), .6);
 }
 
