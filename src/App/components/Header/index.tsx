@@ -72,6 +72,9 @@ class Header extends Component<Props, State> {
             {titleLines[2]}
           </FancyHover>
         </h1>
+        <img
+          className={styles['cradle']}
+          src='https://assets-decodeurs.lemonde.fr/redacweb/1-2105-prenoms-assets/berceau.png' />
         <p className={styles['signature']}>
           {props.credits}
         </p>

@@ -43,6 +43,8 @@
 @media screen and (max-width: 40rem) {
   .wrapper {
     text-align: left;
+    padding-left: 2rem;
+    padding-right: 2rem;
   }
   .outro {
     flex-direction: row;
@@ -51,6 +53,14 @@
   .outro__image {
     margin-bottom: 0;
     margin-right: 1rem;
+  }
+}
+
+@media screen and (max-width: 30rem) {
+  .wrapper {
+    text-align: left;
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
 }
 

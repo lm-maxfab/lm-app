@@ -19,7 +19,13 @@ class App2 extends React.Component<Props, State> {
    * * * * * * * * * * * * * * */
   render (): React.ReactNode {
     const { props } = this
-    const classes: string = clss('app-2', styles['wrapper'], props.className)
+    const isInApp = window.location.href.match(/apps.([a-z]+\-)?lemonde.fr/)
+    const classes: string = clss(
+      'app-2',
+      isInApp ? 'app-2_app' : 'app-2_website',
+      styles['wrapper'],
+      props.className
+    )
     const inlineStyle = { ...props.style }
     return (
       <div className={classes} style={inlineStyle}>

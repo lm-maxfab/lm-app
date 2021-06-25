@@ -127,10 +127,10 @@ class App extends React.Component<Props, State> {
                 const baguetteStyle:React.CSSProperties = { opacity, top: `${percent * 18 * 1.8}%` }
                 const poidsStyle:React.CSSProperties = { opacity, top: `${percent * 9 * 1.8}%` }
                 return <>
-                  <img
+                  {/*<img
                     src='https://assets-decodeurs.lemonde.fr/redacweb/1-2105-prenoms-assets/berceau.png'
                     className={clss(styles['parallax-asset'], styles['parallax-asset_berceau'])}
-                    style={berceauStyle} />
+                    style={berceauStyle} />*/}
                   <img
                     src='https://assets-decodeurs.lemonde.fr/redacweb/1-2105-prenoms-assets/fee-baguette.png'
                     className={clss(styles['parallax-asset'], styles['parallax-asset_baguette'])}

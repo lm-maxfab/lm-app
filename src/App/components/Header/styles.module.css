@@ -23,6 +23,13 @@
   flex-grow: 0;
 }
 
+.cradle {
+  margin: 0 auto;
+  width: auto;
+  height: 56px;
+  margin-bottom: 32px;
+}
+
 .signature {
   font-family: var(--ff-statement);
   font-weight: 400;

@@ -2,7 +2,12 @@
   --c-prenoms-beige: 252, 223, 203;
   --c-prenoms-black: 0, 0, 0;
   --c-prenoms-white: 255, 255, 255;
-  --len-header-height: 90vh;
+  --len-header-height: calc(90vh + 88px + 96px);
+  --len-app-bottom-bar-height: 0
+}
+
+:global(.app-2_app) .app {
+  --len-app-bottom-bar-height: 52px;
 }
 
 .content-wrapper {
@@ -126,7 +131,7 @@
 
 .go-next {
   position: fixed;
-  bottom: 0;
+  bottom: var(--len-app-bottom-bar-height);
   left: 0;
   right: 0;
   display: none;
@@ -190,7 +195,7 @@
 
 @media screen and (max-width: 30rem) {
   .app {
-    --len-header-height: calc(100vh - 16px);
+    --len-header-height: calc(100vh - 16px + 88px + 32px);
   }
   
   .parallax .parallax-asset {
