@@ -2,7 +2,6 @@ import React from 'react'
 import clss from 'classnames'
 import styles from './styles.module.css'
 import FancyHover from '../FancyHoverableText'
-import StrToHtml from '../../../modules/text/StrToHtml'
 
 interface Props {
   className?: string
@@ -34,12 +33,6 @@ class Name extends React.Component<Props, State> {
    * * * * * * * * * * * * * * */
   async handleToggleClick (e: React.MouseEvent) {
     if (typeof this.props.onToggle === 'function') await this.props.onToggle()
-    await new Promise((resolve) => {
-      this.setState(
-        curr => ({ ...curr, expanded: !curr.expanded }),
-        () => resolve(true)
-      )
-    })
   }
 
   /* * * * * * * * * * * * * * *
@@ -85,7 +78,6 @@ class Name extends React.Component<Props, State> {
         </div>
         <div className={styles.text} style={textStyle}>
           {props.text}
-          {/*<StrToHtml content={props.text} />*/}
         </div>
         {!expanded && <button
           className={styles.toggle}

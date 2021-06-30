@@ -2,8 +2,6 @@ import React from 'react'
 import clss from 'classnames'
 import styles from './styles.module.css'
 
-console.log(styles)
-
 interface Credits {
   id: string
   label: JSX.Element
@@ -25,7 +23,6 @@ class Outro extends React.Component<Props, {}> {
     const { props } = this
     const classes: string = clss('prenoms-outro', styles['wrapper'], props.className)
     const inlineStyle = { ...props.style }
-    console.log(props.credits)
     return (
       <div className={classes} style={inlineStyle}>
         <div className={styles.outro}>

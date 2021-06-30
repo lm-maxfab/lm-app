@@ -153,7 +153,7 @@ class App extends React.Component<Props, State> {
         </div>
         <div className={styles['outro-wrapper']}>
           <Outro
-            className={`${styles['outro']} ma-bitch`}
+            className={styles['outro']}
             outro={settings.outroduction}
             credits={credits} />
         </div>

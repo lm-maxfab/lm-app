@@ -14,6 +14,42 @@ interface Props {
 interface State {}
 
 class App2 extends React.Component<Props, State> {
+  vhIntervaller: number|undefined = undefined
+
+  constructor (props: Props) {
+    super(props)
+    this.storeViewportDimensionsAsCssVariables = this.storeViewportDimensionsAsCssVariables.bind(this)
+  }
+
+  componentDidMount () {
+    this.storeViewportDimensionsAsCssVariables()
+    this.vhIntervaller = window.setInterval(this.storeViewportDimensionsAsCssVariables, 500)
+  }
+
+  componentWillUnmount () {
+    window.clearInterval(this.vhIntervaller)
+  }
+
+  storeViewportDimensionsAsCssVariables () {
+    const head = document.querySelector('head')
+    if (head === null) return
+    const foundStyle = head.querySelector('style#js-injected-style-for-vh')
+    const viewportHeight = document.documentElement.clientHeight
+    const viewportWidth = document.documentElement.clientWidth
+    const css = `.lm-app-root {
+      --len-100-vh: ${viewportHeight}px;
+      --len-100-vw: ${viewportWidth}px;
+    }`
+    if (foundStyle) {
+      foundStyle.innerHTML = css
+    } else {
+      const style = document.createElement('style')
+      style.setAttribute('id', 'js-injected-style-for-vh')
+      style.innerHTML = css
+      head.appendChild(style)
+    }
+  }
+  
   /* * * * * * * * * * * * * * *
    * RENDER
    * * * * * * * * * * * * * * */

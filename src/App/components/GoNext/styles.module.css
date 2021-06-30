@@ -1,9 +1,10 @@
 .wrapper {
-  background: white;
+  background: rgba(var(--c-prenoms-white));
+  border-radius: 8px;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 16px 0;
+  padding: 12px 0;
   cursor: pointer;
 }
 

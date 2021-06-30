@@ -2,8 +2,8 @@
   --c-prenoms-beige: 252, 223, 203;
   --c-prenoms-black: 0, 0, 0;
   --c-prenoms-white: 255, 255, 255;
-  --len-header-height: calc(90vh + 88px + 96px);
-  --len-app-bottom-bar-height: 0
+  --len-header-height: calc(0.9 * var(--len-100-vh) + 64px);
+  --len-app-bottom-bar-height: 0px
 }
 
 :global(.app-2_app) .app {
@@ -81,7 +81,7 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 200vh;
+  height: calc(2 * var(--len-100-vh));
 }
 
 .parallax .parallax-asset {
@@ -114,7 +114,7 @@
 }
 
 .intro {
-  max-width: calc(42 * 16px);
+  max-width: calc(32 * 16px);
   /* margin: 0 auto; */
   margin-bottom: calc(4 * 16px);
   margin-top: calc(6 * 16px);
@@ -131,9 +131,9 @@
 
 .go-next {
   position: fixed;
-  bottom: var(--len-app-bottom-bar-height);
-  left: 0;
-  right: 0;
+  bottom: calc(var(--len-app-bottom-bar-height) + 4px);
+  left: 16px;
+  right: 16px;
   display: none;
 }
 
@@ -195,7 +195,7 @@
 
 @media screen and (max-width: 30rem) {
   .app {
-    --len-header-height: calc(100vh - 16px + 88px + 32px);
+    --len-header-height: calc(var(--len-100-vh) - 16px + 88px + 32px);
   }
   
   .parallax .parallax-asset {
@@ -229,7 +229,7 @@
 
 @media screen and (max-aspect-ratio: 5/9) {
   .app {
-    --len-header-height: calc(90vh - 16px);
+    --len-header-height: calc(0.9 * var(--len-100-vh) + 64px);
   }
 
   .parallax .parallax-asset_baguette {
@@ -237,7 +237,7 @@
     width: calc(100px + 23vw);
     margin-top: calc(var(--len-header-height) - 530px);
   }
-  
+
   .parallax .parallax-asset_poids {
     left: 70%;
     width: calc(100px + 18vw);
