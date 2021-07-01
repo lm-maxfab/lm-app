@@ -50,6 +50,10 @@
 }
 
 @media screen and (max-width: 40rem) {
+  :global(.footer__links-multimedia) {
+    flex-direction: column !important;
+  }
+  
   .content-wrapper,
   .outro-wrapper {
     background-image: url("https://assets-decodeurs.lemonde.fr/redacweb/1-2105-prenoms-assets/grid-background-sm.png");
@@ -87,12 +91,12 @@
 .parallax .parallax-asset {
   position: absolute;
   transform: translate(-50%, -50%);
-  width: calc(100px + 10vw);
+  width: calc(100px + .1 * var(--len-100-vw));
 }
 
 .parallax .parallax-asset_berceau {
   left: 62%;
-  width: calc(100px + 7vw);
+  width: calc(100px + .07 * var(--len-100-vw));
   margin-top: calc(var(--len-header-height) - 530px);
 }
 
@@ -140,7 +144,7 @@
 @media screen and (max-width: 64rem) {
   .parallax .parallax-asset_berceau {
     left: 60%;
-    width: calc(100px + 10vw);
+    width: calc(100px + .1 * var(--len-100-vw));
     margin-top: calc(var(--len-header-height) - 540px);
   }
 
@@ -199,7 +203,7 @@
   }
   
   .parallax .parallax-asset {
-    width: calc(100px + 15vw);
+    width: calc(100px + .15 * var(--len-100-vw));
   }
   
   .parallax .parallax-asset_berceau {
@@ -208,7 +212,7 @@
 
   .parallax .parallax-asset_baguette {
     left: 29%;
-    width: calc(100px + 18vw);
+    width: calc(100px + .18 * var(--len-100-vw));
     margin-top: calc(var(--len-header-height) - 430px);
   }
   
@@ -234,13 +238,13 @@
 
   .parallax .parallax-asset_baguette {
     left: 31%;
-    width: calc(100px + 23vw);
+    width: calc(100px + .23 * var(--len-100-vw));
     margin-top: calc(var(--len-header-height) - 530px);
   }
 
   .parallax .parallax-asset_poids {
     left: 70%;
-    width: calc(100px + 18vw);
+    width: calc(100px + .18 * var(--len-100-vw));
     margin-top: calc(var(--len-header-height) - 380px);
   }
 }
