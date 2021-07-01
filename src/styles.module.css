@@ -1,0 +1,22 @@
+/* Normalize */
+/* App root */
+.app-root {
+  font-size: 1.6rem;
+}
+
+.app-root, .app-root * {
+  font-family: initial;
+  color: initial;
+  box-sizing: border-box;
+}
+
+.app-root,
+.app-root h1,
+.app-root h2,
+.app-root h3,
+.app-root h4,
+.app-root h5,
+.app-root h6,
+.app-root p {
+  margin: 0;
+}

@@ -1,0 +1,18 @@
+.wrapper {
+  background: rgba(var(--c-prenoms-white));
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 12px 0;
+  cursor: pointer;
+}
+
+.wrapper button {
+  padding: 0;
+  border: none;
+  cursor: pointer;
+  background: transparent;
+  font-family: var(--ff-heading);
+  font-weight: 600;
+}

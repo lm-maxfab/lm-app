@@ -1,128 +1,173 @@
-import React, { Component } from 'react'
+import React from 'react'
+import clss from 'classnames'
+import styles from './styles.module.css'
+import Parallax from './components/Parallax'
+import Header from './components/Header'
+import Intro from './components/Intro'
+import Name from './components/Name'
+import GoNext from './components/GoNext'
+import Outro from './components/Outro'
+import type { Props as NameProps } from './components/Name'
+import type { Credits as OutroCredits } from './components/Outro'
+import type { SheetBase } from '../modules/spreadsheets/tsv-base-to-js-object-base'
 
-interface AppProps {}
+interface Props {
+  className?: string
+  style?: React.CSSProperties
+  data: SheetBase
+}
 
-class App extends Component {
-  constructor (props: AppProps) {
+interface State {
+  currentName: string|null
+}
+
+class App extends React.Component<Props, State> {
+  state: State = { currentName: null }
+  $root: HTMLDivElement|null = null
+
+  /* * * * * * * * * * * * * * *
+   * CONSTRUCTOR
+   * * * * * * * * * * * * * * */
+  constructor (props: Props) {
     super(props)
+    this.activateName = this.activateName.bind(this)
+    this.handleGoNextClick = this.handleGoNextClick.bind(this)
   }
 
-  async componentDidMount () {
-    try {
-      // Fetch data
-      const tsvBlob = await window.fetch('https://assets-decodeurs.lemonde.fr/sheets/M76L8xg8JCyheXG-n84Lytui-i0ZMg_634')
-      const tsv: string = await tsvBlob.text()
-      
-      // Any TSV to JSON with normalized lines
-      const rawJson: Array<Array<string>> = tsv.split('\n').map((line: string) => line.split('\t'))
-      const longestLine: number = Math.max(...rawJson.map((line: string[]) => line.length))
-      const jsonSheet: Array<Array<string>> = rawJson.map((line: string[]) => Object.assign(new Array(longestLine).fill(''), line))
-      
-      // Infer a structured spreadsheet
-      // Read head
-      const headLine: string[] = jsonSheet[0]
-      const keysColNb: number = headLine.indexOf('key')
-      const labelsColNb: number = headLine.indexOf('label')
-      const typesColNb: number = headLine.indexOf('type')
-      const colsToDelete: number[] = [keysColNb, labelsColNb, typesColNb]
-      
-      // Read data
-      interface DataCell {
-        data: string,
-        col: number,
-        line: number
-      }
-
-      interface DataLine {
-        key: string | undefined,
-        label: string | undefined,
-        type: string | undefined,
-        cells: DataCell[],
-        line: number
-        isPageHead: boolean
-      }
-
-      interface CollectionHeadLine {
-        key: string,
-        label: string | undefined,
-        type: string | undefined,
-        cells: DataCell[],
-        line: number
-        isPageHead: true
-      }
-
-      const dataLines = jsonSheet.slice(1)
-        .map((lineArr: string[], line: number): DataLine => {
-          const key: string | undefined = keysColNb > -1 ? lineArr[keysColNb] : undefined
-          const label: string | undefined = labelsColNb > -1 ? lineArr[labelsColNb] : undefined
-          const type: string | undefined = typesColNb > -1 ? lineArr[typesColNb] : undefined
-          const isPageHead: boolean = type === 'id'
-          const cells: DataCell[] = lineArr
-            .map((data: string, col: number): DataCell => ({ data, col, line }))
-            .filter((cell: DataCell): boolean => colsToDelete.indexOf(cell.col) !== -1)
-          return { key, label, type, cells, line, isPageHead }
-        })
-
-      const headLines: CollectionHeadLine[] = dataLines
-        .map((line: DataLine): DataLine => line)
-        .filter((line: DataLine): boolean => line.isPageHead)
-        .map((line: DataLine): CollectionHeadLine => ({ ...line }))
-
-
-      // interface CollectionHeadLine {
-      //   key: string,
-      //   label: string | undefined,
-      //   type: 'id',
-      //   data: string[],
-      //   isPageHead: true,
-      //   lineNb: number
-      // }
-
-      // const smartDataLines = dataLines.map((line: string[], lineNb: number) => {
-      //   const key = keysColNb > -1 ? line[keysColNb] : undefined
-      //   const label = labelsColNb > -1 ? line[labelsColNb] : undefined
-      //   const type = typesColNb > -1 ? line[typesColNb] : undefined
-      //   const isPageHead = type === 'id'
-      //   const data = line
-      //     .map((cell: string, colNb: number) => ({ cell, colNb }))
-      //     .filter((data: { cell: string, colNb: number }) => {
-      //       return [keysColNb, labelsColNb, typesColNb].indexOf(data.colNb) !== -1
-      //     })
-      //   const returned = {
-      //     key,
-      //     label,
-      //     type,
-      //     data,
-      //     isPageHead,
-      //     lineNb: lineNb + 1
-      //   }
-      //   return returned
-      // })
-
-
-      // const collectionHeads = smartDataLines.filter((line: { isPageHead: boolean }) => line.isPageHead)
-
-
-      // const collections = collectionHeads.map((headLine, collectionNb: number) => {
-      //   const key = headLine.key
-      //   console.log('---', key)
-      //   // const key: string = headLine.key
-      //   // const label: string = headLine.label
-      //   // const startLine: number = headLine.lineNb + 1
-      //   // return { key, label, startLine }
-      // })
-      
-    } catch (err) {
-      console.log(err)
-      alert('ERRRRR')
-    }
+  /* * * * * * * * * * * * * * *
+   * ACTIVATE NAME
+   * * * * * * * * * * * * * * */
+  async activateName (name: string|null) {
+    await new Promise(resolve => {
+      this.setState((curr: State) => {
+        if (curr.currentName === name) return { ...curr, currentName: null }
+        else return { ...curr, currentName: name }
+      }, () => resolve(true))
+    })
+    if (this.$root === null || this.state.currentName === null) return
+    const $name: Element|null = this.$root.querySelector(`#${name}`)
+    if ($name === null) return
+    const nameY = $name.getBoundingClientRect().top
+    const windowY = window.pageYOffset
+    const offsetY = -2 * 16
+    const yScrollTarget = nameY + windowY + offsetY
+    window.scrollTo({
+      top: yScrollTarget,
+      behavior: 'smooth'
+    })
   }
 
-  render () {
-    return <div>
-      My app.
-    </div>
+  /* * * * * * * * * * * * * * *
+   * HANDLE GO NEXK CLICK
+   * * * * * * * * * * * * * * */
+  handleGoNextClick (e: React.MouseEvent) {
+    const { props, state } = this
+    const sheetBase = props.data
+    const names = sheetBase.value.names.filter(name => name.publish)
+    const currentName = state.currentName
+    const currPos = names.findIndex(entry => entry.id === currentName)
+    const nextPos = currPos + 1
+    if (nextPos === names.length) return
+    const nextName = names[nextPos].id
+    this.activateName(nextName)
+  }
+  
+  /* * * * * * * * * * * * * * *
+   * RENDER
+   * * * * * * * * * * * * * * */
+  render (): React.ReactNode {
+    const { props, state } = this
+    const sheetBase = props.data
+    const names = sheetBase.value.names.filter(name => name.publish)
+    const settings = sheetBase.value.settings ? sheetBase.value.settings[0] : {}
+    const credits: OutroCredits[] = sheetBase.value.credits as OutroCredits[]
+    const currentName = state.currentName
+    const currentNamePos = names.findIndex((entry) => entry.id === currentName)
+    const currentNameIsLast = currentNamePos === names.length - 1
+    
+    const Names = () => (
+      <div className={styles['names']}>
+        {names.map((entry, i): React.ReactNode => {
+          const expanded = currentName === entry.id
+          const onToggle = () => { this.activateName(entry.id) }
+          const nameProps: NameProps = {
+            displayName: entry.display_name,
+            intro: entry.intro,
+            text: entry.text
+          }
+          return <div
+            key={entry.id}
+            id={entry.id}
+            className={styles['name']}
+            style={{ top: '200px' }}>
+            <Name
+              {...nameProps}
+              expanded={expanded}
+              onToggle={onToggle} />
+          </div>
+        })}
+      </div>
+    )
+
+    const classes: string = clss('lm-app', 'prenoms', styles['app'], props.className)
+    const inlineStyle = { ...props.style }
+
+    return (
+      <div
+        className={classes}
+        style={inlineStyle}
+        ref={n => this.$root = n}>
+        <div className={styles['content-wrapper']}>
+          <div className={styles['parallax']}>
+            <Parallax
+              anchor='top'
+              render={(percent: number):React.ReactNode => {
+                const opacity = Math.pow(1 - percent, 4)
+                const berceauStyle:React.CSSProperties = { opacity, top: `${percent * 27 * 1.8}%` }
+                const baguetteStyle:React.CSSProperties = { opacity, top: `${percent * 18 * 1.8}%` }
+                const poidsStyle:React.CSSProperties = { opacity, top: `${percent * 9 * 1.8}%` }
+                return <>
+                  {/*<img
+                    src='https://assets-decodeurs.lemonde.fr/redacweb/1-2105-prenoms-assets/berceau.png'
+                    className={clss(styles['parallax-asset'], styles['parallax-asset_berceau'])}
+                    style={berceauStyle} />*/}
+                  <img
+                    src='https://assets-decodeurs.lemonde.fr/redacweb/1-2105-prenoms-assets/fee-baguette.png'
+                    className={clss(styles['parallax-asset'], styles['parallax-asset_baguette'])}
+                    style={baguetteStyle} />
+                  <img
+                    src='https://assets-decodeurs.lemonde.fr/redacweb/1-2105-prenoms-assets/fee-poids.png'
+                    className={clss(styles['parallax-asset'], styles['parallax-asset_poids'])}
+                    style={poidsStyle} />
+                </>
+              }} />
+          </div>
+          <Header
+            className={styles['header']}
+            title={settings.title}
+            credits={settings.credits} />
+          <Intro
+            className={styles['intro']}
+            text={settings.introduction} />
+          <Names />
+        </div>
+        <div className={styles['outro-wrapper']}>
+          <Outro
+            className={styles['outro']}
+            outro={settings.outroduction}
+            credits={credits} />
+        </div>
+        {currentName
+          && !currentNameIsLast
+          && <div
+            onClick={this.handleGoNextClick}
+            className={styles['go-next']}>
+            <GoNext />
+          </div>}
+      </div>
+    )
   }
 }
 
+export type { Props }
 export default App

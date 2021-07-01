@@ -1,0 +1,169 @@
+/* * * * * * * * * * * * * * *
+ *
+ * THE ANTIQUA
+ *
+ * * * * * * * * * * * * * * */
+
+/* Medium */
+@font-face {
+  font-family: "The-Antiqua-B";
+  font-display: swap;
+  font-style: normal;
+  font-weight: 500;
+  src: url(../../lemonde/fonts/the-antiqua-b/TheAntiquaB_LT_500.eot);
+  src: local("TheAntiquaB_LT_500"),
+    url(../../lemonde/fonts/the-antiqua-b/TheAntiquaB_LT_500.eot?#iefix) format("embedded-opentype"),
+    url(../../lemonde/fonts/the-antiqua-b/TheAntiquaB_LT_500.woff2) format("woff2"),
+    url(../../lemonde/fonts/the-antiqua-b/TheAntiquaB_LT_500.woff) format("woff"),
+    url(../../lemonde/fonts/the-antiqua-b/TheAntiquaB_LT_500.svg#TheAntiquaB_LT_500) format("svg");
+}
+
+/* Medium - italic */
+@font-face {
+  font-family: "The-Antiqua-B";
+  font-display: swap;
+  font-style: italic;
+  font-weight: 500;
+  src: url(../../lemonde/fonts/the-antiqua-b/TheAntiquaB_LT_500_italic.eot);
+  src: local("TheAntiquaB_LT_500_italic"),
+    url(../../lemonde/fonts/the-antiqua-b/TheAntiquaB_LT_500_italic.eot?#iefix) format("embedded-opentype"),
+    url(../../lemonde/fonts/the-antiqua-b/TheAntiquaB_LT_500_italic.woff2) format("woff2"),
+    url(../../lemonde/fonts/the-antiqua-b/TheAntiquaB_LT_500_italic.woff) format("woff"),
+    url(../../lemonde/fonts/the-antiqua-b/TheAntiquaB_LT_500_italic.svg#TheAntiquaB_LT_500_italic) format("svg");
+}
+
+/* Bold */
+@font-face {
+  font-family: "The-Antiqua-B";
+  font-display: swap;
+  font-style: normal;
+  font-weight: 700;
+  src: url(../../lemonde/fonts/the-antiqua-b/TheAntiquaB_LT_700.eot);
+  src: local("TheAntiquaB_LT_700"),
+    url(../../lemonde/fonts/the-antiqua-b/TheAntiquaB_LT_700.eot?#iefix) format("embedded-opentype"),
+    url(../../lemonde/fonts/the-antiqua-b/TheAntiquaB_LT_700.woff2) format("woff2"),
+    url(../../lemonde/fonts/the-antiqua-b/TheAntiquaB_LT_700.woff) format("woff"),
+    url(../../lemonde/fonts/the-antiqua-b/TheAntiquaB_LT_700.svg#TheAntiquaB_LT_700) format("svg");
+}
+
+/* Bold - italic */
+@font-face {
+  font-family: "The-Antiqua-B";
+  font-display: swap;
+  font-style: italic;
+  font-weight: 700;
+  src: url(../../lemonde/fonts/the-antiqua-b/TheAntiquaB_LT_700_i.eot);
+  src: local("TheAntiquaB_LT_700_i"),
+    url(../../lemonde/fonts/the-antiqua-b/TheAntiquaB_LT_700_i.eot?#iefix) format("embedded-opentype"),
+    url(../../lemonde/fonts/the-antiqua-b/TheAntiquaB_LT_700_i.woff2) format("woff2"),
+    url(../../lemonde/fonts/the-antiqua-b/TheAntiquaB_LT_700_i.woff) format("woff"),
+    url(../../lemonde/fonts/the-antiqua-b/TheAntiquaB_LT_700_i.svg#TheAntiquaB_LT_700_i) format("svg");
+}
+
+/* Ultrabold */
+@font-face {
+  font-family: "The-Antiqua-B";
+  font-display: swap;
+  font-style: normal;
+  font-weight: 800;
+  src: url(../../lemonde/fonts/the-antiqua-b/TheAntiquaB_LT_800.eot);
+  src: local("TheAntiquaB_LT_800"),
+    url(../../lemonde/fonts/the-antiqua-b/TheAntiquaB_LT_800.eot?#iefix) format("embedded-opentype"),
+    url(../../lemonde/fonts/the-antiqua-b/TheAntiquaB_LT_800.woff2) format("woff2"),
+    url(../../lemonde/fonts/the-antiqua-b/TheAntiquaB_LT_800.woff) format("woff"),
+    url(../../lemonde/fonts/the-antiqua-b/TheAntiquaB_LT_800.svg#TheAntiquaB_LT_800) format("svg");
+}
+
+/* * * * * * * * * * * * * * *
+ *
+ * MARR SANS
+ *
+ * * * * * * * * * * * * * * */
+
+ /* Regular */
+@font-face {
+  font-family: "Marr-Sans";
+  font-display: swap;
+  font-style: normal;
+  font-weight: 400;
+  src: url(../../lemonde/fonts/marr-sans/MarrSans-Regular-Web.eot);
+  src: url(../../lemonde/fonts/marr-sans/MarrSans-Regular-Web.eot?#iefix) format("embedded-opentype"),
+    url(../../lemonde/fonts/marr-sans/MarrSans-Regular-Web.woff2) format("woff2"),
+    url(../../lemonde/fonts/marr-sans/MarrSans-Regular-Web.woff) format("woff");
+}
+
+/* Medium */
+@font-face {
+  font-family: "Marr-Sans";
+  font-display: swap;
+  font-style: normal;
+  font-weight: 500;
+  src: url(../../lemonde/fonts/marr-sans/MarrSans-Medium-Web.eot);
+  src: url(../../lemonde/fonts/marr-sans/MarrSans-Medium-Web.eot?#iefix) format("embedded-opentype"),
+    url(../../lemonde/fonts/marr-sans/MarrSans-Medium-Web.woff2) format("woff2"),
+    url(../../lemonde/fonts/marr-sans/MarrSans-Medium-Web.woff) format("woff");
+}
+
+/* Semibold */
+@font-face {
+  font-family: "Marr-Sans";
+  font-display: swap;
+  font-style: normal;
+  font-weight: 600;
+  src: url(../../lemonde/fonts/marr-sans/MarrSans-Semibold-Web.eot);
+  src: url(../../lemonde/fonts/marr-sans/MarrSans-Semibold-Web.eot?#iefix) format("embedded-opentype"),
+    url(../../lemonde/fonts/marr-sans/MarrSans-Semibold-Web.woff2) format("woff2"),
+    url(../../lemonde/fonts/marr-sans/MarrSans-Semibold-Web.woff) format("woff");
+}
+
+/* Bold */
+@font-face {
+  font-family: "Marr-Sans";
+  font-display: swap;
+  font-style: normal;
+  font-weight: 700;
+  src: url(../fonts/marr-sans/MarrSans-Bold-Web.woff2) format("woff2"),
+    url(../fonts/marr-sans/MarrSans-Bold-Web.woff) format("woff");
+}
+
+/* * * * * * * * * * * * * * *
+ *
+ * MARR SANS CONDENSED
+ *
+ * * * * * * * * * * * * * * */
+
+/* Medium */
+@font-face {
+  font-family: "Marr-Sans-Condensed";
+  font-display: swap;
+  font-style: normal;
+  font-weight: 500;
+  src: url(../../lemonde/fonts/marr-sans-cond/MarrSansCondensed-Medium-Web.eot);
+  src: url(../../lemonde/fonts/marr-sans-cond/MarrSansCondensed-Medium-Web.eot?#iefix) format("embedded-opentype"),
+    url(../../lemonde/fonts/marr-sans-cond/MarrSansCondensed-Medium-Web.woff2) format("woff2"),
+    url(../../lemonde/fonts/marr-sans-cond/MarrSansCondensed-Medium-Web.woff) format("woff");
+}
+
+/* Semibold */
+@font-face {
+  font-family: "Marr-Sans-Condensed";
+  font-display: swap;
+  font-style: normal;
+  font-weight: 600;
+  src: url(../../lemonde/fonts/marr-sans-cond/MarrSansCondensed-Semibold-Web.eot);
+  src: url(../../lemonde/fonts/marr-sans-cond/MarrSansCondensed-Semibold-Web.eot?#iefix) format("embedded-opentype"),
+    url(../../lemonde/fonts/marr-sans-cond/MarrSansCondensed-Semibold-Web.woff2) format("woff2"),
+    url(../../lemonde/fonts/marr-sans-cond/MarrSansCondensed-Semibold-Web.woff) format("woff");
+}
+
+/* Bold */
+@font-face {
+  font-family: "Marr-Sans-Condensed";
+  font-display: swap;
+  font-style: normal;
+  font-weight: 700;
+  src: url(../../lemonde/fonts/marr-sans-cond/MarrSansCondensed-Bold-Web.eot);
+  src: url(../../lemonde/fonts/marr-sans-cond/MarrSansCondensed-Bold-Web.eot?#iefix) format("embedded-opentype"),
+    url(../../lemonde/fonts/marr-sans-cond/MarrSansCondensed-Bold-Web.woff2) format("woff2"),
+    url(../../lemonde/fonts/marr-sans-cond/MarrSansCondensed-Bold-Web.woff) format("woff");
+}
