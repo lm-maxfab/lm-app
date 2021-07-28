@@ -4,6 +4,8 @@ import 'whatwg-fetch'
 import smoothscroll from 'smoothscroll-polyfill'
 import App from './App2'
 
+// test
+
 // Enable smoothscroll polyfill
 smoothscroll.polyfill()
 
