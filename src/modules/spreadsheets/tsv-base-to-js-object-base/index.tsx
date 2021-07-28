@@ -1,4 +1,4 @@
-import StrToHtml from "../../text/StrToHtml"
+import StrToHtml from "../../Text/StrToHtml"
 
 /* * * * * * * * * * * * * * *
  * SHEET BASE OBJECTS
