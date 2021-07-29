@@ -55,7 +55,7 @@ class App2 extends React.Component<Props, State> {
    * * * * * * * * * * * * * * */
   render (): React.ReactNode {
     const { props } = this
-    const isInApp = window.location.href.match(/apps.([a-z]+\-)?lemonde.fr/)
+    const isInApp = window.location.href.match(/apps.([a-z]+-)?lemonde.fr/)
     const classes: string = clss(
       'app-2',
       isInApp ? 'app-2_app' : 'app-2_website',
@@ -68,7 +68,7 @@ class App2 extends React.Component<Props, State> {
         <Spreadsheet
           preload={preload}
           url='https://assets-decodeurs.lemonde.fr/sheets/M76L8xg8JCyheXG-n84Lytui-i0ZMg_634'
-          render={(data: SheetBase) => <App data={data} />} />
+          render={(data: SheetBase) => <App />} />
       </div>
     )
   }
