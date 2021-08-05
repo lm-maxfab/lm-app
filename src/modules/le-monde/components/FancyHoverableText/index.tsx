@@ -1,6 +1,6 @@
 import React from 'react'
 import clss from 'classnames'
-import styles from './styles.module.css'
+import './styles.css'
 
 interface Props {
   className?: string
@@ -45,7 +45,8 @@ class FancyHoverableText extends React.Component<Props, State> {
    * * * * * * * * * * * * * * */
   render (): React.ReactNode {
     const { props, state } = this
-    const classes: string = clss('lm-fancy-hoverable-text', styles['wrapper'], props.className)
+    const mainClass = 'lm-fancy-hoverable-text'
+    const classes: string = clss(mainClass, props.className)
     const inlineStyle = { ...props.style }
 
     /* Default props */
@@ -57,6 +58,8 @@ class FancyHoverableText extends React.Component<Props, State> {
     const shadowDefinition = props.shadowDefinition ?? 16
     const shadowSize = props.shadowSize ?? '1px'
     const hover = props.hover ?? state.hover
+
+    console.log({ fillStartColor, fillEndColor, shadowColor })
 
     /* Shadow */
     const textShadow = new Array(shadowDefinition).fill(null).map((e, i) => {
@@ -80,7 +83,6 @@ class FancyHoverableText extends React.Component<Props, State> {
     const fillBgClip = 'text'
     const fillBgSize = '300% auto'
     const fillStyle = {
-      color: 'transparent',
       background: fillBgColor,
       backgroundPosition: fillBgPos,
       backgroundSize: fillBgSize,
@@ -96,12 +98,12 @@ class FancyHoverableText extends React.Component<Props, State> {
         onMouseEnter={this.handleHover}
         onMouseLeave={this.handleLeave}>
         <span
-          className={clss('lm-fancy-hoverable-text__shadow', styles['shadow'])}
+          className={`${mainClass}__shadow`}
           style={shadowStyle}>
           {props.children}
         </span>
         <span
-          className={clss('lm-fancy-hoverable-text__fill', styles['fill'])}
+          className={`${mainClass}__fill`}
           style={fillStyle}>
           {props.children}
         </span>

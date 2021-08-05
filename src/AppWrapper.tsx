@@ -1,13 +1,18 @@
 import React from 'react'
 import clss from 'classnames'
+import 'whatwg-fetch'
+import smoothscroll from 'smoothscroll-polyfill'
 import Spreadsheet from './modules/spreadsheets/Spreadsheet'
 import type { SheetBase } from './modules/spreadsheets/tsv-base-to-js-object-base'
-import getViewportDimensions from './modules/le-monde/utils/getViewportDimensions'
+import getViewportDimensions from './modules/le-monde/utils/get-viewport-dimensions'
 import config from './config'
 import AppContext from './context'
 import preload from './preload'
-
 import App from './App'
+import './styles.css'
+
+// Enable smoothscroll polyfill
+smoothscroll.polyfill()
 
 // Get init viewport dimensions
 const {
@@ -96,14 +101,26 @@ class AppWrapper extends React.Component<{}, AppWrapperState> {
     // Logic
     const workEnv = process.env.NODE_ENV
     const userEnv = window.location.href.match(/apps.([a-z]+-)?lemonde.fr/) ? 'aec' : 'web'
+
+    // Passed context
+    const context = {
+      config,
+      env: workEnv,
+      user_env: userEnv,
+      viewport: {
+        orientation: state.viewportOrientation,
+        display: state.viewportDisplay,
+        ratio: state.viewportRatio
+      }
+    }
     
     // Define CSS classes
-    const mainClass = 'lm-app'
+    const mainClass = 'lm-app-wrapper'
     const envClass = `${mainClass}_env-${workEnv}`
-    const userEnvClass = `${mainClass}_user-env-${userEnv}`
-    const orientationClass = `${mainClass}_viewport-orientation-${state.viewportOrientation}`
-    const displayClass = `${mainClass}_viewport-display-${state.viewportOrientation}`
-    const ratioClass = `${mainClass}_viewport-ratio-${state.viewportOrientation}`
+    const userEnvClass = `${mainClass}_usrenv-${userEnv}`
+    const orientationClass = `${mainClass}_vpo-${state.viewportOrientation}`
+    const displayClass = `${mainClass}_vpd-${state.viewportDisplay}`
+    const ratioClass = `${mainClass}_vpr-${state.viewportRatio}`
     const classes = clss(
       mainClass,
       envClass,
@@ -115,30 +132,16 @@ class AppWrapper extends React.Component<{}, AppWrapperState> {
 
     // Display
     return (
-      <React.StrictMode>
-        <div className={classes} ref={node => this.$root = node}>
-          <Spreadsheet
-            preload={preload}
-            url={config.sheetbase_url}
-            render={(data: SheetBase) => {
-              const context = {
-                env: workEnv,
-                user_env: userEnv,
-                viewport: {
-                  orientation: state.viewportOrientation,
-                  display: state.viewportDisplay,
-                  ratio: state.viewportRatio
-                },
-                sheet_base: data
-              }
-              return <AppContext.Provider value={context}>
-                <App data={data} />
-              </AppContext.Provider>
-            }} />
-        </div>
-      </React.StrictMode>
+      <div className={classes} ref={node => this.$root = node}>
+        <Spreadsheet url={config.sheetbase_url} preload={preload} render={(sheet_data: SheetBase) => (
+          <AppContext.Provider value={{ ...context, sheet_data }}>
+            <App sheet_data={sheet_data} />
+          </AppContext.Provider>
+        )} />
+      </div>
     )
   }
 }
 
 export default AppWrapper
+export type { AppWrapperState }

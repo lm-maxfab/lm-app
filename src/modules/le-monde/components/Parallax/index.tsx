@@ -1,6 +1,6 @@
 import React from 'react'
 import clss from 'classnames'
-import styles from './styles.module.css'
+import './styles.css'
 
 interface Props {
   className?: string
@@ -104,7 +104,8 @@ class Parallax extends React.Component<Props, State> {
    * * * * * * * * * * * * * * */
   render (): React.ReactNode {
     const { props, state } = this
-    const classes: string = clss('lm-parallax', styles['wrapper'], props.className)
+    const mainClass = 'lm-parallax'
+    const classes: string = clss(mainClass, props.className)
     const inlineStyle = { ...props.style }
     const { scrollPercent } = state
 
