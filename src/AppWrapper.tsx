@@ -54,7 +54,7 @@ class AppWrapper extends React.Component<{}, AppWrapperState> {
   componentDidMount () {
     this.storeViewportDimensions()
     window.addEventListener('resize', this.storeViewportDimensions)
-    this.resizeInterval = window.setInterval(this.storeViewportDimensions, 500)
+    this.resizeInterval = window.setInterval(this.storeViewportDimensions, 666)
   }
 
   /* * * * * * * * * * * * * * *

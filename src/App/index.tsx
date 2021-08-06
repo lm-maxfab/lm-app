@@ -3,9 +3,7 @@ import clss from 'classnames'
 import type { SheetBase } from '../modules/spreadsheets/tsv-base-to-js-object-base'
 import AppContext from '../context'
 import './styles.css'
-
-import FancyHoverableText from '../modules/le-monde/components/FancyHoverableText'
-import Parallax from '../modules/le-monde/components/Parallax'
+import Slide from './components/Slide'
 
 interface Props {
   className?: string
@@ -28,21 +26,19 @@ class App extends React.Component<Props> {
     )
     const inlineStyle = { ...props.style }
 
+    const allPages = props.sheet_data?.value.pages ?? []
+    const pages = allPages.filter(page => page.publish === true)
+
     return (
       <div
         id={context.config.project_short_name}
         className={classes}
         style={inlineStyle}>
-        App.
-        <FancyHoverableText
-          fillStartColor='blue'
-          fillEndColor='limegreen'
-          shadowSize='2px'
-          shadowColor='blue'
-          style={{ fontSize: '92px', fontWeight: 800 }}>
-          Fancy<br />hover
-        </FancyHoverableText>
-        <Parallax render={percent => <div>{percent}</div>} />
+        {pages.map(page => (
+          <Slide
+            key={page.id}
+            data={page} />
+        ))}
       </div>
     )
   }

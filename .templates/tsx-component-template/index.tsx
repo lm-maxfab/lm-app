@@ -1,6 +1,6 @@
 import React from 'react'
 import clss from 'classnames'
-import styles from './styles.module.css'
+import './styles.css'
 
 interface Props {
   className?: string
@@ -13,8 +13,10 @@ class Template extends React.Component<Props, {}> {
    * * * * * * * * * * * * * * */
   render (): React.ReactNode {
     const { props } = this
-    const classes: string = clss('TEMPLATE', styles['wrapper'], props.className)
+    const mainClass = 'TEMPLATE'
+    const classes: string = clss(mainClass, props.className)
     const inlineStyle = { ...props.style }
+    
     return (
       <div className={classes} style={inlineStyle}>
         TSX component template.
