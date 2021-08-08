@@ -43,10 +43,14 @@ class Slide extends React.Component<Props, {}> {
         style={inlineStyle}>
         <Parallax render={percent => {
           const wrapperStyle = { opacity: `${Math.min(percent + 1, 1)}` }
-          const titleStyle = { transform: `translateY(calc(${200 * percent}px))` }
-          const mainParagraphStyle = { transform: `translateY(calc(${180 * percent}px))` }
-          const sideParagraphStyle = { transform: `translateY(calc(${180 * percent}px))` }
-          const imageStyle = { transform: `translateY(calc(${240 * percent}px - var(--len-slide-image-parallax-offset)))` }
+          // const titleStyle = { transform: `translate(calc(-2 * var(--vw)), calc(${200 * percent}px))` }
+          // const mainParagraphStyle = { transform: `translateY(calc(${180 * percent}px))` }
+          // const sideParagraphStyle = { transform: `translateY(calc(${180 * percent}px))` }
+          // const imageStyle = { transform: `translateY(calc(${240 * percent}px - var(--len-slide-image-parallax-offset)))` }
+          const titleStyle = { transform: `translate(calc(-2 * var(--vw)), calc(${300 * percent}px))` }
+          const mainParagraphStyle = { transform: `translateY(calc(${270 * percent}px))` }
+          const sideParagraphStyle = { transform: `translateY(calc(${270 * percent}px))` }
+          const imageStyle = { transform: `translateY(calc(${360 * percent}px - var(--len-slide-image-parallax-offset)))` }
           return (
             <div
               style={wrapperStyle}
@@ -59,7 +63,7 @@ class Slide extends React.Component<Props, {}> {
                   style={titleStyle}
                   className={`${mainClass}__title`}>{slideData.title}</div>
               </div>
-              <a href={'http://lorem.ipsum/index.html#slideData.link'} className={`${mainClass}__bottom-half`}>
+              <a href={slideData.link_url} className={`${mainClass}__bottom-half`}>
                 <div
                   style={mainParagraphStyle}
                   className={`${mainClass}__main-paragraph`}>

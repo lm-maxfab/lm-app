@@ -165,7 +165,7 @@
 
 .slide_une .slide__title {
   font-family: "Marr-Sans-Condensed";
-  font-weight: 600;
+  font-weight: 400;
   font-size: var(--len-une-title-size);
   line-height: var(--len-une-title-height);
   text-align: center;
