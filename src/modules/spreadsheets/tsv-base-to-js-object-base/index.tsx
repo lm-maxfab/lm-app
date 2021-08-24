@@ -403,5 +403,8 @@ export {
 export type {
   FieldProps,
   EntryProps,
-  CollectionProps
+  EntryValue,
+  CollectionProps,
+  CollectionValue,
+  SheetBaseValue
 }

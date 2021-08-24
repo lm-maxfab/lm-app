@@ -4,9 +4,6 @@ import type { SheetBase } from '../modules/spreadsheets/tsv-base-to-js-object-ba
 import AppContext from '../context'
 import './styles.css'
 
-import FancyHoverableText from '../modules/le-monde/components/FancyHoverableText'
-import Parallax from '../modules/le-monde/components/Parallax'
-
 interface Props {
   className?: string
   style?: React.CSSProperties
@@ -21,6 +18,7 @@ class App extends React.Component<Props> {
    * * * * * * * * * * * * * * */
   render (): React.ReactNode {
     const { props, context } = this
+    const { config } = context
     const mainClass = 'lm-app'
     const classes: string = clss(
       mainClass,
@@ -30,19 +28,10 @@ class App extends React.Component<Props> {
 
     return (
       <div
-        id={context.config.project_short_name}
+        id={config.project_short_name}
         className={classes}
         style={inlineStyle}>
         App.
-        <FancyHoverableText
-          fillStartColor='blue'
-          fillEndColor='limegreen'
-          shadowSize='2px'
-          shadowColor='blue'
-          style={{ fontSize: '92px', fontWeight: 800 }}>
-          Fancy<br />hover
-        </FancyHoverableText>
-        <Parallax render={percent => <div>{percent}</div>} />
       </div>
     )
   }
