@@ -35,11 +35,11 @@ async function updatePreload () {
   if (config.sheetbase_url) {
     const spreadsheetDataResponse = await fetch(config.sheetbase_url)
     const spreadsheetData = await spreadsheetDataResponse.text()
-    let replacedPreloadJsContent = `const preload = \`${spreadsheetData}\`\n\nexport default preload`
+    let replacedPreloadJsContent = `const preload = \`${spreadsheetData}\`\n\nexport default preload\n`
     writeFileSync(preloadJsFilePath, replacedPreloadJsContent, { encoding: 'utf8' })
     return replacedPreloadJsContent
   } else {
-    let replacedPreloadJsContent = `const preload = \`key	name	type\`\n\nexport default preload`
+    let replacedPreloadJsContent = `const preload = \`key	name	type\`\n\nexport default preload\n`
     writeFileSync(preloadJsFilePath, replacedPreloadJsContent, { encoding: 'utf8' })
     return replacedPreloadJsContent
   }
