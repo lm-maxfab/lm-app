@@ -66,12 +66,11 @@ async function build () {
     await cmd('echo "./build/index.html"')
     
     // Remove development statics
-    await cmd('echo "\n🧽 $(tput bold)Removing development statics...$(tput sgr0)\n"')
-    await cmd('rm -rfv ./build/static/lemonde')
-
-    // Remove unnecessary files
-    await cmd('echo "\n🧽 $(tput bold)Removing asset-manifest.json...$(tput sgr0)\n"')
+    await cmd('echo "\n🧽 $(tput bold)Removing all .DS_Store, asset-manifest.json, development statics...$(tput sgr0)\n"')
+    await cmd('touch build/.DS_Store')
+    await cmd('find . -name ".DS_Store" -print -delete')
     await cmd('rm -rfv ./build/asset-manifest.json')
+    await cmd('rm -rfv ./build/static/lemonde')
     
     // Bundle in single file if snippet mode
     // if (process.argv[2] === '--onefile') {
@@ -98,22 +97,26 @@ async function build () {
     //   await cmd('rm -rfv gulpfile.js')
     // }
 
-    // Delete all .DS_Store files
-    await cmd('touch build/.DS_Store')
-    await cmd('echo "\n🧽 $(tput bold)Removing .DS_Store files...$(tput sgr0)\n"')
-    await cmd('find . -name ".DS_Store" -print -delete')
-
     // Create longform and snippet folders
+    await cmd('echo "\n🎁 $(tput bold)Creating longform and snippet folders...$(tput sgr0)\n"')
     await cmd('mkdir -p build/longform build/snippet')
     await cmd('mv build/index.html build/longform/index.html')
     await cmd('mv build/static build/longform/static')
     await cmd('cp build/longform/index.html build/snippet/index.html')
     await cmd('cp -r build/longform/static build/snippet/static')
+    await cmd('echo "./build/longform\n./build/snippet"')
+    
+    await cmd('echo "\n🤐 $(tput bold)Zipping the longform build...$(tput sgr0)\n"')
+    await cmd('cd build && zip -r longform.zip longform && cd ../')
+    await cmd('rm -rf build/longform') 
+    
+    // WIP - in snippet/index.html
+    //   - loop through all <link> and <script> tags
+    //   - place links inside the body
+    //   - relink urls via config.assets_root_url
+    //   - final file contains only `document.body.innerHTML`
 
-    // // Zip the build
-    // await cmd('echo "\n🤐 $(tput bold)Zipping the build...$(tput sgr0)\n"')
-    // await cmd('zip -r build/build.zip build')
-
+    // Done
     await cmd('echo "\n🍸 $(tput bold)That\'s all good my friend!$(tput sgr0)\n"')
   } catch (err) {
     console.log('\n', err)
