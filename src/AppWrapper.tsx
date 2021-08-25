@@ -2,12 +2,14 @@ import React from 'react'
 import clss from 'classnames'
 import 'whatwg-fetch'
 import smoothscroll from 'smoothscroll-polyfill'
+
 import Spreadsheet from './modules/spreadsheets/Spreadsheet'
 import type { SheetBase } from './modules/spreadsheets/tsv-base-to-js-object-base'
 import getViewportDimensions from './modules/le-monde/utils/get-viewport-dimensions'
-import config from './config'
+
 import AppContext from './context'
 import preload from './preload'
+import config from './config.json'
 import App from './App'
 import './styles.css'
 

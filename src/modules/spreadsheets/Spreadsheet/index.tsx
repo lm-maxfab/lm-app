@@ -5,7 +5,7 @@ import { SheetBase } from '../tsv-base-to-js-object-base'
 
 interface Props {
   preload?: string
-  url?: string
+  url?: string|null
   render?: (data: SheetBase) => React.ReactNode
 }
 
@@ -38,7 +38,7 @@ class Spreadsheet extends React.Component<Props, State> {
   async fetchData () {
     const { preload, url } = this.props
     const hasPreload = preload !== undefined
-    const hasUrl = url !== undefined
+    const hasUrl = url !== undefined && url !== null
     if (!hasPreload && !hasUrl) {
       this.setState({ loading: false, error: null, data: undefined })
     } else if (hasPreload && !hasUrl) {

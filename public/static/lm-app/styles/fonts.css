@@ -167,3 +167,21 @@
     url(../../lemonde/fonts/marr-sans-cond/MarrSansCondensed-Bold-Web.woff2) format("woff2"),
     url(../../lemonde/fonts/marr-sans-cond/MarrSansCondensed-Bold-Web.woff) format("woff");
 }
+
+/* * * * * * * * * * * * * * *
+ *
+ * FETTE ENGSCHRIFT
+ *
+ * * * * * * * * * * * * * * */
+@font-face {
+  font-family: "Fette-Engschrift";
+  src: url(../../lemonde/fonts/fette-engschrift/FetteEngschrift-webfont.eot);
+  src: local("Fette Engschrift"), local("FetteEngschrift"),
+    url(../../lemonde/fonts/fette-engschrift/FetteEngschrift-webfont.eot?#iefix) format("embedded-opentype"),
+    url(../../lemonde/fonts/fette-engschrift/FetteEngschrift-webfont.woff) format("woff"),
+    url(../../lemonde/fonts/fette-engschrift/FetteEngschrift-webfont.ttf) format("truetype"),
+    url(../../lemonde/fonts/fette-engschrift/FetteEngschrift-webfont.svg#Fette1451Engschrift) format("svg");
+  font-display: swap;
+  font-style: normal;
+  font-weight: 500;
+}
