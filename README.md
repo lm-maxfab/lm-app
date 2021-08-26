@@ -1,6 +1,7 @@
 # LM App.
 
-This repo contains the code for the generic app structure of the longforms and snippets built by the Design Éditorial team at Le Monde. The [master branch](https://github.com/lm-maxfab/lm-app/tree/master/src "master branch") contains an empty project with the latest versin of the app wrapper. Every longform or snippet created from this repo has it's own branch named after this template : [PROJECT-NB]-[YYMM]-[PROJECT-NAME].
+This repo contains the code for the generic app structure of the longforms and snippets built by the Design Éditorial team at Le Monde. The [master branch](https://github.com/lm-maxfab/lm-app/tree/master/src "master branch") contains an empty project with the latest versin of the app wrapper. Every longform or snippet created from this repo has it's own branch named after this template :
+`[PROJECT-NB]-[YYMM]-[PROJECT-NAME]`.
 
 ## Installation
 
