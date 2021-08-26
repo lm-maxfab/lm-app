@@ -4,6 +4,7 @@ const path = require('path')
 const jsdom = require('jsdom')
 const pretty = require('pretty')
 const { cmd, laxcmd, updatePreload } = require('./_utils')
+const config = require('../src/config.json')
 
 const { JSDOM } = jsdom
 
@@ -39,24 +40,19 @@ async function build () {
     const fontsCssContent = readFileSync(fontsCssFilePath, { encoding: 'utf8' })
     const originalPath = /..\/..\/lemonde\/fonts/g
     const replacedPath = 'https://lemonde.fr/dist/assets/fonts'
-    const altOriginalPath = /..\/fonts\/marr-sans\/MarrSans-Bold-Web/g
-    const altReplacedPath = 'https://assets-decodeurs.lemonde.fr/redacweb/statics/fonts/marr-sans/MarrSans-Bold-Web'
-    const replacedFontsCssContent = fontsCssContent
-      .replace(originalPath, replacedPath)
-      .replace(altOriginalPath, altReplacedPath)
+    const replacedFontsCssContent = fontsCssContent.replace(originalPath, replacedPath)
     writeFileSync(fontsCssFilePath, replacedFontsCssContent, { encoding: 'utf8' })
     await cmd('echo "./build/static/lm-app/styles/fonts.css"')
-    
     const indexHtmlFilePath = path.join(pwd, 'build/index.html')
     const indexHtmlContent = readFileSync(indexHtmlFilePath, { encoding: 'utf8' })
-    const { window } = new JSDOM(indexHtmlContent)
-    const { document } = window
-    const $links = [...document.querySelectorAll('link[rel=stylesheet]')]
-    $links.forEach($link => {
+    const indexHtmlDom = new JSDOM(indexHtmlContent)
+    const indexHtmlDomDocument = indexHtmlDom.window.document
+    const $indexHtmlLinks = [...indexHtmlDomDocument.querySelectorAll('link[rel=stylesheet]')]
+    $indexHtmlLinks.forEach($link => {
       const hrefAttr = $link.getAttribute('href')
       if (hrefAttr.match(/^.\/static\/lemonde/)) $link.remove()
     })
-    const prettyReplacedIndexHtmlContent = pretty(document.documentElement.outerHTML)
+    const prettyReplacedIndexHtmlContent = pretty(indexHtmlDomDocument.documentElement.outerHTML)
       .split('\n')
       .filter(line => line !== '')
       .join('\n')
@@ -71,31 +67,6 @@ async function build () {
     await cmd('find . -name ".DS_Store" -print -delete')
     await cmd('rm -rfv ./build/asset-manifest.json')
     await cmd('rm -rfv ./build/static/lemonde')
-    
-    // Bundle in single file if snippet mode
-    // if (process.argv[2] === '--onefile') {
-    //   await cmd('echo "\n🤖 $(tput bold)Creating gulpfile.js ...$(tput sgr0)\n"')
-    //   await cmd('rm -rfv gulpfile.js')
-    //   await cmd('echo "const gulp = require(\'gulp\')" >> gulpfile.js')
-    //   await cmd('echo "const inlinesource = require(\'gulp-inline-source\')" >> gulpfile.js')
-    //   await cmd('echo "const replace = require(\'gulp-replace\')" >> gulpfile.js')
-    //   await cmd('echo "gulp.task(\'default\', () => gulp" >> gulpfile.js')
-    //   await cmd('echo "  .src(\'./build/*.html\')" >> gulpfile.js')
-    //   await cmd('echo "  .pipe(replace(\'.js\\"></script>\', \'.js\\" inline></script>\'))" >> gulpfile.js')
-    //   await cmd('echo "  .pipe(replace(\'rel=\\"stylesheet\\">\', \'rel=\\"stylesheet\\" inline>\'))" >> gulpfile.js')
-    //   await cmd('echo "  .pipe(inlinesource())" >> gulpfile.js')
-    //   await cmd('echo "  .pipe(gulp.dest(\'./build\')))" >> gulpfile.js')
-    //   await cmd('cat gulpfile.js')
-
-    //   await cmd('echo "\n📦 $(tput bold)Bundling everything inside index.html...$(tput sgr0)\n"')
-    //   await cmd('npx gulp')
-
-    //   await cmd('echo "\n🧽 $(tput bold)Removing bundled files...$(tput sgr0)\n"')
-    //   await cmd('rm -rfv build/static')
-
-    //   await cmd('echo "\n🧽 $(tput bold)Removing gulpfile.js...$(tput sgr0)\n"')
-    //   await cmd('rm -rfv gulpfile.js')
-    // }
 
     // Create longform and snippet folders
     await cmd('echo "\n🎁 $(tput bold)Creating longform and snippet folders...$(tput sgr0)\n"')
@@ -106,18 +77,44 @@ async function build () {
     await cmd('cp -r build/longform/static build/snippet/static')
     await cmd('echo "./build/longform\n./build/snippet"')
     
+    // Zip the longform folder
     await cmd('echo "\n🤐 $(tput bold)Zipping the longform build...$(tput sgr0)\n"')
     await cmd('cd build && zip -r longform.zip longform && cd ../')
     await cmd('rm -rf build/longform') 
-    
-    // WIP - in snippet/index.html
-    //   - loop through all <link> and <script> tags
-    //   - place links inside the body
-    //   - relink urls via config.assets_root_url
-    //   - final file contains only `document.body.innerHTML`
+
+    // For the snippet, relink assets to the specified external URL
+    if (config.assets_root_url) {
+      await cmd('echo "\n🤐 $(tput bold)Relinking assets for snippet output...$(tput sgr0)\n"')
+      const assetsRootUrl = config.assets_root_url.replace(/\/$/, '')
+      const snippetIndexHtmlFilePath = path.join(pwd, 'build/snippet/index.html')
+      const snippetIndexHtmlContent = readFileSync(snippetIndexHtmlFilePath, { encoding: 'utf8' })
+      const snippetIndexHtmlDom = new JSDOM(snippetIndexHtmlContent)
+      const snippetIndexHtmlDomDocument = snippetIndexHtmlDom.window.document
+      const $snippetIndexHtmlLinks = [...snippetIndexHtmlDomDocument.querySelectorAll('link[rel=stylesheet]')].reverse()
+      const $snippetIndexHtmlScripts = [...snippetIndexHtmlDomDocument.querySelectorAll('script')]
+      const $snippetIndexHtmlBody = snippetIndexHtmlDomDocument.body
+      $snippetIndexHtmlLinks.forEach($link => {
+        $snippetIndexHtmlBody.prepend($link)
+        const href = $link.getAttribute('href')
+        const newHref = href.replace(/^./, assetsRootUrl)
+        if (newHref !== href) $link.setAttribute('href', newHref)
+      })
+      $snippetIndexHtmlScripts.forEach($script => {
+        const src = $script.getAttribute('src')
+        const newSrc = src.replace(/^./, assetsRootUrl)
+        if (newSrc !== src) $script.setAttribute('src', newSrc)
+      })
+
+      const prettySnippetIndexHtmlContent = pretty(snippetIndexHtmlDomDocument.body.innerHTML)
+      writeFileSync(snippetIndexHtmlFilePath, prettySnippetIndexHtmlContent, { encoding: 'utf8' })
+      await cmd('echo "./build/snippet/index.html"')
+    }
 
     // Done
     await cmd('echo "\n🍸 $(tput bold)That\'s all good my friend!$(tput sgr0)\n"')
+    await cmd('echo "If you\'re building a longform, just take the zip and upload it."')
+    await cmd('echo "If you\'re building a snippet, dont forget to upload statics to the place you specified in /src/config.json/assets_root_url!"')
+    await cmd('echo "Bye now."')
   } catch (err) {
     console.log('\n', err)
     process.exit(1)
