@@ -1,6 +1,7 @@
 # LM App.
 
 This repo contains the code for the generic app structure of the longforms and snippets built by the Design Éditorial team at Le Monde. The [master branch](https://github.com/lm-maxfab/lm-app/tree/master/src "master branch") contains an empty project with the latest versin of the app wrapper. Every longform or snippet created from this repo has it's own branch named after this template :
+
 `[PROJECT-NB]-[YYMM]-[PROJECT-NAME]`.
 
 ## Installation
@@ -27,8 +28,8 @@ This repo contains the code for the generic app structure of the longforms and s
 
 |Path|Purpose|
 |--|--|
-|`tsconfig.json`|File descriptor of how typescript should be compiled for this project|
 |`package.json`|The ID card of the project, where dependencies and scripts are referenced|
+|`tsconfig.json`|File descriptor of how typescript should be compiled for this project|
 |`.templates`|Blank file templates|
 |`build`|Where the bundled code outputs|
 |`node_modules`|Where all the external dependencies are installed|
