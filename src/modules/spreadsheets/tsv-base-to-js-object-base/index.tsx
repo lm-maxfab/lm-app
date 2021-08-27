@@ -1,4 +1,4 @@
-import StrToHtml from "../../text/StrToHtml"
+import StrToHtml from '../../text/StrToHtml'
 
 /* * * * * * * * * * * * * * *
  * SHEET BASE OBJECTS
@@ -19,7 +19,7 @@ class Field implements FieldProps {
   type: string
   line: number
   entry: Entry
-  
+
   constructor (props: FieldProps) {
     this.raw = props.raw ?? ''
     this.key = props.key ?? ''
@@ -28,7 +28,7 @@ class Field implements FieldProps {
     this.line = props.line ?? 0
     this.entry = props.entry ?? new Entry({})
   }
-  
+
   get value (): any {
     /* * * * * * * * * * * * * *
      * PRIMITIVES
@@ -41,7 +41,7 @@ class Field implements FieldProps {
     if (this.type === 'number') {
       const replacedCommas = this.raw.replace(/,/gm, '.')
       return window.parseFloat(replacedCommas)
-    } 
+    }
     // BigInt
     if (this.type === 'bigint') {
       return BigInt(this.raw)
@@ -71,7 +71,9 @@ class Field implements FieldProps {
     return this.raw
   }
 
-  valueOf () { return this.value }
+  valueOf (): any {
+    return this.value
+  }
 }
 
 interface EntryProps {
@@ -90,8 +92,8 @@ class Entry implements EntryProps {
   collection: Collection
   column: number
   private _fields: Field[]
-  get fields () { return this._fields }
-  
+  get fields (): Field[] { return this._fields }
+
   constructor (props: EntryProps) {
     this.id = props.id ?? ''
     this.collection = props.collection ?? new Collection({})
@@ -107,7 +109,7 @@ class Entry implements EntryProps {
     return returned
   }
 
-  valueOf () { return this.value }
+  valueOf (): EntryValue { return this.value }
 
   findFieldByKey (key: string): Field|undefined {
     const found = this.fields.find(field => field.key === key)
@@ -134,7 +136,6 @@ class Entry implements EntryProps {
       ...this._fields.slice(0, fieldIndex),
       ...this._fields.slice(fieldIndex + 1)
     ]
-    return
   }
 }
 
@@ -146,16 +147,16 @@ interface CollectionProps {
   base?: SheetBase
 }
 
-type CollectionValue = Array<EntryValue>
+type CollectionValue = EntryValue[]
 
 class Collection implements CollectionProps {
   id: string
   name: string
   base: SheetBase
-  private _keys: string[]
+  private readonly _keys: string[]
   private _entries: Entry[]
-  get keys () { return this._keys }
-  get entries () { return this._entries }
+  get keys (): string[] { return this._keys }
+  get entries (): Entry[] { return this._entries }
 
   constructor (props: CollectionProps) {
     this._keys = props.keys ?? []
@@ -172,8 +173,8 @@ class Collection implements CollectionProps {
     })
     return returned
   }
-  
-  valueOf() { return this.value }
+
+  valueOf (): CollectionValue { return this.value }
 
   rename (name: string): Collection {
     this.name = name
@@ -205,7 +206,6 @@ class Collection implements CollectionProps {
       ...this._entries.slice(0, entryIndex),
       ...this._entries.slice(entryIndex + 1)
     ]
-    return
   }
 }
 
@@ -214,8 +214,8 @@ interface SheetBaseValue {
 }
 
 class SheetBase extends Array implements Array<Collection> {
-  private _collections: Collection[] = []
-  get collections () { return this._collections }
+  private readonly _collections: Collection[] = []
+  get collections (): Collection[] { return this._collections }
 
   get value (): SheetBaseValue {
     const returned: SheetBaseValue = {}
@@ -224,7 +224,7 @@ class SheetBase extends Array implements Array<Collection> {
     })
     return returned
   }
-  
+
   findCollectionById (id: string): Collection|undefined {
     const found = this.collections.find(col => col.id === id)
     return found
@@ -248,10 +248,10 @@ class SheetBase extends Array implements Array<Collection> {
  * * * * * * * * * * * * * * */
 function tsvToEncodedTsv (tsv: string): string {
   let returned = tsv
-  const tsvComplexCellOpeningRegex = new RegExp(`(\t|\n)"`, 'gm')
+  const tsvComplexCellOpeningRegex = /(\t|\n)"/gm // RegExp(`(\t|\n)"`, 'gm')
   const tsvComplexCellOpeningTag = '<<<CELL>>>'
   const tsvComplexCellOpeningTransform = (match: string): string => `${match[0]}${tsvComplexCellOpeningTag}`
-  const tsvComplexCellClosingRegex = new RegExp(`"(\t|\n)`, 'gm')
+  const tsvComplexCellClosingRegex = /"(\t|\n)/gm // new RegExp(`"(\t|\n)`, 'gm')
   const tsvComplexCellClosingTag = '<<</CELL>>>'
   const tsvComplexCellClosingTransform = (match: string): string => `${tsvComplexCellClosingTag}${match[match.length - 1]}`
   returned = returned.replace(tsvComplexCellOpeningRegex, tsvComplexCellOpeningTransform)
@@ -333,7 +333,7 @@ function arrayTsvBaseToSheetBase (arrayTsvBase: any): SheetBase {
     if (lineType === 'id') {
       currentCollectionId = lineKey
       currentCollectionName = lineName
-      sheetBase.createCollection(currentCollectionId, currentCollectionName)  
+      sheetBase.createCollection(currentCollectionId, currentCollectionName)
     }
     // If we still didn't see a new collection line, then leave the line alone
     if (currentCollectionId === null) return

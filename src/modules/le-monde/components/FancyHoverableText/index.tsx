@@ -33,12 +33,12 @@ class FancyHoverableText extends React.Component<Props, State> {
     this.handleHover = this.handleHover.bind(this)
     this.handleLeave = this.handleLeave.bind(this)
   }
-  
+
   /* * * * * * * * * * * * * * *
    * HANDLE HOVER & LEAVE
    * * * * * * * * * * * * * * */
-  handleHover (e: React.MouseEvent) { this.setState({ hover: true }) }
-  handleLeave (e: React.MouseEvent) { this.setState({ hover: false }) }
+  handleHover (e: React.MouseEvent): void { this.setState({ hover: true }) }
+  handleLeave (e: React.MouseEvent): void { this.setState({ hover: false }) }
 
   /* * * * * * * * * * * * * * *
    * RENDER

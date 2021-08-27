@@ -1,7 +1,6 @@
 import React from 'react'
-import tsvBaseToJsObjectBase from '../tsv-base-to-js-object-base'
+import tsvBaseToJsObjectBase, { SheetBase } from '../tsv-base-to-js-object-base'
 import fetchTsvBase from '../fetch-tsv-base'
-import { SheetBase } from '../tsv-base-to-js-object-base'
 
 interface Props {
   preload?: string
@@ -27,15 +26,15 @@ class Spreadsheet extends React.Component<Props, State> {
     this.fetchData = this.fetchData.bind(this)
   }
 
-  componentDidMount () {
-    this.fetchData()
+  async componentDidMount (): Promise<any> {
+    await this.fetchData()
   }
 
-  componentDidUpdate () {
+  componentDidUpdate (): void {
     // Check if data or preload has changed
   }
 
-  async fetchData () {
+  async fetchData (): Promise<any> {
     const { preload, url } = this.props
     const hasPreload = preload !== undefined
     const hasUrl = url !== undefined && url !== null
@@ -44,7 +43,7 @@ class Spreadsheet extends React.Component<Props, State> {
     } else if (hasPreload && !hasUrl) {
       const preloadedBase = tsvBaseToJsObjectBase(preload as string)
       this.setState({ loading: false, error: null, data: preloadedBase })
-    } else if (hasUrl)  {
+    } else if (hasUrl) {
       const preloadedBase = hasPreload ? tsvBaseToJsObjectBase(preload as string) : undefined
       this.setState({ loading: true, error: null, data: preloadedBase })
       try {

@@ -1,7 +1,6 @@
 const { cmd, updatePreload } = require('./_utils')
-const { spawn } = require('child_process')
 
-start ()
+start()
 
 async function start () {
   try {

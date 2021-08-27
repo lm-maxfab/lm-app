@@ -9,10 +9,10 @@ interface returned {
 function getViewportDimensions (): returned {
   const height = document.documentElement.clientHeight
   const width = document.documentElement.clientWidth
-  
+
   // Orientation
   const orientation = width >= height ? 'landscape' : 'portrait'
-  
+
   // Display
   const breakpointsInfo = [
     { min: -Infinity, max: 320, name: 'xs' },
@@ -25,8 +25,8 @@ function getViewportDimensions (): returned {
     return bkpt.min < width
       && bkpt.max >= width
   })
-  const display = currentBreakpoint?.name || 'sm'
-  
+  const display = currentBreakpoint?.name ?? 'sm'
+
   // Ratio
   const ratiosInfo = [
     { min: 0, max: 1 / 2, name: 'xtall' },
@@ -40,8 +40,8 @@ function getViewportDimensions (): returned {
     return ratio.min < actualRatio
       && ratio.max >= actualRatio
   })
-  const ratio = currentRatio?.name || 'square'
-  
+  const ratio = currentRatio?.name ?? 'square'
+
   // Return
   return {
     width,

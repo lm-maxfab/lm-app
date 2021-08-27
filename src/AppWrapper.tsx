@@ -49,11 +49,11 @@ class AppWrapper extends React.Component<{}, AppWrapperState> {
     super(props)
     this.storeViewportDimensions = this.storeViewportDimensions.bind(this)
   }
-  
+
   /* * * * * * * * * * * * * * *
    * DID MOUNT
    * * * * * * * * * * * * * * */
-  componentDidMount () {
+  componentDidMount (): void {
     this.storeViewportDimensions()
     window.addEventListener('resize', this.storeViewportDimensions)
     this.resizeInterval = window.setInterval(this.storeViewportDimensions, 500)
@@ -62,14 +62,14 @@ class AppWrapper extends React.Component<{}, AppWrapperState> {
   /* * * * * * * * * * * * * * *
    * DID UPDATE
    * * * * * * * * * * * * * * */
-  componentDidUpdate () {
+  componentDidUpdate (): void {
     this.storeViewportDimensions()
   }
 
   /* * * * * * * * * * * * * * *
    * WILL UNMOUNT
    * * * * * * * * * * * * * * */
-  componentWillUnmount () {
+  componentWillUnmount (): void {
     window.removeEventListener('resize', this.storeViewportDimensions)
     if (this.resizeInterval !== null) window.clearInterval(this.resizeInterval)
   }
@@ -77,7 +77,7 @@ class AppWrapper extends React.Component<{}, AppWrapperState> {
   /* * * * * * * * * * * * * * *
    * STORE VIEWPORT DIMENSIONS
    * * * * * * * * * * * * * * */
-  storeViewportDimensions () {
+  storeViewportDimensions (): void {
     const { width, height, orientation, display, ratio } = getViewportDimensions()
     this.$root?.style.setProperty('--vw', `calc(${width}px / 100)`)
     this.$root?.style.setProperty('--vh', `calc(${height}px / 100)`)
@@ -102,7 +102,7 @@ class AppWrapper extends React.Component<{}, AppWrapperState> {
 
     // Logic
     const workEnv = process.env.NODE_ENV
-    const userEnv = window.location.href.match(/apps.([a-z]+-)?lemonde.fr/) ? 'aec' : 'web'
+    const userEnv = window.location.href.match(/apps.([a-z]+-)?lemonde.fr/) !== null ? 'aec' : 'web'
 
     // Passed context
     const context = {
@@ -115,7 +115,7 @@ class AppWrapper extends React.Component<{}, AppWrapperState> {
         ratio: state.viewportRatio
       }
     }
-    
+
     // Define CSS classes
     const mainClass = 'lm-app-wrapper'
     const envClass = `${mainClass}_env-${workEnv}`
@@ -134,12 +134,18 @@ class AppWrapper extends React.Component<{}, AppWrapperState> {
 
     // Display
     return (
-      <div className={classes} ref={node => this.$root = node}>
-        <Spreadsheet url={config.sheetbase_url} preload={preload} render={(sheet_data: SheetBase) => (
-          <AppContext.Provider value={{ ...context, sheet_data }}>
-            <App sheet_data={sheet_data} />
-          </AppContext.Provider>
-        )} />
+      <div
+        className={classes}
+        ref={node => { this.$root = node }}>
+        <Spreadsheet
+          url={config.sheetbase_url}
+          preload={preload}
+          render={(sheetData: SheetBase) => (
+            <AppContext.Provider value={{ ...context, sheet_data: sheetData }}>
+              <App sheet_data={sheetData} />
+            </AppContext.Provider>
+          )}
+        />
       </div>
     )
   }

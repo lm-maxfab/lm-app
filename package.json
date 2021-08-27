@@ -22,15 +22,35 @@
   "scripts": {
     "start": "node ./scripts/start.js && react-scripts start",
     "build": "node ./scripts/build.js",
-    "build-snippet": "node ./scripts/build.js --onefile",
-    "eject": "react-scripts eject",
-    "standard": "ts-standard --verbose | snazzy",
-    "standard-fix": "ts-standard --fix --verbose | snazzy"
+    "lint": "eslint .",
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
+    "ignorePatterns": [
+      "/build",
+      "/node_modules",
+      "/src/preload.js"
+    ],
     "extends": [
-      "react-app"
-    ]
+      "react-app",
+      "standard-ts"
+    ],
+    "plugins": [
+      "flowtype",
+      "import",
+      "jsx-a11y",
+      "react",
+      "react-hooks"
+    ],
+    "parserOptions": {
+      "project": "./tsconfig.json"
+    },
+    "rules": {
+      "@typescript-eslint/triple-slash-reference": "off",
+      "@typescript-eslint/lines-between-class-members": "off",
+      "react/jsx-closing-bracket-location": "off",
+      "operator-linebreak": "off"
+    }
   },
   "browserslist": {
     "production": [
@@ -45,8 +65,11 @@
     ]
   },
   "devDependencies": {
+    "async-prompt": "^1.0.1",
     "babel-eslint": "^10.1.0",
+    "eslint": "^7.32.0",
     "eslint-config-react-app": "^6.0.0",
+    "eslint-config-standard-ts": "^20.0.1",
     "eslint-plugin-flowtype": "^5.9.0",
     "eslint-plugin-import": "^2.24.2",
     "eslint-plugin-jsx-a11y": "^6.4.1",
@@ -57,8 +80,6 @@
     "gulp-replace": "^1.1.3",
     "node-fetch": "^2.6.1",
     "pretty": "^2.0.0",
-    "snazzy": "^9.0.0",
-    "ts-standard": "^10.0.0",
     "typescript-plugin-css-modules": "^3.4.0"
   }
 }

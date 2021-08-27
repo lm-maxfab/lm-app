@@ -10,7 +10,7 @@ interface Props {
 }
 
 interface State {
-  isIntersecting: boolean,
+  isIntersecting: boolean
   scrollPercent: number
 }
 
@@ -22,11 +22,11 @@ class Parallax extends React.Component<Props, State> {
     isIntersecting: false,
     scrollPercent: 0
   }
-  $root:HTMLDivElement|null = null
-  $observed:HTMLDivElement|null = null
-  observer:IO = new IntersectionObserver((entries: IOE[]) => this.visibilityObservation(entries, this))
+  $root: HTMLDivElement|null = null
+  $observed: HTMLDivElement|null = null
+  observer: IO = new IntersectionObserver((entries: IOE[]) => this.visibilityObservation(entries, this))
   intervaler: number|null = null
-  
+
   /* * * * * * * * * * * * * * *
    * CONSTRUCTOR
    * * * * * * * * * * * * * * */
@@ -39,17 +39,17 @@ class Parallax extends React.Component<Props, State> {
   /* * * * * * * * * * * * * * *
    * LIFECYCLE
    * * * * * * * * * * * * * * */
-  componentDidMount () {
+  componentDidMount (): void {
     if (this.$root === null) return
     this.$observed = this.$root
     this.observer.observe(this.$observed)
     this.scrollListening()
   }
 
-  componentDidUpdate () {
+  componentDidUpdate (): void {
     const { isIntersecting } = this.state
     const { addEventListener, removeEventListener } = window
-    if (isIntersecting === true) addEventListener('scroll', this.scrollListening)
+    if (isIntersecting) addEventListener('scroll', this.scrollListening)
     else removeEventListener('scroll', this.scrollListening)
     if (
       this.$observed !== null
@@ -61,7 +61,7 @@ class Parallax extends React.Component<Props, State> {
     }
   }
 
-  componentWillUnmount () {
+  componentWillUnmount (): void {
     if (this.$observed !== null) {
       this.observer.unobserve(this.$observed)
     }
@@ -70,7 +70,7 @@ class Parallax extends React.Component<Props, State> {
   /* * * * * * * * * * * * * * *
    * VISIBILITY OBSERVATION
    * * * * * * * * * * * * * * */
-  visibilityObservation (entries: IOE[], that:Parallax) {
+  visibilityObservation (entries: IOE[], that: Parallax): void {
     const entry = entries[0]
     if (entry === undefined) return
     if (entry.isIntersecting) return that.setState({ isIntersecting: true })
@@ -80,16 +80,16 @@ class Parallax extends React.Component<Props, State> {
   /* * * * * * * * * * * * * * *
    * SCROLL LISTENING
    * * * * * * * * * * * * * * */
-  scrollListening () {
+  scrollListening (): void {
     if (this.$root === null) return
     const rootDomRect = this.$root.getBoundingClientRect()
     const { top, bottom } = rootDomRect
     const boxHeight = bottom - top
     const viewportHeight = document.documentElement.clientHeight
     const propsAnchor = this.props.anchor ?? 0
-    let anchorPos:number
+    let anchorPos: number
     if (propsAnchor === 'top') anchorPos = 0
-    else if (propsAnchor === 'center' || propsAnchor === 'middle') anchorPos = .5 * viewportHeight
+    else if (propsAnchor === 'center' || propsAnchor === 'middle') anchorPos = 0.5 * viewportHeight
     else if (propsAnchor === 'bottom') anchorPos = viewportHeight
     else if (typeof propsAnchor === 'string') anchorPos = 0
     else anchorPos = propsAnchor * viewportHeight
@@ -108,14 +108,15 @@ class Parallax extends React.Component<Props, State> {
     const classes: string = clss(mainClass, props.className)
     const inlineStyle = { ...props.style }
     const { scrollPercent } = state
-
+    const renderer = this.props.render !== undefined
+      ? this.props.render
+      : () => <></>
     return (
       <div
         className={classes}
         style={inlineStyle}
-        ref={n => this.$root = n}>
-        {this.props.render
-          && this.props.render(scrollPercent)}
+        ref={n => { this.$root = n }}>
+        {renderer(scrollPercent)}
       </div>
     )
   }
