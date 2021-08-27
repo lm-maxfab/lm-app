@@ -53,21 +53,6 @@ async function build () {
     await cmd('echo "\n🛠  $(tput bold)Building the app...$(tput sgr0)\n"')
     await cmd('INLINE_RUNTIME_CHUNK=false GENERATE_SOURCEMAP=false SKIP_PREFLIGHT_CHECK=true react-scripts build')
 
-    // Store build info
-    await cmd('echo "\n✍️  $(tput bold)Storing build info...$(tput sgr0)\n"')
-    const now = moment().toString()
-    const currentBranch = await cmd('git rev-parse --abbrev-ref HEAD', false)
-    const currentCommit = await cmd('git show --oneline -s', false)
-    await cmd('rm -rf build/build-info.txt')
-    await cmd('touch build/build-info.txt')
-    await cmd(`echo "Time:    ${now}" >> build/build-info.txt`)
-    await cmd('echo "Repo:    https://github.com/lm-maxfab/lm-app" >> build/build-info.txt')
-    await cmd(`echo "Branch:  ${currentBranch.trim()}" >> build/build-info.txt`)
-    await cmd(`echo "Commit:  ${currentCommit.trim()}" >> build/build-info.txt`)
-    if (!gitStatusIsClean) await cmd('echo "\nBuilt with some uncommited changes.\n" >> build/build-info.txt')
-    await cmd('cat build/build-info.txt')
-    await cmd('echo "./build/build-info.txt"')
-
     // Relink the development statics to the production ones
     await cmd('echo "\n🔗 $(tput bold)Relinking statics...$(tput sgr0)\n"')
     const pwd = (await cmd('pwd', false)).trim()
@@ -87,11 +72,29 @@ async function build () {
       const hrefAttr = $link.getAttribute('href')
       if (hrefAttr.match(/^.\/static\/lemonde/)) $link.remove()
     })
+
+    // Store build info inside build/index.html
+    await cmd('echo "\n✍️  $(tput bold)Storing build info...$(tput sgr0)\n"')
+    const now = moment().toString()
+    const currentBranch = await cmd('git rev-parse --abbrev-ref HEAD', false)
+    const currentCommit = await cmd('git show --oneline -s', false)
+    let buildInfo = '\n    BUILD INFO\n'
+    buildInfo += '    ==========\n'
+    buildInfo += `    Time:    ${now}\n`
+    buildInfo += '    Repo:    https://github.com/lm-maxfab/lm-app\n'
+    buildInfo += `    Branch:  ${currentBranch.trim()}\n`
+    buildInfo += `    Commit:  ${currentCommit.trim()}\n`
+    if (!gitStatusIsClean) buildInfo += '\n    Built with some uncommited changes.\n'
+    const $commentNode = indexHtmlDomDocument.createComment(buildInfo)
+    indexHtmlDomDocument.body.prepend($commentNode)
+    console.log(buildInfo, '\n')
+
+    // Write updated build/index.html
     const prettyReplacedIndexHtmlContent = pretty(indexHtmlDomDocument.documentElement.outerHTML)
       .split('\n')
       .filter(line => line !== '')
       .join('\n')
-      .replace('<body>', '<body>\n    ')
+      .replace('<noscript>', '\n    <noscript>')
     const replacedIndexHtmlContent = `${prettyReplacedIndexHtmlContent}\n`
     writeFileSync(indexHtmlFilePath, replacedIndexHtmlContent, { encoding: 'utf8' })
     await cmd('echo "./build/index.html"')
@@ -103,8 +106,8 @@ async function build () {
     await cmd('rm -rfv ./build/asset-manifest.json')
     await cmd('rm -rfv ./build/static/lemonde')
 
-    // Create longform and snippet folders
-    await cmd('echo "\n🎁 $(tput bold)Creating longform and snippet folders...$(tput sgr0)\n"')
+    // Create longform and snippet builds
+    await cmd('echo "\n🎁 $(tput bold)Creating longform and snippet builds...$(tput sgr0)\n"')
     await cmd('mkdir -p build/longform build/snippet')
     await cmd('mv build/index.html build/longform/index.html')
     await cmd('mv build/static build/longform/static')
@@ -112,10 +115,9 @@ async function build () {
     await cmd('cp -r build/longform/static build/snippet/static')
     await cmd('echo "./build/longform\n./build/snippet"')
 
-    // Zip the longform folder
+    // Zip the longform build
     await cmd('echo "\n🤐 $(tput bold)Zipping the longform build...$(tput sgr0)\n"')
     await cmd('cd build && zip -r longform.zip longform && cd ../')
-    await cmd('rm -rf build/longform')
 
     // For the snippet, relink assets to the specified external URL
     if (config.assets_root_url) {
