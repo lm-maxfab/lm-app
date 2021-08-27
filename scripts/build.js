@@ -119,7 +119,7 @@ async function build () {
 
     // For the snippet, relink assets to the specified external URL
     if (config.assets_root_url) {
-      await cmd('echo "\n🔗 $(tput bold)Relinking assets for snippet output...$(tput sgr0)\n"')
+      await cmd('echo "\n🔗 $(tput bold)Relinking assets for the snippet build...$(tput sgr0)\n"')
       const assetsRootUrl = config.assets_root_url.replace(/\/$/, '')
       const snippetIndexHtmlFilePath = path.join(pwd, 'build/snippet/index.html')
       const snippetIndexHtmlContent = readFileSync(snippetIndexHtmlFilePath, { encoding: 'utf8' })
