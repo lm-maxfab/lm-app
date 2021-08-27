@@ -1,0 +1,115 @@
+.lm-app-fake-lm-header {
+  display: flex;
+  justify-content: center;
+  padding: 17px;
+  box-shadow: 0 4px 4px 0 rgb(0 0 0 / 4%);
+  border-top: 4px solid #026b9c;
+  position: fixed !important;
+  top: 0;
+}
+
+@media screen and (max-width: 1024px) {
+  .lm-app-fake-lm-header {
+    box-shadow: none;
+    border-top: none;
+    border-bottom: 1px solid #eff0f3;
+  }
+}
+
+.lm-app-fake-lm-header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-grow: 1;
+  max-width: 1152px;
+}
+
+.lm-app-fake-lm-header img {
+  cursor: pointer;
+  display: block;
+}
+
+.lm-app-fake-lm-header__burger-and-logo {
+  display: flex;
+  align-items: center;
+  margin-right: 17px;
+}
+
+.lm-app-fake-lm-header__burger {
+  display: none;
+  margin-right: 17px;
+}
+
+.lm-app-fake-lm-header__logo img {
+  height: 24px;
+  width: auto;
+}
+
+@media screen and (max-width: 1024px) {
+  .lm-app-fake-lm-header__burger {
+    display: block;
+  }
+
+  .lm-app-fake-lm-header__logo img {
+    height: 30px;
+    width: auto;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .lm-app-fake-lm-header__logo img {
+    height: 24px;
+    width: auto;
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .lm-app-fake-lm-header__logo img {
+    height: 20px;
+    width: auto;
+  }
+}
+
+.lm-app-fake-lm-header__tabs {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+  justify-content: space-around;
+  font-family: "Marr-Sans-Condensed";
+  text-transform: uppercase;
+  color: rgb(42, 48, 59);
+  font-size: 17px;
+  line-height: 1;
+}
+
+.lm-app-fake-lm-header__tab {
+  cursor: pointer;
+}
+
+@media screen and (max-width: 1024px) {
+  .lm-app-fake-lm-header__tabs {
+    display: none;
+  }
+}
+
+.lm-app-fake-lm-header__tab img {
+  width: 24px;
+  height: 24px;
+}
+
+.lm-app-fake-lm-header__account {
+  display: flex;
+  font-family: "Marr-Sans";
+  font-weight: 500;
+  align-items: center;
+  text-transform: uppercase;
+  color: rgb(42, 48, 59);
+  font-size: 14px;
+  margin-left: 17px;
+}
+
+@media screen and (max-width: 576px) {
+  .lm-app-fake-lm-header__account-name {
+    display: none;
+  }
+}

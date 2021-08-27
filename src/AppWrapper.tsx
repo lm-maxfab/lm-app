@@ -20,7 +20,8 @@ smoothscroll.polyfill()
 const {
   orientation,
   display,
-  ratio
+  ratio,
+  navHeight
 } = getViewportDimensions()
 
 // AppWrapper state interface
@@ -28,6 +29,7 @@ interface AppWrapperState {
   viewportOrientation: string|null
   viewportDisplay: string|null
   viewportRatio: string|null
+  navHeight: number|undefined
 }
 
 // AppWrapper
@@ -35,7 +37,8 @@ class AppWrapper extends React.Component<{}, AppWrapperState> {
   state = {
     viewportOrientation: orientation,
     viewportDisplay: display,
-    viewportRatio: ratio
+    viewportRatio: ratio,
+    navHeight: navHeight
   }
   resizeInterval: number|null = null
   $root: HTMLDivElement|null = null
@@ -78,18 +81,21 @@ class AppWrapper extends React.Component<{}, AppWrapperState> {
    * STORE VIEWPORT DIMENSIONS
    * * * * * * * * * * * * * * */
   storeViewportDimensions (): void {
-    const { width, height, orientation, display, ratio } = getViewportDimensions()
+    const { width, height, orientation, display, ratio, navHeight } = getViewportDimensions()
     this.$root?.style.setProperty('--vw', `calc(${width}px / 100)`)
     this.$root?.style.setProperty('--vh', `calc(${height}px / 100)`)
+    this.$root?.style.setProperty('--len-nav-height', `${navHeight ?? 0}px`)
     this.setState(current => {
       const hasChanged = current.viewportOrientation !== orientation
         || current.viewportDisplay !== display
         || current.viewportRatio !== ratio
+        || current.navHeight !== navHeight
       if (!hasChanged) return null
       return {
         viewportOrientation: orientation,
         viewportDisplay: display,
-        viewportRatio: ratio
+        viewportRatio: ratio,
+        navHeight: navHeight
       }
     })
   }
@@ -103,6 +109,7 @@ class AppWrapper extends React.Component<{}, AppWrapperState> {
     // Logic
     const workEnv = process.env.NODE_ENV
     const userEnv = window.location.href.match(/apps.([a-z]+-)?lemonde.fr/) !== null ? 'aec' : 'web'
+    const pageTopOffsetStyle = { marginTop: `${state.navHeight ?? 0}px` }
 
     // Passed context
     const context = {
@@ -113,7 +120,8 @@ class AppWrapper extends React.Component<{}, AppWrapperState> {
         orientation: state.viewportOrientation,
         display: state.viewportDisplay,
         ratio: state.viewportRatio
-      }
+      },
+      nav_height: state.navHeight
     }
 
     // Define CSS classes
@@ -136,6 +144,7 @@ class AppWrapper extends React.Component<{}, AppWrapperState> {
     return (
       <div
         className={classes}
+        style={pageTopOffsetStyle}
         ref={node => { this.$root = node }}>
         <Spreadsheet
           url={config.sheetbase_url}

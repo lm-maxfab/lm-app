@@ -73,6 +73,11 @@ async function build () {
       if (hrefAttr.match(/^.\/static\/lemonde/)) $link.remove()
     })
 
+    // Remove fake LeMonde.fr page contents
+    await cmd('echo "\n🗑️ $(tput bold)Removing fake lemonde.fr header and footer...$(tput sgr0)\n"')
+    const $fakeHeaderAndFooter = [...indexHtmlDomDocument.querySelectorAll('.lm-app-fake-lm-header, .lm-app-fake-lm-footer')]
+    $fakeHeaderAndFooter.forEach($element => $element.remove())
+
     // Store build info inside build/index.html
     await cmd('echo "\n✍️  $(tput bold)Storing build info...$(tput sgr0)\n"')
     const now = moment().toString()

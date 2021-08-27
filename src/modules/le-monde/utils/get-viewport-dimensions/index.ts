@@ -4,6 +4,7 @@ interface returned {
   orientation: string
   display: string
   ratio: string
+  navHeight: number|undefined
 }
 
 function getViewportDimensions (): returned {
@@ -42,13 +43,17 @@ function getViewportDimensions (): returned {
   })
   const ratio = currentRatio?.name ?? 'square'
 
+  // Nav height
+  const navHeight = document.querySelector('#Header')?.getBoundingClientRect().height
+
   // Return
   return {
     width,
     height,
     orientation,
     display,
-    ratio
+    ratio,
+    navHeight
   }
 }
 

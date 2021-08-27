@@ -26,12 +26,16 @@ class App extends React.Component<Props> {
     )
     const inlineStyle = { ...props.style }
 
+    const navHeight = context.nav_height
+
     return (
       <div
         id={config.project_short_name}
         className={classes}
         style={inlineStyle}>
-        App.
+        <strong>App.</strong>
+        <br />
+        Nav height: {navHeight}px
       </div>
     )
   }
