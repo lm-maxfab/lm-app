@@ -1,3 +1,5 @@
+/* eslint-disable no-tabs */
+
 const { writeFileSync } = require('fs')
 const path = require('path')
 const { promisify } = require('util')
@@ -9,8 +11,10 @@ const exec = promisify(_exec)
 
 async function cmd (line, verboseOpt = true) {
   const { stdout, stderr } = await exec(line)
-  if (stderr) throw stderr
-  else if (stdout) {
+  if (stderr) {
+    if (verboseOpt) console.log(stderr)
+    throw stderr
+  } else if (stdout) {
     if (verboseOpt) console.log(stdout)
     return stdout
   }
@@ -25,7 +29,7 @@ async function laxcmd (line, verboseOpt = true) {
       console.log(err.stdout)
       console.log(err.stderr)
     }
-    return err.stderr
+    return err.stdout
   }
 }
 
@@ -35,11 +39,11 @@ async function updatePreload () {
   if (config.sheetbase_url) {
     const spreadsheetDataResponse = await fetch(config.sheetbase_url)
     const spreadsheetData = await spreadsheetDataResponse.text()
-    let replacedPreloadJsContent = `const preload = \`${spreadsheetData}\`\n\nexport default preload\n`
+    const replacedPreloadJsContent = `const preload = \`${spreadsheetData}\`\n\nexport default preload\n`
     writeFileSync(preloadJsFilePath, replacedPreloadJsContent, { encoding: 'utf8' })
     return replacedPreloadJsContent
   } else {
-    let replacedPreloadJsContent = `const preload = \`key	name	type\`\n\nexport default preload\n`
+    const replacedPreloadJsContent = 'const preload = `key	name	type`\n\nexport default preload\n'
     writeFileSync(preloadJsFilePath, replacedPreloadJsContent, { encoding: 'utf8' })
     return replacedPreloadJsContent
   }
