@@ -1,19 +1,13 @@
-.lm-app-root {
- /* * * * * * * * * * * * * * *
-  *
-  * COLORS
-  *
-  * * * * * * * * * * * * * * */
-  --c-red: 212, 36, 71;
-
+.lm-app-wrapper {
  /* * * * * * * * * * * * * * *
   *
   * FONT-FAMILIES
   *
   * * * * * * * * * * * * * * */
-  --ff-heading: "Marr-Sans-Condensed", Arial, sans-serif;
-  --ff-statement: "Marr-Sans", Arial, sans-serif;
-  --ff-current: "The-Antiqua-B", Georgia, serif;
+  --ff-the-antiqua-b: "The-Antiqua-B", Garamond, Times, serif;
+  --ff-marr-sans: "Marr-Sans", Verdana, sans-serif;
+  --ff-marr-sans-condensed: "Marr-Sans-Condensed", Verdana, sans-serif;
+  --ff-fette-engschrift: "Fette-Engschrift", Helvetica, Arial, sans-serif;
 
  /* * * * * * * * * * * * * * *
   *

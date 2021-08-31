@@ -1,11 +1,11 @@
-.lm-app-root {
+.lm-app-wrapper {
   font-family: initial;
   font-size: var(--l-rem);
   line-height: 1.25;
   color: initial;
 }
 
-.lm-app-root * {
+.lm-app-wrapper * {
   margin: 0;
   padding: 0;
 }

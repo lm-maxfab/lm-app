@@ -109,7 +109,6 @@ class AppWrapper extends React.Component<{}, AppWrapperState> {
     // Logic
     const workEnv = process.env.NODE_ENV
     const userEnv = window.location.href.match(/apps.([a-z]+-)?lemonde.fr/) !== null ? 'aec' : 'web'
-    const pageTopOffsetStyle = { marginTop: `${state.navHeight ?? 0}px` }
 
     // Passed context
     const context = {
@@ -144,7 +143,6 @@ class AppWrapper extends React.Component<{}, AppWrapperState> {
     return (
       <div
         className={classes}
-        style={pageTopOffsetStyle}
         ref={node => { this.$root = node }}>
         <Spreadsheet
           url={config.sheetbase_url}

@@ -44,7 +44,9 @@ function getViewportDimensions (): returned {
   const ratio = currentRatio?.name ?? 'square'
 
   // Nav height
-  const navHeight = document.querySelector('#Header')?.getBoundingClientRect().height
+  const possibleNavs = Array.from(document.querySelectorAll('header#Header, header.multimediaNav'))
+  const navHeights = possibleNavs.map($nav => $nav.getBoundingClientRect().height)
+  const navHeight = Math.max(...navHeights)
 
   // Return
   return {
