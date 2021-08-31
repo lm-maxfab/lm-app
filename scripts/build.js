@@ -125,13 +125,12 @@ async function build () {
     const snippetIndexHtmlContent = readFileSync(snippetIndexHtmlFilePath, { encoding: 'utf8' })
     const snippetIndexHtmlDom = new JSDOM(snippetIndexHtmlContent)
     const snippetIndexHtmlDomDocument = snippetIndexHtmlDom.window.document
+    const $snippetIndexHtmlLinks = [...snippetIndexHtmlDomDocument.querySelectorAll('link[rel=stylesheet]')].reverse()
+    const $snippetIndexHtmlScripts = [...snippetIndexHtmlDomDocument.querySelectorAll('script')]
+    const $snippetIndexHtmlBody = snippetIndexHtmlDomDocument.body
     if (assetsRootUrl !== undefined) {
       await cmd('echo "\n🔗 $(tput bold)Relinking assets for the snippet build...$(tput sgr0)\n"')
-      const $snippetIndexHtmlLinks = [...snippetIndexHtmlDomDocument.querySelectorAll('link[rel=stylesheet]')].reverse()
-      const $snippetIndexHtmlScripts = [...snippetIndexHtmlDomDocument.querySelectorAll('script')]
-      const $snippetIndexHtmlBody = snippetIndexHtmlDomDocument.body
       $snippetIndexHtmlLinks.forEach($link => {
-        $snippetIndexHtmlBody.prepend($link)
         const href = $link.getAttribute('href')
         const newHref = href.replace(/^./, assetsRootUrl)
         if (newHref !== href) $link.setAttribute('href', newHref)
@@ -142,6 +141,7 @@ async function build () {
         if (newSrc !== src) $script.setAttribute('src', newSrc)
       })
     }
+    $snippetIndexHtmlLinks.forEach($link => $snippetIndexHtmlBody.prepend($link))
     const prettySnippetIndexHtmlContent = pretty(snippetIndexHtmlDomDocument.body.innerHTML)
       .replace(/\n\s{6}<p>/gm, '\n  <p>')
       .replace(/\n\s{4}<\/span>/gm, '\n</span>')
