@@ -8,13 +8,14 @@ interface Props {
 }
 
 class Template extends React.Component<Props, {}> {
+  mainClass: string = 'TEMPLATE'
+
   /* * * * * * * * * * * * * * *
    * RENDER
    * * * * * * * * * * * * * * */
   render (): React.ReactNode {
     const { props } = this
-    const mainClass = 'TEMPLATE'
-    const classes: string = clss(mainClass, props.className)
+    const classes: string = clss(this.mainClass, props.className)
     const inlineStyle = { ...props.style }
     
     return (

@@ -34,6 +34,7 @@ interface AppWrapperState {
 
 // AppWrapper
 class AppWrapper extends React.Component<{}, AppWrapperState> {
+  mainClass: string = 'lm-app-wrapper'
   state = {
     viewportOrientation: orientation,
     viewportDisplay: display,
@@ -124,14 +125,13 @@ class AppWrapper extends React.Component<{}, AppWrapperState> {
     }
 
     // Define CSS classes
-    const mainClass = 'lm-app-wrapper'
-    const envClass = `${mainClass}_env-${workEnv}`
-    const userEnvClass = `${mainClass}_usrenv-${userEnv}`
-    const orientationClass = `${mainClass}_vpo-${state.viewportOrientation}`
-    const displayClass = `${mainClass}_vpd-${state.viewportDisplay}`
-    const ratioClass = `${mainClass}_vpr-${state.viewportRatio}`
+    const envClass = `${this.mainClass}_env-${workEnv}`
+    const userEnvClass = `${this.mainClass}_usrenv-${userEnv}`
+    const orientationClass = `${this.mainClass}_vpo-${state.viewportOrientation}`
+    const displayClass = `${this.mainClass}_vpd-${state.viewportDisplay}`
+    const ratioClass = `${this.mainClass}_vpr-${state.viewportRatio}`
     const classes = clss(
-      mainClass,
+      this.mainClass,
       envClass,
       userEnvClass,
       orientationClass,

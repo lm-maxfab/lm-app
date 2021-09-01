@@ -44,11 +44,13 @@ class Field implements FieldProps {
     }
     // BigInt
     if (this.type === 'bigint') {
-      return BigInt(this.raw)
+      return window.BigInt(this.raw)
     }
     // Boolean
     if (this.type === 'boolean') {
-      const isTrue = this.raw.toLowerCase() === '1' || this.raw.toLowerCase() === 'true'
+      const isTrue = this.raw.toLowerCase() === '1'
+        || this.raw.toLowerCase() === 'true'
+        || this.raw.toLowerCase() === 'vrai'
       return isTrue
     }
     // Null

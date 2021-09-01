@@ -1,0 +1,20 @@
+.lm-carousel {
+  position: relative;
+}
+
+.lm-carousel__slider {
+  user-select: auto;
+}
+
+.lm-carousel__dots {
+  position: relative;
+  width: unset;
+  bottom: unset;
+}
+
+.lm-carousel__buttons {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

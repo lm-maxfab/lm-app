@@ -21,6 +21,7 @@ interface State {
 }
 
 class FancyHoverableText extends React.Component<Props, State> {
+  mainClass: string = 'lm-fancy-hoverable-text'
   state = {
     hover: false
   }
@@ -45,8 +46,7 @@ class FancyHoverableText extends React.Component<Props, State> {
    * * * * * * * * * * * * * * */
   render (): React.ReactNode {
     const { props, state } = this
-    const mainClass = 'lm-fancy-hoverable-text'
-    const classes: string = clss(mainClass, props.className)
+    const classes: string = clss(this.mainClass, props.className)
     const inlineStyle = { ...props.style }
 
     /* Default props */
@@ -98,12 +98,12 @@ class FancyHoverableText extends React.Component<Props, State> {
         onMouseEnter={this.handleHover}
         onMouseLeave={this.handleLeave}>
         <span
-          className={`${mainClass}__shadow`}
+          className={`${this.mainClass}__shadow`}
           style={shadowStyle}>
           {props.children}
         </span>
         <span
-          className={`${mainClass}__fill`}
+          className={`${this.mainClass}__fill`}
           style={fillStyle}>
           {props.children}
         </span>

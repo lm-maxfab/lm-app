@@ -18,6 +18,7 @@ type IO = IntersectionObserver
 type IOE = IntersectionObserverEntry
 
 class Parallax extends React.Component<Props, State> {
+  mainClass: string = 'lm-parallax'
   state = {
     isIntersecting: false,
     scrollPercent: 0
@@ -104,8 +105,7 @@ class Parallax extends React.Component<Props, State> {
    * * * * * * * * * * * * * * */
   render (): React.ReactNode {
     const { props, state } = this
-    const mainClass = 'lm-parallax'
-    const classes: string = clss(mainClass, props.className)
+    const classes: string = clss(this.mainClass, props.className)
     const inlineStyle = { ...props.style }
     const { scrollPercent } = state
     const renderer = this.props.render !== undefined
