@@ -35,15 +35,18 @@ class Field implements FieldProps {
      * * * * * * * * * * * * * */
     // String / Text
     if (this.type === 'string' || this.type === 'text') {
+      if (this.raw === '') return undefined // eslint-disable-line getter-return
       return this.raw
     }
     // Number
     if (this.type === 'number') {
+      if (this.raw === '') return // eslint-disable-line getter-return
       const replacedCommas = this.raw.replace(/,/gm, '.')
       return window.parseFloat(replacedCommas)
     }
     // BigInt
     if (this.type === 'bigint') {
+      if (this.raw === '') return // eslint-disable-line getter-return
       return window.BigInt(this.raw)
     }
     // Boolean
@@ -59,7 +62,7 @@ class Field implements FieldProps {
     }
     // Undefined
     if (this.type === 'undefined') {
-      return undefined
+      return undefined // eslint-disable-line getter-return
     }
 
     /* * * * * * * * * * * * * *
@@ -67,6 +70,7 @@ class Field implements FieldProps {
      * * * * * * * * * * * * * */
     // HTML
     if (this.type === 'html') {
+      if (this.raw === '') return // eslint-disable-line getter-return
       return <StrToHtml content={this.raw} />
     }
 

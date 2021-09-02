@@ -1,0 +1,16 @@
+.lm-app {
+  position: relative;
+}
+
+.lm-app__progression-bar {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  left: 0;
+  height: 10px;
+  transition: width 200ms;
+}
+
+.lm-app .lm-carousel {
+  z-index: 1;
+}

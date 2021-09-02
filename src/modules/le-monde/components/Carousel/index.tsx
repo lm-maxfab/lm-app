@@ -8,6 +8,7 @@ import './styles.css'
 interface Props {
   className?: string
   style?: React.CSSProperties
+  onChange?: (activeSlidePos: number) => void
 }
 
 class Carousel extends React.Component<Props, {}> {
@@ -105,6 +106,7 @@ class Carousel extends React.Component<Props, {}> {
       slidesToScroll: 1,
       dots: true,
       draggable: true,
+      afterChange: props.onChange,
       appendDots: (dots: ReactElement[]) => {
         return <div ref={n => { this.$dots = n }}>{
           dots.map((dot, i) => {
