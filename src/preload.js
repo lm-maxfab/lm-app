@@ -9,6 +9,7 @@ illustration_lg_url	Image d'illustration (défaut, tous écrans)	text			https://
 illustration_md_url	Image d'illustration (écrans moyens et petits)	text			https://static.wixstatic.com/media/0215c8_6d32d554e0a4476da1b4d56b56e11867~mv2.png	https://datavizproject.com/wp-content/uploads/2015/10/1-Line-Chart.png																															
 illustration_sm_url	Image d'illustration (écrans petits)	text				https://static.wixstatic.com/media/0215c8_6d32d554e0a4476da1b4d56b56e11867~mv2.png																															
 illustration_legend	Légende de l'illustration	html			Sah quelle légende	Ouais mon gars, la légende !																															
+illustration_alt_text	Texte de description de l'illustration pour l'accessibilité	text																																			
 title	Titre de la slide	html	Un titre<br />sur deux lignes																																		
 title_overlay_box_color	Couleur de fond de la boîte de titre (fondu en produit)	text	#FFFF00																																		
 exergue	Texte en exergue	html		Oh la belle exergue que voilà ! Fera-telle plusieurs lignes ? Comment se sortir de ce faux-pas ? On ne le sait pas.																																	
