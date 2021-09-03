@@ -20,6 +20,8 @@ class Slide extends React.Component<Props, {}> {
     // Extract props
     const data = props.data ?? {}
     const backgroundColor = data.background_color as string|undefined
+    const emphasisColor1 = data.emphasis_color_1 as string|undefined
+    const emphasisColor2 = data.emphasis_color_2 as string|undefined
     const backgroundImageUrl = data.background_image_url as string|undefined ?? ''
     const title = data.title as React.ReactNode|undefined
     const titleOverlayBoxColor = data.title_overlay_box_color as string|undefined
@@ -43,7 +45,9 @@ class Slide extends React.Component<Props, {}> {
     const inlineStyle = {
       ...props.style,
       backgroundColor,
-      backgroundImage: `url(${backgroundImageUrl})`
+      backgroundImage: `url(${backgroundImageUrl})`,
+      '--c-exergue-em-1': emphasisColor1,
+      '--c-exergue-em-2': emphasisColor2
     }
 
     // Display
@@ -82,7 +86,7 @@ class Slide extends React.Component<Props, {}> {
             : null
         }
         {illustrationLegend !== undefined ? <p className={`${this.mainClass}__illus-legend`}>{illustrationLegend}</p> : null}
-        {exergue !== undefined ? <p className={`${this.mainClass}__exergue`}>{exergue}</p> : null}
+        {exergue !== undefined ? <p className={`${this.mainClass}__exergue`}><span>{exergue}</span></p> : null}
         {paragraph !== undefined ? <p className={`${this.mainClass}__paragraph`}>{paragraph}</p> : null}
         {quote !== undefined ? <p className={`${this.mainClass}__quote`}>{quote}</p> : null}
         {quoteLegend !== undefined ? <p className={`${this.mainClass}__quote-legend`}>{quoteLegend}</p> : null}

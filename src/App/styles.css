@@ -1,5 +1,7 @@
 .lm-app {
   position: relative;
+  --len-slide-width: calc(100 * var(--vw));
+  --len-slide-height: calc(100 * var(--vh) - var(--len-nav-height));
 }
 
 .lm-app__progression-bar {
@@ -13,4 +15,33 @@
 
 .lm-app .lm-carousel {
   z-index: 1;
+}
+
+.lm-app .lm-carousel__dots {
+  display: none;
+}
+
+.lm-app .lm-carousel__buttons {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  background-color: red;
+}
+
+.lm-app .lm-carousel__button {
+  position: absolute;
+  top: calc(var(--len-slide-height) / 2);
+  user-select: none;
+}
+
+.lm-app .lm-carousel__button_prev {
+  left: 0;
+  transform: translateY(-50%);
+}
+
+.lm-app .lm-carousel__button_next {
+  left: var(--len-slide-width);
+  transform: translate(-100%, -50%);
 }
