@@ -9,6 +9,8 @@ interface Props {
   className?: string
   style?: React.CSSProperties
   onChange?: (activeSlidePos: number) => void
+  prevButton?: React.ReactNode
+  nextButton?: React.ReactNode
 }
 
 class Carousel extends React.Component<Props, {}> {
@@ -146,12 +148,12 @@ class Carousel extends React.Component<Props, {}> {
         <button
           onClick={this.handlePrevClick}
           className={`${this.mainClass}__button ${this.mainClass}__button_prev`}>
-          PREV
+          { props.prevButton ?? '<' }
         </button>
         <button
           onClick={this.handleNextClick}
           className={`${this.mainClass}__button ${this.mainClass}__button_next`}>
-          NEXT
+          { props.nextButton ?? '>' }
         </button>
       </div>
     </div>

@@ -61,7 +61,10 @@ class App extends React.Component<Props, State> {
 
     // Classes
     const classes: string = clss(this.mainClass, props.className)
-    const inlineStyle = { ...props.style, marginTop: 'var(--len-nav-height)' }
+    const inlineStyle = {
+      ...props.style,
+      marginTop: 'var(--len-nav-height)'
+    }
 
     // Display
     return (
@@ -73,7 +76,13 @@ class App extends React.Component<Props, State> {
           style={progressionBarStyle}
           className={`${this.mainClass}__progression-bar`} />
         <Carousel
-          onChange={this.handleCarouselChange}>
+          onChange={this.handleCarouselChange}
+          prevButton={<span
+            style={{ backgroundColor: settings.progression_bar_color }}
+            className={`${this.mainClass}__carousel-prev-button`} />}
+          nextButton={<span
+            style={{ backgroundColor: settings.progression_bar_color }}
+            className={`${this.mainClass}__carousel-next-button`} />}>
           {pages.map((pageData: EntryValue, pos: number) => {
             return <Slide
               key={pos}

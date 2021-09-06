@@ -18,3 +18,10 @@
   justify-content: space-between;
   align-items: center;
 }
+
+.lm-carousel__button {
+  cursor: pointer;
+  padding: 0;
+  border: none;
+  background-color: transparent;
+}

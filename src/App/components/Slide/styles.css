@@ -1,6 +1,6 @@
 .dro-slide {
   width: var(--len-slide-width);
-  height: var(--len-slide-height);
+  min-height: var(--len-slide-height);
   background-position: center;
   background-size: cover;
   display: flex;
@@ -32,6 +32,14 @@
 .dro-slide > * {
   width: 100%;
   max-width: 784px;
+  margin: 24px 0;
+}
+
+.dro-slide__illus+.dro-slide__illus-title,
+.dro-slide__illus-title+.dro-slide__illus-legend,
+.dro-slide__illus+.dro-slide__illus-legend,
+.dro-slide__quote+.dro-slide__quote-legend {
+  margin-top: -8px;
 }
 
 .dro-slide__title {
@@ -43,6 +51,7 @@
   position: relative;
   padding: 48px;
   max-width: unset;
+  width: unset;
 }
 
 .dro-slide__title-bg {
@@ -62,7 +71,17 @@
 }
 
 .dro-slide__illus {
-  width: unset;
+  width: auto;
+  max-height: 40%;
+  min-height: 30%;
+}
+
+.dro-slide__illus-title {
+  font-family: var(--ff-marr-sans);
+  font-size: 22px;
+  line-height: 25px;
+  color: #434343;
+  font-weight: 600;
 }
 
 .dro-slide__illus-legend,
@@ -76,19 +95,11 @@
 .dro-slide__exergue {
   --len-fs: 37px;
   --len-lh: 56px;
-  --len-padding: calc((var(--len-lh) - var(--len-fs)) / 2);
   font-family: var(--ff-marr-sans);
   font-size: var(--len-fs);
   line-height: var(--len-lh);
   font-weight: 600;
   color: #000000;
-  padding: var(--len-padding);
-}
-
-.dro-slide__exergue span {
-  position: relative;
-  background-color: #FFFFFF;
-  box-shadow: 0 0 0 var(--len-padding) white;
 }
 
 .dro-slide__exergue em {
@@ -105,7 +116,10 @@
 
 .dro-slide__paragraph em {
   font-style: normal;
-  font-weight: 700;
+  /* font-weight: 500; */
+  background-color: var(--c-exergue-em-1);
+  box-shadow: 0 0 0 2px var(--c-exergue-em-1); /* Defined via js */
+  
 }
 
 .dro-slide__quote {

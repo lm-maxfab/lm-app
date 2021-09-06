@@ -1,6 +1,7 @@
 import React from 'react'
 import clss from 'classnames'
 import './styles.css'
+import HighlightedText from '../../../modules/le-monde/components/HighlightedText'
 
 interface Props {
   className?: string
@@ -28,6 +29,7 @@ class Slide extends React.Component<Props, {}> {
     const illustrationLgUrl = data.illustration_lg_url as string|undefined
     const illustrationMdUrl = data.illustration_md_url as string|undefined ?? illustrationLgUrl
     const illustrationSmUrl = data.illustration_sm_url as string|undefined ?? illustrationMdUrl
+    const illustrationTitle = data.illustration_title as React.ReactNode|undefined
     const illustrationLegend = data.illustration_legend as React.ReactNode|undefined
     const illustrationAltText = data.illustration_alt_text as string|undefined ?? ''
     const exergue = data.exergue as React.ReactNode|undefined
@@ -85,8 +87,18 @@ class Slide extends React.Component<Props, {}> {
                 src={illustrationSmUrl} />
             : null
         }
+        {illustrationLegend !== undefined ? <p className={`${this.mainClass}__illus-title`}>{illustrationTitle}</p> : null}
         {illustrationLegend !== undefined ? <p className={`${this.mainClass}__illus-legend`}>{illustrationLegend}</p> : null}
-        {exergue !== undefined ? <p className={`${this.mainClass}__exergue`}><span>{exergue}</span></p> : null}
+        {
+          exergue !== undefined
+            ? <HighlightedText
+              highlightColor='#FFFFFF'
+              offset='10px'
+              className={`${this.mainClass}__exergue`}>
+              {exergue}
+            </HighlightedText>
+            : null
+        }
         {paragraph !== undefined ? <p className={`${this.mainClass}__paragraph`}>{paragraph}</p> : null}
         {quote !== undefined ? <p className={`${this.mainClass}__quote`}>{quote}</p> : null}
         {quoteLegend !== undefined ? <p className={`${this.mainClass}__quote-legend`}>{quoteLegend}</p> : null}
