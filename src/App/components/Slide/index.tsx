@@ -1,7 +1,7 @@
 import React from 'react'
 import clss from 'classnames'
 import './styles.css'
-import HighlightedText from '../../../modules/le-monde/components/HighlightedText'
+import HighlightedText from 'modules/le-monde/components/HighlightedText'
 
 interface Props {
   className?: string
@@ -20,27 +20,36 @@ class Slide extends React.Component<Props, {}> {
 
     // Extract props
     const data = props.data ?? {}
-    const backgroundColor = data.background_color as string|undefined
-    const emphasisColor1 = data.emphasis_color_1 as string|undefined
-    const emphasisColor2 = data.emphasis_color_2 as string|undefined
+
     const backgroundImageUrl = data.background_image_url as string|undefined ?? ''
+    const backgroundColor = data.background_color as string|undefined
+
     const title = data.title as React.ReactNode|undefined
-    const titleOverlayBoxColor = data.title_overlay_box_color as string|undefined
+    const titleColor = data.title_color as string|undefined
+    const titleBgColor = data.title_bg_color as string|undefined
+
     const illustrationLgUrl = data.illustration_lg_url as string|undefined
     const illustrationMdUrl = data.illustration_md_url as string|undefined ?? illustrationLgUrl
     const illustrationSmUrl = data.illustration_sm_url as string|undefined ?? illustrationMdUrl
     const illustrationTitle = data.illustration_title as React.ReactNode|undefined
     const illustrationLegend = data.illustration_legend as React.ReactNode|undefined
     const illustrationAltText = data.illustration_alt_text as string|undefined ?? ''
+    const illustrationTitleColor = data.illustration_title_color as string|undefined
+    const illustrationLegendColor = data.illustration_legend_color as string|undefined
+
     const exergue = data.exergue as React.ReactNode|undefined
+    const exergueColor = data.exergue_color as string|undefined
+    const exergueEmColor = data.exergue_em_color as string|undefined
+    const exergueBgColor = data.exergue_bg_color as string|undefined
+
     const paragraph = data.paragraph as React.ReactNode|undefined
+    const paragraphColor = data.paragraph_color as string|undefined
+    const paragraphEmBgColor = data.paragraph_em_bg_color as string|undefined
+
     const quote = data.quote as React.ReactNode|undefined
     const quoteLegend = data.quote_legend as React.ReactNode|undefined
-
-    // Logic
-    const titleBgStyle = {
-      backgroundColor: titleOverlayBoxColor
-    }
+    const quoteColor = data.quote_color as string|undefined
+    const quoteLegendColor = data.quote_legend_color as string|undefined
 
     // Classes
     const classes: string = clss(this.mainClass, props.className)
@@ -48,8 +57,17 @@ class Slide extends React.Component<Props, {}> {
       ...props.style,
       backgroundColor,
       backgroundImage: `url(${backgroundImageUrl})`,
-      '--c-exergue-em-1': emphasisColor1,
-      '--c-exergue-em-2': emphasisColor2
+      '--c-title': titleColor,
+      '--c-title-bg': titleBgColor,
+      '--c-illustration-title': illustrationTitleColor,
+      '--c-illustration-legend': illustrationLegendColor,
+      '--c-exergue': exergueColor,
+      '--c-exergue-em': exergueEmColor,
+      '--c-exergue-bg': exergueBgColor,
+      '--c-paragraph': paragraphColor,
+      '--c-paragraph-em-bg': paragraphEmBgColor,
+      '--c-quote': quoteColor,
+      '--c-quote-legend': quoteLegendColor
     }
 
     // Display
@@ -58,7 +76,7 @@ class Slide extends React.Component<Props, {}> {
         {
           title !== undefined
             ? <h1 className={`${this.mainClass}__title`}>
-              <span className={`${this.mainClass}__title-bg`} style={titleBgStyle} />
+              <span className={`${this.mainClass}__title-bg`} />
               <span className={`${this.mainClass}__title-content`}>{title}</span>
             </h1>
             : null
@@ -92,7 +110,7 @@ class Slide extends React.Component<Props, {}> {
         {
           exergue !== undefined
             ? <HighlightedText
-              highlightColor='#FFFFFF'
+              highlightColor={exergueBgColor}
               offset='10px'
               className={`${this.mainClass}__exergue`}>
               {exergue}

@@ -37,9 +37,12 @@
 
 .dro-slide__illus+.dro-slide__illus-title,
 .dro-slide__illus-title+.dro-slide__illus-legend,
-.dro-slide__illus+.dro-slide__illus-legend,
-.dro-slide__quote+.dro-slide__quote-legend {
+.dro-slide__illus+.dro-slide__illus-legend {
   margin-top: -8px;
+}
+
+.dro-slide__quote+.dro-slide__quote-legend {
+  margin-top: 8px;
 }
 
 .dro-slide__title {
@@ -57,6 +60,7 @@
 .dro-slide__title-bg {
   mix-blend-mode: multiply;
   position: absolute;
+  background-color: var(--c-title-bg); /* Defined via js */
   top: 0;
   left: 0;
   width: 100%;
@@ -66,7 +70,7 @@
 
 .dro-slide__title-content {
   position: relative;
-  color: white;
+  color: var(--c-title); /* Defined via js */
   z-index: 2;
 }
 
@@ -80,16 +84,19 @@
   font-family: var(--ff-marr-sans);
   font-size: 22px;
   line-height: 25px;
-  color: #434343;
+  color: var(--c-illustration-title); /* Defined via js */
   font-weight: 600;
 }
 
 .dro-slide__illus-legend,
 .dro-slide__quote-legend {
-  color: #434343;
   font-size: 17px;
   line-height: 25px;
   font-family: var(--ff-marr-sans);
+}
+
+.dro-slide__illus-legend {
+  color: var(--c-illustration-legend); /* Defined via js */
 }
 
 .dro-slide__exergue {
@@ -99,11 +106,11 @@
   font-size: var(--len-fs);
   line-height: var(--len-lh);
   font-weight: 600;
-  color: #000000;
+  color: var(--c-exergue); /* Defined via js */
 }
 
 .dro-slide__exergue em {
-  color: var(--c-exergue-em-2); /* Defined via js */
+  color: var(--c-exergue-em); /* Defined via js */
   font-style: normal;
 }
 
@@ -112,13 +119,13 @@
   line-height: 43px;
   font-family: var(--ff-marr-sans);
   font-weight: 500;
+  color: var(--c-paragraph); /* Defined via js */
 }
 
 .dro-slide__paragraph em {
   font-style: normal;
-  /* font-weight: 500; */
-  background-color: var(--c-exergue-em-1);
-  box-shadow: 0 0 0 2px var(--c-exergue-em-1); /* Defined via js */
+  background-color: var(--c-paragraph-em-bg); /* Defined via js */
+  box-shadow: 0 0 0 2px var(--c-paragraph-em-bg); /* Defined via js */
   
 }
 
@@ -128,5 +135,9 @@
   line-height: 58px;
   font-weight: 700;
   font-style: italic;
-  color: var(--c-exergue-em-2); /* Defined via js */
+  color: var(--c-quote); /* Defined via js */
+}
+
+.dro-slide__quote-legend {
+  color: var(--c-quote-legend); /* Defined via js */
 }

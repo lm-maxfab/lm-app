@@ -8,9 +8,10 @@ import './styles.css'
 interface Props {
   className?: string
   style?: React.CSSProperties
+  infinite?: boolean
   onChange?: (activeSlidePos: number) => void
-  prevButton?: React.ReactNode
-  nextButton?: React.ReactNode
+  prevButton?: JSX.Element|false
+  nextButton?: JSX.Element|false
 }
 
 class Carousel extends React.Component<Props, {}> {
@@ -98,10 +99,11 @@ class Carousel extends React.Component<Props, {}> {
   render (): React.ReactNode {
     const { props } = this
 
+    /* Logic */
     const settings = {
       arrows: false,
       accessibility: true,
-      infinite: true,
+      infinite: props.infinite ?? true,
       speed: 200,
       centerMode: true,
       variableWidth: true,
@@ -123,6 +125,16 @@ class Carousel extends React.Component<Props, {}> {
         }</div>
       }
     }
+    const prevButton = props.prevButton !== undefined
+      ? props.prevButton === false
+        ? null
+        : props.prevButton
+      : 'prev'
+    const nextButton = props.nextButton !== undefined
+      ? props.nextButton === false
+        ? null
+        : props.nextButton
+      : 'next'
 
     const classes: string = clss(this.mainClass, props.className)
     const inlineStyle = { ...props.style }
@@ -148,12 +160,12 @@ class Carousel extends React.Component<Props, {}> {
         <button
           onClick={this.handlePrevClick}
           className={`${this.mainClass}__button ${this.mainClass}__button_prev`}>
-          { props.prevButton ?? '<' }
+          {prevButton}
         </button>
         <button
           onClick={this.handleNextClick}
           className={`${this.mainClass}__button ${this.mainClass}__button_next`}>
-          { props.nextButton ?? '>' }
+          {nextButton}
         </button>
       </div>
     </div>
