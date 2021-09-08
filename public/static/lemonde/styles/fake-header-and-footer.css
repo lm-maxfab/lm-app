@@ -6,6 +6,7 @@
   border-top: 4px solid #026b9c;
   position: fixed !important;
   top: 0;
+  box-sizing: border-box;
 }
 
 @media screen and (max-width: 1024px) {

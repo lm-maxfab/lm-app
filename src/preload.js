@@ -4,7 +4,7 @@ pages	Pages	id	1	2	3	4	5	6
 publish	"Afficher la page dans le format
 (indifférent à la casse : ""vrai"", ""true"", ""1"")"	boolean	TRUE	TRUE	TRUE	TRUE	TRUE	TRUE																													
 background_color	Couleur de fond	text	rgb(255, 255, 227, 1)	rgb(255, 255, 227, 1)	rgb(255, 255, 227, 1)	rgb(255, 255, 227, 1)	rgb(255, 255, 227, 1)	rgb(255, 255, 227, 1)																													
-background_image_url	Image de fond	text	https://assets-decodeurs.lemonde.fr/redacweb/4-2109-drogues/cannabis-home-bg.jpg	https://assets-decodeurs.lemonde.fr/redacweb/4-2109-drogues/cannabis-home-bg.jpg																																	
+background_image_url	Image de fond	text	https://assets-decodeurs.lemonde.fr/redacweb/4-2109-drogues/cannabis-home-bg.jpg	https://assets-decodeurs.lemonde.fr/redacweb/4-2109-drogues/cannabis-home-bg.jpg	https://assets-decodeurs.lemonde.fr/redacweb/4-2109-drogues/cannabis-home-bg.jpg																																
 illustration_lg_url	Image d'illustration (défaut, tous écrans)	text				https://assets-decodeurs.lemonde.fr/redacweb/4-2109-drogues/cannabis-illus-lg-1.png	https://assets-decodeurs.lemonde.fr/redacweb/4-2109-drogues/cannabis-illus-lg-3.png																														
 illustration_md_url	Image d'illustration (écrans moyens et petits)	text																																			
 illustration_sm_url	Image d'illustration (écrans petits)	text																																			
@@ -33,6 +33,55 @@ progression_bar_color	Couleur de la barre de progression	text	rgb(255, 255, 153,
 progression_bar_bg_color	Couleur de fond de la barre de progression	text	rgb(255, 255, 255, 1)																																		
 buttons_background_color	Couleur de fond des boutons	text	rgb(255, 255, 153, .7)																																		
 buttons_arrow_color	Couleur des flèches des boutons	text	rgb(82, 24, 178, 1)																																		
+																																					
+title_lg_font_size	Titre - Taille de texte sur desktop	text	110px																																		
+title_lg_line_height	Titre - Hauteur de ligne sur desktop	text	116px																																		
+title_md_font_size	Titre - Taille de texte sur tablette	text	80px																																		
+title_md_line_height	Titre - Hauteur de ligne sur tablette	text	84px																																		
+title_sm_font_size	Titre - Taille de texte sur mobile	text	55px																																		
+title_sm_line_height	Titre - Hauteur de ligne sur mobile	text	55px																																		
+																																					
+illustration_title_lg_font_size	Titre d'illustration - Taille de texte sur desktop	text	22px																																		
+illustration_title_lg_line_height	Titre d'illustration - Hauteur de ligne sur desktop	text	25px																																		
+illustration_title_md_font_size	Titre d'illustration - Taille de texte sur tablette	text																																			
+illustration_title_md_line_height	Titre d'illustration - Hauteur de ligne sur tablette	text																																			
+illustration_title_sm_font_size	Titre d'illustration - Taille de texte sur mobile	text																																			
+illustration_title_sm_line_height	Titre d'illustration - Hauteur de ligne sur mobile	text																																			
+																																					
+illustration_legend_lg_font_size	Légende d'illus - Taille de texte sur desktop	text	17px																																		
+illustration_legend_lg_line_height	Légende d'illus - Hauteur de ligne sur desktop	text	25px																																		
+illustration_legend_md_font_size	Légende d'illus - Taille de texte sur tablette	text																																			
+illustration_legend_md_line_height	Légende d'illus - Hauteur de ligne sur tablette	text																																			
+illustration_legend_sm_font_size	Légende d'illus - Taille de texte sur mobile	text																																			
+illustration_legend_sm_line_height	Légende d'illus - Hauteur de ligne sur mobile	text																																			
+																																					
+exergue_lg_font_size	Exergue - Taille de texte sur desktop	text	37px																																		
+exergue_lg_line_height	Exergue - Hauteur de ligne sur desktop	text	56px																																		
+exergue_md_font_size	Exergue - Taille de texte sur tablette	text																																			
+exergue_md_line_height	Exergue - Hauteur de ligne sur tablette	text																																			
+exergue_sm_font_size	Exergue - Taille de texte sur mobile	text																																			
+exergue_sm_line_height	Exergue - Hauteur de ligne sur mobile	text																																			
+																																					
+paragraph_lg_font_size	Paragraphe - Taille de texte sur desktop	text	27px																																		
+paragraph_lg_line_height	Paragraphe - Hauteur de ligne sur desktop	text	43px																																		
+paragraph_md_font_size	Paragraphe - Taille de texte sur tablette	text																																			
+paragraph_md_line_height	Paragraphe - Hauteur de ligne sur tablette	text																																			
+paragraph_sm_font_size	Paragraphe - Taille de texte sur mobile	text																																			
+paragraph_sm_line_height	Paragraphe - Hauteur de ligne sur mobile	text																																			
+																																					
+quote_lg_font_size	Quote - Taille de texte sur desktop	text	40px																																		
+quote_lg_line_height	Quote - Hauteur de ligne sur desktop	text	58px																																		
+quote_md_font_size	Quote - Taille de texte sur tablette	text																																			
+quote_md_line_height	Quote - Hauteur de ligne sur tablette	text																																			
+quote_sm_font_size	Quote - Taille de texte sur mobile	text																																			
+quote_sm_line_height	Quote - Hauteur de ligne sur mobile	text																																			
+																																					
+quote_legend_lg_font_size	Légende de quote - Taille de texte sur desktop	text	17px																																		
+quote_legend_lg_line_height	Légende de quote - Hauteur de ligne sur desktop	text	25px																																		
+quote_legend_md_font_size	Légende de quote - Taille de texte sur tablette	text																																			
+quote_legend_md_line_height	Légende de quote - Hauteur de ligne sur tablette	text																																			
+quote_legend_sm_font_size	Légende de quote - Taille de texte sur mobile	text																																			
+quote_legend_sm_line_height	Légende de quote - Hauteur de ligne sur mobile	text																																			
 `
 
 export default preload

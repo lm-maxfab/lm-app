@@ -36,3 +36,16 @@ Note: this project has been bootstraped via [`create-react-app`](https://github.
 |`public`|Where lives the external contents of the React app, the index.html, the styles, the visual assets...|
 |`scripts`|Scripts used for project development, like starting a dev server or bundling the production build|
 |`src`|Where the actual code is|
+
+## Spreadsheets
+
+The longforms can rely on data hosted in a remote TSV file. You can host the TSV file yourself, any URL will do. You can also create a Google Spreadsheet and link it to lm-wiki/sheet-happens if you know how.
+
+Here is the procedure to create a correctly formed TSV file that can be read by the longform.
+
+### 1. Init the file
+- Create an empty tsv file
+- Fill the first cells as follows: A1 = `key`, A2 = `name`, A3 = `type`
+- If you read the file via lm-wiki/sheet-happens
+
+The TSV file is supposed to work as a regular database containing tables. Each line under the first

@@ -1,13 +1,25 @@
 .dro-slide {
   width: var(--len-slide-width);
-  min-height: var(--len-slide-height);
+  height: var(--len-slide-height);
   background-position: center;
-  background-size: cover;
   display: flex;
   flex-direction: column;
   justify-content: center;
   padding: 64px;
   align-items: center;
+  overflow: hidden;
+}
+
+@media screen and (max-width: 1200px) {
+  .dro-slide {
+    padding: 32px;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .dro-slide {
+    padding: 32px;
+  }
 }
 
 .lm-app-wrapper_vpd-sm .dro-slide__lg-illus,
@@ -32,7 +44,19 @@
 .dro-slide > * {
   width: 100%;
   max-width: 784px;
-  margin: 24px 0;
+  margin-bottom: 24px;
+}
+
+@media screen and (max-width: 1200px) {
+  .dro-slide > * {
+    margin-bottom: 20px;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .dro-slide > * {
+    margin-bottom: 16px;
+  }
 }
 
 .dro-slide__illus+.dro-slide__illus-title,
@@ -46,15 +70,22 @@
 }
 
 .dro-slide__title {
-  font-family: var(--ff-marr-sans-condensed);
-  font-size: 110px;
-  line-height: 116px;
-  font-weight: 800;
-  text-align: center;
   position: relative;
   padding: 48px;
   max-width: unset;
   width: unset;
+}
+
+@media screen and (max-width: 1200px) {
+  .dro-slide__title {
+    padding: 36px;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .dro-slide__title {
+    padding: 16px;
+  }
 }
 
 .dro-slide__title-bg {
@@ -69,42 +100,53 @@
 }
 
 .dro-slide__title-content {
+  font-family: var(--ff-marr-sans-condensed);
+  font-size: var(--len-title-font-size); /* Defined via js */
+  line-height: var(--len-title-line-height); /* Defined via js */
+  font-weight: 800;
+  text-align: center;
   position: relative;
   color: var(--c-title); /* Defined via js */
   z-index: 2;
 }
 
+.dro-slide__title-subtext-content {
+  position: relative;
+  font-size: var(--len-title-subtext-font-size); /* Defined via js */
+  line-height: var(--len-title-subtext-line-height); /* Defined via js */
+  color: var(--c-title-subtext); /* Defined via js */
+  z-index: 3;
+  text-align: center;
+  font-family: var(--ff-marr-sans);
+  font-weight: 500;
+}
+
 .dro-slide__illus {
   width: auto;
+  height: auto;
   max-height: 40%;
-  min-height: 30%;
+  max-width: 100%;
 }
 
 .dro-slide__illus-title {
   font-family: var(--ff-marr-sans);
-  font-size: 22px;
-  line-height: 25px;
+  font-size: var(--len-illustration-title-font-size); /* Defined via js */
+  line-height: var(--len-illustration-title-line-height); /* Defined via js */
   color: var(--c-illustration-title); /* Defined via js */
   font-weight: 600;
 }
 
-.dro-slide__illus-legend,
-.dro-slide__quote-legend {
-  font-size: 17px;
-  line-height: 25px;
-  font-family: var(--ff-marr-sans);
-}
-
 .dro-slide__illus-legend {
+  font-family: var(--ff-marr-sans);
+  font-size: var(--len-illustration-legend-font-size); /* Defined via js */
+  line-height: var(--len-illustration-legend-line-height); /* Defined via js */
   color: var(--c-illustration-legend); /* Defined via js */
 }
 
 .dro-slide__exergue {
-  --len-fs: 37px;
-  --len-lh: 56px;
   font-family: var(--ff-marr-sans);
-  font-size: var(--len-fs);
-  line-height: var(--len-lh);
+  font-size: var(--len-exergue-font-size); /* Defined via js */
+  line-height: var(--len-exergue-line-height); /* Defined via js */
   font-weight: 600;
   color: var(--c-exergue); /* Defined via js */
 }
@@ -115,8 +157,8 @@
 }
 
 .dro-slide__paragraph {
-  font-size: 27px;
-  line-height: 43px;
+  font-size: var(--len-paragraph-font-size); /* Defined via js */
+  line-height: var(--len-paragraph-line-height); /* Defined via js */
   font-family: var(--ff-marr-sans);
   font-weight: 500;
   color: var(--c-paragraph); /* Defined via js */
@@ -131,13 +173,16 @@
 
 .dro-slide__quote {
   font-family: var(--ff-the-antiqua-b);
-  font-size: 40px;
-  line-height: 58px;
+  font-size: var(--len-quote-font-size); /* Defined via js */
+  line-height: var(--len-quote-line-height); /* Defined via js */
   font-weight: 700;
   font-style: italic;
   color: var(--c-quote); /* Defined via js */
 }
 
 .dro-slide__quote-legend {
+  font-family: var(--ff-marr-sans);
+  font-size: var(--len-quote-legend-font-size); /* Defined via js */
+  line-height: var(--len-quote-legend-line-height); /* Defined via js */
   color: var(--c-quote-legend); /* Defined via js */
 }

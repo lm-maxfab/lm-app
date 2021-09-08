@@ -22,11 +22,15 @@ class Slide extends React.Component<Props, {}> {
     const data = props.data ?? {}
 
     const backgroundImageUrl = data.background_image_url as string|undefined ?? ''
+    const backgroundPatternUrl = data.background_pattern_url as string|undefined
     const backgroundColor = data.background_color as string|undefined
 
     const title = data.title as React.ReactNode|undefined
     const titleColor = data.title_color as string|undefined
     const titleBgColor = data.title_bg_color as string|undefined
+
+    const titleSubtext = data.title_subtext as React.ReactNode|undefined
+    const titleSubtextColor = data.title_subtext_color as string|undefined
 
     const illustrationLgUrl = data.illustration_lg_url as string|undefined
     const illustrationMdUrl = data.illustration_md_url as string|undefined ?? illustrationLgUrl
@@ -56,9 +60,18 @@ class Slide extends React.Component<Props, {}> {
     const inlineStyle = {
       ...props.style,
       backgroundColor,
-      backgroundImage: `url(${backgroundImageUrl})`,
+      backgroundImage: backgroundPatternUrl !== undefined
+        ? `url(${backgroundPatternUrl})`
+        : `url(${backgroundImageUrl})`,
+      backgroundSize: backgroundPatternUrl !== undefined
+        ? 'auto'
+        : 'cover',
+      backgroundRepeat: backgroundPatternUrl !== undefined
+        ? 'repeat'
+        : 'no-repeat',
       '--c-title': titleColor,
       '--c-title-bg': titleBgColor,
+      '--c-title-subtext': titleSubtextColor,
       '--c-illustration-title': illustrationTitleColor,
       '--c-illustration-legend': illustrationLegendColor,
       '--c-exergue': exergueColor,
@@ -74,10 +87,11 @@ class Slide extends React.Component<Props, {}> {
     return (
       <div className={classes} style={inlineStyle}>
         {
-          title !== undefined
+          title !== undefined || titleSubtext !== undefined
             ? <h1 className={`${this.mainClass}__title`}>
-              <span className={`${this.mainClass}__title-bg`} />
-              <span className={`${this.mainClass}__title-content`}>{title}</span>
+              <div className={`${this.mainClass}__title-bg`} />
+              <div className={`${this.mainClass}__title-content`}>{title}</div>
+              <div className={`${this.mainClass}__title-subtext-content`}>{titleSubtext}</div>
             </h1>
             : null
         }
@@ -111,7 +125,7 @@ class Slide extends React.Component<Props, {}> {
           exergue !== undefined
             ? <HighlightedText
               highlightColor={exergueBgColor}
-              offset='10px'
+              offset='calc((var(--len-exergue-line-height) - var(--len-exergue-font-size)) / 2)'
               className={`${this.mainClass}__exergue`}>
               {exergue}
             </HighlightedText>

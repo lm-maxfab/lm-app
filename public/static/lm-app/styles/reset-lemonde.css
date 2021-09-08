@@ -5,7 +5,7 @@
 
 body {
   --len-h-and-p-default-margin: inherit;
-  --bs-lm-app-elements-box-sizing: content-box;
+  --bs-lm-app-elements-box-sizing: inherit;
 }
 
 h1, h2, h3, h4, h5, h6, p {

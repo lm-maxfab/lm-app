@@ -9,6 +9,7 @@ interface Props {
   className?: string
   style?: React.CSSProperties
   infinite?: boolean
+  draggable?: boolean
   onChange?: (activeSlidePos: number) => void
   prevButton?: JSX.Element|false
   nextButton?: JSX.Element|false
@@ -109,7 +110,7 @@ class Carousel extends React.Component<Props, {}> {
       variableWidth: true,
       slidesToScroll: 1,
       dots: true,
-      draggable: true,
+      draggable: props.draggable ?? true,
       afterChange: props.onChange,
       appendDots: (dots: ReactElement[]) => {
         return <div ref={n => { this.$dots = n }}>{

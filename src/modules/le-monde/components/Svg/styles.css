@@ -1,4 +1,21 @@
 .lm-svg {
-  max-width: 100%;
+  position: relative;
+}
+
+.lm-svg > div,
+.lm-svg > div > div {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.lm-svg > div > div > svg {
   max-height: 100%;
+  max-width: 100%;
+}
+
+.lm-svg svg #background,
+.lm-svg svg #fill-1 {
+  stroke: transparent;
+  fill: transparent;
 }
