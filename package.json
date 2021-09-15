@@ -6,6 +6,7 @@
     "preload": "node ./scripts/preload.mjs",
     "dev": "node ./scripts/dev.mjs && vite",
     "build": "node ./scripts/build.mjs",
+    "raw-build": "tsc && vite build",
     "analyze": "source-map-explorer 'build/assets/*.js'",
     "serve": "vite preview"
   },

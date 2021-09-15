@@ -1,5 +1,4 @@
-import { Component, JSX } from 'preact'
-import { Children } from 'preact/compat'
+import { Component, JSX, toChildArray } from 'preact'
 import clss from 'classnames'
 import Slider from 'react-slick'
 import 'slick-carousel/slick/slick.css'
@@ -149,7 +148,7 @@ class Carousel extends Component<Props, {}> {
         {...settings}
         className={`${this.mainClass}__slider`}
         ref={(n: JSX.Element) => (this.slider = n)}>
-        {Children.map(props.children, (child, i) => (
+        {toChildArray(props.children).map((child, i) => (
           <div
             key={i}
             onClick={e => this.slider?.slickGoTo(i)}
