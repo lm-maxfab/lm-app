@@ -1,11 +1,9 @@
 /* eslint-disable no-tabs */
-
-const { writeFileSync } = require('fs')
-const path = require('path')
-const { promisify } = require('util')
-const fetch = require('node-fetch')
-const config = require('../src/config.json')
-const _exec = require('child_process').exec
+import { readFileSync, writeFileSync } from 'fs'
+import { join } from 'path'
+import { promisify } from 'util'
+import fetch from 'node-fetch'
+import { exec as _exec } from 'child_process'
 
 const exec = promisify(_exec)
 
@@ -35,7 +33,9 @@ async function laxcmd (line, verboseOpt = true) {
 
 async function updatePreload () {
   const pwd = (await cmd('pwd', false)).trim()
-  const preloadJsFilePath = path.join(pwd, 'src/preload.js')
+  const preloadJsFilePath = join(pwd, 'src/preload.ts')
+  const rawConfigJson = readFileSync('src/config.json', { encoding: 'utf8' })
+  const config = JSON.parse(rawConfigJson)
   if (config.sheetbase_url) {
     const spreadsheetDataResponse = await fetch(config.sheetbase_url)
     const spreadsheetData = await spreadsheetDataResponse.text()
@@ -49,4 +49,4 @@ async function updatePreload () {
   }
 }
 
-module.exports = { cmd, laxcmd, updatePreload }
+export { cmd, laxcmd, updatePreload }

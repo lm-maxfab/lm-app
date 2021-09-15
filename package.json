@@ -1,53 +1,52 @@
 {
-  "name": "lm-app",
-  "homepage": ".",
-  "version": "0.1.0",
-  "private": true,
-  "dependencies": {
-    "@types/node": "^16.7.2",
-    "@types/react": "^17.0.19",
-    "@types/react-dom": "^17.0.9",
-    "@types/react-slick": "^0.23.5",
-    "@types/smoothscroll-polyfill": "^0.3.1",
-    "classnames": "^2.3.1",
-    "html-to-react": "^1.4.5",
-    "html2json": "^1.0.2",
-    "jsdom": "^17.0.0",
-    "moment": "^2.29.1",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-scripts": "4.0.3",
-    "react-slick": "^0.28.1",
-    "react-svg": "^14.0.11",
-    "slick-carousel": "^1.8.1",
-    "smoothscroll-polyfill": "^0.4.4",
-    "typescript": "^4.3.5",
-    "whatwg-fetch": "^3.6.2"
-  },
+  "name": "my-vite-preact-ts-app",
+  "version": "0.0.0",
   "scripts": {
     "lint": "eslint .",
-    "preload": "node ./scripts/preload.js",
-    "start": "node ./scripts/start.js && react-scripts start",
-    "build": "node ./scripts/build.js",
-    "analyze": "source-map-explorer 'build/longform/static/js/*.js'",
-    "eject": "react-scripts eject"
+    "preload": "node ./scripts/preload.mjs",
+    "dev": "node ./scripts/dev.mjs && vite",
+    "build": "node ./scripts/build.mjs",
+    "analyze": "source-map-explorer 'build/assets/*.js'",
+    "serve": "vite preview"
+  },
+  "dependencies": {
+    "classnames": "^2.3.1",
+    "preact": "^10.5.13",
+    "react-slick": "^0.28.1",
+    "slick-carousel": "^1.8.1",
+    "smoothscroll-polyfill": "^0.4.4",
+    "whatwg-fetch": "^3.6.2"
+  },
+  "devDependencies": {
+    "@preact/preset-vite": "^2.0.0",
+    "@types/node": "^16.9.0",
+    "@types/smoothscroll-polyfill": "^0.3.1",
+    "async-prompt": "^1.0.1",
+    "eslint": "^7.32.0",
+    "eslint-config-react-app": "^6.0.0",
+    "eslint-config-standard-ts": "^20.0.1",
+    "jsdom": "^17.0.0",
+    "moment": "^2.29.1",
+    "node-fetch": "^3.0.0",
+    "pretty": "^2.0.0",
+    "source-map-explorer": "^2.5.2",
+    "typescript": "^4.3.2",
+    "vite": "^2.5.4"
   },
   "eslintConfig": {
     "ignorePatterns": [
       "/build",
       "/node_modules",
-      "/src/preload.js"
+      "/vite.config.ts",
+      "/src/custom.d.ts",
+      "/src/preact.d.ts",
+      "/src/preload.ts",
+      "/src/vite-env.d.ts",
+      "/static"
     ],
     "extends": [
       "react-app",
       "standard-ts"
-    ],
-    "plugins": [
-      "flowtype",
-      "import",
-      "jsx-a11y",
-      "react",
-      "react-hooks"
     ],
     "parserOptions": {
       "project": "./tsconfig.json"
@@ -58,36 +57,5 @@
       "react/jsx-closing-bracket-location": "off",
       "operator-linebreak": "off"
     }
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
-  "devDependencies": {
-    "async-prompt": "^1.0.1",
-    "babel-eslint": "^10.1.0",
-    "eslint": "^7.32.0",
-    "eslint-config-react-app": "^6.0.0",
-    "eslint-config-standard-ts": "^20.0.1",
-    "eslint-plugin-flowtype": "^5.9.0",
-    "eslint-plugin-import": "^2.24.2",
-    "eslint-plugin-jsx-a11y": "^6.4.1",
-    "eslint-plugin-react": "^7.24.0",
-    "eslint-plugin-react-hooks": "^4.2.0",
-    "gulp": "^4.0.2",
-    "gulp-inline-source": "^4.0.0",
-    "gulp-replace": "^1.1.3",
-    "node-fetch": "^2.6.1",
-    "pretty": "^2.0.0",
-    "source-map-explorer": "^2.5.2",
-    "typescript-plugin-css-modules": "^3.4.0"
   }
 }

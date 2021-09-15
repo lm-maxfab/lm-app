@@ -1,22 +1,22 @@
-import React from 'react'
+import { Component, ComponentChildren, JSX } from 'preact'
 import clss from 'classnames'
 import './styles.css'
 
 interface Props {
   className?: string
-  style?: React.CSSProperties
-  children?: React.ReactNode
+  style?: JSX.CSSProperties
+  children?: ComponentChildren
   highlightColor?: string
   offset?: string
 }
 
-class HighlightedText extends React.Component<Props, {}> {
+class HighlightedText extends Component<Props, {}> {
   mainClass: string = 'lm-highlighted-text'
 
   /* * * * * * * * * * * * * * *
    * RENDER
    * * * * * * * * * * * * * * */
-  render (): React.ReactNode {
+  render (): JSX.Element {
     const { props } = this
     const classes: string = clss(this.mainClass, props.className)
     const inlineStyle = {

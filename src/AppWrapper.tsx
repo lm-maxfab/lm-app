@@ -1,4 +1,4 @@
-import React from 'react'
+import { Component, JSX } from 'preact'
 import clss from 'classnames'
 import 'whatwg-fetch'
 import smoothscroll from 'smoothscroll-polyfill'
@@ -33,7 +33,7 @@ interface AppWrapperState {
 }
 
 // AppWrapper
-class AppWrapper extends React.Component<{}, AppWrapperState> {
+class AppWrapper extends Component<{}, AppWrapperState> {
   mainClass: string = 'lm-app-wrapper'
   state = {
     viewportOrientation: orientation,
@@ -86,7 +86,7 @@ class AppWrapper extends React.Component<{}, AppWrapperState> {
     this.$root?.style.setProperty('--vw', `calc(${width}px / 100)`)
     this.$root?.style.setProperty('--vh', `calc(${height}px / 100)`)
     this.$root?.style.setProperty('--len-nav-height', `${navHeight ?? 0}px`)
-    this.setState(current => {
+    this.setState((current: AppWrapperState): AppWrapperState|null => {
       const hasChanged = current.viewportOrientation !== orientation
         || current.viewportDisplay !== display
         || current.viewportRatio !== ratio
@@ -104,7 +104,7 @@ class AppWrapper extends React.Component<{}, AppWrapperState> {
   /* * * * * * * * * * * * * * *
    * RENDER
    * * * * * * * * * * * * * * */
-  render (): React.ReactNode {
+  render (): JSX.Element {
     const { state } = this
 
     // Logic
@@ -125,7 +125,7 @@ class AppWrapper extends React.Component<{}, AppWrapperState> {
     }
 
     // Define CSS classes
-    const envClass = `${this.mainClass}_env-${workEnv}`
+    const envClass = `${this.mainClass}_env-${workEnv ?? 'undefined'}`
     const userEnvClass = `${this.mainClass}_usrenv-${userEnv}`
     const orientationClass = `${this.mainClass}_vpo-${state.viewportOrientation}`
     const displayClass = `${this.mainClass}_vpd-${state.viewportDisplay}`
@@ -151,8 +151,7 @@ class AppWrapper extends React.Component<{}, AppWrapperState> {
             <AppContext.Provider value={{ ...context, sheet_data: sheetData }}>
               <App sheet_data={sheetData} />
             </AppContext.Provider>
-          )}
-        />
+          )} />
       </div>
     )
   }

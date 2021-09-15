@@ -1,4 +1,5 @@
-import React, { ReactElement } from 'react'
+import { Component, JSX } from 'preact'
+import { Children } from 'preact/compat'
 import clss from 'classnames'
 import Slider from 'react-slick'
 import 'slick-carousel/slick/slick.css'
@@ -7,7 +8,7 @@ import './styles.css'
 
 interface Props {
   className?: string
-  style?: React.CSSProperties
+  style?: JSX.CSSProperties
   infinite?: boolean
   draggable?: boolean
   onChange?: (activeSlidePos: number) => void
@@ -15,11 +16,11 @@ interface Props {
   nextButton?: JSX.Element|false
 }
 
-class Carousel extends React.Component<Props, {}> {
+class Carousel extends Component<Props, {}> {
   mainClass: string = 'lm-carousel'
   $root: HTMLDivElement|null = null
   $dots: HTMLDivElement|null = null
-  slider: Slider|null = null
+  slider: any|null = null
   dirtyFixTimeouts: number[]|null = null
 
   /* * * * * * * * * * * * * * *
@@ -97,7 +98,7 @@ class Carousel extends React.Component<Props, {}> {
   /* * * * * * * * * * * * * * *
    * RENDER
    * * * * * * * * * * * * * * */
-  render (): React.ReactNode {
+  render (): JSX.Element {
     const { props } = this
 
     /* Logic */
@@ -112,7 +113,7 @@ class Carousel extends React.Component<Props, {}> {
       dots: true,
       draggable: props.draggable ?? true,
       afterChange: props.onChange,
-      appendDots: (dots: ReactElement[]) => {
+      appendDots: (dots: JSX.Element[]) => {
         return <div ref={n => { this.$dots = n }}>{
           dots.map((dot, i) => {
             return (
@@ -147,8 +148,8 @@ class Carousel extends React.Component<Props, {}> {
       <Slider
         {...settings}
         className={`${this.mainClass}__slider`}
-        ref={n => (this.slider = n)}>
-        {React.Children.map(props.children, (child, i) => (
+        ref={(n: JSX.Element) => (this.slider = n)}>
+        {Children.map(props.children, (child, i) => (
           <div
             key={i}
             onClick={e => this.slider?.slickGoTo(i)}

@@ -1,10 +1,10 @@
-import React from 'react'
+import { Component, JSX } from 'preact'
 import clss from 'classnames'
 import './styles.css'
 
 interface Props {
   className?: string
-  style?: React.CSSProperties
+  style?: JSX.CSSProperties
   text?: string
   animationSpeed?: string
   fillEndColor?: string
@@ -20,7 +20,7 @@ interface State {
   hover: boolean
 }
 
-class FancyHoverableText extends React.Component<Props, State> {
+class FancyHoverableText extends Component<Props, State> {
   mainClass: string = 'lm-fancy-hoverable-text'
   state = {
     hover: false
@@ -38,13 +38,13 @@ class FancyHoverableText extends React.Component<Props, State> {
   /* * * * * * * * * * * * * * *
    * HANDLE HOVER & LEAVE
    * * * * * * * * * * * * * * */
-  handleHover (e: React.MouseEvent): void { this.setState({ hover: true }) }
-  handleLeave (e: React.MouseEvent): void { this.setState({ hover: false }) }
+  handleHover (e: MouseEvent): void { this.setState({ hover: true }) }
+  handleLeave (e: MouseEvent): void { this.setState({ hover: false }) }
 
   /* * * * * * * * * * * * * * *
    * RENDER
    * * * * * * * * * * * * * * */
-  render (): React.ReactNode {
+  render (): JSX.Element {
     const { props, state } = this
     const classes: string = clss(this.mainClass, props.className)
     const inlineStyle = { ...props.style }
@@ -58,8 +58,6 @@ class FancyHoverableText extends React.Component<Props, State> {
     const shadowDefinition = props.shadowDefinition ?? 16
     const shadowSize = props.shadowSize ?? '1px'
     const hover = props.hover ?? state.hover
-
-    console.log({ fillStartColor, fillEndColor, shadowColor })
 
     /* Shadow */
     const textShadow = new Array(shadowDefinition).fill(null).map((e, i) => {

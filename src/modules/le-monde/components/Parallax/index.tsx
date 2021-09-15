@@ -1,12 +1,12 @@
-import React from 'react'
+import { Component, ComponentChild, JSX } from 'preact'
 import clss from 'classnames'
 import './styles.css'
 
 interface Props {
   className?: string
-  style?: React.CSSProperties
+  style?: JSX.CSSProperties
   anchor?: string|number
-  render?: (p: number) => React.ReactNode
+  render?: (p: number) => ComponentChild
 }
 
 interface State {
@@ -17,7 +17,7 @@ interface State {
 type IO = IntersectionObserver
 type IOE = IntersectionObserverEntry
 
-class Parallax extends React.Component<Props, State> {
+class Parallax extends Component<Props, State> {
   mainClass: string = 'lm-parallax'
   state = {
     isIntersecting: false,
@@ -103,7 +103,7 @@ class Parallax extends React.Component<Props, State> {
   /* * * * * * * * * * * * * * *
    * RENDER
    * * * * * * * * * * * * * * */
-  render (): React.ReactNode {
+  render (): JSX.Element {
     const { props, state } = this
     const classes: string = clss(this.mainClass, props.className)
     const inlineStyle = { ...props.style }

@@ -1,19 +1,19 @@
-import React from 'react'
+import { Component, JSX } from 'preact'
 import clss from 'classnames'
 import './styles.css'
 
 interface Props {
   className?: string
-  style?: React.CSSProperties
+  style?: JSX.CSSProperties
 }
 
-class Template extends React.Component<Props, {}> {
+class Template extends Component<Props, {}> {
   mainClass: string = 'TEMPLATE'
 
   /* * * * * * * * * * * * * * *
    * RENDER
    * * * * * * * * * * * * * * */
-  render (): React.ReactNode {
+  render (): JSX.Element {
     const { props } = this
     const classes: string = clss(this.mainClass, props.className)
     const inlineStyle = { ...props.style }

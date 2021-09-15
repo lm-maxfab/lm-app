@@ -1,8 +1,8 @@
-import React from 'react'
+import { Component, Context, JSX } from 'preact'
 import clss from 'classnames'
-import type { SheetBase, EntryValue } from 'modules/spreadsheets/tsv-base-to-js-object-base'
-import Carousel from 'modules/le-monde/components/Carousel'
-import Svg from 'modules/le-monde/components/Svg'
+import { SheetBase, EntryValue } from '../modules/spreadsheets/tsv-base-to-js-object-base'
+import Carousel from '../modules/le-monde/components/Carousel'
+import Svg from '../modules/le-monde/components/Svg'
 import AppContext from '../context'
 import './styles.css'
 import Slide from './components/Slide'
@@ -11,7 +11,7 @@ import rightArrow from './assets/right-arrow-icon.svg'
 
 interface Props {
   className?: string
-  style?: React.CSSProperties
+  style?: JSX.CSSProperties
   sheet_data?: SheetBase
 }
 
@@ -19,10 +19,10 @@ interface State {
   active_slide_pos: number
 }
 
-class App extends React.Component<Props, State> {
+class App extends Component<Props, State> {
   mainClass: string = 'lm-app'
   state = { active_slide_pos: 0 }
-  static contextType: React.Context<any> = AppContext
+  static contextType: Context<any> = AppContext
 
   /* * * * * * * * * * * * * * *
    * CONSTRUCTOR
@@ -48,7 +48,7 @@ class App extends React.Component<Props, State> {
   /* * * * * * * * * * * * * * *
    * RENDER
    * * * * * * * * * * * * * * */
-  render (): React.ReactNode {
+  render (): JSX.Element {
     const { props, state, context } = this
     const { config } = context
 
@@ -210,11 +210,7 @@ class App extends React.Component<Props, State> {
           onChange={this.handleCarouselChange}
           prevButton={prevButton}
           nextButton={nextButton}>
-          {pages.map((pageData: EntryValue, pos: number) => {
-            return <Slide
-              key={pos}
-              data={pageData} />
-          })}
+          {pages.map((pageData: EntryValue, pos: number) => <Slide key={pos} data={pageData} />)}
         </Carousel>
       </div>
     )

@@ -1,21 +1,21 @@
-import React from 'react'
+import { Component, JSX } from 'preact'
 import clss from 'classnames'
 import './styles.css'
-import HighlightedText from 'modules/le-monde/components/HighlightedText'
+import HighlightedText from '../../../modules/le-monde/components/HighlightedText'
 
 interface Props {
   className?: string
-  style?: React.CSSProperties
+  style?: JSX.CSSProperties
   data?: any
 }
 
-class Slide extends React.Component<Props, {}> {
+class Slide extends Component<Props, {}> {
   mainClass: string = 'dro-slide'
 
   /* * * * * * * * * * * * * * *
    * RENDER
    * * * * * * * * * * * * * * */
-  render (): React.ReactNode {
+  render (): JSX.Element {
     const { props } = this
 
     // Extract props
@@ -25,33 +25,33 @@ class Slide extends React.Component<Props, {}> {
     const backgroundPatternUrl = data.background_pattern_url as string|undefined
     const backgroundColor = data.background_color as string|undefined
 
-    const title = data.title as React.ReactNode|undefined
+    const title = data.title as JSX.Element|undefined
     const titleColor = data.title_color as string|undefined
     const titleBgColor = data.title_bg_color as string|undefined
 
-    const titleSubtext = data.title_subtext as React.ReactNode|undefined
+    const titleSubtext = data.title_subtext as JSX.Element|undefined
     const titleSubtextColor = data.title_subtext_color as string|undefined
 
     const illustrationLgUrl = data.illustration_lg_url as string|undefined
     const illustrationMdUrl = data.illustration_md_url as string|undefined ?? illustrationLgUrl
     const illustrationSmUrl = data.illustration_sm_url as string|undefined ?? illustrationMdUrl
-    const illustrationTitle = data.illustration_title as React.ReactNode|undefined
-    const illustrationLegend = data.illustration_legend as React.ReactNode|undefined
+    const illustrationTitle = data.illustration_title as JSX.Element|undefined
+    const illustrationLegend = data.illustration_legend as JSX.Element|undefined
     const illustrationAltText = data.illustration_alt_text as string|undefined ?? ''
     const illustrationTitleColor = data.illustration_title_color as string|undefined
     const illustrationLegendColor = data.illustration_legend_color as string|undefined
 
-    const exergue = data.exergue as React.ReactNode|undefined
+    const exergue = data.exergue as JSX.Element|undefined
     const exergueColor = data.exergue_color as string|undefined
     const exergueEmColor = data.exergue_em_color as string|undefined
     const exergueBgColor = data.exergue_bg_color as string|undefined
 
-    const paragraph = data.paragraph as React.ReactNode|undefined
+    const paragraph = data.paragraph as JSX.Element|undefined
     const paragraphColor = data.paragraph_color as string|undefined
     const paragraphEmBgColor = data.paragraph_em_bg_color as string|undefined
 
-    const quote = data.quote as React.ReactNode|undefined
-    const quoteLegend = data.quote_legend as React.ReactNode|undefined
+    const quote = data.quote as JSX.Element|undefined
+    const quoteLegend = data.quote_legend as JSX.Element|undefined
     const quoteColor = data.quote_color as string|undefined
     const quoteLegendColor = data.quote_legend_color as string|undefined
 

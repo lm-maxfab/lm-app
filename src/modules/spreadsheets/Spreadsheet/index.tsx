@@ -1,11 +1,11 @@
-import React from 'react'
+import { Component, JSX } from 'preact'
 import tsvBaseToJsObjectBase, { SheetBase } from '../tsv-base-to-js-object-base'
 import fetchTsvBase from '../fetch-tsv-base'
 
 interface Props {
   preload?: string
   url?: string|null
-  render?: (data: SheetBase) => React.ReactNode
+  render?: (data: SheetBase) => JSX.Element
 }
 
 interface State {
@@ -14,7 +14,7 @@ interface State {
   data: SheetBase|undefined
 }
 
-class Spreadsheet extends React.Component<Props, State> {
+class Spreadsheet extends Component<Props, State> {
   state: State = {
     loading: false,
     error: null,
@@ -41,16 +41,16 @@ class Spreadsheet extends React.Component<Props, State> {
     if (!hasPreload && !hasUrl) {
       this.setState({ loading: false, error: null, data: undefined })
     } else if (hasPreload && !hasUrl) {
-      const preloadedBase = tsvBaseToJsObjectBase(preload as string)
+      const preloadedBase = tsvBaseToJsObjectBase(preload)
       this.setState({ loading: false, error: null, data: preloadedBase })
     } else if (hasUrl) {
-      const preloadedBase = hasPreload ? tsvBaseToJsObjectBase(preload as string) : undefined
+      const preloadedBase = hasPreload ? tsvBaseToJsObjectBase(preload) : undefined
       this.setState({ loading: true, error: null, data: preloadedBase })
       try {
-        const fetched = await fetchTsvBase(url as string)
+        const fetched = await fetchTsvBase(url)
         const fetchedBase = tsvBaseToJsObjectBase(fetched)
         this.setState({ loading: false, error: null, data: fetchedBase })
-      } catch (err) {
+      } catch (err: any) {
         this.setState({ loading: false, error: err, data: undefined })
       }
     }
@@ -59,7 +59,7 @@ class Spreadsheet extends React.Component<Props, State> {
   /* * * * * * * * * * * * * * *
    * RENDER
    * * * * * * * * * * * * * * */
-  render (): React.ReactNode {
+  render (): JSX.Element|null {
     const { props, state } = this
     if (props.render === undefined) return null
     else if (state.error !== null) {
