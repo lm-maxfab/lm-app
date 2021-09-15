@@ -51,7 +51,7 @@ async function build () {
 
     // Build the app
     await cmd('echo "\n🛠  $(tput bold)Building the app...$(tput sgr0)\n"')
-    await cmd('INLINE_RUNTIME_CHUNK=false GENERATE_SOURCEMAP=false SKIP_PREFLIGHT_CHECK=true react-scripts build')
+    await cmd('INLINE_RUNTIME_CHUNK=false SKIP_PREFLIGHT_CHECK=true react-scripts build')
 
     // Remove development statics
     await cmd('echo "\n🗑️  $(tput bold)Removng development statics and fake lemonde.fr page elements...$(tput sgr0)\n"')

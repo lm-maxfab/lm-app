@@ -25,10 +25,11 @@
     "whatwg-fetch": "^3.6.2"
   },
   "scripts": {
+    "lint": "eslint .",
+    "preload": "node ./scripts/preload.js",
     "start": "node ./scripts/start.js && react-scripts start",
     "build": "node ./scripts/build.js",
-    "preload": "node ./scripts/preload.js",
-    "lint": "eslint .",
+    "analyze": "source-map-explorer 'build/longform/static/js/*.js'",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -86,6 +87,7 @@
     "gulp-replace": "^1.1.3",
     "node-fetch": "^2.6.1",
     "pretty": "^2.0.0",
+    "source-map-explorer": "^2.5.2",
     "typescript-plugin-css-modules": "^3.4.0"
   }
 }
