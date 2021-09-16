@@ -55,7 +55,16 @@ async function build () {
     // Build the app
     await cmd('echo "\n🛠  $(tput bold)Building the app...$(tput sgr0)\n"')
     // await cmd('INLINE_RUNTIME_CHUNK=false SKIP_PREFLIGHT_CHECK=true react-scripts build')
-    await cmd('tsc && vite build')
+    try {
+      await cmd('tsc && vite build')
+    } catch (err) {
+      console.log(err)
+      const userInput = await prompt('Come errors occured during build, do you want to continue ? (y/n): ')
+      if (!userInput.match(/^y$/i)) {
+        await cmd('echo "Ok, bye."')
+        process.exit(1)
+      }
+    } 
 
     // Remove development statics
     // await cmd('echo "\n🗑️  $(tput bold)Removng development statics and fake lemonde.fr page elements...$(tput sgr0)\n"')
@@ -154,10 +163,15 @@ async function build () {
     // await cmd('echo "./build/snippet/index.html"')
 
     // Done
-    await cmd('echo "\n🍸 $(tput bold)That\'s all good my friend!$(tput sgr0)\n"')
-    await cmd('echo "If you\'re building a longform, just take the zip and upload it."')
-    await cmd('echo "If you\'re building a snippet, dont forget to upload statics to the place you specified in /src/config.json/assets_root_url!"')
-    await cmd('echo "Bye now."')
+    // await cmd('echo "\n🍸 $(tput bold)That\'s all good my friend!$(tput sgr0)\n"')
+    // await cmd('echo "If you\'re building a longform, just take the zip and upload it."')
+    // await cmd('echo "If you\'re building a snippet, dont forget to upload statics to the place you specified in /src/config.json/assets_root_url!"')
+    // await cmd('echo "Bye now."')
+
+    await cmd(`echo "\n🍸 $(tput bold)That\'s all good my friend!$(tput sgr0)\n" &&
+      echo "If you\'re building a longform, just take the zip and upload it." &&
+      echo "If you\'re building a snippet, dont forget to upload statics to the place you specified in /src/config.json/assets_root_url!" &&
+      echo "Bye now."`)
   } catch (err) {
     console.log('\n', err)
     process.exit(1)

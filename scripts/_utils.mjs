@@ -10,7 +10,10 @@ const exec = promisify(_exec)
 async function cmd (line, verboseOpt = true) {
   const { stdout, stderr } = await exec(line)
   if (stderr) {
-    if (verboseOpt) console.log(stderr)
+    if (verboseOpt) {
+      console.log(stdout)
+      console.log(stderr)
+    }
     throw stderr
   } else if (stdout) {
     if (verboseOpt) console.log(stdout)
