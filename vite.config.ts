@@ -1,8 +1,11 @@
 import { defineConfig } from 'vite'
 import preact from '@preact/preset-vite'
+import { assets_root_url } from './src/config.json'
 
 // https://vitejs.dev/config/
-export default defineConfig({
+export default defineConfig(({ command, mode }) => ({
+  root: mode === 'production' ? '.temp' : '',
+  base: assets_root_url ?? '',
   plugins: [
     preact()
   ],
@@ -13,6 +16,7 @@ export default defineConfig({
   },
   build: {
     sourcemap: true,
-    outDir: 'build'
+    outDir: mode === 'production' ? '../build' : 'build'
   }
-})
+}))
+

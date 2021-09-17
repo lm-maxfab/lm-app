@@ -1,11 +1,11 @@
 /* eslint-disable no-template-curly-in-string */
-import { readFileSync, writeFileSync } from 'fs'
+import { readFileSync, writeFileSync, readdirSync } from 'fs'
 import { join } from 'path'
 import jsdom from 'jsdom'
 import pretty from 'pretty'
 import prompt from 'async-prompt'
 import moment from 'moment'
-import { cmd, updatePreload } from './_utils.mjs'
+import { laxcmd, cmd, updatePreload } from './_utils.mjs'
 
 // import { assets_root_url } from '../src/config.json'
 const rawConfigJson = readFileSync('src/config.json', { encoding: 'utf8' })
@@ -18,23 +18,23 @@ build()
 
 async function build () {
   try {
-    // Update spreadsheet preload
-    await cmd('echo "\n⏬ $(tput bold)Updating spreadsheet preload...$(tput sgr0)\n"')
-    await updatePreload()
-    await cmd('echo "./src/preload.ts"')
+    // // Update spreadsheet preload
+    // await cmd('echo "\n⏬ $(tput bold)Updating spreadsheet preload...$(tput sgr0)\n"')
+    // await updatePreload()
+    // await cmd('echo "./src/preload.ts"')
 
-    // Run standard.js
-    await cmd('echo "\n👀 $(tput bold)Linting...$(tput sgr0)\n"')
-    try {
-      await cmd('npm run lint')
-    } catch (err) {
-      console.log(err.stdout)
-      const userInput = await prompt('Your code shows lint errors, do you want to continue ? (y/n): ')
-      if (!userInput.match(/^y$/i)) {
-        await cmd('echo "Ok, bye."')
-        process.exit(1)
-      }
-    }
+    // // Run standard.js
+    // await cmd('echo "\n👀 $(tput bold)Linting...$(tput sgr0)\n"')
+    // try {
+    //   await cmd('npm run lint')
+    // } catch (err) {
+    //   console.log(err.stdout)
+    //   const userInput = await prompt('Your code shows lint errors, do you want to continue ? (y/n): ')
+    //   if (!userInput.match(/^y$/i)) {
+    //     await cmd('echo "Ok, bye."')
+    //     process.exit(1)
+    //   }
+    // }
 
     // Check git status
     await cmd('echo "\n📡 $(tput bold)Checking git status...$(tput sgr0)\n"')
@@ -48,13 +48,42 @@ async function build () {
       }
     }
 
+    // Move files to be built
+    await cmd('rm -rf .temp')
+    await cmd('mkdir .temp')
+    await cmd('cp index.html .temp/index.html')
+    await cmd('cp -r src .temp/src')
+    await cmd('cp -r static .temp/static')
+
+    // Remove dev css files
+    await cmd('rm -rf .temp/static/lemonde')
+
+    // Remove dev stuff in index.html
+    const pwd = (await cmd('pwd', false)).trim()
+    const indexHtmlFilePath = join(pwd, '.temp/index.html')
+    const indexHtmlContent = readFileSync(indexHtmlFilePath, { encoding: 'utf8' })
+    const indexHtmlDom = new JSDOM(indexHtmlContent)
+    const indexHtmlDomDocument = indexHtmlDom.window.document
+    const $indexHtmlLinks = indexHtmlDomDocument.querySelectorAll('link')
+    $indexHtmlLinks.forEach(($link) => {
+      const href = $link.getAttribute('href')
+      console.log(href)
+      const isToDelete = href.match(/^\.\/static\/lemonde/)
+      if (isToDelete) $link.remove()
+    })
+    const $header = indexHtmlDomDocument.querySelector('.lm-app-fake-lm-header')
+    const $footer = indexHtmlDomDocument.querySelector('.lm-app-fake-lm-footer')
+    $header.remove()
+    $footer.remove()
+    const indexHtmlUpdatedContent = indexHtmlDomDocument.documentElement.outerHTML
+    writeFileSync(indexHtmlFilePath, indexHtmlUpdatedContent)
+
     // Remove previous build
     await cmd('echo "\n🧹 $(tput bold)Removing previous build...$(tput sgr0)\n"')
-    await cmd('rm -rfv ./build ./build.zip')
+    await cmd('rm -rfv ./build')
 
     // Build the app
     await cmd('echo "\n🛠  $(tput bold)Building the app...$(tput sgr0)\n"')
-    // await cmd('INLINE_RUNTIME_CHUNK=false SKIP_PREFLIGHT_CHECK=true react-scripts build')
     try {
       await cmd('tsc && vite build')
     } catch (err) {
@@ -64,31 +93,104 @@ async function build () {
         await cmd('echo "Ok, bye."')
         process.exit(1)
       }
-    } 
+    }
 
-    // Remove development statics
+    // Delete .temp
+    await cmd('rm -rf .temp')
+
+    // // Duplicate dev files
     // await cmd('echo "\n🗑️  $(tput bold)Removng development statics and fake lemonde.fr page elements...$(tput sgr0)\n"')
+    // await cmd('rm -rf .temp')
+    // await cmd('mkdir .temp')
+    // await cmd('cp -r src .temp/src')
+    // await cmd('cp -r static .temp/static')
+    // await cmd('cp index.html .temp/index.html')
+
+    // // Remove dev css files
+    // await cmd('rm -rf .temp/static/lemonde')
+
+    // // Remove dev stuff in index.html
     // const pwd = (await cmd('pwd', false)).trim()
-    // const indexHtmlFilePath = join(pwd, 'build/index.html')
+    // const indexHtmlFilePath = join(pwd, '.temp/index.html')
     // const indexHtmlContent = readFileSync(indexHtmlFilePath, { encoding: 'utf8' })
     // const indexHtmlDom = new JSDOM(indexHtmlContent)
     // const indexHtmlDomDocument = indexHtmlDom.window.document
-    // const $indexHtmlLinks = [...indexHtmlDomDocument.querySelectorAll('link[rel=stylesheet]')]
-    // $indexHtmlLinks.forEach($link => {
-    //   const hrefAttr = $link.getAttribute('href')
-    //   if (hrefAttr.match(/^.\/static\/lemonde/)) $link.remove()
-    // })
-    // const $fakeHeaderAndFooter = [...indexHtmlDomDocument.querySelectorAll('.lm-app-fake-lm-header, .lm-app-fake-lm-footer')]
-    // $fakeHeaderAndFooter.forEach($element => $element.remove())
 
-    // Store build info inside build/index.html
+    // // Strip all links towards dev stuff
+    // const $indexHtmlLinks = indexHtmlDomDocument.querySelectorAll('link')
+    // $indexHtmlLinks.forEach(($link) => {
+    //   const href = $link.getAttribute('href')
+    //   console.log(href)
+    //   const isToDelete = href.match(/^\.\/static\/lemonde/)
+    //   if (isToDelete) $link.remove()
+    // })
+
+    // // Remove fake header and fake footer
+    // const $header = indexHtmlDomDocument.querySelector('.lm-app-fake-lm-header')
+    // const $footer = indexHtmlDomDocument.querySelector('.lm-app-fake-lm-footer')
+    // $header.remove()
+    // $footer.remove()
+    // const indexHtmlUpdatedContent = indexHtmlDomDocument.documentElement.outerHTML
+    // writeFileSync(indexHtmlFilePath, indexHtmlUpdatedContent)
+
+    // // Backup dev files
+    // await cmd('rm -rf .bak')
+    // await cmd('mkdir .bak')
+    // await cmd('mv src .bak/src')
+    // await cmd('mv static .bak/static')
+    // await cmd('mv index.html .bak/index.html')
+    // await cmd('mv .temp/src src')
+    // await cmd('mv .temp/static static')
+    // await cmd('mv .temp/index.html index.html')
+
+    // // Remove previous build
+    // await cmd('echo "\n🧹 $(tput bold)Removing previous build...$(tput sgr0)\n"')
+    // await cmd('rm -rfv ./build ./build.zip')
+
+    // // Build the app
+    // await cmd('echo "\n🛠  $(tput bold)Building the app...$(tput sgr0)\n"')
+    // let shouldQuitAfterBuild = false
+    // try {
+    //   await cmd('tsc && vite build')
+    // } catch (err) {
+    //   console.log(err)
+    //   const userInput = await prompt('Come errors occured during build, do you want to continue ? (y/n): ')
+    //   if (!userInput.match(/^y$/i)) {
+    //     shouldQuitAfterBuild = true
+    //     await cmd('echo "Ok, bye."')
+    //   }
+    // }
+
+    // await cmd('rm -rf index.html src static')
+    // await cmd('mv .bak/index.html index.html')
+    // await cmd('mv .bak/src src')
+    // await cmd('mv .bak/static static')
+    // await cmd('rm -rf .temp .bak')
+    // if (shouldQuitAfterBuild) process.exit(1)
+
+    // const listFiles = readdirSync(join(pwd, 'build/assets'))
+    // const indexJsFileName = listFiles.find(name => name.match(/^index.[a-f0-9]{8,}.js$/))
+    // const indexJsFilePath = join(pwd, 'build/assets', indexJsFileName)
+    // const puteJsFilePath = join(pwd, 'build/assets', 'pute.js')
+    // await laxcmd(`npx rollup -i ${indexJsFilePath} -o ${puteJsFilePath} -f iife`)
+    // await cmd(`rm -rf ${indexJsFilePath}`)
+    // await cmd(`mv ${puteJsFilePath} ${indexJsFilePath}`)
+
+    // // Store build info inside build/index.html
     // await cmd('echo "\n✍️  $(tput bold)Storing build info...$(tput sgr0)\n"')
     // const now = moment().toString()
     // const currentBranch = await cmd('git rev-parse --abbrev-ref HEAD', false)
     // const currentCommit = await cmd('git show --oneline -s', false)
-    // const $buildInfoNode = indexHtmlDomDocument.createElement('span')
+    // const indexHtml2FilePath = join(pwd, 'build/index.html')
+    // const indexHtml2Content = readFileSync(indexHtml2FilePath, { encoding: 'utf8' })
+    // const indexHtml2Dom = new JSDOM(indexHtml2Content)
+    // const indexHtml2DomDocument = indexHtml2Dom.window.document
+    // const $buildInfoNode = indexHtml2DomDocument.createElement('span')
     // $buildInfoNode.setAttribute('id', 'lm-app-build-info')
     // $buildInfoNode.style.display = 'none'
+    // $buildInfoNode.style.fontSize = '0px'
+    // $buildInfoNode.style.lineHeight = '0px'
+    // $buildInfoNode.style.color = 'transparent'
     // $buildInfoNode.innerHTML += '\n      <p>BUILD INFO</p>'
     // $buildInfoNode.innerHTML += '\n      <p>==========</p>'
     // $buildInfoNode.innerHTML += `\n      <p>Time: ${now}</p>`
@@ -97,25 +199,32 @@ async function build () {
     // $buildInfoNode.innerHTML += `\n      <p>Commit: ${currentCommit.trim()}</p>`
     // if (assets_root_url) $buildInfoNode.innerHTML += `\n      <p>Assets: ${assets_root_url}</p>`
     // if (!gitStatusIsClean) $buildInfoNode.innerHTML += '\n      <p>Built with some uncommited changes.</p>'
-    // indexHtmlDomDocument.body.prepend($buildInfoNode)
+    // indexHtml2DomDocument.body.prepend($buildInfoNode)
     // console.log($buildInfoNode.innerHTML.replace(/<\/?p>/gm, '').replace(/\n\s{2,}/gm, '\n'), '\n')
 
-    // Write updated build/index.html
-    // const prettyReplacedIndexHtmlContent = pretty(
-    //   indexHtmlDomDocument.documentElement.outerHTML
+    // // Write updated build/index.html
+    // const prettyReplacedIndexHtml2Content = pretty(
+    //   indexHtml2DomDocument.documentElement.outerHTML
     //     .replace('<span id="lm-app-build-info"', '\n<span id="lm-app-build-info"')
     //     .replace('</span><noscript', '\n    </span>\n<noscript')
     // ).split('\n')
     //   .filter(line => line !== '')
     //   .join('\n')
-    // const replacedIndexHtmlContent = `${prettyReplacedIndexHtmlContent}\n`
-    // writeFileSync(indexHtmlFilePath, replacedIndexHtmlContent, { encoding: 'utf8' })
+    // const replacedIndexHtml2Content = `${prettyReplacedIndexHtml2Content}\n`
+    // writeFileSync(indexHtml2FilePath, replacedIndexHtml2Content, { encoding: 'utf8' })
     // await cmd('echo "./build/index.html"')
 
-    // Remove development files & statics
+    // // Remove development files & statics
     // await cmd('echo "\n🧽 $(tput bold)Removing all .DS_Store, asset-manifest.json, development statics...$(tput sgr0)\n"')
     // await cmd('touch build/.DS_Store')
     // await cmd('find . -name ".DS_Store" -print -delete')
+
+
+
+
+
+
+
     // await cmd('rm -rfv ./build/asset-manifest.json')
     // await cmd('rm -rfv ./build/static/lemonde')
 
