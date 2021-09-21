@@ -1,15 +1,13 @@
 {
   "name": "my-vite-preact-ts-app",
   "version": "0.0.0",
-  "homepage": "https://lol.com/an/exmple/of/path",
   "scripts": {
     "lint": "eslint .",
     "preload": "node ./scripts/preload.mjs",
     "dev": "node ./scripts/dev.mjs && vite",
     "build": "node ./scripts/build.mjs",
     "raw-build": "tsc && vite build",
-    "analyze": "source-map-explorer 'build/assets/*.js'",
-    "serve": "vite preview"
+    "analyze": "source-map-explorer 'build/longform/assets/*.js'"
   },
   "dependencies": {
     "classnames": "^2.3.1",

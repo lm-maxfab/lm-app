@@ -5,7 +5,6 @@ import { assets_root_url } from './src/config.json'
 // https://vitejs.dev/config/
 export default defineConfig(({ command, mode }) => ({
   root: mode === 'production' ? '.temp' : '',
-  base: assets_root_url ?? '',
   plugins: [
     preact()
   ],

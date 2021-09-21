@@ -3,6 +3,9 @@ import { readFileSync, writeFileSync } from 'fs'
 import { join } from 'path'
 import { promisify } from 'util'
 import fetch from 'node-fetch'
+import { JSDOM } from 'jsdom'
+import prompt from 'async-prompt'
+import pretty from 'pretty'
 import { exec as _exec } from 'child_process'
 
 const exec = promisify(_exec)
@@ -26,10 +29,7 @@ async function laxcmd (line, verboseOpt = true) {
     const printed = await cmd(line, verboseOpt)
     return printed
   } catch (err) {
-    if (verboseOpt) {
-      console.log(err.stdout)
-      console.log(err.stderr)
-    }
+    if (verboseOpt) console.log(err)
     return err.stdout
   }
 }
@@ -52,4 +52,54 @@ async function updatePreload () {
   }
 }
 
-export { cmd, laxcmd, updatePreload }
+async function editHtml (path, transformation, verbose = true) {
+  const fileContent = readFileSync(path, { encoding: 'utf8' })
+  const dom = new JSDOM(fileContent)
+  const rawTransformed = await transformation(dom.window.document)
+  const transformed = rawTransformed?.documentElement !== undefined
+    ? rawTransformed.documentElement.outerHTML
+    : ''
+  if (verbose) {
+    console.log(path)
+    console.log('\nINPUT:\n')
+    console.log(fileContent)
+    console.log('\nOUTPUT:\n')
+    console.log(transformed)
+    const ok = await confirm('Do you want to save this file? (y/n)')
+    if (ok) return writeFileSync(path, transformed)
+    else throw new Error('File edition aborted.')
+  }
+  return writeFileSync(path, transformed)
+}
+
+async function editFile (path, transformation, verbose = true) {
+  const fileContent = readFileSync(path, { encoding: 'utf8' })
+  const transformed = await transformation(fileContent)
+  if (verbose) {
+    console.log(path)
+    console.log('\nINPUT:\n')
+    console.log(fileContent)
+    console.log('\nOUTPUT:\n')
+    console.log(transformed)
+    const ok = await confirm('Do you want to save this file? (y/n)')
+    if (ok) return writeFileSync(path, transformed)
+    else throw new Error('File edition aborted.')
+  }
+  return writeFileSync(path, transformed)
+}
+
+async function confirm (question = 'Continue ? (y/n)') {
+  const userInput = await prompt(question)
+  return userInput.match(/^y$/i)
+}
+
+async function prettifyHtml (path, verbose = true) {
+  await editHtml(path, $document => {
+    const outerHtml = $document.documentElement.outerHTML
+    const prettified = pretty(outerHtml, { ocd: true })
+    const $newDocument = new JSDOM(prettified).window.document
+    return $newDocument
+  }, verbose)
+}
+
+export { cmd, laxcmd, updatePreload, editHtml, editFile, confirm, prettifyHtml }
