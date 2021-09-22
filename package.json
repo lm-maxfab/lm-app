@@ -5,9 +5,12 @@
     "lint": "eslint .",
     "preload": "node ./scripts/preload.mjs",
     "dev": "node ./scripts/dev.mjs && vite",
+    "start": "npm run dev",
     "build": "node ./scripts/build.mjs",
-    "raw-build": "tsc && vite build",
-    "analyze": "source-map-explorer 'build/longform/assets/*.js'"
+    "raw-build": "node ./scripts/raw-build.mjs",
+    "analyze": "npm run raw-build && source-map-explorer 'build/assets/*.js'",
+    "analyze-no-preload": "npm run raw-build -- no-preload && source-map-explorer 'build/assets/*.js'",
+    "test": "node ./scripts/_utils.mjs"
   },
   "dependencies": {
     "classnames": "^2.3.1",
@@ -24,6 +27,7 @@
     "@types/node": "^16.9.0",
     "@types/smoothscroll-polyfill": "^0.3.1",
     "async-prompt": "^1.0.1",
+    "chalk": "^2.4.2",
     "eslint": "^7.32.0",
     "eslint-config-react-app": "^6.0.0",
     "eslint-config-standard-ts": "^20.0.1",

@@ -1,8 +1,8 @@
 import { cmd, updatePreload } from './_utils.mjs'
 
-start()
+dev()
 
-async function start () {
+async function dev () {
   try {
     await cmd('echo "\n⏬ $(tput bold)Updating spreadsheet preload...$(tput sgr0)\n"')
     await updatePreload()
@@ -14,3 +14,5 @@ async function start () {
     process.exit(1)
   }
 }
+
+export default dev

@@ -72,7 +72,7 @@
 .dro-slide__title {
   position: relative;
   padding: 48px;
-  max-width: unset;
+  max-width: calc(50 * var(--len-rem));
   width: unset;
 }
 

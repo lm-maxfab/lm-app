@@ -14,3 +14,5 @@ async function preload () {
     process.exit(1)
   }
 }
+
+export default preload
