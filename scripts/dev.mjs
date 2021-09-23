@@ -1,12 +1,10 @@
-import { cmd, updatePreload } from './_utils.mjs'
+import { updatePreload } from './_utils.mjs'
 
 dev()
 
 async function dev () {
   try {
-    await cmd('echo "\n⏬ $(tput bold)Updating spreadsheet preload...$(tput sgr0)\n"')
     await updatePreload()
-    await cmd('echo "./src/preload.ts"')
     // `vite` is called in package.json
     // in order to keep track of stdout in terminal
   } catch (err) {

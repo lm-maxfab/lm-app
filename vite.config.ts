@@ -14,7 +14,7 @@ export default defineConfig(({ command, mode }) => ({
   },
   build: {
     sourcemap: true,
-    outDir: mode === 'production' ? '../build' : 'build'
+    outDir: mode === 'production' ? '2a908cd8c20b-temp-current-build' : 'build',
+    assetsDir: '8b575a2c19a9-temp-assets'
   }
 }))
-
