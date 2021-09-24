@@ -6,7 +6,7 @@ import chalk from 'chalk'
 import {
   cmd,
   laxcmd,
-
+  log,
   BUILD_CONFIG,
   
   lint,
@@ -29,6 +29,8 @@ import {
   prettifyIndexHtml,
   removeDsStores,
   createLongformAndSnippetBuildOutputs,
+  rsyncToTempFinal,
+  moveTempFinalToBuild,
   editFile,
   editHtml,
   confirm,
@@ -38,74 +40,39 @@ import {
 build()
 
 async function build () {
-
   try {
-    // await lint()
-    // await handleGitStatus()
+    await lint()
+    await handleGitStatus()
     await copySourceToTemp()
     await stripDevElementsInIndex()
     await handleBuildConfig()
-
     let currentBuildNb = 0
+    const quietBuild = BUILD_CONFIG.length !== 1
     for (const buildConf of BUILD_CONFIG) {
       currentBuildNb ++
-      console.log(chalk.bold(`Building ${currentBuildNb}/${BUILD_CONFIG.length}...`))
-      await updateTempConfigJson(buildConf)
-      await updateTempPreload()
-      await buildFromTemp()
-      await rollupIndexAndVendor()
-      await deleteSourceMaps()
-      await deleteVendor()
-      await removeVendorPreloadAndTypeModule()
-      await relinkAssetsViaAssetsRootUrl()
-      await storeBuildInfo()
-      await prettifyIndexHtml()
-      await removeDsStores()
-      await createLongformAndSnippetBuildOutputs()
-      console.log(chalk.green('Built.'))
+      log(chalk.bold(`\n🏗️  Building ${currentBuildNb}/${BUILD_CONFIG.length}...\n`), !quietBuild)
+      log(`sheetbase_url: ${buildConf.sheetbase_url}`, !quietBuild)
+      log(`build_name: ${buildConf.build_name}`, !quietBuild)
+      await updateTempConfigJson(buildConf, { quiet: quietBuild })
+      await updateTempPreload({ quiet: quietBuild })
+      await buildFromTemp({ quiet: quietBuild })
+      await rollupIndexAndVendor({ quiet: quietBuild })
+      await deleteSourceMaps({ quiet: quietBuild })
+      await deleteVendor({ quiet: quietBuild })
+      await removeVendorPreloadAndTypeModule({ quiet: quietBuild })
+      await relinkAssetsViaAssetsRootUrl({ quiet: quietBuild })
+      await storeBuildInfo({ quiet: quietBuild })
+      await prettifyIndexHtml({ quiet: quietBuild })
+      await removeDsStores({ quiet: quietBuild })
+      await createLongformAndSnippetBuildOutputs(buildConf, { quiet: quietBuild })
+      await rsyncToTempFinal({ quiet: quietBuild })
     }
-
-    // For each
-      // UPDATE PRELOAD IN TEMP
-      // BUILD TO .temp/builds
-      // rollup
-      // source maps
-      // vendor
-      // preload&module
-      // relink
-      // write build info
-      // pretty
-      // create longform & snippet & zip
-      // rename them
-      // rsync with .temp/builds/OUTPUT
-    // mv .temp/builds/OUTPUT to build
-    // rm -rf ./temp
-
-
-    // await buildFromTemp()
-    // await deleteTemp() <===== FUNC DELETED
-    // await rollupIndexAndVendor()
-    // await deleteSourceMaps()
-    // await deleteVendor()
-    // await removeVendorPreloadAndTypeModule()
-    // await relinkAssetsViaAssetsRootUrl()
-    // await storeBuildInfoInIndexHtml()
-    // await prettifyIndexHtml()
-    // await removeDsStores()
-    // await createLongformAndSnippetBuildOutputs()
-
-
-    // /* * * * * * * * * * * * * * * * * * * *
-    //  *
-    //  * END
-    //  * 
-    //  * * * * * * * * * * * * * * * * * * * */ 
-
-    // // Done
-    // await cmd(`echo "\n🍸 $(tput bold)That\'s all good my friend!$(tput sgr0)\n" &&
-    //   echo "If you\'re building a longform, just take the zip and upload it." &&
-    //   echo "If you\'re building a snippet, dont forget to upload statics to the place you specified in /src/config.json/assets_root_url!" &&
-    //   echo "Bye now."`)
+    await moveTempFinalToBuild()
+    log(chalk.bold('\n🍸 That\'s all good my friend!\n'))
+    let endAdvice = 'If you\'re building a longform, just take the zip and upload it.\n'
+    endAdvice += 'If you\'re building a snippet, dont forget to upload statics to the place you specified in /src/config.json/assets_root_url!"\n'
+    endAdvice += 'Bye now.\n'
+    log(endAdvice)
   } catch (err) {
     console.log('\n', err)
     process.exit(1)

@@ -37,7 +37,8 @@
     "pretty": "^2.0.0",
     "source-map-explorer": "^2.5.2",
     "typescript": "^4.3.2",
-    "vite": "^2.5.4"
+    "vite": "^2.5.4",
+    "zip-dir": "^2.0.0"
   },
   "eslintConfig": {
     "ignorePatterns": [

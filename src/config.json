@@ -3,5 +3,6 @@
   "assets_root_url": "https://assets-decodeurs.lemonde.fr/redacweb/4-2109-drogues",
   "project_name": "Les routes de la drogue",
   "project_short_name": "les-routes-de-la-drogue",
-  "project_code_name": "4-2109-drogues"
+  "project_code_name": "4-2109-drogues",
+  "build_name": null
 }

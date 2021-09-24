@@ -1,10 +1,10 @@
 [
   {
     "sheetbase_url": "http://lol.com/sheet_1.tsv",
-    "name": "export_1"
+    "build_name": "export_1"
   },
   {
     "sheetbase_url": "http://lol.com/sheet_2.tsv",
-    "name": "export_2"
+    "build_name": "export_2"
   }
 ]
