@@ -285,9 +285,9 @@ export async function updateTempConfigJson (buildConfig, options = {}) {
   if (newCurrentTempConfig.sheetbase_url === null) {
     let message = 'You try to build an app with no sheetbase url:'
     message += `\n\n${JSON.stringify(buildConfig, null, 2)}`
-    message += 'Do you want to continue? (y/n)'
+    message += '\n\nDo you want to continue? (y/n)'
     if (!quiet) {
-      const ok = await confirm(padLines(message, 2))
+      const ok = await confirm(padLines(makeLinesEven(message), 2))
       if (!ok) {
         log(chalk.bold.red('\nOk, bye.\n'), quiet)
         await deleteFiles(TEMP_DIR_PATH, BUILD_DIR_PATH)
@@ -298,10 +298,10 @@ export async function updateTempConfigJson (buildConfig, options = {}) {
   if (newCurrentTempConfig.name === null) {
     let message = 'You try to build an app with no build name:'
     message += `\n\n${JSON.stringify(buildConfig, null, 2)}`
-    message += 'The output may erase a previous unnamed output, or be erased by a future unnamed output.'
-    message += 'Do you want to continue? (y/n)'
+    message += '\n\nThe output may erase a previous unnamed output,\nor be erased by a future unnamed output.'
+    message += '\n\nDo you want to continue? (y/n)'
     if (!quiet) {
-      const ok = await confirm(padLines(message, 2))
+      const ok = await confirm(padLines(makeLinesEven(message), 2))
       if (!ok) {
         log(chalk.bold.red('\nOk, bye.\n'), quiet)
         await deleteFiles(TEMP_DIR_PATH, BUILD_DIR_PATH)
@@ -367,13 +367,14 @@ export async function buildFromTemp (options = {}) {
   await deleteFiles(TEMP_CURRENT_BUILD_DIR_PATH)
   log(`deleted ${TEMP_CURRENT_BUILD_DIR_REL_PATH}`, quiet)
   try {
-    await cmd('tsc && vite build', !quiet)
+    await cmd('tsc && vite build', true)
     log(`built to ${TEMP_CURRENT_BUILD_DIR_REL_PATH}`, quiet)
     log(chalk.green('\nBuilt app with Vite.\n'), quiet)
   } catch (err) {
-    log(chalk.red(err.trim()), quiet)
+    const readableErr = err.toString !== undefined ? err.toString().trim() : err
+    log(chalk.red(`${readableErr}\n`), quiet)
     if (!quiet) {
-      const ok = await confirm(padLines('\nSome errors occured during build, do you want to continue ? (y/n): ', 2))
+      const ok = await confirm(padLines(makeLinesEven('\nSome errors occured during build, do you want to continue ? (y/n): '), 2))
       if (!ok) {
         log(chalk.bold.red('\nOk, bye.\n'), quiet)
         await deleteFiles(TEMP_DIR_PATH, BUILD_DIR_PATH)

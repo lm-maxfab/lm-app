@@ -44,8 +44,6 @@ class AppWrapper extends Component<{}, AppWrapperState> {
   resizeInterval: number|null = null
   $root: HTMLDivElement|null = null
 
-  static contextType = AppContext
-
   /* * * * * * * * * * * * * * *
    * CONSTRUCTOR
    * * * * * * * * * * * * * * */
