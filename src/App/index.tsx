@@ -60,6 +60,62 @@ class App extends Component<Props, State> {
     const buttonsBackgroundColor = settings.buttons_background_color as string|undefined
     const buttonsArrowColor = settings.buttons_arrow_color as string|undefined
 
+    // const titleLgFontSize = '95px'
+    // const titleLgLineHeight = '1'
+    // const titleMdFontSize = '80px'
+    // const titleMdLineHeight = '1'
+    // const titleSmFontSize = '42px'
+    // const titleSmLineHeight = '1'
+
+    // const titleSubtextLgFontSize = '22px'
+    // const titleSubtextLgLineHeight = '1.5'
+    // const titleSubtextMdFontSize = '18px'
+    // const titleSubtextMdLineHeight = '1.33'
+    // const titleSubtextSmFontSize = '14px'
+    // const titleSubtextSmLineHeight = '1.25'
+
+    // const illustrationTitleLgFontSize = '22px'
+    // const illustrationTitleLgLineHeight = '1.15'
+    // const illustrationTitleMdFontSize = '19px'
+    // const illustrationTitleMdLineHeight = '24px'
+    // const illustrationTitleSmFontSize = '16px'
+    // const illustrationTitleSmLineHeight = '22px'
+
+    // const illustrationLegendLgFontSize = '17px'
+    // const illustrationLegendLgLineHeight = '25px'
+    // const illustrationLegendMdFontSize = '15px'
+    // const illustrationLegendMdLineHeight = '22px'
+    // const illustrationLegendSmFontSize = '14px'
+    // const illustrationLegendSmLineHeight = '1.45'
+
+    // const exergueLgFontSize = '34px'
+    // const exergueLgLineHeight = '51px'
+    // const exergueMdFontSize = '28px'
+    // const exergueMdLineHeight = '40px'
+    // const exergueSmFontSize = '20px'
+    // const exergueSmLineHeight = '25px'
+
+    // const paragraphLgFontSize = '26px'
+    // const paragraphLgLineHeight = '1.5'
+    // const paragraphMdFontSize = '20px'
+    // const paragraphMdLineHeight = '1.5'
+    // const paragraphSmFontSize = '14px'
+    // const paragraphSmLineHeight = '1.5'
+
+    // const quoteLgFontSize = '38px'
+    // const quoteLgLineHeight = '1.45'
+    // const quoteMdFontSize = '30px'
+    // const quoteMdLineHeight = '1.4'
+    // const quoteSmFontSize = '20px'
+    // const quoteSmLineHeight = '1.33'
+
+    // const quoteLegendLgFontSize = '17px'
+    // const quoteLegendLgLineHeight = '25px'
+    // const quoteLegendMdFontSize = '15px'
+    // const quoteLegendMdLineHeight = '22px'
+    // const quoteLegendSmFontSize = '14px'
+    // const quoteLegendSmLineHeight = '1.45'
+
     const titleLgFontSize = settings.title_lg_font_size as string|undefined
     const titleMdFontSize = settings.title_md_font_size as string|undefined ?? titleLgFontSize
     const titleSmFontSize = settings.title_sm_font_size as string|undefined ?? titleMdFontSize

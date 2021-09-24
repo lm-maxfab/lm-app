@@ -79,6 +79,7 @@
 @media screen and (max-width: 1200px) {
   .dro-slide__title {
     padding: 36px;
+    max-width: 576px;
   }
 }
 
@@ -119,6 +120,13 @@
   text-align: center;
   font-family: var(--ff-marr-sans);
   font-weight: 500;
+  margin-top: 16px;
+}
+
+@media screen and (max-width: 1200px) {
+  .dro-slide__title-subtext-content {
+    margin-top: 8px;
+  }
 }
 
 .dro-slide__illus {
@@ -162,6 +170,8 @@
   font-family: var(--ff-marr-sans);
   font-weight: 500;
   color: var(--c-paragraph); /* Defined via js */
+  display: flex;
+  justify-content: center;
 }
 
 .dro-slide__paragraph em {
