@@ -1,6 +1,12 @@
 [
   {
-    "sheetbase_url": "http://lol.com/sheet_1.tsv",
-    "build_name": "export_1"
+    "sheetbase_url": "https://assets-decodeurs.lemonde.fr/sheets/nj4HhptoEmIXkx4dLvCcPXHcD2O0Cg_711",
+    "build_name": "cannabis"
+  }, {
+    "sheetbase_url": "https://assets-decodeurs.lemonde.fr/sheets/nqVFxo052YaLuTemsrrYdxxfspI-7g_725",
+    "build_name": "cocaine"
+  }, {
+    "sheetbase_url": "https://assets-decodeurs.lemonde.fr/sheets/RdcR88VO1AIROObIWPIZC7lxyIoWgQ_727",
+    "build_name": "mdma"
   }
 ]

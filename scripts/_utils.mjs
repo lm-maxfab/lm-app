@@ -64,6 +64,38 @@ export async function log (content, quiet = false) {
   if (!quiet) console.log(content)
 }
 
+export function makeLinesEven (str) {
+  const lines = str.split('\n')
+  const longestLine = Math.max(...lines.map(line => line.length))
+  const evenLines = lines.map(line => {
+    const lineArr = line.split('')
+    const blankLine = new Array(longestLine).fill(' ')
+    const outLine = [
+      ...lineArr,
+      ...blankLine.slice(lineArr.length)
+    ]
+    return outLine.join('')
+  })
+  return evenLines.join('\n')
+}
+
+export function padLines (str, padding = 1) {
+  const lines = str.split('\n')
+  const longestLine = Math.max(...lines.map(line => line.length))
+  const topPadding = new Array(padding)
+    .fill(null)
+    .map(() => new Array(longestLine + 2 * padding).fill(' ').join(''))
+    .join('\n')
+  const bottomPadding = topPadding
+  const contentLines = lines.map(line => {
+    const leftPadding = new Array(padding).fill(' ').join('')
+    const rightPadding = leftPadding
+    return `${leftPadding}${line}${rightPadding}`
+  }).join('\n')
+  const paddedLines = `${topPadding}\n${contentLines}\n${bottomPadding}`
+  return paddedLines
+}
+
 /* * * * * * * * * * * * * * * * * * * * * * *
  *
  * CMD & LAXCMD
@@ -104,111 +136,17 @@ export async function deleteFiles(...paths) {
       || path.match(/^\/$/)
       || path.match(/^.\/$/)
     if (isMad) {
-      console.log(chalk.bgRed.rgb(255, 255, 255)('ARE YOU CRAZY ???'))
-      console.log(chalk.bgRed.rgb(255, 255, 255)(`You are trying to rm -rf ${path}`))
+      console.log(chalk.bgBlack.rgb(255, 255, 255)('ARE YOU CRAZY ???'))
+      console.log(chalk.bgBlack.rgb(255, 255, 255)(`You are trying to rm -rf ${path}`))
     }
     return isMad
   })
   if (uMad) {
-    console.log(chalk.bgRed.rgb(255, 255, 255)('I won\'t do such a thing. Bye now.'))
+    console.log(chalk.bgBlack.rgb(255, 255, 255)('I won\'t do such a thing. Bye now.'))
     return process.exit(1)
   }
   await cmd(`rm -rf ${paths.join(' ')}`)
 }
-
-/* * * * * * * * * * * * * * * * * * * * * * *
- *
- * FILES LOCATORS
- * 
- * * * * * * * * * * * * * * * * * * * * * * */
-
-// export const ROOT_DIR_PATH = process.cwd()
-
-// export const BUILD_CONFIG_JSON_PATH = join(ROOT_DIR_PATH, 'build.config.json')
-// export const BUILD_CONFIG_JSON_REL_PATH = relative(ROOT_DIR_PATH, BUILD_CONFIG_JSON_PATH)
-// export const BUILD_CONFIG = JSON.parse(readFileSync(BUILD_CONFIG_JSON_PATH, { encoding: 'utf8' }))
-
-// export const INDEX_HTML_PATH = join(ROOT_DIR_PATH, 'index.html')
-// export const INDEX_HTML_REL_PATH = relative(ROOT_DIR_PATH, INDEX_HTML_PATH)
-
-// export const STATIC_DIR_PATH = join(ROOT_DIR_PATH, 'static')
-// export const STATIC_DIR_REL_PATH = relative(ROOT_DIR_PATH, STATIC_DIR_PATH)
-
-// export const DEV_STATIC_DIR_PATH = join(ROOT_DIR_PATH, 'static.dev')
-// export const DEV_STATIC_DIR_REL_PATH = relative(ROOT_DIR_PATH, DEV_STATIC_DIR_PATH)
-
-// export const SRC_DIR_PATH = join(ROOT_DIR_PATH, 'src')
-// export const SRC_DIR_REL_PATH = relative(ROOT_DIR_PATH, SRC_DIR_PATH)
-
-// export const CONFIG_JSON_PATH = join(SRC_DIR_PATH, 'config.json')
-// export const CONFIG_JSON_REL_PATH = relative(ROOT_DIR_PATH, CONFIG_JSON_PATH)
-// export const CONFIG = JSON.parse(readFileSync(CONFIG_JSON_PATH, { encoding: 'utf8' }))
-
-// export const PRELOAD_TS_PATH = join(SRC_DIR_PATH, 'preload.ts')
-// export const PRELOAD_TS_REL_PATH = relative(ROOT_DIR_PATH, PRELOAD_TS_PATH)
-
-// export const TEMP_DIR_PATH = join(ROOT_DIR_PATH, '.temp')
-// export const TEMP_DIR_REL_PATH = relative(ROOT_DIR_PATH, TEMP_DIR_PATH)
-
-// export const TEMP_INDEX_HTML_PATH = join(TEMP_DIR_PATH, 'index.html')
-// export const TEMP_INDEX_HTML_REL_PATH = relative(ROOT_DIR_PATH, TEMP_INDEX_HTML_PATH)
-
-// export const TEMP_STATIC_DIR_PATH = join(TEMP_DIR_PATH, 'static')
-// export const TEMP_STATIC_DIR_REL_PATH = relative(ROOT_DIR_PATH, TEMP_STATIC_DIR_PATH)
-
-// export const TEMP_SRC_DIR_PATH = join(TEMP_DIR_PATH, 'src')
-// export const TEMP_SRC_DIR_REL_PATH = relative(ROOT_DIR_PATH, TEMP_SRC_DIR_PATH)
-
-// export const TEMP_CONFIG_JSON_PATH = join(TEMP_SRC_DIR_PATH, 'config.json')
-// export const TEMP_CONFIG_JSON_REL_PATH = relative(ROOT_DIR_PATH, TEMP_CONFIG_JSON_PATH)
-
-// export const TEMP_PRELOAD_TS_PATH = join(TEMP_SRC_DIR_PATH, 'preload.ts')
-// export const TEMP_PRELOAD_TS_REL_PATH = relative(ROOT_DIR_PATH, TEMP_PRELOAD_TS_PATH)
-
-// export const TEMP_CURRENT_BUILD_DIR_NAME = '2a908cd8c20b-temp-current-build'
-// export const TEMP_CURRENT_BUILD_DIR_PATH = join(TEMP_DIR_PATH, TEMP_CURRENT_BUILD_DIR_NAME)
-// export const TEMP_CURRENT_BUILD_DIR_REL_PATH = relative(ROOT_DIR_PATH, TEMP_CURRENT_BUILD_DIR_PATH)
-
-// export const TEMP_CURRENT_BUILD_INDEX_HTML_PATH = join(TEMP_CURRENT_BUILD_DIR_PATH, 'index.html')
-// export const TEMP_CURRENT_BUILD_INDEX_HTML_REL_PATH = relative(ROOT_DIR_PATH, TEMP_CURRENT_BUILD_INDEX_HTML_PATH)
-
-// export const TEMP_CURRENT_BUILD_ASSETS_DIR_NAME = '8b575a2c19a9-temp-assets'
-// export const TEMP_CURRENT_BUILD_ASSETS_DIR_PATH = join(TEMP_CURRENT_BUILD_DIR_PATH, TEMP_CURRENT_BUILD_ASSETS_DIR_NAME)
-// export const TEMP_CURRENT_BUILD_ASSETS_DIR_REL_PATH = relative(ROOT_DIR_PATH, TEMP_CURRENT_BUILD_ASSETS_DIR_PATH)
-
-// export const TEMP_CURRENT_BUILD_ROLLEDUP_JS_NAME = 'rolledup.js'
-// export const TEMP_CURRENT_BUILD_ROLLEDUP_JS_PATH = join(TEMP_CURRENT_BUILD_ASSETS_DIR_PATH, TEMP_CURRENT_BUILD_ROLLEDUP_JS_NAME)
-// export const TEMP_CURRENT_BUILD_ROLLEDUP_JS_REL_PATH = relative(ROOT_DIR_PATH, TEMP_CURRENT_BUILD_ROLLEDUP_JS_PATH)
-
-// export const TEMP_FINAL_BUILD_DIR_NAME = '7a1b559fed17-temp-final-build'
-// export const TEMP_FINAL_BUILD_DIR_PATH = join(TEMP_DIR_PATH, TEMP_FINAL_BUILD_DIR_NAME)
-// export const TEMP_FINAL_BUILD_DIR_REL_PATH = relative(ROOT_DIR_PATH, TEMP_FINAL_BUILD_DIR_PATH)
-
-// export const BUILD_DIR_PATH = join(ROOT_DIR_PATH, 'build')
-// export const BUILD_DIR_REL_PATH = relative(ROOT_DIR_PATH, BUILD_DIR_PATH)
-
-// export async function listFilesInTempCurrentBuildAssets () {
-//   const assetsFilesList = readdirSync(TEMP_CURRENT_BUILD_ASSETS_DIR_PATH)
-//   return assetsFilesList
-// }
-
-// export async function getTempCurrentBuildIndexJsPath () {
-//   const assetsList = await listFilesInTempCurrentBuildAssets()
-//   const indexJsName = assetsList.find(name => name.match(/^index.[a-f0-9]{8}.js$/))
-//   return join(TEMP_CURRENT_BUILD_ASSETS_DIR_PATH, indexJsName)
-// }
-
-// export async function getTempCurrentBuildVendorJsPath () {
-//   const assetsList = await listFilesInTempCurrentBuildAssets()
-//   const vendorJsName = assetsList.find(name => name.match(/^vendor.[a-f0-9]{8}.js$/))
-//   return join(TEMP_CURRENT_BUILD_ASSETS_DIR_PATH, vendorJsName)
-// }
-
-// export async function getTempCurrentBuildIndexCssPath () {
-//   const assetsList = await listFilesInTempCurrentBuildAssets()
-//   const indexCssName = assetsList.find(name => name.match(/^index.[a-f0-9]{8}.css$/))
-//   return join(TEMP_CURRENT_BUILD_ASSETS_DIR_PATH, indexCssName)
-// }
 
 /* * * * * * * * * * * * * * * * * * * * * * *
  *
@@ -224,7 +162,7 @@ export async function lint (options = {}) {
   } catch (err) {
     log(chalk.red(err.stdout), quiet)
     if (!quiet) {
-      const ok = await confirm('Your code shows lint errors, do you want to continue ? (y/n): ')
+      const ok = await confirm(padLines('Your code shows lint errors, do you want to continue ? (y/n): ', 2))
       if (!ok) {
         log(chalk.bold.red('\nOk, bye.\n'), quiet)
         process.exit(1)
@@ -255,7 +193,7 @@ export async function handleGitStatus (options = {}) {
   const gitStatusIsClean = await isGitStatusClean({ quiet })
   if (!gitStatusIsClean) {
     if (!quiet) {
-      const ok = await confirm('You have uncommited changes to your code, do you want to continue ? (y/n): ')
+      const ok = await confirm(padLines('You have uncommited changes to your code, do you want to continue ? (y/n): ', 2))
       if (!ok) {
         log(chalk.bold.red('\nOk, bye.\n'), quiet)
         process.exit(1)
@@ -306,19 +244,21 @@ export async function handleBuildConfig (options = {}) {
   const { quiet } = options
   if (!Array.isArray(BUILD_CONFIG)) {
     const message = `${BUILD_CONFIG_JSON_REL_PATH} should contain an array. Build process will stop here.`
-    log(chalk.bold.rgb(255, 255, 255).bgRed(message), quiet)
+    log(chalk.bold.rgb(255, 255, 255).bgBlack(message), quiet)
     await deleteFiles(TEMP_DIR_PATH, BUILD_DIR_PATH)
     process.exit(1)
   } else if (BUILD_CONFIG.length === 0) {
     const message = 'Your build config is empty, build process will stop here.'
-    log(chalk.bold.rgb(255, 255, 255).bgRed(message), quiet)
+    log(chalk.bold.rgb(255, 255, 255).bgBlack(message), quiet)
     await deleteFiles(TEMP_DIR_PATH, BUILD_DIR_PATH)
   } else if (BUILD_CONFIG.length > 1) {
     let message = `Your build config will start a build process of ${BUILD_CONFIG.length} builds.`
     message += `\n\n${JSON.stringify(BUILD_CONFIG, null, 2)}`
     message += '\n\nAre you sure you want to continue? (y/n)'
     if (!quiet) {
-      const ok = await confirm(makeLinesEven(message))
+      const ok = await confirm(
+        padLines(makeLinesEven(message), 2)
+      )
       if (!ok) {
         log(chalk.bold.red('\nOk, bye.\n'), quiet)
         await deleteFiles(TEMP_DIR_PATH, BUILD_DIR_PATH)
@@ -347,7 +287,7 @@ export async function updateTempConfigJson (buildConfig, options = {}) {
     message += `\n\n${JSON.stringify(buildConfig, null, 2)}`
     message += 'Do you want to continue? (y/n)'
     if (!quiet) {
-      const ok = await confirm(message)
+      const ok = await confirm(padLines(message, 2))
       if (!ok) {
         log(chalk.bold.red('\nOk, bye.\n'), quiet)
         await deleteFiles(TEMP_DIR_PATH, BUILD_DIR_PATH)
@@ -361,7 +301,7 @@ export async function updateTempConfigJson (buildConfig, options = {}) {
     message += 'The output may erase a previous unnamed output, or be erased by a future unnamed output.'
     message += 'Do you want to continue? (y/n)'
     if (!quiet) {
-      const ok = await confirm(message)
+      const ok = await confirm(padLines(message, 2))
       if (!ok) {
         log(chalk.bold.red('\nOk, bye.\n'), quiet)
         await deleteFiles(TEMP_DIR_PATH, BUILD_DIR_PATH)
@@ -433,7 +373,7 @@ export async function buildFromTemp (options = {}) {
   } catch (err) {
     log(chalk.red(err.trim()), quiet)
     if (!quiet) {
-      const ok = await confirm('\nSome errors occured during build, do you want to continue ? (y/n): ')
+      const ok = await confirm(padLines('\nSome errors occured during build, do you want to continue ? (y/n): ', 2))
       if (!ok) {
         log(chalk.bold.red('\nOk, bye.\n'), quiet)
         await deleteFiles(TEMP_DIR_PATH, BUILD_DIR_PATH)
@@ -684,7 +624,7 @@ export async function editFile (path, transformation, options = {}) {
   log('Out:\n', quiet)
   log(chalk.grey(transformed), quiet)
   if (!quiet) {
-    const ok = await confirm('Do you want to save this file? (y/n)')
+    const ok = await confirm(padLines('Do you want to save this file? (y/n)', 2))
     if (ok) {
       const result = writeFileSync(path, transformed)
       log(chalk.green(`\nEdited file: ${path}\n`), quiet)
@@ -713,7 +653,7 @@ export async function editHtml (path, transformation, options = {}) {
   log('Out:\n', quiet)
   log(chalk.grey(transformed), quiet)
   if (!quiet) {
-    const ok = await confirm('Do you want to save this file? (y/n)')
+    const ok = await confirm(padLines('Do you want to save this file? (y/n)', 2))
     if (ok) {
       const result = writeFileSync(path, transformed)
       log(chalk.green(`\nEdit html file: ${path}\n`), quiet)
@@ -727,25 +667,10 @@ export async function editHtml (path, transformation, options = {}) {
   return writeFileSync(path, transformed)
 }
 
-export function makeLinesEven (str) {
-  const lines = str.split('\n')
-  const longestLine = Math.max(...lines.map(line => line.length))
-  const evenLines = lines.map(line => {
-    const lineArr = line.split('')
-    const blankLine = new Array(longestLine).fill(' ')
-    const outLine = [
-      ...lineArr,
-      ...blankLine.slice(lineArr.length)
-    ]
-    return outLine.join('')
-  })
-  return evenLines.join('\n')
-}
-
 export async function confirm (_question = 'Continue ? (y/n)') {
   const question = _question.reset
     ? _question
-    : chalk.bold.rgb(255, 255, 255).bgRed(_question)
+    : chalk.bold.rgb(255, 255, 255).bgBlack(_question)
   const userInput = await prompt(question)
   return userInput.match(/^y$/i)
 }
@@ -760,45 +685,3 @@ export async function prettifyHtml (path, options = {}) {
   }, { quiet })
 }
 
-// export {
-//   cmd,
-//   laxcmd,
-
-//   // getRootDirPath,
-//   // getPreloadFilePath,
-//   // getBuildAssetsFilesPath,
-//   getBuildIndexHtmlPath,
-//   getTempCurrentBuildIndexJsPath,
-//   getBuildIndexCssPath,
-//   listFilesInTempCurrentBuildAssets,
-
-//   getBuildConfig,
-
-//   lint,
-//   checkGitStatus,
-//   handleGitStatus,
-//   copySourceToTemp,
-//   stripDevElementsInIndex,
-//   getBuildInfo,
-//   getBuildInfoSpan,
-//   getUpdatedPreload,
-//   updatePreload,
-//   updateTempPreload,
-//   emptyPreload,
-
-//   buildFromTemp,
-//   rollupIndexAndVendor,
-//   deleteSourceMaps,
-//   deleteVendor,
-//   removeVendorPreloadAndTypeModule,
-//   relinkAssetsViaAssetsRootUrl,
-//   storeBuildInfoInIndexHtml,
-//   prettifyIndexHtml,
-//   removeDsStores,
-//   createLongformAndSnippetBuildOutputs,
-
-//   editFile,
-//   editHtml,
-//   confirm,
-//   prettifyHtml
-// }

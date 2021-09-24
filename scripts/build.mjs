@@ -3,16 +3,13 @@ import chalk from 'chalk'
 import {
   log,
   BUILD_CONFIG,
-  
   lint,
   handleGitStatus,
   copySourceToTemp,
   stripDevElementsInIndex,
   handleBuildConfig,
-
   updateTempConfigJson,
   updateTempPreload,
-
   buildFromTemp,
   rollupIndexAndVendor,
   deleteSourceMaps,

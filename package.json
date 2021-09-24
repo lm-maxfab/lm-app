@@ -27,7 +27,7 @@
     "@types/node": "^16.9.0",
     "@types/smoothscroll-polyfill": "^0.3.1",
     "async-prompt": "^1.0.1",
-    "chalk": "^2.4.2",
+    "chalk": "^4.1.2",
     "eslint": "^7.32.0",
     "eslint-config-react-app": "^6.0.0",
     "eslint-config-standard-ts": "^20.0.1",
