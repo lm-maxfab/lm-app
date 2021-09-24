@@ -2,9 +2,5 @@
   {
     "sheetbase_url": "http://lol.com/sheet_1.tsv",
     "build_name": "export_1"
-  },
-  {
-    "sheetbase_url": "http://lol.com/sheet_2.tsv",
-    "build_name": "export_2"
   }
 ]

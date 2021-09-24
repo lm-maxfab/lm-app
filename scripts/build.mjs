@@ -1,11 +1,6 @@
 /* eslint-disable no-template-curly-in-string */
-import { readFileSync, readdirSync } from 'fs'
-import { join } from 'path'
-import moment from 'moment'
 import chalk from 'chalk'
 import {
-  cmd,
-  laxcmd,
   log,
   BUILD_CONFIG,
   
@@ -13,7 +8,6 @@ import {
   handleGitStatus,
   copySourceToTemp,
   stripDevElementsInIndex,
-  getBuildInfoSpan,
   handleBuildConfig,
 
   updateTempConfigJson,
@@ -31,10 +25,6 @@ import {
   createLongformAndSnippetBuildOutputs,
   rsyncToTempFinal,
   moveTempFinalToBuild,
-  editFile,
-  editHtml,
-  confirm,
-  prettifyHtml
 } from './_utils.mjs'
 
 build()
