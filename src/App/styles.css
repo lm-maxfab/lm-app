@@ -1,3 +1,19 @@
 .lm-app {
   position: relative;
+  margin-top: var(--len-nav-height);
+  height: 20000px;
+  /* background-color: violet; */
+}
+
+.lm-app .frag-header {
+  position: fixed;
+  width: calc(100 * var(--vw));
+  top: var(--len-nav-height);
+  z-index: 100;
+}
+
+.lm-app .frag-intro {
+  padding-top: calc(110 * var(--vh));
+  /* background-color: wheat; */
+  z-index: 99;
 }

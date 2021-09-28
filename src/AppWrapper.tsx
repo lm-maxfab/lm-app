@@ -6,6 +6,7 @@ import smoothscroll from 'smoothscroll-polyfill'
 import Spreadsheet from './modules/spreadsheets/Spreadsheet'
 import type { SheetBase } from './modules/spreadsheets/tsv-base-to-js-object-base'
 import getViewportDimensions from './modules/le-monde/utils/get-viewport-dimensions'
+import getHeaderNode from './modules/le-monde/utils/get-header-node'
 
 import AppContext from './context'
 import preload from './preload'
@@ -15,6 +16,15 @@ import './styles.css'
 
 // Enable smoothscroll polyfill
 smoothscroll.polyfill()
+
+// Hide or remove header if config.json wants it
+if (config.delete_header === true) {
+  const $header = getHeaderNode()
+  $header?.remove()
+} else if (config.hide_header === true) {
+  const $header = getHeaderNode()
+  if ($header) $header.style.display = 'none'
+}
 
 // Get init viewport dimensions
 const {

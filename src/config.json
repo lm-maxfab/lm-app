@@ -4,5 +4,7 @@
   "project_name": "Fragments de france",
   "project_short_name": "fragments-de-france",
   "project_code_name": "5-2110-fragmentsdrogues",
-  "build_name": null
+  "build_name": null,
+  "hide_header": true,
+  "delete_header": true
 }

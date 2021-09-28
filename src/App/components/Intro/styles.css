@@ -1,1 +1,23 @@
-.wrapper {}
+.frag-intro__paragraph {
+  position: fixed;
+  top: 200px;
+  z-index: 2;
+}
+
+.frag-intro__scrollable-background {
+  width: 100%;
+  z-index: 1;
+}
+
+.frag-intro__fragment-wrapper {
+  height: calc(100 * var(--vh));
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.frag-intro__fragment-image {
+  position: relative;
+  background-color: violet;
+}

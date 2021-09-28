@@ -11,10 +11,5 @@
 .lm-svg svg {
   max-height: 100%;
   max-width: 100%;
-}
-
-.lm-svg svg #background,
-.lm-svg svg #fill-1 {
-  stroke: transparent;
-  fill: transparent;
+  display: block;
 }

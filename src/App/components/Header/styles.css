@@ -1,1 +1,96 @@
-.wrapper {}
+.frag-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+}
+
+@media screen and (max-width: 1200px) {
+  .frag-header {
+    padding: 6px 10px;
+  }
+}
+
+/* Logo */
+.frag-header__logo {
+  stroke: none;
+  width: 93px;
+}
+
+.frag-header__logo #background {
+  fill: transparent;
+}
+
+.frag-header__logo #fill-1 {
+  fill: #1B171B;
+}
+
+.frag-header__logo #fill-2 {
+  fill: #8D98AB;
+}
+
+/* Marqueur */
+@media screen and (max-width: 1200px) {
+  .frag-header__marqueur {
+    display: none;
+  }
+}
+
+/* Button */
+.frag-header__button {
+  --fs: 13px;
+  --lh: 14px;
+  --v-padding: 6px;
+  --h-padding: 12px;
+  --height: calc(var(--v-padding) * 2 + var(--lh));
+  border: none;
+  margin: 0;
+  font-size: var(--fs);
+  line-height: var(--lh);
+  padding: var(--v-padding) var(--h-padding);
+  background-color: coral;
+  border-radius: calc(var(--height) / 2);
+  height: var(--height);
+  font-family: var(--ff-marr-sans);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 1200px) {
+  .frag-header__button {
+    --fs: 11px;
+  }
+}
+
+.frag-header__button-text {
+  flex-shrink: 0;
+}
+
+.frag-header__button .lm-svg {
+  margin-left: 4px;
+  flex-shrink: 0;
+}
+
+.frag-header__button #background {
+  fill: transparent;
+}
+
+.frag-header__button #fill-1 {
+  fill: #1B171B;
+}
+
+.frag-header__button_sm {
+  display: none;
+}
+
+@media screen and (max-width: 1200px) {
+  .frag-header__button_sm {
+    display: flex;
+  }
+
+  .frag-header__button_lg {
+    display: none;
+  }
+}
