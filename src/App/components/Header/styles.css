@@ -3,6 +3,50 @@
   justify-content: space-between;
   align-items: center;
   padding: 12px;
+
+  --c-logo-dark-fill-1: #1B171B;
+  --c-logo-dark-fill-2: #8D98AB;
+  --c-logo-dark-bg: transparent;
+  
+  --c-logo-bright-fill-1: #FFFFFF;
+  --c-logo-bright-fill-2: #8D98AB;
+  --c-logo-bright-bg: transparent;
+
+  --c-marqueur-dark-fill-1: #2A303C;
+  --c-marqueur-dark-bg: transparent;
+
+  --c-marqueur-bright-fill-1: #FCFCFD;
+  --c-marqueur-bright-bg: transparent;
+
+  --c-button-dark-color: #FCFCFD;
+  --c-button-dark-bg: #2A303C;
+
+  --c-button-bright-color: #2A303C;
+  --c-button-bright-bg: #FCFCFD;
+}
+
+.frag-header_dark {
+  --c-logo-fill-1: var(--c-logo-dark-fill-1);
+  --c-logo-fill-2: var(--c-logo-dark-fill-2);
+  --c-logo-bg: var(--c-logo-dark-bg);
+
+  --c-marqueur-fill-1: var(--c-marqueur-dark-fill-1);
+  --c-marqueur-bg: var(--c-marqueur-dark-bg);
+  
+  --c-button-color: var(--c-button-dark-color);
+  --c-button-bg: var(--c-button-dark-bg);
+}
+
+.frag-header_bright {
+  --c-logo-fill-1: var(--c-logo-bright-fill-1);
+  --c-logo-fill-2: var(--c-logo-bright-fill-2);
+  --c-logo-bg: var(--c-logo-bright-bg);
+
+  --c-marqueur-fill-1: var(--c-marqueur-bright-fill-1);
+  --c-marqueur-bg: var(--c-marqueur-bright-bg);
+  
+  --c-button-color: var(--c-button-bright-color);
+  --c-button-bg: var(--c-button-bright-bg);
 }
 
 @media screen and (max-width: 1200px) {
@@ -12,24 +56,48 @@
 }
 
 /* Logo */
-.frag-header__logo {
+.frag-header__logo,
+.frag-header__marqueur {
   stroke: none;
+}
+
+.frag-header__logo {
   width: 93px;
 }
 
 .frag-header__logo #background {
-  fill: transparent;
+  fill: var(--c-logo-bg);
+  transition: fill 200ms;
 }
 
 .frag-header__logo #fill-1 {
-  fill: #1B171B;
+  fill: var(--c-logo-fill-1);
+  transition: fill 200ms;
 }
 
 .frag-header__logo #fill-2 {
-  fill: #8D98AB;
+  fill: var(--c-logo-fill-2);
+  transition: fill 200ms;
 }
 
 /* Marqueur */
+.frag-header__marqueur {
+  width: 180px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.frag-header__marqueur #fill-1 {
+  fill: var(--c-marqueur-fill-1);
+  transition: fill 200ms;
+}
+
+.frag-header__marqueur #background {
+  fill: var(--c-marqueur-bg);
+  transition: fill 200ms;
+}
+
 @media screen and (max-width: 1200px) {
   .frag-header__marqueur {
     display: none;
@@ -48,7 +116,8 @@
   font-size: var(--fs);
   line-height: var(--lh);
   padding: var(--v-padding) var(--h-padding);
-  background-color: coral;
+  background-color: var(--c-button-bg);
+  color: var(--c-button-color);
   border-radius: calc(var(--height) / 2);
   height: var(--height);
   font-family: var(--ff-marr-sans);
@@ -56,6 +125,7 @@
   display: flex;
   align-items: center;
   cursor: pointer;
+  transition: color 400ms, background-color 400ms;
 }
 
 @media screen and (max-width: 1200px) {
@@ -74,11 +144,13 @@
 }
 
 .frag-header__button #background {
-  fill: transparent;
+  fill: var(--c-button-bg);
+  transition: fill 200ms;
 }
 
 .frag-header__button #fill-1 {
-  fill: #1B171B;
+  fill: var(--c-button-color);
+  transition: fill 200ms;
 }
 
 .frag-header__button_sm {

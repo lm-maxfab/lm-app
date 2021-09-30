@@ -7,7 +7,6 @@ import Intro from './components/Intro'
 import WideArticles from './components/WideArticles'
 import GridArticles from './components/GridArticles'
 import Menu from './components/Menu'
-import IntersectionObserver from '../modules/le-monde/components/IntersectionObserver'
 import './styles.css'
 
 interface Props {
@@ -16,7 +15,19 @@ interface Props {
   sheet_data?: SheetBase
 }
 
-class App extends Component<Props, {}> {
+interface State {
+  is_bright: boolean
+}
+
+class App extends Component<Props, State> {
+  state = { is_bright: false }
+  constructor (props: Props) {
+    super(props)
+    window.setInterval(() => {
+      this.setState(curr => ({ is_bright: !curr.is_bright }))
+    }, 2000)
+  }
+
   mainClass: string = 'lm-app'
   static contextType: Context<any> = AppContext
 
@@ -24,7 +35,7 @@ class App extends Component<Props, {}> {
    * RENDER
    * * * * * * * * * * * * * * */
   render (): JSX.Element {
-    const { props, context } = this
+    const { props, state, context } = this
     const { config } = context
 
     // Logic
@@ -33,25 +44,25 @@ class App extends Component<Props, {}> {
       h_position: '60%',
       height: '80%',
       width: '30%',
-      paragraph_chunk: <>I am a paragraph chunk.</>
+      paragraph_chunk: <>I am a paragraph chunk. </>
     }, {
       url: 'http://image.com/image.jpg',
       h_position: '0%',
       height: '50%',
       width: '70%',
-      paragraph_chunk: <>I am a paragraph chunk.</>
+      paragraph_chunk: <>I am a paragraph chunk. </>
     }, {
       url: 'http://image.com/image.jpg',
       h_position: '100%',
       height: '100%',
       width: '30%',
-      paragraph_chunk: <>I am a paragraph chunk.</>
+      paragraph_chunk: <>I am a paragraph chunk. </>
     }, {
       url: 'http://image.com/image.jpg',
       h_position: '20%',
       height: '90%',
       width: '45%',
-      paragraph_chunk: <>I am a paragraph chunk.</>
+      paragraph_chunk: <>I am a paragraph chunk. </>
     }, {
       url: 'http://image.com/image.jpg',
       h_position: '0%',
@@ -70,13 +81,11 @@ class App extends Component<Props, {}> {
         id={config.project_short_name}
         className={classes}
         style={inlineStyle}>
-        {/* <Header /> */}
-        <IntersectionObserver callback={(e, o) => { console.log(e[0].isIntersecting) }}>
-          <div>I am the child.</div>
-          <div>I am the other child.</div>
-          <div>I am the last child.</div>
-        </IntersectionObserver>
-        <Intro fragments={fragments} />
+        <Header
+          theme={state.is_bright ? 'bright' : 'dark'} />
+        <Intro
+          paragraph_basis={<>Wesh alors, </>}
+          fragments={fragments} />
         <WideArticles />
         <GridArticles />
         <Menu />

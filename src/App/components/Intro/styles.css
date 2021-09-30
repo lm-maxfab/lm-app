@@ -1,7 +1,23 @@
 .frag-intro__paragraph {
   position: fixed;
+  font-family: var(--ff-the-antiqua-b);
+  font-size: 20px;
+  line-height: 30px;
+  max-width: calc(100 * var(--vw) - 32px);
+  width: 928px;
   top: 200px;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 2;
+}
+
+.frag-intro__paragraph-chunk {
+  color: #717B8E;
+  transition: color 200ms;
+}
+
+.frag-intro__paragraph-chunk:last-child {
+  color: #2A303C;
 }
 
 .frag-intro__scrollable-background {
@@ -19,5 +35,6 @@
 
 .frag-intro__fragment-image {
   position: relative;
-  background-color: violet;
+  transition: background-color 200ms;
+  /* background-color: violet; */
 }

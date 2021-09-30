@@ -2,7 +2,7 @@
   position: relative;
   margin-top: var(--len-nav-height);
   height: 20000px;
-  /* background-color: violet; */
+  background-color: #FFFFFF;
 }
 
 .lm-app .frag-header {

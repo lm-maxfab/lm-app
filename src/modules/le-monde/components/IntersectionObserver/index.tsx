@@ -2,6 +2,9 @@ import { Component, JSX } from 'preact'
 import clss from 'classnames'
 import './styles.css'
 
+type IO = IntersectionObserver
+type IOE = IntersectionObserverEntry
+
 interface ObserverOptions {
   root?: HTMLElement
   rootMargin?: string
@@ -11,19 +14,25 @@ interface ObserverOptions {
 interface Props extends ObserverOptions {
   className?: string
   style?: JSX.CSSProperties
-  callback?: (entries: IOE[], observer: IO) => void
+  callback?: (ioEntry: IOE, observer: IO) => void
+  render?: (ioEntry: IOE|null) => JSX.Element
 }
 
-type IO = IntersectionObserver
-type IOE = IntersectionObserverEntry
+interface State {
+  io_entry: IOE|null
+}
 
-class IntersectionObserverComponent extends Component<Props, {}> {
+class IntersectionObserverComponent extends Component<Props, State> {
   /* * * * * * * * * * * * * * *
    * PROPERTIES
    * * * * * * * * * * * * * * */
   mainClass: string = 'lm-intersection-observer'
   $root: HTMLDivElement|null = null
+  $pRoot: HTMLDivElement|null = null
   observer: IO = new IntersectionObserver(this.observation)
+  state: State = {
+    io_entry: null
+  }
 
   /* * * * * * * * * * * * * * *
    * CONSTRUCTOR
@@ -39,13 +48,22 @@ class IntersectionObserverComponent extends Component<Props, {}> {
    * LIFECYCLE
    * * * * * * * * * * * * * * */
   componentDidMount () {
+    this.$pRoot = this.$root
     this.updateObserver()
   }
 
-  componentDidUpdate () {
-    this.updateObserver()
+  componentDidUpdate (prevProps: Props) {
+    const shouldUpdateObserver = prevProps.root !== this.props.root
+      || prevProps.rootMargin !== this.props.rootMargin
+      || prevProps.threshold?.toString() !== this.props.threshold?.toString()
+      || this.$pRoot !== this.$root
+    if (shouldUpdateObserver) this.updateObserver()
+    if (this.$pRoot !== this.$root) this.$pRoot = this.$root
   }
 
+  /* * * * * * * * * * * * * * *
+   * METHODS
+   * * * * * * * * * * * * * * */
   getObserverOptions () {
     return {
       root: this.props.root,
@@ -63,18 +81,18 @@ class IntersectionObserverComponent extends Component<Props, {}> {
   }
 
   observation (entries: IOE[], observer: IO): void {
-    if (this.props.callback === undefined) return
-    this.props.callback(entries, observer)
+    if (this.props.callback !== undefined) this.props.callback(entries[0], observer)
+    this.setState({ io_entry: entries[0] })
   }
 
   /* * * * * * * * * * * * * * *
    * RENDER
    * * * * * * * * * * * * * * */
   render (): JSX.Element|null {
-    const { props } = this
-    if (props.children === undefined) return null
+    const { props, state } = this
 
     // Logic
+    const rendered = props.render !== undefined ? props.render(state.io_entry) : null
 
     // Classes
     const classes: string = clss(this.mainClass, props.className)
@@ -85,10 +103,10 @@ class IntersectionObserverComponent extends Component<Props, {}> {
       ref={$n => { this.$root = $n }}
       className={classes}
       style={inlineStyle}>
-      {props.children}
+      {rendered}
     </div>
   }
 }
 
-export type { Props }
+export type { Props, State }
 export default IntersectionObserverComponent

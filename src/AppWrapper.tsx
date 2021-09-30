@@ -14,6 +14,9 @@ import config from './config.json'
 import App from './App'
 import './styles.css'
 
+import yoDawg from './modules/spreadsheets/tsv-to-sheet-base'
+yoDawg()
+
 // Enable smoothscroll polyfill
 smoothscroll.polyfill()
 
