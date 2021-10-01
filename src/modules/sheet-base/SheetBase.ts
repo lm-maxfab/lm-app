@@ -9,7 +9,7 @@ class SheetBase {
   
   createCollection (descriptor: SheetBaseCollectionDescriptor) {
     const collection = new SheetBaseCollection({ ...descriptor, parentBase: this })
-    const alreadyExistingCollection = this.collection(collection.name)
+    const alreadyExistingCollection = this.strictCollection(collection.name)
     if (alreadyExistingCollection !== undefined) {
       console.warn(`collection ${collection.name} already exists and is gonna be overwridden`)
       this.dropCollection(collection.name)
@@ -35,8 +35,13 @@ class SheetBase {
     return returned
   }
 
-  collection (name: string) {
+  strictCollection (name: string) {
     return this.#collections.find(collection => (collection.name === name))
+  }
+
+  collection (name: string) {
+    const found = this.strictCollection(name)
+    return found ?? new SheetBaseCollection({ name: '', parentBase: this })
   }
 }
 

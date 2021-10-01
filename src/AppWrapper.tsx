@@ -3,16 +3,17 @@ import clss from 'classnames'
 import 'whatwg-fetch'
 import smoothscroll from 'smoothscroll-polyfill'
 
-import Spreadsheet from './modules/le-monde/components/Spreadsheet'
-import { SheetBase } from './modules/sheet-base'
-
 import getViewportDimensions from './modules/le-monde/utils/get-viewport-dimensions'
 import getHeaderElement from './modules/le-monde/utils/get-header-element'
 
 import AppContext from './context'
 import preload from './preload'
 import config from './config.json'
+
 import App from './App'
+import Spreadsheet from './modules/le-monde/components/Spreadsheet'
+import { SheetBase } from './modules/sheet-base'
+
 import './styles.css'
 
 // Enable smoothscroll polyfill

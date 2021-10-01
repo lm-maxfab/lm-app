@@ -25,7 +25,7 @@ class SheetBaseEntry {
 
   createField (descriptor: SheetBaseFieldDescriptor) {
     const field = new SheetBaseField({ ...descriptor, parentEntry: this })
-    const alreadyExistingField = this.field(field.name)
+    const alreadyExistingField = this.strictField(field.name)
     if (alreadyExistingField !== undefined) {
       console.warn(`field '${field.name}' already exists and is gonna be overwridden`)
       this.dropField(field.name)
@@ -52,8 +52,13 @@ class SheetBaseEntry {
     return returned
   }
 
-  field (name: string) {
+  strictField (name: string) {
     return this.#fields.find(field => (field.name === name))
+  }
+
+  field (name: string) {
+    const found = this.strictField(name)
+    return found ?? new SheetBaseField({ name: '', parentEntry: this })
   }
 }
 

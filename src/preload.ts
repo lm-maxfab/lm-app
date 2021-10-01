@@ -21,11 +21,11 @@ publish	Publier (1, vrai, true, VRAI, TRUE)	boolean	TRUE	TRUE	TRUE	TRUE
 image_url	Url de l'image	text	https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png	https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png	https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png	https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png																														
 h_position	Position horizontale dans le layout (en %)	text	0%	100%	30%	70%																														
 height	Hauteur de l'image (en % de la hauteur de l'écran)	text	100%	80%	40%	4%																														
-paragraph_chunk	Texte apparaissant à l'écran au moment ou l'image apparait	html	j'aime la galette	, savez-vous comment ?	 quand elle est bien faite	 avec du beurre dedans !																														
+paragraph_chunk	Texte apparaissant à l'écran au moment ou l'image apparait	html	 j'aime la galette	, savez-vous comment ?	 quand elle est bien faite	 avec du beurre dedans !																														
 related_fragment	ID du fragment relatif à l'image	ref	fragments.1	fragments.3	fragments.5	fragments.2																														
 																																				
 																																				
-home_images	Paramètres de la page	id	1	2	3	4																														
+home_images	Images de l'animation de home	id	1	2	3	4																														
 																																				
 publish	Publier (1, vrai, true, VRAI, TRUE)	boolean	TRUE	TRUE	TRUE	TRUE																														
 image_url	URL de l'image	text	https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png	https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png	https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png	https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png																														
@@ -34,6 +34,11 @@ image_side	Côté de l'écran (desktop uniquement) sur lequel s'affiche l'image 
 image_animation_slot_desktop	Position dans l'animation pour desktop	number	1	2	2	3																														
 image_animation_slot_mobile	Position dans l'animation pour mobile	number	1	2	3	4																														
 related_fragment	ID du fragment relatif à l'image	ref	fragments.1	fragments.3	fragments.5	fragments.2																														
+																																				
+																																				
+page_settings	Paramètres de la page	id	settings																																	
+																																				
+intro_first_paragraph_chunk	Paragraphe aparaissant dans l'intro du grand format	html	Coucou les loulous !																																	
 `
 
 export default preload

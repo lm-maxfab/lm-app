@@ -1,9 +1,9 @@
-import { Component, Context, JSX } from 'preact'
+import { Component, Context, JSX, VNode } from 'preact'
 import clss from 'classnames'
 import { SheetBase } from '../modules/sheet-base'
 import AppContext from '../context'
 import Header from './components/Header'
-import Intro from './components/Intro'
+import Intro, { Fragment as IntroFragment } from './components/Intro'
 import WideArticles from './components/WideArticles'
 import GridArticles from './components/GridArticles'
 import Menu from './components/Menu'
@@ -39,41 +39,51 @@ class App extends Component<Props, State> {
     const { config } = context
 
     // Logic
-    const fragments = [{
-      url: 'http://image.com/image.jpg',
-      h_position: '60%',
-      height: '80%',
-      width: '30%',
-      paragraph_chunk: <>I am a paragraph chunk. </>
-    }, {
-      url: 'http://image.com/image.jpg',
-      h_position: '0%',
-      height: '50%',
-      width: '70%',
-      paragraph_chunk: <>I am a paragraph chunk. </>
-    }, {
-      url: 'http://image.com/image.jpg',
-      h_position: '100%',
-      height: '100%',
-      width: '30%',
-      paragraph_chunk: <>I am a paragraph chunk. </>
-    }, {
-      url: 'http://image.com/image.jpg',
-      h_position: '20%',
-      height: '90%',
-      width: '45%',
-      paragraph_chunk: <>I am a paragraph chunk. </>
-    }, {
-      url: 'http://image.com/image.jpg',
-      h_position: '0%',
-      height: '100%',
-      width: '60%',
-      paragraph_chunk: <>I am a paragraph chunk.</>
-    }]
+    // const fragments = [{
+    //   url: 'http://image.com/image.jpg',
+    //   h_position: '60%',
+    //   height: '80%',
+    //   width: '30%',
+    //   paragraph_chunk: <>I am a paragraph chunk. </>
+    // }, {
+    //   url: 'http://image.com/image.jpg',
+    //   h_position: '0%',
+    //   height: '50%',
+    //   width: '70%',
+    //   paragraph_chunk: <>I am a paragraph chunk. </>
+    // }, {
+    //   url: 'http://image.com/image.jpg',
+    //   h_position: '100%',
+    //   height: '100%',
+    //   width: '30%',
+    //   paragraph_chunk: <>I am a paragraph chunk. </>
+    // }, {
+    //   url: 'http://image.com/image.jpg',
+    //   h_position: '20%',
+    //   height: '90%',
+    //   width: '45%',
+    //   paragraph_chunk: <>I am a paragraph chunk. </>
+    // }, {
+    //   url: 'http://image.com/image.jpg',
+    //   h_position: '0%',
+    //   height: '100%',
+    //   width: '60%',
+    //   paragraph_chunk: <>I am a paragraph chunk.</>
+    // }]
 
     // Classes
     const classes: string = clss(this.mainClass, props.className)
     const inlineStyle = { ...props.style }
+
+    const sheetBase = props.sheet_data ?? new SheetBase()
+    const introFragments = sheetBase
+      .collection('intro_images')
+      .value
+    const pageSettings = sheetBase
+      .collection('page_settings')
+      .entry('settings')
+      .value
+    const introIntro = pageSettings.intro_first_paragraph_chunk as VNode
 
     // Display
     return (
@@ -84,8 +94,8 @@ class App extends Component<Props, State> {
         <Header
           theme={state.is_bright ? 'bright' : 'dark'} />
         <Intro
-          paragraph_basis={<>Wesh alors, </>}
-          fragments={fragments} />
+          paragraph_basis={introIntro}
+          fragments={introFragments as unknown as IntroFragment[]} />
         <WideArticles />
         <GridArticles />
         <Menu />

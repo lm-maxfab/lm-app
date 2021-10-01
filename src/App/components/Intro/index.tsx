@@ -81,7 +81,7 @@ class Intro extends Component<Props, State> {
                   <div
                     className={`${this.mainClass}__fragment-image`}
                     style={{
-                      width: fragment.width,
+                      width: `${Math.random() * 30 + 20}%`,
                       height: fragment.height,
                       left: fragment.h_position,
                       transform: `translateX(calc(-1 * ${fragment.h_position}))`,
@@ -96,5 +96,5 @@ class Intro extends Component<Props, State> {
   }
 }
 
-export type { Props, State }
+export type { Props, State, Fragment }
 export default Intro

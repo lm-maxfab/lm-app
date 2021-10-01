@@ -10,7 +10,7 @@ interface SheetBaseCollectionDescriptor {
   parentBase?: SheetBase
 }
 
-type SheetBaseCollectionValue = readonly SheetBaseEntryValue[]
+type SheetBaseCollectionValue = SheetBaseEntryValue[]
 
 class SheetBaseCollection {
   #name: string
@@ -30,7 +30,7 @@ class SheetBaseCollection {
 
   createEntry (descriptor: SheetBaseEntryDescriptor) {
     const entry = new SheetBaseEntry({ ...descriptor, parentCollection: this })
-    const alreadyExistingEntry = this.entry(entry.id)
+    const alreadyExistingEntry = this.strictEntry(entry.id)
     if (alreadyExistingEntry !== undefined) {
       console.warn(`entry '${entry.id}' already exists and is gonna be overwridden`)
       this.dropEntry(entry.id)
@@ -56,8 +56,13 @@ class SheetBaseCollection {
     return returned
   }
 
-  entry (id: string) {
+  strictEntry (id: string) {
     return this.#entries.find(entry => (entry.id === id))
+  }
+
+  entry (id: string) {
+    const found = this.strictEntry(id)
+    return found ?? new SheetBaseEntry({ id: '', parentCollection: this })
   }
 }
 
