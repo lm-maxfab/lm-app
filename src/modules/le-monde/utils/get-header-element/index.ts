@@ -1,4 +1,4 @@
-function getHeaderNode (): HTMLElement|undefined {
+function getHeaderElement (): HTMLElement|undefined {
   const possibleNavs = Array.from(
     document.querySelectorAll('header#Header, header.multimediaNav')
   ) as HTMLElement[]
@@ -6,4 +6,4 @@ function getHeaderNode (): HTMLElement|undefined {
   return possibleNavs[0]
 }
 
-export default getHeaderNode
+export default getHeaderElement

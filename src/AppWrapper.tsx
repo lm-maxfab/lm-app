@@ -3,10 +3,11 @@ import clss from 'classnames'
 import 'whatwg-fetch'
 import smoothscroll from 'smoothscroll-polyfill'
 
-import Spreadsheet from './modules/spreadsheets/Spreadsheet'
-import type { SheetBase } from './modules/spreadsheets/tsv-base-to-js-object-base'
+import Spreadsheet from './modules/le-monde/components/Spreadsheet'
+import { SheetBase } from './modules/sheet-base'
+
 import getViewportDimensions from './modules/le-monde/utils/get-viewport-dimensions'
-import getHeaderNode from './modules/le-monde/utils/get-header-node'
+import getHeaderElement from './modules/le-monde/utils/get-header-element'
 
 import AppContext from './context'
 import preload from './preload'
@@ -14,18 +15,15 @@ import config from './config.json'
 import App from './App'
 import './styles.css'
 
-import yoDawg from './modules/spreadsheets/tsv-to-sheet-base'
-yoDawg()
-
 // Enable smoothscroll polyfill
 smoothscroll.polyfill()
 
 // Hide or remove header if config.json wants it
 if (config.delete_header === true) {
-  const $header = getHeaderNode()
+  const $header = getHeaderElement()
   $header?.remove()
 } else if (config.hide_header === true) {
-  const $header = getHeaderNode()
+  const $header = getHeaderElement()
   if ($header) $header.style.display = 'none'
 }
 

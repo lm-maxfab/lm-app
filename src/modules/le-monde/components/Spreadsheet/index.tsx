@@ -1,6 +1,5 @@
 import { Component, JSX } from 'preact'
-import tsvBaseToJsObjectBase, { SheetBase } from '../tsv-base-to-js-object-base'
-import fetchTsvBase from '../fetch-tsv-base'
+import { SheetBase, tsvToSheetBase, fetchTsv } from '../../../sheet-base'
 
 interface Props {
   preload?: string
@@ -31,7 +30,7 @@ class Spreadsheet extends Component<Props, State> {
   }
 
   componentDidUpdate (): void {
-    // Check if data or preload has changed
+    // [WIP] Check if data or preload has changed
   }
 
   async fetchData (): Promise<any> {
@@ -41,14 +40,14 @@ class Spreadsheet extends Component<Props, State> {
     if (!hasPreload && !hasUrl) {
       this.setState({ loading: false, error: null, data: undefined })
     } else if (hasPreload && !hasUrl) {
-      const preloadedBase = tsvBaseToJsObjectBase(preload)
+      const preloadedBase = tsvToSheetBase(preload)
       this.setState({ loading: false, error: null, data: preloadedBase })
     } else if (hasUrl) {
-      const preloadedBase = hasPreload ? tsvBaseToJsObjectBase(preload) : undefined
+      const preloadedBase = hasPreload ? tsvToSheetBase(preload) : undefined
       this.setState({ loading: true, error: null, data: preloadedBase })
       try {
-        const fetched = await fetchTsvBase(url)
-        const fetchedBase = tsvBaseToJsObjectBase(fetched)
+        const fetched = await fetchTsv(url)
+        const fetchedBase = tsvToSheetBase(fetched)
         this.setState({ loading: false, error: null, data: fetchedBase })
       } catch (err: any) {
         this.setState({ loading: false, error: err, data: undefined })

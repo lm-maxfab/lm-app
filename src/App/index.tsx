@@ -1,6 +1,6 @@
 import { Component, Context, JSX } from 'preact'
 import clss from 'classnames'
-import { SheetBase } from '../modules/spreadsheets/tsv-base-to-js-object-base'
+import { SheetBase } from '../modules/sheet-base'
 import AppContext from '../context'
 import Header from './components/Header'
 import Intro from './components/Intro'
