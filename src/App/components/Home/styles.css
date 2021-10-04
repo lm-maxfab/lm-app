@@ -1,0 +1,25 @@
+.frag-home {
+  height: calc(300 * var(--vh));
+}
+
+.frag-home .lm-parallax {
+  overflow: visible;
+}
+
+.frag-home__inner {
+  position: relative;
+  height: calc(100 * var(--vh));
+  width: calc(100 * var(--vw));
+}
+
+.frag-home__inner_visibility-true {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 400ms 10ms, visibility 400ms;
+}
+
+.frag-home__inner_visibility-false {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 400ms, visibility 10ms 400ms;
+}

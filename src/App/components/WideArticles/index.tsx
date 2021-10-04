@@ -7,8 +7,8 @@ interface Props {
   style?: JSX.CSSProperties
 }
 
-class Template extends Component<Props, {}> {
-  mainClass: string = 'TEMPLATE'
+class WideArticles extends Component<Props, {}> {
+  mainClass: string = 'frag-wide-articles'
 
   /* * * * * * * * * * * * * * *
    * RENDER
@@ -20,11 +20,11 @@ class Template extends Component<Props, {}> {
 
     return (
       <div className={classes} style={inlineStyle}>
-        TSX component template.
+        TSX component WideArticles.
       </div>
     )
   }
 }
 
 export type { Props }
-export default Template
+export default WideArticles

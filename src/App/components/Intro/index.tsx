@@ -1,34 +1,105 @@
-import { Component, JSX } from 'preact'
+import { Component, JSX, VNode } from 'preact'
 import clss from 'classnames'
-import IntersectionObserverComponent from '../../../modules/le-monde/components/IntersectionObserver'
+import IOComponent from '../../../modules/le-monde/components/IntersectionObserver'
+import { IntroImage as IntroImageInterface } from '../../types'
 import './styles.css'
 
-type IO = IntersectionObserver
 type IOE = IntersectionObserverEntry
 
-interface Fragment {
-  url: string
-  h_position: string
-  height: string
-  width: string
-  paragraph_chunk: JSX.Element
+interface IntroImageProps {
+  image: IntroImageInterface
+  parentMainClass: string
+}
+
+/* * * * * * * * * * * * * * *
+ * INTRO IMAGE
+ * * * * * * * * * * * * * * */
+const IntroImage = (props: IntroImageProps) => {
+  const { image, parentMainClass } = props
+  return (
+    <div className={`${parentMainClass}__image-slot`}>
+      <div className={`${parentMainClass}__image-slot-inner`}>
+        <div
+          className={`${parentMainClass}__image-wrapper`}
+          style={{ maxHeight: image.height }}>
+          <IOComponent
+            threshold={[.2, .3, .4]}
+            render={(ioEntry: IOE|null) => (
+              <img
+                loading='lazy'
+                src={image.url}
+                className={`${parentMainClass}__image-image`}
+                style={{
+                  opacity: (ioEntry?.intersectionRatio ?? 0) > .3 ? '1' : '.3',
+                  left: image.h_position,
+                  transform: `translateX(calc(-1 * ${image.h_position}))`
+                }} />
+            )} />
+        </div>
+      </div>
+    </div>
+  )
+}
+
+interface ImageVisibility {
+  pos: number
+  ratio: number
 }
 
 interface Props {
   className?: string
   style?: JSX.CSSProperties
-  fragments: Fragment[]
+  images: IntroImageInterface[]
   paragraph_basis: JSX.Element
+  show_paragraph: boolean
 }
 
 interface State {
-  current_fragment: number|null
+  current_image: number|null
+  images_visibility: ImageVisibility[]
 }
 
 class Intro extends Component<Props, State> {
   mainClass: string = 'frag-intro'
-  state = {
-    current_fragment: null
+  state: State = {
+    current_image: null,
+    images_visibility: []
+  }
+
+  /* * * * * * * * * * * * * * *
+   * CONSTRUCTOR
+   * * * * * * * * * * * * * * */
+  constructor (props: Props) {
+    super(props)
+    this.handleImageIntersectionEvent = this.handleImageIntersectionEvent.bind(this)
+  }
+
+  /* * * * * * * * * * * * * * *
+   * METHODS
+   * * * * * * * * * * * * * * */
+  handleImageIntersectionEvent (pos: number, isIntersecting: boolean, ratio: number) {
+    this.setState(curr => {
+      const currImgVis = curr.images_visibility
+      const posInCurrState = currImgVis.findIndex(imgVis => imgVis.pos === pos)
+      if (posInCurrState === -1 && !isIntersecting) return null
+      else if (posInCurrState === -1 && isIntersecting) {
+        const newImgVis = [...currImgVis, { pos, ratio }]
+        return { ...curr, images_visibility: newImgVis }
+      } else if (posInCurrState !== -1 && !isIntersecting) {
+        const newImgVis = [
+          ...currImgVis.slice(0, posInCurrState),
+          ...currImgVis.slice(posInCurrState + 1)
+        ]
+        return { ...curr, images_visibility: newImgVis }
+      } else {
+        const newImgVis = [
+          ...currImgVis.slice(0, posInCurrState),
+          { pos, ratio },
+          ...currImgVis.slice(posInCurrState + 1)
+        ]
+        return { ...curr, images_visibility: newImgVis }
+      }
+    })
   }
 
   /* * * * * * * * * * * * * * *
@@ -38,57 +109,50 @@ class Intro extends Component<Props, State> {
     const { props, state } = this
     
     // Logic
-    const currentFragment = state.current_fragment
-    const paragraph = props.fragments
+    const maxImageRatio = Math.max(...state.images_visibility.map(imgVis => imgVis.ratio))
+    const currentMaxImgVis = state.images_visibility.find(imgVis => imgVis.ratio === maxImageRatio)
+    const currentFragment = currentMaxImgVis?.pos ?? null
+    const paragraph = props.images
       .slice(0, (currentFragment ?? -1) + 1)
       .map(fragment => <span className={`${this.mainClass}__paragraph-chunk`}>
         {fragment.paragraph_chunk}
       </span>)
 
     // Classes
-    const classes: string = clss(this.mainClass, props.className)
+    const classes = clss(this.mainClass, props.className)
     const inlineStyle = { ...props.style }
+
+    const paragraphVisibilityClass = `${this.mainClass}__paragraph_visibility-${props.show_paragraph}`
+    const paragraphClasses = clss(`${this.mainClass}__paragraph`, paragraphVisibilityClass)
 
     // Display
     return (
       <div className={classes} style={inlineStyle}>
         {/* Sticky paragraph */}
-        <div className={`${this.mainClass}__paragraph`}>
+        <div className={paragraphClasses}>
           <span className={`${this.mainClass}__paragraph-chunk`}>
             {props.paragraph_basis}
           </span>
           {paragraph}
         </div>
-        {/* Int-obs for no current fragment detection */}
-        <IntersectionObserverComponent
-          callback={(ioEntry: IOE|null) => {
-            if (ioEntry?.isIntersecting !== true) return
-            this.setState({ current_fragment: null })
-          }}
-          render={() => <div />} />
+
         {/* Fragments */}
         <div className={`${this.mainClass}__scrollable-background`}>
-          {props.fragments.map((fragment: Fragment, fragmentPos: number) => (
-            <IntersectionObserverComponent
-              key={fragmentPos}
-              threshold={[.6]}
+          {props.images.map((image: IntroImageInterface, imagePos: number) => (
+            <IOComponent
+              threshold={[0, .2, .4, .6, .8, 1]}
               callback={(ioEntry: IOE|null) => {
-                if (ioEntry?.isIntersecting !== true) return
-                this.setState({ current_fragment: fragmentPos })
-              }}
-              render={(ioEntry: IOE|null) => (
-                <div className={`${this.mainClass}__fragment-wrapper`}>
-                  <div
-                    className={`${this.mainClass}__fragment-image`}
-                    style={{
-                      width: `${Math.random() * 30 + 20}%`,
-                      height: fragment.height,
-                      left: fragment.h_position,
-                      transform: `translateX(calc(-1 * ${fragment.h_position}))`,
-                      backgroundColor: ioEntry?.isIntersecting ? 'violet' : 'coral'
-                    }} />
-                </div>
-              )} />
+                this.handleImageIntersectionEvent(
+                  imagePos,
+                  ioEntry?.isIntersecting ?? false,
+                  ioEntry?.intersectionRatio ?? 0
+                )
+              }}>
+              <IntroImage
+                key={imagePos}
+                image={image}
+                parentMainClass={this.mainClass} />
+            </IOComponent>
           ))}
         </div>
       </div>
@@ -96,5 +160,5 @@ class Intro extends Component<Props, State> {
   }
 }
 
-export type { Props, State, Fragment }
+export type { Props, State }
 export default Intro

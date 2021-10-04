@@ -1,7 +1,6 @@
 .lm-app {
   position: relative;
   margin-top: var(--len-nav-height);
-  height: 20000px;
   background-color: #FFFFFF;
 }
 
@@ -14,6 +13,15 @@
 
 .lm-app .frag-intro {
   padding-top: calc(110 * var(--vh));
-  /* background-color: wheat; */
+  z-index: 96;
+}
+
+.lm-app .frag-home-wrapper {
+  z-index: 98;
+  position: relative;
+}
+
+.lm-app .frag-wide-articles {
   z-index: 99;
+  position: relative;
 }

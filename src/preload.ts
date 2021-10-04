@@ -18,17 +18,17 @@ order	Ordre d'affichage dans le grand format	number	1	2	4	3	6
 intro_images	Images d'intro	id	1	2	3	4																														
 																																				
 publish	Publier (1, vrai, true, VRAI, TRUE)	boolean	TRUE	TRUE	TRUE	TRUE																														
-image_url	Url de l'image	text	https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png	https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png	https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png	https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png																														
+url	Url de l'image	text	https://assets-decodeurs.lemonde.fr/redacweb/4-2109-drogues-cannabis-icono/2-joint-resine.png	https://assets-decodeurs.lemonde.fr/redacweb/4-2109-drogues-cannabis-icono/21-deal-voiture.jpg	https://assets-decodeurs.lemonde.fr/redacweb/4-2109-drogues-cannabis-icono/9-schema1.svg	https://assets-decodeurs.lemonde.fr/redacweb/4-2109-drogues-cannabis-icono/13-pain-resine-cannabis.png																														
 h_position	Position horizontale dans le layout (en %)	text	0%	100%	30%	70%																														
-height	Hauteur de l'image (en % de la hauteur de l'écran)	text	100%	80%	40%	4%																														
-paragraph_chunk	Texte apparaissant à l'écran au moment ou l'image apparait	html	 j'aime la galette	, savez-vous comment ?	 quand elle est bien faite	 avec du beurre dedans !																														
+height	Hauteur de l'image (en % de la hauteur de l'écran)	text	100%	80%	60%	80%																														
+paragraph_chunk	Texte apparaissant à l'écran au moment ou l'image apparait	html	 J'aime la galette	, savez-vous comment ?	 Quand elle est bien faite	, avec du beurre dedans !																														
 related_fragment	ID du fragment relatif à l'image	ref	fragments.1	fragments.3	fragments.5	fragments.2																														
 																																				
 																																				
 home_images	Images de l'animation de home	id	1	2	3	4																														
 																																				
 publish	Publier (1, vrai, true, VRAI, TRUE)	boolean	TRUE	TRUE	TRUE	TRUE																														
-image_url	URL de l'image	text	https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png	https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png	https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png	https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png																														
+image_url	URL de l'image	text	https://assets-decodeurs.lemonde.fr/redacweb/4-2109-drogues-cannabis-icono/2-joint-resine.png	https://assets-decodeurs.lemonde.fr/redacweb/4-2109-drogues-cannabis-icono/21-deal-voiture.jpg	https://assets-decodeurs.lemonde.fr/redacweb/4-2109-drogues-cannabis-icono/9-schema1.svg	https://assets-decodeurs.lemonde.fr/redacweb/4-2109-drogues-cannabis-icono/13-pain-resine-cannabis.png																														
 image_center	Coordonnées du centre d'attention (en %, depuis la gauche et le haut)	text	22% 46%	22% 46%	22% 46%	22% 46%																														
 image_side	Côté de l'écran (desktop uniquement) sur lequel s'affiche l'image (left, l, gauche, g, centre, center, c, right, r, droite, d)	text	left	right	left	right																														
 image_animation_slot_desktop	Position dans l'animation pour desktop	number	1	2	2	3																														

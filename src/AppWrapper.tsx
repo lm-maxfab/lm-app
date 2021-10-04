@@ -53,6 +53,7 @@ class AppWrapper extends Component<{}, AppWrapperState> {
     viewportRatio: ratio,
     navHeight: navHeight
   }
+  resizeTimeout1: number|null = null
   resizeInterval: number|null = null
   $root: HTMLDivElement|null = null
 
@@ -70,7 +71,8 @@ class AppWrapper extends Component<{}, AppWrapperState> {
   componentDidMount (): void {
     this.storeViewportDimensions()
     window.addEventListener('resize', this.storeViewportDimensions)
-    this.resizeInterval = window.setInterval(this.storeViewportDimensions, 500)
+    this.resizeTimeout1 = window.setTimeout(this.storeViewportDimensions, 300)
+    this.resizeInterval = window.setInterval(this.storeViewportDimensions, 2000)
   }
 
   /* * * * * * * * * * * * * * *
@@ -85,6 +87,7 @@ class AppWrapper extends Component<{}, AppWrapperState> {
    * * * * * * * * * * * * * * */
   componentWillUnmount (): void {
     window.removeEventListener('resize', this.storeViewportDimensions)
+    if (this.resizeTimeout1 !== null) window.clearTimeout(this.resizeTimeout1)
     if (this.resizeInterval !== null) window.clearInterval(this.resizeInterval)
   }
 

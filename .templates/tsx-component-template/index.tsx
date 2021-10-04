@@ -15,8 +15,8 @@ class Template extends Component<Props, {}> {
    * * * * * * * * * * * * * * */
   render (): JSX.Element {
     const { props } = this
-    const classes: string = clss(this.mainClass, props.className)
-    const inlineStyle = { ...props.style }
+    const classes = clss(this.mainClass, props.className)
+    const inlineStyle: JSX.CSSProperties = { ...props.style }
 
     return (
       <div className={classes} style={inlineStyle}>

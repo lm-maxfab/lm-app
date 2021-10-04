@@ -104,6 +104,7 @@ class IntersectionObserverComponent extends Component<Props, State> {
       className={classes}
       style={inlineStyle}>
       {rendered}
+      {props.children}
     </div>
   }
 }

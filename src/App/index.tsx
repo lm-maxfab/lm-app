@@ -3,11 +3,16 @@ import clss from 'classnames'
 import { SheetBase } from '../modules/sheet-base'
 import AppContext from '../context'
 import Header from './components/Header'
-import Intro, { Fragment as IntroFragment } from './components/Intro'
+import Intro from './components/Intro'
+import Home from './components/Home'
 import WideArticles from './components/WideArticles'
 import GridArticles from './components/GridArticles'
 import Menu from './components/Menu'
+import IOComponent from '../modules/le-monde/components/IntersectionObserver'
+import { Fragment, IntroImage, HomeImage, PageSettings } from './types'
 import './styles.css'
+
+type IOE = IntersectionObserverEntry
 
 interface Props {
   className?: string
@@ -16,19 +21,17 @@ interface Props {
 }
 
 interface State {
-  is_bright: boolean
+  show_intro_paragraph: boolean
+  activate_home: boolean
 }
 
 class App extends Component<Props, State> {
-  state = { is_bright: false }
-  constructor (props: Props) {
-    super(props)
-    window.setInterval(() => {
-      this.setState(curr => ({ is_bright: !curr.is_bright }))
-    }, 2000)
+  mainClass: string = 'lm-app'
+  state: State = {
+    show_intro_paragraph: true,
+    activate_home: false
   }
 
-  mainClass: string = 'lm-app'
   static contextType: Context<any> = AppContext
 
   /* * * * * * * * * * * * * * *
@@ -38,66 +41,47 @@ class App extends Component<Props, State> {
     const { props, state, context } = this
     const { config } = context
 
+    // Extract data
+    const sheetBase = props.sheet_data ?? new SheetBase()
+    // const fragments = sheetBase.collection('fragments').value as unknown as Fragment[]
+    const introImages = sheetBase.collection('intro_images').value as unknown as IntroImage[]
+    const homeImages = sheetBase.collection('home_images').value as unknown as HomeImage[]
+    const pageSettings = sheetBase.collection('page_settings').entry('settings').value as unknown as PageSettings
+    const introFirstParagraphChunk = pageSettings.intro_first_paragraph_chunk
+
     // Logic
-    // const fragments = [{
-    //   url: 'http://image.com/image.jpg',
-    //   h_position: '60%',
-    //   height: '80%',
-    //   width: '30%',
-    //   paragraph_chunk: <>I am a paragraph chunk. </>
-    // }, {
-    //   url: 'http://image.com/image.jpg',
-    //   h_position: '0%',
-    //   height: '50%',
-    //   width: '70%',
-    //   paragraph_chunk: <>I am a paragraph chunk. </>
-    // }, {
-    //   url: 'http://image.com/image.jpg',
-    //   h_position: '100%',
-    //   height: '100%',
-    //   width: '30%',
-    //   paragraph_chunk: <>I am a paragraph chunk. </>
-    // }, {
-    //   url: 'http://image.com/image.jpg',
-    //   h_position: '20%',
-    //   height: '90%',
-    //   width: '45%',
-    //   paragraph_chunk: <>I am a paragraph chunk. </>
-    // }, {
-    //   url: 'http://image.com/image.jpg',
-    //   h_position: '0%',
-    //   height: '100%',
-    //   width: '60%',
-    //   paragraph_chunk: <>I am a paragraph chunk.</>
-    // }]
+    const introPassedDetector = (ioe: IOE|null) => this.setState({ show_intro_paragraph: !(ioe?.isIntersecting ?? false) })
+    const homeDetector = (ioe: IOE|null) => this.setState({ activate_home: ioe?.isIntersecting ?? false })
 
     // Classes
     const classes: string = clss(this.mainClass, props.className)
     const inlineStyle = { ...props.style }
 
-    const sheetBase = props.sheet_data ?? new SheetBase()
-    const introFragments = sheetBase
-      .collection('intro_images')
-      .value
-    const pageSettings = sheetBase
-      .collection('page_settings')
-      .entry('settings')
-      .value
-    const introIntro = pageSettings.intro_first_paragraph_chunk as VNode
-
     // Display
     return (
       <div
-        id={config.project_short_name}
         className={classes}
-        style={inlineStyle}>
-        <Header
-          theme={state.is_bright ? 'bright' : 'dark'} />
+        style={inlineStyle}
+        id={config.project_short_name}>
+        <Header theme='dark' />
         <Intro
-          paragraph_basis={introIntro}
-          fragments={introFragments as unknown as IntroFragment[]} />
-        <WideArticles />
-        <GridArticles />
+          show_paragraph={state.show_intro_paragraph}
+          paragraph_basis={introFirstParagraphChunk}
+          images={introImages} />
+        <IOComponent
+          threshold={[0, .1, .2, .3, .4, .5, .6, .7, .8, .9, 1]}
+          callback={introPassedDetector}>
+          <IOComponent
+            className='frag-home-wrapper'
+            threshold={[.15]}
+            callback={homeDetector}>
+            <Home
+              images={homeImages}
+              activate={state.activate_home} />
+          </IOComponent>
+          <WideArticles />
+          <GridArticles />
+        </IOComponent>
         <Menu />
       </div>
     )
