@@ -1,0 +1,71 @@
+.frag-home {
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+.frag-home_visibility-true {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 400ms 10ms, visibility 400ms;
+}
+
+.frag-home_visibility-false {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 400ms, visibility 10ms 400ms;
+}
+
+.frag-home__images {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: gold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.frag-home__images-left {
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(#e66465, #9198e5);
+  position: relative;
+}
+
+.frag-home__images-right {
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(#9198e5, #e66465);
+  position: relative;
+}
+
+.frag-home__image-slot {
+  background-size: cover;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.frag-home_animation-beginning .frag-home__image-slot {
+  opacity: 0;
+  visibility: hidden;
+}
+
+@keyframes frag-home-image-animation {
+  0% { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.frag-home__logo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  height: 180px;
+  background-color: hotpink;
+}

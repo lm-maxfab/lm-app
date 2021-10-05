@@ -2,14 +2,26 @@
   position: fixed;
   font-family: var(--ff-the-antiqua-b);
   font-size: 20px;
-  line-height: 30px;
+  line-height: 1.5;
   max-width: calc(100 * var(--vw) - 32px);
   width: 928px;
-  top: calc(20 * var(--vh));
+  top: calc(50px + 10 * var(--vh));
   left: 50%;
   transform: translateX(-50%);
   z-index: 2;
-  /* transition: opacity 200ms, visibility 1ms 200ms; */
+}
+
+@media screen and (max-width: 1200px) {
+  .frag-intro__paragraph {
+    font-size: 17px;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .frag-intro__paragraph {
+    font-size: 14px;
+    top: calc(40px + 5 * var(--vh));
+  }
 }
 
 .frag-intro__paragraph_visibility-true {

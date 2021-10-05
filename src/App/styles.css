@@ -14,11 +14,17 @@
 .lm-app .frag-intro {
   padding-top: calc(110 * var(--vh));
   z-index: 96;
+  position: relative;
 }
 
-.lm-app .frag-home-wrapper {
+.lm-app__home-scrolling-area {
+  height: calc(300 * var(--vh));
+  background-color: coral;
+}
+
+.lm-app .frag-home {
   z-index: 98;
-  position: relative;
+  position: fixed;
 }
 
 .lm-app .frag-wide-articles {

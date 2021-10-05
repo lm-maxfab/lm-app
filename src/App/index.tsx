@@ -4,7 +4,7 @@ import { SheetBase } from '../modules/sheet-base'
 import AppContext from '../context'
 import Header from './components/Header'
 import Intro from './components/Intro'
-import Home from './components/Home'
+import Home from './components/HomePage'
 import WideArticles from './components/WideArticles'
 import GridArticles from './components/GridArticles'
 import Menu from './components/Menu'
@@ -50,7 +50,15 @@ class App extends Component<Props, State> {
     const introFirstParagraphChunk = pageSettings.intro_first_paragraph_chunk
 
     // Logic
-    const introPassedDetector = (ioe: IOE|null) => this.setState({ show_intro_paragraph: !(ioe?.isIntersecting ?? false) })
+    const introPassedDetector = (ioe: IOE|null) => {
+      const scrollLevel = window.scrollY
+      const documentHeight = document.body.clientHeight
+      const scrollRatio = scrollLevel / documentHeight
+      const mostOfPageIsScrolled = scrollRatio > .7
+      const restIsIntersecting = ioe?.isIntersecting ?? false
+      const showIntroParagraph = !mostOfPageIsScrolled && !restIsIntersecting
+      this.setState({ show_intro_paragraph: showIntroParagraph })
+    }
     const homeDetector = (ioe: IOE|null) => this.setState({ activate_home: ioe?.isIntersecting ?? false })
 
     // Classes
@@ -68,16 +76,18 @@ class App extends Component<Props, State> {
           show_paragraph={state.show_intro_paragraph}
           paragraph_basis={introFirstParagraphChunk}
           images={introImages} />
+        <Home
+          images={homeImages}
+          isVisible={state.activate_home}
+          activate={state.activate_home} />
         <IOComponent
-          threshold={[0, .1, .2, .3, .4, .5, .6, .7, .8, .9, 1]}
+          threshold={.05}
           callback={introPassedDetector}>
           <IOComponent
             className='frag-home-wrapper'
-            threshold={[.15]}
+            threshold={.1}
             callback={homeDetector}>
-            <Home
-              images={homeImages}
-              activate={state.activate_home} />
+            <div className={`${this.mainClass}__home-scrolling-area`} />
           </IOComponent>
           <WideArticles />
           <GridArticles />
