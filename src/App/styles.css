@@ -19,7 +19,6 @@
 
 .lm-app__home-scrolling-area {
   height: calc(300 * var(--vh));
-  background-color: coral;
 }
 
 .lm-app .frag-home {

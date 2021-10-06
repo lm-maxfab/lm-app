@@ -1,8 +1,10 @@
-import { Component, JSX } from 'preact'
+import { Component, JSX, VNode } from 'preact'
 
 interface Props {
-  begin?: number|'beginning'
-  end?: number|'end'
+  className?: string
+  from?: number
+  to?: number
+  children?: VNode
 }
 
 class SequencerSlot extends Component<Props, {}> {

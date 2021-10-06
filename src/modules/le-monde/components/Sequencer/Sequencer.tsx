@@ -1,12 +1,11 @@
 import { Component, JSX } from 'preact'
-import SequencerSlot from './SequencerSlot'
 import './styles.css'
 
 interface Props {
   tempo?: number
   length?: number
   loop?: boolean
-  children?: JSX.Element[]
+  render?: (step: number) => JSX.Element[]|JSX.Element
 }
 
 interface State {
@@ -15,14 +14,17 @@ interface State {
 }
 
 class Sequencer extends Component<Props, State> {
+  #mainClass: string = 'lm-sequencer'
+  get mainClass () { return this.#mainClass }
+
   state: State = {
     step: 0,
     status: 'pause'
   }
 
-  defaultTempo: number = 60
-  defaultLength: number = 10
-  nextStepTimeout: number|null = 0
+  #defaultTempo: number = 60
+  #defaultLength: number = 10
+  #nextStepTimeout: number|null = 0
 
   /* * * * * * * * * * * * * * *
    * CONSTRUCTOR
@@ -33,21 +35,36 @@ class Sequencer extends Component<Props, State> {
     this.play = this.play.bind(this)
     this.pause = this.pause.bind(this)
     this.planNextStep = this.planNextStep.bind(this)
+    this.cancelNextStep = this.cancelNextStep.bind(this)
+  }
+
+  /* * * * * * * * * * * * * * *
+   * LIFECYCLE
+   * * * * * * * * * * * * * * */
+  componentWillUnmount () {
+    if (this.#nextStepTimeout === null) return
+    window.clearTimeout(this.#nextStepTimeout)
   }
 
   /* * * * * * * * * * * * * * *
    * METHODS
    * * * * * * * * * * * * * * */
+  #getLength () {
+    return this.props.length ?? this.#defaultLength
+  }
+
   goTo (step: number|'beginning'|'end'|'next'|'prev' = 'next') {
-    const length = this.props.length ?? this.defaultLength
+    const length = this.props.length ?? this.#getLength()
     this.setState((curr: State) => {
       let rawNewStep: number
       if (step === 'beginning') rawNewStep = 0
-      else if (step === 'end') rawNewStep = (this.props.length ?? this.defaultLength) - 1
+      else if (step === 'end') rawNewStep = Math.max(length - 1, 0)
       else if (step === 'prev') rawNewStep = curr.step - 1
       else if (step === 'next') rawNewStep = curr.step + 1
       else rawNewStep = step
-      return { ...curr, step: rawNewStep % length }
+      const moduloStep = rawNewStep % length
+      const newStep = Number.isNaN(moduloStep) ? 0 : moduloStep
+      return { ...curr, step: newStep }
     })
   }
 
@@ -57,20 +74,26 @@ class Sequencer extends Component<Props, State> {
   }
 
   pause () {
+    this.cancelNextStep()
     this.setState({ status: 'pause' })
   }
 
   planNextStep () {
-    const tempo = this.props.tempo ?? this.defaultTempo
+    const tempo = this.props.tempo ?? this.#defaultTempo
     const delay = 60000 / tempo
-    const length = this.props.length ?? this.defaultLength
-    this.nextStepTimeout = window.setTimeout(() => {
-      if (this.state.status === 'pause') return
-      const isLastStep = this.state.step === length - 1
-      if (isLastStep && this.props.loop !== true) return
+    const length = this.#getLength()
+    const isLastStep = this.state.step >= length - 2
+    if (isLastStep && this.props.loop !== true) return
+    this.#nextStepTimeout = window.setTimeout(() => {
       this.goTo('next')
       this.planNextStep()
     }, delay)
+  }
+
+  cancelNextStep () {
+    if (this.#nextStepTimeout === null) return
+    window.clearTimeout(this.#nextStepTimeout)
+    this.#nextStepTimeout = null
   }
 
   /* * * * * * * * * * * * * * *
@@ -78,30 +101,12 @@ class Sequencer extends Component<Props, State> {
    * * * * * * * * * * * * * * */
   render (): JSX.Element {
     const { props, state } = this
-
-    console.log('Render the sequencer, step:', state.step)
-
-    const rendered = (props.children ?? []).map(child => {
-      console.log(child.type === SequencerSlot)
-      return <div>CHILD</div>
-    })
-    
-    // props.children?.map(child => {
-    //   console.log(child.props)
-    // })
-
-    return <>
-      {rendered}
-    </>
-    // console.log(props.children?.map(child => {
-    //   console.log(child)
-    // }))
-
-    return <>
-      I am a sequencer.
-    </>
+    const rendered = props.render !== undefined
+      ? props.render(state.step)
+      : null
+    return <>{rendered}</>
   }
 }
 
-export type { Props }
+export type { Props, State }
 export default Sequencer

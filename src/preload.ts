@@ -7,38 +7,38 @@ title	Titre de l'article	html	Gilets jaunes en tongs	Alpes macabre : sorcières 
 subtitle	Sous titre de l'article	html	Lorem ipsum dolor sit	Lorem ipsum dolor sit	Lorem ipsum dolor sit	Lorem ipsum dolor sit	Lorem ipsum dolor sit																													
 chapo	Chapo de l'article	html	Lorem ipsum dolor sit	Lorem ipsum dolor sit	Lorem ipsum dolor sit	Lorem ipsum dolor sit	Lorem ipsum dolor sit																													
 head_image_url	URL de l'image d'illustration	text	https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png	https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png	https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png	https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png	https://upload.wikimedia.org/wikipedia/commons/b/b6/Image_created_with_a_mobile_phone.png																													
-head_image_center	Coordonnées du centre d'attention (en %, depuis la gauche et le haut)	text	60% 20%	30% 14%	70% 70%	60% 35%	22% 91%																													
+head_image_center	Coordonnées du centre d'attention (en %, depuis la gauche et le haut, séparés par un espace)	text	60% 20%	30% 14%	70% 70%	60% 35%	22% 91%																													
 head_video_url	URL de la vidéo d'illustration	text	https://assets-decodeurs.lemonde.fr/redacweb/5-2110-fragments-assets/video.mov	https://assets-decodeurs.lemonde.fr/redacweb/5-2110-fragments-assets/video.mov	https://assets-decodeurs.lemonde.fr/redacweb/5-2110-fragments-assets/video.mov	https://assets-decodeurs.lemonde.fr/redacweb/5-2110-fragments-assets/video.mov	https://assets-decodeurs.lemonde.fr/redacweb/5-2110-fragments-assets/video.mov																													
-head_video_center	Coordonnées du centre d'attention (en %, depuis la gauche et le haut)	text	60% 20%	30% 14%	70% 70%	60% 35%	22% 91%																													
+head_video_center	Coordonnées du centre d'attention (en %, depuis la gauche et le haut, séparés par un espace)	text	60% 20%	30% 14%	70% 70%	60% 35%	22% 91%																													
 region	Nom de la région	text	Île-de-France	Bretagne	Bretagne	Centre-Val-de-Loire	Auvergne-Rhone-Alpes																													
 thematic	Nom de la thématique	text	Les révoltés	Les déboussolés	Les nomades	Les révoltés	Les nomades																													
 order	Ordre d'affichage dans le grand format	number	1	2	4	3	6																													
 																																				
 																																				
-intro_images	Images d'intro	id	1	2	3	4																														
+intro_images	Images d'intro	id	1	2	3	4	5																													
 																																				
-publish	Publier (1, vrai, true, VRAI, TRUE)	boolean	TRUE	TRUE	TRUE	TRUE																														
-url	Url de l'image	text	https://assets-decodeurs.lemonde.fr/redacweb/4-2109-drogues-cannabis-icono/2-joint-resine.png	https://assets-decodeurs.lemonde.fr/redacweb/4-2109-drogues-cannabis-icono/21-deal-voiture.jpg	https://assets-decodeurs.lemonde.fr/redacweb/4-2109-drogues-cannabis-icono/9-schema1.svg	https://assets-decodeurs.lemonde.fr/redacweb/4-2109-drogues-cannabis-icono/13-pain-resine-cannabis.png																														
-h_position	Position horizontale dans le layout (en %)	text	0%	100%	30%	70%																														
-height	Hauteur de l'image (en % de la hauteur de l'écran)	text	100%	80%	60%	80%																														
-paragraph_chunk	Texte apparaissant à l'écran au moment ou l'image apparait	html	 J'aime la galette	, savez-vous comment ?	 Quand elle est bien faite	, avec du beurre dedans !																														
-related_fragment	ID du fragment relatif à l'image	ref	fragments.1	fragments.3	fragments.5	fragments.2																														
+publish	Publier (1, vrai, true, VRAI, TRUE)	boolean	TRUE	TRUE	TRUE	TRUE	TRUE																													
+url	Url de l'image	text		https://assets-decodeurs.lemonde.fr/redacweb/4-2109-drogues-cannabis-icono/2-joint-resine.png	https://assets-decodeurs.lemonde.fr/redacweb/4-2109-drogues-cannabis-icono/21-deal-voiture.jpg	https://assets-decodeurs.lemonde.fr/redacweb/4-2109-drogues-cannabis-icono/9-schema1.svg	https://assets-decodeurs.lemonde.fr/redacweb/4-2109-drogues-cannabis-icono/13-pain-resine-cannabis.png																													
+h_position	Position horizontale dans le layout (en %)	text	0%	0%	100%	30%	70%																													
+height	Hauteur de l'image (en % de la hauteur de l'écran)	text	100%	100%	80%	60%	80%																													
+paragraph_chunk	Texte apparaissant à l'écran au moment ou l'image apparait	html	<br /><br />Au mois de septembre, Le Monde a lancé une opération d’une ampleur inédite pour raconter la France à l’orée de l’élection présidentielle. Nos journalistes ont sillonné un pays se relevant de l’épreuve de la crise sanitaire. Loin de l’image d’une nation recroquevillée sur elle-même, en proie à ses obsessions identitaires, nos reporters sont revenus avec des récits qui dessinent une vitalité, une volonté d’avancer, sur les bases du “monde d’avant” ou avec la volonté d’imaginer celui “d’après”. Des récits qui racontent des vies douloureuses parfois, heureuses souvent, complexes toujours.	<br /><br />100 journalistes	, 100 photographes	, 100 débris de Fronce.																														
+related_fragment	ID du fragment relatif à l'image	ref	fragments.1	fragments.1	fragments.3	fragments.5	fragments.2																													
 																																				
 																																				
-home_images	Images de l'animation de home	id	1	2	3	4																														
+home_images	Images de l'animation de home	id	1	2	3	4	5	6	7																											
 																																				
-publish	Publier (1, vrai, true, VRAI, TRUE)	boolean	TRUE	TRUE	TRUE	TRUE																														
-image_url	URL de l'image	text	https://assets-decodeurs.lemonde.fr/redacweb/4-2109-drogues-cannabis-icono/2-joint-resine.png	https://assets-decodeurs.lemonde.fr/redacweb/4-2109-drogues-cannabis-icono/21-deal-voiture.jpg	https://assets-decodeurs.lemonde.fr/redacweb/4-2109-drogues-cannabis-icono/9-schema1.svg	https://assets-decodeurs.lemonde.fr/redacweb/4-2109-drogues-cannabis-icono/13-pain-resine-cannabis.png																														
-image_center	Coordonnées du centre d'attention (en %, depuis la gauche et le haut)	text	22% 46%	22% 46%	22% 46%	22% 46%																														
-image_side	Côté de l'écran (desktop uniquement) sur lequel s'affiche l'image (left, l, gauche, g, centre, center, c, right, r, droite, d)	text	left	right	left	right																														
-image_animation_slot_desktop	Position dans l'animation pour desktop	number	1	2	2	3																														
-image_animation_slot_mobile	Position dans l'animation pour mobile	number	1	2	3	4																														
-related_fragment	ID du fragment relatif à l'image	ref	fragments.1	fragments.3	fragments.5	fragments.2																														
+publish	Publier (1, vrai, true, VRAI, TRUE)	boolean	TRUE	TRUE	TRUE	TRUE	TRUE	TRUE	TRUE																											
+image_url	URL de l'image	text	https://assets-decodeurs.lemonde.fr/redacweb/5-2110-fragments-icono/l-1_685-698.png	https://assets-decodeurs.lemonde.fr/redacweb/5-2110-fragments-icono/r-1_150-121.png	https://assets-decodeurs.lemonde.fr/redacweb/5-2110-fragments-icono/l-2_340-580.png	https://assets-decodeurs.lemonde.fr/redacweb/5-2110-fragments-icono/r-2_750-623.png	https://assets-decodeurs.lemonde.fr/redacweb/5-2110-fragments-icono/l-3_933-043.png	https://assets-decodeurs.lemonde.fr/redacweb/5-2110-fragments-icono/r-3_493-336.png	https://assets-decodeurs.lemonde.fr/redacweb/5-2110-fragments-icono/l-4_223-721.png																											
+image_center	Coordonnées du centre d'attention (en %, depuis la gauche et le haut, séparés par un espace)	text	68.5% 69.8%	15% 12.1%	34% 58%	75% 62.3%	93.3% 4.3%	49.3% 33.6%	22.3% 72.1%																											
+image_side	Côté de l'écran (desktop uniquement) sur lequel s'affiche l'image (left, l, gauche, g, centre, center, c, right, r, droite, d)	text	left	right	left	right	left	right	left																											
+image_animation_slot_desktop	Position dans l'animation pour desktop	number	0	1	2	3	3	4	5																											
+image_animation_slot_mobile	Position dans l'animation pour mobile	number	0	1	2	3	4	5	6																											
+related_fragment	ID du fragment relatif à l'image	ref																																		
 																																				
 																																				
 page_settings	Paramètres de la page	id	settings																																	
 																																				
-intro_first_paragraph_chunk	Paragraphe aparaissant dans l'intro du grand format	html	Coucou les loulous !																																	
+intro_first_paragraph_chunk	Paragraphe aparaissant dans l'intro du grand format	html	Partir d’une page blanche. Partir du terrain. Partir en reportage.																																	
 `
 
 export default preload
