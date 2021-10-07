@@ -18,7 +18,7 @@
 }
 
 .lm-app__home-scrolling-area {
-  height: calc(300 * var(--vh));
+  height: calc(200 * var(--vh));
 }
 
 .lm-app .frag-home {
@@ -26,7 +26,24 @@
   position: fixed;
 }
 
-.lm-app .frag-wide-articles {
-  z-index: 99;
+.lm-app__wide-fragment-scrolling-area {
+  height: calc(100 * var(--vh));
+  z-index: 100;
   position: relative;
+}
+
+.lm-app .frag-wide-fragment-icono {
+  z-index: 99;
+  position: fixed;
+}
+
+/* .frag-wide-fragments__fragment-icono {
+  z-index: 99;
+  position: fixed;
+} */
+
+@media screen and (max-width: 1200px) {
+  .footer__links-multimedia {
+    flex-direction: column;
+  }
 }

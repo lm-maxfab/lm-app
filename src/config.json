@@ -1,9 +1,9 @@
 {
   "sheetbase_url": "https://assets-decodeurs.lemonde.fr/sheets/qO7G0Yk6QnNQppeLY7BOVlnbnLyXxg_729",
-  "assets_root_url": "https://assets-decodeurs.lemonde.fr/redacweb/5-2110-fragments",
+  "assets_root_url": "https://assets-decodeurs.lemonde.fr/redacweb/5-2110-fragments-assets",
   "project_name": "Fragments de france",
   "project_short_name": "fragments-de-france",
-  "project_code_name": "5-2110-fragmentsdrogues",
+  "project_code_name": "5-2110-fragments",
   "build_name": null,
   "hide_header": true,
   "delete_header": true

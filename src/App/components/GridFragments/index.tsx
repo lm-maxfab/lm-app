@@ -1,14 +1,16 @@
 import { Component, JSX } from 'preact'
 import clss from 'classnames'
 import './styles.css'
+import { Fragment } from '../../types'
 
 interface Props {
   className?: string
   style?: JSX.CSSProperties
+  fragments?: Fragment[]
 }
 
-class Template extends Component<Props, {}> {
-  mainClass: string = 'TEMPLATE'
+class GridFragments extends Component<Props, {}> {
+  mainClass: string = 'frag-grid-fragments'
 
   /* * * * * * * * * * * * * * *
    * RENDER
@@ -20,11 +22,11 @@ class Template extends Component<Props, {}> {
 
     return (
       <div className={classes} style={inlineStyle}>
-        TSX component template.
+        TSX component GridFragments.
       </div>
     )
   }
 }
 
 export type { Props }
-export default Template
+export default GridFragments

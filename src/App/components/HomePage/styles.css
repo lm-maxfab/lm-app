@@ -1,20 +1,20 @@
 .frag-home {
   top: 0;
   left: 0;
-  bottom: 0;
   right: 0;
+  height: calc(100 * var(--vh));
 }
 
 .frag-home_visibility-true {
   opacity: 1;
-  visibility: visible;
-  transition: opacity 400ms 10ms, visibility 400ms;
+  height: calc(100 * var(--vh));
+  transition: opacity 400ms;
 }
 
 .frag-home_visibility-false {
   opacity: 0;
-  visibility: hidden;
-  transition: opacity 400ms, visibility 10ms 400ms;
+  height: 0;
+  transition: opacity 400ms, height 3ms 600ms;
 }
 
 .frag-home__images {
@@ -23,7 +23,6 @@
   left: 0;
   bottom: 0;
   right: 0;
-  background-color: gold;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -32,14 +31,12 @@
 .frag-home__images-left {
   width: 50%;
   height: 100%;
-  background: linear-gradient(#e66465, #9198e5);
   position: relative;
 }
 
 .frag-home__images-right {
   width: 50%;
   height: 100%;
-  background: linear-gradient(#9198e5, #e66465);
   position: relative;
 }
 
@@ -48,7 +45,6 @@
   height: 50%;
   width: 100%;
   position: relative;
-  background: linear-gradient(chocolate, yellow);
 }
 
 @media screen and (max-width: 1200px) {
@@ -77,19 +73,13 @@
 .frag-home__image-slot_active {
   opacity: 1;
   visibility: visible;
-  transition: visibility 0ms, opacity 200ms 1ms;
+  transition: visibility 0ms, opacity 400ms 1ms;
 }
 
 .frag-home__image-slot_inactive {
   opacity: 0;
   visibility: hidden;
-  transition: opacity 600ms, visibility 0ms 600ms;
-}
-
-
-@keyframes frag-home-image-animation {
-  0% { opacity: 0; }
-  to { opacity: 1; }
+  transition: opacity 1s, visibility 0ms 1s;
 }
 
 .frag-home__logo {
@@ -97,11 +87,18 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 400px;
-  height: 180px;
-  background-color: hotpink;
+  width: calc(100 * var(--vw) - 80px);
+  max-width: 700px;
 }
 
-.frag-home__logo svg .cls-1 {
-  fill: red;
+.frag-home__logo svg path {
+  fill: #2A303C;
+}
+
+.frag-home_visibility-true .frag-home__logo svg path {
+  transition: opacity 200ms;
+}
+
+.frag-home_visibility-false .frag-home__logo svg path {
+  transition: opacity 0;
 }
