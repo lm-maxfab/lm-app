@@ -55,18 +55,18 @@ class Home extends Component<Props, {}> {
 
     // Logic
     const leftImages = props.images
-      .filter(image => image.image_side === 'left')
-      .sort((a, b) => (a.image_animation_slot_desktop - b.image_animation_slot_desktop))
+      .filter(image => image.side === 'left')
+      .sort((a, b) => (a.animation_slot_desktop - b.animation_slot_desktop))
     const rightImages = props.images
-      .filter(image => image.image_side === 'right')
-      .sort((a, b) => (a.image_animation_slot_desktop - b.image_animation_slot_desktop))
-    const desktopImageSequenceLength = Math.max(...props.images.map(img => img.image_animation_slot_desktop)) + 1
-    const mobileImageSequenceLength = Math.max(...props.images.map(img => img.image_animation_slot_mobile)) + 1
+      .filter(image => image.side === 'right')
+      .sort((a, b) => (a.animation_slot_desktop - b.animation_slot_desktop))
+    const desktopImageSequenceLength = Math.max(...props.images.map(img => img.animation_slot_desktop)) + 1
+    const mobileImageSequenceLength = Math.max(...props.images.map(img => img.animation_slot_mobile)) + 1
     const mobileImages = props.images
       .filter(() => true)
       .sort((a, b) => {
-        const aSlot = a.image_animation_slot_mobile
-        const bSlot = b.image_animation_slot_mobile
+        const aSlot = a.animation_slot_mobile
+        const bSlot = b.animation_slot_mobile
         return aSlot - bSlot
       })
 
@@ -88,14 +88,17 @@ class Home extends Component<Props, {}> {
               render={(step) => {
                 const rendered = leftImages.map((image) => {
                   const slotClass = `${this.mainClass}__image-slot`
-                  const isActive = step == image.image_animation_slot_desktop
+                  const isActive = step == image.animation_slot_desktop
                   const activeClass = `${slotClass}_${isActive ? 'active' : 'inactive'}`
                   const classes = clss(slotClass, activeClass)
                   const imageStyle: JSX.CSSProperties = {
-                    backgroundImage: `url(${image.image_url})`,
-                    backgroundPosition: image.image_center
+                    backgroundImage: `url(${image.url})`,
+                    backgroundPosition: image.center,
+                    opacity: (image.opacity ?? 100) / 100
                   }
-                  return <div style={imageStyle} className={classes} />
+                  return <div className={classes}>
+                    <div style={imageStyle} className={`${slotClass}-inner`} />
+                  </div>
                 })
                 return rendered
               }} />
@@ -109,14 +112,17 @@ class Home extends Component<Props, {}> {
               render={(step) => {
                 const rendered = rightImages.map((image) => {
                   const slotClass = `${this.mainClass}__image-slot`
-                  const isActive = step == image.image_animation_slot_desktop
+                  const isActive = step == image.animation_slot_desktop
                   const activeClass = `${slotClass}_${isActive ? 'active' : 'inactive'}`
                   const classes = clss(slotClass, activeClass)
                   const imageStyle: JSX.CSSProperties = {
-                    backgroundImage: `url(${image.image_url})`,
-                    backgroundPosition: image.image_center
+                    backgroundImage: `url(${image.url})`,
+                    backgroundPosition: image.center,
+                    opacity: (image.opacity ?? 100) / 100
                   }
-                  return <div style={imageStyle} className={classes} />
+                  return <div className={classes}>
+                    <div style={imageStyle} className={`${slotClass}-inner`} />
+                  </div>
                 })
                 return rendered
               }} />
@@ -130,14 +136,17 @@ class Home extends Component<Props, {}> {
               render={(step) => {
                 const rendered = mobileImages.map((image) => {
                   const slotClass = `${this.mainClass}__image-slot`
-                  const isActive = step == image.image_animation_slot_mobile
+                  const isActive = step == image.animation_slot_mobile
                   const activeClass = `${slotClass}_${isActive ? 'active' : 'inactive'}`
                   const classes = clss(slotClass, activeClass)
                   const imageStyle: JSX.CSSProperties = {
-                    backgroundImage: `url(${image.image_url})`,
-                    backgroundPosition: image.image_center
+                    backgroundImage: `url(${image.url})`,
+                    backgroundPosition: image.center,
+                    opacity: (image.opacity ?? 100) / 100
                   }
-                  return <div style={imageStyle} className={classes} />
+                  return <div className={classes}>
+                    <div style={imageStyle} className={`${slotClass}-inner`} />
+                  </div>
                 })
                 return rendered
               }} />

@@ -64,7 +64,6 @@
 }
 
 .frag-home__image-slot {
-  background-size: cover;
   position: absolute;
   width: 100%;
   height: 100%;
@@ -80,6 +79,13 @@
   opacity: 0;
   visibility: hidden;
   transition: opacity 1s, visibility 0ms 1s;
+}
+
+.frag-home__image-slot-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
 }
 
 .frag-home__logo {

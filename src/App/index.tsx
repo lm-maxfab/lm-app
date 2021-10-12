@@ -48,7 +48,6 @@ class App extends Component<Props, State> {
   }
 
   componentDidMount () {
-    console.log('did mount')
     window.setTimeout(this.resetScrollPosition, 5)
     window.setTimeout(this.resetScrollPosition, 50)
     window.setTimeout(this.resetScrollPosition, 500)
@@ -178,15 +177,27 @@ class App extends Component<Props, State> {
 
         {wideFragments.map(fragment => {
           const sources: FragmentSources = {
-            vimeo_video_desktop_url: fragment.vimeo_video_desktop_url,
-            vimeo_video_mobile_url: fragment.vimeo_video_mobile_url,
+            vimeo_video_desktop_1080_url: fragment.vimeo_video_desktop_1080_url,
+            vimeo_video_desktop_720_url: fragment.vimeo_video_desktop_720_url,
+            vimeo_video_desktop_540_url: fragment.vimeo_video_desktop_540_url,
+            vimeo_video_desktop_360_url: fragment.vimeo_video_desktop_360_url,
+            vimeo_video_mobile_648_url: fragment.vimeo_video_mobile_648_url,
+            vimeo_video_mobile_432_url: fragment.vimeo_video_mobile_432_url,
             decodeurs_video_desktop_url: fragment.decodeurs_video_desktop_url,
             decodeurs_video_mobile_url: fragment.decodeurs_video_mobile_url,
             video_poster_desktop_url: fragment.video_poster_desktop_url,
             video_poster_mobile_url: fragment.video_poster_mobile_url,
-            image_desktop_url: fragment.image_desktop_url,
-            image_mobile_url: fragment.image_mobile_url,
-            image_center: fragment.image_center
+            wide_cover_desktop_hd_url: fragment.wide_cover_desktop_hd_url,
+            wide_cover_desktop_sd_url: fragment.wide_cover_desktop_sd_url,
+            wide_cover_desktop_center: fragment.wide_cover_desktop_center,
+            wide_cover_mobile_hd_url: fragment.wide_cover_mobile_hd_url,
+            wide_cover_mobile_sd_url: fragment.wide_cover_mobile_sd_url,
+            wide_cover_mobile_center: fragment.wide_cover_mobile_center,
+            grid_cover_hd_url: fragment.grid_cover_hd_url,
+            grid_cover_sd_url: fragment.grid_cover_sd_url,
+            grid_cover_center: fragment.grid_cover_center,
+            menu_thumb_hd_url: fragment.menu_thumb_hd_url,
+            menu_thumb_sd_url: fragment.menu_thumb_sd_url
           }
           return <WideFragmentIcono
             isActive={fragment.id === state.currentWideFragmentId && state.currentSectionId === 'wide'}

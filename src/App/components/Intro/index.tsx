@@ -1,4 +1,4 @@
-import { Component, JSX, VNode } from 'preact'
+import { Component, JSX } from 'preact'
 import clss from 'classnames'
 import IOComponent from '../../../modules/le-monde/components/IntersectionObserver'
 import { IntroImage as IntroImageInterface } from '../../types'
@@ -24,17 +24,18 @@ const IntroImage = (props: IntroImageProps) => {
           style={{ maxHeight: image.height }}>
           <IOComponent
             threshold={[.2, .3, .4]}
-            render={(ioEntry: IOE|null) => (
-              <img
+            render={(ioEntry: IOE|null) => {
+              const imageOpacity = (image.opacity ?? 100) / 100
+              return <img
                 loading='lazy'
                 src={image.url}
                 className={`${parentMainClass}__image-image`}
                 style={{
-                  opacity: (ioEntry?.intersectionRatio ?? 0) > .3 ? '1' : '.3',
+                  opacity: (ioEntry?.intersectionRatio ?? 0) > .3 ? imageOpacity : imageOpacity * .3,
                   left: image.h_position,
                   transform: `translateX(calc(-1 * ${image.h_position}))`
                 }} />
-            )} />
+            }} />
         </div>
       </div>
     </div>

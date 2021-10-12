@@ -8,14 +8,15 @@ interface Props {
 }
 
 class Template extends Component<Props, {}> {
-  mainClass: string = 'TEMPLATE'
+  #mainClass: string = 'TEMPLATE'
+  get mainClass () { return this.#mainClass }
 
   /* * * * * * * * * * * * * * *
    * RENDER
    * * * * * * * * * * * * * * */
   render (): JSX.Element {
     const { props } = this
-    const classes = clss(this.mainClass, props.className)
+    const classes = clss(this.#mainClass, props.className)
     const inlineStyle: JSX.CSSProperties = { ...props.style }
 
     return (
