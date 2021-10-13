@@ -26,7 +26,6 @@ class Parallax extends Component<Props, State> {
   $root: HTMLDivElement|null = null
   $observed: HTMLDivElement|null = null
   observer: IO = new IntersectionObserver((entries: IOE[]) => this.visibilityObservation(entries, this))
-  intervaler: number|null = null
 
   /* * * * * * * * * * * * * * *
    * CONSTRUCTOR

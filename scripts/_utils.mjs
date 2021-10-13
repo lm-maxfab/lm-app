@@ -279,6 +279,7 @@ export async function updateTempConfigJson (buildConfig, options = {}) {
   const currentTempConfig = await getTempConfigJson()
   const newCurrentTempConfig = {
     ...currentTempConfig,
+    ...buildConfig,
     sheetbase_url: buildConfig.sheetbase_url ?? null,
     build_name: buildConfig.name ?? null
   }
@@ -309,6 +310,7 @@ export async function updateTempConfigJson (buildConfig, options = {}) {
       }
     }
   }
+  console.log(newCurrentTempConfig)
   writeFileSync(TEMP_CONFIG_JSON_PATH, JSON.stringify(newCurrentTempConfig, null, 2))
   log(chalk.green(`\nUpdated ${TEMP_CONFIG_JSON_REL_PATH}\n`), quiet)
 }

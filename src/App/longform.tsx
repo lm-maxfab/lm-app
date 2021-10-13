@@ -1,16 +1,13 @@
-import { Component, Context, JSX } from 'preact'
+import { Component, JSX } from 'preact'
 import clss from 'classnames'
 import { SheetBase } from '../modules/sheet-base'
-import AppContext from '../context'
 import Header from './components/Header'
 import Intro from './components/Intro'
 import Home from './components/HomePage'
-import WideFragments from './components/WideFragments'
-import GridFragments from './components/GridFragments'
 import Menu from './components/Menu'
 import IOComponent from '../modules/le-monde/components/IntersectionObserver'
 import { Fragment as FragmentInterface, FragmentSources, IntroImage, HomeImage, PageSettings } from './types'
-import './styles.css'
+import './longform.css'
 import WideFragmentIcono from './components/WideFragmentIcono'
 
 type IOE = IntersectionObserverEntry
@@ -18,7 +15,7 @@ type IOE = IntersectionObserverEntry
 interface Props {
   className?: string
   style?: JSX.CSSProperties
-  sheet_data?: SheetBase
+  sheetBase?: SheetBase
 }
 
 interface State {
@@ -27,9 +24,7 @@ interface State {
 }
 
 class App extends Component<Props, State> {
-  mainClass: string = 'lm-app'
-  static contextType: Context<any> = AppContext
-
+  mainClass: string = 'lm-app-fragments-longform'
   state: State = {
     currentSectionId: 'intro',
     currentWideFragmentId: null
@@ -86,11 +81,10 @@ class App extends Component<Props, State> {
    * RENDER
    * * * * * * * * * * * * * * */
   render (): JSX.Element {
-    const { props, state, context } = this
-    const { config } = context
+    const { props, state } = this
 
     // Extract data
-    const sheetBase = props.sheet_data ?? new SheetBase()
+    const sheetBase = props.sheetBase ?? new SheetBase()
     const fragments = sheetBase.collection('fragments').value as unknown as FragmentInterface[]
     const wideFragments = fragments.filter(fragment => fragment.display === 'wide')
     // const gridFragments = fragments.filter(fragment => fragment.display === 'grid')
@@ -107,15 +101,13 @@ class App extends Component<Props, State> {
 
     // Display
     return (
-      <div
-        className={classes}
-        style={inlineStyle}
-        id={config.project_short_name}>
+      <div className={classes} style={inlineStyle}>
         
         {/* Header */}
         <Header theme='dark' />
-        <Menu />
+        {/* <Menu /> */}
         <div style={{
+          display: 'none',
           position: 'fixed',
           top: '100px',
           right: '100px',

@@ -88,6 +88,13 @@
   transform: translateX(-50%);
 }
 
+.frag-header_no-logo .frag-header__marqueur {
+  width: 180px;
+  position: relative;
+  left: unset;
+  transform: unset;
+}
+
 .frag-header__marqueur #fill-1 {
   fill: var(--c-marqueur-fill-1);
   transition: fill 200ms;
@@ -101,6 +108,10 @@
 @media screen and (max-width: 1200px) {
   .frag-header__marqueur {
     display: none;
+  }
+
+  .frag-header_no-logo .frag-header__marqueur {
+    display: block;
   }
 }
 

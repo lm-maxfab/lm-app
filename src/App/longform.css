@@ -1,32 +1,32 @@
-.lm-app {
+.lm-app-fragments-longform {
   position: relative;
   margin-top: var(--len-nav-height);
   background-color: #FFFFFF;
 }
 
-.lm-app .frag-header {
+.lm-app-fragments-longform .frag-header {
   position: fixed;
   width: calc(100 * var(--vw));
   top: var(--len-nav-height);
   z-index: 100;
 }
 
-.lm-app .frag-intro {
+.lm-app-fragments-longform .frag-intro {
   padding-top: calc(110 * var(--vh));
   z-index: 95;
   position: relative;
 }
 
-.lm-app__home-scrolling-area {
+.lm-app-fragments-longform__home-scrolling-area {
   height: calc(200 * var(--vh));
 }
 
-.lm-app .frag-home {
+.lm-app-fragments-longform .frag-home {
   z-index: 97;
   position: fixed;
 }
 
-.lm-app__wide-fragment-scrolling-area {
+.lm-app-fragments-longform__wide-fragment-scrolling-area {
   height: calc(100 * var(--vh));
   z-index: 99;
   position: relative;
@@ -35,21 +35,21 @@
   cursor: pointer;
 }
 
-.lm-app__wide-fragment-scrolling-area-supertitle {
+.lm-app-fragments-longform__wide-fragment-scrolling-area-supertitle {
   font-family: var(--ff-marr-sans-condensed);
   text-transform: uppercase;
   font-size: 18px;
   line-height: 48px;
 }
 
-.lm-app__wide-fragment-scrolling-area-title {
+.lm-app-fragments-longform__wide-fragment-scrolling-area-title {
   font-family: var(--ff-marr-sans-condensed);
   letter-spacing: 0.011136em;
   font-size: 44px;
   line-height: 48px;
 }
 
-.lm-app .frag-wide-fragment-icono {
+.lm-app-fragments-longform .frag-wide-fragment-icono {
   z-index: 98;
   position: fixed;
 }

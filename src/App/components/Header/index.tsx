@@ -11,6 +11,7 @@ interface Props {
   className?: string
   style?: JSX.CSSProperties
   theme?: 'bright'|'dark'
+  noLogo?: boolean
 }
 
 class Header extends Component<Props, {}> {
@@ -24,30 +25,26 @@ class Header extends Component<Props, {}> {
 
     // Classes
     const themeClass = props.theme === 'bright' ? `${this.mainClass}_bright` : `${this.mainClass}_dark`
-    const classes: string = clss(this.mainClass, themeClass, props.className)
+    const logoClass = props.noLogo === true ? `${this.mainClass}_no-logo` : `${this.mainClass}_with-logo`
+    const classes: string = clss(this.mainClass, themeClass, logoClass, props.className)
     const inlineStyle = { ...props.style }
 
     // Display
     return (
       <div className={classes} style={inlineStyle}>
-        <Svg
-          src={lmLogoPath}
-          className={`${this.mainClass}__logo`} />
-        <Svg
-          src={marqueurPath}
-          className={`${this.mainClass}__marqueur`} />
+        {/* Logo */}
+        {props.noLogo !== true && <Svg src={lmLogoPath} className={`${this.mainClass}__logo`} />}
+        {/* Marqueur */}
+        <Svg src={marqueurPath} className={`${this.mainClass}__marqueur`} />
+        {/* Button */}
         <button
           className={`${this.mainClass}__button ${this.mainClass}__button_sm`}>
-          <span className={`${this.mainClass}__button-text`}>
-            Voir les 100 reportages&nbsp;
-          </span>
+          <span className={`${this.mainClass}__button-text`}>Voir les 100 reportages&nbsp;</span>
           <Svg src={burgerIconSmPath} />
         </button>
         <button
           className={`${this.mainClass}__button ${this.mainClass}__button_lg`}>
-          <span className={`${this.mainClass}__button-text`}>
-            Voir les 100 reportages&nbsp;
-          </span>
+          <span className={`${this.mainClass}__button-text`}>Voir les 100 reportages&nbsp;</span>
           <Svg src={burgerIconLgPath} />
         </button>
       </div>

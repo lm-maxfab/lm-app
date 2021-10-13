@@ -1,32 +1,8 @@
 import { Component, JSX } from 'preact'
 import clss from 'classnames'
-import 'whatwg-fetch'
-import smoothscroll from 'smoothscroll-polyfill'
-
 import getViewportDimensions from './modules/le-monde/utils/get-viewport-dimensions'
-import getHeaderElement from './modules/le-monde/utils/get-header-element'
-
-import AppContext from './context'
-import preload from './preload'
-import config from './config.json'
-
-import App from './App'
-import Spreadsheet from './modules/le-monde/components/Spreadsheet'
-import { SheetBase } from './modules/sheet-base'
 
 import './styles.css'
-
-// Enable smoothscroll polyfill
-smoothscroll.polyfill()
-
-// Hide or remove header if config.json wants it
-if (config.delete_header === true) {
-  const $header = getHeaderElement()
-  $header?.remove()
-} else if (config.hide_header === true) {
-  const $header = getHeaderElement()
-  if ($header) $header.style.display = 'none'
-}
 
 // Get init viewport dimensions
 const {
@@ -37,6 +13,11 @@ const {
 } = getViewportDimensions()
 
 // AppWrapper state interface
+interface AppWrapperProps {
+  workEnv: string
+  userEnv: string
+}
+
 interface AppWrapperState {
   viewportOrientation: string|null
   viewportDisplay: string|null
@@ -45,9 +26,9 @@ interface AppWrapperState {
 }
 
 // AppWrapper
-class AppWrapper extends Component<{}, AppWrapperState> {
+class AppWrapper extends Component<AppWrapperProps, AppWrapperState> {
   mainClass: string = 'lm-app-wrapper'
-  state = {
+  state: AppWrapperState = {
     viewportOrientation: orientation,
     viewportDisplay: display,
     viewportRatio: ratio,
@@ -60,7 +41,7 @@ class AppWrapper extends Component<{}, AppWrapperState> {
   /* * * * * * * * * * * * * * *
    * CONSTRUCTOR
    * * * * * * * * * * * * * * */
-  constructor (props: {}) {
+  constructor (props: AppWrapperProps) {
     super(props)
     this.storeViewportDimensions = this.storeViewportDimensions.bind(this)
   }
@@ -118,27 +99,11 @@ class AppWrapper extends Component<{}, AppWrapperState> {
    * RENDER
    * * * * * * * * * * * * * * */
   render (): JSX.Element {
-    const { state } = this
-
-    // Logic
-    const workEnv = process.env.NODE_ENV
-    const userEnv = window.location.href.match(/apps.([a-z]+-)?lemonde.fr/) !== null ? 'aec' : 'web'
-
-    // Passed context
-    const context = {
-      config,
-      env: workEnv,
-      user_env: userEnv,
-      viewport: {
-        orientation: state.viewportOrientation,
-        display: state.viewportDisplay,
-        ratio: state.viewportRatio
-      },
-      nav_height: state.navHeight
-    }
+    const { props, state } = this
+    const { workEnv, userEnv } = props
 
     // Define CSS classes
-    const envClass = `${this.mainClass}_env-${workEnv ?? 'undefined'}`
+    const envClass = `${this.mainClass}_env-${workEnv}`
     const userEnvClass = `${this.mainClass}_usrenv-${userEnv}`
     const orientationClass = `${this.mainClass}_vpo-${state.viewportOrientation}`
     const displayClass = `${this.mainClass}_vpd-${state.viewportDisplay}`
@@ -154,17 +119,8 @@ class AppWrapper extends Component<{}, AppWrapperState> {
 
     // Display
     return (
-      <div
-        className={classes}
-        ref={node => { this.$root = node }}>
-        <Spreadsheet
-          url={config.sheetbase_url}
-          preload={preload}
-          render={(sheetData: SheetBase) => (
-            <AppContext.Provider value={{ ...context, sheet_data: sheetData }}>
-              <App sheet_data={sheetData} />
-            </AppContext.Provider>
-          )} />
+      <div className={classes} ref={node => { this.$root = node }}>
+        {props.children}
       </div>
     )
   }

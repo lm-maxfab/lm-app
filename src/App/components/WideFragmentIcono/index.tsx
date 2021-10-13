@@ -42,7 +42,6 @@ class WideFragmentIcono extends Component<Props, {}> {
 
     /* Logic */
     const isDesktop = document.documentElement.clientWidth > 800
-    console.log(isDesktop)
 
     // Videos
     const rawDkVimeoVid1080url = props.sources?.vimeo_video_desktop_1080_url

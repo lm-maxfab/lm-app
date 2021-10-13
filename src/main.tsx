@@ -1,10 +1,79 @@
 import { render } from 'preact'
-import AppWrapper from './AppWrapper'
+import 'whatwg-fetch'
+import smoothscroll from 'smoothscroll-polyfill'
+import preload from './preload'
+import config from './config.json'
+import getHeaderElement from './modules/le-monde/utils/get-header-element'
+import silentLog, { getRegister, printRegister } from './modules/le-monde/utils/silent-log'
+import { fetchTsv, tsvToSheetBase, SheetBase } from './modules/sheet-base'
+import Wrapper from './AppWrapper'
+import Longform from './App/longform'
+import SnippetHead from './App/snippet-head'
+import SnippetFoot from './App/snippet-foot'
 
-// Get App root node
-const rootNodeId: string = 'lm-app-root'
-const rootNode: HTMLElement|null = document.getElementById(rootNodeId)
+// Init globals
+window.__LM_GET_SILENT_LOG_REGISTER = getRegister
+window.__LM_PRINT_SILENT_LOG_REGISTER = printRegister
 
-// Render app
-if (rootNode === null) console.error(`App root node '#${rootNodeId}' not found.`)
-else render(<AppWrapper />, rootNode)
+// Enable smoothscroll polyfill
+smoothscroll.polyfill()
+
+// Hide or remove header if config.json wants it
+if (config.delete_header === true) getHeaderElement()?.remove()
+else if (config.hide_header === true) (getHeaderElement()?.style ?? { display: 'block' }).display = 'none'
+
+// App rendering
+function renderApp (sheetBase: SheetBase): void {
+  const workEnv = process.env.NODE_ENV ?? 'undefined'
+  const userEnv = window.location.href.match(/apps.([a-z]+-)?lemonde.fr/) !== null ? 'aec' : 'web'
+  const wrapperProps = { workEnv, userEnv }
+  
+  // Longform
+  const longformRootNode: HTMLElement|null = document.getElementById('lm-app-root')
+  if (longformRootNode !== null) {
+    render(
+      <Wrapper {...wrapperProps}>
+        <Longform sheetBase={sheetBase} />
+      </Wrapper>,
+      longformRootNode
+    )
+  } else {
+    silentLog('no longform root node found.')
+  }
+  
+  // Snippet head
+  const snippetHeadRootNode: HTMLElement|null = document.getElementById('lm-app-snippet-head-root')
+  if (snippetHeadRootNode !== null) {
+    render(
+      <Wrapper {...wrapperProps}>
+        <SnippetHead
+          sheetBase={sheetBase}
+          currentFragmentId={config.custom_config.current_fragment_id} />
+      </Wrapper>,
+      snippetHeadRootNode
+    )
+  } else {
+    silentLog('no snippet head root node found.')
+  }
+  
+  // Snippet foot
+  const snippetFootRootNode: HTMLElement|null = document.getElementById('lm-app-snippet-foot-root')
+  if (snippetFootRootNode !== null) {
+    render(
+      <Wrapper {...wrapperProps}>
+        <SnippetFoot
+          sheetBase={sheetBase}
+          currentFragmentId={config.custom_config.current_fragment_id} />
+      </Wrapper>,
+      snippetFootRootNode
+    )
+  } else {
+    silentLog('no snippet foot root node found.')
+  }
+}
+
+// const preloadedSheetBase = tsvToSheetBase(preload)
+// renderApp(preloadedSheetBase)
+fetchTsv(config.sheetbase_url)
+  .then(tsv => renderApp(tsvToSheetBase(tsv)))
+  .catch(err => console.warn(err))
