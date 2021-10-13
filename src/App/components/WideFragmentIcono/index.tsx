@@ -1,4 +1,4 @@
-import { Component, JSX } from 'preact'
+import { Component, Fragment, JSX } from 'preact'
 import clss from 'classnames'
 import './styles.css'
 import { FragmentSources } from '../../types'
@@ -25,13 +25,14 @@ interface Props {
   className?: string
   style?: JSX.CSSProperties
   sources?: FragmentSources
+  fragmentUrl?: string
   playVideo?: boolean
   isActive?: boolean
 }
 
 class WideFragmentIcono extends Component<Props, {}> {
-  #mainClass: string = 'frag-wide-fragment-icono'
-  get mainClass () { return this.#mainClass }
+  _mainClass: string = 'frag-wide-fragment-icono'
+  get mainClass () { return this._mainClass }
 
   /* * * * * * * * * * * * * * *
    * RENDER
@@ -97,18 +98,20 @@ class WideFragmentIcono extends Component<Props, {}> {
     }
 
     /* Classes */
-    const isActiveClass = `${this.#mainClass}_${props.isActive ? 'active' : 'inactive'}`
-    const classes = clss(this.#mainClass, isActiveClass, props.className)
+    const isActiveClass = `${this._mainClass}_${props.isActive ? 'active' : 'inactive'}`
+    const classes = clss(this._mainClass, isActiveClass, props.className)
     const inlineStyle: JSX.CSSProperties = { ...props.style }
 
     return (
       <div className={classes} style={inlineStyle}>
-        <div className={`${this.#mainClass}__image`} style={imageStyle} />
-        <div className={`${this.#mainClass}__video`}>
-          <video autoPlay muted loop>
-            <source src={vimeoVidUrl} type='video/mp4' />
-          </video>
-        </div>
+        <a href={props?.fragmentUrl} target='_blank'>
+          <div className={`${this._mainClass}__image`} style={imageStyle} />
+          <div className={`${this._mainClass}__video`}>
+            <video autoPlay muted loop>
+              <source src={vimeoVidUrl} type='video/mp4' />
+            </video>
+          </div>
+        </a>
       </div>
     )
   }

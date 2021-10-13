@@ -13,20 +13,20 @@ interface SheetBaseCollectionDescriptor {
 type SheetBaseCollectionValue = SheetBaseEntryValue[]
 
 class SheetBaseCollection {
-  #name: string
-  #description: string
-  #parentBase: SheetBase
-  #entries: SheetBaseEntry[] = []
+  _name: string
+  _description: string
+  _parentBase: SheetBase
+  _entries: SheetBaseEntry[] = []
 
   constructor ({ name, description, parentBase }: SheetBaseCollectionDescriptor) {
-    this.#name = name
-    this.#description = description ?? ''
-    this.#parentBase = parentBase ?? new SheetBase()
+    this._name = name
+    this._description = description ?? ''
+    this._parentBase = parentBase ?? new SheetBase()
   }
 
-  get name () { return this.#name }
-  get description () { return this.#description }
-  get parentBase () { return this.#parentBase }
+  get name () { return this._name }
+  get description () { return this._description }
+  get parentBase () { return this._parentBase }
 
   createEntry (descriptor: SheetBaseEntryDescriptor) {
     const entry = new SheetBaseEntry({ ...descriptor, parentCollection: this })
@@ -35,29 +35,29 @@ class SheetBaseCollection {
       console.warn(`entry '${entry.id}' already exists and is gonna be overwridden`)
       this.dropEntry(entry.id)
     }
-    this.#entries.push(entry)
+    this._entries.push(entry)
     return entry
   }
 
   dropEntry (id: string) {
-    const newEntries = this.#entries.filter(entry => entry.id !== id)
-    if (newEntries.length === this.#entries.length) return false
-    this.#entries.splice(0, this.#entries.length, ...newEntries)
+    const newEntries = this._entries.filter(entry => entry.id !== id)
+    if (newEntries.length === this._entries.length) return false
+    this._entries.splice(0, this._entries.length, ...newEntries)
     return true
   }
 
   get entries () {
-    return this.#entries
+    return this._entries
   }
 
   get value () {
     const returned: SheetBaseCollectionValue = []
-    for (const entryPos in this.#entries) Object.defineProperty(returned, entryPos, { get: () => this.#entries[entryPos].value })
+    for (const entryPos in this._entries) Object.defineProperty(returned, entryPos, { get: () => this._entries[entryPos].value })
     return returned
   }
 
   strictEntry (id: string) {
-    return this.#entries.find(entry => (entry.id === id))
+    return this._entries.find(entry => (entry.id === id))
   }
 
   entry (id: string) {

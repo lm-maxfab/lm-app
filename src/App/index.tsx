@@ -115,7 +115,18 @@ class App extends Component<Props, State> {
         {/* Header */}
         <Header theme='dark' />
         <Menu />
-        <div style={{ position: 'fixed', top: '100px', right: '100px', zIndex: 2000, background: 'red', textAlign: 'right' }}>{state.currentSectionId}<br />{state.currentWideFragmentId}</div>
+        <div style={{
+          position: 'fixed',
+          top: '100px',
+          right: '100px',
+          zIndex: 2000,
+          background: 'red',
+          textAlign: 'right'
+        }}>
+          {state.currentSectionId}
+          <br />
+          {state.currentWideFragmentId}
+        </div>
         
         {/* Intro */}
         <IOComponent
@@ -143,10 +154,16 @@ class App extends Component<Props, State> {
             <IOComponent
               callback={ioe => this.detectCurrentWideFragmentId(ioe, prevFragmentId, fragment.id)}
               render={() => <div />} />
-            <div className={`${this.mainClass}__wide-fragment-scrolling-area`}>
-              <div>{fragment.title}</div>
-              <div>{fragment.subtitle}</div>
-            </div>
+            <a href={fragment.url} target='_blank'>
+              <div className={`${this.mainClass}__wide-fragment-scrolling-area`}>
+                <div className={`${this.mainClass}__wide-fragment-scrolling-area-supertitle`}>
+                  {fragment.supertitle}
+                </div>
+                <div className={`${this.mainClass}__wide-fragment-scrolling-area-title`}>
+                  {fragment.title}
+                </div>
+              </div>
+            </a>
           </>
         })}
 
@@ -200,6 +217,7 @@ class App extends Component<Props, State> {
             menu_thumb_sd_url: fragment.menu_thumb_sd_url
           }
           return <WideFragmentIcono
+            fragmentUrl={fragment.url}
             isActive={fragment.id === state.currentWideFragmentId && state.currentSectionId === 'wide'}
             playVideo={fragment.id === state.currentWideFragmentId && state.currentSectionId === 'wide'}
             sources={sources} />

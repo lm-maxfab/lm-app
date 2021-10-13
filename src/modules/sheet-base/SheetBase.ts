@@ -5,7 +5,7 @@ interface SheetBaseValue {
 }
 
 class SheetBase {
-  #collections: SheetBaseCollection[] = []
+  _collections: SheetBaseCollection[] = []
   
   createCollection (descriptor: SheetBaseCollectionDescriptor) {
     const collection = new SheetBaseCollection({ ...descriptor, parentBase: this })
@@ -14,29 +14,29 @@ class SheetBase {
       console.warn(`collection ${collection.name} already exists and is gonna be overwridden`)
       this.dropCollection(collection.name)
     }
-    this.#collections.push(collection)
+    this._collections.push(collection)
     return collection
   }
 
   dropCollection (name: string) {
-    const newCollections = this.#collections.filter(collection => collection.name !== name)
-    if (newCollections.length === this.#collections.length) return false
-    this.#collections.splice(0, this.#collections.length, ...newCollections)
+    const newCollections = this._collections.filter(collection => collection.name !== name)
+    if (newCollections.length === this._collections.length) return false
+    this._collections.splice(0, this._collections.length, ...newCollections)
     return true
   }
 
   get collections () {
-    return this.#collections
+    return this._collections
   }
 
   get value () {
     const returned: SheetBaseValue = {}
-    for (const col of this.#collections) Object.defineProperty(returned, col.name, { get: () => col.value })
+    for (const col of this._collections) Object.defineProperty(returned, col.name, { get: () => col.value })
     return returned
   }
 
   strictCollection (name: string) {
-    return this.#collections.find(collection => (collection.name === name))
+    return this._collections.find(collection => (collection.name === name))
   }
 
   collection (name: string) {

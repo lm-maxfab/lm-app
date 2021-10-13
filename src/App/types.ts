@@ -26,6 +26,7 @@ export interface FragmentSources {
 
 export interface Fragment extends FragmentSources {
   id: string
+  url: string
   publish: boolean
   title: VNode
   supertitle: VNode

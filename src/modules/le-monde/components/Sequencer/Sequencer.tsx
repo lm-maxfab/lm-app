@@ -14,17 +14,17 @@ interface State {
 }
 
 class Sequencer extends Component<Props, State> {
-  #mainClass: string = 'lm-sequencer'
-  get mainClass () { return this.#mainClass }
+  _mainClass: string = 'lm-sequencer'
+  get mainClass () { return this._mainClass }
 
   state: State = {
     step: 0,
     status: 'pause'
   }
 
-  #defaultTempo: number = 60
-  #defaultLength: number = 10
-  #nextStepTimeout: number|null = 0
+  _defaultTempo: number = 60
+  _defaultLength: number = 10
+  _nextStepTimeout: number|null = 0
 
   /* * * * * * * * * * * * * * *
    * CONSTRUCTOR
@@ -42,19 +42,19 @@ class Sequencer extends Component<Props, State> {
    * LIFECYCLE
    * * * * * * * * * * * * * * */
   componentWillUnmount () {
-    if (this.#nextStepTimeout === null) return
-    window.clearTimeout(this.#nextStepTimeout)
+    if (this._nextStepTimeout === null) return
+    window.clearTimeout(this._nextStepTimeout)
   }
 
   /* * * * * * * * * * * * * * *
    * METHODS
    * * * * * * * * * * * * * * */
-  #getLength () {
-    return this.props.length ?? this.#defaultLength
+  _getLength () {
+    return this.props.length ?? this._defaultLength
   }
 
   goTo (step: number|'beginning'|'end'|'next'|'prev' = 'next') {
-    const length = this.props.length ?? this.#getLength()
+    const length = this.props.length ?? this._getLength()
     this.setState((curr: State) => {
       let rawNewStep: number
       if (step === 'beginning') rawNewStep = 0
@@ -79,21 +79,21 @@ class Sequencer extends Component<Props, State> {
   }
 
   planNextStep () {
-    const tempo = this.props.tempo ?? this.#defaultTempo
+    const tempo = this.props.tempo ?? this._defaultTempo
     const delay = 60000 / tempo
-    const length = this.#getLength()
+    const length = this._getLength()
     const isLastStep = this.state.step >= length - 2
     if (isLastStep && this.props.loop !== true) return
-    this.#nextStepTimeout = window.setTimeout(() => {
+    this._nextStepTimeout = window.setTimeout(() => {
       this.goTo('next')
       this.planNextStep()
     }, delay)
   }
 
   cancelNextStep () {
-    if (this.#nextStepTimeout === null) return
-    window.clearTimeout(this.#nextStepTimeout)
-    this.#nextStepTimeout = null
+    if (this._nextStepTimeout === null) return
+    window.clearTimeout(this._nextStepTimeout)
+    this._nextStepTimeout = null
   }
 
   /* * * * * * * * * * * * * * *

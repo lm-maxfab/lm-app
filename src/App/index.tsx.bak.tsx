@@ -26,7 +26,7 @@ interface State {
 }
 
 class App extends Component<Props, State> {
-  #isMounted: boolean = false
+  _isMounted: boolean = false
   mainClass: string = 'lm-app'
   state: State = {
     show_intro_paragraph: true,
@@ -36,11 +36,11 @@ class App extends Component<Props, State> {
   static contextType: Context<any> = AppContext
 
   componentDidMount () {
-    this.#isMounted = true
+    this._isMounted = true
   }
 
   componentWillUnmount () {
-    this.#isMounted = false
+    this._isMounted = false
   }
 
   /* * * * * * * * * * * * * * *
@@ -62,7 +62,7 @@ class App extends Component<Props, State> {
 
     // Logic
     const introPassedDetector = (ioe: IOE|null) => {
-      if (!this.#isMounted) return
+      if (!this._isMounted) return
       const scrollLevel = window.scrollY
       const documentHeight = document.body.clientHeight
       const scrollRatio = scrollLevel / documentHeight
@@ -72,7 +72,7 @@ class App extends Component<Props, State> {
       this.setState({ show_intro_paragraph: showIntroParagraph })
     }
     const homeDetector = (ioe: IOE|null) => {
-      if (!this.#isMounted) return
+      if (!this._isMounted) return
       this.setState({ activate_home: ioe?.isIntersecting ?? false })
     }
 

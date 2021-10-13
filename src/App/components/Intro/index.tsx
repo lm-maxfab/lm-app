@@ -67,7 +67,7 @@ class Intro extends Component<Props, State> {
     images_visibility: []
   }
 
-  #isMounted: boolean = false
+  _isMounted: boolean = false
 
   /* * * * * * * * * * * * * * *
    * CONSTRUCTOR
@@ -78,18 +78,18 @@ class Intro extends Component<Props, State> {
   }
 
   componentDidMount () {
-    this.#isMounted = true
+    this._isMounted = true
   }
 
   componentWillUnmount () {
-    this.#isMounted = false
+    this._isMounted = false
   }
 
   /* * * * * * * * * * * * * * *
    * METHODS
    * * * * * * * * * * * * * * */
   handleImageIntersectionEvent (pos: number, isIntersecting: boolean, ratio: number) {
-    if (!this.#isMounted) return
+    if (!this._isMounted) return
     this.setState(curr => {
       const currImgVis = curr.images_visibility
       const posInCurrState = currImgVis.findIndex(imgVis => imgVis.pos === pos)

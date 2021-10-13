@@ -17,25 +17,25 @@ interface SheetBaseFieldDescriptor {
 type SheetBaseFieldValue = string|number|bigint|boolean|null|undefined|VNode|SheetBaseValue|SheetBaseCollectionValue|SheetBaseEntryValue
 
 class SheetBaseField {
-  #name: string
-  #description: string
-  #type: FieldType
-  #raw: string
-  #parentEntry: SheetBaseEntry
+  _name: string
+  _description: string
+  _type: FieldType
+  _raw: string
+  _parentEntry: SheetBaseEntry
 
   constructor ({ name, description, type, raw, parentEntry }: SheetBaseFieldDescriptor) {
-    this.#name = name
-    this.#description = description ?? ''
-    this.#type = type ?? 'text'
-    this.#raw = raw ?? ''
-    this.#parentEntry = parentEntry ?? new SheetBaseEntry({ id: 'untitled' })
+    this._name = name
+    this._description = description ?? ''
+    this._type = type ?? 'text'
+    this._raw = raw ?? ''
+    this._parentEntry = parentEntry ?? new SheetBaseEntry({ id: 'untitled' })
   }
 
-  get name () { return this.#name }
-  get description () { return this.#description }
-  get type () { return this.#type }
-  get raw () { return this.#raw }
-  get parentEntry () { return this.#parentEntry }
+  get name () { return this._name }
+  get description () { return this._description }
+  get type () { return this._type }
+  get raw () { return this._raw }
+  get parentEntry () { return this._parentEntry }
   get value (): SheetBaseFieldValue {
     switch (this.type) {
       case 'string':
@@ -66,7 +66,7 @@ class SheetBaseField {
       case 'ref':
         if (this.raw === '') return
         const [collection, entry, field] = this.raw.split('.')
-        const parentBase = this.#parentEntry.parentCollection.parentBase
+        const parentBase = this._parentEntry.parentCollection.parentBase
         if (entry === undefined) return parentBase.collection(collection)?.value
         else if (field === undefined) return parentBase.collection(collection)?.entry(entry)?.value
         else return parentBase.collection(collection)?.entry(entry)?.field(field)?.value

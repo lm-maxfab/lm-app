@@ -13,7 +13,7 @@
 
 .lm-app .frag-intro {
   padding-top: calc(110 * var(--vh));
-  z-index: 96;
+  z-index: 95;
   position: relative;
 }
 
@@ -22,25 +22,37 @@
 }
 
 .lm-app .frag-home {
-  z-index: 98;
+  z-index: 97;
   position: fixed;
 }
 
 .lm-app__wide-fragment-scrolling-area {
   height: calc(100 * var(--vh));
-  z-index: 100;
+  z-index: 99;
   position: relative;
+  text-align: center;
+  color: #FFFFFF;
+  cursor: pointer;
+}
+
+.lm-app__wide-fragment-scrolling-area-supertitle {
+  font-family: var(--ff-marr-sans-condensed);
+  text-transform: uppercase;
+  font-size: 18px;
+  line-height: 48px;
+}
+
+.lm-app__wide-fragment-scrolling-area-title {
+  font-family: var(--ff-marr-sans-condensed);
+  letter-spacing: 0.011136em;
+  font-size: 44px;
+  line-height: 48px;
 }
 
 .lm-app .frag-wide-fragment-icono {
-  z-index: 99;
+  z-index: 98;
   position: fixed;
 }
-
-/* .frag-wide-fragments__fragment-icono {
-  z-index: 99;
-  position: fixed;
-} */
 
 @media screen and (max-width: 1200px) {
   .footer__links-multimedia {
