@@ -1,4 +1,4 @@
-interface returned {
+export interface ViewportDimensions {
   width: number
   height: number
   orientation: string
@@ -7,7 +7,7 @@ interface returned {
   navHeight: number|undefined
 }
 
-function getViewportDimensions (): returned {
+export default function getViewportDimensions (): ViewportDimensions {
   const height = document.documentElement.clientHeight
   const width = document.documentElement.clientWidth
 
@@ -58,6 +58,3 @@ function getViewportDimensions (): returned {
     navHeight
   }
 }
-
-export default getViewportDimensions
-export type { returned }

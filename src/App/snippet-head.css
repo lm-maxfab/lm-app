@@ -6,6 +6,32 @@
   overflow: hidden;
 }
 
+.lm-app-fragments-snippet-head .frag-menu {
+  position: fixed;
+  top: calc(var(--len-nav-height));
+  width: 100%;
+  z-index: 4;
+}
+
+.lm-app-fragments-snippet-head_menu-open .frag-menu {
+  height: calc(100 * var(--vh) - var(--len-nav-height));
+  overflow: scroll;
+}
+
+.lm-app-fragments-snippet-head_menu-closed .frag-menu {
+  height: 0;
+  overflow: hidden;
+  display: none;
+}
+
+/* Header */
+.lm-app-fragments-snippet-head__header-wrapper {
+  position: fixed;
+  top: var(--len-nav-height);
+  width: 100%;
+  z-index: 3;
+}
+
 @media screen and (max-width: 800px) {
   .lm-app-fragments-snippet-head .frag-header__marqueur {
     width: 140px;
@@ -22,13 +48,7 @@
   }
 }
 
-.lm-app-fragments-snippet-head__header-wrapper {
-  position: fixed;
-  top: var(--len-nav-height);
-  width: 100%;
-  z-index: 3;
-}
-
+/* Icono */
 .lm-app-fragments-snippet-head .frag-wide-fragment-icono {
   top: calc(-1 * var(--len-nav-height));
   position: relative;

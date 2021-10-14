@@ -36,10 +36,26 @@ export interface Fragment extends FragmentSources {
   head_image_center: string
   head_video_url: string
   head_video_center: string
-  region: string
-  thematic: string
+  related_regions_ids: string
+  related_thematics_ids: string
   display: string
   order: number
+}
+
+export interface ShortFragmentWithBetterRels {
+  id: string
+  order: number
+  kicker: VNode
+  supertitle: VNode
+  subtitle: VNode
+  title: VNode
+  url: string
+  menu_thumb_hd_url: string
+  menu_thumb_sd_url: string
+  related_regions_ids_arr: string[]
+  related_thematics_ids_arr: string[]
+  main_region: Region|undefined
+  main_thematic: Thematic|undefined
 }
 
 export interface IntroImage {
@@ -55,7 +71,6 @@ export interface IntroImage {
 
 export interface HomeImage {
   id: string
-  publish: boolean
   url: string
   center: string
   side: string
@@ -65,6 +80,26 @@ export interface HomeImage {
   related_fragment: Fragment
 }
 
+export interface Region {
+  id: string
+  full_name: string
+  order: number
+}
+
+export interface Thematic {
+  id: string
+  name: string
+  order: number
+}
+
 export interface PageSettings {
   intro_first_paragraph_chunk: VNode
+  about_title: VNode
+  about_content: VNode
+  about_background_image_desktop_url: string
+  about_background_image_mobile_url: string
+  about_background_image_desktop_center: string
+  about_background_image_mobile_center: string
+  about_france_map_url: string
+  filters_incentive: VNode
 }

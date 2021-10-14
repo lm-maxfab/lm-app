@@ -85,7 +85,7 @@ class App extends Component<Props, State> {
 
     // Extract data
     const sheetBase = props.sheetBase ?? new SheetBase()
-    const fragments = sheetBase.collection('fragments').value as unknown as FragmentInterface[]
+    const fragments = (sheetBase.collection('fragments').value as unknown as FragmentInterface[]).filter(frag => frag.publish === true)
     const wideFragments = fragments.filter(fragment => fragment.display === 'wide')
     // const gridFragments = fragments.filter(fragment => fragment.display === 'grid')
     const introImages = sheetBase.collection('intro_images').value as unknown as IntroImage[]

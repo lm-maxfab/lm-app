@@ -5,7 +5,6 @@ export interface Log {
 }
 
 const logRegister: Log[] = []
-const origin = window.location.origin
 
 export function printRegister (slice: number = 0): void {
   const register = getRegister(slice)
@@ -22,6 +21,7 @@ export function getRegister (slice: number = 0): Log[] {
 }
 
 export default function silentLog (message: any): Log[] {
+  const origin = window.location.origin
   const stack = new Error().stack
     ?.split('\n')
     .map(line => line.replace(origin, '').trim())

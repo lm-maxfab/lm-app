@@ -3,9 +3,16 @@ import clss from 'classnames'
 import { SheetBase } from '../modules/sheet-base'
 import './snippet-head.css'
 import Header from './components/Header'
+import Menu from './components/Menu'
 import WideFragmentIcono from './components/WideFragmentIcono'
 import Parallax from '../modules/le-monde/components/Parallax'
-import { Fragment as FragmentInterface, FragmentSources } from './types'
+import {
+  Fragment as FragmentInterface,
+  FragmentSources,
+  PageSettings,
+  Region,
+  Thematic
+} from './types'
 
 interface Props {
   className?: string
@@ -14,18 +21,46 @@ interface Props {
   currentFragmentId?: string
 }
 
-class App extends Component<Props, {}> {
+interface State {
+  isMenuOpen: boolean
+}
+
+class App extends Component<Props, State> {
   mainClass: string = 'lm-app-fragments-snippet-head'
+  state: State = {
+    isMenuOpen: false
+  }
+
+  /* * * * * * * * * * * * * * *
+   * CONSTRUCTOR
+   * * * * * * * * * * * * * * */
+  constructor (props: Props) {
+    super(props)
+    this.toggleMenu = this.toggleMenu.bind(this)
+  }
+
+  /* * * * * * * * * * * * * * *
+   * METHODS
+   * * * * * * * * * * * * * * */
+  toggleMenu () {
+    this.setState(curr => ({
+      ...curr,
+      isMenuOpen: !curr.isMenuOpen
+    }))
+  }
 
   /* * * * * * * * * * * * * * *
    * RENDER
    * * * * * * * * * * * * * * */
   render (): JSX.Element {
-    const { props } = this
+    const { props, state } = this
 
     // Logic
     const sheetBase = props.sheetBase ?? new SheetBase()
-    const fragments = sheetBase.collection('fragments').value as unknown as FragmentInterface[]
+    const fragments = (sheetBase.collection('fragments').value as unknown as FragmentInterface[]).filter(frag => frag.publish === true)
+    const regions = sheetBase.collection('regions').value as unknown as Region[]
+    const thematics = sheetBase.collection('thematics').value as unknown as Thematic[]
+    const pageSettings = sheetBase.collection('page_settings').entry('settings').value as unknown as PageSettings
     const currentFragment = fragments.find(fragment => fragment.id === props.currentFragmentId)
     const sources: FragmentSources = {
       vimeo_video_desktop_1080_url: currentFragment?.vimeo_video_desktop_1080_url ?? '',
@@ -51,23 +86,39 @@ class App extends Component<Props, {}> {
       menu_thumb_sd_url: currentFragment?.menu_thumb_sd_url ?? ''
     }
 
+    if (state.isMenuOpen) document.body.style.overflow = 'hidden'
+    else document.body.style.overflow = ''
+
     // Classes
-    const classes: string = clss(this.mainClass, props.className)
+    const menuClass = state.isMenuOpen ? `${this.mainClass}_menu-open` : `${this.mainClass}_menu-closed`
+    const classes: string = clss(this.mainClass, menuClass, props.className)
     const inlineStyle = { ...props.style }
 
     // Display
     return (
       <div className={classes} style={inlineStyle}>
+        <Menu
+          open={this.state.isMenuOpen}
+          onCloseButtonClick={this.toggleMenu}
+          aboutTitle={pageSettings.about_title}
+          aboutContent={pageSettings.about_content}
+          aboutBackgroundImageDesktopUrl={pageSettings.about_background_image_desktop_url}
+          aboutBackgroundImageMobileUrl={pageSettings.about_background_image_mobile_url}
+          aboutBackgroundImageDesktopCenter={pageSettings.about_background_image_desktop_center}
+          aboutBackgroundImageMobileCenter={pageSettings.about_background_image_mobile_center}
+          aboutFranceMapUrl={pageSettings.about_france_map_url}
+          filtersIncentive={pageSettings.filters_incentive}
+          regions={regions}
+          thematics={thematics}
+          fragments={fragments} />
         <Parallax render={(p) => {
-          const scrolled = Math.min(Math.max(Number.isNaN(p) ? 0 : p, 0), 1)
-          const top = scrolled
-          console.log(top)
+          const cleanP = Number.isNaN(p) ? 0 : p
+          const scrolled = Math.min(Math.max(cleanP, 0), 1)
           const headerWrapperStyle: JSX.CSSProperties = {
             backgroundColor: `rgb(0, 0, 0, ${scrolled})`,
             borderBottom: `1px rgb(255, 255, 255, ${.3 * (1 - scrolled)}) solid`
           }
           const textsStyle: JSX.CSSProperties = {
-            // top: `${scrolled * 25}%`,
             top: `0%`,
             opacity: 1 - scrolled
           }
@@ -75,9 +126,14 @@ class App extends Component<Props, {}> {
             <div
               style={headerWrapperStyle}
               className={`${this.mainClass}__header-wrapper`}>
-              <Header theme='bright' noLogo={true} />
+              <Header
+                theme='bright'
+                noLogo={true}
+                onButtonClick={this.toggleMenu} />
             </div>
-            <WideFragmentIcono sources={sources} isActive={true} />
+            <WideFragmentIcono
+              sources={sources}
+              isActive={true} />
             <div
               style={textsStyle}
               className={`${this.mainClass}__texts`}>

@@ -12,9 +12,10 @@ interface Props {
   style?: JSX.CSSProperties
   theme?: 'bright'|'dark'
   noLogo?: boolean
+  onButtonClick?: () => void
 }
 
-class Header extends Component<Props, {}> {
+class Header extends Component<Props, State> {
   mainClass: string = 'frag-header'
 
   /* * * * * * * * * * * * * * *
@@ -38,11 +39,13 @@ class Header extends Component<Props, {}> {
         <Svg src={marqueurPath} className={`${this.mainClass}__marqueur`} />
         {/* Button */}
         <button
+          onClick={() => (props.onButtonClick !== undefined && props.onButtonClick())}
           className={`${this.mainClass}__button ${this.mainClass}__button_sm`}>
           <span className={`${this.mainClass}__button-text`}>Voir les 100 reportages&nbsp;</span>
           <Svg src={burgerIconSmPath} />
         </button>
         <button
+          onClick={() => (props.onButtonClick !== undefined && props.onButtonClick())}
           className={`${this.mainClass}__button ${this.mainClass}__button_lg`}>
           <span className={`${this.mainClass}__button-text`}>Voir les 100 reportages&nbsp;</span>
           <Svg src={burgerIconLgPath} />

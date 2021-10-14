@@ -1,4 +1,4 @@
-import { Component, Fragment, JSX } from 'preact'
+import { Component, JSX } from 'preact'
 import clss from 'classnames'
 import './styles.css'
 import { FragmentSources } from '../../types'
