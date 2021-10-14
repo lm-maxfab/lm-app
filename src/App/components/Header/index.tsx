@@ -1,4 +1,4 @@
-import { Component, JSX } from 'preact'
+import { Component, JSX, VNode } from 'preact'
 import clss from 'classnames'
 import Svg from '../../../modules/le-monde/components/Svg'
 import lmLogoPath from './assets/logo-le-monde.svg'
@@ -13,9 +13,12 @@ interface Props {
   theme?: 'bright'|'dark'
   noLogo?: boolean
   onButtonClick?: () => void
+  showButton?: boolean
+  buttonDesktopText?: VNode
+  buttonMobileText?: VNode
 }
 
-class Header extends Component<Props, State> {
+class Header extends Component<Props, {}> {
   mainClass: string = 'frag-header'
 
   /* * * * * * * * * * * * * * *
@@ -38,18 +41,20 @@ class Header extends Component<Props, State> {
         {/* Marqueur */}
         <Svg src={marqueurPath} className={`${this.mainClass}__marqueur`} />
         {/* Button */}
-        <button
-          onClick={() => (props.onButtonClick !== undefined && props.onButtonClick())}
-          className={`${this.mainClass}__button ${this.mainClass}__button_sm`}>
-          <span className={`${this.mainClass}__button-text`}>Voir les 100 reportages&nbsp;</span>
-          <Svg src={burgerIconSmPath} />
-        </button>
-        <button
-          onClick={() => (props.onButtonClick !== undefined && props.onButtonClick())}
-          className={`${this.mainClass}__button ${this.mainClass}__button_lg`}>
-          <span className={`${this.mainClass}__button-text`}>Voir les 100 reportages&nbsp;</span>
-          <Svg src={burgerIconLgPath} />
-        </button>
+        {props.showButton && <>
+          <button
+            onClick={() => (props.onButtonClick !== undefined && props.onButtonClick())}
+            className={`${this.mainClass}__button ${this.mainClass}__button_sm`}>
+            <span className={`${this.mainClass}__button-text`}>{props.buttonMobileText}</span>
+            <Svg src={burgerIconSmPath} />
+          </button>
+          <button
+            onClick={() => (props.onButtonClick !== undefined && props.onButtonClick())}
+            className={`${this.mainClass}__button ${this.mainClass}__button_lg`}>
+            <span className={`${this.mainClass}__button-text`}>{props.buttonDesktopText}</span>
+            <Svg src={burgerIconLgPath} />
+          </button>
+        </>}
       </div>
     )
   }

@@ -13,10 +13,7 @@ const {
 } = getViewportDimensions()
 
 // AppWrapper state interface
-interface AppWrapperProps {
-  workEnv: string
-  userEnv: string
-}
+interface AppWrapperProps { workEnv: string }
 
 interface AppWrapperState {
   viewportOrientation: string|null
@@ -100,18 +97,16 @@ class AppWrapper extends Component<AppWrapperProps, AppWrapperState> {
    * * * * * * * * * * * * * * */
   render (): JSX.Element {
     const { props, state } = this
-    const { workEnv, userEnv } = props
+    const { workEnv } = props
 
     // Define CSS classes
-    const envClass = `${this.mainClass}_env-${workEnv}`
-    const userEnvClass = `${this.mainClass}_usrenv-${userEnv}`
+    const workEnvClass = `${this.mainClass}_env-${workEnv}`
     const orientationClass = `${this.mainClass}_vpo-${state.viewportOrientation}`
     const displayClass = `${this.mainClass}_vpd-${state.viewportDisplay}`
     const ratioClass = `${this.mainClass}_vpr-${state.viewportRatio}`
     const classes = clss(
       this.mainClass,
-      envClass,
-      userEnvClass,
+      workEnvClass,
       orientationClass,
       displayClass,
       ratioClass

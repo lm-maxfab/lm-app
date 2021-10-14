@@ -1,6 +1,6 @@
 import { Component, JSX } from 'preact'
 import clss from 'classnames'
-import { Sequencer } from '../../../modules/le-monde/components/Sequencer'
+import Sequencer from '../../../modules/le-monde/components/Sequencer'
 import './styles.css'
 import { HomeImage } from '../../types'
 

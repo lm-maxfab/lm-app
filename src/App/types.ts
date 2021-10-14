@@ -1,5 +1,10 @@
 import { JSX, VNode } from 'preact'
 
+export interface MyNavigator extends Navigator {
+  mozConnection?: NetworkInformation
+  webkitConnection?: NetworkInformation
+}
+
 export interface FragmentSources {
   vimeo_video_desktop_1080_url: string
   vimeo_video_desktop_720_url: string
@@ -94,6 +99,12 @@ export interface Thematic {
 
 export interface PageSettings {
   intro_first_paragraph_chunk: VNode
+  longform_header_button_desktop_text: VNode
+  longform_header_button_mobile_text: VNode
+  snippet_header_button_desktop_text: VNode
+  snippet_header_button_mobile_text: VNode
+  show_header_button_in_snippet: boolean
+  show_header_button_in_longform: boolean
   about_title: VNode
   about_content: VNode
   about_background_image_desktop_url: string
@@ -101,5 +112,7 @@ export interface PageSettings {
   about_background_image_desktop_center: string
   about_background_image_mobile_center: string
   about_france_map_url: string
+  show_articles_in_longform_menu: boolean
+  show_articles_in_snippet_menu: boolean
   filters_incentive: VNode
 }

@@ -22,6 +22,7 @@ interface Props {
   regions?: Region[]
   thematics?: Thematic[]
   fragments?: Fragment[]
+  showArticles?: boolean
 }
 
 interface State {
@@ -92,7 +93,8 @@ class Menu extends Component<Props, State> {
       }))
 
     // Classes
-    const classes: string = clss(this.mainClass, props.className)
+    const showArticlesClass = props.showArticles === true ? `${this.mainClass}_show-articles` : `${this.mainClass}_hide-articles`
+    const classes: string = clss(this.mainClass, showArticlesClass, props.className)
     const inlineStyle = { ...props.style }
 
     const viewportWidth = document.documentElement.clientWidth

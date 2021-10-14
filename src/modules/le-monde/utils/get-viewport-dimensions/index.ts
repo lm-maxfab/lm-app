@@ -1,3 +1,5 @@
+import getHeaderElement from '../get-header-element'
+
 export interface ViewportDimensions {
   width: number
   height: number
@@ -44,9 +46,8 @@ export default function getViewportDimensions (): ViewportDimensions {
   const ratio = currentRatio?.name ?? 'square'
 
   // Nav height
-  const possibleNavs = Array.from(document.querySelectorAll('header#Header, header.multimediaNav'))
-  const navHeights = possibleNavs.map($nav => $nav.getBoundingClientRect().height)
-  const navHeight = Math.max(Math.max(...navHeights), 0)
+  const nav = getHeaderElement()
+  const navHeight = nav?.getBoundingClientRect().height ?? 0
 
   // Return
   return {

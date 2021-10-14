@@ -110,7 +110,8 @@ class App extends Component<Props, State> {
           filtersIncentive={pageSettings.filters_incentive}
           regions={regions}
           thematics={thematics}
-          fragments={fragments} />
+          fragments={fragments}
+          showArticles={pageSettings.show_articles_in_snippet_menu} />
         <Parallax render={(p) => {
           const cleanP = Number.isNaN(p) ? 0 : p
           const scrolled = Math.min(Math.max(cleanP, 0), 1)
@@ -129,7 +130,10 @@ class App extends Component<Props, State> {
               <Header
                 theme='bright'
                 noLogo={true}
-                onButtonClick={this.toggleMenu} />
+                onButtonClick={this.toggleMenu}
+                showButton={pageSettings.show_header_button_in_snippet}
+                buttonDesktopText={pageSettings.snippet_header_button_desktop_text}
+                buttonMobileText={pageSettings.snippet_header_button_mobile_text} />
             </div>
             <WideFragmentIcono
               sources={sources}

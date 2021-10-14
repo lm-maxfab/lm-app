@@ -25,11 +25,10 @@ else if (config.hide_header === true) (getHeaderElement()?.style ?? { display: '
 // App rendering
 function renderApp (sheetBase: SheetBase): void {
   const workEnv = process.env.NODE_ENV ?? 'undefined'
-  const userEnv = window.location.href.match(/apps.([a-z]+-)?lemonde.fr/) !== null ? 'aec' : 'web'
-  const wrapperProps = { workEnv, userEnv }
-  
+  const wrapperProps = { workEnv }
+
   // Longform
-  const longformRootNode: HTMLElement|null = document.getElementById('lm-app-root')
+  const longformRootNode: HTMLElement|null = document.getElementById('lm-app-longform-root')
   if (longformRootNode !== null) {
     render(
       <Wrapper {...wrapperProps}>
@@ -40,7 +39,7 @@ function renderApp (sheetBase: SheetBase): void {
   } else {
     silentLog('no longform root node found.')
   }
-  
+
   // Snippet head
   const snippetHeadRootNode: HTMLElement|null = document.getElementById('lm-app-snippet-head-root')
   if (snippetHeadRootNode !== null) {

@@ -72,6 +72,9 @@
 /* About */
 .frag-menu__about {
   padding: 72px 40px 112px 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   background-size: cover;
   background-repeat: no-repeat;
   background-color: #F5F6F8;
@@ -130,6 +133,10 @@
   top: 0;
 }
 
+.frag-menu_hide-articles .frag-menu__filters-bar {
+  display: none;
+}
+
 .frag-menu__filters-incentive {
   font-family: var(--ff-marr-sans);
   font-size: 13px;
@@ -177,6 +184,10 @@
   margin-top: 0;
   padding: 0;
   transition: height 2ms 400ms, opacity 400ms;
+}
+
+.frag-menu_hide-articles .frag-menu__list {
+  display: none;
 }
 
 .frag-menu__list_active {

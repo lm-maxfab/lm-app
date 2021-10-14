@@ -1,25 +1,10 @@
 import { Component, JSX } from 'preact'
 import clss from 'classnames'
 import './styles.css'
+import getCurrentDownlink from '../../../modules/le-monde/utils/get-current-downlink'
 import { FragmentSources } from '../../types'
 
-interface MyNavigator extends Navigator {
-  mozConnection?: NetworkInformation
-  webkitConnection?: NetworkInformation
-}
-
-interface MyConnection extends NetworkInformation {
-  downlink?: number
-}
-
-let currentDownlink: number = getCurrentDownlink()
-
-function getCurrentDownlink () {
-  const navigator = window.navigator as MyNavigator|undefined
-  const connection = (navigator?.connection ?? navigator?.mozConnection ?? navigator?.webkitConnection) as MyConnection|undefined
-  const downlink = connection?.downlink ?? 0
-  return downlink
-}
+let currentDownlink: number = getCurrentDownlink() ?? 0
 
 interface Props {
   className?: string

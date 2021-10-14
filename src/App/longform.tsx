@@ -5,12 +5,23 @@ import Header from './components/Header'
 import Intro from './components/Intro'
 import Home from './components/HomePage'
 import Menu from './components/Menu'
+import getCurrentDownlink from '../modules/le-monde/utils/get-current-downlink'
 import IOComponent from '../modules/le-monde/components/IntersectionObserver'
-import { Fragment as FragmentInterface, FragmentSources, IntroImage, HomeImage, PageSettings } from './types'
+import {
+  Fragment as FragmentInterface,
+  FragmentSources,
+  IntroImage,
+  HomeImage,
+  PageSettings,
+  Region,
+  Thematic
+} from './types'
 import './longform.css'
 import WideFragmentIcono from './components/WideFragmentIcono'
 
 type IOE = IntersectionObserverEntry
+
+const downlinkAtLoad = getCurrentDownlink() ?? 0
 
 interface Props {
   className?: string
@@ -21,13 +32,15 @@ interface Props {
 interface State {
   currentSectionId: string|null
   currentWideFragmentId: string|null
+  isMenuOpen: boolean
 }
 
 class App extends Component<Props, State> {
   mainClass: string = 'lm-app-fragments-longform'
   state: State = {
     currentSectionId: 'intro',
-    currentWideFragmentId: null
+    currentWideFragmentId: null,
+    isMenuOpen: false
   }
 
   constructor (props: Props) {
@@ -36,6 +49,7 @@ class App extends Component<Props, State> {
     this.detectCurrentSectionId = this.detectCurrentSectionId.bind(this)
     this.detectCurrentWideFragmentId = this.detectCurrentWideFragmentId.bind(this)
     this.resetScrollPosition = this.resetScrollPosition.bind(this)
+    this.toggleMenu = this.toggleMenu.bind(this)
   }
 
   async asyncSetState (updater: any) {
@@ -77,6 +91,13 @@ class App extends Component<Props, State> {
     }
   }
 
+  toggleMenu () {
+    this.setState(curr => ({
+      ...curr,
+      isMenuOpen: !curr.isMenuOpen
+    }))
+  }
+
   /* * * * * * * * * * * * * * *
    * RENDER
    * * * * * * * * * * * * * * */
@@ -87,16 +108,21 @@ class App extends Component<Props, State> {
     const sheetBase = props.sheetBase ?? new SheetBase()
     const fragments = (sheetBase.collection('fragments').value as unknown as FragmentInterface[]).filter(frag => frag.publish === true)
     const wideFragments = fragments.filter(fragment => fragment.display === 'wide')
-    // const gridFragments = fragments.filter(fragment => fragment.display === 'grid')
+    const gridFragments = fragments.filter(fragment => fragment.display === 'grid')
     const introImages = sheetBase.collection('intro_images').value as unknown as IntroImage[]
     const homeImages = sheetBase.collection('home_images').value as unknown as HomeImage[]
+    const regions = sheetBase.collection('regions').value as unknown as Region[]
+    const thematics = sheetBase.collection('thematics').value as unknown as Thematic[]
     const pageSettings = sheetBase.collection('page_settings').entry('settings').value as unknown as PageSettings
     const introFirstParagraphChunk = pageSettings.intro_first_paragraph_chunk
 
     // Logic
+    if (state.isMenuOpen) document.body.style.overflow = 'hidden'
+    else document.body.style.overflow = ''
 
     // Classes
-    const classes: string = clss(this.mainClass, props.className)
+    const menuClass = state.isMenuOpen ? `${this.mainClass}_menu-open` : `${this.mainClass}_menu-closed`
+    const classes: string = clss(this.mainClass, menuClass, props.className)
     const inlineStyle = { ...props.style }
 
     // Display
@@ -104,21 +130,29 @@ class App extends Component<Props, State> {
       <div className={classes} style={inlineStyle}>
         
         {/* Header */}
-        <Header theme='dark' />
-        {/* <Menu /> */}
-        <div style={{
-          display: 'none',
-          position: 'fixed',
-          top: '100px',
-          right: '100px',
-          zIndex: 2000,
-          background: 'red',
-          textAlign: 'right'
-        }}>
-          {state.currentSectionId}
-          <br />
-          {state.currentWideFragmentId}
-        </div>
+        <Header
+          theme='dark'
+          onButtonClick={this.toggleMenu}
+          showButton={pageSettings.show_header_button_in_longform}
+          buttonDesktopText={pageSettings.longform_header_button_desktop_text}
+          buttonMobileText={pageSettings.longform_header_button_mobile_text} />
+        
+        {/* Menu */}
+        <Menu
+          open={this.state.isMenuOpen}
+          onCloseButtonClick={this.toggleMenu}
+          aboutTitle={pageSettings.about_title}
+          aboutContent={pageSettings.about_content}
+          aboutBackgroundImageDesktopUrl={pageSettings.about_background_image_desktop_url}
+          aboutBackgroundImageMobileUrl={pageSettings.about_background_image_mobile_url}
+          aboutBackgroundImageDesktopCenter={pageSettings.about_background_image_desktop_center}
+          aboutBackgroundImageMobileCenter={pageSettings.about_background_image_mobile_center}
+          aboutFranceMapUrl={pageSettings.about_france_map_url}
+          filtersIncentive={pageSettings.filters_incentive}
+          regions={regions}
+          thematics={thematics}
+          fragments={fragments}
+          showArticles={pageSettings.show_articles_in_longform_menu} />
         
         {/* Intro */}
         <IOComponent
@@ -168,15 +202,24 @@ class App extends Component<Props, State> {
             this.detectCurrentWideFragmentId(ioe, lastWideFragmentId, null)
           }}
           render={() => <div />} />
-        <div
-          className={'grid'}
-          style={{
-            position: 'relative',
-            height: 'calc(200 * var(--vh))',
-            background: 'chocolate',
-            zIndex: 4
-          }}>
-          grid
+        <div className={`${this.mainClass}__grid`}>
+        <div className={`${this.mainClass}__grid-inner`}>
+            {gridFragments.map(fragment => {
+              const showHd = downlinkAtLoad >= 2
+              const innerStyle: JSX.CSSProperties = {
+                backgroundImage: `url(${showHd ? fragment.grid_cover_hd_url : fragment.grid_cover_sd_url})`,
+                backgroundPosition: `${fragment.grid_cover_center}`
+              }
+              return <div className={`${this.mainClass}__grid-fragment`}>
+                <div style={innerStyle} className={`${this.mainClass}__grid-fragment-inner`}>
+                  <div className={`${this.mainClass}__grid-fragment-texts`}>
+                    <div className={`${this.mainClass}__grid-fragment-supertitle`}>{fragment.supertitle}</div>
+                    <div className={`${this.mainClass}__grid-fragment-title`}>{fragment.title}</div>
+                  </div>
+                </div>
+              </div>
+            })}
+          </div>
         </div>
 
         <Home

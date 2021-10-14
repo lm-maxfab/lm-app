@@ -1,6 +1,5 @@
 import { Component, JSX } from 'preact'
 import clss from 'classnames'
-import './styles.css'
 
 type IO = IntersectionObserver
 type IOE = IntersectionObserverEntry

@@ -1,6 +1,6 @@
 .lm-app-fragments-snippet-head {
-  margin-top: var(--len-nav-height);
   width: calc(100 * var(--vw));
+  margin-top: var(--len-nav-height);
   height: calc(100 * var(--vh) - var(--len-nav-height));
   position: relative;
   overflow: hidden;
@@ -10,7 +10,7 @@
   position: fixed;
   top: calc(var(--len-nav-height));
   width: 100%;
-  z-index: 4;
+  z-index: 5;
 }
 
 .lm-app-fragments-snippet-head_menu-open .frag-menu {
@@ -24,12 +24,23 @@
   display: none;
 }
 
+.lm-app-fragments-snippet-head .frag-menu_hide-articles {
+  height: calc(100 * var(--vh) - var(--len-nav-height));
+  padding-bottom: 0;
+}
+
+.lm-app-fragments-snippet-head .frag-menu_hide-articles .frag-menu__inner,
+.lm-app-fragments-snippet-head .frag-menu_hide-articles .frag-menu__about {
+  height: calc(100 * var(--vh) - var(--len-nav-height));
+  position: relative;
+}
+
 /* Header */
 .lm-app-fragments-snippet-head__header-wrapper {
   position: fixed;
   top: var(--len-nav-height);
   width: 100%;
-  z-index: 3;
+  z-index: 4;
 }
 
 @media screen and (max-width: 800px) {
