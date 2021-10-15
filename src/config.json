@@ -6,7 +6,7 @@
   "project_code_name": "5-2110-fragments",
   "build_name": null,
   "hide_header": false,
-  "delete_header": true,
+  "delete_header": false,
   "custom_config": {
     "current_fragment_id": "1"
   }

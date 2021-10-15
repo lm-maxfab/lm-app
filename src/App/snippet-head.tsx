@@ -13,6 +13,9 @@ import {
   Region,
   Thematic
 } from './types'
+import getCurrentDownlink from '../modules/le-monde/utils/get-current-downlink'
+import selectVideoSourceOnDownlink from './utils/select-video-source-on-downlink'
+import WideIcono from './components/WideIcono'
 
 interface Props {
   className?: string
@@ -24,6 +27,8 @@ interface Props {
 interface State {
   isMenuOpen: boolean
 }
+
+const initDownLink = getCurrentDownlink() ?? 4
 
 class App extends Component<Props, State> {
   mainClass: string = 'lm-app-fragments-snippet-head'
@@ -54,40 +59,45 @@ class App extends Component<Props, State> {
    * * * * * * * * * * * * * * */
   render (): JSX.Element {
     const { props, state } = this
+    console.log('render SNIPPET')
 
     // Logic
+    if (state.isMenuOpen) document.body.style.overflow = 'hidden'
+    else document.body.style.overflow = ''
+
     const sheetBase = props.sheetBase ?? new SheetBase()
     const fragments = (sheetBase.collection('fragments').value as unknown as FragmentInterface[]).filter(frag => frag.publish === true)
     const regions = sheetBase.collection('regions').value as unknown as Region[]
     const thematics = sheetBase.collection('thematics').value as unknown as Thematic[]
     const pageSettings = sheetBase.collection('page_settings').entry('settings').value as unknown as PageSettings
     const currentFragment = fragments.find(fragment => fragment.id === props.currentFragmentId)
-    const sources: FragmentSources = {
-      vimeo_video_desktop_1080_url: currentFragment?.vimeo_video_desktop_1080_url ?? '',
-      vimeo_video_desktop_720_url: currentFragment?.vimeo_video_desktop_720_url ?? '',
-      vimeo_video_desktop_540_url: currentFragment?.vimeo_video_desktop_540_url ?? '',
-      vimeo_video_desktop_360_url: currentFragment?.vimeo_video_desktop_360_url ?? '',
-      vimeo_video_mobile_648_url: currentFragment?.vimeo_video_mobile_648_url ?? '',
-      vimeo_video_mobile_432_url: currentFragment?.vimeo_video_mobile_432_url ?? '',
-      decodeurs_video_desktop_url: currentFragment?.decodeurs_video_desktop_url ?? '',
-      decodeurs_video_mobile_url: currentFragment?.decodeurs_video_mobile_url ?? '',
-      video_poster_desktop_url: currentFragment?.video_poster_desktop_url ?? '',
-      video_poster_mobile_url: currentFragment?.video_poster_mobile_url ?? '',
-      wide_cover_desktop_hd_url: currentFragment?.wide_cover_desktop_hd_url ?? '',
-      wide_cover_desktop_sd_url: currentFragment?.wide_cover_desktop_sd_url ?? '',
-      wide_cover_desktop_center: currentFragment?.wide_cover_desktop_center ?? '',
-      wide_cover_mobile_hd_url: currentFragment?.wide_cover_mobile_hd_url ?? '',
-      wide_cover_mobile_sd_url: currentFragment?.wide_cover_mobile_sd_url ?? '',
-      wide_cover_mobile_center: currentFragment?.wide_cover_mobile_center ?? '',
-      grid_cover_hd_url: currentFragment?.grid_cover_hd_url ?? '',
-      grid_cover_sd_url: currentFragment?.grid_cover_sd_url ?? '',
-      grid_cover_center: currentFragment?.grid_cover_center ?? '',
-      menu_thumb_hd_url: currentFragment?.menu_thumb_hd_url ?? '',
-      menu_thumb_sd_url: currentFragment?.menu_thumb_sd_url ?? ''
-    }
+    const desktopVideoSources = [
+      { height: 1080, url: currentFragment?.vimeo_video_desktop_1080_url },
+      { height: 720, url: currentFragment?.vimeo_video_desktop_720_url },
+      { height: 540, url: currentFragment?.vimeo_video_desktop_540_url },
+      { height: 360, url: currentFragment?.vimeo_video_desktop_360_url }
+    ]
+    const mobileVideoSources = [
+      { height: 648, url: currentFragment?.vimeo_video_mobile_648_url },
+      { height: 432, url: currentFragment?.vimeo_video_mobile_432_url }
+    ]
+    const desktopPosterSources = [
+      { height: 1125, url: currentFragment?.wide_cover_desktop_hd_url },
+      { height: 750, url: currentFragment?.wide_cover_desktop_hd_url }
+    ]
+    const mobilePosterSources = [
+      { height: 1560, url: currentFragment?.wide_cover_mobile_hd_url },
+      { height: 960, url: currentFragment?.wide_cover_desktop_sd_url }
+    ]
+    const desktopVideoSource = selectVideoSourceOnDownlink(desktopVideoSources, initDownLink, { ratio: 1920 / 1080, bitSize: 3, fps: 25, compressionRatio: 0.01, availableDownlinkRatio: 0.5 })
+    const mobileVideoSource = selectVideoSourceOnDownlink(mobileVideoSources, initDownLink, { ratio: 540 / 648, bitSize: 3, fps: 25, compressionRatio: 0.01, availableDownlinkRatio: 0.5 })
+    const desktopPosterSource = selectVideoSourceOnDownlink(desktopPosterSources, initDownLink, { ratio: 1.6, bitSize: 3, fps: 10, compressionRatio: 0.04, availableDownlinkRatio: 0.5 })
+    const mobilePosterSource = selectVideoSourceOnDownlink(mobilePosterSources, initDownLink, { ratio: 1.2, bitSize: 3, fps: 10, compressionRatio: 0.04, availableDownlinkRatio: 0.5 })
+    const isDesktop = document.documentElement.clientWidth > 800
+    const videoUrl = isDesktop ? desktopVideoSource : mobileVideoSource
+    const posterUrl = isDesktop ? desktopPosterSource : mobilePosterSource
 
-    if (state.isMenuOpen) document.body.style.overflow = 'hidden'
-    else document.body.style.overflow = ''
+    console.log(videoUrl)
 
     // Classes
     const menuClass = state.isMenuOpen ? `${this.mainClass}_menu-open` : `${this.mainClass}_menu-closed`
@@ -135,9 +145,12 @@ class App extends Component<Props, State> {
                 buttonDesktopText={pageSettings.snippet_header_button_desktop_text}
                 buttonMobileText={pageSettings.snippet_header_button_mobile_text} />
             </div>
-            <WideFragmentIcono
-              sources={sources}
-              isActive={true} />
+
+            <WideIcono
+              loadVideo
+              imageUrl={posterUrl}
+              videoUrl={videoUrl}
+              videoType='video/mp4' />
             <div
               style={textsStyle}
               className={`${this.mainClass}__texts`}>

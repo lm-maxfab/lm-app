@@ -60,8 +60,9 @@
 }
 
 /* Icono */
-.lm-app-fragments-snippet-head .frag-wide-fragment-icono {
-  top: calc(-1 * var(--len-nav-height));
+.lm-app-fragments-snippet-head .frag-wide-icono {
+  width: 100%;
+  height: calc(100 * var(--vh));
   position: relative;
   z-index: 1;
 }

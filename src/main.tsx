@@ -27,13 +27,23 @@ function renderApp (sheetBase: SheetBase): void {
   const workEnv = process.env.NODE_ENV ?? 'undefined'
   const wrapperProps = { workEnv }
 
+  // const demoRootNode: HTMLElement|null = document.getElementById('lm-app-demo-root')
+  // if (demoRootNode !== null) {
+  //   render(
+  //     <Wrapper {...wrapperProps}>
+  //     </Wrapper>,
+  //     demoRootNode
+  //   )
+  // }
+
   // Longform
   const longformRootNode: HTMLElement|null = document.getElementById('lm-app-longform-root')
   if (longformRootNode !== null) {
     render(
-      <Wrapper {...wrapperProps}>
-        <Longform sheetBase={sheetBase} />
-      </Wrapper>,
+      <Wrapper
+        {...wrapperProps}
+        app={Longform}
+        appProps={{ sheetBase }} />,
       longformRootNode
     )
   } else {
@@ -44,11 +54,13 @@ function renderApp (sheetBase: SheetBase): void {
   const snippetHeadRootNode: HTMLElement|null = document.getElementById('lm-app-snippet-head-root')
   if (snippetHeadRootNode !== null) {
     render(
-      <Wrapper {...wrapperProps}>
-        <SnippetHead
-          sheetBase={sheetBase}
-          currentFragmentId={config.custom_config.current_fragment_id} />
-      </Wrapper>,
+      <Wrapper
+        {...wrapperProps}
+        app={SnippetHead}
+        appProps={{
+          sheetBase,
+          currentFragmentId: config.custom_config.current_fragment_id
+        }} />,
       snippetHeadRootNode
     )
   } else {
@@ -59,11 +71,13 @@ function renderApp (sheetBase: SheetBase): void {
   const snippetFootRootNode: HTMLElement|null = document.getElementById('lm-app-snippet-foot-root')
   if (snippetFootRootNode !== null) {
     render(
-      <Wrapper {...wrapperProps}>
-        <SnippetFoot
-          sheetBase={sheetBase}
-          currentFragmentId={config.custom_config.current_fragment_id} />
-      </Wrapper>,
+      <Wrapper
+        {...wrapperProps}
+        app={SnippetFoot}
+        appProps={{
+          sheetBase,
+          currentFragmentId: config.custom_config.current_fragment_id
+        }} />,
       snippetFootRootNode
     )
   } else {

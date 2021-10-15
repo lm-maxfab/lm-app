@@ -56,7 +56,6 @@ class WideFragmentIcono extends Component<Props, {}> {
 
     const vimeoVidUrl = isDesktop ? dkVimeoVidUrl : smVimeoVidUrl
 
-
     // Images
     const rawDkImgHdUrl = props.sources?.wide_cover_desktop_hd_url
     const rawDkImgSdUrl = props.sources?.wide_cover_desktop_sd_url
