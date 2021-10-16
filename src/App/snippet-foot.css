@@ -1,4 +1,4 @@
 .lm-app-fragments-snippet-foot {
-  background-color: blue;
-  height: 4000px;
+  display: none;
+  height: 0px;
 }

@@ -1,10 +1,10 @@
 [
   {
     "sheetbase_url": "https://assets-decodeurs.lemonde.fr/sheets/qO7G0Yk6QnNQppeLY7BOVlnbnLyXxg_729",
-    "assets_root_url": "https://assets-decodeurs.lemonde.fr/redacweb/5-2110-fragments-snippet-assets-to-delete",
+    "assets_root_url": "https://assets-decodeurs.lemonde.fr/redacweb/5-2110-fragments-snippet-assets",
     "build_name": "fragments-de-france",
     "custom_config": {
-      "current_fragment_id": "1"
+      "current_fragment_id": "dryef-coiffeurs"
     }
   }
 ]

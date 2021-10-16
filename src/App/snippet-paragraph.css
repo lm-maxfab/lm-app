@@ -1,0 +1,16 @@
+.lm-app-fragments-snippet-paragraph {
+  background-color: #000000;
+  color: #EFF0F3;
+  padding: 16px;
+  font-size: 16px;
+  line-height: 24px;
+  font-family: var(--ff-marr-sans);
+}
+
+.lm-app-fragments-snippet-paragraph .snippet-paragraph-title {
+  font-weight: 600;
+}
+
+.lm-app-fragments-snippet-paragraph .snippet-paragraph-content {
+  font-weight: 400;
+}

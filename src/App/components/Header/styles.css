@@ -89,7 +89,6 @@
 }
 
 .frag-header_no-logo .frag-header__marqueur {
-  width: 180px;
   position: relative;
   left: unset;
   transform: unset;
@@ -108,10 +107,17 @@
 @media screen and (max-width: 1200px) {
   .frag-header__marqueur {
     display: none;
+    width: 160px;
   }
 
   .frag-header_no-logo .frag-header__marqueur {
     display: block;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .frag-header__marqueur {
+    width: 140px;
   }
 }
 

@@ -10,8 +10,8 @@ export interface ViewportDimensions {
 }
 
 export default function getViewportDimensions (): ViewportDimensions {
-  const height = document.documentElement.clientHeight
-  const width = document.documentElement.clientWidth
+  const height = window.innerHeight // document.documentElement.clientHeight
+  const width = window.innerWidth // document.documentElement.clientWidth
 
   // Orientation
   const orientation = width >= height ? 'landscape' : 'portrait'

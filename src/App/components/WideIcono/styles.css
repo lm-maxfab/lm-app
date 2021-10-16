@@ -14,15 +14,21 @@
   width: 100%;
   height: 100%;
   z-index: 2;
-  opacity: 1;
+  opacity: 0;
 }
 
-.frag-wide-icono_fade-video .frag-wide-icono__video {
-  opacity: 0;
+.frag-wide-icono_video-playing .frag-wide-icono__video {
   animation: videofade 600ms ease-in 200ms 1 forwards;
 }
 
 @keyframes videofade {
   from { opacity: 0; }
   to { opacity: 1; }
+}
+
+.frag-wide-icono__opacifier {
+  position: absolute;
+  z-index: 3;
+  width: 100%;
+  height: 100%;
 }

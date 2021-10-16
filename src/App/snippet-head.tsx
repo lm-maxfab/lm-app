@@ -14,8 +14,11 @@ import {
   Thematic
 } from './types'
 import getCurrentDownlink from '../modules/le-monde/utils/get-current-downlink'
+import clamp from '../modules/le-monde/utils/clamp'
 import selectVideoSourceOnDownlink from './utils/select-video-source-on-downlink'
 import WideIcono from './components/WideIcono'
+import chevron from './assets/chevron.svg'
+import Svg from '../modules/le-monde/components/Svg'
 
 interface Props {
   className?: string
@@ -25,7 +28,7 @@ interface Props {
 }
 
 interface State {
-  isMenuOpen: boolean
+  isMenuOpen: boolean|null
 }
 
 const initDownLink = getCurrentDownlink() ?? 4
@@ -33,7 +36,7 @@ const initDownLink = getCurrentDownlink() ?? 4
 class App extends Component<Props, State> {
   mainClass: string = 'lm-app-fragments-snippet-head'
   state: State = {
-    isMenuOpen: false
+    isMenuOpen: null
   }
 
   /* * * * * * * * * * * * * * *
@@ -50,7 +53,7 @@ class App extends Component<Props, State> {
   toggleMenu () {
     this.setState(curr => ({
       ...curr,
-      isMenuOpen: !curr.isMenuOpen
+      isMenuOpen: curr.isMenuOpen === null ? true : !curr.isMenuOpen
     }))
   }
 
@@ -59,10 +62,9 @@ class App extends Component<Props, State> {
    * * * * * * * * * * * * * * */
   render (): JSX.Element {
     const { props, state } = this
-    console.log('render SNIPPET')
 
     // Logic
-    if (state.isMenuOpen) document.body.style.overflow = 'hidden'
+    if (state.isMenuOpen === true) document.body.style.overflow = 'hidden'
     else document.body.style.overflow = ''
 
     const sheetBase = props.sheetBase ?? new SheetBase()
@@ -91,16 +93,19 @@ class App extends Component<Props, State> {
     ]
     const desktopVideoSource = selectVideoSourceOnDownlink(desktopVideoSources, initDownLink, { ratio: 1920 / 1080, bitSize: 3, fps: 25, compressionRatio: 0.01, availableDownlinkRatio: 0.5 })
     const mobileVideoSource = selectVideoSourceOnDownlink(mobileVideoSources, initDownLink, { ratio: 540 / 648, bitSize: 3, fps: 25, compressionRatio: 0.01, availableDownlinkRatio: 0.5 })
+    const hlsDesktopVideoSource = currentFragment?.vimeo_video_desktop_hls_url
+    const hlsMobileVideoSource = currentFragment?.vimeo_video_mobile_hls_url
     const desktopPosterSource = selectVideoSourceOnDownlink(desktopPosterSources, initDownLink, { ratio: 1.6, bitSize: 3, fps: 10, compressionRatio: 0.04, availableDownlinkRatio: 0.5 })
     const mobilePosterSource = selectVideoSourceOnDownlink(mobilePosterSources, initDownLink, { ratio: 1.2, bitSize: 3, fps: 10, compressionRatio: 0.04, availableDownlinkRatio: 0.5 })
     const isDesktop = document.documentElement.clientWidth > 800
     const videoUrl = isDesktop ? desktopVideoSource : mobileVideoSource
+    const hlsVideoUrl = isDesktop ? hlsDesktopVideoSource : hlsMobileVideoSource
     const posterUrl = isDesktop ? desktopPosterSource : mobilePosterSource
 
-    console.log(videoUrl)
-
     // Classes
-    const menuClass = state.isMenuOpen ? `${this.mainClass}_menu-open` : `${this.mainClass}_menu-closed`
+    const menuClass = state.isMenuOpen === true
+      ? `${this.mainClass}_menu-open`
+      : state.isMenuOpen === false ? `${this.mainClass}_menu-closed` : ''
     const classes: string = clss(this.mainClass, menuClass, props.className)
     const inlineStyle = { ...props.style }
 
@@ -108,7 +113,7 @@ class App extends Component<Props, State> {
     return (
       <div className={classes} style={inlineStyle}>
         <Menu
-          open={this.state.isMenuOpen}
+          open={this.state.isMenuOpen ?? false}
           onCloseButtonClick={this.toggleMenu}
           aboutTitle={pageSettings.about_title}
           aboutContent={pageSettings.about_content}
@@ -122,16 +127,29 @@ class App extends Component<Props, State> {
           thematics={thematics}
           fragments={fragments}
           showArticles={pageSettings.show_articles_in_snippet_menu} />
-        <Parallax render={(p) => {
-          const cleanP = Number.isNaN(p) ? 0 : p
-          const scrolled = Math.min(Math.max(cleanP, 0), 1)
+        <Parallax anchor={.05} render={(p) => {
+          // const cleanP = Number.isNaN(p) ? 0 : p
+          // const scrolled = clamp(cleanP, 0, 1)
+          const headerBgOpacity = .9 // clamp((scrolled - .5) * 2, 0, 1)
+          const headerBorderOpacity = .2 // .3 * (1 - scrolled)
+          const iconoTop = '' // `${scrolled / 1.5 * 100}%`
+          const textsOpacity = 1 //clamp(1 - scrolled * 3, 0, 1)
+          const opacifierOpacity = (currentFragment?.snippet_opacifier_opacity ?? 0) //* clamp((1 - scrolled * 2), 0, 1)
+          const textsTop = '-105px' // `calc(${(-1 * scrolled) * 100}% - 105px)`
+          const chevronOpacity = 1 // clamp(1 - (scrolled * 12), 0, 1)
           const headerWrapperStyle: JSX.CSSProperties = {
-            backgroundColor: `rgb(0, 0, 0, ${scrolled})`,
-            borderBottom: `1px rgb(255, 255, 255, ${.3 * (1 - scrolled)}) solid`
+            backgroundColor: `rgb(0, 0, 0, ${headerBgOpacity})`,
+            borderBottom: `1px rgb(255, 255, 255, ${headerBorderOpacity}) solid`
+          }
+          const iconoStyle: JSX.CSSProperties = {
+            top: iconoTop
           }
           const textsStyle: JSX.CSSProperties = {
-            top: `0%`,
-            opacity: 1 - scrolled
+            top: textsTop,
+            opacity: textsOpacity
+          }
+          const chevronStyle: JSX.CSSProperties = {
+            opacity: chevronOpacity
           }
           return <>
             <div
@@ -145,12 +163,14 @@ class App extends Component<Props, State> {
                 buttonDesktopText={pageSettings.snippet_header_button_desktop_text}
                 buttonMobileText={pageSettings.snippet_header_button_mobile_text} />
             </div>
-
             <WideIcono
+              style={iconoStyle}
               loadVideo
               imageUrl={posterUrl}
+              hlsVideoUrl={hlsVideoUrl}
               videoUrl={videoUrl}
-              videoType='video/mp4' />
+              videoType='video/mp4'
+              opacifierOpacity={opacifierOpacity} />
             <div
               style={textsStyle}
               className={`${this.mainClass}__texts`}>
@@ -160,6 +180,11 @@ class App extends Component<Props, State> {
               <div className={`${this.mainClass}__kicker`}>
                 {currentFragment?.kicker}
               </div>
+            </div>
+            <div
+              style={chevronStyle}
+              className={`${this.mainClass}__chevron`}>
+              <Svg src={chevron} />
             </div>
           </>
         }} />

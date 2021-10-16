@@ -6,6 +6,8 @@ export interface MyNavigator extends Navigator {
 }
 
 export interface FragmentSources {
+  vimeo_video_desktop_hls_url: string
+  vimeo_video_mobile_hls_url: string
   vimeo_video_desktop_1080_url: string
   vimeo_video_desktop_720_url: string
   vimeo_video_desktop_540_url: string
@@ -14,8 +16,8 @@ export interface FragmentSources {
   vimeo_video_mobile_432_url: string
   decodeurs_video_desktop_url: string
   decodeurs_video_mobile_url: string
-  video_poster_desktop_url: string
-  video_poster_mobile_url: string
+  video_poster_desktop_url: string // not used
+  video_poster_mobile_url: string // not used
   wide_cover_desktop_hd_url: string
   wide_cover_desktop_sd_url: string
   wide_cover_desktop_center: string
@@ -45,6 +47,9 @@ export interface Fragment extends FragmentSources {
   related_thematics_ids: string
   display: string
   order: number
+  snippet_opacifier_opacity: number
+  longform_wide_opacifier_opacity: number
+  longform_grid_opacifier_opacity: number
 }
 
 export interface ShortFragmentWithBetterRels {
@@ -115,4 +120,5 @@ export interface PageSettings {
   show_articles_in_longform_menu: boolean
   show_articles_in_snippet_menu: boolean
   filters_incentive: VNode
+  snippet_paragraph_content: VNode
 }

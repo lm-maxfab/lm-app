@@ -1,14 +1,15 @@
 import { render } from 'preact'
 import 'whatwg-fetch'
 import smoothscroll from 'smoothscroll-polyfill'
-import preload from './preload'
+// import preload from './preload'
 import config from './config.json'
 import getHeaderElement from './modules/le-monde/utils/get-header-element'
 import silentLog, { getRegister, printRegister } from './modules/le-monde/utils/silent-log'
 import { fetchTsv, tsvToSheetBase, SheetBase } from './modules/sheet-base'
 import Wrapper from './AppWrapper'
-import Longform from './App/longform'
+// import Longform from './App/longform'
 import SnippetHead from './App/snippet-head'
+import SnippetParagraph from './App/snippet-paragraph'
 import SnippetFoot from './App/snippet-foot'
 
 // Init globals
@@ -36,19 +37,19 @@ function renderApp (sheetBase: SheetBase): void {
   //   )
   // }
 
-  // Longform
-  const longformRootNode: HTMLElement|null = document.getElementById('lm-app-longform-root')
-  if (longformRootNode !== null) {
-    render(
-      <Wrapper
-        {...wrapperProps}
-        app={Longform}
-        appProps={{ sheetBase }} />,
-      longformRootNode
-    )
-  } else {
-    silentLog('no longform root node found.')
-  }
+  // // Longform
+  // const longformRootNode: HTMLElement|null = document.getElementById('lm-app-longform-root')
+  // if (longformRootNode !== null) {
+  //   render(
+  //     <Wrapper
+  //       {...wrapperProps}
+  //       app={Longform}
+  //       appProps={{ sheetBase }} />,
+  //     longformRootNode
+  //   )
+  // } else {
+  //   silentLog('no longform root node found.')
+  // }
 
   // Snippet head
   const snippetHeadRootNode: HTMLElement|null = document.getElementById('lm-app-snippet-head-root')
@@ -65,6 +66,20 @@ function renderApp (sheetBase: SheetBase): void {
     )
   } else {
     silentLog('no snippet head root node found.')
+  }
+
+  // Snippet paragraph
+  const snippetParagraphRootNode: HTMLElement|null = document.getElementById('lm-app-snippet-paragraph-root')
+  if (snippetParagraphRootNode !== null) {
+    render(
+      <Wrapper
+        {...wrapperProps}
+        app={SnippetParagraph}
+        appProps={{ sheetBase }} />,
+      snippetParagraphRootNode
+    )
+  } else {
+    silentLog('no snippet paragraph root node found.')
   }
   
   // Snippet foot

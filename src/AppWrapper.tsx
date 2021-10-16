@@ -44,7 +44,6 @@ class AppWrapper extends Component<AppWrapperProps, AppWrapperState> {
    * * * * * * * * * * * * * * */
   constructor (props: AppWrapperProps) {
     super(props)
-    // console.log('constructor')
     this.storeViewportDimensions = this.storeViewportDimensions.bind(this)
   }
 
@@ -52,7 +51,6 @@ class AppWrapper extends Component<AppWrapperProps, AppWrapperState> {
    * DID MOUNT
    * * * * * * * * * * * * * * */
   componentDidMount (): void {
-    // console.log('did mount')
     this.storeViewportDimensions()
     window.addEventListener('resize', this.storeViewportDimensions)
     this.resizeTimeout1 = window.setTimeout(this.storeViewportDimensions, 300)
@@ -63,7 +61,6 @@ class AppWrapper extends Component<AppWrapperProps, AppWrapperState> {
    * DID UPDATE
    * * * * * * * * * * * * * * */
   componentDidUpdate (): void {
-    console.log('did update')
     this.storeViewportDimensions()
   }
 
@@ -71,7 +68,6 @@ class AppWrapper extends Component<AppWrapperProps, AppWrapperState> {
    * WILL UNMOUNT
    * * * * * * * * * * * * * * */
   componentWillUnmount (): void {
-    // console.log('will unmount')
     window.removeEventListener('resize', this.storeViewportDimensions)
     if (this.resizeTimeout1 !== null) window.clearTimeout(this.resizeTimeout1)
     if (this.resizeInterval !== null) window.clearInterval(this.resizeInterval)
@@ -81,9 +77,7 @@ class AppWrapper extends Component<AppWrapperProps, AppWrapperState> {
    * STORE VIEWPORT DIMENSIONS
    * * * * * * * * * * * * * * */
   storeViewportDimensions (): void {
-    // console.log('store viewport dimensions')
     const { width, height, orientation, display, ratio, navHeight } = getViewportDimensions()
-    // console.log(width)
     this.$root?.style.setProperty('--vw', `calc(${width}px / 100)`)
     this.$root?.style.setProperty('--vh', `calc(${height}px / 100)`)
     this.$root?.style.setProperty('--len-nav-height', `${navHeight ?? 0}px`)
@@ -108,8 +102,6 @@ class AppWrapper extends Component<AppWrapperProps, AppWrapperState> {
   render (): JSX.Element {
     const { props, state } = this
     const { workEnv } = props
-
-    console.log('render', state.viewportDisplay)
 
     // Define CSS classes
     const workEnvClass = `${this.mainClass}_env-${workEnv}`

@@ -114,7 +114,7 @@ class Menu extends Component<Props, State> {
         <div className={`${this.mainClass}__inner`}>
           {/* Close button */}
           <button className={`${this.mainClass}__close-button`} onClick={() => onCloseClick()}>
-            <span className={`${this.mainClass}__close-label`}>Fermer</span>
+            <span className={`${this.mainClass}__close-label`}></span>
             <Svg src={closeIconLg} className={`${this.mainClass}__close-icon ${this.mainClass}__close-icon_lg`} />
             <Svg src={closeIconSm} className={`${this.mainClass}__close-icon ${this.mainClass}__close-icon_sm`} />
           </button>

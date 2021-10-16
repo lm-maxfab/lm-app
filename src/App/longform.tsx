@@ -229,6 +229,8 @@ class App extends Component<Props, State> {
 
         {wideFragments.map(fragment => {
           const sources: FragmentSources = {
+            vimeo_video_desktop_hls_url: fragment.vimeo_video_desktop_hls_url,
+            vimeo_video_mobile_hls_url: fragment.vimeo_video_mobile_hls_url,
             vimeo_video_desktop_1080_url: fragment.vimeo_video_desktop_1080_url,
             vimeo_video_desktop_720_url: fragment.vimeo_video_desktop_720_url,
             vimeo_video_desktop_540_url: fragment.vimeo_video_desktop_540_url,
