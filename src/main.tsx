@@ -100,8 +100,17 @@ function renderApp (sheetBase: SheetBase): void {
   }
 }
 
-const preloadedSheetBase = tsvToSheetBase(window.__LM_GLOBAL_SNIPPET_TSV_PRELOAD)
-renderApp(preloadedSheetBase)
+if (window.__LM_GLOBAL_SNIPPET_TSV_PRELOAD !== undefined) {
+  const preloadedSheetBase = tsvToSheetBase(window.__LM_GLOBAL_SNIPPET_TSV_PRELOAD)
+  window.__LM_GLOBAL_SHEET_BASE = preloadedSheetBase
+  console.log('preloadedSheetBase', window.__LM_GLOBAL_SHEET_BASE)
+  renderApp(preloadedSheetBase)
+}
 fetchTsv(config.sheetbase_url)
-  .then(tsv => renderApp(tsvToSheetBase(tsv)))
+  .then(tsv => {
+    const loadedSheetBase = tsvToSheetBase(tsv)
+    window.__LM_GLOBAL_SHEET_BASE = loadedSheetBase
+    console.log('loadedSheetBase', window.__LM_GLOBAL_SHEET_BASE)
+    renderApp(loadedSheetBase)
+  })
   .catch(err => console.warn(err))
