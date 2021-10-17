@@ -1,4 +1,25 @@
+.lm-app-dirty-box-for-vw-calc,
+.lm-app-dirty-box-for-vh-calc {
+  position: absolute;
+  z-index: 1;
+  opacity: 0;
+  user-select: none;
+  visibility: hidden;
+}
+
+.lm-app-dirty-box-for-vw-calc {
+  width: 100vw;
+  height: 0;
+}
+
+.lm-app-dirty-box-for-vh-calc {
+  height: 100vh;
+  width: 0;
+}
+
 .lm-app-wrapper {
+  --vw: 1vw;
+  --vh: 1vh;
   --ff-the-antiqua-b: "The-Antiqua-B", Garamond, Times, serif;
   --ff-marr-sans: "Marr-Sans", Verdana, sans-serif;
   --ff-marr-sans-condensed: "Marr-Sans-Condensed", Verdana, sans-serif;
@@ -8,8 +29,14 @@
   font-size: var(--l-rem);
   line-height: 1.25;
   color: initial;
+  position: relative;
 }
 
 .lm-app-wrapper * {
   box-sizing: border-box;
+}
+
+.lm-app-wrapper__contents {
+  position: relative;
+  z-index: 2;
 }

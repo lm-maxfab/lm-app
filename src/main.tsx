@@ -60,7 +60,7 @@ function renderApp (sheetBase: SheetBase): void {
         app={SnippetHead}
         appProps={{
           sheetBase,
-          currentFragmentId: config.custom_config.current_fragment_id
+          currentFragmentId: window.__LM_GLOBAL_SNIPPET_ID
         }} />,
       snippetHeadRootNode
     )
@@ -91,7 +91,7 @@ function renderApp (sheetBase: SheetBase): void {
         app={SnippetFoot}
         appProps={{
           sheetBase,
-          currentFragmentId: config.custom_config.current_fragment_id
+          currentFragmentId: window.__LM_GLOBAL_SNIPPET_ID
         }} />,
       snippetFootRootNode
     )
@@ -100,8 +100,8 @@ function renderApp (sheetBase: SheetBase): void {
   }
 }
 
-// const preloadedSheetBase = tsvToSheetBase(preload)
-// renderApp(preloadedSheetBase)
+const preloadedSheetBase = tsvToSheetBase(window.__LM_GLOBAL_SNIPPET_TSV_PRELOAD)
+renderApp(preloadedSheetBase)
 fetchTsv(config.sheetbase_url)
   .then(tsv => renderApp(tsvToSheetBase(tsv)))
   .catch(err => console.warn(err))

@@ -207,8 +207,11 @@ class App extends Component<Props, State> {
             {gridFragments.map(fragment => {
               const showHd = downlinkAtLoad >= 2
               const innerStyle: JSX.CSSProperties = {
-                backgroundImage: `url(${showHd ? fragment.grid_cover_hd_url : fragment.grid_cover_sd_url})`,
-                backgroundPosition: `${fragment.grid_cover_center}`
+                backgroundImage: `url(${showHd
+                  ? `https://assets-decodeurs.lemonde.fr/redacweb/5-2110-fragments-icono/${fragment.id}_grid_sd.jpg`
+                  : `https://assets-decodeurs.lemonde.fr/redacweb/5-2110-fragments-icono/${fragment.id}_grid_hd.jpg`
+                })`,
+                backgroundPosition: `center center`
               }
               return <div className={`${this.mainClass}__grid-fragment`}>
                 <div style={innerStyle} className={`${this.mainClass}__grid-fragment-inner`}>
@@ -237,21 +240,21 @@ class App extends Component<Props, State> {
             vimeo_video_desktop_360_url: fragment.vimeo_video_desktop_360_url,
             vimeo_video_mobile_648_url: fragment.vimeo_video_mobile_648_url,
             vimeo_video_mobile_432_url: fragment.vimeo_video_mobile_432_url,
-            decodeurs_video_desktop_url: fragment.decodeurs_video_desktop_url,
-            decodeurs_video_mobile_url: fragment.decodeurs_video_mobile_url,
-            video_poster_desktop_url: fragment.video_poster_desktop_url,
-            video_poster_mobile_url: fragment.video_poster_mobile_url,
-            wide_cover_desktop_hd_url: fragment.wide_cover_desktop_hd_url,
-            wide_cover_desktop_sd_url: fragment.wide_cover_desktop_sd_url,
-            wide_cover_desktop_center: fragment.wide_cover_desktop_center,
-            wide_cover_mobile_hd_url: fragment.wide_cover_mobile_hd_url,
-            wide_cover_mobile_sd_url: fragment.wide_cover_mobile_sd_url,
-            wide_cover_mobile_center: fragment.wide_cover_mobile_center,
-            grid_cover_hd_url: fragment.grid_cover_hd_url,
-            grid_cover_sd_url: fragment.grid_cover_sd_url,
-            grid_cover_center: fragment.grid_cover_center,
-            menu_thumb_hd_url: fragment.menu_thumb_hd_url,
-            menu_thumb_sd_url: fragment.menu_thumb_sd_url
+            decodeurs_video_desktop_url: `https://assets-decodeurs.lemonde.fr/redacweb/5-2110-fragments-videos/${fragment.id}_video_desktop.mp4`, // fragment.decodeurs_video_desktop_url,
+            decodeurs_video_mobile_url: `https://assets-decodeurs.lemonde.fr/redacweb/5-2110-fragments-videos/${fragment.id}_video_mobile.mp4`, // fragment.decodeurs_video_mobile_url,
+            video_poster_desktop_url: `https://assets-decodeurs.lemonde.fr/redacweb/5-2110-fragments-icono/${fragment.id}_wide_dk_hd.jpg`, // fragment.video_poster_desktop_url,
+            video_poster_mobile_url: `https://assets-decodeurs.lemonde.fr/redacweb/5-2110-fragments-icono/${fragment.id}_wide_sm_hd.jpg`, // fragment.video_poster_mobile_url,
+            wide_cover_desktop_hd_url: `https://assets-decodeurs.lemonde.fr/redacweb/5-2110-fragments-icono/${fragment.id}_wide_dk_hd.jpg`, // fragment.wide_cover_desktop_hd_url,
+            wide_cover_desktop_sd_url: `https://assets-decodeurs.lemonde.fr/redacweb/5-2110-fragments-icono/${fragment.id}_wide_dk_sd.jpg`, // fragment.wide_cover_desktop_sd_url,
+            wide_cover_desktop_center: 'center center', // fragment.wide_cover_desktop_center,
+            wide_cover_mobile_hd_url: `https://assets-decodeurs.lemonde.fr/redacweb/5-2110-fragments-icono/${fragment.id}_wide_sm_hd.jpg`, // fragment.wide_cover_mobile_hd_url,
+            wide_cover_mobile_sd_url: `https://assets-decodeurs.lemonde.fr/redacweb/5-2110-fragments-icono/${fragment.id}_wide_sm_sd.jpg`, // fragment.wide_cover_mobile_sd_url,
+            wide_cover_mobile_center: 'center center', // fragment.wide_cover_mobile_center,
+            grid_cover_hd_url: `https://assets-decodeurs.lemonde.fr/redacweb/5-2110-fragments-icono/${fragment.id}_grid_hd.jpg`, // fragment.grid_cover_hd_url,
+            grid_cover_sd_url: `https://assets-decodeurs.lemonde.fr/redacweb/5-2110-fragments-icono/${fragment.id}_grid_sm.jpg`, // fragment.grid_cover_sd_url,
+            grid_cover_center: 'center center', // fragment.grid_cover_center,
+            menu_thumb_hd_url: `https://assets-decodeurs.lemonde.fr/redacweb/5-2110-fragments-icono/${fragment.id}_thumb_hd.jpg`, // fragment.menu_thumb_hd_url,
+            menu_thumb_sd_url: `https://assets-decodeurs.lemonde.fr/redacweb/5-2110-fragments-icono/${fragment.id}_thumb_sd.jpg` // fragment.menu_thumb_sd_url
           }
           return <WideFragmentIcono
             fragmentUrl={fragment.url}

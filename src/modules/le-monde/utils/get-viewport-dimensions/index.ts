@@ -10,8 +10,12 @@ export interface ViewportDimensions {
 }
 
 export default function getViewportDimensions (): ViewportDimensions {
-  const height = window.innerHeight // document.documentElement.clientHeight
-  const width = window.innerWidth // document.documentElement.clientWidth
+  const dirtyVhDiv = document.querySelector('.lm-app-dirty-box-for-vh-calc')
+  const dirtyVwDiv = document.querySelector('.lm-app-dirty-box-for-vw-calc')
+  const dirtyVhDivHeight = dirtyVhDiv?.getBoundingClientRect().height ?? 0
+  const dirtyVwDivWidth = dirtyVwDiv?.getBoundingClientRect().width ?? 0
+  const height = dirtyVhDivHeight !== 0 ? dirtyVhDivHeight : window.innerHeight
+  const width = dirtyVwDivWidth !== 0 ? dirtyVwDivWidth : window.innerWidth
 
   // Orientation
   const orientation = width >= height ? 'landscape' : 'portrait'

@@ -10,60 +10,30 @@
   position: fixed;
   height: 0;
   overflow: hidden;
-  top: calc(var(--len-nav-height));
   width: 100%;
   z-index: 6;
-  opacity: 0;
+  top: var(--len-nav-height);
 }
 
-.lm-app-fragments-snippet-head_menu-open .frag-menu {
+.lm-app-fragments-snippet-head.lm-app-fragments-snippet-head_menu-open .frag-menu {
   height: calc(100 * var(--vh) - var(--len-nav-height));
   overflow: scroll;
-  animation: menuanimation 400ms ease 1 normal forwards;
+  opacity: 1;
+  transition: opacity 400ms 1ms, height 1ms;
 }
 
-.lm-app-fragments-snippet-head_menu-closed .frag-menu {
-  height: 0;
-  /* display: none; */
-  /* z-index: -5; */
-  animation: menuanimation 400ms ease 1 reverse backwards;
-}
-
-@keyframes menuanimation {
-  0% {
-    height: 0;
-    opacity: 0;
-  }
-  100% {
-    height: calc(100 * var(--vh) - var(--len-nav-height));
-    opacity: 1;
-  }
-}
-
-/* .lm-app-fragments-snippet-head .frag-menu__inner {
+.lm-app-fragments-snippet-head.lm-app-fragments-snippet-head_menu-closed .frag-menu {
+  padding-bottom: 0;
   opacity: 0;
-  transform: scale(.7);
-} */
-
-/* .lm-app-fragments-snippet-head_menu-open .frag-menu__inner {
-  animation: menuinneranimation 200ms ease 405ms 1 normal forwards;
+  height: 0;
+  transition: opacity 400ms, height 1ms 400ms;
 }
 
-.lm-app-fragments-snippet-head_menu-closed .frag-menu__inner {
-  animation: menuinneranimation 200ms ease 5ms 1 reverse backwards;
+@media screen and (max-width: 1200px) {
+  .lm-app-fragments-snippet-head.lm-app-fragments-snippet-head_menu-closed .frag-menu {
+    padding-bottom: 0;
+  }
 }
-
-@keyframes menuinneranimation {
-  0% {
-    opacity: 0;
-    transform: scale(.7);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-} */
-
 
 /* .lm-app-fragments-snippet-head .frag-menu_hide-articles {
   height: calc(100 * var(--vh) - var(--len-nav-height));

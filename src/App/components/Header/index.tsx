@@ -44,15 +44,15 @@ class Header extends Component<Props, {}> {
         {props.showButton && <>
           <button
             onClick={() => (props.onButtonClick !== undefined && props.onButtonClick())}
-            className={`${this.mainClass}__button ${this.mainClass}__button_sm`}>
-            <span className={`${this.mainClass}__button-text`}>{props.buttonMobileText}</span>
-            <Svg src={burgerIconSmPath} />
+            className={`${this.mainClass}__button ${this.mainClass}__button_lg`}>
+            <span className={`${this.mainClass}__button-text`}>{props.buttonDesktopText}&nbsp;</span>
+            <Svg src={burgerIconLgPath} />
           </button>
           <button
             onClick={() => (props.onButtonClick !== undefined && props.onButtonClick())}
-            className={`${this.mainClass}__button ${this.mainClass}__button_lg`}>
-            <span className={`${this.mainClass}__button-text`}>{props.buttonDesktopText}</span>
-            <Svg src={burgerIconLgPath} />
+            className={`${this.mainClass}__button ${this.mainClass}__button_sm`}>
+            <span className={`${this.mainClass}__button-text`}>{props.buttonMobileText}&nbsp;</span>
+            <Svg src={burgerIconSmPath} />
           </button>
         </>}
       </div>

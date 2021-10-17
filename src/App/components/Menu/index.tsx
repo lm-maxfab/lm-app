@@ -4,6 +4,7 @@ import './styles.css'
 import closeIconLg from './assets/close-icon-22.svg'
 import closeIconSm from './assets/close-icon-16.svg'
 import Svg from '../../../modules/le-monde/components/Svg'
+import Header from '../Header'
 import { Region, Thematic, Fragment, ShortFragmentWithBetterRels } from '../../types'
 
 interface Props {
@@ -31,6 +32,7 @@ interface State {
 
 class Menu extends Component<Props, State> {
   mainClass: string = 'frag-menu'
+  $root: HTMLDivElement|null = null
   state: State = {
     activeFilter: 'region'
   }
@@ -38,6 +40,11 @@ class Menu extends Component<Props, State> {
   constructor (props: Props) {
     super(props)
     this.activateFilter = this.activateFilter.bind(this)
+  }
+
+  componentDidUpdate (prevProps: Props) {
+    if (this.$root === null) return
+    if (prevProps.open !== this.props.open) this.$root.scrollTop = 0
   }
 
   activateFilter (filter: 'region'|'thema') {
@@ -64,8 +71,8 @@ class Menu extends Component<Props, State> {
           subtitle: fragment.subtitle,
           title: fragment.title,
           url: fragment.url,
-          menu_thumb_hd_url: fragment.menu_thumb_hd_url,
-          menu_thumb_sd_url: fragment.menu_thumb_sd_url,
+          menu_thumb_hd_url: `https://assets-decodeurs.lemonde.fr/redacweb/5-2110-fragments-icono/${fragment.id}_thumb_hd.jpg`, // fragment.menu_thumb_hd_url,
+          menu_thumb_sd_url: `https://assets-decodeurs.lemonde.fr/redacweb/5-2110-fragments-icono/${fragment.id}_thumb_sd.jpg`, // fragment.menu_thumb_sd_url,
           related_regions_ids_arr: arrRegionsId,
           related_thematics_ids_arr: arrThematicsId,
           main_region: (props.regions ?? []).find(region => region.id === arrRegionsId[0]),
@@ -109,9 +116,11 @@ class Menu extends Component<Props, State> {
 
     return (
       <div
+        ref={n => this.$root = n}
         className={classes}
         style={inlineStyle}>
         <div className={`${this.mainClass}__inner`}>
+          <Header theme='dark' noLogo={true} showButton={false} />
           {/* Close button */}
           <button className={`${this.mainClass}__close-button`} onClick={() => onCloseClick()}>
             <span className={`${this.mainClass}__close-label`}></span>
@@ -121,8 +130,10 @@ class Menu extends Component<Props, State> {
           {/* About */}
           <div style={introStyle} className={`${this.mainClass}__about`}>
             <img src={props.aboutFranceMapUrl} className={`${this.mainClass}__about-france-map`} />
-            <div className={`${this.mainClass}__about-title`}>{props.aboutTitle}</div>
-            <div className={`${this.mainClass}__about-content`}>{props.aboutContent}</div>
+            <div className={`${this.mainClass}__about-texts`}>
+              <div className={`${this.mainClass}__about-title`}>{props.aboutTitle}</div>
+              <div className={`${this.mainClass}__about-content`}>{props.aboutContent}</div>
+            </div>
           </div>
           {/* Filters bar */}
           <div className={`${this.mainClass}__filters-bar`}>
@@ -159,7 +170,7 @@ class Menu extends Component<Props, State> {
                         href={fragment.url}
                         className={`${this.mainClass}__list-sub-item`}>
                         <div
-                          style={{ backgroundImage: `url(${fragment.menu_thumb_hd_url})` }}
+                          style={{ backgroundImage: `url(https://assets-decodeurs.lemonde.fr/redacweb/5-2110-fragments-icono/${fragment.id}_thumb_hd.jpg)` }}
                           className={`${this.mainClass}__list-sub-item-image`} />
                         <div className={`${this.mainClass}__list-sub-item-texts`}>
                           <div className={`${this.mainClass}__list-sub-item-label`}>{fragment.main_thematic?.name}</div>
@@ -185,7 +196,7 @@ class Menu extends Component<Props, State> {
                         href={fragment.url}
                         className={`${this.mainClass}__list-sub-item`}>
                         <div
-                          style={{ backgroundImage: `url(${fragment.menu_thumb_hd_url})` }}
+                          style={{ backgroundImage: `url(https://assets-decodeurs.lemonde.fr/redacweb/5-2110-fragments-icono/${fragment.id}_thumb_hd.jpg)` }}
                           className={`${this.mainClass}__list-sub-item-image`} />
                         <div className={`${this.mainClass}__list-sub-item-texts`}>
                           <div className={`${this.mainClass}__list-sub-item-label`}>{fragment.main_region?.full_name}</div>

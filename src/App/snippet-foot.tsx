@@ -25,9 +25,7 @@ class App extends Component<Props, {}> {
 
     // Display
     return (
-      <div className={classes} style={inlineStyle}>
-        Snippet foot.
-      </div>
+      <div className={classes} style={inlineStyle}></div>
     )
   }
 }

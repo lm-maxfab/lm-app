@@ -1,12 +1,33 @@
 .frag-menu {
   background-color: #FFFFFF;
   padding-bottom: 112px;
+  position: relative;
 }
 
 @media screen and (max-width: 1200px) {
   .frag-menu {
     background-color: #FFFFFF;
     padding-bottom: 96px;
+  }
+}
+
+/* Header */
+.frag-menu .frag-header {
+  margin-top: 3px;
+  position: absolute;
+  /* top: var(--len-nav-height); */
+  top: 0;
+}
+
+@media screen and (max-width: 1200px) {
+  .frag-menu .frag-header {
+    margin-top: 4px;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .frag-menu .frag-header {
+    margin-top: 5px;
   }
 }
 
@@ -76,19 +97,21 @@
 
 /* About */
 .frag-menu__about {
-  padding: 72px 40px 112px 40px;
+  padding: 96px 40px 112px 40px;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
+  align-items: center;
   background-size: cover;
   background-repeat: no-repeat;
   background-color: #F5F6F8;
 }
 
 .frag-menu__about-france-map {
-  display: none;
-  max-width: 200px;
-  margin: 0 auto 32px auto;
+  width: 260px;
+  margin: 0 64px 0 24px;
+  position: relative;
+  top: 20px;
+  opacity: .6;
 }
 
 .frag-menu__about-title {
@@ -111,13 +134,17 @@
 
 @media screen and (max-width: 1200px) {
   .frag-menu__about {
-    padding: 32px 16px 80px 16px;
+    padding: 64px 16px 80px 16px;
+    flex-direction: column;
     align-items: center;
     text-align: center;
   }
 
   .frag-menu__about-france-map {
-    display: block;
+    width: 100%;
+    max-width: 240px;
+    top: unset;
+    margin: 0 auto 32px auto;
   }
 
   .frag-menu__about-title {

@@ -84,12 +84,12 @@ class App extends Component<Props, State> {
       { height: 432, url: currentFragment?.vimeo_video_mobile_432_url }
     ]
     const desktopPosterSources = [
-      { height: 1125, url: currentFragment?.wide_cover_desktop_hd_url },
-      { height: 750, url: currentFragment?.wide_cover_desktop_hd_url }
+      { height: 1125, url: `https://assets-decodeurs.lemonde.fr/redacweb/5-2110-fragments-icono/${props.currentFragmentId}_wide_dk_hd.jpg` },
+      { height: 750, url: `https://assets-decodeurs.lemonde.fr/redacweb/5-2110-fragments-icono/${props.currentFragmentId}_wide_dk_sd.jpg` }
     ]
     const mobilePosterSources = [
-      { height: 1560, url: currentFragment?.wide_cover_mobile_hd_url },
-      { height: 960, url: currentFragment?.wide_cover_desktop_sd_url }
+      { height: 1560, url: `https://assets-decodeurs.lemonde.fr/redacweb/5-2110-fragments-icono/${props.currentFragmentId}_wide_sm_hd.jpg` },
+      { height: 960, url: `https://assets-decodeurs.lemonde.fr/redacweb/5-2110-fragments-icono/${props.currentFragmentId}_wide_sm_sd.jpg` }
     ]
     const desktopVideoSource = selectVideoSourceOnDownlink(desktopVideoSources, initDownLink, { ratio: 1920 / 1080, bitSize: 3, fps: 25, compressionRatio: 0.01, availableDownlinkRatio: 0.5 })
     const mobileVideoSource = selectVideoSourceOnDownlink(mobileVideoSources, initDownLink, { ratio: 540 / 648, bitSize: 3, fps: 25, compressionRatio: 0.01, availableDownlinkRatio: 0.5 })
@@ -103,9 +103,7 @@ class App extends Component<Props, State> {
     const posterUrl = isDesktop ? desktopPosterSource : mobilePosterSource
 
     // Classes
-    const menuClass = state.isMenuOpen === true
-      ? `${this.mainClass}_menu-open`
-      : state.isMenuOpen === false ? `${this.mainClass}_menu-closed` : ''
+    const menuClass = state.isMenuOpen === true ? `${this.mainClass}_menu-open` : `${this.mainClass}_menu-closed`
     const classes: string = clss(this.mainClass, menuClass, props.className)
     const inlineStyle = { ...props.style }
 
@@ -127,7 +125,8 @@ class App extends Component<Props, State> {
           thematics={thematics}
           fragments={fragments}
           showArticles={pageSettings.show_articles_in_snippet_menu} />
-        <Parallax anchor={.05} render={(p) => {
+        {(() => {
+          // <Parallax anchor={.05} render={(p) => {
           // const cleanP = Number.isNaN(p) ? 0 : p
           // const scrolled = clamp(cleanP, 0, 1)
           const headerBgOpacity = .9 // clamp((scrolled - .5) * 2, 0, 1)
@@ -187,7 +186,8 @@ class App extends Component<Props, State> {
               <Svg src={chevron} />
             </div>
           </>
-        }} />
+        // }} />
+        })()}
       </div>
     )
   }
