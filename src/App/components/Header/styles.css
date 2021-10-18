@@ -23,6 +23,7 @@
 
   --c-button-bright-color: #2A303C;
   --c-button-bright-bg: #FCFCFD;
+  min-height: 50px;
 }
 
 .frag-header_dark {
@@ -52,6 +53,7 @@
 @media screen and (max-width: 1200px) {
   .frag-header {
     padding: 6px 10px;
+    min-height: 38px;
   }
 }
 

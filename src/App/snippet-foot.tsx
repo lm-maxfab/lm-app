@@ -30,7 +30,6 @@ class App extends Component<Props, {}> {
     const pageSettings = sheetBase.collection('page_settings').entry('settings').value as unknown as PageSettings
     const currentFragment = fragments.find(fragment => fragment.id === props.currentFragmentId)
     const currentFragmentThematicId = (currentFragment?.related_thematics_ids ?? '').split(',').map(id => id.trim())[0]
-    console.log((currentFragment?.related_thematics_ids ?? ''))
     const relatedFragments = fragments
       .filter(fragment => (fragment.related_thematics_ids ?? '')
         .split(',')

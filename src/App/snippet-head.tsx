@@ -134,7 +134,7 @@ class App extends Component<Props, State> {
           const iconoTop = '' // `${scrolled / 1.5 * 100}%`
           const textsOpacity = 1 //clamp(1 - scrolled * 3, 0, 1)
           const opacifierOpacity = (currentFragment?.snippet_opacifier_opacity ?? 0) // clamp((1 - scrolled * 2), 0, 1)
-          const textsTop = '-105px' // `calc(${(-1 * scrolled) * 100}% - 105px)`
+          const textsTop = '-115px' // `calc(${(-1 * scrolled) * 100}% - 105px)`
           const chevronOpacity = 1 // clamp(1 - (scrolled * 12), 0, 1)
           const headerWrapperStyle: JSX.CSSProperties = {
             backgroundColor: `rgb(0, 0, 0, ${headerBgOpacity})`,
