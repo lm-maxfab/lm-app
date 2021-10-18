@@ -41,20 +41,22 @@ class Header extends Component<Props, {}> {
         {/* Marqueur */}
         <Svg src={marqueurPath} className={`${this.mainClass}__marqueur`} />
         {/* Button */}
-        {props.showButton && <>
-          <button
-            onClick={() => (props.onButtonClick !== undefined && props.onButtonClick())}
-            className={`${this.mainClass}__button ${this.mainClass}__button_lg`}>
-            <span className={`${this.mainClass}__button-text`}>{props.buttonDesktopText}&nbsp;</span>
-            <Svg src={burgerIconLgPath} />
-          </button>
-          <button
-            onClick={() => (props.onButtonClick !== undefined && props.onButtonClick())}
-            className={`${this.mainClass}__button ${this.mainClass}__button_sm`}>
-            <span className={`${this.mainClass}__button-text`}>{props.buttonMobileText}&nbsp;</span>
-            <Svg src={burgerIconSmPath} />
-          </button>
-        </>}
+        {props.showButton === true
+          ? <>
+            <button
+              onClick={() => (props.onButtonClick !== undefined && props.onButtonClick())}
+              className={`${this.mainClass}__button ${this.mainClass}__button_lg`}>
+              <span className={`${this.mainClass}__button-text`}>{props.buttonDesktopText}&nbsp;</span>
+              <Svg src={burgerIconLgPath} />
+            </button>
+            <button
+              onClick={() => (props.onButtonClick !== undefined && props.onButtonClick())}
+              className={`${this.mainClass}__button ${this.mainClass}__button_sm`}>
+              <span className={`${this.mainClass}__button-text`}>{props.buttonMobileText}&nbsp;</span>
+              <Svg src={burgerIconSmPath} />
+            </button>
+          </>
+          : <></>}
       </div>
     )
   }

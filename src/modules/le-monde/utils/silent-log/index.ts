@@ -1,5 +1,5 @@
 export interface Log {
-  message: any,
+  message: any[],
   stack: string[]|undefined,
   time: Date
 }
@@ -20,14 +20,14 @@ export function getRegister (slice: number = 0): Log[] {
   return [...logRegister].slice(slice)
 }
 
-export default function silentLog (message: any): Log[] {
+export default function silentLog (...messages: any[]): Log[] {
   const origin = window.location.origin
   const stack = new Error().stack
     ?.split('\n')
     .map(line => line.replace(origin, '').trim())
     .slice(2)
   const time = new Date()
-  const log: Log = { message, stack, time }
+  const log: Log = { message: messages, stack, time }
   logRegister.push(log)
   return getRegister()
 }

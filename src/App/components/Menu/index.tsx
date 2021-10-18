@@ -61,8 +61,8 @@ class Menu extends Component<Props, State> {
     const onCloseClick = props.onCloseButtonClick ?? (() => {})
     const fragmentsWithBetterRels = (props.fragments ?? [])
       .map(fragment => {
-        const arrRegionsId = fragment.related_regions_ids.split(',').map(e => e.trim())
-        const arrThematicsId = fragment.related_thematics_ids.split(',').map(e => e.trim())
+        const arrRegionsId = (fragment.related_regions_ids ?? '').split(',').map(e => e.trim())
+        const arrThematicsId = (fragment.related_thematics_ids ?? '').split(',').map(e => e.trim())
         const returned: ShortFragmentWithBetterRels = {
           id: fragment.id,
           order: fragment.order,
@@ -122,11 +122,11 @@ class Menu extends Component<Props, State> {
         <div className={`${this.mainClass}__inner`}>
           <Header theme='dark' noLogo={true} showButton={false} />
           {/* Close button */}
-          <button className={`${this.mainClass}__close-button`} onClick={() => onCloseClick()}>
+          {props.open && <button className={`${this.mainClass}__close-button`} onClick={() => onCloseClick()}>
             <span className={`${this.mainClass}__close-label`}></span>
             <Svg src={closeIconLg} className={`${this.mainClass}__close-icon ${this.mainClass}__close-icon_lg`} />
             <Svg src={closeIconSm} className={`${this.mainClass}__close-icon ${this.mainClass}__close-icon_sm`} />
-          </button>
+          </button>}
           {/* About */}
           <div style={introStyle} className={`${this.mainClass}__about`}>
             <img src={props.aboutFranceMapUrl} className={`${this.mainClass}__about-france-map`} />

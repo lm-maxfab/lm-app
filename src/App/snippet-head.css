@@ -1,3 +1,8 @@
+#lm-app-snippet-head-root {
+  width: unset !important;
+  height: unset !important;
+}
+
 .lm-app-fragments-snippet-head {
   width: calc(100 * var(--vw));
   /* margin-top: var(--len-nav-height); */

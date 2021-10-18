@@ -103,14 +103,14 @@ function renderApp (sheetBase: SheetBase): void {
 if (window.__LM_GLOBAL_SNIPPET_TSV_PRELOAD !== undefined) {
   const preloadedSheetBase = tsvToSheetBase(window.__LM_GLOBAL_SNIPPET_TSV_PRELOAD)
   window.__LM_GLOBAL_SHEET_BASE = preloadedSheetBase
-  console.log('preloadedSheetBase', window.__LM_GLOBAL_SHEET_BASE)
+  silentLog('preloaded sheet base:', window.__LM_GLOBAL_SHEET_BASE)
   renderApp(preloadedSheetBase)
 }
 fetchTsv(config.sheetbase_url)
   .then(tsv => {
     const loadedSheetBase = tsvToSheetBase(tsv)
     window.__LM_GLOBAL_SHEET_BASE = loadedSheetBase
-    console.log('loadedSheetBase', window.__LM_GLOBAL_SHEET_BASE)
+    silentLog('loaded sheet base:', window.__LM_GLOBAL_SHEET_BASE)
     renderApp(loadedSheetBase)
   })
   .catch(err => console.warn(err))

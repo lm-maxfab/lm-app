@@ -43,8 +43,8 @@ export interface Fragment extends FragmentSources {
   head_image_center: string
   head_video_url: string
   head_video_center: string
-  related_regions_ids: string
-  related_thematics_ids: string
+  related_regions_ids: string|undefined
+  related_thematics_ids: string|undefined
   display: string
   order: number
   snippet_opacifier_opacity: number
@@ -109,6 +109,8 @@ export interface PageSettings {
   snippet_header_button_desktop_text: VNode
   snippet_header_button_mobile_text: VNode
   show_header_button_in_snippet: boolean
+  show_footer_in_snippet: boolean
+  show_paragraph_in_snippet: boolean
   show_header_button_in_longform: boolean
   about_title: VNode
   about_content: VNode
@@ -121,4 +123,10 @@ export interface PageSettings {
   show_articles_in_snippet_menu: boolean
   filters_incentive: VNode
   snippet_paragraph_content: VNode
+  footer_marqueur_url: string
+  footer_about_paragraph: VNode
+  footer_cta: VNode
+  footer_list_label: VNode
+  footer_about_bg_image_url: string
+  longform_url: string
 }
