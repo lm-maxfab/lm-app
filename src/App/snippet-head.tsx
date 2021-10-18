@@ -4,11 +4,9 @@ import { SheetBase } from '../modules/sheet-base'
 import './snippet-head.css'
 import Header from './components/Header'
 import Menu from './components/Menu'
-import WideFragmentIcono from './components/WideFragmentIcono'
 import Parallax from '../modules/le-monde/components/Parallax'
 import {
   Fragment as FragmentInterface,
-  FragmentSources,
   PageSettings,
   Region,
   Thematic
@@ -125,31 +123,19 @@ class App extends Component<Props, State> {
           thematics={thematics}
           fragments={fragments}
           showArticles={pageSettings.show_articles_in_snippet_menu} />
-        {(() => {
-          // <Parallax anchor={.05} render={(p) => {
-          // const cleanP = Number.isNaN(p) ? 0 : p
-          // const scrolled = clamp(cleanP, 0, 1)
-          const headerBgOpacity = .9 // clamp((scrolled - .5) * 2, 0, 1)
-          const headerBorderOpacity = .2 // .3 * (1 - scrolled)
-          const iconoTop = '' // `${scrolled / 1.5 * 100}%`
-          const textsOpacity = 1 //clamp(1 - scrolled * 3, 0, 1)
-          const opacifierOpacity = (currentFragment?.snippet_opacifier_opacity ?? 0) // clamp((1 - scrolled * 2), 0, 1)
-          const textsTop = '-115px' // `calc(${(-1 * scrolled) * 100}% - 105px)`
-          const chevronOpacity = 1 // clamp(1 - (scrolled * 12), 0, 1)
-          const headerWrapperStyle: JSX.CSSProperties = {
-            backgroundColor: `rgb(0, 0, 0, ${headerBgOpacity})`,
-            borderBottom: `1px rgb(255, 255, 255, ${headerBorderOpacity}) solid`
-          }
-          const iconoStyle: JSX.CSSProperties = {
-            top: iconoTop
-          }
-          const textsStyle: JSX.CSSProperties = {
-            top: textsTop,
-            opacity: textsOpacity
-          }
-          const chevronStyle: JSX.CSSProperties = {
-            opacity: chevronOpacity
-          }
+        <Parallax anchor={0} render={(p) => {
+          const cleanP = Number.isNaN(p) ? 0 : p
+          const scrolled = clamp(cleanP, 0, 1)
+          const headerBgOpacity = clamp((scrolled - .5) * 2, 0, 1)
+          const headerBorderOpacity = .2 * (1 - scrolled)
+          const iconoTop = `${scrolled / 1.5 * 100}%`
+          const textsOpacity = clamp(1 - scrolled * 4, 0, 1)
+          const opacifierOpacity = (currentFragment?.snippet_opacifier_opacity ?? 0) * clamp((1 - scrolled * 4), 0, 1)
+          const chevronOpacity = clamp(1 - scrolled * 4, 0, 1)
+          const headerWrapperStyle: JSX.CSSProperties = { backgroundColor: `rgb(0, 0, 0, ${headerBgOpacity})`, borderBottom: `1px rgb(255, 255, 255, ${headerBorderOpacity}) solid` }
+          const iconoStyle: JSX.CSSProperties = { top: iconoTop }
+          const textsStyle: JSX.CSSProperties = { opacity: textsOpacity }
+          const chevronStyle: JSX.CSSProperties = { opacity: chevronOpacity }
           return <>
             <div
               style={headerWrapperStyle}
@@ -186,8 +172,7 @@ class App extends Component<Props, State> {
               <Svg src={chevron} />
             </div>
           </>
-        // }} />
-        })()}
+        }} />
       </div>
     )
   }

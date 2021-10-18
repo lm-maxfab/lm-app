@@ -99,6 +99,7 @@
   transform:  translate(-50%, 400px);
   transition: top 50ms;
   text-align: center;
+  top: -115px;
   animation: textsfade 1200ms ease 200ms 1 forwards;
 }
 
@@ -156,16 +157,20 @@
 
 .lm-app-fragments-snippet-head__chevron {
   position: absolute;
-  bottom: -500px;
   left: 50%;
+  bottom: -400px;
   transform: translateX(-50%);
   z-index: 5;
   animation: chevronslide 1400ms ease 400ms 1 forwards;
 }
 
 @keyframes chevronslide {
-  from { bottom: -500px; }
-  to { bottom: 65px }
+  from {
+    bottom: -400px;
+  }
+  to {
+    bottom: 65px;
+  }
 }
 
 .lm-app-fragments-snippet-head__chevron svg {
