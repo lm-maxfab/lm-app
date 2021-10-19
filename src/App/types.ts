@@ -73,9 +73,11 @@ export interface IntroImage {
   url: string
   opacity: number
   h_position: string
-  height: string
-  width: string
-  paragraph_chunk: JSX.Element
+  v_position: string
+  height?: string
+  container_height?: string
+  with_logo?: boolean
+  paragraph_chunk: string
   related_fragment: Fragment
 }
 

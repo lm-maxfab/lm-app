@@ -1,5 +1,8 @@
 import { Component, JSX } from 'preact'
 
+type PropsStep = number|'beginning'|'end'|'next'|'prev'
+type StateStep = number
+
 interface Props {
   tempo?: number
   length?: number
@@ -8,7 +11,7 @@ interface Props {
 }
 
 interface State {
-  step: number
+  step: StateStep
   status: 'play'|'pause'
 }
 
@@ -35,6 +38,7 @@ class Sequencer extends Component<Props, State> {
     this.pause = this.pause.bind(this)
     this.planNextStep = this.planNextStep.bind(this)
     this.cancelNextStep = this.cancelNextStep.bind(this)
+    this.convertPropsStepIntoStateStep = this.convertPropsStepIntoStateStep.bind(this)
   }
 
   /* * * * * * * * * * * * * * *
@@ -52,17 +56,23 @@ class Sequencer extends Component<Props, State> {
     return this.props.length ?? this._defaultLength
   }
 
-  goTo (step: number|'beginning'|'end'|'next'|'prev' = 'next') {
+  convertPropsStepIntoStateStep (step: PropsStep, currStep: StateStep) {
     const length = this.props.length ?? this._getLength()
+    let outStateStep: number
+    if (step === 'beginning') outStateStep = 0
+    else if (step === 'end') outStateStep = Math.max(length - 1, 0)
+    else if (step === 'prev') outStateStep = currStep - 1
+    else if (step === 'next') outStateStep = currStep + 1
+    else outStateStep = step
+    const moduloStep = outStateStep % length
+    const newStep = Number.isNaN(moduloStep) ? 0 : moduloStep
+    return newStep
+  }
+
+  goTo (step: PropsStep = 'next') {
     this.setState((curr: State) => {
-      let rawNewStep: number
-      if (step === 'beginning') rawNewStep = 0
-      else if (step === 'end') rawNewStep = Math.max(length - 1, 0)
-      else if (step === 'prev') rawNewStep = curr.step - 1
-      else if (step === 'next') rawNewStep = curr.step + 1
-      else rawNewStep = step
-      const moduloStep = rawNewStep % length
-      const newStep = Number.isNaN(moduloStep) ? 0 : moduloStep
+      const newStep = this.convertPropsStepIntoStateStep(step, curr.step)
+      if (newStep === curr.step) return null
       return { ...curr, step: newStep }
     })
   }

@@ -178,6 +178,13 @@
   color: #8B92A1;
 }
 
+@media screen and (max-width: 345px) {
+  .frag-menu__filters-incentive {
+    display: block;
+    margin-bottom: 4px;
+  }
+}
+
 .frag-menu__filter {
   font-family: var(--ff-marr-sans);
   font-size: 13px;

@@ -123,56 +123,58 @@ class App extends Component<Props, State> {
           thematics={thematics}
           fragments={fragments}
           showArticles={pageSettings.show_articles_in_snippet_menu} />
-        <Parallax anchor={0} render={(p) => {
-          const cleanP = Number.isNaN(p) ? 0 : p
-          const scrolled = clamp(cleanP, 0, 1)
-          const headerBgOpacity = clamp((scrolled - .5) * 2, 0, 1)
-          const headerBorderOpacity = .2 * (1 - scrolled)
-          const iconoTop = `${scrolled / 1.5 * 100}%`
-          const textsOpacity = clamp(1 - scrolled * 4, 0, 1)
-          const opacifierOpacity = (currentFragment?.snippet_opacifier_opacity ?? 0) * clamp((1 - scrolled * 4), 0, 1)
-          const chevronOpacity = clamp(1 - scrolled * 4, 0, 1)
-          const headerWrapperStyle: JSX.CSSProperties = { backgroundColor: `rgb(0, 0, 0, ${headerBgOpacity})`, borderBottom: `1px rgb(255, 255, 255, ${headerBorderOpacity}) solid` }
-          const iconoStyle: JSX.CSSProperties = { top: iconoTop }
-          const textsStyle: JSX.CSSProperties = { opacity: textsOpacity }
-          const chevronStyle: JSX.CSSProperties = { opacity: chevronOpacity }
-          return <>
-            <div
-              style={headerWrapperStyle}
-              className={`${this.mainClass}__header-wrapper`}>
-              <Header
-                theme='bright'
-                noLogo={true}
-                onButtonClick={this.toggleMenu}
-                showButton={pageSettings.show_header_button_in_snippet}
-                buttonDesktopText={pageSettings.snippet_header_button_desktop_text}
-                buttonMobileText={pageSettings.snippet_header_button_mobile_text} />
-            </div>
-            <WideIcono
-              style={iconoStyle}
-              loadVideo
-              imageUrl={posterUrl}
-              hlsVideoUrl={hlsVideoUrl}
-              videoUrl={videoUrl}
-              videoType='video/mp4'
-              opacifierOpacity={opacifierOpacity} />
-            <div
-              style={textsStyle}
-              className={`${this.mainClass}__texts`}>
-              <div className={`${this.mainClass}__supertitle`}>
-                {currentFragment?.supertitle}
+        {(() => {
+          // return <Parallax anchor={0} render={(p) => {
+            // const scrolled = clamp((Number.isNaN(p) ? 0 : p), 0, 1)
+            const scrolled = 0
+            const headerBgOpacity = clamp((scrolled - .5) * 2, 0, 1)
+            const headerBorderOpacity = .2 * (1 - scrolled)
+            const iconoTop = `${scrolled / 1.5 * 100}%`
+            const textsOpacity = clamp(1 - scrolled * 4, 0, 1)
+            const opacifierOpacity = (currentFragment?.snippet_opacifier_opacity ?? 0) * clamp((1 - scrolled * 4), 0, 1)
+            const chevronOpacity = clamp(1 - scrolled * 4, 0, 1)
+            const headerWrapperStyle: JSX.CSSProperties = { backgroundColor: `rgb(0, 0, 0, ${headerBgOpacity})`, borderBottom: `1px rgb(255, 255, 255, ${headerBorderOpacity}) solid` }
+            const iconoStyle: JSX.CSSProperties = { top: iconoTop }
+            const textsStyle: JSX.CSSProperties = { opacity: textsOpacity }
+            const chevronStyle: JSX.CSSProperties = { opacity: chevronOpacity }
+            return <>
+              <div
+                style={headerWrapperStyle}
+                className={`${this.mainClass}__header-wrapper`}>
+                <Header
+                  theme='bright'
+                  noLogo={true}
+                  onButtonClick={this.toggleMenu}
+                  showButton={pageSettings.show_header_button_in_snippet}
+                  buttonDesktopText={pageSettings.snippet_header_button_desktop_text}
+                  buttonMobileText={pageSettings.snippet_header_button_mobile_text} />
               </div>
-              <div className={`${this.mainClass}__kicker`}>
-                {currentFragment?.kicker}
+              <WideIcono
+                style={iconoStyle}
+                loadVideo
+                imageUrl={posterUrl}
+                hlsVideoUrl={hlsVideoUrl}
+                videoUrl={videoUrl}
+                videoType='video/mp4'
+                opacifierOpacity={opacifierOpacity} />
+              <div
+                style={textsStyle}
+                className={`${this.mainClass}__texts`}>
+                <div className={`${this.mainClass}__supertitle`}>
+                  {currentFragment?.supertitle}
+                </div>
+                <div className={`${this.mainClass}__kicker`}>
+                  {currentFragment?.kicker}
+                </div>
               </div>
-            </div>
-            <div
-              style={chevronStyle}
-              className={`${this.mainClass}__chevron`}>
-              <Svg src={chevron} />
-            </div>
-          </>
-        }} />
+              <div
+                style={chevronStyle}
+                className={`${this.mainClass}__chevron`}>
+                <Svg src={chevron} />
+              </div>
+            </>
+          // }} /> // End of Parallax
+        })()}
       </div>
     )
   }

@@ -75,8 +75,8 @@ class Svg extends Component<Props, State> {
       className={classes}
       style={inlineStyle}
       ref={n => { this.$root = n }}>
-      {state.loading && (props.loader ?? 'Loading...')}
-      {state.error !== null && (props.fallback ?? `Error while loading resource at ${props.src}`)}
+      {/* state.loading && (props.loader ?? 'Loading...') */}
+      {/* state.error !== null && (props.fallback ?? `Error while loading resource at ${props.src}`) */}
       <div
         className={`${this.mainClass}__inner`}
         dangerouslySetInnerHTML={{ __html: svgString }} />

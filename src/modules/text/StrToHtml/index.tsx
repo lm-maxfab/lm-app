@@ -1,10 +1,9 @@
 import { Component, JSX } from 'preact'
 import './style.css'
-// import { Parser } from 'html-to-react'
-// const h2r = new Parser()
 
 interface Props {
   content?: string
+  wrapperTag?: 'div'|'span'
 }
 
 class StrToHtml extends Component<Props, {}> {
@@ -15,9 +14,12 @@ class StrToHtml extends Component<Props, {}> {
    * * * * * * * * * * * * * * */
   render (): JSX.Element {
     const { props } = this
-    // const parsed = h2r.parse(props.content ?? '')
-    // return <>{parsed}</>
-    return <div
+    const Wrapper = props.wrapperTag === 'div'
+      || props.wrapperTag === undefined
+      ? (props: JSX.HTMLAttributes<HTMLDivElement>) => <div {...props} />
+      : (props: JSX.HTMLAttributes<HTMLSpanElement>) => <span {...props} />
+
+    return <Wrapper
       className={`${this.mainClass}`}
       dangerouslySetInnerHTML={{ __html: props.content ?? '' }} />
   }
