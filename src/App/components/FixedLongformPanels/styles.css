@@ -11,7 +11,7 @@
 .frag-fixed-panels__panel.frag-fixed-panels__panel_active {
   opacity: 1;
   height: 100%;
-  transition: opacity 800ms 2ms, height 2ms;
+  transition: opacity 800ms 2ms, height 2ms, transform 800ms;
 }
 
 /* INTRO ROOT */
@@ -24,13 +24,13 @@
   opacity: 0;
   height: 0;
   overflow: hidden;
-  transition: opacity 800ms, height 2ms 800ms;
+  transition: opacity 800ms, height 2ms 800ms, transform 800ms;
 }
 
 .frag-fixed-panels__intro-panel.frag-fixed-panels__panel_active {
   opacity: 1;
   height: 100%;
-  transition: opacity 800ms 2ms, height 2ms;
+  transition: opacity 800ms 2ms, height 2ms, transform 800ms;
 }
 
 /* HOME ROOT */
@@ -44,13 +44,41 @@
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  transition: opacity 800ms, height 2ms 800ms;
+  transition: opacity 800ms, height 2ms 800ms, transform 800ms;
 }
 
 .frag-fixed-panels__home-panel.frag-fixed-panels__panel_active {
   opacity: 1;
   height: 100%;
-  transition: opacity 800ms 2ms, height 2ms;
+  transition: opacity 800ms 2ms, height 2ms, transform 800ms;
+}
+
+/* WIDE ROOT */
+.frag-fixed-panels__wide-panel {
+  position: absolute;
+  overflow: hidden;
+  opacity: 0;
+  height: 0;
+  transform: scale(1);
+  transition: opacity 1000ms, height 2ms 1000ms, transform 800ms;
+}
+
+.frag-fixed-panels__wide-panel.frag-fiexd-panels__panel_passed {
+  opacity: 1;
+  height: 100%;
+  transition: opacity 1000ms 2ms, height 2ms, transform 800ms;
+}
+
+.frag-fixed-panels__wide-panel.frag-fiexd-panels__panel_active {
+  opacity: 1;
+  height: 100%;
+  transition: opacity 1000ms 2ms, height 2ms, transform 800ms;
+}
+
+.frag-fixed-panels__wide-panel.frag-fiexd-panels__panel_to-come {
+  opacity: 0;
+  height: 0;
+  transition: opacity 1000ms, height 2ms 1000ms, transform 800ms;
 }
 
 /* INTRO INNER */
@@ -63,13 +91,13 @@
 
 @media screen and (max-width: 1200px) {
   .frag-fixed-panels__intro-paragraphs {
-    top: calc(-8 * var(--vh));
+    top: calc(-25 * var(--vh));
   }
 }
 
 @media screen and (max-width: 800px) {
   .frag-fixed-panels__intro-paragraphs {
-    top: calc(-10 * var(--vh));
+    top: calc(-30 * var(--vh));
   }
 }
 
@@ -105,6 +133,10 @@
 
 .frag-fixed-panels .frag-intro-paragraph-chunk.frag-intro-paragraph-chunk_passed {
   color: #8B92A1;
+}
+
+.frag-fixed-panels.frag-fixed-panels_grid-active .frag-fixed-panels__wide-panel {
+  transform: translateY(-100px) scale(.9);
 }
 
 /* HOME INNER */

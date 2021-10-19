@@ -37,6 +37,7 @@ export interface Fragment extends FragmentSources {
   publish: boolean
   title: VNode
   supertitle: VNode
+  supertitle_mobile?: VNode
   subtitle: VNode
   kicker: VNode
   head_image_url: string

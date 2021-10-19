@@ -4,6 +4,10 @@ import './styles.css'
 import { Fragment as FragmentInterface, IntroImage } from '../../types'
 import Sequencer from '../../../modules/le-monde/components/Sequencer'
 import StrToHtml from '../../../modules/text/StrToHtml'
+import WideIcono from '../WideIcono'
+import selectVideoSourceOnDownlink from '../../utils/select-video-source-on-downlink'
+import getCurrentDownlink from '../../../modules/le-monde/utils/get-current-downlink'
+import clamp from '../../../modules/le-monde/utils/clamp'
 
 interface Props {
   className?: string
@@ -16,6 +20,8 @@ interface Props {
 interface State {
   hasPlayedLogoAnimation: boolean
 }
+
+const initDownLink = getCurrentDownlink() ?? 4
 
 class FixedLongformPanels extends Component<Props, State> {
   _mainClass: string = 'frag-fixed-panels'
@@ -62,21 +68,24 @@ class FixedLongformPanels extends Component<Props, State> {
    * * * * * * * * * * * * * * */
   render (): JSX.Element {
     const { props } = this
-    const classes = clss(this._mainClass, props.className)
-    const inlineStyle: JSX.CSSProperties = { ...props.style }
     
     const activePanel = props.activePanel !== undefined ? props.activePanel : null
     const introImages = props.introImages ?? []
     const firstHomeImagePos = introImages.findIndex(image => image.with_logo === true)
     const wideFragments = (props.fragments ?? []).filter(fragment => fragment.display === 'wide')
     
-    let activeSection
+    let activeSection: string|null
     if (activePanel === null) activeSection = null
     else if (activePanel >= 0 && activePanel < firstHomeImagePos) { activeSection = 'intro' }
     else if (activePanel >= firstHomeImagePos && activePanel < introImages.length) { activeSection = 'home' }
     else if (activePanel >= introImages.length && activePanel < introImages.length + wideFragments.length) { activeSection = 'wide' }
     else if (activePanel >= introImages.length + wideFragments.length) { activeSection = 'grid' }
     else { activeSection = null }
+
+    let activeWide: null|number
+    if (activeSection !== 'wide') activeWide = null
+    else if (activePanel === null) activeWide = null
+    else { activeWide = activePanel - introImages.length }
 
     const introParagraphs = props.introImages?.map((introImage, introImagePos) => {
       const paragraphContent = introImage.paragraph_chunk
@@ -97,8 +106,11 @@ class FixedLongformPanels extends Component<Props, State> {
     if (activeSection === 'intro') introClasses += ` ${this.mainClass}__panel_active`
     let homeClasses = `${this.mainClass}__panel ${this.mainClass}__home-panel`
     if (activeSection === 'home') homeClasses += ` ${this.mainClass}__panel_active`
-    let wideClasses = `${this.mainClass}__panel ${this.mainClass}__wide-panel`
-    if (activeSection === 'wide') wideClasses += ` ${this.mainClass}__panel_active`
+
+    const isWideClass = activeSection === 'wide' ? `${this.mainClass}_wide-active` : ``
+    const isGridClass = activeSection === 'grid' ? `${this.mainClass}_grid-active` : ``
+    const classes = clss(this._mainClass, isWideClass, isGridClass, props.className)
+    const inlineStyle: JSX.CSSProperties = { ...props.style }
 
     return (
       <div className={classes} style={inlineStyle}>
@@ -136,6 +148,59 @@ class FixedLongformPanels extends Component<Props, State> {
             )} />
           </div>
         </div>
+        {wideFragments.map((fragment, fragmentPos) => {
+
+          const desktopVideoSources = [
+            { height: 1080, url: fragment?.vimeo_video_desktop_1080_url },
+            { height: 720, url: fragment?.vimeo_video_desktop_720_url },
+            { height: 540, url: fragment?.vimeo_video_desktop_540_url },
+            { height: 360, url: fragment?.vimeo_video_desktop_360_url }
+          ]
+          const mobileVideoSources = [
+            { height: 648, url: fragment?.vimeo_video_mobile_648_url },
+            { height: 432, url: fragment?.vimeo_video_mobile_432_url }
+          ]
+          const desktopPosterSources = [
+            { height: 1125, url: `https://assets-decodeurs.lemonde.fr/redacweb/5-2110-fragments-icono/${fragment.id}_wide_dk_hd.jpg` },
+            { height: 750, url: `https://assets-decodeurs.lemonde.fr/redacweb/5-2110-fragments-icono/${fragment.id}_wide_dk_sd.jpg` }
+          ]
+          const mobilePosterSources = [
+            { height: 1560, url: `https://assets-decodeurs.lemonde.fr/redacweb/5-2110-fragments-icono/${fragment.id}_wide_sm_hd.jpg` },
+            { height: 960, url: `https://assets-decodeurs.lemonde.fr/redacweb/5-2110-fragments-icono/${fragment.id}_wide_sm_sd.jpg` }
+          ]
+          const desktopVideoSource = selectVideoSourceOnDownlink(desktopVideoSources, initDownLink, { ratio: 1920 / 1080, bitSize: 3, fps: 25, compressionRatio: 0.01, availableDownlinkRatio: 0.5 })
+          const mobileVideoSource = selectVideoSourceOnDownlink(mobileVideoSources, initDownLink, { ratio: 540 / 648, bitSize: 3, fps: 25, compressionRatio: 0.01, availableDownlinkRatio: 0.5 })
+          const hlsDesktopVideoSource = fragment?.vimeo_video_desktop_hls_url
+          const hlsMobileVideoSource = fragment?.vimeo_video_mobile_hls_url
+          const desktopPosterSource = selectVideoSourceOnDownlink(desktopPosterSources, initDownLink, { ratio: 1.6, bitSize: 3, fps: 10, compressionRatio: 0.04, availableDownlinkRatio: 0.5 })
+          const mobilePosterSource = selectVideoSourceOnDownlink(mobilePosterSources, initDownLink, { ratio: 1.2, bitSize: 3, fps: 10, compressionRatio: 0.04, availableDownlinkRatio: 0.5 })
+          const isDesktop = document.documentElement.clientWidth > 800
+          const videoUrl = isDesktop ? desktopVideoSource : mobileVideoSource
+          const hlsVideoUrl = isDesktop ? hlsDesktopVideoSource : hlsMobileVideoSource
+          const posterUrl = isDesktop ? desktopPosterSource : mobilePosterSource
+
+          let wideClasses = `${this.mainClass}__panel ${this.mainClass}__wide-panel`
+          if (activeWide === fragmentPos) wideClasses += ` ${this.mainClass}__panel_active`
+          else if (activeWide !== null && activeWide > fragmentPos) wideClasses += ` ${this.mainClass}__panel_passed`
+          else if (activeWide !== null && activeWide < fragmentPos) wideClasses += ` ${this.mainClass}__panel_to-come`
+          const wideStyle = { zIndex: fragmentPos + 1 }
+
+          const loadVideo = (activeSection === 'intro' && fragmentPos === 0)
+            || (activeSection === 'wide' && activeWide !== null && fragmentPos === activeWide + 1)
+            || (fragmentPos === activeWide)
+
+          const opacifierOpacity = fragment?.longform_wide_opacifier_opacity ?? 0
+
+          return <div className={wideClasses} style={wideStyle}>
+            <WideIcono
+              loadVideo={loadVideo}
+              imageUrl={posterUrl}
+              hlsVideoUrl={hlsVideoUrl}
+              videoUrl={videoUrl}
+              videoType='video/mp4'
+              opacifierOpacity={opacifierOpacity} />
+          </div>
+        })}
       </div>
     )
   }

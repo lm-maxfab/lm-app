@@ -83,7 +83,9 @@ class App extends Component<Props, State> {
     // Extract data
     const sheetBase = props.sheetBase ?? new SheetBase()
     const introImages = (sheetBase.collection('intro_images').value as unknown as IntroImage[])
-    const fragments = (sheetBase.collection('fragments').value as unknown as FragmentInterface[]).filter(fragment => fragment.publish)
+    const fragments = (sheetBase.collection('fragments').value as unknown as FragmentInterface[])
+      .filter(fragment => fragment.publish)
+      .sort((a, b) => a.order - b.order)
     const regions = sheetBase.collection('regions').value as unknown as Region[]
     const thematics = sheetBase.collection('thematics').value as unknown as Thematic[]
     const pageSettings = sheetBase.collection('page_settings').entry('settings').value as unknown as PageSettings
@@ -122,7 +124,7 @@ class App extends Component<Props, State> {
             display: 'block',
             maxWidth: 'unset',
             height: '100%',
-            opacity: introImage.opacity ?? '1'
+            opacity: (introImage.opacity ?? 100) / 100
           }} src={introImage.url} />
         </div>
       </div>
@@ -145,14 +147,37 @@ class App extends Component<Props, State> {
       {fragments
         .filter(fragment => fragment.display === 'grid')
         .sort((a, b) => a.order - b.order)
-        .map((fragment, fragmentPos) => {
-          return <div className={`${this.mainClass}__grid-fragment`}>
-            <div className={`${this.mainClass}__grid-fragment-supertitle`}>{fragment.supertitle}</div>
-            <div className={`${this.mainClass}__grid-fragment-title`}>{fragment.title}</div>
+        .map(fragment => {
+          const imageSlotStyle = { backgroundImage: fragment?.id !== undefined ? `url(https://assets-decodeurs.lemonde.fr/redacweb/5-2110-fragments-icono/${fragment.id}_grid_hd.jpg)` : '' }
+          const imageSlotOpacifierStyle = { backgroundColor: `rgb(0, 0, 0, ${(fragment?.longform_grid_opacifier_opacity ?? 27) / 100})` }
+          return <div className={`${this.mainClass}__related-fragment`}>
+            <a href={fragment.url}>
+              <div style={imageSlotStyle} className={`${this.mainClass}__related-fragment-image`}>
+                <div style={imageSlotOpacifierStyle} className={`${this.mainClass}__related-fragment-image-opacifier`} />
+                <div className={`${this.mainClass}__related-fragment-image-texts`}>
+                  <div className={`${this.mainClass}__related-fragment-image-supertitle`}>{fragment?.supertitle}</div>
+                  <div className={`${this.mainClass}__related-fragment-image-supertitle-mobile`}>{fragment?.supertitle_mobile}</div>
+                  <div className={`${this.mainClass}__related-fragment-image-title`}>{fragment?.title}</div>
+                </div>
+              </div>
+            </a>
           </div>
         })
       }
     </div>
+
+    // const gridFragmentsSlot = <div className={`${this.mainClass}__grid-fragments-slot`}>
+    //   {fragments
+    //     .filter(fragment => fragment.display === 'grid')
+    //     .sort((a, b) => a.order - b.order)
+    //     .map((fragment, fragmentPos) => {
+    //       return <div className={`${this.mainClass}__grid-fragment`}>
+    //         <div className={`${this.mainClass}__grid-fragment-supertitle`}>{fragment.supertitle}</div>
+    //         <div className={`${this.mainClass}__grid-fragment-title`}>{fragment.title}</div>
+    //       </div>
+    //     })
+    //   }
+    // </div>
 
     const scrollableSlots = [
       ...introImagesSlots,
