@@ -3,6 +3,7 @@
   position: relative;
 }
 
+
 /* CHEVRON & INCENTIVE */
 .lm-app-fragments-longform__incentive {
   position: fixed;
@@ -267,7 +268,6 @@
 
 @media screen and (max-width: 1200px) {
   .lm-app-fragments-longform__related-fragment {
-    /* width: 185px; */
     margin: 12px;
   }
 }
@@ -289,15 +289,16 @@
   }
 }
 
-@media screen and (max-width: 608px) {
+@media screen and (max-width: 640px) {
   .lm-app-fragments-longform__related-fragment {
-    width: calc(50% - 16px);
+    width: calc(50% - 24px);
   }
 }
 
-@media screen and (max-width: 374px) {
+@media screen and (max-width: 360px) {
   .lm-app-fragments-longform__related-fragment {
     width: calc(100% - 32px);
+    max-width: 280px;
     margin: 8px;
   }
 }

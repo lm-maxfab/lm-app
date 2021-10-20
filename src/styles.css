@@ -1,3 +1,8 @@
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
 .lm-app-dirty-box-for-vw-calc,
 .lm-app-dirty-box-for-vh-calc {
   position: absolute;
@@ -34,6 +39,27 @@
 
 .lm-app-wrapper * {
   box-sizing: border-box;
+}
+
+.lm-app-wrapper a {
+  color: unset;
+  text-decoration: none;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+@viewport {
+  zoom: 1.0;
+  user-zoom: fixed;
+}
+
+html {
+  user-select: none;
+}
+
+a {
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .lm-app-wrapper__contents {
