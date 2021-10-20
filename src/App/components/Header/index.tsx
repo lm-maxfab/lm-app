@@ -37,7 +37,9 @@ class Header extends Component<Props, {}> {
     return (
       <div className={classes} style={inlineStyle}>
         {/* Logo */}
-        {props.noLogo !== true && <Svg src={lmLogoPath} className={`${this.mainClass}__logo`} />}
+        {props.noLogo !== true && <a href='https://www.lemonde.fr/'>
+          <Svg src={lmLogoPath} className={`${this.mainClass}__logo`} />
+        </a>}
         {/* Marqueur */}
         <Svg src={marqueurPath} className={`${this.mainClass}__marqueur`} />
         {/* Button */}

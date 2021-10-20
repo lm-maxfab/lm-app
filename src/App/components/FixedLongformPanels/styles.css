@@ -20,7 +20,6 @@
   position: absolute;
   display: flex;
   justify-content: center;
-  align-items: center;
   opacity: 0;
   height: 0;
   overflow: hidden;
@@ -86,18 +85,18 @@
   width: 600px;
   max-width: calc(100% - 24px);
   position: relative;
-  top: calc(-20 * var(--vh));
+  top: 170px;
 }
 
 @media screen and (max-width: 1200px) {
   .frag-fixed-panels__intro-paragraphs {
-    top: calc(-25 * var(--vh));
+    top: 120px;
   }
 }
 
 @media screen and (max-width: 800px) {
   .frag-fixed-panels__intro-paragraphs {
-    top: calc(-30 * var(--vh));
+    top: 80px;
   }
 }
 
@@ -143,7 +142,7 @@
 
 .frag-fixed-panels__home-panel svg {
   width: 600px;
-  max-width: calc(100 * var(--vw) - 24px);
+  max-width: calc(100 * var(--vw) - 64px);
 }
 
 .frag-fixed-panels__home-panel svg path {

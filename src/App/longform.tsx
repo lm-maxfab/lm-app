@@ -4,7 +4,9 @@ import Paginator from '../modules/le-monde/components/Paginator'
 import FixedLongformPanels from './components/FixedLongformPanels'
 import { SheetBase } from '../modules/sheet-base'
 import Menu from './components/Menu'
+import Svg from '../modules/le-monde/components/Svg'
 import { Fragment as FragmentInterface, IntroImage, PageSettings, Region, Thematic } from './types'
+import chevron from './assets/chevron.svg'
 import './longform.css'
 import Header from './components/Header'
 
@@ -138,8 +140,10 @@ class App extends Component<Props, State> {
         return <div
           style={slotStyle}
           className={`${this.mainClass}__wide-fragment-slot`}>
-          <div className={`${this.mainClass}__wide-fragment-supertitle`}>{fragment.supertitle}</div>
-          <div className={`${this.mainClass}__wide-fragment-title`}>{fragment.title}</div>
+          <a href={fragment.url}>
+            <div className={`${this.mainClass}__wide-fragment-supertitle`}>{fragment.supertitle}</div>
+            <div className={`${this.mainClass}__wide-fragment-title`}>{fragment.title}</div>
+          </a>
         </div>
       })
 
@@ -193,8 +197,26 @@ class App extends Component<Props, State> {
       : this.activatePanel(null)
 
     // Classes
+    const isIntro = state.activePanelPos !== null && state.activePanelPos < introImages.length
+    const isWide = state.activePanelPos !== null && state.activePanelPos >= introImages.length && state.activePanelPos < introImages.length + wideFragmentsSlots.length
+    const isGrid = state.activePanelPos && !isIntro && !isWide
+    const isIntroClass = isIntro ? `${this.mainClass}_is-intro` : ''
+    const isWideClass = isWide ? `${this.mainClass}_is-wide` : ''
+    const isGridClass = isGrid ? `${this.mainClass}_is-grid` : ''
+    const needForIncentive = state.activePanelPos !== null && state.activePanelPos < 1
+    const needForIncentiveClass = needForIncentive ? `${this.mainClass}_need-incentive` : ''
+    const needForChevronClass = isIntro ? `${this.mainClass}_need-chevron` : ''
     const menuClass = state.isMenuOpen ? `${this.mainClass}_menu-open` : `${this.mainClass}_menu-closed`
-    const classes: string = clss(this.mainClass, menuClass, props.className)
+    const classes: string = clss(
+      this.mainClass,
+      menuClass,
+      needForChevronClass,
+      needForIncentiveClass,
+      props.className,
+      isIntroClass,
+      isWideClass,
+      isGridClass
+    )
     const inlineStyle: JSX.CSSProperties = {
       ...props.style,
       position: 'relative',
@@ -206,7 +228,7 @@ class App extends Component<Props, State> {
     return (
       <div className={classes} style={inlineStyle}>
         <Header
-          theme='dark'
+          theme={isWide ? 'bright' : 'dark'}
           onButtonClick={this.toggleMenu}
           showButton={pageSettings.show_header_button_in_longform}
           buttonDesktopText={pageSettings.longform_header_button_desktop_text}
@@ -226,6 +248,8 @@ class App extends Component<Props, State> {
           thematics={thematics}
           fragments={fragments}
           showArticles={pageSettings.show_articles_in_longform_menu} />
+        {/* <div className={`${this.mainClass}__incentive`}>Découvrez les 100&nbsp;reportages</div> */}
+        <div className={`${this.mainClass}__chevron`}><Svg src={chevron} /></div>
         <div className={`${this.mainClass}__content`}>
           <div className={`${this.mainClass}__paginator`}>
             <Paginator

@@ -15,7 +15,7 @@ import getCurrentDownlink from '../modules/le-monde/utils/get-current-downlink'
 import clamp from '../modules/le-monde/utils/clamp'
 import selectVideoSourceOnDownlink from './utils/select-video-source-on-downlink'
 import WideIcono from './components/WideIcono'
-import chevron from './assets/chevron.svg'
+import chevron from './assets/chevron-alt.svg'
 import Svg from '../modules/le-monde/components/Svg'
 
 interface Props {
@@ -127,7 +127,7 @@ class App extends Component<Props, State> {
           // return <Parallax anchor={0} render={(p) => {
             // const scrolled = clamp((Number.isNaN(p) ? 0 : p), 0, 1)
             const scrolled = 0
-            const headerBgOpacity = clamp((scrolled - .5) * 2, 0, 1)
+            const headerBgOpacity = 1 // clamp((scrolled - .5) * 2, 0, 1)
             const headerBorderOpacity = .2 * (1 - scrolled)
             const iconoTop = `${scrolled / 1.5 * 100}%`
             const textsOpacity = clamp(1 - scrolled * 4, 0, 1)
