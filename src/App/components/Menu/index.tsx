@@ -143,7 +143,7 @@ class Menu extends Component<Props, State> {
               className={`${this.mainClass}__filter
               ${this.mainClass}__filter_region
               ${state.activeFilter === 'region' ? `${this.mainClass}__filter_active` : ''}`}>
-              zone géographique
+              {'zone géographique'}
             </span>
             <span className={`${this.mainClass}__filter-separator`}>|</span>
             <span
@@ -151,7 +151,7 @@ class Menu extends Component<Props, State> {
               className={`${this.mainClass}__filter
               ${this.mainClass}__filter_type
               ${state.activeFilter === 'thema' ? `${this.mainClass}__filter_active` : ''}`}>
-              thématique
+              {'thématique'}
             </span>
           </div>
           {/* Lists */}
