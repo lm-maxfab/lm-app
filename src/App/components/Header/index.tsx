@@ -13,6 +13,7 @@ interface Props {
   theme?: 'bright'|'dark'
   noLogo?: boolean
   onButtonClick?: () => void
+  linkOnMarqueur?: string
   showButton?: boolean
   buttonDesktopText?: VNode
   buttonMobileText?: VNode
@@ -41,7 +42,9 @@ class Header extends Component<Props, {}> {
           <Svg src={lmLogoPath} className={`${this.mainClass}__logo`} />
         </a>}
         {/* Marqueur */}
-        <Svg src={marqueurPath} className={`${this.mainClass}__marqueur`} />
+        {props.linkOnMarqueur !== undefined
+          ? <a href={props.linkOnMarqueur}><Svg src={marqueurPath} className={`${this.mainClass}__marqueur`} /></a>
+          : <Svg src={marqueurPath} className={`${this.mainClass}__marqueur`} />}
         {/* Button */}
         {props.showButton === true
           ? <>

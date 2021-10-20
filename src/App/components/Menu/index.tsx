@@ -12,6 +12,7 @@ interface Props {
   style?: JSX.CSSProperties
   open?: boolean
   onCloseButtonClick?: () => void
+  linkOnMarqueur?: string
   aboutTitle?: VNode
   aboutContent?: VNode
   aboutBackgroundImageDesktopUrl?: string
@@ -120,7 +121,11 @@ class Menu extends Component<Props, State> {
         className={classes}
         style={inlineStyle}>
         <div className={`${this.mainClass}__inner`}>
-          <Header theme='dark' noLogo={true} showButton={false} />
+          <Header
+            theme='dark'
+            noLogo={true}
+            linkOnMarqueur={props.linkOnMarqueur}
+            showButton={false} />
           {/* Close button */}
           {props.open && <button className={`${this.mainClass}__close-button`} onClick={() => onCloseClick()}>
             <span className={`${this.mainClass}__close-label`}></span>

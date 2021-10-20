@@ -177,6 +177,10 @@
   animation: chevronblink 1200ms ease infinite alternate;
 }
 
+.lm-app-fragments-snippet-head__chevron path {
+  stroke: #FFFFFF;
+}
+
 @keyframes chevronblink {
   from { opacity: .2; }
   to { opacity: 1; }

@@ -143,6 +143,7 @@ class App extends Component<Props, State> {
                 className={`${this.mainClass}__header-wrapper`}>
                 <Header
                   theme='bright'
+                  linkOnMarqueur={pageSettings.longform_url}
                   noLogo={true}
                   onButtonClick={this.toggleMenu}
                   showButton={pageSettings.show_header_button_in_snippet}

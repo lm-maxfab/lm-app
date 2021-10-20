@@ -61,6 +61,11 @@
 .frag-header__logo,
 .frag-header__marqueur {
   stroke: none;
+  transition: opacity 400ms;
+}
+
+a:hover .frag-header__marqueur {
+  opacity: .5;
 }
 
 .frag-header__logo {
