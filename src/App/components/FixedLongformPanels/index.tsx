@@ -52,11 +52,9 @@ class FixedLongformPanels extends Component<Props, State> {
     else if (activePanel >= introImages.length && activePanel < introImages.length + wideFragments.length) { activeSection = 'wide' }
     else if (activePanel >= introImages.length + wideFragments.length) { activeSection = 'grid' }
     else { activeSection = null }
-    console.log(activeSection)
     if (this.logoSequencer === null) return
     if (!this.isReadyToPlayAnimation) return
     if (activeSection === 'home' && state.hasPlayedLogoAnimation === false) {
-      console.log('play logo animation')
       this.logoSequencer.goTo('beginning')
       this.logoSequencer.play()
       this.setState({ hasPlayedLogoAnimation: true })

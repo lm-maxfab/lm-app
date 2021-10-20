@@ -53,10 +53,6 @@ html, body {
   user-zoom: fixed;
 }
 
-html {
-  user-select: none;
-}
-
 a {
   -webkit-touch-callout: none;
   -webkit-tap-highlight-color: transparent;
