@@ -14,7 +14,6 @@ const {
 
 // AppWrapper state interface
 interface AppWrapperProps {
-  workEnv: string
   app: any
   appProps: any
 }
@@ -101,16 +100,13 @@ class AppWrapper extends Component<AppWrapperProps, AppWrapperState> {
    * * * * * * * * * * * * * * */
   render (): JSX.Element {
     const { props, state } = this
-    const { workEnv } = props
 
     // Define CSS classes
-    const workEnvClass = `${this.mainClass}_env-${workEnv}`
     const orientationClass = `${this.mainClass}_vpo-${state.viewportOrientation}`
     const displayClass = `${this.mainClass}_vpd-${state.viewportDisplay}`
     const ratioClass = `${this.mainClass}_vpr-${state.viewportRatio}`
     const classes = clss(
       this.mainClass,
-      workEnvClass,
       orientationClass,
       displayClass,
       ratioClass

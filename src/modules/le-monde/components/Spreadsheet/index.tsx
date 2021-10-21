@@ -1,5 +1,5 @@
 import { Component, JSX } from 'preact'
-import { SheetBase, tsvToSheetBase, fetchTsv } from '../../../sheet-base'
+import { SheetBase, tsvToSheetBase, fetchTsv } from '../../utils/sheet-base'
 
 interface Props {
   preload?: string

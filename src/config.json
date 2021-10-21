@@ -1,13 +1,10 @@
 {
-  "sheetbase_url": "https://assets-decodeurs.lemonde.fr/sheets/qO7G0Yk6QnNQppeLY7BOVlnbnLyXxg_729",
-  "assets_root_url": "https://assets-decodeurs.lemonde.fr/redacweb/5-2110-fragments-snippet-assets",
-  "project_name": "Fragments de france",
-  "project_short_name": "fragments-de-france",
-  "project_code_name": "5-2110-fragments",
+  "sheetbase_url": "",
+  "assets_root_url": "",
+  "project_name": "Master",
+  "project_short_name": "master",
+  "project_code_name": "master",
   "build_name": null,
   "hide_header": false,
-  "delete_header": false,
-  "custom_config": {
-    "current_fragment_id": "dryef-coiffeurs"
-  }
+  "delete_header": false
 }

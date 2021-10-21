@@ -48,78 +48,12 @@
     <noscript>
       Cette page a besoin de <a href="https://www.enable-javascript.com/fr/" target="_blank">l'activation de Javascript</a> pour fonctionner correctement.
     </noscript>
-    <script>
-      document.addEventListener('DOMContentLoaded', event => {
-        const idSnippetNode = document.querySelector('#lm-app-snippet-id');
-        const preloadSnippetNode = document.querySelector('#lm-app-snippet-preload');
-        const appSnippetNode = document.querySelector('#lm-app-build-info');
-        if (idSnippetNode !== null) {
-          const parentMultimediaEmbed = idSnippetNode.closest('.multimedia-embed');
-          if (parentMultimediaEmbed !== null) {
-            parentMultimediaEmbed.style.margin = '0';
-            parentMultimediaEmbed.style.padding = '0';
-            parentMultimediaEmbed.style.border = 'none';
-          }
-        }
-        if (preloadSnippetNode !== null) {
-          const parentMultimediaEmbed = preloadSnippetNode.closest('.multimedia-embed');
-          if (parentMultimediaEmbed !== null) {
-            parentMultimediaEmbed.style.margin = '0';
-            parentMultimediaEmbed.style.padding = '0';
-            parentMultimediaEmbed.style.border = 'none';
-          }
-        }
-        if (appSnippetNode !== null) {
-          const parentMultimediaEmbed = appSnippetNode.closest('.multimedia-embed');
-          if (parentMultimediaEmbed !== null) {
-            parentMultimediaEmbed.style.margin = '0';
-            parentMultimediaEmbed.style.padding = '0';
-            parentMultimediaEmbed.style.border = 'none';
-          }
-        }
-      })
-    </script>
     <script id="lm-app-snippet-id">
       window.__LM_GLOBAL_SNIPPET_ID = 'conesa-insee';
     </script>
-    <script id="lm-app-snippet-preload">
-      window.__LM_GLOBAL_SNIPPET_TSV_PRELOAD = 'key\tname\ttype';
-    </script>
     <div class="lm-app-dirty-box-for-vw-calc"></div>
     <div class="lm-app-dirty-box-for-vh-calc"></div>
-    <style>
-      #lm-app-snippet-head-root {
-        width: 100vw;
-        height: 100vh;
-        background-color: #FDFDFD;
-        position: relative;
-        overflow: hidden;
-      }
-      .lm-app-snippet-head-root__preload {
-        position: relative;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
-        color: #BDC1C8;
-        text-align: center;
-      }
-      .lm-app-snippet-head-root__preload-content {
-        margin-bottom: 24px;
-      }
-    </style>
-    <div id="lm-app-longform-root"></div>
-    <!-- <div id="lm-app-snippet-head-root">
-      <div class="lm-app-snippet-head-root__preload">
-        <span class="lm-app-snippet-head-root__preload-content">
-          Fragments de France<br />
-          <svg width="18" height="10" viewBox="0 0 18 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M0.646447 0.646447C0.841709 0.451184 1.15829 0.451184 1.35355 0.646447L9 8.29289L16.6464 0.646447C16.8417 0.451184 17.1583 0.451184 17.3536 0.646447C17.5488 0.841709 17.5488 1.15829 17.3536 1.35355L9.35355 9.35355C9.15829 9.54882 8.84171 9.54882 8.64645 9.35355L0.646447 1.35355C0.451184 1.15829 0.451184 0.841709 0.646447 0.646447Z" fill="#BDC1C8"/></svg>
-        </span>
-      </div>
-    </div> -->
-    <!-- <div id="lm-app-snippet-paragraph-root"></div> -->
-    <!-- <div id="lm-app-snippet-foot-root"></div> -->
+    <div id="lm-app-root"></div>
     <footer class="footer footer--abo old__footer lm-app-fake-lm-footer">
       <section class="zone zone--footer old__zone">
         <section class="footer__main">
