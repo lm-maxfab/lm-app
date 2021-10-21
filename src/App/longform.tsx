@@ -153,7 +153,7 @@ class App extends Component<Props, State> {
         .sort((a, b) => a.order - b.order)
         .map(fragment => {
           const imageSlotStyle = { backgroundImage: fragment?.id !== undefined ? `url(https://assets-decodeurs.lemonde.fr/redacweb/5-2110-fragments-icono/${fragment.id}_grid_hd.jpg)` : '' }
-          const imageSlotOpacifierStyle = { backgroundColor: `rgb(0, 0, 0, ${(fragment?.longform_grid_opacifier_opacity ?? 27) / 100})` }
+          const imageSlotOpacifierStyle = { backgroundColor: `rgb(0, 0, 0, ${(fragment?.longform_grid_snippet_opacifier_opacity ?? 27) / 100})` }
           return <div className={`${this.mainClass}__related-fragment`}>
             <a href={fragment.url}>
               <div style={imageSlotStyle} className={`${this.mainClass}__related-fragment-image`}>
@@ -168,6 +168,16 @@ class App extends Component<Props, State> {
           </div>
         })
       }
+      <div className={`${this.mainClass}__credits`}>
+        <div className={`${this.mainClass}__credits-inner`}>
+          <p><strong>Direction éditoriale</strong> : Nicolas Chapuis, Pierre Jaxel Truer, Dominique Perrin</p>
+          <p><strong>Chef d’édition</strong> : Sabine&nbsp;Ledoux</p>
+          <p><strong>Edition</strong> : Margaux&nbsp;Velikonia, Lucile&nbsp;Torterat, Nadir&nbsp;Chougar, Boris&nbsp;Bastide, Geneviève&nbsp;Caux, Agnès&nbsp;Rastouil</p>
+          <p><strong>Photo</strong> : Nicolas&nbsp;Jimenez, Marie&nbsp;Sumalla, Laurence&nbsp;Lagrange, Pauline&nbsp;Eiferman, Amaury&nbsp;da&nbsp;Cunha, Laurence&nbsp;Vecten, Laurence&nbsp;Cornet, Patrice&nbsp;Birot, Audrey&nbsp;Delaporte, Odhrán&nbsp;Dunne, Elie&nbsp;Villette, Nadja&nbsp;Delmouly, Charlotte&nbsp;Cervatius</p>
+          <p><strong>Design et développement</strong> : Melina&nbsp;Zerbib, Thomas&nbsp;Steffen, Maxime&nbsp;Fabas, Agathe&nbsp;Dahyot, Solène&nbsp;Reveney</p>
+          <p>Service correction du <em>Monde</em></p>
+        </div>
+      </div>
     </div>
 
     // const gridFragmentsSlot = <div className={`${this.mainClass}__grid-fragments-slot`}>
@@ -248,7 +258,7 @@ class App extends Component<Props, State> {
           thematics={thematics}
           fragments={fragments}
           showArticles={pageSettings.show_articles_in_longform_menu} />
-        {/* <div className={`${this.mainClass}__incentive`}>Découvrez les 100&nbsp;reportages</div> */}
+        <div className={`${this.mainClass}__incentive`}>Découvrez les 100&nbsp;reportages</div>
         <div className={`${this.mainClass}__chevron`}><Svg src={chevron} /></div>
         <div className={`${this.mainClass}__content`}>
           <div className={`${this.mainClass}__paginator`}>

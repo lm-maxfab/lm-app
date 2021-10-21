@@ -50,7 +50,7 @@ export interface Fragment extends FragmentSources {
   order: number
   snippet_opacifier_opacity: number
   longform_wide_opacifier_opacity: number
-  longform_grid_opacifier_opacity: number
+  longform_grid_snippet_opacifier_opacity: number
 }
 
 export interface ShortFragmentWithBetterRels {

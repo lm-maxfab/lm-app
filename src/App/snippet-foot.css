@@ -218,7 +218,14 @@
   }
 }
 
-@media screen and (max-width: 374px) {
+@media screen and (max-width: 375px) {
+  .lm-app-fragments-snippet-foot__related-fragment {
+    width: calc(180px - 16px);
+    margin: 8px;
+  }
+}
+
+@media screen and (max-width: 359px) {
   .lm-app-fragments-snippet-foot__related-fragment {
     width: calc(80% - 16px);
     margin: 8px;

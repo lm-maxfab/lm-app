@@ -15,3 +15,7 @@
 .lm-app-fragments-snippet-paragraph .snippet-paragraph-content {
   font-weight: 400;
 }
+
+.lm-app-fragments-snippet-paragraph .snippet-paragraph-content a {
+  text-decoration: underline;
+}

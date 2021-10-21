@@ -55,7 +55,7 @@ class App extends Component<Props, {}> {
         <div className={`${this.mainClass}__list`}>
           {relatedFragments.map(fragment => {
             const imageSlotStyle = { backgroundImage: fragment?.id !== undefined ? `url(https://assets-decodeurs.lemonde.fr/redacweb/5-2110-fragments-icono/${fragment.id}_grid_hd.jpg)` : '' }
-            const imageSlotOpacifierStyle = { backgroundColor: `rgb(0, 0, 0, ${(fragment?.longform_grid_opacifier_opacity ?? 27) / 100})` }
+            const imageSlotOpacifierStyle = { backgroundColor: `rgb(0, 0, 0, ${(fragment?.longform_grid_snippet_opacifier_opacity ?? 27) / 100})` }
             return <div className={`${this.mainClass}__related-fragment`}>
               <a href={fragment.url}>
                 <div style={imageSlotStyle} className={`${this.mainClass}__related-fragment-image`}>
