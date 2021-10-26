@@ -10,6 +10,7 @@ interface Props {
   style?: JSX.CSSProperties
   infinite?: boolean
   draggable?: boolean
+  initialSlide?: number
   onChange?: (activeSlidePos: number) => void
   prevButton?: JSX.Element|false
   nextButton?: JSX.Element|false
@@ -111,6 +112,7 @@ class Carousel extends Component<Props, {}> {
       slidesToScroll: 1,
       dots: true,
       draggable: props.draggable ?? true,
+      initialSlide: props.initialSlide,
       afterChange: props.onChange,
       appendDots: (dots: JSX.Element[]) => {
         return <div ref={n => { this.$dots = n }}>{

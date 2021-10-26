@@ -65,6 +65,12 @@
   }
 }
 
+.lm-app a {
+  color: rgb(82, 24, 178, 1);
+  font-family: inherit;
+  text-decoration: underline;
+}
+
 .lm-app__progression-bar {
   position: fixed;
   z-index: 2;

@@ -145,8 +145,7 @@ class AppWrapper extends Component<{}, AppWrapperState> {
         className={classes}
         ref={node => { this.$root = node }}>
         <Spreadsheet
-          url={config.sheetbase_url}
-          preload={preload}
+          url={((window as unknown as any).__LM_GLOBAL_SPREADSHEET_URL as string)}
           render={(sheetData: SheetBase) => (
             <AppContext.Provider value={{ ...context, sheet_data: sheetData }}>
               <App sheet_data={sheetData} />
