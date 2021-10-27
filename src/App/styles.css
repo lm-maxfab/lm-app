@@ -65,6 +65,12 @@
   }
 }
 
+.lm-app {
+  height: var(--len-slide-height);
+  max-height: var(--len-slide-height);
+  overflow: hidden;
+}
+
 .lm-app a {
   color: rgb(82, 24, 178, 1);
   font-family: inherit;
