@@ -36,7 +36,7 @@ class App extends Component<Props, State> {
     this.handleCarouselChange = this.handleCarouselChange.bind(this)
   }
 
-  componentDidMount () {
+  componentDidMount (): void {
     this.carousel?.slider.slickGoTo(initPage)
   }
 
@@ -214,7 +214,7 @@ class App extends Component<Props, State> {
           <div className={`${this.mainClass}__progression-bar-inner`} />
         </div>
         <Carousel
-          ref={$n => this.carousel = $n}
+          ref={$n => { this.carousel = $n }}
           initialSlide={initPage - 1}
           infinite={false}
           draggable={document.documentElement.clientWidth <= 800}

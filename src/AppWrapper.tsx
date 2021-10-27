@@ -8,7 +8,6 @@ import type { SheetBase } from './modules/spreadsheets/tsv-base-to-js-object-bas
 import getViewportDimensions from './modules/le-monde/utils/get-viewport-dimensions'
 
 import AppContext from './context'
-import preload from './preload'
 import config from './config.json'
 import App from './App'
 import './styles.css'
