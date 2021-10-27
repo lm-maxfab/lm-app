@@ -1,7 +1,8 @@
 import { Component, JSX } from 'preact'
-import clss from 'classnames'
 import { SheetBase } from '../modules/le-monde/utils/sheet-base'
-import './app.css'
+import './styles.css'
+import Sequencer from '../modules/le-monde/components/Sequencer'
+import bem, { BEM } from '../modules/le-monde/utils/bem'
 
 interface Props {
   className?: string
@@ -10,7 +11,7 @@ interface Props {
 }
 
 class App extends Component<Props, {}> {
-  mainClass: string = 'lm-app'
+  bem: BEM = bem('lm-app')
 
   /* * * * * * * * * * * * * * *
    * RENDER
@@ -19,12 +20,18 @@ class App extends Component<Props, {}> {
     const { props } = this
 
     // Extract data
-    const classes: string = clss(this.mainClass)
-    const inlineStyle: JSX.CSSProperties = { ...props.style }
+    const classes = this.bem.block(props.className).value
+    const inlineStyle: JSX.CSSProperties = {
+      ...props.style,
+      marginTop: 'var(--len-nav-height)'
+    }
 
     // Display
     return (
-      <div className={classes} style={inlineStyle}>LM App.</div>
+      <div className={classes} style={inlineStyle}>
+        <div>ACTIONS.</div>
+        <Sequencer />
+      </div>
     )
   }
 }
