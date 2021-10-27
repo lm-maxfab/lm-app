@@ -17,6 +17,33 @@
     <script>
       window.__LM_GLOBAL_SPREADSHEET_URL = 'https://assets-decodeurs.lemonde.fr/sheets/RdcR88VO1AIROObIWPIZC7lxyIoWgQ_727'
     </script>
+    <style>
+      .lm-app-dirty-box-for-vw-calc,
+      .lm-app-dirty-box-for-vh-calc {
+        position: absolute;
+        z-index: 1;
+        opacity: 0;
+        user-select: none;
+        visibility: hidden;
+      }
+
+      .lm-app-dirty-box-for-vw-calc {
+        width: 100vw;
+        height: 0;
+      }
+
+      .lm-app-dirty-box-for-vh-calc {
+        height: 100vh;
+        width: 0;
+      }
+
+      .lm-app-wrapper {
+        --vw: 1vw;
+        --vh: 1vh;
+      }
+    </style>
+    <div class="lm-app-dirty-box-for-vw-calc"></div>
+    <div class="lm-app-dirty-box-for-vh-calc"></div>
     <header class="lm-app-fake-lm-header" id="Header">
       <div class="lm-app-fake-lm-header__inner">
         <div class="lm-app-fake-lm-header__burger-and-logo">

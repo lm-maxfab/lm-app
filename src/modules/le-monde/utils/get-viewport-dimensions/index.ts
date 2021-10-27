@@ -1,4 +1,6 @@
-interface returned {
+import getHeaderElement from '../get-header-element'
+
+export interface ViewportDimensions {
   width: number
   height: number
   orientation: string
@@ -7,9 +9,13 @@ interface returned {
   navHeight: number|undefined
 }
 
-function getViewportDimensions (): returned {
-  const height = document.documentElement.clientHeight
-  const width = document.documentElement.clientWidth
+export default function getViewportDimensions (): ViewportDimensions {
+  const dirtyVhDiv = document.querySelector('.lm-app-dirty-box-for-vh-calc')
+  const dirtyVwDiv = document.querySelector('.lm-app-dirty-box-for-vw-calc')
+  const dirtyVhDivHeight = dirtyVhDiv?.getBoundingClientRect().height ?? 0
+  const dirtyVwDivWidth = dirtyVwDiv?.getBoundingClientRect().width ?? 0
+  const height = dirtyVhDivHeight !== 0 ? dirtyVhDivHeight : window.innerHeight
+  const width = dirtyVwDivWidth !== 0 ? dirtyVwDivWidth : window.innerWidth
 
   // Orientation
   const orientation = width >= height ? 'landscape' : 'portrait'
@@ -44,9 +50,8 @@ function getViewportDimensions (): returned {
   const ratio = currentRatio?.name ?? 'square'
 
   // Nav height
-  const possibleNavs = Array.from(document.querySelectorAll('header#Header, header.multimediaNav'))
-  const navHeights = possibleNavs.map($nav => $nav.getBoundingClientRect().height)
-  const navHeight = Math.max(...navHeights)
+  const nav = getHeaderElement()
+  const navHeight = nav?.getBoundingClientRect().height ?? 0
 
   // Return
   return {
@@ -58,6 +63,3 @@ function getViewportDimensions (): returned {
     navHeight
   }
 }
-
-export default getViewportDimensions
-export type { returned }

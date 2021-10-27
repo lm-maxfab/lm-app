@@ -10,7 +10,7 @@ import leftArrow from './assets/left-arrow-icon.svg'
 import rightArrow from './assets/right-arrow-icon.svg'
 
 const initHashStr = window.parseInt(window.location.hash.replace(/#/gm, ''))
-const initPage = Number.isNaN(initHashStr) ? 0 : initHashStr
+const initPage = Number.isNaN(initHashStr) ? 1 : initHashStr + 1
 
 interface Props {
   className?: string
@@ -215,7 +215,7 @@ class App extends Component<Props, State> {
         </div>
         <Carousel
           ref={$n => this.carousel = $n}
-          initialSlide={initPage}
+          initialSlide={initPage - 1}
           infinite={false}
           draggable={document.documentElement.clientWidth <= 800}
           onChange={this.handleCarouselChange}
