@@ -12,3 +12,11 @@ a {
   -webkit-touch-callout: none;
   -webkit-tap-highlight-color: transparent;
 }
+
+img {
+  overflow:hidden;
+  text-indent:100%;
+  white-space:nowrap;
+  max-width:100%;
+  height:auto;
+}
