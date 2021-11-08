@@ -174,9 +174,13 @@ class Menu extends Component<Props, State> {
                         key={fragment.id}
                         href={fragment.url}
                         className={`${this.mainClass}__list-sub-item`}>
-                        <div
-                          style={{ backgroundImage: `url(https://assets-decodeurs.lemonde.fr/redacweb/5-2110-fragments-icono/${fragment.id}_thumb_hd.jpg)` }}
+                        <img
+                          src={`https://assets-decodeurs.lemonde.fr/redacweb/5-2110-fragments-icono/${fragment.id}_thumb_hd.jpg`}
+                          loading='lazy'
                           className={`${this.mainClass}__list-sub-item-image`} />
+                        {/* <div
+                          style={{ backgroundImage: `url(https://assets-decodeurs.lemonde.fr/redacweb/5-2110-fragments-icono/${fragment.id}_thumb_hd.jpg)` }}
+                          className={`${this.mainClass}__list-sub-item-image`} /> */}
                         <div className={`${this.mainClass}__list-sub-item-texts`}>
                           <div className={`${this.mainClass}__list-sub-item-label`}>{fragment.main_thematic?.name}</div>
                           <div className={`${this.mainClass}__list-sub-item-title`}>{fragment.title}</div>
