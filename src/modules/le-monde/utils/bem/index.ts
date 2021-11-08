@@ -1,4 +1,5 @@
 interface ModifiersObj { [key: string]: boolean }
+type ModifiersArr = string[]
 
 class BEMBlock {
   name: string
@@ -36,7 +37,7 @@ export class BEM {
   blocks: BEMBlock[] = []
   currentBlock: BEMBlock|null = null
 
-  addBlock (name: string|undefined): BEM {
+  addBlock (name: string): BEM {
     const newBlock = new BEMBlock(name)
     this.blocks.push(newBlock)
     this.currentBlock = newBlock
@@ -49,10 +50,12 @@ export class BEM {
     return this
   }
 
-  addModifier (name: string|ModifiersObj): BEM {
+  addModifier (name: string|ModifiersObj|ModifiersArr): BEM {
     if (this.currentBlock === null) this.addBlock('')
     if (typeof name === 'string') (this.currentBlock as unknown as BEMBlock).addModifier(name)
-    else {
+    else if (Array.isArray(name)) {
+      name.forEach(name => (this.currentBlock as unknown as BEMBlock).addModifier(name))
+    } else {
       Object.entries(name).forEach(([key, value]) => {
         if (value !== true) return
         (this.currentBlock as unknown as BEMBlock).addModifier(key)
@@ -82,7 +85,7 @@ export class BEM {
     return this.copy().addElement(name)
   }
 
-  modifier (name: string|ModifiersObj|undefined): BEM {
+  modifier (name: string|ModifiersObj|ModifiersArr|undefined): BEM {
     if (name === undefined) return this.copy()
     return this.copy().addModifier(name)
   }
@@ -97,7 +100,7 @@ export class BEM {
     return this.element(name)
   }
 
-  mod (name: string|ModifiersObj|undefined): BEM {
+  mod (name: string|ModifiersObj|ModifiersArr|undefined): BEM {
     if (name === undefined) return this.copy()
     return this.modifier(name)
   }
