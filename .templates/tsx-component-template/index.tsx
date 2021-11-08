@@ -1,5 +1,5 @@
 import { Component, JSX } from 'preact'
-import clss from 'classnames'
+import bem, { BEM } from '../../src/modules/le-monde/utils/bem'
 import './styles.css'
 
 interface Props {
@@ -8,15 +8,14 @@ interface Props {
 }
 
 class Template extends Component<Props, {}> {
-  _mainClass: string = 'TEMPLATE'
-  get mainClass () { return this._mainClass }
+  bem: BEM = bem('TEMPLATE')
 
   /* * * * * * * * * * * * * * *
    * RENDER
    * * * * * * * * * * * * * * */
   render (): JSX.Element {
     const { props } = this
-    const classes = clss(this._mainClass, props.className)
+    const classes = this.bem.block(props.className).value
     const inlineStyle: JSX.CSSProperties = { ...props.style }
 
     return (
