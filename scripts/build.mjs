@@ -1,82 +1,38 @@
-import fse from 'fs-extra'
-import { exec, execSync } from 'child_process'
-import { Directory, File } from './modules/file-system/index.mjs'
+import { Directory } from './modules/file-system/index.mjs'
 import path, { dirname } from 'path'
 import { fileURLToPath } from 'url'
-import { JSDOM } from 'jsdom'
-
-const __dirname = dirname(fileURLToPath(import.meta.url))
-const ROOT = new Directory(path.join(__dirname, '../'))
-
-build ()
+import exec from './modules/exec/index.mjs'
 
 async function build () {
-  // Move all buildable to .temp-build
-  
-  // let tempBuildExists = (await ROOT.get('.build')) !== undefined
-  // if (tempBuildExists) await ROOT.emptyChild('.build')
-  // await ROOT.mkdir('.build', 'source')
-  await ROOT.mkdir('.build', 'some', 'path', 'to', 'a', 'dir')
+  const __dirname = dirname(fileURLToPath(import.meta.url))
+  const ROOT = new Directory(path.join(__dirname, '../'))
 
-  
-  
-  
-  // await fse.rm(tempBuildDirPath, { recursive: true, force: true })
-  // await fse.mkdir(tempBuildDirPath)
-  // await fse.mkdir(tempBuildSourceDirPath)
-  
-  // await fse.copy(indexHtmlPath, tempBuildSourceIndexHtmlPath)
-  // await fse.copy(srcDirPath, tempBuildSourceSrcDirPath)
-  // await fse.copy(staticDirPath, tempBuildSourceStaticDirPath)
+  // Move all buildable to .build
+  await ROOT.empty('.build')
+  await ROOT.mkdir('.build/source')
+  const SRC_INDEX = await ROOT.copy('index.html', '.build/source/index.html')
+  await SRC_INDEX.editHTML(jsdom => {
+    const documentElement = jsdom.window.document.documentElement
+    const $deleteAtBuild = documentElement.querySelectorAll('.delete-at-build')
+    $deleteAtBuild.forEach(elt => elt.remove())
+    return jsdom
+  })
+  await ROOT.copy('src', '.build/source/src')
+  await ROOT.copy('static', '.build/source/static')
 
-  // // Strip all dev links
-  // const tempBuildSourceIndexHtmlContent = await fse.readFile(tempBuildSourceIndexHtmlPath, { encoding: 'utf-8' })
-  // const $tempBuildIndexHtml = new JSDOM(tempBuildSourceIndexHtmlContent)
-  // const $toDeleteList = $tempBuildIndexHtml.window.document.querySelectorAll('.delete-at-build')
-  // $toDeleteList.forEach($elt => $elt.remove())
-  // const newTempBuildSourceIndexHtmlContent = $tempBuildIndexHtml.window.document.documentElement.outerHTML
-  // await fse.writeFile(tempBuildIndexHtmlPath, newTempBuildSourceIndexHtmlContent, { encoding: 'utf-8' })
+  // Build
+  await exec('tsc && vite build')
 
-  // // Build
-  // execSync('tsc && vite build')
+  // Rollup Vite output
+  const DST = await ROOT.get('.build/destination')
+  const DST_ASSETS = await DST.get('assets')
+  const DST_ASSETS_files = await DST_ASSETS.list()
+  const DST_VENDOR = DST_ASSETS_files.find(file => file.name.match(/^vendor.[a-f0-9]{8}.js$/gm))
+  const DST_INDEX = DST_ASSETS_files.find(file => file.name.match(/^index.[a-f0-9]{8}.js$/gm))
+  await exec(`npx rollup -i ${DST_INDEX.path} -o ${path.join(DST_ASSETS.path, 'rolledup.js')} -f iife`)
+
+  const DST_ROLLEDUP = await DST_ASSETS.get('rolledup.js')
+  console.log(DST_ROLLEDUP)
 }
 
-// const ROOT = { path: path.join(__dirname, '../') }
-// ROOT.INDEX_HTML = { path: path.join(ROOT.path, 'index.html') }
-
-
-// const indexHtmlPath = path.join(__dirname, '../index.html')
-// const srcDirPath = path.join(__dirname, '../src')
-// const staticDirPath = path.join(__dirname, '../static')
-
-// const tempBuildDirPath = path.join(__dirname, '../.temp-build')
-// const tempBuildSourceDirPath = path.join(__dirname, '../.temp-build/source')
-// const tempBuildSourceIndexHtmlPath = path.join(tempBuildSourceDirPath, 'index.html')
-// const tempBuildSourceSrcDirPath = path.join(tempBuildSourceDirPath, 'src')
-// const tempBuildSourceStaticDirPath = path.join(tempBuildSourceDirPath, 'static')
-
-// const tempBuildDestDirPath = path.join(__dirname, '../.temp-build/dest')
-
-// build ()
-
-// async function build () {
-//   // Move all buildable to .temp-build
-//   await fse.rm(tempBuildDirPath, { recursive: true, force: true })
-//   await fse.mkdir(tempBuildDirPath)
-//   await fse.mkdir(tempBuildSourceDirPath)
-  
-//   await fse.copy(indexHtmlPath, tempBuildSourceIndexHtmlPath)
-//   await fse.copy(srcDirPath, tempBuildSourceSrcDirPath)
-//   await fse.copy(staticDirPath, tempBuildSourceStaticDirPath)
-
-//   // Strip all dev links
-//   const tempBuildSourceIndexHtmlContent = await fse.readFile(tempBuildSourceIndexHtmlPath, { encoding: 'utf-8' })
-//   const $tempBuildIndexHtml = new JSDOM(tempBuildSourceIndexHtmlContent)
-//   const $toDeleteList = $tempBuildIndexHtml.window.document.querySelectorAll('.delete-at-build')
-//   $toDeleteList.forEach($elt => $elt.remove())
-//   const newTempBuildSourceIndexHtmlContent = $tempBuildIndexHtml.window.document.documentElement.outerHTML
-//   await fse.writeFile(tempBuildIndexHtmlPath, newTempBuildSourceIndexHtmlContent, { encoding: 'utf-8' })
-
-//   // Build
-//   execSync('tsc && vite build')
-// }
+build ()

@@ -3,12 +3,12 @@ import preact from '@preact/preset-vite'
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  root: mode === 'production' ? '.temp-build/source' : '',
+  root: mode === 'production' ? '.build/source' : '',
   plugins: [preact()],
   resolve: { alias: { react: 'preact/compat' } },
   build: {
     sourcemap: true,
-    outDir: 'dest',
+    outDir: '../destination',
     assetsDir: 'assets'
   }
 }))

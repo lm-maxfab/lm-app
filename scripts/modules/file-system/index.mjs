@@ -22,11 +22,9 @@ export class DirectoryOrFile {
   }
 
   async delete () {
-    const ok = await confirm('Are you sure you want to delete', this.path, '?')
-    if (ok) console.log('Yeah ok i should delete shit')
-    else console.log('I wont delete ok.')
-    // if (ok) return await fse.rm(this.path, { recursive: true, force: true })
-    // else return false
+    const ok = await confirm(`Are you sure you want to delete ${this.path} ? (y/n)`)
+    if (ok) return await fse.rm(this.path, { recursive: true, force: true })
+    else throw new Error(`You prevented deletion of: ${this.path}`)
   }
 }
 
@@ -52,48 +50,55 @@ export class Directory extends DirectoryOrFile {
     return children
   }
 
-  async get (name) {
-    const list = await this.list()
-    return list.find(elt => elt.name === name)
+  async get (_path) {
+    const filePath = path.join(this.path, _path)
+    const exists = await fse.pathExists(filePath)
+    if (!exists) return undefined
+    const isDirectory = (await fse.stat(filePath)).isDirectory()
+    if (isDirectory) return new Directory(filePath)
+    else return new File(filePath)
   }
 
-  async mkdir (...names) {
-    console.log('mkdir', names)
-    let lastCreated = this
-    console.log('lastCreated', lastCreated, '\n')
-    for (let namePos in names) {
-      const name = names[namePos]
-      const target = await lastCreated.get(name)
-      const alreadyExists = target !== undefined
-      console.log('name', name)
-      console.log('target', target)
-      console.log('alreadyExists', alreadyExists)
-      if (alreadyExists) {
-        if (target instanceof File) throw new Error(`Cannot mkdir at ${path.join(lastCreated.path, name)} because this file exists and is not a directory.`)
-        else lastCreated = target
-        console.log('lastCreated', lastCreated, '\n')
-      } else {
-        
-        const dirPath = path.join(this.path, ...names.slice(0, namePos + 1))
-        console.log('new path', dirPath)
-        await fse.mkdir(dirPath)
-        // console.log('CREATED', dirPath)
-        lastCreated = await lastCreated.get(name)
-        console.log('lastCreated', lastCreated, '\n')
-      }
+  async mkdir (_path) {
+    const dirPath = path.join(this.path, _path)
+    await fse.mkdir(dirPath, { recursive: true })
+    const dirs = _path.split('/')
+    let returned = this
+    for (let dirName of dirs) {
+      const dir = await returned.get(dirName)
+      returned = dir
     }
-    return lastCreated
+    return returned
   }
 
-  async empty () {
+  async copy (source, destination) {
+    const sourcePath = path.join(this.path, source)
+    const destinationPath = path.join(this.path, destination)
+    await fse.copy(sourcePath, destinationPath)
+    const result = await this.get(destination)
+    return result
+  }
+
+  async edit (_path, editorFunc) {
+    const foundFile = await this.get(_path)
+    if (foundFile === undefined) return undefined
+    return await foundFile.edit(editorFunc)
+  }
+
+  async editHTML (_path, editorFunc) {
+    const foundFile = await this.get(_path)
+    if (foundFile === undefined) return undefined
+    return await foundFile.editHTML(editorFunc)
+  }
+
+  async emptySelf () {
     const children = await this.list()
     for (let child of children) await child.delete()
     return this
   }
   
-  async emptyChild (name) {
+  async empty (name) {
     const toEmpty = await this.get(name)
-    console.log(toEmpty)
     if (toEmpty instanceof File) {
       await toEmpty.write('')
     } else if (toEmpty instanceof Directory) {
@@ -121,21 +126,38 @@ export class File extends DirectoryOrFile {
     return await fse.readFile(this.path, options)
   }
 
+  async write (content, options = { encoding: 'utf-8' }) {
+    const ok = await confirm(`Are you sure you want to overwrite ${this.path} ? (y/n)`)
+    if (ok) {
+      await fse.writeFile(this.path, content, options)
+      return this
+    }
+    else throw new Error(`You prevented overwriting of: ${this.path}`)
+  }
+
+  async edit (editorFunc) {
+    const content = await this.read()
+    const result = await editorFunc(content)
+    await this.write(result)
+    return this
+  }
+
   async readHTML () {
     const content = await this.read()
     return new JSDOM(content)
-  }
-  
-  async write (content, options = { encoding: 'utf-8' }) {
-    const ok = await confirm('Are you sure you want to overwrite', this.path, '?')
-    if (ok) console.log('Yeah ok i should write shit')
-    else console.log('I wont write ok.')
-    // if (ok) return await fse.writeFile(this.path, content, options)
-    // else return false
   }
 
   async writeHTML (jsdom) {
     const content = jsdom.window.document.documentElement.outerHTML
     await this.write(content)
+    return this
+  }
+
+  async editHTML (editorFunc) {
+    const jsdom = await this.readHTML()
+    const result = await editorFunc(jsdom)
+    if (result === undefined) return undefined
+    await this.writeHTML(result)
+    return this
   }
 }
