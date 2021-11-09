@@ -152,11 +152,14 @@ class App extends Component<Props, State> {
         .filter(fragment => fragment.display === 'grid')
         .sort((a, b) => a.order - b.order)
         .map(fragment => {
-          const imageSlotStyle = { backgroundImage: fragment?.id !== undefined ? `url(https://assets-decodeurs.lemonde.fr/redacweb/5-2110-fragments-icono/${fragment.id}_grid_hd.jpg)` : '' }
           const imageSlotOpacifierStyle = { backgroundColor: `rgb(0, 0, 0, ${(fragment?.longform_grid_snippet_opacifier_opacity ?? 27) / 100})` }
           return <div className={`${this.mainClass}__related-fragment`}>
             <a href={fragment.url}>
-              <div style={imageSlotStyle} className={`${this.mainClass}__related-fragment-image`}>
+              <div className={`${this.mainClass}__related-fragment-image`}>
+                <img
+                  loading='lazy'
+                  className={`${this.mainClass}__related-fragment-image-img`}
+                  src={fragment?.id !== undefined ? `https://assets-decodeurs.lemonde.fr/redacweb/5-2110-fragments-icono/${fragment.id}_grid_hd.jpg` : '' } />
                 <div style={imageSlotOpacifierStyle} className={`${this.mainClass}__related-fragment-image-opacifier`} />
                 <div className={`${this.mainClass}__related-fragment-image-texts`}>
                   <div className={`${this.mainClass}__related-fragment-image-supertitle`}>{fragment?.supertitle}</div>
