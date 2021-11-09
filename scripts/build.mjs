@@ -1,69 +1,82 @@
-/* eslint-disable no-template-curly-in-string */
-import chalk from 'chalk'
-import {
-  log,
-  BUILD_CONFIG,
-  lint,
-  handleGitStatus,
-  copySourceToTemp,
-  stripDevElementsInIndex,
-  handleBuildConfig,
-  updateTempConfigJson,
-  updateTempPreload,
-  buildFromTemp,
-  rollupIndexAndVendor,
-  deleteSourceMaps,
-  deleteVendor,
-  removeVendorPreloadAndTypeModule,
-  relinkAssetsViaAssetsRootUrl,
-  storeBuildInfo,
-  prettifyIndexHtml,
-  removeDsStores,
-  createLongformAndSnippetBuildOutputs,
-  rsyncToTempFinal,
-  moveTempFinalToBuild,
-} from './_utils.mjs'
+import fse from 'fs-extra'
+import { exec, execSync } from 'child_process'
+import { Directory, File } from './modules/file-system/index.mjs'
+import path, { dirname } from 'path'
+import { fileURLToPath } from 'url'
+import { JSDOM } from 'jsdom'
 
-build()
+const __dirname = dirname(fileURLToPath(import.meta.url))
+const ROOT = new Directory(path.join(__dirname, '../'))
+
+build ()
 
 async function build () {
-  try {
-    await lint()
-    await handleGitStatus()
-    await copySourceToTemp()
-    await stripDevElementsInIndex()
-    await handleBuildConfig()
-    let currentBuildNb = 0
-    const quietBuild = BUILD_CONFIG.length !== 1
-    for (const buildConf of BUILD_CONFIG) {
-      currentBuildNb ++
-      log(chalk.bold(`\n🏗️  Building ${currentBuildNb}/${BUILD_CONFIG.length}...\n`), !quietBuild)
-      log(`sheetbase_url: ${buildConf.sheetbase_url}`, !quietBuild)
-      log(`build_name: ${buildConf.build_name}`, !quietBuild)
-      await updateTempConfigJson(buildConf, { quiet: quietBuild })
-      await updateTempPreload({ quiet: quietBuild })
-      await buildFromTemp({ quiet: quietBuild })
-      await rollupIndexAndVendor({ quiet: quietBuild })
-      await deleteSourceMaps({ quiet: quietBuild })
-      await deleteVendor({ quiet: quietBuild })
-      await removeVendorPreloadAndTypeModule({ quiet: quietBuild })
-      await relinkAssetsViaAssetsRootUrl({ quiet: quietBuild })
-      await storeBuildInfo({ quiet: quietBuild })
-      await prettifyIndexHtml({ quiet: quietBuild })
-      await removeDsStores({ quiet: quietBuild })
-      await createLongformAndSnippetBuildOutputs(buildConf, { quiet: quietBuild })
-      await rsyncToTempFinal({ quiet: quietBuild })
-    }
-    await moveTempFinalToBuild()
-    log(chalk.bold('\n🍸 That\'s all good my friend!\n'))
-    let endAdvice = 'If you\'re building a longform, just take the zip and upload it.\n'
-    endAdvice += 'If you\'re building a snippet, dont forget to upload statics to the place you specified in /src/config.json/assets_root_url!"\n'
-    endAdvice += 'Bye now.\n'
-    log(endAdvice)
-  } catch (err) {
-    console.log('\n', err)
-    process.exit(1)
-  }
+  // Move all buildable to .temp-build
+  
+  // let tempBuildExists = (await ROOT.get('.build')) !== undefined
+  // if (tempBuildExists) await ROOT.emptyChild('.build')
+  // await ROOT.mkdir('.build', 'source')
+  await ROOT.mkdir('.build', 'some', 'path', 'to', 'a', 'dir')
+
+  
+  
+  
+  // await fse.rm(tempBuildDirPath, { recursive: true, force: true })
+  // await fse.mkdir(tempBuildDirPath)
+  // await fse.mkdir(tempBuildSourceDirPath)
+  
+  // await fse.copy(indexHtmlPath, tempBuildSourceIndexHtmlPath)
+  // await fse.copy(srcDirPath, tempBuildSourceSrcDirPath)
+  // await fse.copy(staticDirPath, tempBuildSourceStaticDirPath)
+
+  // // Strip all dev links
+  // const tempBuildSourceIndexHtmlContent = await fse.readFile(tempBuildSourceIndexHtmlPath, { encoding: 'utf-8' })
+  // const $tempBuildIndexHtml = new JSDOM(tempBuildSourceIndexHtmlContent)
+  // const $toDeleteList = $tempBuildIndexHtml.window.document.querySelectorAll('.delete-at-build')
+  // $toDeleteList.forEach($elt => $elt.remove())
+  // const newTempBuildSourceIndexHtmlContent = $tempBuildIndexHtml.window.document.documentElement.outerHTML
+  // await fse.writeFile(tempBuildIndexHtmlPath, newTempBuildSourceIndexHtmlContent, { encoding: 'utf-8' })
+
+  // // Build
+  // execSync('tsc && vite build')
 }
 
-export default build
+// const ROOT = { path: path.join(__dirname, '../') }
+// ROOT.INDEX_HTML = { path: path.join(ROOT.path, 'index.html') }
+
+
+// const indexHtmlPath = path.join(__dirname, '../index.html')
+// const srcDirPath = path.join(__dirname, '../src')
+// const staticDirPath = path.join(__dirname, '../static')
+
+// const tempBuildDirPath = path.join(__dirname, '../.temp-build')
+// const tempBuildSourceDirPath = path.join(__dirname, '../.temp-build/source')
+// const tempBuildSourceIndexHtmlPath = path.join(tempBuildSourceDirPath, 'index.html')
+// const tempBuildSourceSrcDirPath = path.join(tempBuildSourceDirPath, 'src')
+// const tempBuildSourceStaticDirPath = path.join(tempBuildSourceDirPath, 'static')
+
+// const tempBuildDestDirPath = path.join(__dirname, '../.temp-build/dest')
+
+// build ()
+
+// async function build () {
+//   // Move all buildable to .temp-build
+//   await fse.rm(tempBuildDirPath, { recursive: true, force: true })
+//   await fse.mkdir(tempBuildDirPath)
+//   await fse.mkdir(tempBuildSourceDirPath)
+  
+//   await fse.copy(indexHtmlPath, tempBuildSourceIndexHtmlPath)
+//   await fse.copy(srcDirPath, tempBuildSourceSrcDirPath)
+//   await fse.copy(staticDirPath, tempBuildSourceStaticDirPath)
+
+//   // Strip all dev links
+//   const tempBuildSourceIndexHtmlContent = await fse.readFile(tempBuildSourceIndexHtmlPath, { encoding: 'utf-8' })
+//   const $tempBuildIndexHtml = new JSDOM(tempBuildSourceIndexHtmlContent)
+//   const $toDeleteList = $tempBuildIndexHtml.window.document.querySelectorAll('.delete-at-build')
+//   $toDeleteList.forEach($elt => $elt.remove())
+//   const newTempBuildSourceIndexHtmlContent = $tempBuildIndexHtml.window.document.documentElement.outerHTML
+//   await fse.writeFile(tempBuildIndexHtmlPath, newTempBuildSourceIndexHtmlContent, { encoding: 'utf-8' })
+
+//   // Build
+//   execSync('tsc && vite build')
+// }
