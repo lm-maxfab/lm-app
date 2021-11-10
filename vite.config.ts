@@ -9,6 +9,6 @@ export default defineConfig(({ mode }) => ({
   build: {
     sourcemap: true,
     outDir: '../destination',
-    assetsDir: 'assets'
+    assetsDir: 'lm-assets-for-vite-build'
   }
 }))

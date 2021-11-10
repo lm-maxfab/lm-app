@@ -1,6 +1,6 @@
 {
   "sheetbase_url": "",
-  "assets_root_url": "",
+  "assets_root_url": "http://test.com/assets/root/url",
   "project_name": "Master",
   "project_short_name": "master",
   "project_code_name": "master",

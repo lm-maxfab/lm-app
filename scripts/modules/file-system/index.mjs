@@ -1,7 +1,7 @@
 import fse from 'fs-extra'
 import path from 'path'
-import { confirm } from '../terminal-display/index.mjs'
 import { JSDOM } from 'jsdom'
+import prompts from 'prompts'
 
 /* * * * * * * * * * * * * * * *
  *
@@ -21,10 +21,42 @@ export class DirectoryOrFile {
     return await fse.stat(this.path)
   }
 
-  async delete () {
-    const ok = await confirm(`Are you sure you want to delete ${this.path} ? (y/n)`)
+  async isDirectory () {
+    return (await this.stat()).isDirectory()
+  }
+
+  async deleteSelf () {
+    const ok = (await prompts({
+      type: 'confirm',
+      name: 'ok',
+      message: `Delete ${this.path} ?`
+    })).ok
     if (ok) return await fse.rm(this.path, { recursive: true, force: true })
     else throw new Error(`You prevented deletion of: ${this.path}`)
+  }
+
+  async copyTo (_path) {
+    const destPath = path.join(this.path, '../', _path)
+    console.log(this.path)
+    console.log(destPath)
+    console.log()
+    await fse.copy(this.path, destPath)
+    const isDirectory = await this.isDirectory()
+    if (isDirectory) return new Directory(destPath)
+    else return new File(destPath)
+  }
+  
+  async moveTo (_path) {
+    const destPath = path.join(this.path, '../', _path)
+    await fse.move(this.path, destPath)
+    this.path = destPath
+    return this
+  }
+
+  pathTo (fileOrDirectory) {
+    console.log(this.path)
+    console.log(fileOrDirectory.path)
+    return path.relative(this.path, fileOrDirectory.path)
   }
 }
 
@@ -93,7 +125,7 @@ export class Directory extends DirectoryOrFile {
 
   async emptySelf () {
     const children = await this.list()
-    for (let child of children) await child.delete()
+    for (let child of children) await child.deleteSelf()
     return this
   }
   
@@ -102,7 +134,7 @@ export class Directory extends DirectoryOrFile {
     if (toEmpty instanceof File) {
       await toEmpty.write('')
     } else if (toEmpty instanceof Directory) {
-      await toEmpty.delete()
+      await toEmpty.deleteSelf()
       await this.mkdir(name)
     } else {
       const childPath = path.join(this.path, name)
@@ -127,7 +159,11 @@ export class File extends DirectoryOrFile {
   }
 
   async write (content, options = { encoding: 'utf-8' }) {
-    const ok = await confirm(`Are you sure you want to overwrite ${this.path} ? (y/n)`)
+    const ok = (await prompts({
+      type: 'confirm',
+      name: 'ok',
+      message: `Overwrite ${this.path} ?`
+    })).ok
     if (ok) {
       await fse.writeFile(this.path, content, options)
       return this
@@ -140,6 +176,10 @@ export class File extends DirectoryOrFile {
     const result = await editorFunc(content)
     await this.write(result)
     return this
+  }
+
+  async emptySelf () {
+    return await this.edit(() => '')
   }
 
   async readHTML () {
