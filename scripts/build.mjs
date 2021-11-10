@@ -25,10 +25,10 @@ async function build () {
   const versionName = versionToString(targetBuildVersion)
 
   // Move all buildable to .build
-  await ROOT.empty('.build')
+  await ROOT.emptyQuiet('.build')
   await ROOT.mkdir('.build/source')
   const SRC_INDEX = await ROOT.copy('index.html', '.build/source/index.html')
-  await SRC_INDEX.editHTML(jsdom => {
+  await SRC_INDEX.editHTMLQuiet(jsdom => {
     const documentElement = jsdom.window.document.documentElement
     const $deleteAtBuild = documentElement.querySelectorAll('.delete-at-build')
     $deleteAtBuild.forEach(elt => elt.remove())
@@ -53,15 +53,15 @@ async function build () {
   const dstIndexJsName = DST_INDEX_JS.name
   const dstVendorJsName = DST_VENDOR_JS.name
   const dstIndexCssName = DST_INDEX_CSS.name
-  await DST_INDEX_JS.deleteSelf()
-  await DST_INDEX_JS_MAP.deleteSelf()
-  await DST_VENDOR_JS.deleteSelf()
-  await DST_VENDOR_JS_MAP.deleteSelf()
+  await DST_INDEX_JS.deleteSelfQuiet()
+  await DST_INDEX_JS_MAP.deleteSelfQuiet()
+  await DST_VENDOR_JS.deleteSelfQuiet()
+  await DST_VENDOR_JS_MAP.deleteSelfQuiet()
   const DST_FINAL_JS = await DST_ASSETS.get('rolledup.js')
   await DST_FINAL_JS.moveTo(`index.${versionName}.js`)
   await DST_INDEX_CSS.moveTo(`index.${versionName}.css`)
   const DST_INDEX = await DST.get('index.html')
-  await DST_INDEX.editHTML(jsdom => {
+  await DST_INDEX.editHTMLQuiet(jsdom => {
     const documentElement = jsdom.window.document.documentElement
     const indexJsTags = documentElement.querySelectorAll(`script[src*="${dstIndexJsName}"], link[href*="${dstIndexJsName}"]`)
     const vendorJsTags = documentElement.querySelectorAll(`script[src*="${dstVendorJsName}"], link[href*="${dstVendorJsName}"]`)
@@ -84,7 +84,7 @@ async function build () {
     })
     return jsdom
   })
-  await DST_INDEX.edit(content => {
+  await DST_INDEX.editQuiet(content => {
     // [WIP] Add version in comment at top and in globals
     const lines = content.split('\n')
     const noWhiteLines = lines.filter(line => line.trim() !== '')
@@ -98,9 +98,9 @@ async function build () {
   const config = JSON.parse((await SRC_SRC_CONFIG_JSON.read()))
   const assetsRootUrl = config.assets_root_url.replace(/\/$/gm, '') + '/'
   if (assetsRootUrl !== '') {
-    await DST_INDEX.edit(content => content.replace(/\/lm-assets-for-vite-build\//gm, assetsRootUrl))
-    await DST_FINAL_JS.edit(content => content.replace(/\/lm-assets-for-vite-build\//gm, assetsRootUrl))
-    await DST_INDEX_CSS.edit(content => content.replace(/\/lm-assets-for-vite-build\//gm, assetsRootUrl))
+    await DST_INDEX.editQuiet(content => content.replace(/\/lm-assets-for-vite-build\//gm, assetsRootUrl))
+    await DST_FINAL_JS.editQuiet(content => content.replace(/\/lm-assets-for-vite-build\//gm, assetsRootUrl))
+    await DST_INDEX_CSS.editQuiet(content => content.replace(/\/lm-assets-for-vite-build\//gm, assetsRootUrl))
   }
 
   // Create "latest" named sources

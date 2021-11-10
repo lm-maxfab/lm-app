@@ -31,15 +31,16 @@ export class DirectoryOrFile {
       name: 'ok',
       message: `Delete ${this.path} ?`
     })).ok
-    if (ok) return await fse.rm(this.path, { recursive: true, force: true })
+    if (ok) return await this.deleteSelfQuiet()
     else throw new Error(`You prevented deletion of: ${this.path}`)
+  }
+
+  async deleteSelfQuiet () {
+    return await fse.rm(this.path, { recursive: true, force: true })
   }
 
   async copyTo (_path) {
     const destPath = path.join(this.path, '../', _path)
-    console.log(this.path)
-    console.log(destPath)
-    console.log()
     await fse.copy(this.path, destPath)
     const isDirectory = await this.isDirectory()
     if (isDirectory) return new Directory(destPath)
@@ -54,8 +55,6 @@ export class DirectoryOrFile {
   }
 
   pathTo (fileOrDirectory) {
-    console.log(this.path)
-    console.log(fileOrDirectory.path)
     return path.relative(this.path, fileOrDirectory.path)
   }
 }
@@ -128,17 +127,35 @@ export class Directory extends DirectoryOrFile {
     for (let child of children) await child.deleteSelf()
     return this
   }
+
+  async emptySelfQuiet () {
+    const children = await this.list()
+    for (let child of children) await child.deleteSelfQuiet()
+    return this
+  }
   
   async empty (name) {
     const toEmpty = await this.get(name)
-    if (toEmpty instanceof File) {
+    if (toEmpty === undefined) {
+      return undefined
+    } else if (toEmpty instanceof File) {
       await toEmpty.write('')
-    } else if (toEmpty instanceof Directory) {
+    } else {
       await toEmpty.deleteSelf()
       await this.mkdir(name)
+    }
+    return await this.get(name)
+  }
+
+  async emptyQuiet (name) {
+    const toEmpty = await this.get(name)
+    if (toEmpty === undefined) {
+      return undefined
+    } else if (toEmpty instanceof File) {
+      await toEmpty.writeQuiet('')
     } else {
-      const childPath = path.join(this.path, name)
-      throw new Error(`No child found at ${childPath}`)
+      await toEmpty.deleteSelfQuiet()
+      await this.mkdir(name)
     }
     return await this.get(name)
   }
@@ -158,17 +175,19 @@ export class File extends DirectoryOrFile {
     return await fse.readFile(this.path, options)
   }
 
-  async write (content, options = { encoding: 'utf-8' }) {
+  async write (content, options) {
     const ok = (await prompts({
       type: 'confirm',
       name: 'ok',
       message: `Overwrite ${this.path} ?`
     })).ok
-    if (ok) {
-      await fse.writeFile(this.path, content, options)
-      return this
-    }
+    if (ok) return this.writeQuiet(content, options)
     else throw new Error(`You prevented overwriting of: ${this.path}`)
+  }
+
+  async writeQuiet (content, options = { encoding: 'utf-8' }) {
+    await fse.writeFile(this.path, content, options)
+    return this
   }
 
   async edit (editorFunc) {
@@ -178,8 +197,19 @@ export class File extends DirectoryOrFile {
     return this
   }
 
+  async editQuiet (editorFunc) {
+    const content = await this.read()
+    const result = await editorFunc(content)
+    await this.writeQuiet(result)
+    return this
+  }
+
   async emptySelf () {
     return await this.edit(() => '')
+  }
+
+  async emptySelfQuiet () {
+    return await this.editQuiet(() => '')
   }
 
   async readHTML () {
@@ -193,11 +223,25 @@ export class File extends DirectoryOrFile {
     return this
   }
 
+  async writeHTMLQuiet (jsdom) {
+    const content = jsdom.window.document.documentElement.outerHTML
+    await this.writeQuiet(content)
+    return this
+  }
+
   async editHTML (editorFunc) {
     const jsdom = await this.readHTML()
     const result = await editorFunc(jsdom)
     if (result === undefined) return undefined
     await this.writeHTML(result)
+    return this
+  }
+
+  async editHTMLQuiet (editorFunc) {
+    const jsdom = await this.readHTML()
+    const result = await editorFunc(jsdom)
+    if (result === undefined) return undefined
+    await this.writeHTMLQuiet(result)
     return this
   }
 }
