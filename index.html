@@ -10,11 +10,12 @@
     <link class="delete-at-build" href="./static.dev/styles/swg-button.css" rel="stylesheet" />
     <link class="delete-at-build" href="./static.dev/styles/fake-header-and-footer.css" rel="stylesheet" />
     <script class="delete-at-build" src="./static.dev/scripts/inject-fake-header-and-footer.js" type="module"></script>
-    <link id="lm-app-styles" href="./static/styles/fonts.css" rel="stylesheet" />
+    <link href="./static/styles/app-root.css" rel="stylesheet" />
+    <link href="./static/styles/fonts.css" rel="stylesheet" />
   </head>
   <body>
     <noscript>Cette page a besoin de <a href="https://www.enable-javascript.com/fr/" target="_blank">l'activation de Javascript</a> pour fonctionner correctement.</noscript>
-    <div id="lm-app-root"></div>
+    <div class="lm-app-root" id="lm-app-name"></div>
     <script id="lm-app-globals-script" type="text/javascript">
       window.LM_APP_GLOBALS = {}
       window.LM_APP_GLOBALS.assets_root_url = 'http://test.com/assets/root/url'

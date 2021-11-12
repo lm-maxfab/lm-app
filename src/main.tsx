@@ -24,7 +24,7 @@ document.addEventListener('lm-app_sheetbase_tsv_load_failure', () => {
 
 function renderApp (sheetBase: SheetBase): void {
   silentLog('Rendering app.')
-  const appRootNode: HTMLElement|null = document.getElementById('lm-app-root')
+  const appRootNode: HTMLElement|null = document.getElementById('lm-app-name')
   if (appRootNode !== null) render (<App sheetBase={sheetBase} />, appRootNode)
   else silentLog('App root node not found.')
 }
