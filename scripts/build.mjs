@@ -2,7 +2,6 @@ import { Directory } from './modules/file-system/index.mjs'
 import path, { dirname } from 'path'
 import { fileURLToPath } from 'url'
 import exec from './modules/exec-promise/index.mjs'
-import pretty from 'pretty'
 import {
   latestVersionIn,
   promptTargetVersionFrom,
@@ -40,16 +39,18 @@ async function build () {
   // Build
   await exec('tsc && vite build')
 
-  // Rollup Vite output
+  // Bundle vendor and index js into a single iife
   const DST = await ROOT.get('.build/destination')
   const DST_ASSETS = await DST.get('lm-assets-for-vite-build')
   const dstAssetsFiles = await DST_ASSETS.list()
   const DST_INDEX_JS = dstAssetsFiles.find(file => file.name.match(/^index.[a-f0-9]{8}.js$/gm))
+  await exec(`npx rollup -i ${DST_INDEX_JS.path} -o ${path.join(DST_ASSETS.path, 'rolledup.js')} -f iife`)
+
+  // Delete useless vendor.<hash>.js, index.<hash>.js and their sourcemaps
   const DST_INDEX_JS_MAP = dstAssetsFiles.find(file => file.name.match(/^index.[a-f0-9]{8}.js.map$/gm))
   const DST_VENDOR_JS = dstAssetsFiles.find(file => file.name.match(/^vendor.[a-f0-9]{8}.js$/gm))
   const DST_VENDOR_JS_MAP = dstAssetsFiles.find(file => file.name.match(/^vendor.[a-f0-9]{8}.js.map$/gm))
   const DST_INDEX_CSS = dstAssetsFiles.find(file => file.name.match(/^index.[a-f0-9]{8}.css$/gm))
-  await exec(`npx rollup -i ${DST_INDEX_JS.path} -o ${path.join(DST_ASSETS.path, 'rolledup.js')} -f iife`)
   const dstIndexJsName = DST_INDEX_JS.name
   const dstVendorJsName = DST_VENDOR_JS.name
   const dstIndexCssName = DST_INDEX_CSS.name
@@ -57,9 +58,34 @@ async function build () {
   await DST_INDEX_JS_MAP.deleteSelfQuiet()
   await DST_VENDOR_JS.deleteSelfQuiet()
   await DST_VENDOR_JS_MAP.deleteSelfQuiet()
+
+  // Add build info into index.<version>.js
   const DST_FINAL_JS = await DST_ASSETS.get('rolledup.js')
+  await DST_FINAL_JS.editQuiet(content => {
+    const buildInfo = 'window.LM_APP_GLOBALS.build = {\n'
+      + `  version: '${versionName}',\n`
+      + `  branch: '${branch}',\n`
+      + `  time: '${new Date().toISOString()}'\n`
+      + '}\n'
+    return buildInfo + content
+  })
+
+  // Create latest and live versions
   await DST_FINAL_JS.moveTo(`index.${versionName}.js`)
   await DST_INDEX_CSS.moveTo(`index.${versionName}.css`)
+  await DST_FINAL_JS.copyTo('index.latest.js')
+  await DST_INDEX_CSS.copyTo('index.latest.css')
+  const linkToLive = (await prompts({
+    type: 'confirm',
+    name: 'response',
+    message: 'Do you want this version to be live?'
+  })).response
+  if (linkToLive) {
+    await DST_FINAL_JS.copyTo('index.live.js')
+    await DST_INDEX_CSS.copyTo('index.live.css')
+  }
+
+  // Link js and css to index.html
   const DST_INDEX = await DST.get('index.html')
   await DST_INDEX.editHTMLQuiet(jsdom => {
     const documentElement = jsdom.window.document.documentElement
@@ -68,6 +94,7 @@ async function build () {
     const indexCssTags = documentElement.querySelectorAll(`link[href*="${dstIndexCssName}"]`)
     indexJsTags.forEach(tag => {
       jsdom.window.document.body.innerHTML += '\n<script'
+        + ' id="lm-app-main-script"'
         + ' type="text/javascript"'
         + ' defer'
         + ` src="/lm-assets-for-vite-build/${DST_FINAL_JS.name}"></script>`
@@ -76,6 +103,7 @@ async function build () {
     vendorJsTags.forEach(tag => tag.remove())
     indexCssTags.forEach(tag => {
       jsdom.window.document.body.innerHTML += '\n<link'
+        + ' id="lm-app-styles"'
         + ' rel="stylesheet"'
         + ` href="/lm-assets-for-vite-build/${DST_INDEX_CSS.name}"`
         + ' media="print"'
@@ -84,43 +112,63 @@ async function build () {
     })
     return jsdom
   })
-  await DST_INDEX.editQuiet(content => {
-    // [WIP] Add version in comment at top and in globals
-    const lines = content.split('\n')
-    const noWhiteLines = lines.filter(line => line.trim() !== '')
-    const noIndentLines = noWhiteLines.map(line => line.trim())
-    const prettified = pretty(noIndentLines.join('\n'), { ocd: true })
-    return prettified + '\n'
-  })
 
-  // Relink assets
-  const SRC_SRC_CONFIG_JSON = await ROOT.get('.build/source/src/config.json')
-  const config = JSON.parse((await SRC_SRC_CONFIG_JSON.read()))
-  const assetsRootUrl = config.assets_root_url.replace(/\/$/gm, '') + '/'
+  // Relink assets to assets_root_url
+  const dstIndexJsdom = await DST_INDEX.readHTML()
+  const dstIndexJsdomDocument = dstIndexJsdom.window.document
+  const dstIndexGlobalsScript = dstIndexJsdomDocument.documentElement.querySelector('#lm-app-globals-script')
+  const dstIndexGlobalsScriptLines = dstIndexGlobalsScript.innerHTML.split('\n')
+  const assetsRootUrl = dstIndexGlobalsScriptLines
+    .find(line => line.match('.assets_root_url'))
+    .split('=')
+    .slice(-1)[0]
+    .trim()
+    .replace(/^'/, '')
+    .replace(/'$/, '')
+    .replace(/\/$/gm, '') + '/'
   if (assetsRootUrl !== '') {
     await DST_INDEX.editQuiet(content => content.replace(/\/lm-assets-for-vite-build\//gm, assetsRootUrl))
     await DST_FINAL_JS.editQuiet(content => content.replace(/\/lm-assets-for-vite-build\//gm, assetsRootUrl))
     await DST_INDEX_CSS.editQuiet(content => content.replace(/\/lm-assets-for-vite-build\//gm, assetsRootUrl))
   }
 
-  // Create "latest" named sources
-  await DST_FINAL_JS.copyTo('index.latest.js')
-  await DST_INDEX_CSS.copyTo('index.latest.css')
+  // Prettify index.html
+  await DST_INDEX.prettifyHTMLQuiet()
 
-  // Link output to production
-  const linkIt = (await prompts({
-    type: 'confirm',
-    name: 'link',
-    message: 'Do you want this version to be live?'
-  })).link
-  if (linkIt) {
-    await DST_FINAL_JS.copyTo('index.live.js')
-    await DST_INDEX_CSS.copyTo('index.live.css')
-  }
+  // Create production, staging and testing outputs
+  await DST.mkdir('production')
+  await DST.mkdir('staging')
+  await DST.mkdir('testing')
+  const DST_PRODUCTION_INDEX_HTML = await DST.copy('index.html', 'production/index.html')
+  const DST_STAGING_INDEX_HTML = await DST.copy('index.html', 'staging/index.html')
+  const DST_TESTING_INDEX_HTML = await DST.copy('index.html', 'testing/index.html')
+  await DST_PRODUCTION_INDEX_HTML.editHTMLQuiet(jsdom => {
+    const document = jsdom.window.document
+    const documentElement = document.documentElement
+    const globalsScript = documentElement.querySelector('#lm-app-globals-script')
+    globalsScript.innerHTML += `  window.LM_APP_GLOBALS.env = 'production'\n`
+    return jsdom
+  })
+  await DST_PRODUCTION_INDEX_HTML.prettifyHTMLQuiet()
+  await DST_STAGING_INDEX_HTML.editHTMLQuiet(jsdom => {
+    const document = jsdom.window.document
+    const documentElement = document.documentElement
+    const globalsScript = documentElement.querySelector('#lm-app-globals-script')
+    globalsScript.innerHTML += `  window.LM_APP_GLOBALS.env = 'staging'\n`
+    return jsdom
+  })
+  await DST_STAGING_INDEX_HTML.prettifyHTMLQuiet()
+  await DST_TESTING_INDEX_HTML.editHTMLQuiet(jsdom => {
+    const document = jsdom.window.document
+    const documentElement = document.documentElement
+    const globalsScript = documentElement.querySelector('#lm-app-globals-script')
+    globalsScript.innerHTML += `  window.LM_APP_GLOBALS.env = 'testing'\n`
+    return jsdom
+  })
+  await DST_TESTING_INDEX_HTML.prettifyHTMLQuiet()
 
   // Rename destination assets directory for convenience
   await DST_ASSETS.moveTo('assets')
-
 }
 
 build ()

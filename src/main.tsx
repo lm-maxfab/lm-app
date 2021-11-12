@@ -1,36 +1,30 @@
 import { render } from 'preact'
-import 'whatwg-fetch'
-import smoothscroll from 'smoothscroll-polyfill'
-import config from './config.json'
-import getHeaderElement from './modules/le-monde/utils/get-header-element'
-import silentLog, { getRegister, printRegister } from './modules/le-monde/utils/silent-log'
-import { fetchTsv, tsvToSheetBase, SheetBase } from './modules/le-monde/utils/sheet-base'
-import Wrapper from './AppWrapper'
+import silentLog, { printRegister } from './modules/le-monde/utils/silent-log'
+import { tsvToSheetBase, SheetBase } from './modules/le-monde/utils/sheet-base'
 import App from './App'
 
-// Init globals
-window.__LM_GET_SILENT_LOG_REGISTER = getRegister
-window.__LM_PRINT_SILENT_LOG_REGISTER = printRegister
+window.LM_APP_GLOBALS.print_silent_log_register = printRegister
 
-// Enable smoothscroll polyfill
-smoothscroll.polyfill()
-
-// Hide or remove header if config.json wants it
-if (config.delete_header === true) getHeaderElement()?.remove()
-else if (config.hide_header === true) (getHeaderElement()?.style ?? { display: 'block' }).display = 'none'
-
-// App rendering
-function renderApp (sheetBase: SheetBase): void {
-  const longformRootNode: HTMLElement|null = document.getElementById('lm-app-root')
-  if (longformRootNode !== null) render(<Wrapper app={App} appProps={{ sheetBase }} />, longformRootNode)
-  else silentLog('no longform root node found.')
+if (window.LM_APP_GLOBALS.sheetbase_tsv) {
+  silentLog('SheetBase is already loaded when app fires.')
+  const sheetbase = tsvToSheetBase(window.LM_APP_GLOBALS.sheetbase_tsv)
+  renderApp(sheetbase)
+} else {
+  silentLog('SheetBase is not loaded when app fires.')
 }
+document.addEventListener('lm-app_sheetbase_tsv_load_success', () => {
+  silentLog('SheetBase load success event catch.')
+  const sheetbase = tsvToSheetBase(window.LM_APP_GLOBALS.sheetbase_tsv)
+  renderApp(sheetbase)
+})
+document.addEventListener('lm-app_sheetbase_tsv_load_failure', () => {
+  silentLog('SheetBase load failure event catch.')
+  silentLog(window.LM_APP_GLOBALS.sheetbase_tsv_load_error)
+})
 
-fetchTsv(config.sheetbase_url)
-  .then(tsv => {
-    const loadedSheetBase = tsvToSheetBase(tsv)
-    window.__LM_GLOBAL_SHEET_BASE = loadedSheetBase
-    silentLog('loaded sheet base:', window.__LM_GLOBAL_SHEET_BASE)
-    renderApp(loadedSheetBase)
-  })
-  .catch(err => console.warn(err))
+function renderApp (sheetBase: SheetBase): void {
+  silentLog('Rendering app.')
+  const appRootNode: HTMLElement|null = document.getElementById('lm-app-root')
+  if (appRootNode !== null) render (<App sheetBase={sheetBase} />, appRootNode)
+  else silentLog('App root node not found.')
+}

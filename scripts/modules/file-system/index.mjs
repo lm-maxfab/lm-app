@@ -2,6 +2,7 @@ import fse from 'fs-extra'
 import path from 'path'
 import { JSDOM } from 'jsdom'
 import prompts from 'prompts'
+import pretty from 'pretty'
 
 /* * * * * * * * * * * * * * * *
  *
@@ -243,5 +244,25 @@ export class File extends DirectoryOrFile {
     if (result === undefined) return undefined
     await this.writeHTMLQuiet(result)
     return this
+  }
+
+  async prettifyHTML () {
+    return this.edit(content => {
+      const lines = content.split('\n')
+      const noWhiteLines = lines.filter(line => line.trim() !== '')
+      const noIndentLines = noWhiteLines.map(line => line.trim())
+      const prettified = pretty(noIndentLines.join('\n'), { ocd: true })
+      return prettified + '\n'
+    })
+  }
+
+  async prettifyHTMLQuiet () {
+    return this.editQuiet(content => {
+      const lines = content.split('\n')
+      const noWhiteLines = lines.filter(line => line.trim() !== '')
+      const noIndentLines = noWhiteLines.map(line => line.trim())
+      const prettified = pretty(noIndentLines.join('\n'), { ocd: true })
+      return prettified + '\n'
+    })
   }
 }

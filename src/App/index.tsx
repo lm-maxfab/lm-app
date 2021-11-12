@@ -23,7 +23,9 @@ class App extends Component<Props, {}> {
     const classes = this.bem.block(props.className).value
     const inlineStyle: JSX.CSSProperties = {
       ...props.style,
-      marginTop: 'var(--len-nav-height)'
+      marginTop: 'var(--len-nav-height)',
+      height: '200px',
+      background: 'coral'
     }
 
     // Display

@@ -7,5 +7,23 @@ export declare global {
     __LM_GLOBAL_SNIPPET_ID?: string
     __LM_GLOBAL_SNIPPET_TSV_PRELOAD?: string
     __LM_GLOBAL_SHEET_BASE?: SheetBase
+    LM_APP_GLOBALS: {
+      env: string
+      sheetbases: {
+        production: string
+        staging: string
+        testing: string
+        developpment: string 
+      }
+      sheetbase_tsv: string
+      sheetbase_tsv_load_error: any
+      fetchSheetbaseTsv: () => void
+      print_silent_log_register: (n?: number) => void
+      build: {
+        version: string
+        branch: string
+        time: string
+      }
+    }
   }
 }

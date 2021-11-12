@@ -6,14 +6,22 @@ export interface Log {
 
 const logRegister: Log[] = []
 
-export function printRegister (slice: number = 0): void {
+export function printRegister (slice: number = 0, short: boolean = false): void {
   const register = getRegister(slice)
-  register.forEach(log => {
-    const time = log.time
-    const stack = log.stack?.join('\n')
-    const message = log.message
-    console.log(`${time}\n\n${stack}\n\n${message}\n`)
-  })
+  if (short) {
+    register.forEach(log => {
+      const time = log.time
+      const message = log.message
+      console.log(time.getTime(), `${message}`)
+    })
+  } else {
+    register.forEach(log => {
+      const time = log.time
+      const stack = log.stack?.join('\n')
+      const message = log.message
+      console.log(`${time}\n\n${stack}\n\n${message}\n`)
+    })
+  }
 }
 
 export function getRegister (slice: number = 0): Log[] {
