@@ -1,6 +1,8 @@
-import { Directory } from './modules/file-system/index.mjs'
 import path, { dirname } from 'path'
 import { fileURLToPath } from 'url'
+import prompts from 'prompts'
+import chalk from 'chalk'
+import { Directory } from './modules/file-system/index.mjs'
 import exec from './modules/exec-promise/index.mjs'
 import {
   latestVersionIn,
@@ -8,7 +10,6 @@ import {
   versionToString,
   initialVersion
 } from './modules/versionning/index.mjs'
-import prompts from 'prompts'
 
 async function build () {
   const __dirname = dirname(fileURLToPath(import.meta.url))
@@ -21,12 +22,7 @@ async function build () {
     const branch = (await exec('git branch --show-current')).stdout.trim()
     const builds = allBuilds[branch] ?? []
     const latestBuildVersion = latestVersionIn(builds) ?? initialVersion
-    console.log(builds)
-    console.log('\n=====\n')
-    console.log(latestBuildVersion)
     const targetBuildVersion = await promptTargetVersionFrom(latestBuildVersion)
-    console.log('\n=====\n')
-    console.log(targetBuildVersion)
     const versionName = versionToString(targetBuildVersion)
     const buildTime = new Date()
     const promptsVersionDescriptionOptions = {
@@ -51,8 +47,7 @@ async function build () {
     }
     await exec(`git commit -m "BUILD - ${versionName} - ${buildDescription}"`)
     const pushResult = await exec(`git push origin ${branch}`)
-    console.log(pushResult)
-    console.log('lol')
+    console.log(chalk.grey(pushResult))
 
     // // Move all buildable to .build
     // if ((await ROOT.get('.build') === undefined)) await ROOT.mkdir('.build')

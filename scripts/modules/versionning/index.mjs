@@ -78,27 +78,12 @@ export function latestVersionIn (buildsInfo = []) {
   const buildNb = Math.max(...statuses.map(build => build.version.build).filter(val => typeof val === 'number'))
   const builds = statuses.filter(build => build.version.build === buildNb)
   const build = builds[0]
-
-  console.log('majorNb:', majorNb)
-  console.log('majors:', majors)
-  console.log('minorNb:', minorNb)
-  console.log('minors:', minors)
-  console.log('patchNb:', patchNb)
-  console.log('patchs:', patchs)
-  console.log('statusName:', statusName)
-  console.log('statuses:', statuses)
-  console.log('buildNb:', buildNb)
-  console.log('builds:', builds)
-  console.log('build:', build)
-
   return build?.version
 }
 
 export async function promptTargetVersionFrom (buildVersion) {
   const newVersionType = (await prompts(promptsVersionTypeOptions)).type
   if (newVersionType === undefined) throw new Error('The version type field is required.')
-
-  let returned = {}
 
   if (newVersionType === 'self-named') {
     const { major, minor, patch, status, build } = await prompts([
@@ -108,7 +93,6 @@ export async function promptTargetVersionFrom (buildVersion) {
       promptsVersionStatusOptions,
       promptsVersionBuildOptions
     ])
-
     if (major === undefined) throw new Error('The major field is required.')
     if (minor === undefined) throw new Error('The minor field is required.')
     if (patch === undefined) throw new Error('The patch field is required.')
@@ -170,7 +154,6 @@ export async function promptTargetVersionFrom (buildVersion) {
       build: 0
     }
   }
-
 }
 
 export function versionToString (version) {

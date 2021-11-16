@@ -196,6 +196,17 @@
       },
       "description": "azd",
       "time": "2021-11-16T16:11:12.548Z"
+    },
+    {
+      "version": {
+        "major": 2,
+        "minor": 0,
+        "patch": 0,
+        "status": "rc",
+        "build": 0
+      },
+      "description": "Some fake RC",
+      "time": "2021-11-16T16:16:37.844Z"
     }
   ]
 }
