@@ -256,7 +256,7 @@ async function build () {
 
     // Write build info
     console.log(chalk.bold('\n✍️  Storing build info to builds.json...'))
-    const currentCommit = await cmd('git show --oneline -s', false)
+    const currentCommit = (await exec('git show --oneline -s')).trim()
     await BUILDS_JSON.editQuiet(content => {
       const parsed = JSON.parse(content)
       if (parsed[branch] === undefined) parsed[branch] = []
@@ -265,7 +265,7 @@ async function build () {
         version: targetBuildVersion,
         description: buildDescription,
         time: buildTime,
-        commit: currentCommit.trim()
+        commit: currentCommit
       }
       branchData.push(newBuildData)
       const returned = JSON.stringify(parsed, null, 2)
