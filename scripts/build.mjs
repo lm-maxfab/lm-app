@@ -270,6 +270,7 @@ async function build () {
     await exec('git add -u')
     await exec(`git commit -m "BUILD - ${buildVersionNameWithDesc}"`)
     const pushResult = await exec(`git push origin ${branch}`)
+    console.log(chalk.grey(`Pushed: BUILD - ${buildVersionNameWithDesc}\n`))
     if (pushResult.stdout !== '') console.log(`\n${chalk.grey(pushResult.stdout.trim())}`)
     if (pushResult.stderr !== '') console.log(`\n${chalk.grey(pushResult.stderr.trim())}`)
 
