@@ -408,6 +408,17 @@
       },
       "description": "tut-tut",
       "time": "2021-11-16T18:08:52.222Z"
+    },
+    {
+      "version": {
+        "major": 7,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "tut-ttuuuuuttt",
+      "time": "2021-11-16T18:09:21.205Z"
     }
   ]
 }
