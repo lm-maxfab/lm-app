@@ -185,6 +185,17 @@
       },
       "description": "efz",
       "time": "2021-11-16T16:10:13.633Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 1
+      },
+      "description": "azd",
+      "time": "2021-11-16T16:11:12.548Z"
     }
   ]
 }

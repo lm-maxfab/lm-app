@@ -21,10 +21,14 @@ async function build () {
     const branch = (await exec('git branch --show-current')).stdout.trim()
     const builds = allBuilds[branch] ?? []
     const latestBuildVersion = latestVersionIn(builds) ?? initialVersion
+    console.log(builds)
+    console.log('\n=====\n')
+    console.log(latestBuildVersion)
     const targetBuildVersion = await promptTargetVersionFrom(latestBuildVersion)
+    console.log('\n=====\n')
+    console.log(targetBuildVersion)
     const versionName = versionToString(targetBuildVersion)
     const buildTime = new Date()
-
     const promptsVersionDescriptionOptions = {
       type: 'text',
       name: 'description',

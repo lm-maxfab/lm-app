@@ -67,17 +67,30 @@ export const initialVersion = {
 }
 
 export function latestVersionIn (buildsInfo = []) {
-  const majorNb = Math.max(...buildsInfo.map(build => build.version.major))
+  const majorNb = Math.max(...buildsInfo.map(build => build.version.major).filter(val => typeof val === 'number'))
   const majors = buildsInfo.filter(build => build.version.major === majorNb)
-  const minorNb = Math.max(...majors.map(build => build.version.minor))
+  const minorNb = Math.max(...majors.map(build => build.version.minor).filter(val => typeof val === 'number'))
   const minors = majors.filter(build => build.version.minor === minorNb)
-  const patchNb = Math.max(...minors.map(build => build.version.patch))
+  const patchNb = Math.max(...minors.map(build => build.version.patch).filter(val => typeof val === 'number'))
   const patchs = minors.filter(build => build.version.patch === patchNb)
-  const statusName = patchs.map(build => build.version.status).sort().slice(-1)[0]
+  const statusName = patchs.map(build => build.version.status).filter(val => typeof val === 'string').sort().slice(-1)[0]
   const statuses = patchs.filter(build => build.version.status === statusName)
-  const buildNb = Math.max(...statuses.map(build => build.version.build))
+  const buildNb = Math.max(...statuses.map(build => build.version.build).filter(val => typeof val === 'number'))
   const builds = statuses.filter(build => build.version.build === buildNb)
   const build = builds[0]
+
+  console.log('majorNb:', majorNb)
+  console.log('majors:', majors)
+  console.log('minorNb:', minorNb)
+  console.log('minors:', minors)
+  console.log('patchNb:', patchNb)
+  console.log('patchs:', patchs)
+  console.log('statusName:', statusName)
+  console.log('statuses:', statuses)
+  console.log('buildNb:', buildNb)
+  console.log('builds:', builds)
+  console.log('build:', build)
+
   return build?.version
 }
 
