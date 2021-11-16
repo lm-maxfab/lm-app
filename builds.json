@@ -452,6 +452,17 @@
       },
       "description": "",
       "time": "2021-11-16T18:20:36.523Z"
+    },
+    {
+      "version": {
+        "major": 8,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 2
+      },
+      "description": "",
+      "time": "2021-11-16T18:21:22.818Z"
     }
   ]
 }

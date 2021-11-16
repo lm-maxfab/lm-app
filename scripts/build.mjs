@@ -270,9 +270,9 @@ async function build () {
     await exec('git add -u')
     await exec(`git commit -m "BUILD - ${buildVersionNameWithDesc}"`)
     const pushResult = await exec(`git push origin ${branch}`)
-    console.log(chalk.grey(`Pushed: BUILD - ${buildVersionNameWithDesc}\n`))
-    if (pushResult.stdout !== '') console.log(`\n${chalk.grey(pushResult.stdout.trim())}`)
-    if (pushResult.stderr !== '') console.log(`\n${chalk.grey(pushResult.stderr.trim())}`)
+    console.log(chalk.grey(`\nPushed: BUILD - ${buildVersionNameWithDesc}`))
+    if (pushResult.stdout !== '') console.log(`${chalk.grey(pushResult.stdout.trim())}`)
+    if (pushResult.stderr !== '') console.log(`${chalk.grey(pushResult.stderr.trim())}`)
 
     // The end.
     console.log(chalk.bold('\n🍸 That\'s all good my friend!\n'))
