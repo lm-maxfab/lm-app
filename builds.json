@@ -361,6 +361,18 @@
       },
       "description": "seems to work",
       "time": "2021-11-16T17:47:56.555Z"
+    },
+    {
+      "version": {
+        "major": 3,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "v3 goes live",
+      "time": "2021-11-16T17:58:45.440Z",
+      "commit": "202445b BUILD - v3.0.0-stable-0 - v3 goes live"
     }
   ]
 }
