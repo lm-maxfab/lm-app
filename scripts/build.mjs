@@ -59,8 +59,14 @@ async function build () {
       message: 'Description of the build version:'
     }
     const buildDescription = (await prompts(promptsVersionDescriptionOptions)).description
+    const buildVersionNameWithDesc = `${versionName}${buildDescription !== '' ? ' - ' + buildDescription : ''}`
+    const linkToLive = (await prompts({
+      type: 'confirm',
+      name: 'response',
+      message: 'Do you want this version to be live?'
+    })).response
     console.log()
-    console.log(chalk.bold.bgBlack.rgb(255, 255, 255)(` Preparing build of ${versionName}${buildDescription !== '' ? ' - ' + buildDescription : ''} `))
+    console.log(chalk.bold.bgBlack.rgb(255, 255, 255)(` Preparing build of ${buildVersionNameWithDesc} `))
 
     // Commit everything
     console.log(chalk.bold('\n📡 Checking git status...\n'))
@@ -78,7 +84,7 @@ async function build () {
       await exec('git reset')
       throw new Error('Build process needs to commit and push every changes in the current branch.')
     }
-    await exec(`git commit -m "BUILD - ${versionName} - ${buildDescription}"`)
+    await exec(`git commit -m "BUILD - ${buildVersionNameWithDesc}"`)
     const pushResult = await exec(`git push origin ${branch}`)
     if (pushResult.stdout !== '') console.log(`\n${chalk.grey(pushResult.stdout.trim())}`)
     if (pushResult.stderr !== '') console.log(`\n${chalk.grey(pushResult.stderr.trim())}`)
@@ -128,119 +134,121 @@ async function build () {
     await DST_INDEX_JS_MAP.deleteSelfQuiet()
     await DST_VENDOR_JS.deleteSelfQuiet()
     await DST_VENDOR_JS_MAP.deleteSelfQuiet()
+    console.log(chalk.grey('deleted.'))
 
-    // // Add build info into index.<version>.js
-    // const DST_FINAL_JS = await DST_ASSETS.get('rolledup.js')
-    // await DST_FINAL_JS.editQuiet(content => {
-    //   const buildInfo = 'window.LM_APP_GLOBALS.build = {\n'
-    //     + `  version: '${versionName}',\n`
-    //     + `  branch: '${branch}',\n`
-    //     + `  time: '${buildTime.toISOString()}'\n`
-    //     + '}\n'
-    //   return buildInfo + content
-    // })
+    // Add build info into index.<version>.js
+    console.log(chalk.bold('\n✍️  Storing build info into rolledup.js...'))
+    const DST_FINAL_JS = await DST_ASSETS.get('rolledup.js')
+    await DST_FINAL_JS.editQuiet(content => {
+      const buildInfo = 'window.LM_APP_GLOBALS.build = {\n'
+        + `  version: '${versionName}',\n`
+        + `  branch: '${branch}',\n`
+        + `  time: '${buildTime.toISOString()}'\n`
+        + '}\n'
+      return buildInfo + content
+    })
+    console.log(chalk.grey('done.'))
 
-    // // Create latest and live versions
-    // await DST_FINAL_JS.moveTo(`index.${versionName}.js`)
-    // await DST_INDEX_CSS.moveTo(`index.${versionName}.css`)
-    // await DST_FINAL_JS.copyTo('index.latest.js')
-    // await DST_INDEX_CSS.copyTo('index.latest.css')
-    // const linkToLive = (await prompts({
-    //   type: 'confirm',
-    //   name: 'response',
-    //   message: 'Do you want this version to be live?'
-    // })).response
-    // if (linkToLive) {
-    //   await DST_FINAL_JS.copyTo('index.live.js')
-    //   await DST_INDEX_CSS.copyTo('index.live.css')
-    // }
+    // Link js and css to index.html
+    console.log(chalk.bold(`\n🔗 Relinking assets in index.html, ${DST_FINAL_JS.name} and ${DST_INDEX_CSS.name}...\n`))
+    const DST_INDEX = await DST.get('index.html')
+    await DST_INDEX.editHTMLQuiet(jsdom => {
+      const documentElement = jsdom.window.document.documentElement
+      const indexJsTags = documentElement.querySelectorAll(`script[src*="${dstIndexJsName}"], link[href*="${dstIndexJsName}"]`)
+      const vendorJsTags = documentElement.querySelectorAll(`script[src*="${dstVendorJsName}"], link[href*="${dstVendorJsName}"]`)
+      const indexCssTags = documentElement.querySelectorAll(`link[href*="${dstIndexCssName}"]`)
+      indexJsTags.forEach(tag => {
+        jsdom.window.document.body.innerHTML += '\n<script'
+          + ' id="lm-app-main-script"'
+          + ' type="text/javascript"'
+          + ' defer'
+          + ` src="/lm-assets-for-vite-build/${DST_FINAL_JS.name}"></script>`
+        tag.remove()
+      })
+      vendorJsTags.forEach(tag => tag.remove())
+      indexCssTags.forEach(tag => {
+        jsdom.window.document.body.innerHTML += '\n<link'
+          + ' id="lm-app-styles"'
+          + ' rel="stylesheet"'
+          + ` href="/lm-assets-for-vite-build/${DST_INDEX_CSS.name}"`
+          + ' media="print"'
+          + ' onload="this.media=\'all\'; this.onload=null;">'
+        tag.remove()
+      })
+      return jsdom
+    })
+    const dstIndexJsdom = await DST_INDEX.readHTML()
+    const dstIndexJsdomDocument = dstIndexJsdom.window.document
+    const dstIndexGlobalsScript = dstIndexJsdomDocument.documentElement.querySelector('#lm-app-globals-script')
+    const dstIndexGlobalsScriptLines = dstIndexGlobalsScript.innerHTML.split('\n')
+    const assetsRootUrl = dstIndexGlobalsScriptLines
+      .find(line => line.match('.assets_root_url'))
+      .split('=')
+      .slice(-1)[0]
+      .trim()
+      .replace(/^'/, '')
+      .replace(/'$/, '')
+      .replace(/\/$/gm, '') + '/'
+    if (assetsRootUrl !== '') {
+      await DST_INDEX.editQuiet(content => content.replace(/\/lm-assets-for-vite-build\//gm, assetsRootUrl))
+      await DST_FINAL_JS.editQuiet(content => content.replace(/\/lm-assets-for-vite-build\//gm, assetsRootUrl))
+      await DST_INDEX_CSS.editQuiet(content => content.replace(/\/lm-assets-for-vite-build\//gm, assetsRootUrl))
+    }
 
-    // // Link js and css to index.html
-    // const DST_INDEX = await DST.get('index.html')
-    // await DST_INDEX.editHTMLQuiet(jsdom => {
-    //   const documentElement = jsdom.window.document.documentElement
-    //   const indexJsTags = documentElement.querySelectorAll(`script[src*="${dstIndexJsName}"], link[href*="${dstIndexJsName}"]`)
-    //   const vendorJsTags = documentElement.querySelectorAll(`script[src*="${dstVendorJsName}"], link[href*="${dstVendorJsName}"]`)
-    //   const indexCssTags = documentElement.querySelectorAll(`link[href*="${dstIndexCssName}"]`)
-    //   indexJsTags.forEach(tag => {
-    //     jsdom.window.document.body.innerHTML += '\n<script'
-    //       + ' id="lm-app-main-script"'
-    //       + ' type="text/javascript"'
-    //       + ' defer'
-    //       + ` src="/lm-assets-for-vite-build/${DST_FINAL_JS.name}"></script>`
-    //     tag.remove()
-    //   })
-    //   vendorJsTags.forEach(tag => tag.remove())
-    //   indexCssTags.forEach(tag => {
-    //     jsdom.window.document.body.innerHTML += '\n<link'
-    //       + ' id="lm-app-styles"'
-    //       + ' rel="stylesheet"'
-    //       + ` href="/lm-assets-for-vite-build/${DST_INDEX_CSS.name}"`
-    //       + ' media="print"'
-    //       + ' onload="this.media=\'all\'; this.onload=null;">'
-    //     tag.remove()
-    //   })
-    //   return jsdom
-    // })
+    // Create latest and live versions
+    console.log(chalk.bold(`\n👭 Creating index.${versionName}.js, index.${versionName}.css, index.latest.js and index.latest.css...`))
+    await DST_FINAL_JS.moveTo(`index.${versionName}.js`)
+    await DST_INDEX_CSS.moveTo(`index.${versionName}.css`)
+    await DST_FINAL_JS.copyTo('index.latest.js')
+    await DST_INDEX_CSS.copyTo('index.latest.css')
+    if (linkToLive) {
+      console.log(chalk.bold(`\n📺 Creating index.live.js and index.live.css...`))
+      await DST_FINAL_JS.copyTo('index.live.js')
+      await DST_INDEX_CSS.copyTo('index.live.css')
+    }
 
-    // // Relink assets to assets_root_url
-    // const dstIndexJsdom = await DST_INDEX.readHTML()
-    // const dstIndexJsdomDocument = dstIndexJsdom.window.document
-    // const dstIndexGlobalsScript = dstIndexJsdomDocument.documentElement.querySelector('#lm-app-globals-script')
-    // const dstIndexGlobalsScriptLines = dstIndexGlobalsScript.innerHTML.split('\n')
-    // const assetsRootUrl = dstIndexGlobalsScriptLines
-    //   .find(line => line.match('.assets_root_url'))
-    //   .split('=')
-    //   .slice(-1)[0]
-    //   .trim()
-    //   .replace(/^'/, '')
-    //   .replace(/'$/, '')
-    //   .replace(/\/$/gm, '') + '/'
-    // if (assetsRootUrl !== '') {
-    //   await DST_INDEX.editQuiet(content => content.replace(/\/lm-assets-for-vite-build\//gm, assetsRootUrl))
-    //   await DST_FINAL_JS.editQuiet(content => content.replace(/\/lm-assets-for-vite-build\//gm, assetsRootUrl))
-    //   await DST_INDEX_CSS.editQuiet(content => content.replace(/\/lm-assets-for-vite-build\//gm, assetsRootUrl))
-    // }
+    // Prettify index.html
+    console.log(chalk.bold('\n💅  Prettifying index.html...\n'))
+    await DST_INDEX.prettifyHTMLQuiet()
 
-    // // Prettify index.html
-    // await DST_INDEX.prettifyHTMLQuiet()
+    // Create production, staging and testing outputs
+    console.log(chalk.bold('\n📦 Creating production, staging, and testing outputs...'))
+    await DST.mkdir('production')
+    await DST.mkdir('staging')
+    await DST.mkdir('testing')
+    const DST_PRODUCTION_INDEX_HTML = await DST.copy('index.html', 'production/index.html')
+    const DST_STAGING_INDEX_HTML = await DST.copy('index.html', 'staging/index.html')
+    const DST_TESTING_INDEX_HTML = await DST.copy('index.html', 'testing/index.html')
+    await DST_PRODUCTION_INDEX_HTML.editHTMLQuiet(jsdom => {
+      const document = jsdom.window.document
+      const documentElement = document.documentElement
+      const globalsScript = documentElement.querySelector('#lm-app-globals-script')
+      globalsScript.innerHTML += `  window.LM_APP_GLOBALS.env = 'production'\n`
+      return jsdom
+    })
+    await DST_PRODUCTION_INDEX_HTML.prettifyHTMLQuiet()
+    await DST_STAGING_INDEX_HTML.editHTMLQuiet(jsdom => {
+      const document = jsdom.window.document
+      const documentElement = document.documentElement
+      const globalsScript = documentElement.querySelector('#lm-app-globals-script')
+      globalsScript.innerHTML += `  window.LM_APP_GLOBALS.env = 'staging'\n`
+      return jsdom
+    })
+    await DST_STAGING_INDEX_HTML.prettifyHTMLQuiet()
+    await DST_TESTING_INDEX_HTML.editHTMLQuiet(jsdom => {
+      const document = jsdom.window.document
+      const documentElement = document.documentElement
+      const globalsScript = documentElement.querySelector('#lm-app-globals-script')
+      globalsScript.innerHTML += `  window.LM_APP_GLOBALS.env = 'testing'\n`
+      return jsdom
+    })
+    await DST_TESTING_INDEX_HTML.prettifyHTMLQuiet()
 
-    // // Create production, staging and testing outputs
-    // await DST.mkdir('production')
-    // await DST.mkdir('staging')
-    // await DST.mkdir('testing')
-    // const DST_PRODUCTION_INDEX_HTML = await DST.copy('index.html', 'production/index.html')
-    // const DST_STAGING_INDEX_HTML = await DST.copy('index.html', 'staging/index.html')
-    // const DST_TESTING_INDEX_HTML = await DST.copy('index.html', 'testing/index.html')
-    // await DST_PRODUCTION_INDEX_HTML.editHTMLQuiet(jsdom => {
-    //   const document = jsdom.window.document
-    //   const documentElement = document.documentElement
-    //   const globalsScript = documentElement.querySelector('#lm-app-globals-script')
-    //   globalsScript.innerHTML += `  window.LM_APP_GLOBALS.env = 'production'\n`
-    //   return jsdom
-    // })
-    // await DST_PRODUCTION_INDEX_HTML.prettifyHTMLQuiet()
-    // await DST_STAGING_INDEX_HTML.editHTMLQuiet(jsdom => {
-    //   const document = jsdom.window.document
-    //   const documentElement = document.documentElement
-    //   const globalsScript = documentElement.querySelector('#lm-app-globals-script')
-    //   globalsScript.innerHTML += `  window.LM_APP_GLOBALS.env = 'staging'\n`
-    //   return jsdom
-    // })
-    // await DST_STAGING_INDEX_HTML.prettifyHTMLQuiet()
-    // await DST_TESTING_INDEX_HTML.editHTMLQuiet(jsdom => {
-    //   const document = jsdom.window.document
-    //   const documentElement = document.documentElement
-    //   const globalsScript = documentElement.querySelector('#lm-app-globals-script')
-    //   globalsScript.innerHTML += `  window.LM_APP_GLOBALS.env = 'testing'\n`
-    //   return jsdom
-    // })
-    // await DST_TESTING_INDEX_HTML.prettifyHTMLQuiet()
-
-    // // Rename destination assets directory for convenience
-    // await DST_ASSETS.moveTo('assets')
+    // Rename destination assets directory for convenience
+    await DST_ASSETS.moveTo('assets')
 
     // Write build info
+    console.log(chalk.bold('\n✍️  Storing build info to builds.json...'))
     await BUILDS_JSON.editQuiet(content => {
       const parsed = JSON.parse(content)
       if (parsed[branch] === undefined) parsed[branch] = []
@@ -255,6 +263,13 @@ async function build () {
       return returned
     })
 
+    // Post build commit
+    await exec('git add -u')
+    await exec(`git commit -m "POSTBUILD - ${buildVersionNameWithDesc}"`)
+    await exec(`git push origin ${branch}`)
+
+    // The end.
+    console.log(chalk.bold('\n🍸 That\'s all good my friend!\n'))
 
   } catch (err) {
     console.log()
