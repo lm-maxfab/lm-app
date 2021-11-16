@@ -262,6 +262,17 @@
       },
       "description": "some random build",
       "time": "2021-11-16T17:06:34.924Z"
+    },
+    {
+      "version": {
+        "major": 2,
+        "minor": 0,
+        "patch": 0,
+        "status": "rc",
+        "build": 6
+      },
+      "description": "some build",
+      "time": "2021-11-16T17:07:48.196Z"
     }
   ]
 }

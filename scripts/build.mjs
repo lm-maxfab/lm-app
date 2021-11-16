@@ -95,15 +95,17 @@ async function build () {
     await ROOT.copy('src', '.build/source/src')
     await ROOT.copy('static', '.build/source/static')
 
-    // // Build
-    // await exec('tsc && vite build')
+    // Build
+    console.log(chalk.bold('\n🏗️  Building the app with Vite...\n'))
+    await exec('tsc && vite build')
 
-    // // Bundle vendor and index js into a single iife
-    // const DST = await ROOT.get('.build/destination')
-    // const DST_ASSETS = await DST.get('lm-assets-for-vite-build')
-    // const dstAssetsFiles = await DST_ASSETS.list()
-    // const DST_INDEX_JS = dstAssetsFiles.find(file => file.name.match(/^index.[a-f0-9]{8}.js$/gm))
-    // await exec(`npx rollup -i ${DST_INDEX_JS.path} -o ${path.join(DST_ASSETS.path, 'rolledup.js')} -f iife`)
+    // Bundle vendor and index js into a single iife
+    console.log(chalk.bold('\n⚙️  Bundle vendor and index into a single IIFE...\n'))
+    const DST = await ROOT.get('.build/destination')
+    const DST_ASSETS = await DST.get('lm-assets-for-vite-build')
+    const dstAssetsFiles = await DST_ASSETS.list()
+    const DST_INDEX_JS = dstAssetsFiles.find(file => file.name.match(/^index.[a-f0-9]{8}.js$/gm))
+    await exec(`npx rollup -i ${DST_INDEX_JS.path} -o ${path.join(DST_ASSETS.path, 'rolledup.js')} -f iife`)
 
     // // Delete useless vendor.<hash>.js, index.<hash>.js and their sourcemaps
     // const DST_INDEX_JS_MAP = dstAssetsFiles.find(file => file.name.match(/^index.[a-f0-9]{8}.js.map$/gm))
