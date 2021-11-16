@@ -103,14 +103,14 @@ async function build () {
     if (buildExec.stderr !== '') console.log(chalk.red(buildExec.stderr))
 
     // Bundle vendor and index js into a single iife
-    console.log(chalk.bold('\n⚙️  Bundle vendor and index into a single IIFE...\n'))
+    console.log(chalk.bold('\n⚙️  Bundle vendor and index into a single IIFE...'))
     const DST = await ROOT.get('.build/destination')
     const DST_ASSETS = await DST.get('lm-assets-for-vite-build')
     const dstAssetsFiles = await DST_ASSETS.list()
     const DST_INDEX_JS = dstAssetsFiles.find(file => file.name.match(/^index.[a-f0-9]{8}.js$/gm))
     const rollupExec = await exec(`npx rollup -i ${DST_INDEX_JS.path} -o ${path.join(DST_ASSETS.path, 'rolledup.js')} -f iife`)
     if (rollupExec.stdout !== '') console.log(chalk.grey(rollupExec.stdout))
-    if (rollupExec.stderr !== '') console.log(chalk.red(rollupExec.stderr))
+    if (rollupExec.stderr !== '') console.log(chalk.grey(rollupExec.stderr))
 
     // // Delete useless vendor.<hash>.js, index.<hash>.js and their sourcemaps
     // const DST_INDEX_JS_MAP = dstAssetsFiles.find(file => file.name.match(/^index.[a-f0-9]{8}.js.map$/gm))
