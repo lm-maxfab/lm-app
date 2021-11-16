@@ -373,6 +373,18 @@
       "description": "v3 goes live",
       "time": "2021-11-16T17:58:45.440Z",
       "commit": "202445b BUILD - v3.0.0-stable-0 - v3 goes live"
+    },
+    {
+      "version": {
+        "major": 4,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "",
+      "time": "2021-11-16T18:02:16.803Z",
+      "commit": "9222c95 BUILD - v4.0.0-stable-0"
     }
   ]
 }
