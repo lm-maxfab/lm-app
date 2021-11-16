@@ -273,6 +273,17 @@
       },
       "description": "some build",
       "time": "2021-11-16T17:07:48.196Z"
+    },
+    {
+      "version": {
+        "major": 2,
+        "minor": 0,
+        "patch": 0,
+        "status": "rc",
+        "build": 7
+      },
+      "description": "build",
+      "time": "2021-11-16T17:11:34.093Z"
     }
   ]
 }
