@@ -385,6 +385,18 @@
       "description": "",
       "time": "2021-11-16T18:02:16.803Z",
       "commit": "9222c95 BUILD - v4.0.0-stable-0"
+    },
+    {
+      "version": {
+        "major": 5,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "",
+      "time": "2021-11-16T18:03:12.759Z",
+      "commit": "3318cf9 BUILD - v5.0.0-stable-0"
     }
   ]
 }
