@@ -60,6 +60,8 @@ async function build () {
     }
     const buildDescription = (await prompts(promptsVersionDescriptionOptions)).description
     const buildVersionNameWithDesc = `${versionName}${buildDescription !== '' ? ' - ' + buildDescription : ''}`
+    console.log()
+    console.log(chalk.grey(`The target version is: ${buildVersionNameWithDesc}\n`))
     const linkToLive = (await prompts({
       type: 'confirm',
       name: 'response',
@@ -85,7 +87,7 @@ async function build () {
       throw new Error('Build process needs to commit and push every changes in the current branch.')
     }
 
-    console.log(chalk.bold('\n📣 Commiting and pushing to Github...\n'))
+    console.log(chalk.bold('\n📣 Commiting and pushing to Github...'))
     await exec(`git commit -m "BUILD - ${buildVersionNameWithDesc}"`)
     const pushResult = await exec(`git push origin ${branch}`)
     if (pushResult.stdout !== '') console.log(`\n${chalk.grey(pushResult.stdout.trim())}`)
@@ -274,7 +276,7 @@ async function build () {
     console.log(chalk.grey('done.'))
 
     // Post build commit
-    console.log(chalk.bold('\n📣 Commiting and pushing postbuild info to Github...\n'))
+    console.log(chalk.bold('\n📣 Commiting and pushing postbuild info to Github...'))
     await exec('git add -u')
     await exec(`git commit -m "POSTBUILD - ${buildVersionNameWithDesc}"`)
     const secondPushResult = await exec(`git push origin ${branch}`)
@@ -286,14 +288,14 @@ async function build () {
 
   } catch (err) {
     console.log()
-    if (err instanceof Error) console.log(err.message)
+    if (err instanceof Error) console.log(chalk.bold.red(err.message))
     else {
-      console.log('Something went wrong:')
-      console.log(err)
+      console.log(chalk.bold.red('Something went wrong:'))
+      console.log(chalk.bold.red(err))
     }
     const TEMP_BUILD_DIR = await ROOT.get('.build')
     if (TEMP_BUILD_DIR !== undefined) await TEMP_BUILD_DIR.deleteSelfQuiet()
-    console.log('Process aborted.')
+    console.log(chalk.bold.red('Process aborted.'))
     console.log()
   }
 }
