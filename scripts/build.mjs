@@ -16,33 +16,33 @@ async function build () {
   const ROOT = new Directory(path.join(__dirname, '../'))
 
   try {
-    // Lint
-    console.log(chalk.bold('\n👀 Linting...\n'))
-    try {
-      const lintExec = await exec('npm run lint')
-      if (lintExec.stdout !== '') console.log(chalk.grey(lintExec.stdout))
-      if (lintExec.stderr !== '') {
-        console.log(chalk.red(lintExec.stderr))
-        const lintContinue = (await prompts({
-          type: 'confirm',
-          name: 'lintContinue',
-          message: 'You have lint errors, do you want to continue?'
-        })).lintContinue
-        if (!lintContinue) throw new Error('You aborted build process due to lint errors.')
-      }
-    } catch (err) {
-      if (err.stdout !== '') console.log(chalk.grey(err.stdout))
-      if (err.stderr !== '') console.log(chalk.red(err.stderr))
-      if (err.err !== '') console.log(chalk.red(err.err))
-      if (err.stderr !== '' || err.err !== '') {
-        const lintContinue = (await prompts({
-          type: 'confirm',
-          name: 'lintContinue',
-          message: 'You have lint errors, do you want to continue?'
-        })).lintContinue
-        if (!lintContinue) throw new Error('You aborted build process due to lint errors.')
-      }
-    }
+    // // Lint
+    // console.log(chalk.bold('\n👀 Linting...\n'))
+    // try {
+    //   const lintExec = await exec('npm run lint')
+    //   if (lintExec.stdout !== '') console.log(chalk.grey(lintExec.stdout))
+    //   if (lintExec.stderr !== '') {
+    //     console.log(chalk.red(lintExec.stderr))
+    //     const lintContinue = (await prompts({
+    //       type: 'confirm',
+    //       name: 'lintContinue',
+    //       message: 'You have lint errors, do you want to continue?'
+    //     })).lintContinue
+    //     if (!lintContinue) throw new Error('You aborted build process due to lint errors.')
+    //   }
+    // } catch (err) {
+    //   if (err.stdout !== '') console.log(chalk.grey(err.stdout))
+    //   if (err.stderr !== '') console.log(chalk.red(err.stderr))
+    //   if (err.err !== '') console.log(chalk.red(err.err))
+    //   if (err.stderr !== '' || err.err !== '') {
+    //     const lintContinue = (await prompts({
+    //       type: 'confirm',
+    //       name: 'lintContinue',
+    //       message: 'You have lint errors, do you want to continue?'
+    //     })).lintContinue
+    //     if (!lintContinue) throw new Error('You aborted build process due to lint errors.')
+    //   }
+    // }
 
     // Get versionning info
     const BUILDS_JSON = await ROOT.get('builds.json')
@@ -64,8 +64,9 @@ async function build () {
     console.log(chalk.bold('\n📡 Checking git status...\n'))
     await exec('git add -u')
     const gitStatus = await exec('git status')
-    if (gitStatus.stdout !== '') console.log(chalk.grey(gitStatus.stdout))
-    if (gitStatus.stderr !== '') console.log(chalk.grey(gitStatus.stderr))
+    if (gitStatus.stdout !== '') console.log(chalk.grey(gitStatus.stdout.trim()))
+    if (gitStatus.stderr !== '') console.log(chalk.grey(gitStatus.stderr.trim()))
+    console.log()
     const readyToPush = (await prompts({
       type: 'confirm',
       name: 'push',
@@ -77,8 +78,8 @@ async function build () {
     }
     await exec(`git commit -m "BUILD - ${versionName} - ${buildDescription}"`)
     const pushResult = await exec(`git push origin ${branch}`)
-    if (pushResult.stdout !== '') console.log(`\n${chalk.grey(pushResult.stdout)}`)
-    if (pushResult.stderr !== '') console.log(`\n${chalk.grey(pushResult.stderr)}`)
+    if (pushResult.stdout !== '') console.log(`\n${chalk.grey(pushResult.stdout.trim())}`)
+    if (pushResult.stderr !== '') console.log(`\n${chalk.grey(pushResult.stderr.trim())}`)
 
     // Move all buildable to .build
     console.log(chalk.bold('\n👬 Copying source files to .temp/...\n'))
@@ -103,7 +104,7 @@ async function build () {
     if (buildExec.stderr !== '') console.log(chalk.red(buildExec.stderr))
 
     // Bundle vendor and index js into a single iife
-    console.log(chalk.bold('\n⚙️  Bundle vendor and index into a single IIFE...'))
+    console.log(chalk.bold('\n⚙️  Bundle vendor and index into a single IIFE...\n'))
     const DST = await ROOT.get('.build/destination')
     const DST_ASSETS = await DST.get('lm-assets-for-vite-build')
     const dstAssetsFiles = await DST_ASSETS.list()
