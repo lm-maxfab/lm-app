@@ -160,6 +160,16 @@ export class Directory extends DirectoryOrFile {
     }
     return await this.get(name)
   }
+
+  async delete (name) {
+    const toDelete = await this.get(name)
+    await toDelete.deleteSelf()
+  }
+
+  async deleteQuiet (name) {
+    const toDelete = await this.get(name)
+    await toDelete.deleteSelfQuiet()
+  }
 }
 
 /* * * * * * * * * * * * * * * *

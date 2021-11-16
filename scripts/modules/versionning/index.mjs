@@ -5,7 +5,7 @@ const statusesOrder = ['alpha', 'beta', 'rc', 'stable']
 const promptsVersionTypeOptions = {
   type: 'select',
   name: 'type',
-  message: 'What kind of new version is it?',
+  message: 'Version type:',
   initial: 0,
   choices: [
     { title: 'Build', value: 'build' },
@@ -14,31 +14,35 @@ const promptsVersionTypeOptions = {
     { title: 'Minor', value: 'minor' },
     { title: 'Major', value: 'major' },
     { title: 'Let me name it myself', value: 'self-named' }
-  ]
+  ],
+  validate: value => {
+    console.log('validate.')
+    console.log(value)
+  }
 }
 
 const promptsVersionMajorOptions = {
   type: 'number',
   name: 'major',
-  message: 'Major number ?'
+  message: 'Major number:'
 }
 
 const promptsVersionMinorOptions = {
   type: 'number',
   name: 'minor',
-  message: 'Minor number ?'
+  message: 'Minor number:'
 }
 
 const promptsVersionPatchOptions = {
   type: 'number',
   name: 'patch',
-  message: 'Patch number ?'
+  message: 'Patch number:'
 }
 
 const promptsVersionStatusOptions = {
   type: 'select',
   name: 'status',
-  message: 'Status name ?',
+  message: 'Status name:',
   initial: 3,
   choices: [
     { title: 'Alpha', value: 'alpha' },
@@ -51,7 +55,7 @@ const promptsVersionStatusOptions = {
 const promptsVersionBuildOptions = {
   type: 'number',
   name: 'build',
-  message: 'Build number ?'
+  message: 'Build number:'
 }
 
 export const initialVersion = {
@@ -79,37 +83,81 @@ export function latestVersionIn (buildsInfo = []) {
 
 export async function promptTargetVersionFrom (buildVersion) {
   const newVersionType = (await prompts(promptsVersionTypeOptions)).type
+  if (newVersionType === undefined) throw new Error('The version type field is required.')
+
+  let returned = {}
 
   if (newVersionType === 'self-named') {
-    const newVersionPrompts = await prompts([
+    const { major, minor, patch, status, build } = await prompts([
       promptsVersionMajorOptions,
       promptsVersionMinorOptions,
       promptsVersionPatchOptions,
       promptsVersionStatusOptions,
       promptsVersionBuildOptions
     ])
-    return newVersionPrompts
+
+    if (major === undefined) throw new Error('The major field is required.')
+    if (minor === undefined) throw new Error('The minor field is required.')
+    if (patch === undefined) throw new Error('The patch field is required.')
+    if (status === undefined) throw new Error('The status field is required.')
+    if (build === undefined) throw new Error('The build field is required.')
+    return { major, minor, patch, status, build }
 
   } else if (newVersionType === 'build') {
-    return { ...buildVersion, build: buildVersion.build + 1 }
+    return {
+      ...buildVersion,
+      build: buildVersion.build + 1
+    }
 
   } else if (newVersionType === 'status') {
     const currentStatusPos = statusesOrder.indexOf(buildVersion.status)
-    if (currentStatusPos === statusesOrder.length - 1) return { ...buildVersion, build: buildVersion.build + 1 }
-    else return { ...buildVersion, status: statusesOrder[currentStatusPos + 1], build: 0 }
+    if (currentStatusPos === statusesOrder.length - 1) {
+      return { 
+        ...buildVersion,
+        build: buildVersion.build + 1
+      }
+    }
+    else {
+      return {
+        ...buildVersion,
+        status: statusesOrder[currentStatusPos + 1],
+        build: 0
+      }
+    }
 
   } else if (newVersionType === 'patch') {
-    const newVersionStatusPrompts = await prompts(promptsVersionStatusOptions)
-    return { ...buildVersion, patch: buildVersion.patch + 1, status: newVersionStatusPrompts.status, build: 0 }
+    const { status } = await prompts(promptsVersionStatusOptions)
+    if (status === undefined) throw new Error('The status field is required.')
+    return {
+      ...buildVersion,
+      patch: buildVersion.patch + 1,
+      status,
+      build: 0
+    }
 
   } else if (newVersionType === 'minor') {
-    const newVersionStatusPrompts = await prompts(promptsVersionStatusOptions)
-    return { ...buildVersion, minor: buildVersion.minor + 1, patch: 0, status: newVersionStatusPrompts.status, build: 0 }
+    const { status } = await prompts(promptsVersionStatusOptions)
+    if (status === undefined) throw new Error('The status field is required.')
+    return {
+      ...buildVersion,
+      minor: buildVersion.minor + 1,
+      patch: 0,
+      status,
+      build: 0
+    }
 
   } else if (newVersionType === 'major') {
-    const newVersionStatusPrompts = await prompts(promptsVersionStatusOptions)
-    return { major: buildVersion.major + 1, minor: 0, patch: 0, status: newVersionStatusPrompts.status, build: 0 }
+    const { status } = await prompts(promptsVersionStatusOptions)
+    if (status === undefined) throw new Error('The status field is required.')
+    return {
+      major: buildVersion.major + 1,
+      minor: 0,
+      patch: 0,
+      status,
+      build: 0
+    }
   }
+
 }
 
 export function versionToString (version) {

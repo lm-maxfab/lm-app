@@ -1,5 +1,5 @@
 {
-  "2111-new-build": [
+  "2111-new-buildd": [
     {
       "version": {
         "major": 0,
@@ -62,6 +62,118 @@
         "status": "stable",
         "build": 2
       }
+    }
+  ],
+  "2111-new-build": [
+    {
+      "version": {
+        "major": 1,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "Lol",
+      "time": "2021-11-16T11:22:33.461Z"
+    },
+    {
+      "version": {
+        "major": 1,
+        "minor": 0,
+        "patch": 1,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "Some patch yay",
+      "time": "2021-11-16T11:22:45.578Z"
+    },
+    {
+      "version": {
+        "major": 1,
+        "minor": 1,
+        "patch": 0,
+        "status": "alpha",
+        "build": 0
+      },
+      "description": "Alpha release of a minor version",
+      "time": "2021-11-16T11:22:58.517Z"
+    },
+    {
+      "version": {},
+      "time": "2021-11-16T11:25:57.744Z"
+    },
+    {
+      "version": {},
+      "time": "2021-11-16T11:26:33.861Z"
+    },
+    {
+      "version": {},
+      "time": "2021-11-16T11:28:07.946Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 1
+      },
+      "time": "2021-11-16T11:28:31.001Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 1
+      },
+      "description": "",
+      "time": "2021-11-16T15:44:41.311Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 1
+      },
+      "description": "jehzga",
+      "time": "2021-11-16T15:49:45.758Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 1
+      },
+      "description": "",
+      "time": "2021-11-16T15:50:24.081Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 1
+      },
+      "description": "",
+      "time": "2021-11-16T15:51:44.647Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 1
+      },
+      "description": "hge",
+      "time": "2021-11-16T15:52:15.260Z"
     }
   ]
 }
