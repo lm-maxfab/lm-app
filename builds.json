@@ -350,6 +350,17 @@
       },
       "description": "",
       "time": "2021-11-16T17:25:53.057Z"
+    },
+    {
+      "version": {
+        "major": 2,
+        "minor": 0,
+        "patch": 0,
+        "status": "rc",
+        "build": 14
+      },
+      "description": "seems to work",
+      "time": "2021-11-16T17:47:56.555Z"
     }
   ]
 }
