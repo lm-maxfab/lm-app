@@ -295,6 +295,17 @@
       },
       "description": "yes",
       "time": "2021-11-16T17:13:29.962Z"
+    },
+    {
+      "version": {
+        "major": 2,
+        "minor": 0,
+        "patch": 0,
+        "status": "rc",
+        "build": 9
+      },
+      "description": "lol",
+      "time": "2021-11-16T17:14:23.563Z"
     }
   ]
 }

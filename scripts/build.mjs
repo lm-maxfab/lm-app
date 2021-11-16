@@ -112,18 +112,19 @@ async function build () {
     if (rollupExec.stdout !== '') console.log(chalk.grey(rollupExec.stdout))
     if (rollupExec.stderr !== '') console.log(chalk.grey(rollupExec.stderr))
 
-    // // Delete useless vendor.<hash>.js, index.<hash>.js and their sourcemaps
-    // const DST_INDEX_JS_MAP = dstAssetsFiles.find(file => file.name.match(/^index.[a-f0-9]{8}.js.map$/gm))
-    // const DST_VENDOR_JS = dstAssetsFiles.find(file => file.name.match(/^vendor.[a-f0-9]{8}.js$/gm))
-    // const DST_VENDOR_JS_MAP = dstAssetsFiles.find(file => file.name.match(/^vendor.[a-f0-9]{8}.js.map$/gm))
-    // const DST_INDEX_CSS = dstAssetsFiles.find(file => file.name.match(/^index.[a-f0-9]{8}.css$/gm))
-    // const dstIndexJsName = DST_INDEX_JS.name
-    // const dstVendorJsName = DST_VENDOR_JS.name
-    // const dstIndexCssName = DST_INDEX_CSS.name
-    // await DST_INDEX_JS.deleteSelfQuiet()
-    // await DST_INDEX_JS_MAP.deleteSelfQuiet()
-    // await DST_VENDOR_JS.deleteSelfQuiet()
-    // await DST_VENDOR_JS_MAP.deleteSelfQuiet()
+    // Delete useless vendor.<hash>.js, index.<hash>.js and their sourcemaps
+    console.log(chalk.bold('\n🧹 Deleting index.<hash>.js, vendor.<hash>.js and source maps...\n'))
+    const DST_INDEX_JS_MAP = dstAssetsFiles.find(file => file.name.match(/^index.[a-f0-9]{8}.js.map$/gm))
+    const DST_VENDOR_JS = dstAssetsFiles.find(file => file.name.match(/^vendor.[a-f0-9]{8}.js$/gm))
+    const DST_VENDOR_JS_MAP = dstAssetsFiles.find(file => file.name.match(/^vendor.[a-f0-9]{8}.js.map$/gm))
+    const DST_INDEX_CSS = dstAssetsFiles.find(file => file.name.match(/^index.[a-f0-9]{8}.css$/gm))
+    const dstIndexJsName = DST_INDEX_JS.name
+    const dstVendorJsName = DST_VENDOR_JS.name
+    const dstIndexCssName = DST_INDEX_CSS.name
+    await DST_INDEX_JS.deleteSelfQuiet()
+    await DST_INDEX_JS_MAP.deleteSelfQuiet()
+    await DST_VENDOR_JS.deleteSelfQuiet()
+    await DST_VENDOR_JS_MAP.deleteSelfQuiet()
 
     // // Add build info into index.<version>.js
     // const DST_FINAL_JS = await DST_ASSETS.get('rolledup.js')
