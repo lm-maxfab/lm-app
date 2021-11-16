@@ -229,6 +229,17 @@
       },
       "description": "erg",
       "time": "2021-11-16T16:30:15.627Z"
+    },
+    {
+      "version": {
+        "major": 2,
+        "minor": 0,
+        "patch": 0,
+        "status": "rc",
+        "build": 3
+      },
+      "description": "y",
+      "time": "2021-11-16T16:30:39.195Z"
     }
   ]
 }
