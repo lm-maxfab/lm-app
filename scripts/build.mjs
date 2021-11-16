@@ -256,30 +256,32 @@ async function build () {
 
     // Write build info
     console.log(chalk.bold('\n✍️  Storing build info to builds.json...'))
-    const currentCommit = (await exec('git show --oneline -s')).trim()
-    await BUILDS_JSON.editQuiet(content => {
-      const parsed = JSON.parse(content)
-      if (parsed[branch] === undefined) parsed[branch] = []
-      const branchData = parsed[branch]
-      const newBuildData = {
-        version: targetBuildVersion,
-        description: buildDescription,
-        time: buildTime,
-        commit: currentCommit
-      }
-      branchData.push(newBuildData)
-      const returned = JSON.stringify(parsed, null, 2)
-      return returned
-    })
-    console.log(chalk.grey('done.'))
+    const currentCommit = (await exec('git show --oneline -s'))
+    console.log(currentCommit)
 
-    // Post build commit
-    console.log(chalk.bold('\n📣 Commiting and pushing postbuild info to Github...\n'))
-    await exec('git add -u')
-    await exec(`git commit -m "POSTBUILD - ${buildVersionNameWithDesc}"`)
-    const secondPushResult = await exec(`git push origin ${branch}`)
-    if (secondPushResult.stdout !== '') console.log(`\n${chalk.grey(secondPushResult.stdout.trim())}`)
-    if (secondPushResult.stderr !== '') console.log(`\n${chalk.grey(secondPushResult.stderr.trim())}`)
+    // await BUILDS_JSON.editQuiet(content => {
+    //   const parsed = JSON.parse(content)
+    //   if (parsed[branch] === undefined) parsed[branch] = []
+    //   const branchData = parsed[branch]
+    //   const newBuildData = {
+    //     version: targetBuildVersion,
+    //     description: buildDescription,
+    //     time: buildTime,
+    //     commit: currentCommit
+    //   }
+    //   branchData.push(newBuildData)
+    //   const returned = JSON.stringify(parsed, null, 2)
+    //   return returned
+    // })
+    // console.log(chalk.grey('done.'))
+
+    // // Post build commit
+    // console.log(chalk.bold('\n📣 Commiting and pushing postbuild info to Github...\n'))
+    // await exec('git add -u')
+    // await exec(`git commit -m "POSTBUILD - ${buildVersionNameWithDesc}"`)
+    // const secondPushResult = await exec(`git push origin ${branch}`)
+    // if (secondPushResult.stdout !== '') console.log(`\n${chalk.grey(secondPushResult.stdout.trim())}`)
+    // if (secondPushResult.stderr !== '') console.log(`\n${chalk.grey(secondPushResult.stderr.trim())}`)
 
     // The end.
     console.log(chalk.bold('\n🍸 That\'s all good my friend!\n'))
