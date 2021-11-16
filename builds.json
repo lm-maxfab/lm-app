@@ -218,6 +218,17 @@
       },
       "description": "test",
       "time": "2021-11-16T16:29:05.427Z"
+    },
+    {
+      "version": {
+        "major": 2,
+        "minor": 0,
+        "patch": 0,
+        "status": "rc",
+        "build": 2
+      },
+      "description": "erg",
+      "time": "2021-11-16T16:30:15.627Z"
     }
   ]
 }
