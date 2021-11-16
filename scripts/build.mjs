@@ -16,34 +16,6 @@ async function build () {
   const ROOT = new Directory(path.join(__dirname, '../'))
 
   try {
-    // // Lint
-    // console.log(chalk.bold('\n👀 Linting...\n'))
-    // try {
-    //   const lintExec = await exec('npm run lint')
-    //   if (lintExec.stdout !== '') console.log(chalk.grey(lintExec.stdout))
-    //   if (lintExec.stderr !== '') {
-    //     console.log(chalk.red(lintExec.stderr))
-    //     const lintContinue = (await prompts({
-    //       type: 'confirm',
-    //       name: 'lintContinue',
-    //       message: 'You have lint errors, do you want to continue?'
-    //     })).lintContinue
-    //     if (!lintContinue) throw new Error('You aborted build process due to lint errors.')
-    //   }
-    // } catch (err) {
-    //   if (err.stdout !== '') console.log(chalk.grey(err.stdout))
-    //   if (err.stderr !== '') console.log(chalk.red(err.stderr))
-    //   if (err.err !== '') console.log(chalk.red(err.err))
-    //   if (err.stderr !== '' || err.err !== '') {
-    //     const lintContinue = (await prompts({
-    //       type: 'confirm',
-    //       name: 'lintContinue',
-    //       message: 'You have lint errors, do you want to continue?'
-    //     })).lintContinue
-    //     if (!lintContinue) throw new Error('You aborted build process due to lint errors.')
-    //   }
-    // }
-
     // Get versionning info
     const BUILDS_JSON = await ROOT.get('builds.json')
     const allBuilds = JSON.parse(await BUILDS_JSON.read())
@@ -70,25 +42,36 @@ async function build () {
     console.log()
     console.log(chalk.bold.bgBlack.rgb(255, 255, 255)(` Preparing build of ${buildVersionNameWithDesc} `))
 
-    console.log(chalk.bold('\n✍️  Storing build info to builds.json...\n'))
-    await BUILDS_JSON.editQuiet(content => {
-      const parsed = JSON.parse(content)
-      if (parsed[branch] === undefined) parsed[branch] = []
-      const branchData = parsed[branch]
-      const newBuildData = {
-        version: targetBuildVersion,
-        description: buildDescription,
-        time: buildTime
+    // Lint
+    console.log(chalk.bold('\n👀 Linting...\n'))
+    try {
+      const lintExec = await exec('npm run lint')
+      if (lintExec.stdout !== '') console.log(chalk.grey(lintExec.stdout))
+      if (lintExec.stderr !== '') {
+        console.log(chalk.red(lintExec.stderr))
+        const lintContinue = (await prompts({
+          type: 'confirm',
+          name: 'lintContinue',
+          message: 'You have lint errors, do you want to continue?'
+        })).lintContinue
+        if (!lintContinue) throw new Error('You aborted build process due to lint errors.')
       }
-      branchData.push(newBuildData)
-      const returned = JSON.stringify(parsed, null, 2)
-      return returned
-    })
-    console.log(chalk.grey('done.'))
+    } catch (err) {
+      if (err.stdout !== '') console.log(chalk.grey(err.stdout))
+      if (err.stderr !== '') console.log(chalk.red(err.stderr))
+      if (err.err !== '') console.log(chalk.red(err.err))
+      if (err.stderr !== '' || err.err !== '') {
+        const lintContinue = (await prompts({
+          type: 'confirm',
+          name: 'lintContinue',
+          message: 'You have lint errors, do you want to continue?'
+        })).lintContinue
+        if (!lintContinue) throw new Error('You aborted build process due to lint errors.')
+      }
+    }
 
-    // Commit everything
+    // Check git status
     console.log(chalk.bold('\n📡 Checking git status...\n'))
-    await exec('git add -u')
     const gitStatus = await exec('git status')
     if (gitStatus.stdout !== '') console.log(chalk.grey(gitStatus.stdout.trim()))
     if (gitStatus.stderr !== '') console.log(chalk.grey(gitStatus.stderr.trim()))
@@ -96,18 +79,11 @@ async function build () {
     const readyToPush = (await prompts({
       type: 'confirm',
       name: 'push',
-      message: 'Do you want to commit and push as is or abort ?'
+      message: 'Do you want to add, commit and push as is or abort ?'
     })).push
     if (!readyToPush) {
-      await exec('git reset')
       throw new Error('Build process needs to commit and push every changes in the current branch.')
     }
-
-    console.log(chalk.bold('\n📣 Commiting and pushing to Github...'))
-    await exec(`git commit -m "BUILD - ${buildVersionNameWithDesc}"`)
-    const pushResult = await exec(`git push origin ${branch}`)
-    if (pushResult.stdout !== '') console.log(`\n${chalk.grey(pushResult.stdout.trim())}`)
-    if (pushResult.stderr !== '') console.log(`\n${chalk.grey(pushResult.stderr.trim())}`)
 
     // Move all buildable to .build
     console.log(chalk.bold('\n👬 Copying source files to .temp/...\n'))
@@ -128,8 +104,8 @@ async function build () {
     // Build
     console.log(chalk.bold('\n🏗️  Building the app with Vite...\n'))
     const buildExec = await exec('tsc && vite build')
-    if (buildExec.stdout !== '') console.log(chalk.grey(buildExec.stdout))
-    if (buildExec.stderr !== '') console.log(chalk.red(buildExec.stderr))
+    if (buildExec.stdout !== '') console.log(chalk.grey(buildExec.stdout.trim()))
+    if (buildExec.stderr !== '') console.log(chalk.red(buildExec.stderr.trim()))
 
     // Bundle vendor and index js into a single iife
     console.log(chalk.bold('\n⚙️  Bundle vendor and index into a single IIFE...\n'))
@@ -271,6 +247,31 @@ async function build () {
 
     // Rename destination assets directory for convenience
     await DST_ASSETS.moveTo('assets')
+
+    // Write build info to builds.json
+    console.log(chalk.bold('\n✍️  Storing build info to builds.json...\n'))
+    await BUILDS_JSON.editQuiet(content => {
+      const parsed = JSON.parse(content)
+      if (parsed[branch] === undefined) parsed[branch] = []
+      const branchData = parsed[branch]
+      const newBuildData = {
+        version: targetBuildVersion,
+        description: buildDescription,
+        time: buildTime
+      }
+      branchData.push(newBuildData)
+      const returned = JSON.stringify(parsed, null, 2)
+      return returned
+    })
+    console.log(chalk.grey('done.'))
+
+    // Commit and push to Github
+    console.log(chalk.bold('\n📣 Commiting and pushing to Github...'))
+    await exec('git add -u')
+    await exec(`git commit -m "BUILD - ${buildVersionNameWithDesc}"`)
+    const pushResult = await exec(`git push origin ${branch}`)
+    if (pushResult.stdout !== '') console.log(`\n${chalk.grey(pushResult.stdout.trim())}`)
+    if (pushResult.stderr !== '') console.log(`\n${chalk.grey(pushResult.stderr.trim())}`)
 
     // The end.
     console.log(chalk.bold('\n🍸 That\'s all good my friend!\n'))
