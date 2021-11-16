@@ -70,6 +70,22 @@ async function build () {
     console.log()
     console.log(chalk.bold.bgBlack.rgb(255, 255, 255)(` Preparing build of ${buildVersionNameWithDesc} `))
 
+    console.log(chalk.bold('\n✍️  Storing build info to builds.json...\n'))
+    await BUILDS_JSON.editQuiet(content => {
+      const parsed = JSON.parse(content)
+      if (parsed[branch] === undefined) parsed[branch] = []
+      const branchData = parsed[branch]
+      const newBuildData = {
+        version: targetBuildVersion,
+        description: buildDescription,
+        time: buildTime
+      }
+      branchData.push(newBuildData)
+      const returned = JSON.stringify(parsed, null, 2)
+      return returned
+    })
+    console.log(chalk.grey('done.'))
+
     // Commit everything
     console.log(chalk.bold('\n📡 Checking git status...\n'))
     await exec('git add -u')
@@ -255,33 +271,6 @@ async function build () {
 
     // Rename destination assets directory for convenience
     await DST_ASSETS.moveTo('assets')
-
-    // Write build info
-    console.log(chalk.bold('\n✍️  Storing build info to builds.json...\n'))
-    const currentCommit = (await exec('git show --oneline -s')).stdout.trim()
-    await BUILDS_JSON.editQuiet(content => {
-      const parsed = JSON.parse(content)
-      if (parsed[branch] === undefined) parsed[branch] = []
-      const branchData = parsed[branch]
-      const newBuildData = {
-        version: targetBuildVersion,
-        description: buildDescription,
-        time: buildTime,
-        commit: currentCommit
-      }
-      branchData.push(newBuildData)
-      const returned = JSON.stringify(parsed, null, 2)
-      return returned
-    })
-    console.log(chalk.grey('done.'))
-
-    // Post build commit
-    console.log(chalk.bold('\n📣 Commiting and pushing postbuild info to Github...'))
-    await exec('git add -u')
-    await exec(`git commit -m "POSTBUILD - ${buildVersionNameWithDesc}"`)
-    const secondPushResult = await exec(`git push origin ${branch}`)
-    if (secondPushResult.stdout !== '') console.log(`\n${chalk.grey(secondPushResult.stdout.trim())}`)
-    if (secondPushResult.stderr !== '') console.log(`\n${chalk.grey(secondPushResult.stderr.trim())}`)
 
     // The end.
     console.log(chalk.bold('\n🍸 That\'s all good my friend!\n'))

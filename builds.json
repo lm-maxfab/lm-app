@@ -397,6 +397,17 @@
       "description": "",
       "time": "2021-11-16T18:03:12.759Z",
       "commit": "3318cf9 BUILD - v5.0.0-stable-0"
+    },
+    {
+      "version": {
+        "major": 6,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "tut-tut",
+      "time": "2021-11-16T18:08:52.222Z"
     }
   ]
 }
