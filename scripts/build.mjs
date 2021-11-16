@@ -16,6 +16,34 @@ async function build () {
   const ROOT = new Directory(path.join(__dirname, '../'))
 
   try {
+    // Lint
+    console.log(chalk.bold('\n👀 Linting...\n'))
+    try {
+      const lintExec = await exec('npm run lint')
+      if (lintExec.stdout !== '') console.log(chalk.grey(lintExec.stdout))
+      if (lintExec.stderr !== '') {
+        console.log(chalk.red(lintExec.stderr))
+        const lintContinue = (await prompts({
+          type: 'confirm',
+          name: 'lintContinue',
+          message: 'You have lint errors, do you want to continue?'
+        })).lintContinue
+        if (!lintContinue) throw new Error('You aborted build process due to lint errors.')
+      }
+    } catch (err) {
+      if (err.stdout !== '') console.log(chalk.grey(err.stdout))
+      if (err.stderr !== '') console.log(chalk.red(err.stderr))
+      if (err.err !== '') console.log(chalk.red(err.err))
+      if (err.stderr !== '' || err.err !== '') {
+        const lintContinue = (await prompts({
+          type: 'confirm',
+          name: 'lintContinue',
+          message: 'You have lint errors, do you want to continue?'
+        })).lintContinue
+        if (!lintContinue) throw new Error('You aborted build process due to lint errors.')
+      }
+    }
+
     // Get versionning info
     const BUILDS_JSON = await ROOT.get('builds.json')
     const allBuilds = JSON.parse(await BUILDS_JSON.read())
@@ -33,9 +61,11 @@ async function build () {
     const buildDescription = (await prompts(promptsVersionDescriptionOptions)).description
 
     // Commit everything
+    console.log(chalk.bold('\n📡 Checking git status...\n'))
     await exec('git add -u')
     const gitStatus = await exec('git status')
-    console.log(gitStatus.stdout)
+    if (gitStatus.stdout !== '') console.log(chalk.grey(gitStatus.stdout))
+    if (gitStatus.stderr !== '') console.log(chalk.grey(gitStatus.stderr))
     const readyToPush = (await prompts({
       type: 'confirm',
       name: 'push',
@@ -47,8 +77,8 @@ async function build () {
     }
     await exec(`git commit -m "BUILD - ${versionName} - ${buildDescription}"`)
     const pushResult = await exec(`git push origin ${branch}`)
-    console.log(chalk.grey(pushResult.stdout))
-    console.log(chalk.grey(pushResult.stderr))
+    if (pushResult.stdout !== '') console.log(`\n${chalk.grey(pushResult.stdout)}`)
+    if (pushResult.stderr !== '') console.log(`\n${chalk.grey(pushResult.stderr)}`)
 
     // // Move all buildable to .build
     // if ((await ROOT.get('.build') === undefined)) await ROOT.mkdir('.build')

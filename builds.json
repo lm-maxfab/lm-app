@@ -240,6 +240,17 @@
       },
       "description": "y",
       "time": "2021-11-16T16:30:39.195Z"
+    },
+    {
+      "version": {
+        "major": 2,
+        "minor": 0,
+        "patch": 0,
+        "status": "rc",
+        "build": 4
+      },
+      "description": "yes",
+      "time": "2021-11-16T16:32:39.767Z"
     }
   ]
 }
