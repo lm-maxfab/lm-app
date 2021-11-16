@@ -80,19 +80,20 @@ async function build () {
     if (pushResult.stdout !== '') console.log(`\n${chalk.grey(pushResult.stdout)}`)
     if (pushResult.stderr !== '') console.log(`\n${chalk.grey(pushResult.stderr)}`)
 
-    // // Move all buildable to .build
-    // if ((await ROOT.get('.build') === undefined)) await ROOT.mkdir('.build')
-    // else await ROOT.emptyQuiet('.build')
-    // await ROOT.mkdir('.build/source')
-    // const SRC_INDEX = await ROOT.copy('index.html', '.build/source/index.html')
-    // await SRC_INDEX.editHTMLQuiet(jsdom => {
-    //   const documentElement = jsdom.window.document.documentElement
-    //   const $deleteAtBuild = documentElement.querySelectorAll('.delete-at-build')
-    //   $deleteAtBuild.forEach(elt => elt.remove())
-    //   return jsdom
-    // })
-    // await ROOT.copy('src', '.build/source/src')
-    // await ROOT.copy('static', '.build/source/static')
+    // Move all buildable to .build
+    console.log(chalk.bold('\n👬 Copying source files to .temp/...\n'))
+    if ((await ROOT.get('.build') === undefined)) await ROOT.mkdir('.build')
+    else await ROOT.emptyQuiet('.build')
+    await ROOT.mkdir('.build/source')
+    const SRC_INDEX = await ROOT.copy('index.html', '.build/source/index.html')
+    await SRC_INDEX.editHTMLQuiet(jsdom => {
+      const documentElement = jsdom.window.document.documentElement
+      const $deleteAtBuild = documentElement.querySelectorAll('.delete-at-build')
+      $deleteAtBuild.forEach(elt => elt.remove())
+      return jsdom
+    })
+    await ROOT.copy('src', '.build/source/src')
+    await ROOT.copy('static', '.build/source/static')
 
     // // Build
     // await exec('tsc && vite build')
