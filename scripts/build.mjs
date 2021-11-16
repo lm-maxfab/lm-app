@@ -109,8 +109,8 @@ async function build () {
     const dstAssetsFiles = await DST_ASSETS.list()
     const DST_INDEX_JS = dstAssetsFiles.find(file => file.name.match(/^index.[a-f0-9]{8}.js$/gm))
     const rollupExec = await exec(`npx rollup -i ${DST_INDEX_JS.path} -o ${path.join(DST_ASSETS.path, 'rolledup.js')} -f iife`)
-    if (rollupExec.stdout !== '') console.log(chalk.grey(rollupExec.stdout))
-    if (rollupExec.stderr !== '') console.log(chalk.grey(rollupExec.stderr))
+    if (rollupExec.stdout !== '') console.log(chalk.grey(rollupExec.stdout.trim()))
+    if (rollupExec.stderr !== '') console.log(chalk.grey(rollupExec.stderr.trim()))
 
     // Delete useless vendor.<hash>.js, index.<hash>.js and their sourcemaps
     console.log(chalk.bold('\n🧹 Deleting index.<hash>.js, vendor.<hash>.js and source maps...\n'))

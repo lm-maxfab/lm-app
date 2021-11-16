@@ -306,6 +306,17 @@
       },
       "description": "lol",
       "time": "2021-11-16T17:14:23.563Z"
+    },
+    {
+      "version": {
+        "major": 2,
+        "minor": 0,
+        "patch": 0,
+        "status": "rc",
+        "build": 10
+      },
+      "description": "lol",
+      "time": "2021-11-16T17:16:05.683Z"
     }
   ]
 }
