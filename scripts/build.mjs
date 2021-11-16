@@ -47,7 +47,8 @@ async function build () {
     }
     await exec(`git commit -m "BUILD - ${versionName} - ${buildDescription}"`)
     const pushResult = await exec(`git push origin ${branch}`)
-    console.log(chalk.grey(pushResult))
+    console.log(chalk.grey(pushResult.stdout))
+    if (pushResult.stderr !== '') console.log(chalk.red(pushResult.stderr))
 
     // // Move all buildable to .build
     // if ((await ROOT.get('.build') === undefined)) await ROOT.mkdir('.build')

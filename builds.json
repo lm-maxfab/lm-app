@@ -207,6 +207,17 @@
       },
       "description": "Some fake RC",
       "time": "2021-11-16T16:16:37.844Z"
+    },
+    {
+      "version": {
+        "major": 2,
+        "minor": 0,
+        "patch": 0,
+        "status": "rc",
+        "build": 1
+      },
+      "description": "test",
+      "time": "2021-11-16T16:29:05.427Z"
     }
   ]
 }
