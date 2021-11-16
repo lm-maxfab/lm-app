@@ -328,6 +328,17 @@
       },
       "description": "gf",
       "time": "2021-11-16T17:18:16.876Z"
+    },
+    {
+      "version": {
+        "major": 2,
+        "minor": 0,
+        "patch": 0,
+        "status": "rc",
+        "build": 12
+      },
+      "description": "",
+      "time": "2021-11-16T17:20:40.621Z"
     }
   ]
 }

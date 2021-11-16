@@ -59,6 +59,8 @@ async function build () {
       message: 'Description of the build version:'
     }
     const buildDescription = (await prompts(promptsVersionDescriptionOptions)).description
+    console.log()
+    console.log(chalk.bold.bgBlack.rgb(255, 255, 255)(` Preparing build of ${versionName}${buildDescription !== '' ? ' - ' + buildDescription : ''} `))
 
     // Commit everything
     console.log(chalk.bold('\n📡 Checking git status...\n'))
