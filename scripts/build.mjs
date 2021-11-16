@@ -291,7 +291,7 @@ async function build () {
     if (err instanceof Error) console.log(chalk.bold.red(err.message))
     else {
       console.log(chalk.bold.red('Something went wrong:'))
-      console.log(chalk.bold.red(err))
+      console.log(err)
     }
     const TEMP_BUILD_DIR = await ROOT.get('.build')
     if (TEMP_BUILD_DIR !== undefined) await TEMP_BUILD_DIR.deleteSelfQuiet()
