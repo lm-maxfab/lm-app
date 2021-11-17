@@ -1,7 +1,6 @@
 import { Component, JSX } from 'preact'
 import { SheetBase } from '../modules/le-monde/utils/sheet-base'
 import './styles.css'
-import Sequencer from '../modules/le-monde/components/Sequencer'
 import bem, { BEM } from '../modules/le-monde/utils/bem'
 
 interface Props {
@@ -23,16 +22,25 @@ class App extends Component<Props, {}> {
     const classes = this.bem.block(props.className).value
     const inlineStyle: JSX.CSSProperties = {
       ...props.style,
-      marginTop: 'var(--len-nav-height)',
-      height: '200px',
+      paddingTop: '70px',
       background: 'coral'
     }
 
     // Display
     return (
       <div className={classes} style={inlineStyle}>
-        <div>ACTIONS.</div>
-        <Sequencer />
+        {props.sheetBase !== undefined && props.sheetBase.collections.map(collection => {
+          return <div>
+            <div><strong>COLLECTION: {collection.name}</strong></div>
+            <div>
+              {collection.entries.map(entry => (
+                <div>
+                  {entry.id} - {entry.fields.length} fields.
+                </div>
+              ))}
+            </div>
+          </div>
+        })}
       </div>
     )
   }

@@ -5,17 +5,17 @@ document.addEventListener('DOMContentLoaded', () => {
     <div class="lm-app-fake-lm-header__inner">
       <div class="lm-app-fake-lm-header__burger-and-logo">
         <div class="lm-app-fake-lm-header__burger">
-          <img src="./static.dev/assets/burger-icon.svg" />
+          <img src="./static/dev/assets/burger-icon.svg" />
         </div>
         <div class="lm-app-fake-lm-header__logo">
           <a href="https://www.lemonde.fr/">
-          <img src="./static.dev/assets/lm-logo.svg" />
+          <img src="./static/dev/assets/lm-logo.svg" />
           </a>
         </div>
       </div>
       <div class="lm-app-fake-lm-header__tabs">
         <span class="lm-app-fake-lm-header__tab">
-        <img src="./static.dev/assets/home-icon.svg" />
+        <img src="./static/dev/assets/home-icon.svg" />
         </span>
         <span class="lm-app-fake-lm-header__tab">Actualités</span>
         <span class="lm-app-fake-lm-header__tab">Économie</span>
@@ -25,11 +25,11 @@ document.addEventListener('DOMContentLoaded', () => {
         <span class="lm-app-fake-lm-header__tab">M le Mag</span>
         <span class="lm-app-fake-lm-header__tab">Services</span>
         <span class="lm-app-fake-lm-header__tab">
-        <img src="./static.dev/assets/search-icon.svg" />
+        <img src="./static/dev/assets/search-icon.svg" />
         </span>
       </div>
       <div class="lm-app-fake-lm-header__account">
-        <img src="./static.dev/assets/profile-pic.svg" />
+        <img src="./static/dev/assets/profile-pic.svg" />
         <span class="lm-app-fake-lm-header__account-name">U. SERNAME</span>
       </div>
     </div>

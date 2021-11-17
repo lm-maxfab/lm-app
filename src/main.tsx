@@ -1,25 +1,30 @@
 import { render } from 'preact'
+import App from './App'
 import silentLog, { printRegister } from './modules/le-monde/utils/silent-log'
 import { tsvToSheetBase, SheetBase } from './modules/le-monde/utils/sheet-base'
-import App from './App'
 
-window.LM_APP_GLOBALS.print_silent_log_register = printRegister
+// window.LM_APP_GLOBALS.print_silent_log_register = printRegister
 
-if (window.LM_APP_GLOBALS.sheetbase_tsv) {
+if (window.LM_APP_SHEETBASE !== undefined
+  && window.LM_APP_SHEETBASE.data !== null) {
   silentLog('SheetBase is already loaded when app fires.')
-  const sheetbase = tsvToSheetBase(window.LM_APP_GLOBALS.sheetbase_tsv)
+  const sheetbase = tsvToSheetBase(window.LM_APP_SHEETBASE.data)
   renderApp(sheetbase)
 } else {
   silentLog('SheetBase is not loaded when app fires.')
 }
-document.addEventListener('lm-app_sheetbase_tsv_load_success', () => {
+
+document.addEventListener('LMAppSheetBaseLoaded', () => {
   silentLog('SheetBase load success event catch.')
-  const sheetbase = tsvToSheetBase(window.LM_APP_GLOBALS.sheetbase_tsv)
-  renderApp(sheetbase)
+  if (window.LM_APP_SHEETBASE.data !== null) {
+    const sheetbase = tsvToSheetBase(window.LM_APP_SHEETBASE.data)
+    renderApp(sheetbase)
+  }
 })
-document.addEventListener('lm-app_sheetbase_tsv_load_failure', () => {
+
+document.addEventListener('LMAppSheetBaseLoadFailed', () => {
   silentLog('SheetBase load failure event catch.')
-  silentLog(window.LM_APP_GLOBALS.sheetbase_tsv_load_error)
+  silentLog(window.LM_APP_SHEETBASE.error)
 })
 
 function renderApp (sheetBase: SheetBase): void {

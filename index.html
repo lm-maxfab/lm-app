@@ -1,49 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link class="delete-at-build" href="./static.dev/styles/fonts_last.css" rel="stylesheet" />
-    <link class="delete-at-build" href="./static.dev/styles/icons.css" rel="stylesheet" />
-    <link class="delete-at-build" href="./static.dev/styles/multimedia.css" rel="stylesheet" />
-    <link class="delete-at-build" href="./static.dev/styles/snippets.css" rel="stylesheet" />
-    <link class="delete-at-build" href="./static.dev/styles/swg-button.css" rel="stylesheet" />
-    <link class="delete-at-build" href="./static.dev/styles/fake-header-and-footer.css" rel="stylesheet" />
-    <script class="delete-at-build" src="./static.dev/scripts/inject-fake-header-and-footer.js" type="module"></script>
-    <link href="./static/styles/app-root.css" rel="stylesheet" />
-    <link href="./static/styles/fonts.css" rel="stylesheet" />
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link class="delete-at-build" href="./static/dev/styles/fonts_last.css" rel="stylesheet">
+    <link class="delete-at-build" href="./static/dev/styles/icons.css" rel="stylesheet">
+    <link class="delete-at-build" href="./static/dev/styles/multimedia.css" rel="stylesheet">
+    <link class="delete-at-build" href="./static/dev/styles/snippets.css" rel="stylesheet">
+    <link class="delete-at-build" href="./static/dev/styles/swg-button.css" rel="stylesheet">
+    <link class="delete-at-build" href="./static/dev/styles/fake-header-and-footer.css" rel="stylesheet">
+    <script class="delete-at-build" src="./static/dev/scripts/inject-fake-header-and-footer.js" type="module"></script>
+    <link href="./static/app/styles/app-root.css" rel="stylesheet">
+    <link href="./static/app/styles/fonts.css" rel="stylesheet">
   </head>
   <body>
     <noscript>Cette page a besoin de <a href="https://www.enable-javascript.com/fr/" target="_blank">l'activation de Javascript</a> pour fonctionner correctement.</noscript>
     <div class="lm-app-root" id="lm-app-name"></div>
-    <script id="lm-app-globals-script" type="text/javascript">
-      window.LM_APP_GLOBALS = {}
-      window.LM_APP_GLOBALS.assets_root_url = 'http://test.com/assets/root/url'
-      window.LM_APP_GLOBALS.sheetbases = {
-        production: 'https://assets-decodeurs.lemonde.fr/sheets/nj4HhptoEmIXkx4dLvCcPXHcD2O0Cg_711',
-        staging: 'https://assets-decodeurs.lemonde.fr/sheets/nj4HhptoEmIXkx4dLvCcPXHcD2O0Cg_711',
-        testing: 'https://assets-decodeurs.lemonde.fr/sheets/nj4HhptoEmIXkx4dLvCcPXHcD2O0Cg_711',
-        developpment: 'https://assets-decodeurs.lemonde.fr/sheets/nj4HhptoEmIXkx4dLvCcPXHcD2O0Cg_711'
-      }
-    </script>
-    <script id="lm-app-fetch-sheetbase-script" type="text/javascript">
-      window.LM_APP_GLOBALS.fetchSheetbaseTsv = () => {
-        const env = window.LM_APP_GLOBALS.env ?? 'developpment'
-        const sheetbaseUrl = window.LM_APP_GLOBALS.sheetbases[env]
-        window.fetch(sheetbaseUrl)
-          .then(res => res.ok ? res.text() : new Error())
-          .then(tsv => {
-            window.LM_APP_GLOBALS.sheetbase_tsv = tsv
-            window.LM_APP_GLOBALS.sheetbase_tsv_load_error = null
-            document.dispatchEvent(new CustomEvent('lm-app_sheetbase_tsv_load_success'))
-          })
-          .catch(err => {
-            window.LM_APP_GLOBALS.sheetbase_tsv_load_error = err
-            document.dispatchEvent(new CustomEvent('lm-app_sheetbase_tsv_load_failure'))
-          })
-      }
-      window.LM_APP_GLOBALS.fetchSheetbaseTsv()
-    </script>
-    <script id="lm-app-main-script" defer type="module" src="/src/main.tsx"></script>
-  </body>
-</html>
+    <pre id="lm-app-config" style="display: none;">{
+      "assets_root_url": "https://assets-decodeurs.lemonde.fr/redacweb/2111-new-build",
+      "sheetbases": {
+        "production": "https://assets-decodeurs.lemonde.fr/sheets/nj4HhptoEmIXkx4dLvCcPXHcD2O0Cg_711",
+        "staging": "https://assets-decodeurs.lemonde.fr/sheets/nj4HhptoEmIXkx4dLvCcPXHcD2O0Cg_711",
+        "testing": "https://assets-decodeurs.lemonde.fr/sheets/nj4HhptoEmIXkx4dLvCcPXHcD2O0Cg_711",
+        "developpment": "https://assets-decodeurs.lemonde.fr/sheets/nj4HhptoEmIXkx4dLvCcPXHcD2O0Cg_711"
+      },
+      "env": "developpment"
+    }</pre>
+    <script id="lm-app-config-injector-script" type="text/javascript" src="./static/app/scripts/config-inject.js"></script>
+    <script id="lm-app-fetch-sheetbase-script" type="text/javascript" src="./static/app/scripts/fetch-sheetbase.js"></script>
+    <script id="lm-app-script" defer="" type="module" src="/src/main.tsx"></script>
+  
+
+</body></html>

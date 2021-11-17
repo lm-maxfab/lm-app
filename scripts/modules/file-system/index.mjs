@@ -103,6 +103,12 @@ export class Directory extends DirectoryOrFile {
     return returned
   }
 
+  async touch (_path) {
+    const filePath = path.join(this.path, _path)
+    await fse.writeFile(filePath, '', { encoding: 'utf-8' })
+    return new File(filePath)
+  }
+
   async copy (source, destination) {
     const sourcePath = path.join(this.path, source)
     const destinationPath = path.join(this.path, destination)
