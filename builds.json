@@ -1,15 +1,1 @@
-{
-  "2111-new-build": [
-    {
-      "version": {
-        "major": 0,
-        "minor": 0,
-        "patch": 1,
-        "status": "stable",
-        "build": 0
-      },
-      "description": "new build script does the job",
-      "time": "2021-11-16T18:23:51.979Z"
-    }
-  ]
-}
+{}

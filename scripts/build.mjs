@@ -2,6 +2,7 @@ import path, { dirname } from 'path'
 import { fileURLToPath } from 'url'
 import prompts from 'prompts'
 import chalk from 'chalk'
+import zipDir from 'zip-dir'
 import { Directory } from './modules/file-system/index.mjs'
 import exec from './modules/exec-promise/index.mjs'
 import {
@@ -10,6 +11,12 @@ import {
   versionToString,
   initialVersion
 } from './modules/versionning/index.mjs'
+
+build()
+process.on('SIGINT', cleanup.bind(null, 'SIGINT'))
+process.on('SIGUSR1', cleanup.bind(null, 'SIGUSR1'))
+process.on('SIGUSR2', cleanup.bind(null, 'SIGUSR2'))
+process.on('uncaughtException', cleanup.bind(null, 'uncaughtException'))
 
 async function build () {
   const __dirname = dirname(fileURLToPath(import.meta.url))
@@ -96,7 +103,7 @@ async function build () {
     }
 
     // Move all buildable to .build
-    console.log(chalk.bold('\n👬 Copying source files to .build/...\n'))
+    console.log(chalk.bold('\n👬 Copying source files to .build/source...\n'))
     if ((await ROOT.get('.build') === undefined)) await ROOT.mkdir('.build')
     else await ROOT.emptyQuiet('.build')
     await ROOT.mkdir('.build/source')
@@ -117,10 +124,20 @@ async function build () {
     if (buildExec.stdout !== '') console.log(chalk.grey(buildExec.stdout.trim()))
     if (buildExec.stderr !== '') console.log(chalk.red(buildExec.stderr.trim()))
 
-    // Bundle vendor and index js into a single iife
-    console.log(chalk.bold('\n⚙️  Bundle vendor and index into a single IIFE...\n'))
+    // Move unbuilt statics to .build/destination/lm-assets-for-vite-build
+    console.log(chalk.bold('\n👬 Copying unbuilt static files to .build/destination/lm-assets-for-vite-build...\n'))
     const DST = await ROOT.get('.build/destination')
     const DST_ASSETS = await DST.get('lm-assets-for-vite-build')
+    const SRC_STATIC_APP_SCRIPTS = await ROOT.get('.build/source/static/app/scripts')
+    const srcStaticAppScriptsFiles = await SRC_STATIC_APP_SCRIPTS.list()
+    for (const file of srcStaticAppScriptsFiles) {
+      if (file.name === '.DS_Store') continue
+      await file.copyTo(`../../../../destination/lm-assets-for-vite-build/${file.name}`)
+    }
+    console.log(chalk.grey('copied.'))
+
+    // Bundle vendor and index js into a single iife
+    console.log(chalk.bold('\n⚙️  Bundle vendor and index into a single IIFE...\n'))
     const dstAssetsFiles = await DST_ASSETS.list()
     const DST_INDEX_JS = dstAssetsFiles.find(file => file.name.match(/^index.[a-f0-9]{8}.js$/gm))
     const DST_VENDOR_JS = dstAssetsFiles.find(file => file.name.match(/^vendor.[a-f0-9]{8}.js$/gm))
@@ -139,33 +156,19 @@ async function build () {
     console.log(chalk.grey('deleted.'))
 
     // Add build info into rolledup.js
-    console.log(chalk.bold('\n✍️  Storing build info into rolledup.js...\n'))
-    await DST_ROLLEDUP_JS.editQuiet(content => {
-      const buildInfo = 'window.LM_APP_GLOBALS.build = {\n'
-        + `  version: ${doVersionAndCommit ? `'${versionName}'` : 'null'},\n`
-        + `  branch: '${branch}',\n`
-        + `  time: '${buildTime.toISOString()}',\n`
-        + `  sources: {\n`
-        + `    vendor: '${DST_VENDOR_JS.name}',\n`
-        + `    index: '${DST_INDEX_JS.name}'\n`
-        + `  }\n`
-        + '}\n'
-      console.log(chalk.grey(buildInfo.trim()))
-      return buildInfo + content
-    })
-
-    // Add build info into index.<hash>.css
-    console.log(chalk.bold(`\n✍️  Storing build info into ${DST_INDEX_CSS.name}...\n`))
-    await DST_INDEX_CSS.editQuiet(content => {
-      const buildInfo = '/*\n'
-        + `  version: ${doVersionAndCommit ? `${versionName}` : '-'}\n`
-        + `  branch: ${branch}\n`
-        + `  time: ${buildTime.toISOString()}\n`
-        + `  source: ${DST_INDEX_CSS.name}\n`
-        + '*/\n'
-      console.log(chalk.grey(buildInfo.trim()))
-      return buildInfo + content
-    })
+    console.log(chalk.bold(`\n✍️  Storing build info into rolledup.js and ${DST_INDEX_CSS.name}...\n`))
+    const buildComment = '/*\n'
+      + `  version:  ${doVersionAndCommit ? `${versionName}` : '-'}\n`
+      + `  branch:   ${branch}\n`
+      + `  time:     ${buildTime.toISOString()}\n`
+      + `  vendorJs: ${DST_VENDOR_JS.name}\n`
+      + `  indexJs:  ${DST_INDEX_JS.name}\n`
+      + `  indexCss: ${DST_INDEX_CSS.name}\n`
+      + '*/\n'
+    const buildVariable = `!function(){window.LM_APP_BUILD={version:'${versionName}',branch:'${branch}',time:'${buildTime.toISOString()}',vendorJs:'${DST_VENDOR_JS.name}',indexJs:'${DST_INDEX_JS.name}',indexCss:'${DST_INDEX_CSS.name}'}}();\n`
+    await DST_ROLLEDUP_JS.editQuiet(content => (buildComment + buildVariable + content))
+    await DST_INDEX_CSS.editQuiet(content => (buildComment + content))
+    console.log(chalk.grey(buildComment.trim()))
 
     // Create latest and live versions
     if (doVersionAndCommit) console.log(chalk.bold(`\n👭 Creating index.${versionName}.js, index.${versionName}.css, index.latest.js and index.latest.css...\n`))
@@ -192,16 +195,14 @@ async function build () {
       const indexCssTags = documentElement.querySelectorAll(`link[href*="${DST_INDEX_CSS.name}"]`)
       indexJsTags.forEach(tag => {
         jsdom.window.document.body.innerHTML += '\n<script'
-          + ' id="lm-app-main-script"'
+          + ' async'
           + ' type="text/javascript"'
-          + ' defer'
           + ` src="/lm-assets-for-vite-build/index.live.js"></script>`
         tag.remove()
       })
       vendorJsTags.forEach(tag => tag.remove())
       indexCssTags.forEach(tag => {
         jsdom.window.document.body.innerHTML += '\n<link'
-          + ' id="lm-app-styles"'
           + ' rel="stylesheet"'
           + ` href="/lm-assets-for-vite-build/index.live.css"`
           + ' media="print"'
@@ -214,23 +215,18 @@ async function build () {
 
     // Relink all assets to assets_root_url
     console.log(chalk.bold(`\n🔗 Relinking assets to assets_root_url...\n`))
-    const dstIndexJsdom = await DST_INDEX.readHTML()
-    const dstIndexJsdomDocument = dstIndexJsdom.window.document
-    const dstIndexGlobalsScript = dstIndexJsdomDocument.documentElement.querySelector('#lm-app-globals-script')
-    const dstIndexGlobalsScriptLines = dstIndexGlobalsScript.innerHTML.split('\n')
-    const assetsRootUrl = dstIndexGlobalsScriptLines
-      .find(line => line.match('.assets_root_url'))
-      .split('=')
-      .slice(-1)[0]
-      .trim()
-      .replace(/^'/, '')
-      .replace(/'$/, '')
-      .replace(/\/$/gm, '') + '/'
-    if (assetsRootUrl !== '') {
-      await DST_INDEX.editQuiet(content => content.replace(/\/lm-assets-for-vite-build\//gm, assetsRootUrl))
-      await DST_ROLLEDUP_JS.editQuiet(content => content.replace(/\/lm-assets-for-vite-build\//gm, assetsRootUrl))
-      await DST_INDEX_CSS.editQuiet(content => content.replace(/\/lm-assets-for-vite-build\//gm, assetsRootUrl))
-    }
+    const CONFIG_JSON = await ROOT.get('config.json')
+    const config = JSON.parse(await CONFIG_JSON.read())
+    const assetsRootUrl = config.assets_root_url
+    const noTrailingSlashAssetsRootUrl = assetsRootUrl.replace(/\/$/, '')
+    const replacement = noTrailingSlashAssetsRootUrl !== '' ? noTrailingSlashAssetsRootUrl + '/' : './assets/'
+    const assetsDirName = '/lm-assets-for-vite-build/'
+    const staticsDirName = './static/app/scripts/'
+    const regexp = new RegExp(`(${assetsDirName}|${staticsDirName})`, 'gm')
+    const assetsReplacer = content => content.replace(regexp, replacement)
+    await DST_INDEX.editQuiet(assetsReplacer)
+    await DST_ROLLEDUP_JS.editQuiet(assetsReplacer)
+    await DST_INDEX_CSS.editQuiet(assetsReplacer)
     console.log(chalk.grey('relinked.'))
 
     // Prettify index.html
@@ -246,30 +242,20 @@ async function build () {
     const DST_PRODUCTION_INDEX_HTML = await DST.copy('index.html', 'production/index.html')
     const DST_STAGING_INDEX_HTML = await DST.copy('index.html', 'staging/index.html')
     const DST_TESTING_INDEX_HTML = await DST.copy('index.html', 'testing/index.html')
-    await DST_PRODUCTION_INDEX_HTML.editHTMLQuiet(jsdom => {
-      const document = jsdom.window.document
-      const documentElement = document.documentElement
-      const globalsScript = documentElement.querySelector('#lm-app-globals-script')
-      globalsScript.innerHTML += `  window.LM_APP_GLOBALS.env = 'production'\n`
-      return jsdom
-    })
     await DST_PRODUCTION_INDEX_HTML.prettifyHTMLQuiet()
-    await DST_STAGING_INDEX_HTML.editHTMLQuiet(jsdom => {
-      const document = jsdom.window.document
-      const documentElement = document.documentElement
-      const globalsScript = documentElement.querySelector('#lm-app-globals-script')
-      globalsScript.innerHTML += `  window.LM_APP_GLOBALS.env = 'staging'\n`
-      return jsdom
-    })
     await DST_STAGING_INDEX_HTML.prettifyHTMLQuiet()
-    await DST_TESTING_INDEX_HTML.editHTMLQuiet(jsdom => {
+    await DST_TESTING_INDEX_HTML.prettifyHTMLQuiet()
+    const envEditorFunc = (jsdom, env) => {
       const document = jsdom.window.document
       const documentElement = document.documentElement
-      const globalsScript = documentElement.querySelector('#lm-app-globals-script')
-      globalsScript.innerHTML += `  window.LM_APP_GLOBALS.env = 'testing'\n`
+      const preConfig = documentElement.querySelector('#lm-app-config')
+      const strConfig = JSON.stringify({ ...config, env }, null, 2).replace(/\n/gm, '\n    ')
+      preConfig.innerHTML = strConfig
       return jsdom
-    })
-    await DST_TESTING_INDEX_HTML.prettifyHTMLQuiet()
+    }
+    await DST_PRODUCTION_INDEX_HTML.editHTMLQuiet(jsdom => envEditorFunc(jsdom, 'production'))
+    await DST_STAGING_INDEX_HTML.editHTMLQuiet(jsdom => envEditorFunc(jsdom, 'staging'))
+    await DST_TESTING_INDEX_HTML.editHTMLQuiet(jsdom => envEditorFunc(jsdom, 'testing'))
     await DST_INDEX.deleteSelfQuiet()
     await DST_ASSETS.moveTo('assets')
     console.log(chalk.grey('created.'))
@@ -285,6 +271,21 @@ async function build () {
     await DEST.moveTo('../build')
     await DOT_BUILD.deleteSelfQuiet()
     console.log(chalk.grey('outputted.'))
+
+    // Remove all .DS_Store files in build
+    console.log(chalk.bold('\n🧹 Removing all .DS_Store files...\n'))
+    await exec(`cd ${BUILD.path} && find . -name ".DS_Store" -print -delete && cd ${ROOT.path}`)
+    console.log(chalk.grey('removed.'))
+
+    // Zip outputs
+    console.log(chalk.bold('\n🤐 Zipping outputs...\n'))
+    const PRODUCTION = await BUILD.get('production')
+    const STAGING = await BUILD.get('staging')
+    const TESTING = await BUILD.get('testing')
+    await zipDir(PRODUCTION.path, { saveTo: `${PRODUCTION.path}.zip` })
+    await zipDir(STAGING.path, { saveTo: `${STAGING.path}.zip` })
+    await zipDir(TESTING.path, { saveTo: `${TESTING.path}.zip` })
+    console.log(chalk.grey('zipped.'))
 
     // Write build info to builds.json
     if (doVersionAndCommit) {
@@ -320,17 +321,28 @@ async function build () {
     console.log(chalk.bold('\n🍸 That\'s all good my friend!\n'))
 
   } catch (err) {
+    await cleanup('CAUGHT')
     console.log()
-    if (err instanceof Error) console.log(chalk.bold.red(err.message))
-    else {
+    if (err instanceof Error) {
+      console.log(chalk.bold.red(err.message))
+      console.log(chalk.bold.red(err.stack))
+    } else {
       console.log(chalk.bold.red('Something went wrong:'))
       console.log(err)
     }
-    const TEMP_BUILD_DIR = await ROOT.get('.build')
-    if (TEMP_BUILD_DIR !== undefined) await TEMP_BUILD_DIR.deleteSelfQuiet()
     console.log(chalk.bold.red('Process aborted.'))
     console.log()
   }
 }
 
-build ()
+let isCleaningUp = false
+async function cleanup (reason) {
+  if (isCleaningUp) return
+  console.log(chalk.bold(`\n🧹 Cleaning up before exit on ${reason}...\n`))
+  isCleaningUp = true
+  const __dirname = dirname(fileURLToPath(import.meta.url))
+  const ROOT = new Directory(path.join(__dirname, '../'))
+  const TEMP_BUILD_DIR = await ROOT.get('.build')
+  if (TEMP_BUILD_DIR !== undefined) await TEMP_BUILD_DIR.deleteSelfQuiet()
+  console.log(chalk.grey('cleaned up.'))
+}
