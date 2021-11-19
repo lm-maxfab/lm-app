@@ -8,7 +8,6 @@
     <link href="./static/dev/styles/snippets.css" rel="stylesheet" class="delete-at-build" >
     <link href="./static/dev/styles/swg-button.css" rel="stylesheet" class="delete-at-build" >
     <link href="./static/dev/styles/fake-header-and-footer.css" rel="stylesheet" class="delete-at-build" >
-    <script src="./static/dev/scripts/inject-fake-header-and-footer.js" type="module" class="delete-at-build"></script>
     <link href="./static/app/styles/app-root.css" rel="stylesheet">
     <link href="./static/app/styles/fonts.css" rel="stylesheet">
   </head>
@@ -16,8 +15,9 @@
     <noscript>Cette page a besoin de <a href="https://www.enable-javascript.com/fr/" target="_blank">l'activation de Javascript</a> pour fonctionner correctement.</noscript>
     <div class="lm-app-root" id="lm-app-name"></div>
     <pre id="lm-app-config" style="display: none;"><!-- Populated at build --></pre>
-    <script type="text/javascript" src="./static/dev/scripts/config.js" class="delete-at-build"></script>
+    <script type="module" src="./static/dev/scripts/config.js" class="delete-at-build"></script>
     <script type="text/javascript" src="./static/app/scripts/loader.js"></script>
     <script async type="module" src="/src/main.tsx"></script>
+    <script async type="module" src="./static/dev/scripts/inject-fake-header-and-footer.js" class="delete-at-build"></script>
   </body>
 </html>

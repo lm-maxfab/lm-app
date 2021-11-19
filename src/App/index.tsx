@@ -1,7 +1,9 @@
 import { Component, JSX } from 'preact'
+import './styles.scss'
+import Intro from './components/Intro'
 import { SheetBase } from '../modules/le-monde/utils/sheet-base'
-import './styles.css'
 import bem, { BEM } from '../modules/le-monde/utils/bem'
+import getViewportDimensions from '../modules/le-monde/utils/get-viewport-dimensions'
 
 interface Props {
   className?: string
@@ -18,29 +20,22 @@ class App extends Component<Props, {}> {
   render (): JSX.Element {
     const { props } = this
 
-    // Extract data
-    const classes = this.bem.block(props.className).value
+    // Logic
+    const { navHeight } = getViewportDimensions()
+    console.log(props.sheetBase)
+
+    // Assign classes
+    const classes = this.bem.block(props.className)
     const inlineStyle: JSX.CSSProperties = {
       ...props.style,
-      paddingTop: '70px',
-      background: 'coral'
+      '--nav-height': `${navHeight}px`,
+      marginTop: 'var(--nav-height)'
     }
 
     // Display
     return (
-      <div className={classes} style={inlineStyle}>
-        {props.sheetBase !== undefined && props.sheetBase.collections.map(collection => {
-          return <div>
-            <div><strong>COLLECTION: {collection.name}</strong></div>
-            <div>
-              {collection.entries.map(entry => (
-                <div>
-                  {entry.id} - {entry.fields.length} fields.
-                </div>
-              ))}
-            </div>
-          </div>
-        })}
+      <div className={classes.toString()} style={inlineStyle}>
+        <Intro />
       </div>
     )
   }

@@ -1,0 +1,29 @@
+.dest22-intro {
+  position: relative;
+  width: 100%;
+  height: calc(100 * var(--vh) - var(--nav-height));
+  font-weight: 900;
+  background: black;
+  // color: transparent;
+  // background-origin: padding-box;
+  // background-image: url('https://img-19.ccm2.net/cI8qqj-finfDcmx6jMK6Vr-krEw=/1500x/smart/b829396acc244fd484c5ddcdcb2b08f3/ccmcms-commentcamarche/20494859.jpg');
+  // background-clip: text;
+  // -webkit-background-clip: text;
+  // background-attachment: fixed;
+  // background-size: cover;
+  // background-position: center;
+  
+  .dest22-intro__title {
+    font-size: 84px;
+    line-height: 1.5;
+    color: white;
+
+    svg {
+      height: 1em;
+      transform: translateY(22%);
+      path {
+        fill: white;
+      }
+    }
+  }
+}

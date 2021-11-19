@@ -26,11 +26,25 @@ class BEMBlock {
     return copy
   }
 
-  element (name: string) { return this.copy().addElement(name) }
-  modifier (name: string) { return this.copy().addModifier(name) }
-  elt (name: string) { return this.element(name) }
-  mod (name: string) { return this.modifier(name) }
-  get value () { return [this.name, ...this.modifiers.map(mod => `${this.name}_${mod}`)].join(' ') }
+  element (name: string) {
+    return this.copy().addElement(name)
+  }
+
+  modifier (name: string) {
+    return this.copy().addModifier(name)
+  }
+
+  elt (name: string) {
+    return this.element(name)
+  }
+
+  mod (name: string) {
+    return this.modifier(name)
+  }
+
+  get value () {
+    return [this.name, ...this.modifiers.map(mod => `${this.name}_${mod}`)].join(' ')
+  }
 }
 
 export class BEM {
@@ -109,6 +123,9 @@ export class BEM {
     return this.blocks.map(block => block.value).join(' ')
   }
 
+  toString () {
+    return this.value
+  }
 }
 
 export default function bem (blockName: string): BEM {
