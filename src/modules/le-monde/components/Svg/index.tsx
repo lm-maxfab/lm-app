@@ -1,6 +1,6 @@
 import { Component, JSX } from 'preact'
-import clss from 'classnames'
-import './styles.css'
+import bem, { BEM } from '../../utils/bem'
+import './styles.scss'
 
 interface Props {
   className?: string
@@ -13,17 +13,19 @@ interface Props {
 interface State {
   loading: boolean
   error: any
-  contents: SVGSVGElement|null
+  contents: string|null
+  attributes: JSX.SVGAttributes<SVGElement>|null
 }
 
 class Svg extends Component<Props, State> {
-  mainClass: string = 'lm-svg'
-  state = {
+  bem: BEM = bem('lm-svg')
+  $root: HTMLDivElement|null = null
+  state: State = {
     loading: false,
     error: null,
-    contents: null
+    contents: null,
+    attributes: null
   }
-  $root: HTMLDivElement|null = null
 
   /* * * * * * * * * * * * * * *
    * CONSTRUCTOR
@@ -47,12 +49,19 @@ class Svg extends Component<Props, State> {
     this.setState({ loading: true, error: null })
     try {
       const response = await window.fetch(src)
+      if (!response.ok) throw new Error(`${response.status}: ${response.statusText}`)
       const text = await response.text()
       const fakeDiv = document.createElement('DIV')
       fakeDiv.innerHTML = text
       const $svg = fakeDiv.querySelector('svg')
-      this.setState({ loading: false, error: null, contents: $svg })
+      if ($svg === null) throw new Error('Not a svg')
+      const contents = $svg.innerHTML
+      const attributes = Array
+        .from($svg.attributes)
+        .reduce((acc, curr) => ({ ...acc, [curr.name]: curr.value } as JSX.SVGAttributes<SVGElement>), {})
+      this.setState({ loading: false, error: null, contents, attributes })
     } catch (err) {
+      console.error(`Error while loading ${src}\n`, err)
       this.setState({ loading: false, error: err })
     }
   }
@@ -62,25 +71,23 @@ class Svg extends Component<Props, State> {
    * * * * * * * * * * * * * * */
   render (): JSX.Element {
     const { props, state } = this
-    const classes: string = clss(this.mainClass, props.className)
-    const inlineStyle = { ...props.style }
 
     /* Logic */
-    const svgString = state.contents !== null
-      ? (state.contents as SVGSVGElement).outerHTML
-      : ''
+    const attributes = state.attributes ?? {}
+    const contents = state.contents ?? ''
 
+    /* Assign classes */
+    const classes = bem(attributes.class ?? '')
+      .block(props.className)
+      .block(this.bem.value)
+    const inlineStyle = { ...props.style }
+    
     /* Display */
-    return <div
-      className={classes}
+    return <svg
+      {...attributes as any}
+      className={classes.value}
       style={inlineStyle}
-      ref={n => { this.$root = n }}>
-      {/* state.loading && (props.loader ?? 'Loading...') */}
-      {/* state.error !== null && (props.fallback ?? `Error while loading resource at ${props.src}`) */}
-      <div
-        className={`${this.mainClass}__inner`}
-        dangerouslySetInnerHTML={{ __html: svgString }} />
-    </div>
+      dangerouslySetInnerHTML={{ __html: contents }} />
   }
 }
 

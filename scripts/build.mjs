@@ -125,14 +125,16 @@ async function build () {
     if (buildExec.stderr !== '') console.log(chalk.red(buildExec.stderr.trim()))
 
     // Move unbuilt statics to .build/destination/lm-assets-for-vite-build
-    console.log(chalk.bold('\n👬 Copying unbuilt static files to .build/destination/lm-assets-for-vite-build...\n'))
+    console.log(chalk.bold('\n👬 Copying unbuilt static/app/scripts files to .build/destination/lm-assets-for-vite-build...\n'))
     const DST = await ROOT.get('.build/destination')
     const DST_ASSETS = await DST.get('lm-assets-for-vite-build')
     const SRC_STATIC_APP_SCRIPTS = await ROOT.get('.build/source/static/app/scripts')
     const srcStaticAppScriptsFiles = await SRC_STATIC_APP_SCRIPTS.list()
     for (const file of srcStaticAppScriptsFiles) {
       if (file.name === '.DS_Store') continue
-      await file.copyTo(`../../../../destination/lm-assets-for-vite-build/${file.name}`)
+      const COPIED = await file.copyTo(`../../../../destination/lm-assets-for-vite-build/${file.name}`)
+      const minified = await minify(await COPIED.read())
+      await COPIED.writeQuiet(minified.code)
     }
     console.log(chalk.grey('copied.'))
 

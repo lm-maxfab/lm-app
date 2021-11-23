@@ -13,21 +13,26 @@
   // DEVELOPPMENT wait for config event to occur
   document.addEventListener('LMAppConfigJsonLoaded', () => { window.LM_APP_LOAD_STATUS.config.time = Date.now() })
 
-  document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener('DOMContentLoaded', whenDomLoaded)
+  if (document.readyState === 'complete' || document.readyState === 'loaded') whenDomLoaded()
+  
+  function whenDomLoaded () {
     window.LM_APP_LOAD_STATUS.dom.time = Date.now()
-    
-    // PRODUCTION config event will never happen
-    if (window.LM_APP_CONFIG === undefined) {
-      const configPre = document.documentElement.querySelector('#lm-app-config')
-      const config = JSON.parse(configPre.innerHTML)
-      window.LM_APP_CONFIG = config
-      window.LM_APP_LOAD_STATUS.config.time = Date.now()
-    }
+    if (window.LM_APP_CONFIG === undefined) injectConfig() // PRODUCTION config event will never happen
+    fetchSheetBase()
+  }
 
-    // Start loading sheetbase
+  function injectConfig () {
+    const configPre = document.documentElement.querySelector('#lm-app-config')
+    const config = JSON.parse(configPre.innerHTML)
+    window.LM_APP_CONFIG = config
+    window.LM_APP_LOAD_STATUS.config.time = Date.now()
+  }
+
+  function fetchSheetBase () {
     const config = window.LM_APP_CONFIG
     const env = config.env
-    const sheetbaseUrl = config.sheetbases[env] ?? ''
+    const sheetbaseUrl = config.sheetbases[env] || ''
     window.LM_APP_SHEETBASE = { error: null, data: null }
     if (sheetbaseUrl === '') {
       window.LM_APP_LOAD_STATUS.sheetbase.time = Date.now()
@@ -46,7 +51,7 @@
           window.LM_APP_SHEETBASE.error = error
         })
     }
-  })
+  }
 
   document.addEventListener('LMAppLoaded', () => {
     window.LM_APP_LOAD_STATUS.app.time = Date.now()
