@@ -1,7 +1,9 @@
 import { Component, JSX } from 'preact'
 import { SheetBase } from '../modules/le-monde/utils/sheet-base'
-import './styles.css'
 import bem, { BEM } from '../modules/le-monde/utils/bem'
+import Slider from './components/Slider'
+import './styles.css'
+import { SlideData } from './types'
 
 interface Props {
   className?: string
@@ -10,7 +12,7 @@ interface Props {
 }
 
 class App extends Component<Props, {}> {
-  bem: BEM = bem('lm-app')
+  bem: BEM = bem('lm-app').block('fraude')
 
   /* * * * * * * * * * * * * * *
    * RENDER
@@ -18,29 +20,21 @@ class App extends Component<Props, {}> {
   render (): JSX.Element {
     const { props } = this
 
+    // Logic
+    const slides: SlideData[] = (props.sheetBase?.collection('slides').value ?? []) as unknown as SlideData[]
+
     // Extract data
-    const classes = this.bem.block(props.className).value
+    const classes = this.bem.block(props.className)
     const inlineStyle: JSX.CSSProperties = {
       ...props.style,
-      paddingTop: '70px',
-      background: 'coral'
+      '--nav-height': '62px',
+      paddingTop: 'var(--nav-height)'
     }
 
     // Display
     return (
-      <div className={classes} style={inlineStyle}>
-        {props.sheetBase !== undefined && props.sheetBase.collections.map(collection => {
-          return <div>
-            <div><strong>COLLECTION: {collection.name}</strong></div>
-            <div>
-              {collection.entries.map(entry => (
-                <div>
-                  {entry.id} - {entry.fields.length} fields.
-                </div>
-              ))}
-            </div>
-          </div>
-        })}
+      <div className={classes.value} style={inlineStyle}>
+        <Slider data={slides} />
       </div>
     )
   }

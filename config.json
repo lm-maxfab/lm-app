@@ -1,10 +1,10 @@
 {
-  "assets_root_url": "https://assets-decodeurs.lemonde.fr/redacweb/2111-new-build",
+  "assets_root_url": "",
   "sheetbases": {
-    "production": "https://assets-decodeurs.lemonde.fr/sheets/nj4HhptoEmIXkx4dLvCcPXHcD2O0Cg_711",
-    "staging": "https://assets-decodeurs.lemonde.fr/sheets/nj4HhptoEmIXkx4dLvCcPXHcD2O0Cg_711",
-    "testing": "https://assets-decodeurs.lemonde.fr/sheets/nj4HhptoEmIXkx4dLvCcPXHcD2O0Cg_711",
-    "developpment": "https://assets-decodeurs.lemonde.fr/sheets/nj4HhptoEmIXkx4dLvCcPXHcD2O0Cg_711"
+    "production": "https://assets-decodeurs.lemonde.fr/sheets/WKgm6cljhPJR7R0vbJTZU_hS_LfBNw_750",
+    "staging": "https://assets-decodeurs.lemonde.fr/sheets/WKgm6cljhPJR7R0vbJTZU_hS_LfBNw_751",
+    "testing": "https://assets-decodeurs.lemonde.fr/sheets/WKgm6cljhPJR7R0vbJTZU_hS_LfBNw_752",
+    "developpment": "https://assets-decodeurs.lemonde.fr/sheets/WKgm6cljhPJR7R0vbJTZU_hS_LfBNw_753"
   },
   "env": null
 }

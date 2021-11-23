@@ -1,5 +1,4 @@
 import { Component, JSX } from 'preact'
-import './style.css'
 
 interface Props {
   content?: string

@@ -8,9 +8,7 @@ document.dispatchEvent(new CustomEvent('LMAppLoaded'))
 
 function renderApp (sheetBaseTsv?: string): void {
   silentLog('Rendering app.')
-  const sheetBase = sheetBaseTsv !== undefined
-    ? tsvToSheetBase(sheetBaseTsv)
-    : undefined
+  const sheetBase = sheetBaseTsv !== undefined ? tsvToSheetBase(sheetBaseTsv) : undefined
   const appRootNode: HTMLElement|null = document.getElementById('lm-app-name')
   if (appRootNode === null) silentLog('App root node not found.')
   else render(<App sheetBase={sheetBase} />, appRootNode)

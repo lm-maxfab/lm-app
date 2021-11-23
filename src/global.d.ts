@@ -1,5 +1,12 @@
 import { Log } from './modules/le-monde/utils/silent-log'
 import { SheetBase } from './modules/le-monde/utils/sheet-base'
+
+export interface MyNavigator extends Navigator {
+  connection: NetworkInformation
+  mozConnection?: NetworkInformation
+  webkitConnection?: NetworkInformation
+}
+
 export declare global {
   interface Window {
     LM_APP_CONFIG: {

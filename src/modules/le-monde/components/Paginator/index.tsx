@@ -1,5 +1,4 @@
 import { Component, JSX, ComponentChild } from 'preact'
-import './styles.css'
 import IOComponent from '../IntersectionObserver'
 
 type IOE = IntersectionObserverEntry
