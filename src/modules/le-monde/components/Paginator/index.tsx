@@ -22,7 +22,7 @@ class Paginator extends Component<Props, {}> {
   /* * * * * * * * * * * * * * *
    * METHODS
    * * * * * * * * * * * * * * */
-  ioEventCallback = (entry: IOE, position: number) => {
+  ioEventCallback (entry: IOE, position: number): void {
     const { props: { onEnterFromTop, onLeaveFromTop, onEnterFromBottom, onLeaveFromBottom } } = this
     const rootHeight = entry.rootBounds?.height ?? 0
     const entryTop = entry.boundingClientRect.top
@@ -38,7 +38,7 @@ class Paginator extends Component<Props, {}> {
    * * * * * * * * * * * * * * */
   render (): JSX.Element {
     const { props } = this
-    
+
     // Logic
     const children = Array.isArray(props.children) ? props.children : [props.children]
     const renderedChildren: ComponentChild[] = [

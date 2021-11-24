@@ -1,6 +1,3 @@
-import { Log } from './modules/le-monde/utils/silent-log'
-import { SheetBase } from './modules/le-monde/utils/sheet-base'
-
 export interface MyNavigator extends Navigator {
   connection: NetworkInformation
   mozConnection?: NetworkInformation
@@ -15,11 +12,11 @@ export declare global {
         production: string
         staging: string
         testing: string
-        developpment: string 
+        developpment: string
       }
       env: string
     }
-    
+
     LM_APP_SHEETBASE: {
       error: any
       data: string|null

@@ -6,8 +6,8 @@ interface SheetBaseValue {
 
 class SheetBase {
   _collections: SheetBaseCollection[] = []
-  
-  createCollection (descriptor: SheetBaseCollectionDescriptor) {
+
+  createCollection (descriptor: SheetBaseCollectionDescriptor): SheetBaseCollection {
     const collection = new SheetBaseCollection({ ...descriptor, parentBase: this })
     const alreadyExistingCollection = this.strictCollection(collection.name)
     if (alreadyExistingCollection !== undefined) {
@@ -18,28 +18,28 @@ class SheetBase {
     return collection
   }
 
-  dropCollection (name: string) {
+  dropCollection (name: string): boolean {
     const newCollections = this._collections.filter(collection => collection.name !== name)
     if (newCollections.length === this._collections.length) return false
     this._collections.splice(0, this._collections.length, ...newCollections)
     return true
   }
 
-  get collections () {
+  get collections (): SheetBaseCollection[] {
     return this._collections
   }
 
-  get value () {
+  get value (): SheetBaseValue {
     const returned: SheetBaseValue = {}
     for (const col of this._collections) Object.defineProperty(returned, col.name, { get: () => col.value })
     return returned
   }
 
-  strictCollection (name: string) {
+  strictCollection (name: string): SheetBaseCollection|undefined {
     return this._collections.find(collection => (collection.name === name))
   }
 
-  collection (name: string) {
+  collection (name: string): SheetBaseCollection {
     const found = this.strictCollection(name)
     return found ?? new SheetBaseCollection({ name: '', parentBase: this })
   }

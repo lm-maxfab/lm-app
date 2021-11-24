@@ -24,11 +24,11 @@ class SheetBaseCollection {
     this._parentBase = parentBase ?? new SheetBase()
   }
 
-  get name () { return this._name }
-  get description () { return this._description }
-  get parentBase () { return this._parentBase }
+  get name (): string { return this._name }
+  get description (): string { return this._description }
+  get parentBase (): SheetBase { return this._parentBase }
 
-  createEntry (descriptor: SheetBaseEntryDescriptor) {
+  createEntry (descriptor: SheetBaseEntryDescriptor): SheetBaseEntry {
     const entry = new SheetBaseEntry({ ...descriptor, parentCollection: this })
     const alreadyExistingEntry = this.strictEntry(entry.id)
     if (alreadyExistingEntry !== undefined) {
@@ -39,28 +39,34 @@ class SheetBaseCollection {
     return entry
   }
 
-  dropEntry (id: string) {
+  dropEntry (id: string): boolean {
     const newEntries = this._entries.filter(entry => entry.id !== id)
     if (newEntries.length === this._entries.length) return false
     this._entries.splice(0, this._entries.length, ...newEntries)
     return true
   }
 
-  get entries () {
+  get entries (): SheetBaseEntry[] {
     return this._entries
   }
 
-  get value () {
+  get value (): SheetBaseCollectionValue {
     const returned: SheetBaseCollectionValue = []
-    for (const entryPos in this._entries) Object.defineProperty(returned, entryPos, { get: () => this._entries[entryPos].value })
+    this._entries.forEach((entry, entryPos) => {
+      Object.defineProperty(
+        returned,
+        entryPos,
+        { get: () => entry.value }
+      )
+    })
     return returned
   }
 
-  strictEntry (id: string) {
+  strictEntry (id: string): SheetBaseEntry|undefined {
     return this._entries.find(entry => (entry.id === id))
   }
 
-  entry (id: string) {
+  entry (id: string): SheetBaseEntry {
     const found = this.strictEntry(id)
     return found ?? new SheetBaseEntry({ id: '', parentCollection: this })
   }

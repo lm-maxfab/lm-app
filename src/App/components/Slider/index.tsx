@@ -38,7 +38,7 @@ class Slider extends Component<Props, State> {
   /* * * * * * * * * * * * * * *
    * HANDLERS
    * * * * * * * * * * * * * * */
-  async handlePrevClick (e: JSX.TargetedMouseEvent<HTMLButtonElement>) {
+  async handlePrevClick (e: JSX.TargetedMouseEvent<HTMLButtonElement>): Promise<void> {
     e.preventDefault()
     await this.asyncSetState((curr: State) => {
       if (this.props.data === undefined) return
@@ -48,7 +48,7 @@ class Slider extends Component<Props, State> {
     })
   }
 
-  async handleNextClick (e: JSX.TargetedMouseEvent<HTMLButtonElement>) {
+  async handleNextClick (e: JSX.TargetedMouseEvent<HTMLButtonElement>): Promise<void> {
     e.preventDefault()
     await this.asyncSetState((curr: State) => {
       if (this.props.data === undefined) return
@@ -62,8 +62,8 @@ class Slider extends Component<Props, State> {
   /* * * * * * * * * * * * * * *
    * METHODS
    * * * * * * * * * * * * * * */
-  async asyncSetState (s: any) {
-    return new Promise(resolve => this.setState(s, () => resolve(true)))
+  async asyncSetState (s: any): Promise<true> {
+    return await new Promise(resolve => this.setState(s, () => resolve(true)))
   }
 
   /* * * * * * * * * * * * * * *
@@ -96,7 +96,7 @@ class Slider extends Component<Props, State> {
 
     /* Display */
     return (
-      <div className={classes.value} style={inlineStyle} ref={node => this.$root = node}>
+      <div className={classes.value} style={inlineStyle} ref={node => { this.$root = node }}>
         {slides}
         {currSlidePos !== 0 && <button onClick={this.handlePrevClick} className={prevButtonClass}>{'<=='}</button>}
         {(currSlidePos + 1) !== slides?.length && <button onClick={this.handleNextClick} className={nextButtonClass}>{'==>'}</button>}

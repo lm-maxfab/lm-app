@@ -11,12 +11,15 @@ export interface Options {
   availableDownlinkRatio?: number
 }
 
-export default function selectVideoSourceOnDownLink (_sources: Source[], downlink: number, _options: Options = {}) {
+export default function selectVideoSourceOnDownLink (
+  _sources: Source[],
+  downlink: number,
+  _options: Options = {}): string|undefined {
   const options = {
     ratio: 1.78,
     bitSize: 3,
     fps: 25,
-    compressionRatio: .0065,
+    compressionRatio: 0.0065,
     availableDownlinkRatio: 1,
     ..._options
   }

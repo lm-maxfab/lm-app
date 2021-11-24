@@ -17,7 +17,7 @@ interface State {
 
 class Sequencer extends Component<Props, State> {
   _mainClass: string = 'lm-sequencer'
-  get mainClass () { return this._mainClass }
+  get mainClass (): string { return this._mainClass }
 
   state: State = {
     step: 0,
@@ -44,7 +44,7 @@ class Sequencer extends Component<Props, State> {
   /* * * * * * * * * * * * * * *
    * LIFECYCLE
    * * * * * * * * * * * * * * */
-  componentWillUnmount () {
+  componentWillUnmount (): void {
     if (this._nextStepTimeout === null) return
     window.clearTimeout(this._nextStepTimeout)
   }
@@ -52,11 +52,11 @@ class Sequencer extends Component<Props, State> {
   /* * * * * * * * * * * * * * *
    * METHODS
    * * * * * * * * * * * * * * */
-  _getLength () {
+  _getLength (): number {
     return this.props.length ?? this._defaultLength
   }
 
-  convertPropsStepIntoStateStep (step: PropsStep, currStep: StateStep) {
+  convertPropsStepIntoStateStep (step: PropsStep, currStep: StateStep): number {
     const length = this.props.length ?? this._getLength()
     let outStateStep: number
     if (step === 'beginning') outStateStep = 0
@@ -69,7 +69,7 @@ class Sequencer extends Component<Props, State> {
     return newStep
   }
 
-  goTo (step: PropsStep = 'next') {
+  goTo (step: PropsStep = 'next'): void {
     this.setState((curr: State) => {
       const newStep = this.convertPropsStepIntoStateStep(step, curr.step)
       if (newStep === curr.step) return null
@@ -77,17 +77,17 @@ class Sequencer extends Component<Props, State> {
     })
   }
 
-  play () {
+  play (): void {
     this.setState({ status: 'play' })
     this.planNextStep()
   }
 
-  pause () {
+  pause (): void {
     this.cancelNextStep()
     this.setState({ status: 'pause' })
   }
 
-  planNextStep () {
+  planNextStep (): void {
     const tempo = this.props.tempo ?? this._defaultTempo
     const delay = 60000 / tempo
     const length = this._getLength()
@@ -99,7 +99,7 @@ class Sequencer extends Component<Props, State> {
     }, delay)
   }
 
-  cancelNextStep () {
+  cancelNextStep (): void {
     if (this._nextStepTimeout === null) return
     window.clearTimeout(this._nextStepTimeout)
     this._nextStepTimeout = null

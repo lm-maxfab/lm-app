@@ -1,5 +1,5 @@
 import { Component, JSX } from 'preact'
-import bem, { BEM } from '../../utils/bem'
+import bem from '../../utils/bem'
 
 interface Props extends JSX.HTMLAttributes<HTMLImageElement> {
   className?: string
@@ -7,19 +7,52 @@ interface Props extends JSX.HTMLAttributes<HTMLImageElement> {
 }
 
 class Img extends Component<Props, {}> {
-  bem: BEM = bem('lm-img')
+  clss = 'lm-img'
+
+  /* * * * * * * * * * * * * * *
+   * CONSTRUCTOR
+   * * * * * * * * * * * * * * */
+  constructor (props: Props) {
+    super(props)
+    this.noAltWarn = this.noAltWarn.bind(this)
+  }
+
+  /* * * * * * * * * * * * * * *
+   * LIFECYCLE
+   * * * * * * * * * * * * * * */
+  componentDidMount (): void {
+    if (this.props.alt === undefined) this.noAltWarn()
+  }
+
+  componentDidUpdate (prevProps: Props): void {
+    if (
+      this.props.alt === undefined
+      && prevProps.alt !== undefined) this.noAltWarn()
+  }
+
+  /* * * * * * * * * * * * * * *
+   * METHODS
+   * * * * * * * * * * * * * * */
+  noAltWarn (): void {
+    console.warn(
+      'img elements must have an alt prop,',
+      'either with meaningful text,',
+      'or an empty string for decorative images',
+      'jsx-a11y/alt-text')
+  }
 
   /* * * * * * * * * * * * * * *
    * RENDER
    * * * * * * * * * * * * * * */
   render (): JSX.Element {
     const { props } = this
-    const classes = this.bem.block(props.className)
+    const classes = bem(props.className ?? '').block(this.clss)
     const inlineStyle: JSX.CSSProperties = { ...props.style }
 
     return (
       <img
         loading='lazy'
+        alt=''
         {...props}
         style={inlineStyle}
         className={classes.value} />

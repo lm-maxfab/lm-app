@@ -46,12 +46,12 @@ class IntersectionObserverComponent extends Component<Props, State> {
   /* * * * * * * * * * * * * * *
    * LIFECYCLE
    * * * * * * * * * * * * * * */
-  componentDidMount () {
+  componentDidMount (): void {
     this.$pRoot = this.$root
     this.updateObserver()
   }
 
-  componentDidUpdate (prevProps: Props) {
+  componentDidUpdate (prevProps: Props): void {
     const shouldUpdateObserver = prevProps.root !== this.props.root
       || prevProps.rootMargin !== this.props.rootMargin
       || prevProps.threshold?.toString() !== this.props.threshold?.toString()
@@ -63,7 +63,7 @@ class IntersectionObserverComponent extends Component<Props, State> {
   /* * * * * * * * * * * * * * *
    * METHODS
    * * * * * * * * * * * * * * */
-  getObserverOptions () {
+  getObserverOptions (): ObserverOptions {
     return {
       root: this.props.root,
       rootMargin: this.props.rootMargin,
@@ -71,7 +71,7 @@ class IntersectionObserverComponent extends Component<Props, State> {
     }
   }
 
-  updateObserver () {
+  updateObserver (): void {
     const options = this.getObserverOptions()
     this.observer.disconnect()
     this.observer = new IntersectionObserver(this.observation, options)
