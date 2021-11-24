@@ -303,7 +303,7 @@ async function build () {
           time: buildTime
         }
         branchData.push(newBuildData)
-        const returned = JSON.stringify(parsed, null, 2)
+        const returned = JSON.stringify(parsed, null, 2) + '\n'
         return returned
       })
       console.log(chalk.grey('stored.'))
