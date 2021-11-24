@@ -89,17 +89,37 @@ class Slider extends Component<Props, State> {
           data={slideData} />
       </div>
     })
+    const readProgressionRate = currSlidePos / ((slides?.length ?? 1) - 1)
 
-    /* Assign classes */
+    /* Assign classes & styles */
     const classes = bem(props.className ?? '').block(this.clss)
     const inlineStyle: JSX.CSSProperties = { ...props.style }
+    const progBarInnerStyle: JSX.CSSProperties = { width: `${100 * readProgressionRate}%` }
 
     /* Display */
     return (
       <div className={classes.value} style={inlineStyle} ref={node => { this.$root = node }}>
+        {/* Progression bar */}
+        <div className={bem(this.clss).elt('progression-bar').value}>
+          <div
+            style={progBarInnerStyle}
+            className={bem(this.clss).elt('progression-bar-inner').value} />
+        </div>
+
+        {/* Slides */}
         {slides}
-        {currSlidePos !== 0 && <button onClick={this.handlePrevClick} className={prevButtonClass}>{'<=='}</button>}
-        {(currSlidePos + 1) !== slides?.length && <button onClick={this.handleNextClick} className={nextButtonClass}>{'==>'}</button>}
+        
+        {/* Actions */}
+        {currSlidePos !== 0 && <button
+          onClick={this.handlePrevClick}
+          className={prevButtonClass}>
+          {'<=='}
+        </button>}
+        {(currSlidePos + 1) !== slides?.length && <button
+          onClick={this.handleNextClick}
+          className={nextButtonClass}>
+          {'==>'}
+        </button>}
       </div>
     )
   }
