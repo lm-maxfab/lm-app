@@ -1,1 +1,15 @@
-{}
+{
+  "7-2111-fraude": [
+    {
+      "version": {
+        "major": 0,
+        "minor": 1,
+        "patch": 0,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "First shareable WIP version",
+      "time": "2021-11-24T11:30:39.952Z"
+    }
+  ]
+}
