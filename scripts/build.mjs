@@ -173,21 +173,6 @@ async function build () {
     await DST_INDEX_CSS.editQuiet(content => (buildComment + content))
     console.log(chalk.grey(buildComment.trim()))
 
-    // Create latest and live versions
-    if (doVersionAndCommit) console.log(chalk.bold(`\n👭 Creating index.${versionName}.js, index.${versionName}.css, index.latest.js and index.latest.css...\n`))
-    else console.log(chalk.bold(`\n👭 Creating index.latest.js and index.latest.css...\n`))
-    await DST_ROLLEDUP_JS.moveTo('index.latest.js')
-    await DST_INDEX_CSS.copyTo('index.latest.css')
-    if (doVersionAndCommit) await DST_ROLLEDUP_JS.copyTo(`index.${versionName}.js`)
-    if (doVersionAndCommit) await DST_INDEX_CSS.copyTo(`index.${versionName}.css`)
-    console.log(chalk.grey('created.'))
-    if (linkToLive) {
-      console.log(chalk.bold(`\n📺 Creating index.live.js and index.live.css...\n`))
-      await DST_ROLLEDUP_JS.copyTo('index.live.js')
-      await DST_INDEX_CSS.copyTo('index.live.css')
-      console.log(chalk.grey('created.'))
-    }
-
     // Link index.html to index.live.js and index.live.css
     console.log(chalk.bold(`\n🔗 Linking index.html to index.live.js and index.live.css...\n`))
     const DST_INDEX = await DST.get('index.html')
@@ -236,6 +221,21 @@ async function build () {
     console.log(chalk.bold('\n💅  Prettifying index.html...\n'))
     await DST_INDEX.prettifyHTMLQuiet()
     console.log(chalk.grey('prettified.'))
+
+    // Create latest and live versions
+    if (doVersionAndCommit) console.log(chalk.bold(`\n👭 Creating index.${versionName}.js, index.${versionName}.css, index.latest.js and index.latest.css...\n`))
+    else console.log(chalk.bold(`\n👭 Creating index.latest.js and index.latest.css...\n`))
+    await DST_ROLLEDUP_JS.moveTo('index.latest.js')
+    await DST_INDEX_CSS.copyTo('index.latest.css')
+    if (doVersionAndCommit) await DST_ROLLEDUP_JS.copyTo(`index.${versionName}.js`)
+    if (doVersionAndCommit) await DST_INDEX_CSS.copyTo(`index.${versionName}.css`)
+    console.log(chalk.grey('created.'))
+    if (linkToLive) {
+      console.log(chalk.bold(`\n📺 Creating index.live.js and index.live.css...\n`))
+      await DST_ROLLEDUP_JS.copyTo('index.live.js')
+      await DST_INDEX_CSS.copyTo('index.live.css')
+      console.log(chalk.grey('created.'))
+    }
 
     // Create production, staging and testing outputs
     console.log(chalk.bold('\n📦 Creating production, staging, and testing outputs...\n'))
