@@ -1,10 +1,14 @@
-import { Component, JSX } from 'preact'
+import { Component, JSX, VNode } from 'preact'
 import { SheetBase } from '../modules/le-monde/utils/sheet-base'
 import bem, { BEM } from '../modules/le-monde/utils/bem'
 import getViewportDimensions from '../modules/le-monde/utils/get-viewport-dimensions'
-import Slider from './components/Slider'
+import Nav from './components/Nav'
+import Home from './components/Home'
+import Intro from './components/Intro'
+import Months from './components/Months'
+import Credits from './components/Credits'
 import './styles.css'
-import { SlideData } from './types'
+import { CreditsContentData, HomeImageData, ImageBlockData, IntroParagraphData, MonthData } from './types'
 
 interface Props {
   className?: string
@@ -17,7 +21,7 @@ interface State {
 }
 
 class App extends Component<Props, State> {
-  bem: BEM = bem('lm-app').block('fraude')
+  clss: string = 'photos21'
   updateNavHeightInterval: number|null = null
   updateNavHeightTimeout: number|null = null
   state: State = {
@@ -64,10 +68,15 @@ class App extends Component<Props, State> {
     const { props, state } = this
 
     // Logic
-    const slides: SlideData[] = (props.sheetBase?.collection('slides').value ?? []) as unknown as SlideData[]
+    const data = props.sheetBase
+    const homeImages = (data?.collection('home_images').value ?? []) as unknown as HomeImageData[]
+    const introParagraphs = (data?.collection('intro_paragraphs').value ?? []) as unknown as IntroParagraphData[]
+    const imageBlocks = (data?.collection('image_blocks').value ?? []) as unknown as ImageBlockData[]
+    const months = (data?.collection('months').value ?? []) as unknown as MonthData[]
+    const creditsContent = (data?.collection('credits_content').entry('1').value ?? { id: '1', content: <></> }) as unknown as CreditsContentData
 
     // Extract data
-    const classes = this.bem.block(props.className)
+    const classes = bem('lm-app').block(this.clss)
     const inlineStyle: JSX.CSSProperties = {
       ...props.style,
       '--nav-height': `${state.navHeight}px`,
@@ -77,7 +86,11 @@ class App extends Component<Props, State> {
     // Display
     return (
       <div className={classes.value} style={inlineStyle}>
-        <Slider data={slides} />
+        <Home className={bem(this.clss).elt('home').value} images={homeImages} />
+        <Intro className={bem(this.clss).elt('intro').value} paragraphs={introParagraphs} />
+        <Nav className={bem(this.clss).elt('nav').value} data={months} />
+        <Months className={bem(this.clss).elt('months').value} months={months} blocks={imageBlocks} />
+        <Credits className={bem(this.clss).elt('credits').value} content={creditsContent.content} />
       </div>
     )
   }

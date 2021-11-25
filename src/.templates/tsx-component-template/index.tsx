@@ -17,12 +17,12 @@ class Template extends Component<Props, {}> {
     const { props } = this
 
     /* Classes and style */
-    const classes = bem(props.className ?? '').block(this.clss)
-    const inlineStyle: JSX.CSSProperties = { ...props.style }
+    const wrapperClasses = bem(props.className ?? '').block(this.clss)
+    const wrapperStyle: JSX.CSSProperties = { ...props.style }
 
     /* Display */
     return (
-      <div className={classes.value} style={inlineStyle}>
+      <div className={wrapperClasses.value} style={wrapperStyle}>
         TSX component template.
       </div>
     )

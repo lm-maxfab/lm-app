@@ -1,0 +1,23 @@
+.photos21-image-block__images {
+  display: grid;
+}
+
+.photos21-image-block__images .photos21-image-block__images_layout-of-1 {
+  grid-template-areas: "image";
+}
+
+.photos21-image-block__images .photos21-image-block__images_layout-of-2 {
+  grid-template-areas: "image1 image2";
+}
+
+.photos21-image-block__images .photos21-image-block__images_layout-of-3 {
+  grid-template-areas:
+    "image1 image2"
+    "leftSpace image3 leftSpace";
+}
+
+.photos21-image-block__images .photos21-image-block__images_layout-of-4 {
+  grid-template-areas:
+    "image1 image2"
+    "image3 image4";
+}

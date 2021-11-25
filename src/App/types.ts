@@ -1,14 +1,41 @@
 import { VNode } from 'preact'
 
-export interface SlideData {
+export interface HomeImageData {
   id: string
-  title?: VNode
-  para_1?: VNode
-  quote_1?: VNode
-  para_2?: VNode
-  quote_2?: VNode
-  illus_url?: string
-  reverse_layout?: boolean
+  url?: string
 }
 
-export interface PageSettings {}
+export interface IntroParagraphData {
+  id: string
+  content?: VNode
+}
+
+export interface ImageBlockData {
+  id: string
+
+  image_1_url?: string
+  image_1_alt?: string
+  
+  image_2_url?: string
+  image_2_alt?: string
+  
+  image_3_url?: string
+  image_3_alt?: string
+  
+  image_4_url?: string
+  image_4_alt?: string
+  
+  month?: MonthData
+  description?: VNode
+  credits?: VNode
+}
+
+export interface MonthData {
+  id: string
+  name?: string
+}
+
+export interface CreditsContentData {
+  id: string
+  content?: VNode
+}

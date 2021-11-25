@@ -1,11 +1,11 @@
 /* Generated via /scripts/predev.mjs */
 window.LM_APP_CONFIG = {
-  "assets_root_url": "https://assets-decodeurs.lemonde.fr/redacweb/7-2111-fraude-assets",
+  "assets_root_url": "https://assets-decodeurs.lemonde.fr/redacweb/8-2111-photos21-assets",
   "sheetbases": {
-    "production": "https://assets-decodeurs.lemonde.fr/sheets/WKgm6cljhPJR7R0vbJTZU_hS_LfBNw_750",
-    "staging": "https://assets-decodeurs.lemonde.fr/sheets/WKgm6cljhPJR7R0vbJTZU_hS_LfBNw_751",
-    "testing": "https://assets-decodeurs.lemonde.fr/sheets/WKgm6cljhPJR7R0vbJTZU_hS_LfBNw_752",
-    "developpment": "https://assets-decodeurs.lemonde.fr/sheets/WKgm6cljhPJR7R0vbJTZU_hS_LfBNw_753"
+    "production": "https://assets-decodeurs.lemonde.fr/sheets/lcHZvwZYA1b7xKmbpx6gCh030ty_Eg_758",
+    "staging": "https://assets-decodeurs.lemonde.fr/sheets/lcHZvwZYA1b7xKmbpx6gCh030ty_Eg_759",
+    "testing": "https://assets-decodeurs.lemonde.fr/sheets/lcHZvwZYA1b7xKmbpx6gCh030ty_Eg_760",
+    "developpment": "https://assets-decodeurs.lemonde.fr/sheets/lcHZvwZYA1b7xKmbpx6gCh030ty_Eg_761"
   },
   "env": "developpment"
 }

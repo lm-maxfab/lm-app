@@ -126,17 +126,14 @@ export class BEM {
   }
 
   blk (name: string|undefined): BEM {
-    if (name === undefined) return this.copy()
     return this.block(name)
   }
 
   elt (name: string|undefined): BEM {
-    if (name === undefined) return this.copy()
     return this.element(name)
   }
 
   mod (name: string|ModifiersObj|ModifiersArr|undefined): BEM {
-    if (name === undefined) return this.copy()
     return this.modifier(name)
   }
 
