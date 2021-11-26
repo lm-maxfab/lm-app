@@ -1,23 +1,65 @@
-.photos21-image-block__images {
-  display: grid;
+.photos21-image-block {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: var(--len-photo-block-margin-bottom);
 }
 
-.photos21-image-block__images .photos21-image-block__images_layout-of-1 {
-  grid-template-areas: "image";
+.photos21-image-block__inner {
+  position: relative;
+  padding: 0 16px;
+  
+  @media screen and (max-width: 800px) {
+    padding: 0;
+  }
 }
 
-.photos21-image-block__images .photos21-image-block__images_layout-of-2 {
-  grid-template-areas: "image1 image2";
+.photos21-image-block__image {
+  margin-bottom: var(--len-photo-margin-bottom);
 }
 
-.photos21-image-block__images .photos21-image-block__images_layout-of-3 {
-  grid-template-areas:
-    "image1 image2"
-    "leftSpace image3 leftSpace";
+.photos21-image-block__image_ratio-pano {
+  max-height: calc(80 * var(--vh));
 }
 
-.photos21-image-block__images .photos21-image-block__images_layout-of-4 {
-  grid-template-areas:
-    "image1 image2"
-    "image3 image4";
+.photos21-image-block__image_ratio-landscape {
+  max-height: calc(90 * var(--vh));
+}
+
+.photos21-image-block__image_ratio-square {
+  max-height: calc(100 * var(--vh));
+}
+
+.photos21-image-block__image_ratio-portrait {
+  max-height: calc(110 * var(--vh));
+}
+
+.photos21-image-block__image_ratio-strip {
+  max-height: calc(120 * var(--vh));
+}
+
+@media screen and (max-width: 800px) {
+  .photos21-image-block__image_ratio-pano,
+  .photos21-image-block__image_ratio-landscape,
+  .photos21-image-block__image_ratio-square,
+  .photos21-image-block__image_ratio-portrait,
+  .photos21-image-block__image_ratio-strip {
+    max-height: calc(80 * var(--vh));
+  }
+}
+
+.photos21-image-block__text {
+  color: var(--c-main-text);
+  padding: 0 var(--len-content-main-side-padding);
+  font-family: var(--ff-marr-sans);
+  font-weight: 500;
+  font-size: var(--fs-descriptions-text);
+}
+
+.photos21-image-block__credits {
+  text-transform: uppercase;
+  font-weight: 100;
+  letter-spacing: .05em;
+  font-size: .80em;
 }

@@ -1,0 +1,54 @@
+.photos21 {
+  position: relative;
+  --c-page-bg: #121618;
+  --c-header-bg: rgb(18, 22, 24, .8);
+  --c-main-text: #E2E4E9;
+  --c-secondary-text: #A9A9B3;
+  --c-borders: #36363A;
+
+  --len-content-main-side-padding: 24px;
+  --len-months-padding-top: calc(30 * var(--vh));
+  --len-months-padding-bottom: calc(15 * var(--vh));
+  --len-month-margin-bottom: calc(40 * var(--vh));
+  --len-month-title-margin-bottom: calc(15 * var(--vh));
+  --len-photo-block-margin-bottom: calc(40 * var(--vh));
+  --len-photo-margin-bottom: 24px;
+  
+  --fs-month-title: 32px;
+  --fs-main-text: 18px;
+  --fs-descriptions-text: 16px;
+
+  @media screen and (max-width: 800px) {
+    --len-content-main-side-padding: 16px;
+    --fs-month-title: 20px;
+    --fs-main-text: 16px;
+    --fs-descriptions-text: 14px;
+  }
+}
+
+.photos21__home {
+  position: relative;
+  z-index: 4;
+}
+
+.photos21__intro {
+  position: relative;
+  z-index: 5;
+}
+
+.photos21__nav {
+  position: fixed;
+  z-index: 3;
+  top: var(--nav-height);
+  left: 0;
+}
+
+.photos21__months {
+  position: relative;
+  z-index: 2;
+}
+
+.photos21__credits {
+  position: relative;
+  z-index: 1;
+}

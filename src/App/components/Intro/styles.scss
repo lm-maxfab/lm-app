@@ -1,20 +1,20 @@
 .photos21-intro {
   width: 100%;
-  background-color: #121618;
-  padding: 24px;
+  background-color: var(--c-page-bg);
+  padding: 0 var(--len-content-main-side-padding);
 }
 
 .photos21-intro__inner {
   max-width: 720px;
-  margin: 88px auto;
+  padding: 88px 0;
+  margin: 0 auto;
   font-family: var(--ff-the-antiqua-b);
-  color: #E2E4E9;
-  font-size: 18px;
+  color: var(--c-main-text);
+  font-size: var(--fs-main-text);
   line-height: 1.5;
 
   @media screen and (max-width: 800px) {
-    margin: 48px auto;
-    font-size: 16px;
+    padding: 48px 0;
   }
 }
 

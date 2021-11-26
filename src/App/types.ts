@@ -12,22 +12,11 @@ export interface IntroParagraphData {
 
 export interface ImageBlockData {
   id: string
-
-  image_1_url?: string
-  image_1_alt?: string
-  
-  image_2_url?: string
-  image_2_alt?: string
-  
-  image_3_url?: string
-  image_3_alt?: string
-  
-  image_4_url?: string
-  image_4_alt?: string
-  
+  image_url?: string
+  image_ratio?: string
   month?: MonthData
-  description?: VNode
-  credits?: VNode
+  description?: string
+  credits?: string
 }
 
 export interface MonthData {

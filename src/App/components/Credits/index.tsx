@@ -25,8 +25,13 @@ class Credits extends Component<Props, {}> {
     /* Display */
     return (
       <div className={classes.value} style={inlineStyle}>
-        Crédits :<br />
-        {props.content}
+        <div className={bem(this.clss).elt('inner').value}>
+          <div className={bem(this.clss).elt('title').value}>Crédits</div>
+          <div className={bem(this.clss).elt('separator').value} />
+          <div className={bem(this.clss).elt('content').value}>
+            {props.content}
+          </div>
+        </div>
       </div>
     )
   }

@@ -1,121 +1,102 @@
 import { Component, JSX } from 'preact'
 
-type PropsStep = number|'beginning'|'end'|'next'|'prev'
-type StateStep = number
+interface RendererArgs {
+  step: number
+  value: any
+}
 
 interface Props {
-  tempo?: number
+  tempo: number
+  play?: boolean
   length?: number
-  loop?: boolean
-  render?: (step: number) => JSX.Element[]|JSX.Element
+  sequence?: any[]
+  renderer?: (args: RendererArgs) => any
 }
 
 interface State {
-  step: StateStep
-  status: 'play'|'pause'
+  step: number
 }
 
 class Sequencer extends Component<Props, State> {
-  _mainClass: string = 'lm-sequencer'
-  get mainClass (): string { return this._mainClass }
-
+  intervaller: number|null = null
   state: State = {
-    step: 0,
-    status: 'pause'
+    step: 0
   }
 
-  _defaultTempo: number = 60
-  _defaultLength: number = 10
-  _nextStepTimeout: number|null = 0
-
   /* * * * * * * * * * * * * * *
-   * CONSTRUCTOR
+   * CONSTRUCTOR & LIFE CYCLE
    * * * * * * * * * * * * * * */
   constructor (props: Props) {
     super(props)
-    this.goTo = this.goTo.bind(this)
-    this.play = this.play.bind(this)
-    this.pause = this.pause.bind(this)
-    this.planNextStep = this.planNextStep.bind(this)
-    this.cancelNextStep = this.cancelNextStep.bind(this)
-    this.convertPropsStepIntoStateStep = this.convertPropsStepIntoStateStep.bind(this)
+    this.startPlaying = this.startPlaying.bind(this)
+    this.stopPlaying = this.stopPlaying.bind(this)
+    this.updateTempo = this.updateTempo.bind(this)
+    this.goToStep = this.goToStep.bind(this)
   }
 
-  /* * * * * * * * * * * * * * *
-   * LIFECYCLE
-   * * * * * * * * * * * * * * */
-  componentWillUnmount (): void {
-    if (this._nextStepTimeout === null) return
-    window.clearTimeout(this._nextStepTimeout)
+  componentDidUpdate (prevProps: Props) {
+    if (prevProps.play !== this.props.play) {
+      if (this.props.play === true) this.startPlaying()
+      else this.stopPlaying()
+    }
+    if (prevProps.tempo !== this.props.tempo) {
+      this.updateTempo()
+    }
   }
 
   /* * * * * * * * * * * * * * *
    * METHODS
    * * * * * * * * * * * * * * */
-  _getLength (): number {
-    return this.props.length ?? this._defaultLength
+  startPlaying () {
+    if (this.props.tempo <= 0) return
+    const cappedTempo = Math.min(this.props.tempo, 60 * 1000)
+    if (cappedTempo !== this.props.tempo) console.warn('Maximum tempo is 60 000 bpm')
+    const timeIntervalMs = (60 * 1000) / cappedTempo
+    this.intervaller = window.setInterval(() => this.goToStep('next'), timeIntervalMs)
   }
 
-  convertPropsStepIntoStateStep (step: PropsStep, currStep: StateStep): number {
-    const length = this.props.length ?? this._getLength()
-    let outStateStep: number
-    if (step === 'beginning') outStateStep = 0
-    else if (step === 'end') outStateStep = Math.max(length - 1, 0)
-    else if (step === 'prev') outStateStep = currStep - 1
-    else if (step === 'next') outStateStep = currStep + 1
-    else outStateStep = step
-    const moduloStep = outStateStep % length
-    const newStep = Number.isNaN(moduloStep) ? 0 : moduloStep
-    return newStep
+  stopPlaying () {
+    if (this.intervaller === null) return
+    window.clearInterval(this.intervaller)
+    this.intervaller = null
   }
 
-  goTo (step: PropsStep = 'next'): void {
-    this.setState((curr: State) => {
-      const newStep = this.convertPropsStepIntoStateStep(step, curr.step)
-      if (newStep === curr.step) return null
-      return { ...curr, step: newStep }
+  goToStep (step: number|'next'|'prev') {
+    this.setState(curr => {
+      const newStep = typeof step === 'number'
+        ? step
+        : step === 'next'
+          ? curr.step + 1
+          : curr.step - 1
+      if (curr.step === newStep) return null
+      if (this.props.length !== undefined) return { ...curr, step: newStep % this.props.length }
+      else if (this.props.sequence !== undefined) return { ...curr, step: newStep % this.props.sequence.length }
+      else return { ...curr, step: newStep }
     })
   }
 
-  play (): void {
-    this.setState({ status: 'play' })
-    this.planNextStep()
-  }
-
-  pause (): void {
-    this.cancelNextStep()
-    this.setState({ status: 'pause' })
-  }
-
-  planNextStep (): void {
-    const tempo = this.props.tempo ?? this._defaultTempo
-    const delay = 60000 / tempo
-    const length = this._getLength()
-    const isLastStep = this.state.step >= length - 2
-    if (isLastStep && this.props.loop !== true) return
-    this._nextStepTimeout = window.setTimeout(() => {
-      this.goTo('next')
-      this.planNextStep()
-    }, delay)
-  }
-
-  cancelNextStep (): void {
-    if (this._nextStepTimeout === null) return
-    window.clearTimeout(this._nextStepTimeout)
-    this._nextStepTimeout = null
+  updateTempo () {
+    if (this.intervaller === null) return
+    else {
+      this.stopPlaying()
+      this.startPlaying()
+    }
   }
 
   /* * * * * * * * * * * * * * *
    * RENDER
    * * * * * * * * * * * * * * */
-  render (): JSX.Element {
+  render (): JSX.Element|null {
     const { props, state } = this
-    const rendered = props.render !== undefined
-      ? props.render(state.step)
-      : null
-    return <>{rendered}</>
+    if (props.renderer === undefined) return null
+    
+    const value = props.sequence !== undefined
+      ? props.sequence[state.step]
+      : state.step
+    
+    return props.renderer({ step: state.step, value })
   }
 }
 
-export type { Props, State }
+export type { Props }
 export default Sequencer
