@@ -2,19 +2,9 @@ import { Component, JSX } from 'preact'
 import { SheetBase } from '../modules/le-monde/utils/sheet-base'
 import bem from '../modules/le-monde/utils/bem'
 import getViewportDimensions from '../modules/le-monde/utils/get-viewport-dimensions'
-import Nav from './components/Nav'
-import Home from './components/Home'
-import Intro from './components/Intro'
-import Months from './components/Months'
-import Credits from './components/Credits'
 import './styles.scss'
-import {
-  CreditsContentData,
-  HomeImageData,
-  ImageBlockData,
-  IntroParagraphData,
-  MonthData
-} from './types'
+import Paginator, { Page } from '../modules/le-monde/components/Paginator'
+import StrToHtml from '../modules/le-monde/components/StrToHtml'
 
 interface Props {
   className?: string
@@ -73,30 +63,45 @@ class App extends Component<Props, State> {
   render (): JSX.Element {
     const { props, state } = this
 
-    // Logic
-    const data = props.sheetBase
-    const homeImages = (data?.collection('home_images').value ?? []) as unknown as HomeImageData[]
-    const introParagraphs = (data?.collection('intro_paragraphs').value ?? []) as unknown as IntroParagraphData[]
-    const imageBlocks = (data?.collection('image_blocks').value ?? []) as unknown as ImageBlockData[]
-    const months = (data?.collection('months').value ?? []) as unknown as MonthData[]
-    const creditsContent = (data?.collection('credits_content').entry('1').value ?? { id: '1', content: <></> }) as unknown as CreditsContentData
-
     // Extract data
     const classes = bem('lm-app').block(this.clss)
     const inlineStyle: JSX.CSSProperties = {
       ...props.style,
       '--nav-height': `${state.navHeight}px`,
-      paddingTop: 'var(--nav-height)'
+      padding: '64px',
+      paddingTop: 'calc(var(--nav-height) + 64px)',
+      position: 'relative',
+      width: '100%'
     }
 
     // Display
     return (
       <div className={classes.value} style={inlineStyle}>
-        <Home className={bem(this.clss).elt('home').value} images={homeImages} />
-        <Intro className={bem(this.clss).elt('intro').value} paragraphs={introParagraphs} />
-        <Nav className={bem(this.clss).elt('nav').value} data={months} />
-        <Months className={bem(this.clss).elt('months').value} months={months} blocks={imageBlocks} />
-        <Credits className={bem(this.clss).elt('credits').value} content={creditsContent.content} />
+        <Paginator
+          delay={50}
+          intervalCheck={true}
+          onPageChange={(pos) => console.log('PAGE CHANGED', pos)}>
+          <div style={{ marginTop: '2000px' }}>DIV</div>
+          {'text'}
+          <br />
+          {187}
+          <br />
+          {90071992547409919n}
+          {Boolean(true)}
+          {undefined}
+          <Page value='pouet-pouet'>Pouet pouet !</Page>
+          <StrToHtml content='<div style="height: 800px; background-color: blue;" name="pépé">STR TO HTML</div>' />
+          <div style={{ height: '100px', background: 'violet' }}>Hihihi</div>
+          <Page value='hihihih'><div style={{ height: '700px', background: 'coral' }}>Hihihi</div></Page>
+          <div style={{ height: '1700px', background: 'chocolate', clear: 'both' }}>Hihihi</div>
+          <div style={{ height: '400px', width: '20%', position: 'relative', display: 'block', float: 'left', background: 'crimson' }}>1</div>
+          <div style={{ height: '400px', width: '20%', position: 'relative', display: 'block', float: 'left', background: 'brown' }}>2</div>
+          <div style={{ height: '400px', width: '20%', position: 'relative', display: 'block', float: 'left', background: 'crimson' }}>3</div>
+          <div style={{ height: '400px', width: '20%', position: 'relative', display: 'block', float: 'left', background: 'brown' }}>4</div>
+          <div style={{ height: '200px', width: '20%', top: '100px', position: 'relative', display: 'block', float: 'left', background: 'crimson' }}>5</div>
+          <div style={{ height: '400px', clear: 'both', background: 'yellowgreen' }}>Hihihi</div>
+          <div style={{ height: '1100px', background: 'cornflowerblue' }}>Hihihi</div>
+        </Paginator>
       </div>
     )
   }

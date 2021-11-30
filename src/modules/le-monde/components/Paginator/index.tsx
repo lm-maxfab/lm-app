@@ -1,23 +1,25 @@
 import { Component, JSX, toChildArray, cloneElement } from 'preact'
+import Page, { PositionInScreen } from './Page'
 
 interface Props {
   className?: string
   style?: JSX.CSSProperties
   delay?: number
+  intervalCheck?: boolean
+  triggerBound?: 'top'|'bottom'
+  onPageChange?: (value: State['value']) => void
 }
 
 interface State {
-  activePagePos: number|null
+  value: string|number|null
 }
 
 class Paginator extends Component<Props, State> {
   lastChildrenLoopTime: number|null = null
   nextChildrenLoopTimeout: number|null = null
   childrenLoopInterval: number|null = null
-  childrenRefs: any[] = []
-  state: State = {
-    activePagePos: null
-  }
+  childrenRefs: Page[] = []
+  state: State = { value: null }
 
   /* * * * * * * * * * * * * * *
    * CONSTRUCTOR & LIFE CYCLE
@@ -26,73 +28,82 @@ class Paginator extends Component<Props, State> {
     super(props)
     this.childrenLoop = this.childrenLoop.bind(this)
     this.requestChildrenLoop = this.requestChildrenLoop.bind(this)
+    this.activateChildrenLoopInterval = this.activateChildrenLoopInterval.bind(this)
+    this.inactivateChildrenLoopInterval = this.inactivateChildrenLoopInterval.bind(this)
+    this.wrapChildrenInPage = this.wrapChildrenInPage.bind(this)
   }
 
-  componentDidMount () {
+  componentDidMount (): void {
     this.requestChildrenLoop()
     window.addEventListener('scroll', this.requestChildrenLoop)
     window.addEventListener('resize', this.requestChildrenLoop)
-    // [WIP], maybe restore this later if needed, or toggle via props...
-    // this.childrenLoopInterval = window.setInterval(this.requestChildrenLoop, 500)
+    this.activateChildrenLoopInterval()
   }
 
-  componentDidUpdate () {
+  componentDidUpdate (prevProps: Props): void {
     this.requestChildrenLoop()
+    if (prevProps.intervalCheck !== this.props.intervalCheck) {
+      this.activateChildrenLoopInterval()
+    }
   }
 
-  componentWillUnmount () {
+  componentWillUnmount (): void {
     window.removeEventListener('scroll', this.requestChildrenLoop)
     window.removeEventListener('resize', this.requestChildrenLoop)
+    this.inactivateChildrenLoopInterval()
     if (this.nextChildrenLoopTimeout !== null) {
       window.clearTimeout(this.nextChildrenLoopTimeout)
       this.nextChildrenLoopTimeout = null
-    }
-    if (this.childrenLoopInterval !== null) {
-      window.clearInterval(this.childrenLoopInterval)
-      this.childrenLoopInterval = null
     }
   }
 
   /* * * * * * * * * * * * * * *
    * METHODS
    * * * * * * * * * * * * * * */
-  childrenLoop () {
-    console.log('LOOP')
+  childrenLoop (): void {
     this.nextChildrenLoopTimeout = null
     this.lastChildrenLoopTime = Date.now()
-    const viewportHeight = window.innerHeight
-    const intersectingRefs = this.childrenRefs.map((childRef: any) => {
-      if (childRef === null || childRef === undefined) return
-      if (typeof childRef.getBoundingClientRect !== 'function') return
-      const boundingClientRect = childRef.getBoundingClientRect()
-      if (boundingClientRect === null || boundingClientRect === undefined) return
-      const { top, height } = (boundingClientRect as DOMRect)
-      const childTopAboveBottom = viewportHeight - top > 0
-      const childBottomBelowBottom = viewportHeight - (top + height) <= 0
-      if (childTopAboveBottom && childBottomBelowBottom) return {
-        ref: childRef,
-        boundingClientRect
+    const pagesWithPosition = this.childrenRefs.map((page: Page) => {
+      return {
+        page,
+        position: page.getPositionInScreen()
       }
-    }).filter(e => e !== undefined) as Array<{ ref: any; boundingClientRect: DOMRect }>
-    const maxTop = Math.max(...intersectingRefs.map(e => e.boundingClientRect.top))
-    const nearestRefs = intersectingRefs.filter(e => e.boundingClientRect.top === maxTop).map(e => e.ref)
-    const nearestRef = nearestRefs.slice(-1)[0]
-    const nearestRefPos = this.childrenRefs.indexOf(nearestRef)
-    console.log(this.state.activePagePos, nearestRefPos)
-    if (this.state.activePagePos === nearestRefPos) return
-    this.setState({ activePagePos: nearestRefPos })
-    // this.setState(curr => {
-    //   console.log(curr.activePagePos, nearestRefPos)
-    //   if (curr.activePagePos === nearestRefPos) return null
-    //   console.log('chg')
-    //   return {
-    //     ...curr,
-    //     activePagePos: nearestRefPos !== -1 ? nearestRefPos : null
-    //   }
-    // })
+    })
+    const pagesOverTheTriggerWithPosition = pagesWithPosition.filter(elt => {
+      const { position } = elt
+      if (position === null) return false
+      const triggerBound = this.props.triggerBound ?? 'bottom'
+      if (triggerBound === 'top') {
+        if (position.top.fromTop >= 0) return false
+        if (position.bottom.fromTop < 0) return false
+        return true
+      } else {
+        if (position.top.fromBottom >= 0) return false
+        if (position.bottom.fromBottom < 0) return false
+        return true
+      }
+    })
+    const topsFromBottom = pagesOverTheTriggerWithPosition.map(pageWithPos => (pageWithPos.position as PositionInScreen).top.fromBottom)
+    const bottomsFromTop = pagesOverTheTriggerWithPosition.map(pageWithPos => (pageWithPos.position as PositionInScreen).bottom.fromTop)
+    const maxTopFromBottom = Math.max(...topsFromBottom)
+    const minBottomFromTop = Math.min(...bottomsFromTop)
+    const closestsFromBottomWithPosition = pagesOverTheTriggerWithPosition.filter(pwp => pwp.position?.top.fromBottom === maxTopFromBottom)
+    const closestFromBottomWithPosition = closestsFromBottomWithPosition.slice(-1)[0]
+    const closestFromBottom = closestFromBottomWithPosition?.page ?? null
+    const closestFromBottomValue = closestFromBottom?.value ?? null
+    const closestsFromTopWithPosition = pagesOverTheTriggerWithPosition.filter(pwp => pwp.position?.bottom.fromTop === minBottomFromTop)
+    const closestFromTopWithPosition = closestsFromTopWithPosition.slice(-1)[0]
+    const closestFromTop = closestFromTopWithPosition?.page ?? null
+    const closestFromTopValue = closestFromTop?.value ?? null
+    const triggerBound = this.props.triggerBound ?? 'bottom'
+    const newVal = triggerBound === 'top' ? closestFromTopValue : closestFromBottomValue
+    const onPageChange = this.props.onPageChange
+    const stateSetter = (curr: State) => (newVal !== curr.value) ? { ...curr, value: newVal } : null
+    const stateSetterCallback = onPageChange !== undefined ? () => onPageChange(newVal) : undefined
+    this.setState(stateSetter, stateSetterCallback)
   }
 
-  requestChildrenLoop () {
+  requestChildrenLoop (): void {
     if (this.nextChildrenLoopTimeout === null) {
       this.nextChildrenLoopTimeout = window.setTimeout(
         this.childrenLoop,
@@ -101,25 +112,44 @@ class Paginator extends Component<Props, State> {
     }
   }
 
+  activateChildrenLoopInterval (): void {
+    this.inactivateChildrenLoopInterval()
+    const intervalCheck = this.props.intervalCheck
+    if (intervalCheck === undefined || intervalCheck === false) return
+    this.childrenLoopInterval = window.setInterval(this.requestChildrenLoop, this.props.delay)
+  }
+
+  inactivateChildrenLoopInterval (): void {
+    if (this.childrenLoopInterval !== null) {
+      window.clearInterval(this.childrenLoopInterval)
+      this.childrenLoopInterval = null
+    }
+  }
+
+  wrapChildrenInPage (): JSX.Element[] {
+    const { children } = this.props
+    this.childrenRefs = []
+    const clonedChildren = toChildArray(children).map((child, childPos) => {
+      const ref = (node: any) => { this.childrenRefs[childPos] = node }
+      if (typeof child === 'object' && child.type === Page) {
+        const ret = cloneElement(child, { ref }) as JSX.Element
+        return ret
+      } else {
+        const ret = <Page ref={ref} value={childPos}>{child}</Page>
+        return ret
+      }
+    })
+    return clonedChildren
+  }
+
   /* * * * * * * * * * * * * * *
    * RENDER
    * * * * * * * * * * * * * * */
-  render (): JSX.Element|null {
-    const { props, state } = this
-    console.log('RENDER', state)
-    this.childrenRefs = []
-    const children = toChildArray(props.children).map((child, childPos) => {
-      const wrappedChild = (typeof child === 'string' || typeof child === 'number')
-        ? <span>{child}</span>
-        : child
-      const ref = (node: any) => { this.childrenRefs[childPos] = node }
-      return cloneElement(wrappedChild, { ref })
-    })
-
-    /* Display */
-    return <>{children}</>
+  render (): JSX.Element {
+    return <>{this.wrapChildrenInPage()}</>
   }
 }
 
+export { Page }
 export type { Props }
 export default Paginator

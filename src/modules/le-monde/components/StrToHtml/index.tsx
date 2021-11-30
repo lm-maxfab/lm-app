@@ -24,9 +24,16 @@ class StrToHtml extends Component<Props, {}> {
     // Single child
     if (wrapperChildren.length === 1) {
       const onlyChild = wrapperChildren[0]
+      const attrs: any = {}
+      for (let lol of onlyChild.attributes) attrs[lol.name] = lol.value
       return createElement(
         onlyChild.tagName,
-        { dangerouslySetInnerHTML: { __html: onlyChild.innerHTML } }
+        {
+          ...attrs,
+          dangerouslySetInnerHTML: {
+            __html: onlyChild.innerHTML
+          }
+        }
       )
     }
 
