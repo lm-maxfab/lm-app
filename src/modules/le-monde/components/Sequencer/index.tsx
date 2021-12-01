@@ -6,7 +6,7 @@ interface RendererArgs {
 }
 
 interface Props {
-  tempo: number
+  tempo?: number
   play?: boolean
   length?: number
   sequence?: any[]
@@ -34,6 +34,10 @@ class Sequencer extends Component<Props, State> {
     this.goToStep = this.goToStep.bind(this)
   }
 
+  componentDidMount () {
+    if (this.props.play) this.startPlaying()
+  }
+
   componentDidUpdate (prevProps: Props) {
     if (prevProps.play !== this.props.play) {
       if (this.props.play === true) this.startPlaying()
@@ -48,9 +52,9 @@ class Sequencer extends Component<Props, State> {
    * METHODS
    * * * * * * * * * * * * * * */
   startPlaying () {
-    if (this.props.tempo <= 0) return
-    const cappedTempo = Math.min(this.props.tempo, 60 * 1000)
-    if (cappedTempo !== this.props.tempo) console.warn('Maximum tempo is 60 000 bpm')
+    const tempo = (this.props.tempo === undefined || this.props.tempo <= 0) ? 60 : this.props.tempo
+    const cappedTempo = Math.min(tempo, 60 * 1000)
+    if (cappedTempo !== tempo) console.warn('Maximum tempo is 60 000 bpm')
     const timeIntervalMs = (60 * 1000) / cappedTempo
     this.intervaller = window.setInterval(() => this.goToStep('next'), timeIntervalMs)
   }

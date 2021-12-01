@@ -11,11 +11,11 @@ interface PositionInScreen {
 }
 
 interface Props {
-  value?: string|number|null
+  value?: any
 }
 
 class Page extends Component<Props, {}> {
-  value: string|number|null
+  value: any
   $root: any = null
   
   /* * * * * * * * * * * * * * *
@@ -23,7 +23,7 @@ class Page extends Component<Props, {}> {
    * * * * * * * * * * * * * * */
   constructor (props: Props) {
     super(props)
-    this.value = props.value ?? null
+    this.value = props.value
     this.getBoundingClientRect = this.getBoundingClientRect.bind(this)
     this.getPositionInScreen = this.getPositionInScreen.bind(this)
     this.cloneChildren = this.cloneChildren.bind(this)
@@ -64,7 +64,7 @@ class Page extends Component<Props, {}> {
    * RENDER
    * * * * * * * * * * * * * * */
   render (): JSX.Element {
-    this.value = this.props.value ?? null
+    this.value = this.props.value
     return this.cloneChildren()
   }
 }

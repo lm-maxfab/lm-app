@@ -1,4 +1,5 @@
 import { Component, JSX } from 'preact'
+import Paginator, { Page } from '../../../modules/le-monde/components/Paginator'
 import bem from '../../../modules/le-monde/utils/bem'
 import { ImageBlockData, MonthData } from '../../types'
 import Month from '../Month'
@@ -9,10 +10,35 @@ interface Props {
   style?: JSX.CSSProperties
   months?: MonthData[]
   blocks?: ImageBlockData[]
+  dispatchMonthChange: (monthId?: string) => void
 }
 
 class Months extends Component<Props, {}> {
+  $root: HTMLDivElement|null = null
   clss = 'photos21-months'
+
+  /* * * * * * * * * * * * * * *
+   * CONSTRUCTOR & LIFECYCLE
+   * * * * * * * * * * * * * * */
+  constructor (props: Props) {
+    super(props)
+    this.scrollToMonth = this.scrollToMonth.bind(this)
+  }
+
+  /* * * * * * * * * * * * * * *
+   * METHODS
+   * * * * * * * * * * * * * * */
+  scrollToMonth (monthId: MonthData['id']) {
+    if (this.$root === null) return
+    const targetClasses = '.' + bem(this.clss).elt('month').value + `_month-${monthId}`
+    const targetMonth = this.$root.querySelector(targetClasses)
+    if (targetMonth === null) return
+    const { top } = targetMonth.getBoundingClientRect()
+    window.scrollBy({
+      top: top + 8,
+      behavior: 'smooth'
+    })
+  }
 
   /* * * * * * * * * * * * * * *
    * RENDER
@@ -26,13 +52,24 @@ class Months extends Component<Props, {}> {
 
     /* Display */
     return (
-      <div className={classes.value} style={inlineStyle}>
-        {props.months?.map(month => {
-          const blocks = props.blocks?.filter(block => block.month?.id === month.id)
-          return <Month
-            month={month}
-            blocks={blocks} />
-        })}
+      <div
+        ref={node => { this.$root = node }}
+        className={classes.value}
+        style={inlineStyle}>
+        <Paginator
+          triggerBound='top'
+          onPageChange={props.dispatchMonthChange}>
+          {props.months?.map(month => {
+            const blocks = props.blocks?.filter(block => block.month?.id === month.id)
+            return <Page value={month.id}>
+              <div className={bem(this.clss).elt('month').mod(`month-${month.id}`).value}>
+                <Month
+                  month={month}
+                  blocks={blocks} />
+              </div>
+            </Page>
+          })}
+        </Paginator>
       </div>
     )
   }

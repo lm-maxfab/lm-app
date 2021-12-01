@@ -24,6 +24,16 @@ class ImageBlock extends Component<Props, {}> {
     if (data === undefined) return null
     if (data.image_url === undefined) return null
 
+    const imageName = (data.image_url ?? '').split('.').slice(0, -1).join('.')
+    const imageExt = (data.image_url ?? '').replace(new RegExp(`^${imageName}.`, 'gm'), '')
+    const widths = new Array(12).fill(null).map((_e, i) => 400 + i * 150)
+    const srcSet = widths.map(width => {
+      const targetFileName = `${imageName}.${width}.comp.${imageExt}`
+      const targetWidthName = `${width}w`
+      return `${targetFileName} ${targetWidthName}`
+    }).join(', ')
+    const sizes = widths.map(width => `(max-width: ${width}px) ${width}px`).join(', ')
+
     /* Classes and style */
     const classes = bem(props.className ?? '').block(this.clss)
     const inlineStyle: JSX.CSSProperties = { ...props.style }
@@ -42,7 +52,9 @@ class ImageBlock extends Component<Props, {}> {
           <Img
             className={imageClasses.value}
             src={data.image_url}
-            alt={data.description} />
+            alt={data.description}
+            srcSet={''/*srcSet*/}
+            sizes={''/*sizes*/} />
           <div className={bem(this.clss).elt('text').value}>
             <span className={bem(this.clss).elt('description').value}>{data.description + ' '}</span>
             <span className={bem(this.clss).elt('credits').value}>{data.credits}</span>

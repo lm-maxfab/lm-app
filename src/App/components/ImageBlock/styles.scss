@@ -6,6 +6,10 @@
   margin-bottom: var(--len-photo-block-margin-bottom);
 }
 
+.photos21-image-block:last-child {
+  margin-bottom: 0;
+}
+
 .photos21-image-block__inner {
   position: relative;
   padding: 0 16px;

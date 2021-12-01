@@ -25,14 +25,19 @@ interface Props {
 
 interface State {
   navHeight: number
+  currentPageData: any
+  currentMonth: string|undefined
 }
 
 class App extends Component<Props, State> {
+  $Months: Months|null = null
   clss: string = 'photos21'
   updateNavHeightInterval: number|null = null
   updateNavHeightTimeout: number|null = null
   state: State = {
-    navHeight: 0
+    navHeight: 0,
+    currentPageData: undefined,
+    currentMonth: undefined
   }
 
   /* * * * * * * * * * * * * * *
@@ -41,6 +46,8 @@ class App extends Component<Props, State> {
   constructor (props: Props) {
     super(props)
     this.updateNavHeight = this.updateNavHeight.bind(this)
+    this.handleMonthChange = this.handleMonthChange.bind(this)
+    this.scrollToMonth = this.scrollToMonth.bind(this)
   }
 
   /* * * * * * * * * * * * * * *
@@ -68,6 +75,15 @@ class App extends Component<Props, State> {
     })
   }
 
+  handleMonthChange (val?: string) {
+    this.setState({ currentMonth: val })
+  }
+
+  scrollToMonth (monthId: string) {
+    if (this.$Months === null) return
+    this.$Months.scrollToMonth(monthId)
+  }
+
   /* * * * * * * * * * * * * * *
    * RENDER
    * * * * * * * * * * * * * * */
@@ -83,7 +99,12 @@ class App extends Component<Props, State> {
     const creditsContent = (data?.collection('credits_content').entry('1').value ?? { id: '1', content: <></> }) as unknown as CreditsContentData
 
     // Extract data
-    const classes = bem('lm-app').block(this.clss)
+    const classes = bem('lm-app')
+      .block(this.clss)
+      .mod({
+        ['show-nav']: Array.isArray(state.currentPageData) && state.currentPageData.includes('show-nav'),
+        ['hide-nav']: !(Array.isArray(state.currentPageData) && state.currentPageData.includes('show-nav'))
+      })
     const inlineStyle: JSX.CSSProperties = {
       ...props.style,
       '--nav-height': `${state.navHeight}px`,
@@ -93,12 +114,38 @@ class App extends Component<Props, State> {
     // Display
     return (
       <div className={classes.value} style={inlineStyle}>
-        <Nav className={bem(this.clss).elt('nav').value} data={months} />
-        <Paginator onPageChange={val => console.log(val)}>
-          <Page value='home'><Home className={bem(this.clss).elt('home').value} images={homeImages} /></Page>
-          <Page value='intro'><Intro className={bem(this.clss).elt('intro').value} paragraphs={introParagraphs} /></Page>
-          <Page value='months'><Months className={bem(this.clss).elt('months').value} months={months} blocks={imageBlocks} /></Page>
-          <Page value='credits'><Credits className={bem(this.clss).elt('credits').value} content={creditsContent.content} /></Page>
+        <Nav
+          data={months}
+          current={state.currentMonth}
+          dispatchMonthButtonClick={this.scrollToMonth}
+          className={bem(this.clss).elt('nav').value} />
+        <Paginator
+          delay={100}
+          triggerBound='top'
+          onPageChange={val => this.setState({ currentPageData: val })}>
+          <Page value={['hide-nav']}>
+            <Home
+              className={bem(this.clss).elt('home').value}
+              images={homeImages} />
+          </Page>
+          <Page value={['hide-nav']}>
+            <Intro
+              className={bem(this.clss).elt('intro').value}
+              paragraphs={introParagraphs} />
+          </Page>
+          <Page value={['show-nav']}>
+            <Months
+              ref={(node: Months) => { this.$Months = node }}
+              className={bem(this.clss).elt('months').value}
+              months={months}
+              blocks={imageBlocks}
+              dispatchMonthChange={this.handleMonthChange} />
+          </Page>
+          <Page value={['hide-nav']}>
+            <Credits
+              className={bem(this.clss).elt('credits').value}
+              content={creditsContent.content} />
+          </Page>
         </Paginator>
       </div>
     )
