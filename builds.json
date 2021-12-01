@@ -33,5 +33,18 @@
       "description": "Fix assets_root_url in index.live.js and index.live.css",
       "time": "2021-11-25T10:41:38.070Z"
     }
+  ],
+  "8-2111-photos21": [
+    {
+      "version": {
+        "major": 0,
+        "minor": 1,
+        "patch": 0,
+        "status": "alpha",
+        "build": 0
+      },
+      "description": "First live version",
+      "time": "2021-12-01T16:47:04.880Z"
+    }
   ]
 }
