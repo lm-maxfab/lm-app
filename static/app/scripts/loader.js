@@ -18,13 +18,9 @@
   
   function whenDomLoaded () {
     window.LM_APP_LOAD_STATUS.dom.time = Date.now()
-<<<<<<< HEAD
-    if (window.LM_APP_CONFIG === undefined) injectConfig() // PRODUCTION config event will never happen
-=======
     
     // PRODUCTION config event will never happen
     if (window.LM_APP_CONFIG === undefined) injectConfig()
->>>>>>> master
     fetchSheetBase()
   }
 

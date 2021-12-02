@@ -33,25 +33,6 @@ class BEMBlock {
     return copy
   }
 
-<<<<<<< HEAD
-  element (name: string) {
-    return this.copy().addElement(name)
-  }
-
-  modifier (name: string) {
-    return this.copy().addModifier(name)
-  }
-
-  elt (name: string) {
-    return this.element(name)
-  }
-
-  mod (name: string) {
-    return this.modifier(name)
-  }
-
-  get value () {
-=======
   element (name: string): BEMBlock {
     return this.copy().addElement(name)
   }
@@ -69,7 +50,6 @@ class BEMBlock {
   }
 
   get value (): string {
->>>>>>> master
     return [this.name, ...this.modifiers.map(mod => `${this.name}_${mod}`)].join(' ')
   }
 }
@@ -161,11 +141,7 @@ export class BEM {
     return this.blocks.map(block => block.value).join(' ')
   }
 
-<<<<<<< HEAD
-  toString () {
-=======
   toString (): string {
->>>>>>> master
     return this.value
   }
 }
