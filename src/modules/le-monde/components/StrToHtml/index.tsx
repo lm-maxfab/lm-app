@@ -1,28 +1,47 @@
-import { Component, JSX } from 'preact'
-import './style.css'
+import { Component, JSX, createElement } from 'preact'
 
 interface Props {
   content?: string
-  wrapperTag?: 'div'|'span'
 }
 
 class StrToHtml extends Component<Props, {}> {
-  mainClass = 'lm-str-to-html'
-
   /* * * * * * * * * * * * * * *
    * RENDER
    * * * * * * * * * * * * * * */
-  render (): JSX.Element {
+  render (): JSX.Element|string {
     const { props } = this
-    const Wrapper = props.wrapperTag === 'div'
-      || props.wrapperTag === undefined
-      ? (props: JSX.HTMLAttributes<HTMLDivElement>) => <div {...props} />
-      : (props: JSX.HTMLAttributes<HTMLSpanElement>) => <span {...props} />
 
-    return <Wrapper
-      className={`${this.mainClass}`}
-      dangerouslySetInnerHTML={{ __html: props.content ?? '' }} />
+    // No content
+    if (props.content === undefined) return <></>
+    
+    const wrapper = document.createElement('div')
+    wrapper.innerHTML = props.content
+    const wrapperChildren = wrapper.children
+
+    // No children
+    if (wrapperChildren.length <= 0) return props.content
+
+    // Single child
+    if (wrapperChildren.length === 1) {
+      const onlyChild = wrapperChildren[0]
+      const attrs: any = {}
+      for (let lol of onlyChild.attributes) attrs[lol.name] = lol.value
+      return createElement(
+        onlyChild.tagName,
+        {
+          ...attrs,
+          dangerouslySetInnerHTML: {
+            __html: onlyChild.innerHTML
+          }
+        }
+      )
+    }
+
+    // Multiple children
+    return <span dangerouslySetInnerHTML={{ __html: props.content ?? '' }} />
+
   }
 }
 
+export type { Props }
 export default StrToHtml

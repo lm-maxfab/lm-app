@@ -4,7 +4,7 @@ interface CollectionArray {
   lines: string[][]
 }
 
-function tsvArrayToCollectionsArray (decodedTsvArray: string[][]) {
+function tsvArrayToCollectionsArray (decodedTsvArray: string[][]): CollectionArray[] {
   const collections: CollectionArray[] = []
   decodedTsvArray.forEach(line => {
     const [key, name, type] = line

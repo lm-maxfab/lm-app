@@ -4,28 +4,36 @@ type ModifiersArr = string[]
 class BEMBlock {
   name: string
   modifiers: string[]
-  
+
   constructor (name: string) {
     this.name = name
     this.modifiers = []
+    this.addElement = this.addElement.bind(this)
+    this.addModifier = this.addModifier.bind(this)
+    this.copy = this.copy.bind(this)
+    this.element = this.element.bind(this)
+    this.modifier = this.modifier.bind(this)
+    this.elt = this.elt.bind(this)
+    this.mod = this.mod.bind(this)
   }
 
-  addElement (name: string) {
+  addElement (name: string): BEMBlock {
     this.name = `${this.name}__${name}`
     return this
   }
 
-  addModifier (name: string) {
+  addModifier (name: string): BEMBlock {
     this.modifiers.push(name)
     return this
   }
 
-  copy () {
+  copy (): BEMBlock {
     const copy = new BEMBlock(this.name)
     this.modifiers.forEach(mod => copy.addModifier(mod))
     return copy
   }
 
+<<<<<<< HEAD
   element (name: string) {
     return this.copy().addElement(name)
   }
@@ -43,6 +51,25 @@ class BEMBlock {
   }
 
   get value () {
+=======
+  element (name: string): BEMBlock {
+    return this.copy().addElement(name)
+  }
+
+  modifier (name: string): BEMBlock {
+    return this.copy().addModifier(name)
+  }
+
+  elt (name: string): BEMBlock {
+    return this.element(name)
+  }
+
+  mod (name: string): BEMBlock {
+    return this.modifier(name)
+  }
+
+  get value (): string {
+>>>>>>> master
     return [this.name, ...this.modifiers.map(mod => `${this.name}_${mod}`)].join(' ')
   }
 }
@@ -50,6 +77,20 @@ class BEMBlock {
 export class BEM {
   blocks: BEMBlock[] = []
   currentBlock: BEMBlock|null = null
+
+  constructor () {
+    this.addBlock = this.addBlock.bind(this)
+    this.addElement = this.addElement.bind(this)
+    this.addModifier = this.addModifier.bind(this)
+    this.copy = this.copy.bind(this)
+    this.block = this.block.bind(this)
+    this.element = this.element.bind(this)
+    this.modifier = this.modifier.bind(this)
+    this.blk = this.blk.bind(this)
+    this.elt = this.elt.bind(this)
+    this.mod = this.mod.bind(this)
+    this.toString = this.toString.bind(this)
+  }
 
   addBlock (name: string): BEM {
     const newBlock = new BEMBlock(name)
@@ -71,7 +112,7 @@ export class BEM {
       name.forEach(name => (this.currentBlock as unknown as BEMBlock).addModifier(name))
     } else {
       Object.entries(name).forEach(([key, value]) => {
-        if (value !== true) return
+        if (!value) return
         (this.currentBlock as unknown as BEMBlock).addModifier(key)
       })
     }
@@ -105,25 +146,26 @@ export class BEM {
   }
 
   blk (name: string|undefined): BEM {
-    if (name === undefined) return this.copy()
     return this.block(name)
   }
 
   elt (name: string|undefined): BEM {
-    if (name === undefined) return this.copy()
     return this.element(name)
   }
 
   mod (name: string|ModifiersObj|ModifiersArr|undefined): BEM {
-    if (name === undefined) return this.copy()
     return this.modifier(name)
   }
 
-  get value () {
+  get value (): string {
     return this.blocks.map(block => block.value).join(' ')
   }
 
+<<<<<<< HEAD
   toString () {
+=======
+  toString (): string {
+>>>>>>> master
     return this.value
   }
 }

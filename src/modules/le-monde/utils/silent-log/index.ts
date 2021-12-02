@@ -1,6 +1,6 @@
 export interface Log {
-  message: any[],
-  stack: string[]|undefined,
+  message: any[]
+  stack: string[]|undefined
   time: Date
 }
 
@@ -12,14 +12,14 @@ export function printRegister (slice: number = 0, short: boolean = false): void 
     register.forEach(log => {
       const time = log.time
       const message = log.message
-      console.log(time.getTime(), `${message}`)
+      console.log(time.getTime(), message)
     })
   } else {
     register.forEach(log => {
       const time = log.time
       const stack = log.stack?.join('\n')
       const message = log.message
-      console.log(`${time}\n\n${stack}\n\n${message}\n`)
+      console.log(time, '\n\n', stack, '\n\n', message, '\n')
     })
   }
 }

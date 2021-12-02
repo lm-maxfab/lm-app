@@ -1,16 +1,15 @@
 import { Component, JSX } from 'preact'
 import clss from 'classnames'
-import './styles.css'
 
 interface Props extends JSX.HTMLAttributes<HTMLVideoElement> {
   className?: string
-  style?: JSX.CSSProperties  
+  style?: JSX.CSSProperties
   autoLoad?: boolean
 }
 
 class Video extends Component<Props, {}> {
   _mainClass: string = 'lm-video'
-  get mainClass () { return this._mainClass }
+  get mainClass (): string { return this._mainClass }
   $root: HTMLVideoElement|null = null
   prevRootInnerHTML: string|undefined
 
@@ -19,16 +18,16 @@ class Video extends Component<Props, {}> {
     this.load = this.load.bind(this)
   }
 
-  getSnapshotBeforeUpdate () {
+  getSnapshotBeforeUpdate (): void {
     this.prevRootInnerHTML = this.$root?.innerHTML
   }
 
-  componentDidUpdate () {
+  componentDidUpdate (): void {
     if (this.$root?.innerHTML !== this.prevRootInnerHTML
-      && this.props.autoLoad) this.load()
+      && this.props.autoLoad === true) this.load()
   }
 
-  load () {
+  load (): void {
     if (this.$root === null) return
     this.$root.load()
   }
@@ -45,7 +44,7 @@ class Video extends Component<Props, {}> {
         {...props}
         className={classes}
         style={inlineStyle}
-        ref={$n => this.$root = $n}>
+        ref={$n => { this.$root = $n }}>
         {props.children}
       </video>
     )

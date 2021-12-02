@@ -1,6 +1,9 @@
 import { Component, JSX } from 'preact'
 import bem, { BEM } from '../../utils/bem'
+<<<<<<< HEAD
 import './styles.scss'
+=======
+>>>>>>> master
 
 interface Props {
   className?: string
@@ -58,7 +61,11 @@ class Svg extends Component<Props, State> {
       const contents = $svg.innerHTML
       const attributes = Array
         .from($svg.attributes)
+<<<<<<< HEAD
         .reduce((acc, curr) => ({ ...acc, [curr.name]: curr.value } as JSX.SVGAttributes<SVGElement>), {})
+=======
+        .reduce((acc, curr): JSX.SVGAttributes<SVGElement> => ({ ...acc, [curr.name]: curr.value }), {})
+>>>>>>> master
       this.setState({ loading: false, error: null, contents, attributes })
     } catch (err) {
       console.error(`Error while loading ${src}\n`, err)
@@ -75,6 +82,15 @@ class Svg extends Component<Props, State> {
     /* Logic */
     const attributes = state.attributes ?? {}
     const contents = state.contents ?? ''
+<<<<<<< HEAD
+=======
+
+    /* Assign classes */
+    const classes = bem(attributes.class ?? '')
+      .block(props.className)
+      .block(this.bem.value)
+    const inlineStyle = { ...props.style }
+>>>>>>> master
 
     /* Assign classes */
     const classes = bem(attributes.class ?? '')

@@ -1,0 +1,47 @@
+.photos21-nav {
+  width: 100%;
+  height: 40px;
+  overflow: scroll;
+  background-color: var(--c-header-bg);
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.photos21-nav::-webkit-scrollbar {
+  display: none;
+}
+
+.photos21-nav__inner {
+  max-width: 1360px;
+  height: 100%;
+  text-align: center;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 0 auto;
+  
+  @media screen and (max-width: 1064px) {
+    width: 1064px;
+    justify-content: center;
+  }
+}
+
+.photos21-nav__month {
+  color: var(--c-main-text);
+  font-family: var(--ff-marr-sans);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: .4em;
+  font-size: 10px;
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  margin: 0 12px;
+  opacity: .5;
+  transition: opacity 200ms;
+}
+
+.photos21-nav__month.photos21-nav__month_current {
+  opacity: 1;
+}
