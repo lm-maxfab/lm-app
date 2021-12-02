@@ -313,7 +313,7 @@ async function build () {
     if (doVersionAndCommit) {
       console.log(chalk.bold('\n📣 Commiting and pushing to Github...'))
       await exec('git add -u')
-      await exec(`git commit -m "BUILD - ${buildVersionNameWithDesc}"`)
+      await exec(`git commit -m "BUILD - ${branch} - ${buildVersionNameWithDesc}"`)
       const pushResult = await exec(`git push origin ${branch}`)
       console.log(chalk.grey(`\nPushed: BUILD - ${buildVersionNameWithDesc}`))
       if (pushResult.stdout !== '') console.log(`${chalk.grey(pushResult.stdout.trim())}`)

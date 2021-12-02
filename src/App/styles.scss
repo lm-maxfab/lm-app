@@ -2,3 +2,21 @@
   --vh: 1vh;
   --vw: 1vw;
 }
+
+.dest22 {
+  --c-content-bg: #000000;
+}
+
+.dest22__home {
+  position: relative;
+  width: 100%;
+  height: calc(100 * var(--vh) - var(--nav-height));
+}
+
+.dest22__intro {
+  position: relative;
+}
+
+.dest22__destinations {
+  position: relative;
+}

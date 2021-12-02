@@ -1,47 +1,42 @@
 import { Component, JSX } from 'preact'
-import bem, { BEM } from '../../../modules/le-monde/utils/bem'
+import bem from '../../../modules/le-monde/utils/bem'
+import { IntroElement } from '../../types'
+import IntroParagraph from '../IntroParagraph'
+import IntroImage from '../IntroImage'
 import './styles.scss'
-import shape1 from './assets/shape-1.svg'
-import Svg from '../../../modules/le-monde/components/Svg'
-import Img from '../../../modules/le-monde/components/Img'
-
-const imgUrl = 'https://img-19.ccm2.net/cI8qqj-finfDcmx6jMK6Vr-krEw=/1500x/smart/b829396acc244fd484c5ddcdcb2b08f3/ccmcms-commentcamarche/20494859.jpg'
 
 interface Props {
   className?: string
   style?: JSX.CSSProperties
+  elements: IntroElement[]
 }
 
 class Intro extends Component<Props, {}> {
-  bem: BEM = bem('dest22-intro')
+  clss: string = 'dest22-intro'
 
   /* * * * * * * * * * * * * * *
    * RENDER
    * * * * * * * * * * * * * * */
   render (): JSX.Element {
     const { props } = this
-    const classes = this.bem.block(props.className)
-    const inlineStyle: JSX.CSSProperties = { ...props.style }
+   
+    /* Logic */
+    const { elements } = props
+
+    /* Classes & styles */
+    const wrapperClasses = bem(props.className ?? '').block(this.clss)
+    const wrapperStyle: JSX.CSSProperties = { ...props.style }
 
     return (
       <div
-        className={classes.value}
-        style={inlineStyle}>
-        <h1 className={this.bem.elt('title').value} style={{ paddingTop: '500px' }}>
-          <span>Coucou mon </span><Svg src={shape1} /><span> coco,
-          voici un essai </span><Svg src={shape1} /><span> avec un SVG.</span>
-        </h1>
-        <div style={{
-          backgroundImage: `url(${imgUrl})`,
-          backgroundAttachment: 'fixed',
-          position: 'absolute',
-          top: '0px',
-          left: '0px',
-          height: '100%',
-          width: '100%',
-          objectFit: 'cover',
-          mixBlendMode: 'darken'
-        }} />
+        className={wrapperClasses.value}
+        style={wrapperStyle}>
+        {elements.map(element => {
+          console.log(element.type)
+          if (element.type === 'texte') return <IntroParagraph content={element.content ?? <></>} />
+          else if (element.type === 'image') return <IntroImage url={element.url ?? ''} />
+          else return null
+        })}
       </div>
     )
   }
