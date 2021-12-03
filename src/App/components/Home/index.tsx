@@ -30,15 +30,14 @@ class Intro extends Component<Props, {}> {
         style={wrapperStyle}>
         <h1
           className={titleClasses.value}>
-          <span>Coucou mon </span><Svg src={shape1} /><span> coco,
-          voici un essai </span><Svg src={shape1} /><span> avec un SVG.</span>
+          <span>Les <Svg src={shape1} /> <em>20 destinations</em> 2022, <Svg src={shape1} /> France et Europe, du <em>«Monde»</em> <Svg src={shape1} /> pour retrouver le goût de voyager <Svg src={shape1} /></span>
         </h1>
         <div style={{
           backgroundImage: `url(${imgUrl})`,
           backgroundAttachment: 'fixed',
           position: 'absolute',
-          top: '0px',
-          left: '0px',
+          top: '0',
+          left: '0',
           height: '100%',
           width: '100%',
           objectFit: 'cover',

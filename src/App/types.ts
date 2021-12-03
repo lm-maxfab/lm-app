@@ -27,5 +27,8 @@ export interface Destination {
   kicker?: string
   content?: VNode
   main_color?: string
+  contrast_color?: string
   article_url?: string
+  shape?: 'church'|'circles'|'oval'|'pill'
+  main_photo_url?: string
 }

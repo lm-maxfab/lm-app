@@ -4,19 +4,63 @@
 }
 
 .dest22 {
-  --c-content-bg: #000000;
+  --c-black: #000000;
+  --c-white: #FFFFFF;
+  --c-content-bg: var(--c-black);
+  --c-main-text: var(--c-white);
+
+  --fs-home-title: 80px;
+  --fs-main-text: 18px;
+
+  --lh-home-title: calc(140/120);
+  --lh-main-text: 1.5;
+
+  --len-visible-screen-height: calc(100 * var(--vh) - var(--nav-height));
+  --len-home-height: var(--len-visible-screen-height);
+  --len-home-max-height: calc(165 * var(--vw));
+  --len-home-max-width: 960px;
+  --len-home-padding: 24px;
+  --len-intro-max-width: calc(38 * 16px);
+  --len-intro-padding: 24px;
+  --len-intro-paragraph-v-margin: 24px;
+  --len-intro-image-v-margin: 24px;
+  --len-destination-height: calc(var(--len-visible-screen-height) * 2);
+  --len-destination-window-max-width: calc(19 * 16px);
+  --len-destination-padding: 16px;
+  --len-destination-window-width: 100%;
+
+  @media screen and (max-width: 1200px) {
+    --fs-home-title: 60px;
+    --fs-main-text: 17px;
+
+    --len-destination-window-max-width: calc(15 * 16px);
+  }
+
+  @media screen and (max-width: 800px) {
+    --fs-home-title: 40px;
+    --fs-main-text: 16px;
+
+    --len-destination-window-max-width: calc(11 * 16px);
+  }
+
+  @media screen and (max-width: 480px) {
+    --fs-home-title: 28px;
+  }
 }
 
 .dest22__home {
   position: relative;
   width: 100%;
-  height: calc(100 * var(--vh) - var(--nav-height));
+  height: var(--len-home-height);
+  max-height: var(--len-home-max-height);
 }
 
 .dest22__intro {
+  width: 100%;
   position: relative;
 }
 
 .dest22__destinations {
+  width: 100%;
   position: relative;
 }

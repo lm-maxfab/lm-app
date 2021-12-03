@@ -1,0 +1,21 @@
+.dest22-destination-number {
+  width: 40px;
+  height: 40px;
+  max-width: 100%;
+  position: relative;
+  border-width: 2px;
+  border-style: solid;
+  border-color: var(--c-border-color);
+  background-color: var(--c-bg-color);
+  display: block;
+}
+
+.dest22-destination-number span {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--ff-marr-sans-condensed);
+  font-weight: 600;
+  color: var(--c-text-color);
+}

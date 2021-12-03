@@ -1,19 +1,25 @@
 .dest22-home {
-  font-weight: 900;
-  background: black;
-  // color: transparent;
-  // background-origin: padding-box;
-  // background-image: url('https://img-19.ccm2.net/cI8qqj-finfDcmx6jMK6Vr-krEw=/1500x/smart/b829396acc244fd484c5ddcdcb2b08f3/ccmcms-commentcamarche/20494859.jpg');
-  // background-clip: text;
-  // -webkit-background-clip: text;
-  // background-attachment: fixed;
-  // background-size: cover;
-  // background-position: center;
-  
+  width: 100%;
+  height: 100%;
+  background: var(--c-content-bg);
+
   .dest22-home__title {
-    font-size: 84px;
-    line-height: 1.5;
-    color: white;
+    font-family: var(--ff-the-antiqua-b);
+    font-size: var(--fs-home-title);
+    line-height: var(--lh-home-title);
+    color: var(--c-main-text);
+    font-weight: 400;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    max-width: var(--len-home-max-width);
+    padding: var(--len-home-padding);
+
+    em {
+      font-weight: 600;
+    }
 
     svg {
       height: 1em;

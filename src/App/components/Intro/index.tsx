@@ -31,12 +31,15 @@ class Intro extends Component<Props, {}> {
       <div
         className={wrapperClasses.value}
         style={wrapperStyle}>
-        {elements.map(element => {
-          console.log(element.type)
-          if (element.type === 'texte') return <IntroParagraph content={element.content ?? <></>} />
-          else if (element.type === 'image') return <IntroImage url={element.url ?? ''} />
-          else return null
-        })}
+        <div
+          className={bem(this.clss).elt('inner').value}>
+          {elements.map(element => {
+            console.log(element.type)
+            if (element.type === 'texte') return <IntroParagraph content={element.content ?? <></>} />
+            else if (element.type === 'image') return <IntroImage url={element.url ?? ''} />
+            else return null
+          })}
+        </div>
       </div>
     )
   }

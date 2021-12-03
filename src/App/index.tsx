@@ -7,7 +7,12 @@ import Paginator, { Page } from '../modules/le-monde/components/Paginator'
 import Home from './components/Home'
 import Intro from './components/Intro'
 import Destinations from './components/Destinations'
+import DestinationHead from './components/DestinationHead'
 import { Destination, IntroElement } from './types'
+import DestinationWindow from './components/DestinationWindow'
+import DestinationNumber from './components/DestinationNumber'
+import DestinationSupertitle from './components/DestinationSupertitle'
+import DestinationTitle from './components/DestinationTitle'
 
 interface Props {
   className?: string
@@ -46,24 +51,67 @@ class App extends Component<Props, {}> {
       <div
         className={wrapperClasses.value}
         style={wrapperStyle}>
-        <Paginator
+
+        {/* <DestinationHead
+          position={2}
+          data={destinations[0]} /> */}
+        <br /><br /><br /><br /><br /><br />
+        <br /><br /><br /><br /><br /><br />
+        <br /><br /><br /><br /><br /><br />
+        <br /><br /><br /><br /><br /><br />
+        <br /><br /><br /><br /><br /><br />
+        <DestinationHead
+          fixedImage={true}
+          photoUrl={destinations[0].main_photo_url}
+          shape={destinations[0].shape}
+          borderColor={destinations[0].contrast_color}
+          bgColor={destinations[0].main_color}
+          textColor={destinations[0].contrast_color}
+          position={3}
+          title={destinations[0].title}
+          supertitle={destinations[0].supertitle} />
+
+        {/* <DestinationWindow
+          fixedImage={true}
+          photoUrl={destinations[0].main_photo_url}
+          shape={destinations[0].shape} />
+
+        <DestinationNumber
+          borderColor='blue'
+          bgColor='aliceblue'
+          textColor='red'
+          value={3} />
+
+        <DestinationSupertitle
+          textColor='red'
+          content={destinations[0].supertitle ?? ''} />
+        
+        <DestinationTitle
+          textColor='red'
+          content={destinations[0].supertitle ?? ''} /> */}
+
+        <br /><br /><br /><br /><br /><br />
+        
+        {/* KEEP THIS THIS IS THE APP */}
+        {/* <Paginator
           triggerBound='top'
           onPageChange={val => console.log(`Page changed: ${val}`)}>
-          {/* <Page value='home'>
-            <Home
-              className={homeClasses.value} />
-          </Page> */}
+          <Page value='home'>
+            <div className={homeClasses.value}>
+              <Home />
+            </div>
+          </Page>
           <Page value='intro'>
-            <Intro
-              elements={introElements}
-              className={introClasses.value} />
+            <div className={introClasses.value}>
+              <Intro elements={introElements} />
+            </div>
           </Page>
           <Page value='destinations'>
-            <Destinations
-              entries={destinations}
-              className={destinationClasses.value} />
+            <div className={destinationClasses.value}>
+              <Destinations entries={destinations} />
+            </div>
           </Page>
-        </Paginator>
+        </Paginator> */}
       </div>
     )
   }

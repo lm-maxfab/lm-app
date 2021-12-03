@@ -1,0 +1,17 @@
+.dest22-destination-head {
+  padding: 300px 0px;
+  background-color: orange;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.dest22-destination-head .dest22-destination-window {
+  width: 500px;
+}
+
+.dest22-destination-head .dest22-destination-number {
+  position: relative;
+  transform: translateY(-50%);
+}

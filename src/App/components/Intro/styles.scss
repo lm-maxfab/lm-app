@@ -1,3 +1,10 @@
 .dest22-intro {
   background-color: var(--c-content-bg);
+  padding: var(--len-intro-padding);
+}
+
+.dest22-intro__inner {
+  width: 100%;
+  max-width: var(--len-intro-max-width);
+  margin: 0 auto;
 }
