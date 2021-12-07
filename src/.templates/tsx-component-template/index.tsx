@@ -9,7 +9,8 @@ interface Props {
 }
 
 class Template extends Component<Props, {}> {
-  clss = 'TEMPLATE'
+  static clss = 'TEMPLATE'
+  clss = Template.clss
 
   /* * * * * * * * * * * * * * *
    * RENDER

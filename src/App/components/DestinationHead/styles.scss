@@ -1,17 +1,21 @@
 .dest22-destination-head {
-  padding: 300px 0px;
-  background-color: orange;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   position: relative;
+  text-align: center;
 }
 
 .dest22-destination-head .dest22-destination-window {
-  width: 500px;
+  height: calc(0.5 * var(--len-visible-screen-height));
 }
 
 .dest22-destination-head .dest22-destination-number {
   position: relative;
   transform: translateY(-50%);
+}
+
+.dest22-destination-head .dest22-destination-opener {
+  margin-top: 24px;
 }

@@ -15,6 +15,8 @@ interface State {
 }
 
 class Paginator extends Component<Props, State> {
+  static Page = Page
+
   nextChildrenLoopTimeout: number|null = null
   requestChildrenLoopInterval: number|null = null
   childrenRefs: Page[] = []

@@ -5,6 +5,7 @@ import DestinationWindow from '../DestinationWindow'
 import DestinationNumber from '../DestinationNumber'
 import DestinationSupertitle from '../DestinationSupertitle'
 import DestinationTitle from '../DestinationTitle'
+import DestinationOpener from '../DestinationOpener'
 import church from './assets/church.svg'
 import circles from './assets/circles.svg'
 import oval from './assets/oval.svg'
@@ -17,16 +18,17 @@ import './styles.scss'
 interface Props {
   className?: string
   style?: JSX.CSSProperties
-  
-  fixedImage: boolean
-  photoUrl: DestinationType['main_photo_url']
-  shape: DestinationType['shape']
-  borderColor: DestinationType['contrast_color']
-  bgColor: DestinationType['main_color']
-  textColor: DestinationType['contrast_color']
-  position: number
-  title: DestinationType['title']
-  supertitle: DestinationType['supertitle']
+  fixedImage?: boolean
+  photoUrl?: DestinationType['main_photo_url']
+  shape?: DestinationType['shape']
+  borderColor?: DestinationType['contrast_color']
+  bgColor?: DestinationType['main_color']
+  textColor?: DestinationType['contrast_color']
+  position?: number
+  title?: DestinationType['title']
+  supertitle?: DestinationType['supertitle']
+  isOpened?: boolean
+  onOpenerClick?: (e: JSX.TargetedMouseEvent<HTMLButtonElement>) => void
 }
 
 class DestinationHead extends Component<Props, {}> {
@@ -44,7 +46,9 @@ class DestinationHead extends Component<Props, {}> {
 
     /* Display */
     return (
-      <div className={wrapperClasses.value} style={wrapperStyle}>
+      <div
+        style={wrapperStyle}
+        className={wrapperClasses.value}>
         <DestinationWindow
           fixedImage={props.fixedImage}
           photoUrl={props.photoUrl}
@@ -60,7 +64,11 @@ class DestinationHead extends Component<Props, {}> {
         <DestinationTitle
           content={props.title}
           textColor={props.textColor} />
-
+        <DestinationOpener
+          isOpened={props.isOpened}
+          bgColor={props.bgColor}
+          borderColor={props.borderColor}
+          onClick={this.props.onOpenerClick} />
       </div>
     )
   }

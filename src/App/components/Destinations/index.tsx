@@ -1,5 +1,5 @@
 import { Component, JSX } from 'preact'
-import Paginator, { Page } from '../../../modules/le-monde/components/Paginator'
+import Paginator from '../../../modules/le-monde/components/Paginator'
 import bem from '../../../modules/le-monde/utils/bem'
 import { Destination as DestinationType } from '../../types'
 import Destination from '../Destination'
@@ -9,67 +9,80 @@ import './styles.scss'
 interface Props {
   className?: string
   style?: JSX.CSSProperties
-  entries: DestinationType[]
+  openedDestinationId?: DestinationType['id']|null
+  destinations?: DestinationType[]
+  onDestinationOpenerClick?: (id: string) => void
 }
 
 interface State {
-  currentEntry: DestinationType|null
+  backgroundColor: string
 }
 
 class Destinations extends Component<Props, State> {
-  clss = 'dest22-destinations'
+  static clss = 'dest22-destinations'
+  clss = Destinations.clss
   state: State = {
-    currentEntry: null
+    backgroundColor: 'transparent'
   }
-
+  
   constructor (props: Props) {
     super(props)
-    this.getEntryById = this.getEntryById.bind(this)
-    this.handlePageChange = this.handlePageChange.bind(this)
+    this.handlePageEnter = this.handlePageEnter.bind(this)
   }
 
-  getEntryById (id: DestinationType['id']) {
-    return this.props.entries.find(entry => entry.id === id)
-  }
-
-  handlePageChange (val: DestinationType['id']) {
-    const currentEntry = this.getEntryById(val)
-    this.setState({ currentEntry: currentEntry ?? null })
+  handlePageEnter (destId: string) {
+    const currentDestination = this.props.destinations?.find(dest => dest.id === destId)
+    if (currentDestination === undefined) return
+    this.setState({ backgroundColor: currentDestination.main_color })
   }
 
   /* * * * * * * * * * * * * * *
    * RENDER
    * * * * * * * * * * * * * * */
   render (): JSX.Element|null {
-    const { props, state } = this
-    const { entries } = props
+    const { props } = this
 
     /* Classes and style */
     const wrapperClasses = bem(props.className ?? '').block(this.clss)
-    // const firstEntryMainColor = props.entries[0].main_color ?? 'var(--c-content-bg)'
     const wrapperStyle: JSX.CSSProperties = {
-      // ['--c-first-entry-main-color']: firstEntryMainColor,
-      // ['--c-content-bg']: state.currentEntry?.main_color ?? 'var(--c-first-entry-main-color)',
-      ...props.style
+      ...props.style,
+      ['--c-background-color']: this.state.backgroundColor
     }
 
     /* Display */
-    return <div
-      style={wrapperStyle}
-      className={wrapperClasses.value}>
-      <div className={bem(this.clss).elt('before-first').value}></div>
-      <Paginator
-        triggerBound='bottom'
-        onPageChange={this.handlePageChange}>
-        {entries.map((entry, entryPos) => {
-          return <Page value={entry.id}>
-            <Destination
-              data={entry}
-              position={entryPos + 1} />
-          </Page>
-        })}
-      </Paginator>
-    </div>
+    return (
+      <div
+        className={wrapperClasses.value}
+        style={wrapperStyle}>
+        <Paginator
+          delay={100}
+          intervalCheck={false}
+          triggerBound='bottom'
+          onPageChange={(destId: string) => this.handlePageEnter(destId)}>
+          {props.destinations?.map((dest, destPos) => {
+            const opener = () => {
+              if (props.onDestinationOpenerClick === undefined) return
+              props.onDestinationOpenerClick(dest.id)
+            }
+            return <Paginator.Page value={dest.id}>
+              <Destination
+                fixedImage={true}
+                photoUrl={dest.main_photo_url}
+                shape={dest.shape}
+                borderColor={dest.contrast_color}
+                bgColor={dest.main_color}
+                textColor={dest.contrast_color}
+                position={destPos + 1}
+                title={dest.title}
+                supertitle={dest.supertitle}
+                isOpened={props.openedDestinationId === dest.id}
+                onOpenerClick={opener}
+                content={dest.content} />
+            </Paginator.Page>
+          })}
+        </Paginator>
+      </div>
+    )
   }
 }
 

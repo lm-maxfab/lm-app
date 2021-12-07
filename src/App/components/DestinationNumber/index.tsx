@@ -7,10 +7,10 @@ import './styles.scss'
 interface Props {
   className?: string
   style?: JSX.CSSProperties
-  value: number
-  borderColor: DestinationType['contrast_color']
-  bgColor: DestinationType['main_color']
-  textColor: DestinationType['contrast_color']
+  value?: number
+  borderColor?: DestinationType['contrast_color']
+  bgColor?: DestinationType['main_color']
+  textColor?: DestinationType['contrast_color']
 }
 
 class DestinationNumber extends Component<Props, {}> {

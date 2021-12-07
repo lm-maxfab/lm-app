@@ -7,11 +7,13 @@ import './styles.scss'
 interface Props {
   className?: string
   style?: JSX.CSSProperties
-  content: DestinationType['content']
+  content?: DestinationType['content']
+  textColor?: string
 }
 
 class DestinationContent extends Component<Props, {}> {
-  clss = 'dest22-destination-content'
+  static clss = 'dest22-destination-content'
+  clss = DestinationContent.clss
 
   /* * * * * * * * * * * * * * *
    * RENDER
@@ -21,12 +23,15 @@ class DestinationContent extends Component<Props, {}> {
 
     /* Classes and style */
     const wrapperClasses = bem(props.className ?? '').block(this.clss)
-    const wrapperStyle: JSX.CSSProperties = { ...props.style }
+    const wrapperStyle: JSX.CSSProperties = {
+      ...props.style,
+      ['--c-text-color']: props.textColor
+    }
 
     /* Display */
     return (
       <div className={wrapperClasses.value} style={wrapperStyle}>
-        {/* {props.content} */}
+        {props.content}
       </div>
     )
   }
