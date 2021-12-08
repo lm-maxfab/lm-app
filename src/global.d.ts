@@ -1,3 +1,5 @@
+import SilentLog from './modules/le-monde/utils/silent-log'
+
 export interface MyNavigator extends Navigator {
   connection: NetworkInformation
   mozConnection?: NetworkInformation
@@ -40,5 +42,7 @@ export declare global {
     }
 
     LM_APP_RENDERER: (sheetBaseTsv?: string) => void
+
+    LM_APP_SILENT_LOGGER: SilentLog
   }
 }

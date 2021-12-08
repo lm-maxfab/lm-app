@@ -1,8 +1,0 @@
-<svg viewBox="0 0 160 320" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <style>
-    .background { fill: transparent; }
-    .fill-1 { fill: black; }
-  </style>
-  <rect class="background" x="0" y="0" width="160" height="320" />
-  <path class="fill-1" fill-rule="evenodd" clip-rule="evenodd" d="M160 80C160 35.8172 124.183 0 80 0C35.8172 0 0 35.8172 0 80C0 80.0869 0.00013867 80.1738 0.000415802 80.2607V320H160V80H160Z" />
-</svg>
