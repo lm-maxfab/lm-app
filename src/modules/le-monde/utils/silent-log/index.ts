@@ -4,38 +4,32 @@ export interface Log {
   time: Date
 }
 
-const logRegister: Log[] = []
+class SilentLog {
+  logRegister: Log[] = []
 
-export function printRegister (slice: number = 0, short: boolean = false): void {
-  const register = getRegister(slice)
-  if (short) {
-    register.forEach(log => {
-      const time = log.time
-      const message = log.message
-      console.log(time.getTime(), message)
-    })
-  } else {
-    register.forEach(log => {
-      const time = log.time
-      const stack = log.stack?.join('\n')
-      const message = log.message
-      console.log(time, '\n\n', stack, '\n\n', message, '\n')
+  log (...messages: any[]): void {
+    const origin = window.location.origin
+    const stack = new Error().stack
+      ?.split('\n')
+      .map(line => line.replace(origin, '').trim())
+      .slice(2)
+    const time = new Date()
+    const log: Log = { message: messages, stack, time }
+    this.logRegister.push(log)
+  }
+
+  get (): Log[] {
+    return [...this.logRegister.map(log => ({ ...log }))]
+  }
+
+  print (slice: number = 100): void {
+    const logs = this.get().slice(-1 * slice)
+    logs.forEach(log => {
+      console.log(`${log.time}\n\n${log.stack?.join('\n')}`)
+      console.log(...log.message)
+      console.log('')
     })
   }
 }
 
-export function getRegister (slice: number = 0): Log[] {
-  return [...logRegister].slice(slice)
-}
-
-export default function silentLog (...messages: any[]): Log[] {
-  const origin = window.location.origin
-  const stack = new Error().stack
-    ?.split('\n')
-    .map(line => line.replace(origin, '').trim())
-    .slice(2)
-  const time = new Date()
-  const log: Log = { message: messages, stack, time }
-  logRegister.push(log)
-  return getRegister()
-}
+export default SilentLog
