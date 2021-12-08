@@ -7,15 +7,8 @@ import Paginator, { Page } from '../modules/le-monde/components/Paginator'
 import Home from './components/Home'
 import Intro from './components/Intro'
 import Destinations from './components/Destinations'
-import Destination from './components/Destination'
-import DestinationHead from './components/DestinationHead'
+import Credits from './components/Credits'
 import { Destination as DestinationType, IntroElement } from './types'
-import DestinationWindow from './components/DestinationWindow'
-import DestinationNumber from './components/DestinationNumber'
-import DestinationSupertitle from './components/DestinationSupertitle'
-import DestinationTitle from './components/DestinationTitle'
-import DestinationOpener from './components/DestinationOpener'
-import DestinationContent from './components/DestinationContent'
 
 interface Props {
   className?: string
@@ -76,92 +69,28 @@ class App extends Component<Props, State> {
     const homeClasses = bem(this.clss).elt('home')
     const introClasses = bem(this.clss).elt('intro')
     const destinationClasses = bem(this.clss).elt('destinations')
+    const creditsClasses = bem(this.clss).elt('credits')
 
     // Display
     return (
       <div
         className={wrapperClasses.value}
         style={wrapperStyle}>
-
-        {/* <div style={{ width: '500px' }}>
-          <DestinationContent
-            textColor={destinations[0].main_color}
-            content={destinations[0].content} />
-        </div> */}
-
-        <Destinations
-          destinations={destinations}
-          openedDestinationId={state.openedDestinationId}
-          onDestinationOpenerClick={this.handleDestinationOpenerClick} />
-
-        {/* <Destination
-          fixedImage={true}
-          photoUrl={destinations[0].main_photo_url}
-          shape={destinations[0].shape}
-          borderColor={destinations[0].contrast_color}
-          bgColor={destinations[0].main_color}
-          textColor={destinations[0].contrast_color}
-          position={3}
-          title={destinations[0].title}
-          supertitle={destinations[0].supertitle}
-          isOpened={state.openedDestinationId === destinations[0].id}
-          onOpenerClick={e => this.handleDestinationOpenerClick(destinations[0].id)}
-          content={destinations[0].content} /> */}
-
-        {/* <DestinationHead
-          fixedImage={true}
-          photoUrl={destinations[0].main_photo_url}
-          shape={destinations[0].shape}
-          borderColor={destinations[0].contrast_color}
-          bgColor={destinations[0].main_color}
-          textColor={destinations[0].contrast_color}
-          position={3}
-          title={destinations[0].title}
-          supertitle={destinations[0].supertitle}
-          isOpened={state.openedDestinationId === destinations[0].id}
-          onOpenerClick={e => this.handleDestinationOpenerClick(destinations[0].id)} /> */}
-
-        {/* <DestinationWindow
-          fixedImage={true}
-          photoUrl={destinations[0].main_photo_url}
-          shape={destinations[0].shape} />
-
-        <DestinationNumber
-          borderColor='blue'
-          bgColor='aliceblue'
-          textColor='red'
-          value={3} />
-
-        <DestinationSupertitle
-          textColor='red'
-          content={destinations[0].supertitle ?? ''} />
-        
-        <DestinationTitle
-          textColor='red'
-          content={destinations[0].supertitle ?? ''} /> */}
-
-
-        
-        {/* KEEP THIS THIS IS THE APP */}
-        {/* <Paginator
+        <Paginator
           triggerBound='top'
           onPageChange={val => console.log(`Page changed: ${val}`)}>
-          <Page value='home'>
-            <div className={homeClasses.value}>
-              <Home />
-            </div>
-          </Page>
-          <Page value='intro'>
-            <div className={introClasses.value}>
-              <Intro elements={introElements} />
-            </div>
-          </Page>
+          <Page value='home'><div className={homeClasses.value}><Home /></div></Page>
+          <Page value='intro'><div className={introClasses.value}><Intro elements={introElements} /></div></Page>
           <Page value='destinations'>
             <div className={destinationClasses.value}>
-              <Destinations entries={destinations} />
+              <Destinations
+                destinations={destinations}
+                openedDestinationId={state.openedDestinationId}
+                onDestinationOpenerClick={this.handleDestinationOpenerClick} />
             </div>
           </Page>
-        </Paginator> */}
+          <Page value='credits'><div className={creditsClasses.value}><Credits /></div></Page>
+        </Paginator>
       </div>
     )
   }

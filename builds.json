@@ -58,6 +58,17 @@
       },
       "description": "Destinations component seems to work",
       "time": "2021-12-07T18:06:55.542Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 2,
+        "patch": 0,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "Missing credits, articles footer and side note, and some css",
+      "time": "2021-12-08T09:49:37.284Z"
     }
   ]
 }

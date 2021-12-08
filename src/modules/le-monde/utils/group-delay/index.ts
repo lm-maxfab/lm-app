@@ -23,9 +23,10 @@ class GroupDelay {
   call () {
     const hasNewCallPlanned = this.execTimeout !== null
     if (hasNewCallPlanned) return
-    const lastCallIsStale = Date.now() >= this.lastExecTime + this.delay
+    const delayTillNext = this.delayTillNextExecution
+    const lastCallIsStale = delayTillNext <= 0
     if (lastCallIsStale) return this.execute()
-    else { this.execTimeout = window.setTimeout(this.execute, this.delayTillNextExecution) }
+    else { this.execTimeout = window.setTimeout(this.execute, delayTillNext) }
   }
 
   execute () {
