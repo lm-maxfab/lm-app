@@ -18,11 +18,9 @@ class Longform extends Component<Props, {}> {
     // Logic
     const sheetBase = props.sheetBase
     const viewportDimensions = props.viewportDimensions
-    console.log(sheetBase)
-    console.log(viewportDimensions)
 
     // Assign classes
-    const wrapperClasses = bem(props.className ?? '').block(this.clss)
+    const wrapperClasses = bem(props.className).block(this.clss)
     const wrapperStyle: JSX.CSSProperties = { ...props.style }
 
     // Display

@@ -1,11 +1,6 @@
 import Longform from './Longform'
 
-interface RenderedAppAndNode {
-  app: typeof Longform,
-  rootNodeClass: string
-}
-
-const rendered: RenderedAppAndNode[] = [
+const rendered = [
   { app: Longform, rootNodeClass: 'lm-app-root-longform' }
 ]
 
