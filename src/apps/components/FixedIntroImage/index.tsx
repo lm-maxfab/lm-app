@@ -1,16 +1,17 @@
 import { Component, JSX } from 'preact'
-import bem from '../../modules/le-monde/utils/bem'
-
+import Img from '../../../modules/le-monde/components/Img'
+import bem from '../../../modules/le-monde/utils/bem'
 import './styles.scss'
 
 interface Props {
   className?: string
   style?: JSX.CSSProperties
+  imgUrl?: string
 }
 
-class Template extends Component<Props, {}> {
-  static clss = 'lm-component-css-class'
-  clss = Template.clss
+class FixedIntroImage extends Component<Props, {}> {
+  static clss = 'prn-fixed-intro-image'
+  clss = FixedIntroImage.clss
 
   /* * * * * * * * * * * * * * *
    * RENDER
@@ -24,12 +25,14 @@ class Template extends Component<Props, {}> {
 
     /* Display */
     return (
-      <div className={wrapperClasses.value} style={wrapperStyle}>
-        TSX component template.
+      <div
+        style={wrapperStyle}
+        className={wrapperClasses.value}>
+        <Img src={props.imgUrl} />
       </div>
     )
   }
 }
 
 export type { Props }
-export default Template
+export default FixedIntroImage

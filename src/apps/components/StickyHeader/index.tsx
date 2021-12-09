@@ -1,5 +1,7 @@
 import { Component, JSX } from 'preact'
-import bem from '../../modules/le-monde/utils/bem'
+import Svg from '../../../modules/le-monde/components/Svg'
+import bem from '../../../modules/le-monde/utils/bem'
+import logoUrl from './assets/logo.svg'
 
 import './styles.scss'
 
@@ -8,9 +10,9 @@ interface Props {
   style?: JSX.CSSProperties
 }
 
-class Template extends Component<Props, {}> {
-  static clss = 'lm-component-css-class'
-  clss = Template.clss
+class StickyHeader extends Component<Props, {}> {
+  static clss = 'prn-sticky-header'
+  clss = StickyHeader.clss
 
   /* * * * * * * * * * * * * * *
    * RENDER
@@ -25,11 +27,11 @@ class Template extends Component<Props, {}> {
     /* Display */
     return (
       <div className={wrapperClasses.value} style={wrapperStyle}>
-        TSX component template.
+        <Svg src={logoUrl} />
       </div>
     )
   }
 }
 
 export type { Props }
-export default Template
+export default StickyHeader

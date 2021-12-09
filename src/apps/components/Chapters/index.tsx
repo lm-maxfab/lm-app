@@ -1,16 +1,19 @@
 import { Component, JSX } from 'preact'
-import bem from '../../modules/le-monde/utils/bem'
+import bem from '../../../modules/le-monde/utils/bem'
+import Chapter from '../Chapter'
+import { ChapterData } from '../../Longform/types'
 
 import './styles.scss'
 
 interface Props {
   className?: string
   style?: JSX.CSSProperties
+  chaptersData?: ChapterData[]
 }
 
-class Template extends Component<Props, {}> {
-  static clss = 'lm-component-css-class'
-  clss = Template.clss
+class Chapters extends Component<Props, {}> {
+  static clss = 'prn-chapters'
+  clss = Chapters.clss
 
   /* * * * * * * * * * * * * * *
    * RENDER
@@ -24,12 +27,16 @@ class Template extends Component<Props, {}> {
 
     /* Display */
     return (
-      <div className={wrapperClasses.value} style={wrapperStyle}>
-        TSX component template.
+      <div
+        style={wrapperStyle}
+        className={wrapperClasses.value}>
+        {props.chaptersData?.map(chapterData => {
+          return <Chapter {...chapterData} />
+        })}
       </div>
     )
   }
 }
 
 export type { Props }
-export default Template
+export default Chapters

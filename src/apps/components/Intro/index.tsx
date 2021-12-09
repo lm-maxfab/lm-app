@@ -1,16 +1,18 @@
-import { Component, JSX } from 'preact'
-import bem from '../../modules/le-monde/utils/bem'
+import { Component, JSX, VNode } from 'preact'
+import bem from '../../../modules/le-monde/utils/bem'
 
 import './styles.scss'
 
 interface Props {
   className?: string
   style?: JSX.CSSProperties
+  title?: VNode
+  paragraph?: VNode
 }
 
-class Template extends Component<Props, {}> {
-  static clss = 'lm-component-css-class'
-  clss = Template.clss
+class Intro extends Component<Props, {}> {
+  static clss = 'prn-intro'
+  clss = Intro.clss
 
   /* * * * * * * * * * * * * * *
    * RENDER
@@ -25,11 +27,12 @@ class Template extends Component<Props, {}> {
     /* Display */
     return (
       <div className={wrapperClasses.value} style={wrapperStyle}>
-        TSX component template.
+        <h1>{props.title}</h1>
+        <p>{props.paragraph}</p>
       </div>
     )
   }
 }
 
 export type { Props }
-export default Template
+export default Intro

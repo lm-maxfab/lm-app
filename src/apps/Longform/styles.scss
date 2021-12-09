@@ -1,5 +1,35 @@
 .prn-longform {
-  margin-top: calc(2 * var(--len-nav-height));
-  background-color: coral;
-  height: calc(var(--len-visible-screen-height) / 2);
+  position: relative;
+  margin-top: var(--len-nav-height);
+  height: 10000px;
+  background-color: #000000;
+}
+
+.prn-sticky-header {
+  position: sticky;
+  z-index: 3;
+  top: var(--len-nav-height);
+}
+
+.prn-fixed-intro-image {
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  right: 0;
+  top: calc(var(--len-nav-height));
+  height: calc(var(--len-visible-screen-height));
+}
+
+.prn-intro {
+  position: relative;
+  z-index: 2;
+  max-width: calc(30 * 16px);
+  margin-top: calc(var(--len-visible-screen-height) - 30 * var(--vh));
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.prn-chapters {
+  position: relative;
+  z-index: 2;
 }

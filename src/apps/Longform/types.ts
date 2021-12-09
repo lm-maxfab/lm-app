@@ -5,3 +5,12 @@ export interface MyNavigator extends Navigator {
   mozConnection?: NetworkInformation
   webkitConnection?: NetworkInformation
 }
+
+export interface ChapterData {
+  id: string
+  number?: number
+  title?: VNode
+  kicker?: VNode
+  imageUrl?: string
+  articleUrl?: string
+}

@@ -1,0 +1,12 @@
+.prn-fixed-intro-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 48px 16px;
+}
+
+.prn-fixed-intro-image .lm-img {
+  max-width: calc(80 * var(--vw));
+  max-height: 100%;
+  object-fit: contain;
+}
