@@ -34,7 +34,7 @@ class DestinationWindow extends Component<Props, {}> {
     const bgStyle: JSX.CSSProperties = {
       backgroundImage: `url(${props.photoUrl})`,
       backgroundAttachment: props.fixedImage === true ? 'fixed' : 'scroll',
-      webkitMaskImage: `url(${shapes[props.shape ?? 'church']})`,
+      webkitMaskImage: `url(${shapes[props.shape ?? 'church']})`
     }
 
     /* Display */
