@@ -69,6 +69,17 @@
       },
       "description": "Missing credits, articles footer and side note, and some css",
       "time": "2021-12-08T09:49:37.284Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 2,
+        "patch": 1,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "Fix windows image size",
+      "time": "2021-12-09T10:13:44.970Z"
     }
   ]
 }
