@@ -1,0 +1,15 @@
+.prn-chapters {
+  --len-chapter-margin-bottom: 96px;
+  
+  .prn-chapter {
+    margin-bottom: var(--len-chapter-margin-bottom);
+  }
+
+  .prn-chapter:last-child {
+    margin-bottom: 0;
+  }
+
+  @media screen and (max-width: 1360px) {
+    --len-chapter-margin-bottom: 160px;
+  }
+}

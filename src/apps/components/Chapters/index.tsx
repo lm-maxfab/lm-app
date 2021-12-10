@@ -31,7 +31,18 @@ class Chapters extends Component<Props, {}> {
         style={wrapperStyle}
         className={wrapperClasses.value}>
         {props.chaptersData?.map(chapterData => {
-          return <Chapter {...chapterData} />
+          const {
+            label, teasing_label, teasing, title,
+            kicker, image_url, article_url
+          } = chapterData
+          return <Chapter
+          label={label}
+          teasing_label={teasing_label}
+          teasing={teasing}
+          title={title}
+          kicker={kicker}
+          image_url={image_url}
+          article_url={article_url} />
         })}
       </div>
     )

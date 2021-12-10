@@ -8,10 +8,13 @@ import './styles.scss'
 interface Props {
   className?: string
   style?: JSX.CSSProperties
-  number?: ChapterData['number']
+  label?: ChapterData['label']
+  teasing_label?: ChapterData['teasing_label']
+  teasing?: ChapterData['teasing']
   title?: ChapterData['title']
   kicker?: ChapterData['kicker']
-  imageUrl?: ChapterData['imageUrl']
+  image_url?: ChapterData['image_url']
+  article_url?: ChapterData['article_url']
 }
 
 class Chapter extends Component<Props, {}> {
@@ -25,21 +28,26 @@ class Chapter extends Component<Props, {}> {
     const { props } = this
 
     /* Classes and style */
-    const wrapperClasses = bem(props.className).block(this.clss)
+    const wrapperClasses = bem(props.className)
+      .block(this.clss)
+      .mod({ teasing: props.teasing })
     const wrapperStyle: JSX.CSSProperties = { ...props.style }
 
     /* Display */
     return (
-      <div className={wrapperClasses.value} style={wrapperStyle}>
+      <a
+        href={!props.teasing ? props.article_url : undefined}
+        style={wrapperStyle}
+        className={wrapperClasses.value}>
         <div className={bem(this.clss).elt('left').value}>
-          <Img src={props.imageUrl} />
+          <Img src={props.image_url} />
         </div>
         <div className={bem(this.clss).elt('right').value}>
-          <span>Épisode {props.number}</span>
+          <span>{props.teasing === true ? props.teasing_label : props.label}</span>
           <h2>{props.title}</h2>
           <p>{props.kicker}</p>
         </div>
-      </div>
+      </a>
     )
   }
 }

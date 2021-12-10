@@ -3,10 +3,20 @@
   justify-content: center;
   align-items: center;
   padding: 48px 16px;
-}
+  transition: opacity 800ms;
 
-.prn-fixed-intro-image .lm-img {
-  max-width: calc(80 * var(--vw));
-  max-height: 100%;
-  object-fit: contain;
+  .lm-img {
+    max-width: calc(60 * var(--vw));
+    max-height: calc(.6 * var(--len-visible-screen-height));
+    margin-bottom: calc(.2 * var(--len-visible-screen-height));
+    object-fit: contain;
+  }
+
+  @media screen and (max-width: 1024px) {
+    .lm-img {
+      max-width: calc(100% - 64px);
+      max-height: calc(.5 * var(--len-visible-screen-height));
+      margin-bottom: calc(.12 * var(--len-visible-screen-height));
+    }
+  }
 }

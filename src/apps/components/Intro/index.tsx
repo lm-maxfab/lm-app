@@ -1,13 +1,14 @@
-import { Component, JSX, VNode } from 'preact'
+import { Component, JSX } from 'preact'
 import bem from '../../../modules/le-monde/utils/bem'
+import { IntroElementData } from '../../Longform/types'
 
 import './styles.scss'
 
 interface Props {
   className?: string
   style?: JSX.CSSProperties
-  title?: VNode
-  paragraph?: VNode
+  title?: IntroElementData['title']
+  paragraph?: IntroElementData['paragraph']
 }
 
 class Intro extends Component<Props, {}> {

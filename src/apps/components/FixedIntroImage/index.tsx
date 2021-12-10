@@ -1,12 +1,14 @@
 import { Component, JSX } from 'preact'
 import Img from '../../../modules/le-monde/components/Img'
 import bem from '../../../modules/le-monde/utils/bem'
+import { IntroElementData } from '../../Longform/types'
 import './styles.scss'
 
 interface Props {
   className?: string
   style?: JSX.CSSProperties
-  imgUrl?: string
+  img_url?: IntroElementData['image_url']
+  opacity?: number
 }
 
 class FixedIntroImage extends Component<Props, {}> {
@@ -21,14 +23,17 @@ class FixedIntroImage extends Component<Props, {}> {
 
     /* Classes and style */
     const wrapperClasses = bem(props.className).block(this.clss)
-    const wrapperStyle: JSX.CSSProperties = { ...props.style }
+    const wrapperStyle: JSX.CSSProperties = {
+      ...props.style,
+      opacity: props.opacity
+    }
 
     /* Display */
     return (
       <div
         style={wrapperStyle}
         className={wrapperClasses.value}>
-        <Img src={props.imgUrl} />
+        <Img src={props.img_url} />
       </div>
     )
   }
