@@ -3,10 +3,6 @@
   user-zoom: fixed;
 }
 
-html {
-  user-select: none;
-}
-
 body, html {
   padding: 0;
   margin: 0;
