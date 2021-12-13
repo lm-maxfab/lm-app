@@ -82,6 +82,17 @@
       },
       "description": "First visible version",
       "time": "2021-12-10T16:52:36.660Z"
+    },
+    {
+      "version": {
+        "major": 1,
+        "minor": 0,
+        "patch": 0,
+        "status": "alpha",
+        "build": 0
+      },
+      "description": "Seems ok",
+      "time": "2021-12-13T16:44:06.072Z"
     }
   ]
 }
