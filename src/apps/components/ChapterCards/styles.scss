@@ -1,0 +1,19 @@
+.prn-chapter-cards {
+  display: flex;
+  justify-content: center;
+
+  .prn-chapter-card {
+    margin: 0 24px;
+  }
+
+  @media screen and (max-width: 800px) {
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+
+    .prn-chapter-card {
+      max-width: 280px;
+      margin: 48px 0;
+    }
+  }
+}

@@ -1,13 +1,13 @@
 import { Component, JSX } from 'preact'
 import Img from '../../../modules/le-monde/components/Img'
 import bem from '../../../modules/le-monde/utils/bem'
-import { IntroElementData } from '../../Longform/types'
+import { IntroElementsData } from '../../types'
 import './styles.scss'
 
 interface Props {
   className?: string
   style?: JSX.CSSProperties
-  img_url?: IntroElementData['image_url']
+  img_url?: IntroElementsData['image_url']
   opacity?: number
 }
 

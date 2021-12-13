@@ -1,7 +1,7 @@
 import { Component, JSX } from 'preact'
 import bem from '../../../modules/le-monde/utils/bem'
 import Chapter from '../Chapter'
-import { ChapterData } from '../../Longform/types'
+import { ChapterData } from '../../types'
 
 import './styles.scss'
 

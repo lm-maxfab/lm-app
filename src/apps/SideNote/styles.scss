@@ -1,0 +1,17 @@
+.lm-app.lm-app_env-dev.prn-side-note {
+  margin-top: var(--len-nav-height);
+}
+
+.prn-side-note {
+  font-family: var(--ff-marr-sans);
+  font-size: 16px;
+  line-height: 1.5;
+  background-color: #000000;
+  color: #FFFFFF;
+  padding: 16px;
+  
+  h4 {
+    font-weight: 600;
+  }
+}
+

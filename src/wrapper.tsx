@@ -91,7 +91,10 @@ function wrapper (Wrapped: any) {
      * * * * * * * * * * * * * * */
     render () {
       const { props, state } = this
-      const wrapperClasses = bem(this.clss)
+      const wrapperClasses = bem(this.clss).mod({
+        ['env-dev']: process.env.NODE_ENV === 'development',
+        ['env-prod']: process.env.NODE_ENV === 'production'
+      })
       const wrapperNavHeightVar = `${state.viewportDimensions?.navHeight ?? 0}px`
       const wrapperStyle: JSX.CSSProperties = { '--len-nav-height': wrapperNavHeightVar }
       return <Wrapped

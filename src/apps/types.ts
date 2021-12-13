@@ -10,8 +10,13 @@ export interface SheetbaseCollectionData {
   id: string
 }
 
-export interface IntroElementData extends SheetbaseCollectionData {
+export interface IntroElementsData extends SheetbaseCollectionData {
   image_url?: string
+  title?: VNode
+  paragraph?: VNode
+}
+
+export interface FooterElementsData extends SheetbaseCollectionData {
   title?: VNode
   paragraph?: VNode
 }
@@ -28,4 +33,9 @@ export interface ChapterData extends SheetbaseCollectionData {
 
 export interface CreditsContentData extends SheetbaseCollectionData {
   content?: VNode
+}
+
+export interface SideNoteData extends SheetbaseCollectionData {
+  title?: VNode
+  paragraph?: VNode
 }

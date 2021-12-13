@@ -8,7 +8,7 @@ import Chapters from '../components/Chapters'
 import Credits from '../components/Credits'
 import './styles.scss'
 import Paginator from '../../modules/le-monde/components/Paginator'
-import { ChapterData, CreditsContentData, IntroElementData } from './types'
+import { ChapterData, CreditsContentData, IntroElementsData } from '../types'
 
 interface Props extends InjectedProps {}
 interface State {
@@ -41,7 +41,7 @@ class Longform extends Component<Props, State> {
     const { props, state } = this
 
     // Logic
-    const introElements = props.sheetBase.collection('intro_elements').entries[0].value as unknown as IntroElementData
+    const introElements = props.sheetBase.collection('intro_elements').entries[0].value as unknown as IntroElementsData
     const chapters = props.sheetBase.collection('chapters').value as unknown as ChapterData[]
     const creditsContent = props.sheetBase.collection('credits_content').entries[0].value as unknown as CreditsContentData
 

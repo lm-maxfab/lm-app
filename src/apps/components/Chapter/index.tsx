@@ -1,7 +1,7 @@
 import { Component, JSX, VNode } from 'preact'
 import Img from '../../../modules/le-monde/components/Img'
 import bem from '../../../modules/le-monde/utils/bem'
-import { ChapterData } from '../../Longform/types'
+import { ChapterData } from '../../types'
 
 import './styles.scss'
 

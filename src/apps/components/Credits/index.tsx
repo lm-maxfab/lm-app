@@ -1,19 +1,18 @@
 import { Component, JSX } from 'preact'
 import bem from '../../../modules/le-monde/utils/bem'
-import { IntroElementsData } from '../../types'
+import { CreditsContentData } from '../../types'
 
 import './styles.scss'
 
 interface Props {
   className?: string
   style?: JSX.CSSProperties
-  title?: IntroElementsData['title']
-  paragraph?: IntroElementsData['paragraph']
+  content?: CreditsContentData['content']
 }
 
-class Intro extends Component<Props, {}> {
-  static clss = 'prn-intro'
-  clss = Intro.clss
+class Credits extends Component<Props, {}> {
+  static clss = 'prn-credits'
+  clss = Credits.clss
 
   /* * * * * * * * * * * * * * *
    * RENDER
@@ -28,12 +27,11 @@ class Intro extends Component<Props, {}> {
     /* Display */
     return (
       <div className={wrapperClasses.value} style={wrapperStyle}>
-        <h1>{props.title}</h1>
-        <p>{props.paragraph}</p>
+        {props.content}
       </div>
     )
   }
 }
 
 export type { Props }
-export default Intro
+export default Credits

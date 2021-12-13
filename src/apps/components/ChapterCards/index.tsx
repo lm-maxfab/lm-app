@@ -1,19 +1,19 @@
 import { Component, JSX } from 'preact'
 import bem from '../../../modules/le-monde/utils/bem'
-import { IntroElementsData } from '../../types'
+import { ChapterData } from '../../types'
+import ChapterCard from '../ChapterCard'
 
 import './styles.scss'
 
 interface Props {
   className?: string
   style?: JSX.CSSProperties
-  title?: IntroElementsData['title']
-  paragraph?: IntroElementsData['paragraph']
+  chapters?: ChapterData[]
 }
 
-class Intro extends Component<Props, {}> {
-  static clss = 'prn-intro'
-  clss = Intro.clss
+class ChapterCards extends Component<Props, {}> {
+  static clss = 'prn-chapter-cards'
+  clss = ChapterCards.clss
 
   /* * * * * * * * * * * * * * *
    * RENDER
@@ -28,12 +28,19 @@ class Intro extends Component<Props, {}> {
     /* Display */
     return (
       <div className={wrapperClasses.value} style={wrapperStyle}>
-        <h1>{props.title}</h1>
-        <p>{props.paragraph}</p>
+        {props.chapters?.map(chapter => {
+          return <ChapterCard
+            imageUrl={chapter.image_url}
+            articleUrl={chapter.article_url}
+            title={chapter.title}
+            label={chapter.label}
+            teasingLabel={chapter.teasing_label}
+            teasing={chapter.teasing} />
+        })}
       </div>
     )
   }
 }
 
 export type { Props }
-export default Intro
+export default ChapterCards
