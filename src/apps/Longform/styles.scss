@@ -17,7 +17,7 @@
     width: 100%;
     top: var(--len-nav-height);
   }
-  
+
   .prn-fixed-intro-image {
     position: fixed;
     z-index: 1;
@@ -26,7 +26,7 @@
     top: calc(var(--len-nav-height));
     height: calc(var(--len-visible-screen-height));
   }
-  
+
   .prn-intro {
     position: relative;
     z-index: 2;
@@ -35,15 +35,18 @@
     margin-right: auto;
     padding-bottom: calc(var(--len-visible-screen-height) * .2);
   }
-  
+
   .prn-chapters {
     position: relative;
     z-index: 2;
     max-width: calc(80 * var(--vw));
     margin: 0 auto;
   }
-  
+
   .prn-chapter {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     min-height: var(--len-visible-screen-height);
   }
 

@@ -6,17 +6,22 @@
   --len-title-margin-bottom: 32px;
   --len-chapter-content-max-width: 480px;
   --len-chapter-content-max-width: min(480px, calc(100% - 32px));
-  display: flex;
-  transition: transform 800ms;
-}
 
-.prn-chapter:hover {
-  transform: scale(1.005);
-}
+  &.prn-chapter_teasing {
+    .prn-chapter__inner:hover {
+      cursor: default;
+      transform: scale(1);
+    }  
+  }
 
-.prn-chapter.prn-chapter_teasing:hover {
-  cursor: default;
-  transform: unset;
+  .prn-chapter__inner {
+    display: flex;
+    transition: transform 800ms;
+
+    &:hover {
+      transform: scale(1.01);
+    }
+  }
 }
 
 .prn-chapter__left,
@@ -43,7 +48,7 @@
 }
 
 @media screen and (max-width: 1024px) {
-  .prn-chapter {
+  .prn-chapter__inner {
     flex-direction: column;
     justify-content: center;
   }

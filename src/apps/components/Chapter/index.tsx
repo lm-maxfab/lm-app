@@ -39,13 +39,15 @@ class Chapter extends Component<Props, {}> {
         href={!props.teasing ? props.article_url : undefined}
         style={wrapperStyle}
         className={wrapperClasses.value}>
-        <div className={bem(this.clss).elt('left').value}>
-          <Img src={props.image_url} />
-        </div>
-        <div className={bem(this.clss).elt('right').value}>
-          <span>{props.teasing === true ? props.teasing_label : props.label}</span>
-          <h2>{props.title}</h2>
-          <p>{props.kicker}</p>
+        <div className={bem(this.clss).elt('inner').value}>
+          <div className={bem(this.clss).elt('left').value}>
+            <Img src={props.image_url} />
+          </div>
+          <div className={bem(this.clss).elt('right').value}>
+            <span>{props.teasing === true ? props.teasing_label : props.label}</span>
+            <h2>{props.title}</h2>
+            <p>{props.kicker}</p>
+          </div>
         </div>
       </a>
     )

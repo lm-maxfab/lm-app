@@ -1,11 +1,11 @@
 .prn-chapters {
   --len-chapter-margin-bottom: 96px;
   
-  .prn-chapter {
+  .prn-chapter__inner {
     margin-bottom: var(--len-chapter-margin-bottom);
   }
 
-  .prn-chapter:last-child {
+  .prn-chapter__inner:last-child {
     margin-bottom: 0;
   }
 

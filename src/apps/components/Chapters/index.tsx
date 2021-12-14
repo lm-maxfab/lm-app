@@ -36,13 +36,13 @@ class Chapters extends Component<Props, {}> {
             kicker, image_url, article_url
           } = chapterData
           return <Chapter
-          label={label}
-          teasing_label={teasing_label}
-          teasing={teasing}
-          title={title}
-          kicker={kicker}
-          image_url={image_url}
-          article_url={article_url} />
+            label={label}
+            teasing_label={teasing_label}
+            teasing={teasing}
+            title={title}
+            kicker={kicker}
+            image_url={image_url}
+            article_url={article_url} />
         })}
       </div>
     )
