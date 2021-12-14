@@ -7,8 +7,8 @@
 
   .lm-img {
     max-width: calc(60 * var(--vw));
-    max-height: calc(.6 * var(--len-visible-screen-height));
-    margin-bottom: calc(.2 * var(--len-visible-screen-height));
+    max-height: calc(.7 * var(--len-visible-screen-height));
+    margin-bottom: calc(0 * var(--len-visible-screen-height));
     object-fit: contain;
   }
 

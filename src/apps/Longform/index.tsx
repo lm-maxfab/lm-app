@@ -6,6 +6,7 @@ import FixedIntroImage from '../components/FixedIntroImage'
 import Intro from '../components/Intro'
 import Chapters from '../components/Chapters'
 import Credits from '../components/Credits'
+import BottomGradient from '../components/BottomGradient'
 import './styles.scss'
 import Paginator from '../../modules/le-monde/components/Paginator'
 import { ChapterData, CreditsContentData, IntroElementsData } from '../types'
@@ -60,6 +61,7 @@ class Longform extends Component<Props, State> {
         className={wrapperClasses.value}>
         <StickyHeader />
         <FixedIntroImage img_url={introElements.image_url} opacity={fixedImageOpacity} />
+        <BottomGradient />
         <Paginator triggerBound='top' onPageChange={this.handlePageChange}>
           <Paginator.Page value='dim-bg'>
             <div className={bem(this.clss).elt('intro-spacer').value} />

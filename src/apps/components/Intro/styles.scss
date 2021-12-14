@@ -13,14 +13,14 @@
     --fs-title: 48px;
     --fs-paragraph: 16px;
     --len-content-max-width: 440px;
-    --len-content-max-width: calc(min(440px, calc(100% - 32px)));
+    --len-content-max-width: calc(min(440px, calc(100% - 64px)));
   }
 
   @media screen and (max-width: 800px) {
     --fs-title: 32px;
     --fs-paragraph: 14px;
     --len-content-max-width: 340px;
-    --len-content-max-width: calc(min(340px, calc(100% - 24px)));
+    --len-content-max-width: calc(min(340px, calc(100% - 48px)));
   }
 
   h1 {
