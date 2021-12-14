@@ -47,10 +47,10 @@ a {
   -webkit-tap-highlight-color: transparent;
   text-decoration: none;
   color: unset;
+  border: none;
 }
 
 .multimedia-embed {
-  margin: 0 !important;
   padding: 0 !important;
   border: none !important;
 }
