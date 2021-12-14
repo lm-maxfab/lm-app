@@ -1,0 +1,7 @@
+.prn-bottom-gradient {
+  background: linear-gradient(
+    rgb(0, 0, 0, 0),
+    rgb(0, 0, 0, 1)
+  );
+  height: calc(.5 * var(--len-visible-screen-height));
+}
