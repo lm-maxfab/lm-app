@@ -1,8 +1,9 @@
-import { Component, ComponentType } from 'preact'
+import { Component } from 'preact'
 import { SheetBase } from './modules/le-monde/utils/sheet-base'
 import getViewportDimensions, { ViewportDimensions } from './modules/le-monde/utils/get-viewport-dimensions'
 import GroupDelay from './modules/le-monde/utils/group-delay'
 import bem from './modules/le-monde/utils/bem'
+import './wrapper.scss'
 
 interface Props {
   sheetBase?: SheetBase

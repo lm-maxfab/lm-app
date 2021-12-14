@@ -126,6 +126,17 @@
       },
       "description": "",
       "time": "2021-12-14T10:47:14.875Z"
+    },
+    {
+      "version": {
+        "major": 1,
+        "minor": 0,
+        "patch": 1,
+        "status": "rc",
+        "build": 2
+      },
+      "description": "",
+      "time": "2021-12-14T10:57:38.125Z"
     }
   ]
 }

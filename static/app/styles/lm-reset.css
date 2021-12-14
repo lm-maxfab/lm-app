@@ -42,14 +42,6 @@ sup, sub {
   line-height: 0;
 }
 
-a {
-  -webkit-touch-callout: none;
-  -webkit-tap-highlight-color: transparent;
-  text-decoration: none;
-  color: unset;
-  border: none;
-}
-
 .multimedia-embed {
   padding: 0 !important;
   border: none !important;
