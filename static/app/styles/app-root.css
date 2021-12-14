@@ -8,7 +8,7 @@
   --ff-fette-engschrift:    "Fette-Engschrift", Helvetica, Arial, sans-serif;
 
   --len-rem:                   16px;
-  --len-nav-height:            65px; /* Overwritten by wrapper.tsx */
+  --len-nav-height:            65px; /* Overwritten by /src/wrapper.tsx */
   --len-visible-screen-height: calc(100 * var(--vh) - var(--len-nav-height));
   
   font-family: initial;
@@ -20,7 +20,7 @@
 
 @media screen and (max-width: 768px) {
   .lm-app-root {
-    --len-nav-height: 59px;
+    --len-nav-height: 59px; /* Overwritten by /src/wrapper.tsx */
   }
 }
 

@@ -3,6 +3,9 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  --len-page-padding-compensation: 24px;
+  margin: 0 calc(-1 * var(--len-page-padding-compensation));
+  padding: 0 var(--len-page-padding-compensation);
 
   .prn-intro {
     margin: 0 24px;

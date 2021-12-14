@@ -71,8 +71,11 @@
 .prn-chapter__left {
   .lm-img {
     max-width: calc(36 * 16px);
-    max-height: calc(.6 * var(--len-visible-screen-height));
-    // width: 100%;
+    max-height: calc(.8 * var(--len-visible-screen-height));
+
+    @media screen and (max-width: 1200px) {
+      max-height: calc(.6 * var(--len-visible-screen-height));
+    }
   }
 }
 

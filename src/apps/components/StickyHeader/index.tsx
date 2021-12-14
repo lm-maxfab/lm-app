@@ -27,7 +27,8 @@ class StickyHeader extends Component<Props, {}> {
     /* Display */
     return (
       <div className={wrapperClasses.value} style={wrapperStyle}>
-        <Svg src={logoUrl} />
+        <div className={bem(this.clss).elt('opacifier').value} />
+        <a href='https://www.lemonde.fr'><Svg src={logoUrl} /></a>
       </div>
     )
   }

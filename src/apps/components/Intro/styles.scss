@@ -22,21 +22,30 @@
     --len-content-max-width: 340px;
     --len-content-max-width: calc(min(340px, calc(100% - 24px)));
   }
-}
 
-.prn-intro h1 {
-  font-family: var(--ff-marr-sans-condensed);
-  font-weight: 800;
-  text-transform: uppercase;
-  font-size: var(--fs-title);
-  line-height: 1;
-  margin-bottom: 32px;
-  max-width: var(--len-content-max-width);
-}
+  h1 {
+    font-family: var(--ff-marr-sans-condensed);
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: var(--fs-title);
+    line-height: 1;
+    margin-bottom: 32px;
+    max-width: var(--len-content-max-width);
+  }
 
-.prn-intro p {
-  font-family: var(--ff-the-antiqua-b);
-  font-size: var(--fs-paragraph);
-  line-height: 1.5;
-  max-width: var(--len-content-max-width);
+  p {
+    font-family: var(--ff-the-antiqua-b);
+    font-size: var(--fs-paragraph);
+    line-height: 1.5;
+    max-width: var(--len-content-max-width);
+  }
+
+  a {
+    box-shadow: 0 1px 0 0 rgb(255, 255, 255);
+    transition: box-shadow 200ms;
+
+    &:hover {
+      box-shadow: 0 2px 0 0 rgb(255, 255, 255);
+    }
+  }
 }

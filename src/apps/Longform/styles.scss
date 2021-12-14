@@ -12,8 +12,9 @@
   }
 
   .prn-sticky-header {
-    position: sticky;
+    position: fixed;
     z-index: 3;
+    width: 100%;
     top: var(--len-nav-height);
   }
   

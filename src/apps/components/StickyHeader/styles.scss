@@ -1,20 +1,27 @@
 .prn-sticky-header {
   background-color: transparent;
   padding: 16px;
-}
 
-.prn-sticky-header .lm-svg {
-  height: 20px;
-}
+  .prn-sticky-header__opacifier {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 180%;
+    background: linear-gradient(
+      rgb(0, 0, 0, .9),
+      rgb(0, 0, 0, 0),
+    );
+    z-index: 1;
+  }
 
-.prn-sticky-header .lm-svg .background {
-  fill: transparent;
-}
+  .lm-svg {
+    height: 20px;
+    position: relative;
+    z-index: 2;
 
-.prn-sticky-header .lm-svg .fill-1 {
-  fill: #8D98AB;
-}
-
-.prn-sticky-header .lm-svg .fill-2 {
-  fill: #FFFFFF;
+    .background { fill: transparent; }
+    .fill-1 { fill: #8D98AB; }
+    .fill-2 { fill: #FFFFFF; }
+  }
 }
