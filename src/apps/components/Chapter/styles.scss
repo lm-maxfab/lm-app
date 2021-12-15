@@ -2,6 +2,7 @@
   --fs-label: 15px;
   --fs-title: 40px;
   --fs-kicker: 20px;
+  --fs-link: 13px;
   --len-label-margin-bottom: 40px;
   --len-title-margin-bottom: 32px;
   --len-chapter-content-max-width: 480px;
@@ -40,6 +41,7 @@
     --fs-label: 13px;
     --fs-title: 32px;
     --fs-kicker: 16px;
+    --fs-link: 12px;
     --len-label-margin-bottom: 20px;
     --len-title-margin-bottom: 16px;
     --len-chapter-content-max-width: 380px;
@@ -68,6 +70,7 @@
     --fs-label: 11px;
     --fs-title: 26px;
     --fs-kicker: 14px;
+    --fs-link: 11px;
     --len-chapter-content-max-width: 380px;
     --len-chapter-content-max-width: min(380px, calc(100% - 24px));
   }
@@ -115,6 +118,23 @@
     font-size: var(--fs-kicker);
     line-height: 1.5;
   }
+
+  > a {
+    font-family: var(--ff-marr-sans);
+    font-weight: 400;
+    font-size: var(--fs-link);
+    line-height: 1.5;
+    text-transform: uppercase;
+    letter-spacing: .2em;
+    margin-top: var(--len-title-margin-bottom);
+    box-shadow: 0px 1px 0 0 white;
+    transition: box-shadow 400ms;
+    cursor: pointer;
+
+    &:hover {
+      box-shadow: 0px 2px 0 0 white;
+    }
+  }
 }
 
 .prn-chapter.prn-chapter_teasing {
@@ -123,6 +143,9 @@
   }
 
   .prn-chapter__right {
+    > span {
+      opacity: .8;
+    }
     > h2 {
       opacity: .6;
     }

@@ -27,7 +27,9 @@ class ChapterCard extends Component<Props, {}> {
     const { props } = this
 
     /* Classes and style */
-    const wrapperClasses = bem(props.className).block(this.clss)
+    const wrapperClasses = bem(props.className)
+      .block(this.clss)
+      .mod({ teasing: props.teasing })
     const wrapperStyle: JSX.CSSProperties = { ...props.style }
 
     /* Display */

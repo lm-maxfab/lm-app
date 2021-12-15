@@ -47,6 +47,7 @@ class Chapter extends Component<Props, {}> {
             <span>{props.teasing === true ? props.teasing_label : props.label}</span>
             <h2>{props.title}</h2>
             <p>{props.kicker}</p>
+            {!props.teasing && <a href={props.article_url}>Lire l'enquête</a>}
           </div>
         </div>
       </a>

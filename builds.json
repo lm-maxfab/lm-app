@@ -170,6 +170,17 @@
       },
       "description": "",
       "time": "2021-12-14T17:06:32.457Z"
+    },
+    {
+      "version": {
+        "major": 2,
+        "minor": 0,
+        "patch": 1,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "Add explicit link on chapters",
+      "time": "2021-12-15T09:57:37.411Z"
     }
   ]
 }
