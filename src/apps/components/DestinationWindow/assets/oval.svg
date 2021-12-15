@@ -3,6 +3,6 @@
     .background { fill: transparent; }
     .fill-1 { fill: black; }
   </style>
-  <rect class="background" x="0" y="0" width="160" height="320" />
+  <rect class="background" x="0" y="0" width="180" height="320" />
   <ellipse class="fill-1" cx="90" cy="160" rx="90" ry="160" />
 </svg>

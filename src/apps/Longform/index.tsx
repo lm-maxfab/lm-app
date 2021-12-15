@@ -1,14 +1,14 @@
 import { Component, JSX } from 'preact'
 import './styles.scss'
-import { SheetBase } from '../modules/le-monde/utils/sheet-base'
-import bem from '../modules/le-monde/utils/bem'
-import getViewportDimensions from '../modules/le-monde/utils/get-viewport-dimensions'
-import Paginator, { Page } from '../modules/le-monde/components/Paginator'
-import Home from './components/Home'
-import Intro from './components/Intro'
-import Destinations from './components/Destinations'
-import Credits from './components/Credits'
-import { Destination as DestinationType, IntroElement } from './types'
+import { SheetBase } from '../../modules/le-monde/utils/sheet-base'
+import bem from '../../modules/le-monde/utils/bem'
+import getViewportDimensions from '../../modules/le-monde/utils/get-viewport-dimensions'
+import Paginator, { Page } from '../../modules/le-monde/components/Paginator'
+import Home from '../components/Home'
+import Intro from '../components/Intro'
+import Destinations from '../components/Destinations'
+import Credits from '../components/Credits'
+import { Destination as DestinationType, IntroElement } from '../types'
 
 interface Props {
   className?: string
@@ -77,8 +77,7 @@ class App extends Component<Props, State> {
         className={wrapperClasses.value}
         style={wrapperStyle}>
         <Paginator
-          triggerBound='top'
-          onPageChange={val => console.log(`Page changed: ${val}`)}>
+          triggerBound='top'>
           <Page value='home'><div className={homeClasses.value}><Home /></div></Page>
           <Page value='intro'><div className={introClasses.value}><Intro elements={introElements} /></div></Page>
           <Page value='destinations'>

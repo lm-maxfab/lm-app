@@ -21,12 +21,13 @@ interface State {
 class Destinations extends Component<Props, State> {
   static clss = 'dest22-destinations'
   clss = Destinations.clss
-  state: State = {
-    backgroundColor: 'transparent'
-  }
   
   constructor (props: Props) {
     super(props)
+    const firstDestination = (props.destinations ?? [])[0]
+    this.state = {
+      backgroundColor: firstDestination?.main_color ?? 'transparent'
+    } as State
     this.handlePageEnter = this.handlePageEnter.bind(this)
   }
 
@@ -40,13 +41,13 @@ class Destinations extends Component<Props, State> {
    * RENDER
    * * * * * * * * * * * * * * */
   render (): JSX.Element|null {
-    const { props } = this
+    const { props, state } = this
 
     /* Classes and style */
     const wrapperClasses = bem(props.className ?? '').block(this.clss)
     const wrapperStyle: JSX.CSSProperties = {
       ...props.style,
-      ['--c-background-color']: this.state.backgroundColor
+      ['--c-background-color']: state.backgroundColor
     }
 
     /* Display */

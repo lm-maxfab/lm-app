@@ -1,0 +1,31 @@
+.dest22-destination-window {
+  position: relative;
+
+  .dest22-destination-window__hidden-image {
+    position: relative;
+    width: 100%;
+    height: auto;
+    opacity: 0;
+    visibility: hidden;
+  }
+  
+  .dest22-destination-window__bg-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    mask-position: center;
+    -webkit-mask-position: center;
+    mask-repeat: no-repeat;
+    -webkit-mask-repeat: no-repeat;
+
+    .lm-svg {
+      height: 100%;
+      opacity: .3;
+    }
+  }
+}

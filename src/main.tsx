@@ -1,5 +1,5 @@
 import { render } from 'preact'
-import App from './App'
+import Longform from './apps/Longform'
 import silentLog from './modules/le-monde/utils/silent-log'
 import { tsvToSheetBase } from './modules/le-monde/utils/sheet-base'
 
@@ -9,7 +9,12 @@ document.dispatchEvent(new CustomEvent('LMAppLoaded'))
 function renderApp (sheetBaseTsv?: string): void {
   silentLog('Rendering app.')
   const sheetBase = sheetBaseTsv !== undefined ? tsvToSheetBase(sheetBaseTsv) : undefined
-  const appRootNode: HTMLElement|null = document.getElementById('lm-app-name')
-  if (appRootNode === null) silentLog('App root node not found.')
-  else render(<App sheetBase={sheetBase} />, appRootNode)
+
+  const longformAppRootNode: HTMLCollectionOf<Element> = document.getElementsByClassName('lm-app-root-longform')
+  if (longformAppRootNode.length === 0) silentLog('Longform root node not found.')
+  else {
+    [...longformAppRootNode].forEach(node => {
+      render(<Longform sheetBase={sheetBase} />, node)
+    })
+  }
 }

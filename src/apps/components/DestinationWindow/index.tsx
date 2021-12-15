@@ -1,13 +1,27 @@
 import { Component, JSX } from 'preact'
 import Img from '../../../modules/le-monde/components/Img'
+import Svg from '../../../modules/le-monde/components/Svg'
 import bem from '../../../modules/le-monde/utils/bem'
 import { Destination as DestinationType } from '../../types'
 import church from './assets/church.svg'
+import churchShadow from './assets/church-shadow.svg'
 import circles from './assets/circles.svg'
+import circlesShadow from './assets/circles-shadow.svg'
 import oval from './assets/oval.svg'
+import ovalShadow from './assets/oval-shadow.svg'
 import pill from './assets/pill.svg'
+import pillShadow from './assets/pill-shadow.svg'
 
-const shapes = { church, circles, oval, pill }
+const shapes = {
+  church,
+  churchShadow,
+  circles,
+  circlesShadow,
+  oval,
+  ovalShadow,
+  pill,
+  pillShadow
+}
 
 import './styles.scss'
 
@@ -28,13 +42,19 @@ class DestinationWindow extends Component<Props, {}> {
   render (): JSX.Element|null {
     const { props } = this
 
+    /* Logic */
+    // const shapeName = props.shape ?? 'church'
+    const shapeName = 'circles'
+    const shapeUrl = shapes[shapeName]
+    const shapeShadowUrl = shapes[`${shapeName}Shadow`]
+
     /* Classes and style */
     const wrapperClasses = bem(props.className ?? '').block(this.clss)
     const wrapperStyle: JSX.CSSProperties = { ...props.style }
     const bgStyle: JSX.CSSProperties = {
       backgroundImage: `url(${props.photoUrl})`,
       backgroundAttachment: props.fixedImage === true ? 'fixed' : 'scroll',
-      webkitMaskImage: `url(${shapes[props.shape ?? 'church']})`
+      webkitMaskImage: `url(${shapeUrl})`
     }
 
     /* Display */
@@ -42,7 +62,9 @@ class DestinationWindow extends Component<Props, {}> {
       className={wrapperClasses.value}
       style={wrapperStyle}>
       <Img src={props.photoUrl} className={bem(this.clss).elt('hidden-image').value} />
-      <div style={bgStyle} className={bem(this.clss).elt('bg-image').value} />
+      <div style={bgStyle} className={bem(this.clss).elt('bg-image').value}>
+        <Svg src={shapeShadowUrl} />
+      </div>
     </div>
   }
 }

@@ -1,4 +1,8 @@
 .dest22-destinations {
   background-color: var(--c-background-color);
   transition: background-color 800ms;
+
+  > span:first-child .dest22-destination {
+    padding-top: calc(50 * var(--vh));
+  }
 }

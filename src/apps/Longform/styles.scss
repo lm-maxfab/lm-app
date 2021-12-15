@@ -10,7 +10,7 @@
   --c-main-text: var(--c-white);
 
   --fs-home-title: 80px;
-  --fs-main-text: 18px;
+  --fs-main-text: 19px;
 
   --lh-home-title: calc(140/120);
   --lh-main-text: 1.5;
@@ -22,6 +22,7 @@
   --len-home-padding: 24px;
   --len-intro-max-width: calc(38 * 16px);
   --len-intro-padding: 24px;
+  --len-intro-padding-bottom: calc(20 * var(--vh));
   --len-intro-paragraph-v-margin: 24px;
   --len-intro-image-v-margin: 24px;
   --len-destination-height: calc(var(--len-visible-screen-height) * 2);
@@ -45,6 +46,7 @@
 
   @media screen and (max-width: 480px) {
     --fs-home-title: 28px;
+    --fs-main-text: 14px;
   }
 }
 

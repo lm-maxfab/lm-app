@@ -1,0 +1,18 @@
+.dest22-destination-title {
+  color: var(--c-text-color);
+  font-family: var(--ff-marr-sans);
+  font-size: 34px;
+  font-weight: 900;
+
+  @media screen and (max-width: 1200px) {
+    font-size: 30px;
+  }
+
+  @media screen and (max-width: 800px) {
+    font-size: 25px;
+  }
+
+  @media screen and (max-width: 480px) {
+    font-size: 20px;
+  }
+}
