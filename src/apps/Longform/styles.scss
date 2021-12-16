@@ -16,8 +16,6 @@
   --lh-main-text: 1.5;
 
   --len-visible-screen-height: calc(100 * var(--vh) - var(--nav-height));
-  --len-home-height: var(--len-visible-screen-height);
-  --len-home-max-height: calc(165 * var(--vw));
   --len-home-max-width: 960px;
   --len-home-padding: 24px;
   --len-intro-max-width: calc(38 * 16px);
@@ -53,8 +51,6 @@
 .dest22__home {
   position: relative;
   width: 100%;
-  height: var(--len-home-height);
-  max-height: var(--len-home-max-height);
 }
 
 .dest22__intro {

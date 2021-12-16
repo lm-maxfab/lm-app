@@ -32,3 +32,8 @@ export interface Destination {
   shape?: 'church'|'circles'|'oval'|'pill'
   main_photo_url?: string
 }
+
+export interface CreditsData {
+  id: string
+  content?: VNode
+}

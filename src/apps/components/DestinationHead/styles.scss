@@ -5,17 +5,22 @@
   justify-content: center;
   position: relative;
   text-align: center;
-}
 
-.dest22-destination-head .dest22-destination-window {
-  height: calc(0.5 * var(--len-visible-screen-height));
-}
+  .dest22-destination-window {
+    height: calc(0.5 * var(--len-visible-screen-height));
+  }
 
-.dest22-destination-head .dest22-destination-number {
-  position: relative;
-  transform: translateY(-50%);
-}
+  .dest22-destination-number {
+    position: relative;
+    transform: translateY(-50%);
+  }
 
-.dest22-destination-head .dest22-destination-opener {
-  margin-top: 24px;
+  .dest22-destination-supertitle,
+  .dest22-destination-title {
+    max-width: 480px;
+  }
+
+  .dest22-destination-opener {
+    margin-top: 24px;
+  }
 }

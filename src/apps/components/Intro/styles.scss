@@ -1,5 +1,5 @@
 .dest22-intro {
-  background-color: var(--c-content-bg);
+  background-color: #FFF4E0;
   padding: var(--len-intro-padding);
   padding-bottom: var(--len-intro-padding-bottom);
 }
@@ -8,4 +8,9 @@
   width: 100%;
   max-width: var(--len-intro-max-width);
   margin: 0 auto;
+
+  img {
+    // mix-blend-mode: multiply;
+    // border: 10px dashed black;
+  }
 }

@@ -1,23 +1,22 @@
 import { Component, JSX } from 'preact'
 import bem from '../../../modules/le-monde/utils/bem'
+import DestinationOpener from '../DestinationOpener'
 import { Destination as DestinationType } from '../../types'
-import DestinationLink from '../DestinationLink'
 
 import './styles.scss'
 
 interface Props {
   className?: string
   style?: JSX.CSSProperties
-  content?: DestinationType['content']
+  url?: string
   textColor?: DestinationType['contrast_color']
   bgColor?: DestinationType['main_color']
   borderColor?: DestinationType['contrast_color']
-  url?: DestinationType['article_url']
 }
 
-class DestinationContent extends Component<Props, {}> {
-  static clss = 'dest22-destination-content'
-  clss = DestinationContent.clss
+class DestinationLink extends Component<Props, {}> {
+  static clss = 'dest22-destination-link'
+  clss = DestinationLink.clss
 
   /* * * * * * * * * * * * * * *
    * RENDER
@@ -27,24 +26,20 @@ class DestinationContent extends Component<Props, {}> {
 
     /* Classes and style */
     const wrapperClasses = bem(props.className ?? '').block(this.clss)
-    const wrapperStyle: JSX.CSSProperties = {
-      ...props.style,
-      ['--c-text-color']: props.textColor
-    }
+    const wrapperStyle: JSX.CSSProperties = { ...props.style }
 
     /* Display */
     return (
       <div className={wrapperClasses.value} style={wrapperStyle}>
-        {props.content}
-        {props.url && <DestinationLink
-          url={props.url}
-          textColor={props.textColor}
+        <a href={props.url}>Lire la suite du reportage</a>
+        <DestinationOpener
           bgColor={props.bgColor}
-          borderColor={props.borderColor} />}
+          borderColor={props.borderColor}
+          onClick={e => console.log(e)} />
       </div>
     )
   }
 }
 
 export type { Props }
-export default DestinationContent
+export default DestinationLink

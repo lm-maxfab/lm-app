@@ -1,0 +1,12 @@
+.dest22-credits {
+  padding-top: calc(20 * var(--vh));
+  padding-bottom: calc(20 * var(--vh));
+  display: flex;
+  justify-content: center;
+  font-family: var(--ff-marr-sans);
+
+  .dest22-credits__inner {
+    width: calc(100% - 48px);
+    max-width: 600px;
+  }
+}

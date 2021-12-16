@@ -21,6 +21,7 @@ interface Props {
   supertitle?: DestinationType['supertitle']
   isOpened?: boolean
   content?: DestinationType['content']
+  url?: DestinationType['article_url']
   onOpenerClick?: (e: JSX.TargetedMouseEvent<HTMLButtonElement>) => void
 }
 
@@ -42,7 +43,7 @@ class Destination extends Component<Props, State> {
   constructor (props: Props) {
     super(props)
     this.setContentWrapperHeight = this.setContentWrapperHeight.bind(this)
-    this.delayedSetContentWrapperHeight = new GroupDelay(this.setContentWrapperHeight, 200).call
+    this.delayedSetContentWrapperHeight = new GroupDelay(this.setContentWrapperHeight, 400).call
     window.addEventListener('resize', this.delayedSetContentWrapperHeight)
   }
 
@@ -63,7 +64,10 @@ class Destination extends Component<Props, State> {
     const $destinationContent = this.$contentWrapper.querySelector(`.${DestinationContent.clss}`)
     if ($destinationContent === null) return
     const { height } = $destinationContent.getBoundingClientRect()
-    this.setState({ contentHeight: height })
+    this.setState(curr => {
+      if (curr.contentHeight === height) return null
+      return { contentHeight: height }
+    })
   }
 
   /* * * * * * * * * * * * * * *
@@ -103,7 +107,10 @@ class Destination extends Component<Props, State> {
         className={bem(this.clss).elt('content-wrapper').value}>
         <DestinationContent
           textColor={props.textColor}
-          content={props.content} />
+          bgColor={props.bgColor}
+          borderColor={props.borderColor}
+          content={props.content}
+          url={props.url} />
       </div>
     </div>
   }

@@ -8,7 +8,7 @@ import Home from '../components/Home'
 import Intro from '../components/Intro'
 import Destinations from '../components/Destinations'
 import Credits from '../components/Credits'
-import { Destination as DestinationType, IntroElement } from '../types'
+import { Destination as DestinationType, IntroElement, CreditsData } from '../types'
 
 interface Props {
   className?: string
@@ -58,6 +58,7 @@ class App extends Component<Props, State> {
     const data = props.sheetBase
     const introElements = (data?.collection('intro_elements').value ?? []) as unknown as IntroElement[]
     const destinations = (data?.collection('destinations').value ?? []) as unknown as DestinationType[]
+    const credits = (data?.collection('credits').value ?? [])[0] as unknown as CreditsData
 
     // Assign classes
     const wrapperClasses = bem(props.className ?? '').block('lm-app').block(this.clss)
@@ -76,8 +77,7 @@ class App extends Component<Props, State> {
       <div
         className={wrapperClasses.value}
         style={wrapperStyle}>
-        <Paginator
-          triggerBound='top'>
+        <Paginator triggerBound='top'>
           <Page value='home'><div className={homeClasses.value}><Home /></div></Page>
           <Page value='intro'><div className={introClasses.value}><Intro elements={introElements} /></div></Page>
           <Page value='destinations'>
@@ -88,7 +88,14 @@ class App extends Component<Props, State> {
                 onDestinationOpenerClick={this.handleDestinationOpenerClick} />
             </div>
           </Page>
-          <Page value='credits'><div className={creditsClasses.value}><Credits /></div></Page>
+          <Page value='credits'>
+            <div className={creditsClasses.value}>
+              <Credits
+                content={credits.content}
+                bgColor={(destinations.slice(-1)[0] ?? {}).main_color}
+                textColor={(destinations.slice(-1)[0] ?? {}).contrast_color} />
+            </div>
+          </Page>
         </Paginator>
       </div>
     )

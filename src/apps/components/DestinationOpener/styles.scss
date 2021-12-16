@@ -21,8 +21,10 @@
 
 .dest22-destination-opener .lm-svg .fill-1 {
   fill: var(--c-icon-bg);
+  transition: fill 800ms;
 }
 
 .dest22-destination-opener .lm-svg .stroke-1 {
   fill: var(--c-icon-border);
+  transition: fill 800ms;
 }

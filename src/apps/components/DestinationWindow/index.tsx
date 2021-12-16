@@ -43,8 +43,7 @@ class DestinationWindow extends Component<Props, {}> {
     const { props } = this
 
     /* Logic */
-    // const shapeName = props.shape ?? 'church'
-    const shapeName = 'circles'
+    const shapeName = props.shape ?? 'church'
     const shapeUrl = shapes[shapeName]
     const shapeShadowUrl = shapes[`${shapeName}Shadow`]
 

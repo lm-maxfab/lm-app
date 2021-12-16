@@ -16,6 +16,7 @@ interface Props {
 
 interface State {
   backgroundColor: string
+  textColor: string
 }
 
 class Destinations extends Component<Props, State> {
@@ -34,7 +35,10 @@ class Destinations extends Component<Props, State> {
   handlePageEnter (destId: string) {
     const currentDestination = this.props.destinations?.find(dest => dest.id === destId)
     if (currentDestination === undefined) return
-    this.setState({ backgroundColor: currentDestination.main_color })
+    this.setState({
+      backgroundColor: currentDestination.main_color,
+      textColor: currentDestination.contrast_color
+    })
   }
 
   /* * * * * * * * * * * * * * *
@@ -70,15 +74,16 @@ class Destinations extends Component<Props, State> {
                 fixedImage={true}
                 photoUrl={dest.main_photo_url}
                 shape={dest.shape}
-                borderColor={dest.contrast_color}
-                bgColor={dest.main_color}
-                textColor={dest.contrast_color}
+                borderColor={state.textColor}
+                bgColor={state.backgroundColor}
+                textColor={state.textColor}
                 position={destPos + 1}
                 title={dest.title}
                 supertitle={dest.supertitle}
                 isOpened={props.openedDestinationId === dest.id}
                 onOpenerClick={opener}
-                content={dest.content} />
+                content={dest.content}
+                url={dest.article_url} />
             </Paginator.Page>
           })}
         </Paginator>
