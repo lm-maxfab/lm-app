@@ -179,6 +179,17 @@
       },
       "description": "",
       "time": "2021-12-17T19:10:59.079Z"
+    },
+    {
+      "version": {
+        "major": 1,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 9
+      },
+      "description": "",
+      "time": "2021-12-17T19:13:59.413Z"
     }
   ]
 }

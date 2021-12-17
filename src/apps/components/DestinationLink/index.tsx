@@ -35,10 +35,11 @@ class DestinationLink extends Component<Props, {}> {
     return (
       <div className={wrapperClasses.value} style={wrapperStyle}>
         <a href={props.url}>Lire la suite du reportage</a>
-        <DestinationOpener
-          bgColor={props.bgColor}
-          borderColor={props.borderColor}
-          onClick={e => console.log(e)} />
+        <a href={props.url}>
+          <DestinationOpener
+            bgColor={props.bgColor}
+            borderColor={props.borderColor} />
+        </a>
       </div>
     )
   }
