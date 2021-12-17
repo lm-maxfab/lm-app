@@ -28,6 +28,7 @@ interface Props {
   title?: DestinationType['title']
   supertitle?: DestinationType['supertitle']
   isOpened?: boolean
+  forceCoverInWindow?: boolean
   onOpenerClick?: (e: JSX.TargetedMouseEvent<HTMLButtonElement>) => void
 }
 
@@ -50,6 +51,7 @@ class DestinationHead extends Component<Props, {}> {
         style={wrapperStyle}
         className={wrapperClasses.value}>
         <DestinationWindow
+          forceBgCover={props.forceCoverInWindow}
           fixedImage={props.fixedImage}
           photoUrl={props.photoUrl}
           shape={props.shape} />

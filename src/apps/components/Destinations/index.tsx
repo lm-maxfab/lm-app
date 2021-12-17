@@ -12,7 +12,6 @@ const isOperaMini = navigator.userAgent.indexOf('Opera Mini') !== -1
 const isOpera = (window as unknown as any).opera | (window as unknown as any).opr || (navigator.userAgent.indexOf(' OPR/') > -1) || (navigator.userAgent.indexOf(' Coast/') > -1) || (navigator.userAgent.indexOf(' OPiOS/') > -1)
 const disableFixedBg = isIos || isSafari || isOperaMini || isOpera
 
-
 interface Props {
   className?: string
   style?: JSX.CSSProperties
@@ -79,6 +78,7 @@ class Destinations extends Component<Props, State> {
             return <Paginator.Page value={dest.id}>
               <Destination
                 fixedImage={disableFixedBg ? false : true}
+                forceCoverInWindow={disableFixedBg ? true : false}
                 photoUrl={disableFixedBg ? dest.main_photo_url_alt : dest.main_photo_url}
                 shape={dest.shape}
                 borderColor={state.textColor}
