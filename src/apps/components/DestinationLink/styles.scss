@@ -4,9 +4,15 @@
 
   a {
     font-family: var(--ff-marr-sans);
-    font-size: 18px;
+    font-size: var(--fs-main-text);
     line-height: 1.33;
     font-weight: 700;
     margin-right: 8px;
+    box-shadow: 0 0 0 0 var(--c-underline-color);
+    transition: box-shadow 200ms;
+
+    &:hover {
+      box-shadow: 0 1px 0 0 var(--c-underline-color);
+    }
   }
 }

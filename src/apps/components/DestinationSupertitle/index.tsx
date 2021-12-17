@@ -7,8 +7,8 @@ import './styles.scss'
 interface Props {
   className?: string
   style?: JSX.CSSProperties
-  textColor: DestinationType['contrast_color']
-  content: DestinationType['supertitle']
+  textColor?: DestinationType['contrast_color']
+  content?: DestinationType['supertitle']
 }
 
 class DestinationSupertitle extends Component<Props, {}> {

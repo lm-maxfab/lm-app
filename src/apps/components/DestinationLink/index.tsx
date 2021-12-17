@@ -26,7 +26,10 @@ class DestinationLink extends Component<Props, {}> {
 
     /* Classes and style */
     const wrapperClasses = bem(props.className ?? '').block(this.clss)
-    const wrapperStyle: JSX.CSSProperties = { ...props.style }
+    const wrapperStyle: JSX.CSSProperties = {
+      ...props.style,
+      ['--c-underline-color']: props.textColor
+    }
 
     /* Display */
     return (

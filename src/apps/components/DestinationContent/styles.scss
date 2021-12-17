@@ -1,6 +1,6 @@
 .dest22-destination-content {
   --len-box-side-padding: 24px;
-  --len-aside-side-padding: 24px;
+  --len-aside-side-padding: 8px;
   font-family: var(--ff-the-antiqua-b);
   font-size: var(--fs-main-text);
   line-height: 1.5;
@@ -10,16 +10,8 @@
   position: relative;
   padding: 0 var(--len-box-side-padding);
 
-  @media screen and (max-width: 1200px) {
-    --len-aside-side-padding: 20px;
-  }
-
-  @media screen and (max-width: 800px) {
-    --len-aside-side-padding: 16px;
-  }
-
   @media screen and (max-width: 480px) {
-    --len-aside-side-padding: 8px;
+    --len-aside-side-padding: 4px;
   }
 
   img {

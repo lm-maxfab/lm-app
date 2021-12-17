@@ -31,9 +31,15 @@ export interface Destination {
   article_url?: string
   shape?: 'church'|'circles'|'oval'|'pill'
   main_photo_url?: string
+  main_photo_url_alt?: string
 }
 
 export interface CreditsData {
   id: string
   content?: VNode
+}
+
+export interface GeneralSettingsData {
+  id: string
+  longform_url?: string
 }

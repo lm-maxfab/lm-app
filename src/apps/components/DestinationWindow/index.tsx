@@ -29,6 +29,7 @@ interface Props {
   className?: string
   style?: JSX.CSSProperties
   fixedImage?: boolean
+  forceBgCover?: boolean
   photoUrl: DestinationType['main_photo_url']
   shape: DestinationType['shape']
 }
@@ -51,6 +52,11 @@ class DestinationWindow extends Component<Props, {}> {
     const wrapperClasses = bem(props.className ?? '').block(this.clss)
     const wrapperStyle: JSX.CSSProperties = { ...props.style }
     const bgStyle: JSX.CSSProperties = {
+      backgroundSize: props.forceBgCover
+        ? 'cover'
+        : props.fixedImage
+          ? 'cover'
+          : 'contain',
       backgroundImage: `url(${props.photoUrl})`,
       backgroundAttachment: props.fixedImage === true ? 'fixed' : 'scroll',
       webkitMaskImage: `url(${shapeUrl})`

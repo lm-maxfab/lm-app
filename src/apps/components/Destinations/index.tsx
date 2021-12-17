@@ -6,6 +6,13 @@ import Destination from '../Destination'
 
 import './styles.scss'
 
+const isIos = /iP(ad|od|hone)/i.test(window.navigator.userAgent)
+const isSafari = !!navigator.userAgent.match(/Version\/[\d\.]+.*Safari/)
+const isOperaMini = navigator.userAgent.indexOf('Opera Mini') !== -1
+const isOpera = (window as unknown as any).opera | (window as unknown as any).opr || (navigator.userAgent.indexOf(' OPR/') > -1) || (navigator.userAgent.indexOf(' Coast/') > -1) || (navigator.userAgent.indexOf(' OPiOS/') > -1)
+const disableFixedBg = isIos || isSafari || isOperaMini || isOpera
+
+
 interface Props {
   className?: string
   style?: JSX.CSSProperties
@@ -71,8 +78,8 @@ class Destinations extends Component<Props, State> {
             }
             return <Paginator.Page value={dest.id}>
               <Destination
-                fixedImage={true}
-                photoUrl={dest.main_photo_url}
+                fixedImage={disableFixedBg ? false : true}
+                photoUrl={disableFixedBg ? dest.main_photo_url_alt : dest.main_photo_url}
                 shape={dest.shape}
                 borderColor={state.textColor}
                 bgColor={state.backgroundColor}

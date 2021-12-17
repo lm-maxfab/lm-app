@@ -1,0 +1,23 @@
+.dest22-side-snippet {
+  display: flex;
+  align-items: center;
+  padding: 32px;
+  background-color: #FFF7CB;
+
+  .lm-img {
+    margin-right: 32px;
+    width: 48px;
+    flex-shrink: 0;
+  }
+
+  p {
+    font-family: var(--ff-marr-sans);
+    font-weight: 500;
+    color: #000000;
+
+    a {
+      font-weight: 600;
+      text-decoration: underline !important;
+    }
+  }
+}
