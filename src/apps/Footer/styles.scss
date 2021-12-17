@@ -96,6 +96,13 @@
       .dest22-destination-title {
         font-size: 18px;
       }
+
+      &.dest22-footer__destination_starter {
+        .lm-img {
+          height: 320px;
+          margin-bottom: 16px;
+        }
+      }
     }
   }
 }

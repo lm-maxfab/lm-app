@@ -6,13 +6,14 @@
 
   .lm-img {
     margin-right: 32px;
-    width: 48px;
+    width: 48px !important;
     flex-shrink: 0;
   }
 
   p {
     font-family: var(--ff-marr-sans);
     font-weight: 500;
+    font-size: 15px;
     color: #000000;
 
     a {

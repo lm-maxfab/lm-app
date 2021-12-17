@@ -91,6 +91,17 @@
       },
       "description": "First full version",
       "time": "2021-12-17T16:36:49.466Z"
+    },
+    {
+      "version": {
+        "major": 1,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 1
+      },
+      "description": "",
+      "time": "2021-12-17T17:13:30.840Z"
     }
   ]
 }
