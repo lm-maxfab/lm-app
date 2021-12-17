@@ -65,9 +65,10 @@ class Destination extends Component<Props, State> {
     const $destinationContent = this.$contentWrapper.querySelector(`.${DestinationContent.clss}`)
     if ($destinationContent === null) return
     const { height } = $destinationContent.getBoundingClientRect()
+    const newHeight = height + 32
     this.setState(curr => {
-      if (curr.contentHeight === height) return null
-      return { contentHeight: height }
+      if (curr.contentHeight === newHeight) return null
+      return { contentHeight: newHeight }
     })
   }
 
