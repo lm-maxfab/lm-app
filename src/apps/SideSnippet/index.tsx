@@ -39,7 +39,7 @@ class SideSnippet extends Component<Props, {}> {
         className={wrapperClasses.value}
         style={wrapperStyle}>
         <Img src={sideImageUrl} />
-        <p>Découvrez 20 destinations où partir en France et en Europe en 2022 dans <a href={generalSettings.longform_url}>un grand format numérique</a></p>
+        <p>Découvrez les 20&nbsp;destinations 2022 du «&nbsp;Monde&nbsp;», 10&nbsp;en France, 10&nbsp;en Europe, dans <a href={generalSettings.longform_url}>un grand format numérique</a></p>
       </div>
     )
   }

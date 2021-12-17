@@ -35,7 +35,8 @@ class Footer extends Component<Props, {}> {
     const wrapperClasses = bem(props.className ?? '').block('lm-app').block(this.clss)
     const wrapperStyle: JSX.CSSProperties = {
       ...props.style,
-      '--nav-height': `${navHeight}px`
+      '--nav-height': `${navHeight}px`,
+      marginTop: 'var(--nav-height)'
     }
 
     // Display
@@ -43,7 +44,7 @@ class Footer extends Component<Props, {}> {
       <div
         className={wrapperClasses.value}
         style={wrapperStyle}>
-        <DestinationOpener
+        {/* <DestinationOpener
           style={{
             position: 'absolute',
             right: '24px',
@@ -54,9 +55,9 @@ class Footer extends Component<Props, {}> {
             cursor: 'default'
           }}
           bgColor='transparent'
-          borderColor='#0E1B4C' />
+          borderColor='#0E1B4C' /> */}
         <h3 className={bem(this.clss).elt('title').value}>
-          Les autres voyages du <em>«&nbsp;Monde&nbsp;»</em>
+          Les autres voyages du «&nbsp;Monde&nbsp;»
         </h3>
         <div className={bem(this.clss).elt('destinations').value}>
           <a
