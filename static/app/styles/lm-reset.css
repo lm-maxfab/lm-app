@@ -1,0 +1,56 @@
+@viewport {
+  zoom: 1.0;
+  user-zoom: fixed;
+}
+
+.lm-app a {
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+  text-decoration: none;
+  color: unset;
+  border: none !important;
+}
+
+body, html {
+  padding: 0;
+  margin: 0;
+  overflow-x: hidden;
+}
+
+img, table, td, blockquote, code, pre, textarea, input, iframe, object, embed, video {
+  max-width: 100%;
+}
+
+input:focus, select:focus, textarea:focus, button:focus {
+  outline: none;
+}
+
+img {
+  display: block;
+  overflow: hidden;
+  text-indent: 100%;
+  white-space: nowrap;
+}
+
+figure {
+  line-height: 0;
+  margin: 0;
+}
+
+textarea, table, td, th, code, pre, samp {
+  word-wrap: break-word;
+  hyphens: auto;
+}
+
+h1, h2, h3, h4, h5 {
+  margin: 0;
+}
+
+sup, sub {
+  line-height: 0;
+}
+
+.multimedia-embed {
+  padding: 0 !important;
+  border: none !important;
+}
