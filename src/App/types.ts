@@ -1,4 +1,5 @@
 import { VNode } from 'preact'
+import StrToHtml from '../modules/le-monde/components/StrToHtml';
 
 export interface HomeImageData {
   id: string
@@ -15,8 +16,8 @@ export interface ImageBlockData {
   image_url?: string
   image_ratio?: string
   month?: MonthData
-  description?: string
-  credits?: string
+  description?: StrToHtml
+  credits?: StrToHtml
 }
 
 export interface MonthData {

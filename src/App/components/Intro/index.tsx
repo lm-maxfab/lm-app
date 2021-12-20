@@ -26,7 +26,7 @@ class Intro extends Component<Props, {}> {
     return (
       <div className={classes.value} style={inlineStyle}>
         <div className={bem(this.clss).elt('inner').value}>
-          {props.paragraphs?.map(paragraph => paragraph.content)}
+          {props.paragraphs?.map(paragraph => <p>{paragraph.content}</p>)}
         </div>
       </div>
     )

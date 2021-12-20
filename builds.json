@@ -45,6 +45,17 @@
       },
       "description": "First live version",
       "time": "2021-12-01T16:47:04.880Z"
+    },
+    {
+      "version": {
+        "major": 1,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "",
+      "time": "2021-12-20T17:14:11.919Z"
     }
   ]
 }
