@@ -37,15 +37,15 @@ class ImageBlock extends Component<Props, {}> {
     const isPortrait = /^po/.test(data.image_ratio?.toLowerCase() ?? '')
     const isStrip = /^s/.test(data.image_ratio?.toLowerCase() ?? '')
 
-    const widths = [2400, 2200, 1800, 1400, 1000, 800, 600].reverse()
+    const widths = [2400, 2200, 1800, 1400, 1000, 800, 600]
     const imageName = (data.image_url ?? '').split('.').slice(0, -1).join('.')
     const imageExt = (data.image_url ?? '').replace(new RegExp(`^${imageName}.`, 'gm'), '')
     const srcSet = widths.map(width => {
       let ratio = 1
       if (isPano || isLandscape) ratio = 1
-      if (isSquare) ratio = .8
-      if (isPortrait) ratio = .7
-      if (isStrip) ratio = .6
+      if (isSquare) ratio = .66
+      if (isPortrait) ratio = .5
+      if (isStrip) ratio = .3
       const targetFileName = `${imageName}.${width}.q80.comp.${imageExt}`
       const targetWidthName = `${Math.floor(width / ratio)}w`
       return `${targetFileName} ${targetWidthName}`
