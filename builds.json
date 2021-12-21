@@ -100,6 +100,17 @@
       },
       "description": "",
       "time": "2021-12-21T16:14:36.286Z"
+    },
+    {
+      "version": {
+        "major": 1,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 5
+      },
+      "description": "",
+      "time": "2021-12-21T16:24:07.711Z"
     }
   ]
 }
