@@ -37,7 +37,7 @@ class ImageBlock extends Component<Props, {}> {
     const isPortrait = /^po/.test(data.image_ratio?.toLowerCase() ?? '')
     const isStrip = /^s/.test(data.image_ratio?.toLowerCase() ?? '')
 
-    const widths = [2400, 2200, 1800, 1400, 1000, 800, 600]
+    const widths = [2400, 1800, 1400, 1000, 800, 600]
     const imageName = (data.image_url ?? '').split('.').slice(0, -1).join('.')
     const imageExt = (data.image_url ?? '').replace(new RegExp(`^${imageName}.`, 'gm'), '')
     const srcSet = widths.map(width => {
@@ -50,6 +50,7 @@ class ImageBlock extends Component<Props, {}> {
       const targetWidthName = `${Math.floor(width / ratio)}w`
       return `${targetFileName} ${targetWidthName}`
     }).join(', ')
+    const src = `${imageName}.${2200}.q80.comp.${imageExt}`
 
     /* Classes and style */
     const classes = bem(props.className ?? '')
@@ -66,7 +67,7 @@ class ImageBlock extends Component<Props, {}> {
 
     return <div className={classes.value} style={inlineStyle}>
       <Img
-        src={data.image_url}
+        src={src}
         srcSet={srcSet}
         alt={strDescriptionContent}
         className={imageClasses.value} />

@@ -89,6 +89,17 @@
       },
       "description": "",
       "time": "2021-12-21T15:30:38.529Z"
+    },
+    {
+      "version": {
+        "major": 1,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 4
+      },
+      "description": "",
+      "time": "2021-12-21T16:14:36.286Z"
     }
   ]
 }
