@@ -35,7 +35,7 @@ class Home extends Component<Props, {}> {
     return (
       <div className={classes.value} style={inlineStyle}>
         <Sequencer
-          play={false}
+          play={true}
           tempo={12}
           sequence={imagesSequence}
           renderer={({ step }) => {
