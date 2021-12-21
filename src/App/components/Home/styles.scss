@@ -23,7 +23,8 @@
 
 .photos21-home__title {
   position: absolute;
-  bottom: 56px;
+  padding: 56px 0;
+  bottom: 0;
   left: 50%;
   width: 100%;
   transform: translateX(-50%);
@@ -32,13 +33,29 @@
   align-items: center;
   color: var(--c-main-text);
   text-align: center;
+  background: linear-gradient(
+    rgb(0, 0, 0, 0),
+    rgb(0, 0, 0, .7)
+  );
+
+  @media screen and (max-width: 1200px) {
+    padding: 52px 0;
+  }
+  
+  @media screen and (max-width: 800px) {
+    padding: 44px 0;
+  }
+  
+  @media screen and (max-width: 640px) {
+    padding: 32px 0;
+  }
 }
 
 .photos21-home__title-line-1 {
-  font-size: var(--fs-home-title-line-1);
+  font-size: 96px;
   font-weight: 600;
   font-family: var(--ff-marr-sans-condensed);
-  letter-spacing: .2em;
+  letter-spacing: .09em;
   text-transform: uppercase;
   margin-bottom: 16px;
   line-height: 1;
@@ -46,12 +63,69 @@
 }
 
 .photos21-home__title-line-2 {
-  font-size: var(--fs-home-title-line-2);
-  font-weight: 400;
+  font-size: 56px;
+  font-weight: 500;
   font-family: var(--ff-the-antiqua-b);
   margin-bottom: 32px;
+  letter-spacing: .09em;
+  text-transform: uppercase;
   line-height: 1;
   flex-shrink: 0;
+}
+
+.photos21-home__title-line-3 {
+  margin-bottom: 32px;
+  font-size: 32px;
+  font-weight: 400;
+  font-family: var(--ff-marr-sans-condensed);
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+@media screen and (max-width: 1200px) {
+  .photos21-home__title-line-1 {
+    font-size: 88px;
+  }
+
+  .photos21-home__title-line-2 {
+    font-size: 48px;
+  }
+
+  .photos21-home__title-line-3 {
+    font-size: 28px;
+  }
+
+}
+
+@media screen and (max-width: 800px) {
+  .photos21-home__title-line-1 {
+    font-size: 72px;
+  }
+  
+  .photos21-home__title-line-2 {
+    font-size: 40px;
+  }
+  
+  .photos21-home__title-line-3 {
+    font-size: 24px;
+  }
+  
+}
+
+@media screen and (max-width: 640px) {
+  .photos21-home__title-line-1 {
+    font-size: 48px;
+  }
+  
+  .photos21-home__title-line-2 {
+    font-size: 24px;
+    margin-bottom: 16px;
+  }
+  
+  .photos21-home__title-line-3 {
+    font-size: 18px;
+  }
+  
 }
 
 .photos21-home__chevron svg {

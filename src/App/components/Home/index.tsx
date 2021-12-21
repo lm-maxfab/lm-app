@@ -22,7 +22,7 @@ class Home extends Component<Props, {}> {
   render (): JSX.Element|null {
     const { props } = this
 
-    /*  */
+    /* Logic */
     const imagesSequence = (props.images ?? [])
       .map(imageData => imageData.url)
       .filter(url => typeof url === 'string' && url !== '') as string[]
@@ -40,28 +40,39 @@ class Home extends Component<Props, {}> {
           sequence={imagesSequence}
           renderer={({ step }) => {
             return imagesSequence.map((imageUrl, imagePos) => {
-              const widths = [740, 1000, 1500, 2000]
               const imageName = (imageUrl ?? '').split('.').slice(0, -1).join('.')
               const imageExt = (imageUrl ?? '').replace(new RegExp(`^${imageName}.`, 'gm'), '')
+
+              const widths = [800, 1000, 1400, 2200]
               const srcSet = widths.map(width => {
-                const targetFileName = `${imageName}.${width}.q40.comp.${imageExt}`
-                const targetWidthName = `${width}w`
+                const targetFileName = `${imageName}.${width}.q80.comp.${imageExt}`
+                const targetWidthName = `${Math.floor(width / 1.2)}w`
                 return `${targetFileName} ${targetWidthName}`
               }).join(', ')
+
+              const isPassed = imagePos < step
+              const isCurrent = imagePos === step
+              const isNext = imagePos === (step + 1) % imagesSequence.length
+              const isToCome = imagePos > step
+
               const classes = bem(this.clss).elt('image').mod({
-                passed: imagePos < step,
-                current: imagePos === step,
-                ['to-come']: imagePos > step
+                passed: isPassed,
+                current: isCurrent,
+                ['to-come']: isToCome
               })
+
               return <Img
+                loading={isPassed || isCurrent || isNext ? 'eager' : 'lazy'}
                 src={imageUrl}
                 className={classes.value}
                 srcSet={srcSet} />
             })
           }} />
+
           <h1 className={bem(this.clss).elt('title').value}>
             <span className={bem(this.clss).elt('title-line-1').value}>2021</span>
             <span className={bem(this.clss).elt('title-line-2').value}>Une année en photo</span>
+            <span className={bem(this.clss).elt('title-line-3').value}>#PourLeMonde</span>
             <span className={bem(this.clss).elt('chevron').value}><Svg src={chevronUrl} /></span>
           </h1>
       </div>

@@ -29,28 +29,29 @@ class ImageBlock extends Component<Props, {}> {
     const descriptionContent = data.description?.props.content
     const fakeDiv = document.createElement('div')
     fakeDiv.innerHTML = descriptionContent ?? ''
-    const strDescriptionContent = fakeDiv.innerText
+    const strDescriptionContent = fakeDiv.innerText.split('&nbsp;').join(' ')
 
-    const widths = [740, 1000, 1500, 2000]
-    // const widths = new Array(3).fill(null).map((_e, i) => 500 + 500 * i)
+    const widths = [2400, 2200, 1800, 1400, 1000, 800, 600].reverse()
     const imageName = (data.image_url ?? '').split('.').slice(0, -1).join('.')
     const imageExt = (data.image_url ?? '').replace(new RegExp(`^${imageName}.`, 'gm'), '')
     const srcSet = widths.map(width => {
-      const targetFileName = `${imageName}.${width}.q40.comp.${imageExt}`
-      const targetWidthName = `${width}w`
+      const targetFileName = `${imageName}.${width}.q80.comp.${imageExt}`
+      const targetWidthName = `${Math.floor(width / 1)}w`
       return `${targetFileName} ${targetWidthName}`
     }).join(', ')
 
     /* Classes and style */
-    const classes = bem(props.className ?? '').block(this.clss)
+    const classes = bem(props.className ?? '')
+      .block(this.clss)
+      .mod({
+        ['ratio-pano']: /^pan/.test(data.image_ratio?.toLowerCase() ?? ''),
+        ['ratio-landscape']: /^pay/.test(data.image_ratio?.toLowerCase() ?? ''),
+        ['ratio-square']: /^c/.test(data.image_ratio?.toLowerCase() ?? ''),
+        ['ratio-portrait']: /^po/.test(data.image_ratio?.toLowerCase() ?? ''),
+        ['ratio-strip']: /^s/.test(data.image_ratio?.toLowerCase() ?? '')
+      })
     const inlineStyle: JSX.CSSProperties = { ...props.style }
-    const imageClasses = bem(this.clss).elt('image').mod({
-      ['ratio-pano']: /^pan/.test(data.image_ratio?.toLowerCase() ?? ''),
-      ['ratio-landscape']: /^pay/.test(data.image_ratio?.toLowerCase() ?? ''),
-      ['ratio-square']: /^c/.test(data.image_ratio?.toLowerCase() ?? ''),
-      ['ratio-portrait']: /^po/.test(data.image_ratio?.toLowerCase() ?? ''),
-      ['ratio-strip']: /^s/.test(data.image_ratio?.toLowerCase() ?? '')
-    })
+    const imageClasses = bem(this.clss).elt('image')
 
     return <div className={classes.value} style={inlineStyle}>
       <Img

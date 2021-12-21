@@ -1,10 +1,10 @@
 .lm-app-root {
   --vw: 1vw;
   --vh: 1vh;
-  --ff-the-antiqua-b: "The-Antiqua-B", Garamond, Times, serif;
-  --ff-marr-sans: "Marr-Sans", Verdana, sans-serif;
-  --ff-marr-sans-condensed: "Marr-Sans-Condensed", Verdana, sans-serif;
-  --ff-fette-engschrift: "Fette-Engschrift", Helvetica, Arial, sans-serif;
+  --ff-the-antiqua-b: "The-Antiqua-B", Georgia, Droid-serif, serif;
+  --ff-marr-sans: "Marr-Sans", Helvetica, Roboto, Arial, sans-serif;
+  --ff-marr-sans-condensed: "Marr-Sans-Condensed", ”Roboto Condensed”, ”Avenir Next Condensed”, Arial, sans-serif;
+  --ff-fette-engschrift: "Fette-Engschrift", Helvetica, Arial, sans-serif;
   --len-rem: 16px;
   font-family: initial;
   font-size: var(--l-rem);
