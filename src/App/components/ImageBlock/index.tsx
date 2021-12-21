@@ -31,12 +31,23 @@ class ImageBlock extends Component<Props, {}> {
     fakeDiv.innerHTML = descriptionContent ?? ''
     const strDescriptionContent = fakeDiv.innerText.split('&nbsp;').join(' ')
 
+    const isPano = /^pan/.test(data.image_ratio?.toLowerCase() ?? '')
+    const isLandscape = /^pay/.test(data.image_ratio?.toLowerCase() ?? '')
+    const isSquare = /^c/.test(data.image_ratio?.toLowerCase() ?? '')
+    const isPortrait = /^po/.test(data.image_ratio?.toLowerCase() ?? '')
+    const isStrip = /^s/.test(data.image_ratio?.toLowerCase() ?? '')
+
     const widths = [2400, 2200, 1800, 1400, 1000, 800, 600].reverse()
     const imageName = (data.image_url ?? '').split('.').slice(0, -1).join('.')
     const imageExt = (data.image_url ?? '').replace(new RegExp(`^${imageName}.`, 'gm'), '')
     const srcSet = widths.map(width => {
+      let ratio = 1
+      if (isPano || isLandscape) ratio = 1
+      if (isSquare) ratio = .8
+      if (isPortrait) ratio = .7
+      if (isStrip) ratio = .6
       const targetFileName = `${imageName}.${width}.q80.comp.${imageExt}`
-      const targetWidthName = `${Math.floor(width / 1)}w`
+      const targetWidthName = `${Math.floor(width / ratio)}w`
       return `${targetFileName} ${targetWidthName}`
     }).join(', ')
 
@@ -44,11 +55,11 @@ class ImageBlock extends Component<Props, {}> {
     const classes = bem(props.className ?? '')
       .block(this.clss)
       .mod({
-        ['ratio-pano']: /^pan/.test(data.image_ratio?.toLowerCase() ?? ''),
-        ['ratio-landscape']: /^pay/.test(data.image_ratio?.toLowerCase() ?? ''),
-        ['ratio-square']: /^c/.test(data.image_ratio?.toLowerCase() ?? ''),
-        ['ratio-portrait']: /^po/.test(data.image_ratio?.toLowerCase() ?? ''),
-        ['ratio-strip']: /^s/.test(data.image_ratio?.toLowerCase() ?? '')
+        ['ratio-pano']: isPano,
+        ['ratio-landscape']: isLandscape,
+        ['ratio-square']: isSquare,
+        ['ratio-portrait']: isPortrait,
+        ['ratio-strip']: isStrip
       })
     const inlineStyle: JSX.CSSProperties = { ...props.style }
     const imageClasses = bem(this.clss).elt('image')
@@ -59,63 +70,11 @@ class ImageBlock extends Component<Props, {}> {
         srcSet={srcSet}
         alt={strDescriptionContent}
         className={imageClasses.value} />
-      {/* <picture>
-        <source media='(min-width: 1400px)' srcSet={img1400} />
-        <source media='(min-width: 1000px)' srcSet={img1000} />
-        <source media='(min-width: 600px)' srcSet={img600} />
-        <Img src={data.image_url} alt={strDescriptionContent} className={imageClasses.value} />
-      </picture> */}
       <span className={bem(this.clss).elt('text').value}>
         <span className={bem(this.clss).elt('description').value}>{data.description}&nbsp;</span>
         <span className={bem(this.clss).elt('credits').value}>{data.credits}</span>
       </span>
     </div>
-
-    // const { props } = this
-    // const { data } = props
-
-    // /* Logic */
-    // if (data === undefined) return null
-    // if (data.image_url === undefined) return null
-
-    // const imageName = (data.image_url ?? '').split('.').slice(0, -1).join('.')
-    // const imageExt = (data.image_url ?? '').replace(new RegExp(`^${imageName}.`, 'gm'), '')
-    // const widths = new Array(12).fill(null).map((_e, i) => 400 + i * 150)
-    // const srcSet = widths.map(width => {
-    //   const targetFileName = `${imageName}.${width}.comp.${imageExt}`
-    //   const targetWidthName = `${width}w`
-    //   return `${targetFileName} ${targetWidthName}`
-    // }).join(', ')
-    // const sizes = widths.map(width => `(max-width: ${width}px) ${width}px`).join(', ')
-
-    // /* Classes and style */
-    // const classes = bem(props.className ?? '').block(this.clss)
-    // const inlineStyle: JSX.CSSProperties = { ...props.style }
-    // const imageClasses = bem(this.clss).elt('image').mod({
-    //   ['ratio-pano']: /^pan/.test(data.image_ratio?.toLowerCase() ?? ''),
-    //   ['ratio-landscape']: /^pay/.test(data.image_ratio?.toLowerCase() ?? ''),
-    //   ['ratio-square']: /^c/.test(data.image_ratio?.toLowerCase() ?? ''),
-    //   ['ratio-portrait']: /^po/.test(data.image_ratio?.toLowerCase() ?? ''),
-    //   ['ratio-strip']: /^s/.test(data.image_ratio?.toLowerCase() ?? '')
-    // })
-
-    // /* Display */
-    // return (
-    //   <div className={classes.value} style={inlineStyle}>
-    //     <div className={bem(this.clss).elt('inner').value}>
-    //       <Img
-    //         className={imageClasses.value}
-    //         src={data.image_url}
-    //         alt={data.description}
-    //         srcSet={''/*srcSet*/}
-    //         sizes={''/*sizes*/} />
-    //       <div className={bem(this.clss).elt('text').value}>
-    //         <span className={bem(this.clss).elt('description').value}>{data.description}&nbsp;</span>
-    //         <span className={bem(this.clss).elt('credits').value}>{data.credits}</span>
-    //       </div>
-    //     </div>
-    //   </div>
-    // )
   }
 }
 
