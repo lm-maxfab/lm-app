@@ -12,6 +12,9 @@ import SnippetHead from './App/snippet-head'
 import SnippetParagraph from './App/snippet-paragraph'
 import SnippetFoot from './App/snippet-foot'
 
+const headerNodes = [...document.querySelectorAll('.Header__nav-container, #Header')] as HTMLElement[]
+headerNodes.forEach(headerNode => { headerNode.style.display = 'none' })
+
 // Init globals
 window.__LM_GET_SILENT_LOG_REGISTER = getRegister
 window.__LM_PRINT_SILENT_LOG_REGISTER = printRegister
