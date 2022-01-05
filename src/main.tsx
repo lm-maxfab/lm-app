@@ -12,8 +12,8 @@ import SnippetHead from './App/snippet-head'
 import SnippetParagraph from './App/snippet-paragraph'
 import SnippetFoot from './App/snippet-foot'
 
-const headerNodes = [...document.querySelectorAll('.Header__nav-container, #Header')] as HTMLElement[]
-headerNodes.forEach(headerNode => { headerNode.style.display = 'none' })
+// const headerNodes = [...document.querySelectorAll('.Header__nav-container, #Header')] as HTMLElement[]
+// headerNodes.forEach(headerNode => { headerNode.style.display = 'none' })
 
 // Init globals
 window.__LM_GET_SILENT_LOG_REGISTER = getRegister
@@ -42,7 +42,21 @@ function renderApp (sheetBase: SheetBase): void {
 
   // Longform
   const longformRootNode: HTMLElement|null = document.getElementById('lm-app-longform-root')
-  if (longformRootNode !== null) getHeaderElement()?.remove()
+  if (longformRootNode !== null) {
+    const longformHeaderSelector = '.multimediaNav'
+    const articleHeaderSelector = '#Header'
+    const newNavSelector = '.Header__nav-container'
+    const possibleNavs = Array.from(
+      document.querySelectorAll([
+        longformHeaderSelector,
+        articleHeaderSelector,
+        newNavSelector
+      ].join(', '))
+    ) as HTMLElement[]
+    possibleNavs.forEach(possibleNav => {
+      possibleNav.style.display = 'none'
+    })
+  }
   if (longformRootNode !== null) {
     render(
       <Wrapper
