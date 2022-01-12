@@ -25,9 +25,11 @@ class SilentLog {
   print (slice: number = 100): void {
     const logs = this.get().slice(-1 * slice)
     logs.forEach(log => {
-      console.log(`${log.time}\n\n${log.stack?.join('\n')}`)
-      console.log(...log.message)
-      console.log('')
+      console.log(
+        `${log.time}`,
+        `\n\n${log.stack?.join('\n')}\n\n`,
+        ...log.message
+      )
     })
   }
 }
