@@ -2,7 +2,7 @@ import { render } from 'preact'
 import SilentLog from './modules/le-monde/utils/silent-log'
 import { SheetBase, tsvToSheetBase } from './modules/le-monde/utils/sheet-base'
 import renderList from './apps/rendered'
-import config from '../config'
+import config from './config'
 
 const silentLogger = new SilentLog()
 window.LM_APP_SILENT_LOGGER = silentLogger
@@ -22,7 +22,7 @@ function renderApp (sheetBase?: SheetBase): void {
 }
 
 async function fetchSheetBase () {
-  const { env } = config
+  const env = config.env
   const sheetbaseUrl = config.sheetbases[env] || ''
   if (sheetbaseUrl === '') return undefined
   try {
