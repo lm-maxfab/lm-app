@@ -1,0 +1,15 @@
+.prn-credits {
+  color: #FFFFFF;
+  font-family: var(--ff-marr-sans);
+  font-size: 16px;
+  line-height: 1.5;
+  opacity: .75;
+
+  b {
+    font-weight: 600;
+  }
+
+  @media screen and (max-width: 1024px) {
+    font-size: 14px;
+  }
+}

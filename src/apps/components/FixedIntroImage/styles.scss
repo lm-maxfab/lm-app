@@ -1,0 +1,22 @@
+.prn-fixed-intro-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 48px 16px;
+  transition: opacity 800ms;
+
+  .lm-img {
+    max-width: calc(60 * var(--vw));
+    max-height: calc(.7 * var(--len-visible-screen-height));
+    margin-bottom: calc(0 * var(--len-visible-screen-height));
+    object-fit: contain;
+  }
+
+  @media screen and (max-width: 1024px) {
+    .lm-img {
+      max-width: calc(100% - 64px);
+      max-height: calc(.5 * var(--len-visible-screen-height));
+      margin-bottom: calc(.12 * var(--len-visible-screen-height));
+    }
+  }
+}
