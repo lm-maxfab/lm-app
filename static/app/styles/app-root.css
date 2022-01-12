@@ -1,0 +1,29 @@
+.lm-app-root {
+  --vw: 1vw;
+  --vh: 1vh;
+  
+  --ff-the-antiqua-b:       "The-Antiqua-B", Garamond, Times, serif;
+  --ff-marr-sans:           "Marr-Sans", Verdana, sans-serif;
+  --ff-marr-sans-condensed: "Marr-Sans-Condensed", Verdana, sans-serif;
+  --ff-fette-engschrift:    "Fette-Engschrift", Helvetica, Arial, sans-serif;
+
+  --len-rem:                   16px;
+  --len-nav-height:            65px; /* Overwritten by /src/wrapper.tsx */
+  --len-visible-screen-height: calc(100 * var(--vh) - var(--len-nav-height));
+  
+  font-family: initial;
+  font-size: var(--l-rem);
+  line-height: 1.25;
+  color: initial;
+  position: relative;
+}
+
+@media screen and (max-width: 768px) {
+  .lm-app-root {
+    --len-nav-height: 59px; /* Overwritten by /src/wrapper.tsx */
+  }
+}
+
+.lm-app-root * {
+  box-sizing: border-box;
+}

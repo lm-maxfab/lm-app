@@ -1,11 +1,7 @@
-import Longform from './Longform'
-import SideNote from './SideNote'
-import Footer from './Footer'
+import MyApp from './MyApp'
 
 const rendered = [
-  { app: Longform, rootNodeClass: 'lm-app-root-longform' },
-  { app: SideNote, rootNodeClass: 'lm-app-root-side-note' },
-  { app: Footer, rootNodeClass: 'lm-app-root-footer' }
+  { app: MyApp, rootNodeClass: 'lm-app-root' }
 ]
 
 export default rendered
