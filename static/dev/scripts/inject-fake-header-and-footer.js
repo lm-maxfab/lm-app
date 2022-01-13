@@ -4,6 +4,7 @@
   function whenLoaded () {
     const currentBodyContent = document.body.innerHTML
     const headerContent = `
+    <!-- Header -->
     <header class="lm-app-fake-lm-header" id="Header">
       <div class="lm-app-fake-lm-header__inner">
         <div class="lm-app-fake-lm-header__burger-and-logo">
@@ -38,6 +39,7 @@
       </div>
     </header>`.replace(/\n\s{2}/gm, '\n')
     const footerContent = `
+    <!-- Footer -->
     <footer class="footer footer--abo old__footer lm-app-fake-lm-footer">
       <section class="zone zone--footer old__zone">
         <section class="footer__main">

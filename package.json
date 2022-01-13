@@ -45,6 +45,7 @@
       "/build",
       "/node_modules",
       "/vite.config.ts",
+      "/src/global.d.ts",
       "/src/custom.d.ts",
       "/src/preact.d.ts",
       "/src/preload.ts",

@@ -1,7 +1,7 @@
 import MyApp from './MyApp'
 
 const rendered = [
-  { app: MyApp, rootNodeClass: 'lm-app-root' }
+  { app: MyApp, rootNodeClass: 'my-app-class-name' }
 ]
 
 export default rendered

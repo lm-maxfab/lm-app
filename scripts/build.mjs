@@ -185,14 +185,14 @@ async function build () {
         jsdom.window.document.body.innerHTML += '\n<script'
           + ' async'
           + ' type="text/javascript"'
-          + ` src="/lm-assets-for-vite-build/index.live.js"></script>`
+          + ` src="/lm-assets-for-vite-build/${linkToLive ? 'index.live.js' : DST_INDEX_JS.name}"></script>`
         tag.remove()
       })
       vendorJsTags.forEach(tag => tag.remove())
       indexCssTags.forEach(tag => {
         jsdom.window.document.body.innerHTML += '\n<link'
           + ' rel="stylesheet"'
-          + ` href="/lm-assets-for-vite-build/index.live.css"`
+          + ` href="/lm-assets-for-vite-build/${linkToLive ? 'index.live.css' : DST_INDEX_CSS.name}"`
           + ' media="print"'
           + ' onload="this.media=\'all\'; this.onload=null;">'
         tag.remove()

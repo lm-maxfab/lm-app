@@ -12,11 +12,16 @@ async function predev () {
     ...config,
     env: 'developpment'
   }
+  const strConfig = JSON.stringify(configWithEnv)
   const STATIC_DEV_SCRIPTS_CONFIG_JS = await ROOT.get('static/dev/scripts/config.js')
   await STATIC_DEV_SCRIPTS_CONFIG_JS.editQuiet(() => {
     const comment = '/* Generated via /scripts/predev.mjs */\n'
-    const variable = `window.LM_APP_CONFIG = ${JSON.stringify(configWithEnv, null, 2)}\n`
-    const dispatcher = `document.dispatchEvent(new CustomEvent('LMAppConfigJsonLoaded'))\n`
-    return comment + variable + dispatcher
+    const code = `!(() => {
+      const configPre = document.documentElement.querySelector('#lm-app-config')
+      if (configPre === null) return
+      const innerText = JSON.stringify(${strConfig})
+      configPre.innerText = innerText
+    })()\n`
+    return comment + code
   })
 }
