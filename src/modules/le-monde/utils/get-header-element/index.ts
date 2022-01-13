@@ -1,12 +1,10 @@
 export default function getHeaderElement (): HTMLElement|undefined {
-  const longformHeaderSelector = '.multimediaNav'
-  const articleHeaderSelector = '#Header'
-  const newNavSelector = '.Header__nav-container'
+  const mobileHeaderSelector = '#Header .Header.Header--no-expanded .wrapper'
+  const desktopHeaderSelector = '#nav-desktop'
   const possibleNavs = Array.from(
     document.querySelectorAll([
-      longformHeaderSelector,
-      articleHeaderSelector,
-      newNavSelector
+      mobileHeaderSelector,
+      desktopHeaderSelector
     ].join(', '))
   ) as HTMLElement[]
   if (possibleNavs.length === 0) return
