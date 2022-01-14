@@ -4,6 +4,7 @@ import { Directory } from './modules/file-system/index.mjs'
 
 predev()
 async function predev () {
+  console.log(process.argv)
   const __dirname = dirname(fileURLToPath(import.meta.url))
   const ROOT = new Directory(path.join(__dirname, '../'))
   const CONFIG_JSON = await ROOT.get('config.json')

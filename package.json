@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "scripts": {
     "lint": "eslint .",
-    "predev": "node ./scripts/predev.mjs",
-    "dev": "vite",
+    "dev": "node ./scripts/dev.mjs",
+    "postdev": "vite",
     "start": "npm run dev",
     "build": "node ./scripts/build.mjs"
   },
