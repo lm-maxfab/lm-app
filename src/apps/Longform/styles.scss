@@ -1,0 +1,13 @@
+.illus21-longform {
+  position: relative;
+}
+
+.illus21-longform__home {
+  width: calc(100 * var(--vw));
+  min-height: var(--len-visible-screen-height);
+}
+
+.illus21-longform__intro {
+  width: calc(100 * var(--vw));
+  min-height: var(--len-visible-screen-height);
+}

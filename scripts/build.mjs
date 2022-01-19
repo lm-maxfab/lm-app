@@ -126,7 +126,7 @@ async function build () {
     if (buildExec.stderr !== '') console.log(chalk.red(buildExec.stderr.trim()))
 
     // Move unbuilt statics to .build/destination/lm-assets-for-vite-build
-    console.log(chalk.bold('\n👬 Copying unbuilt static/app/scripts files to .build/destination/lm-assets-for-vite-build...\n'))
+    console.log(chalk.bold('\n👬 Copying unbuilt .build/source/static/app/scripts files to .build/destination/lm-assets-for-vite-build...\n'))
     const DST = await ROOT.get('.build/destination')
     const DST_ASSETS = await DST.get('lm-assets-for-vite-build')
     const SRC_STATIC_APP_SCRIPTS = await ROOT.get('.build/source/static/app/scripts')
