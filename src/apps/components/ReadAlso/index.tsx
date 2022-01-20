@@ -7,7 +7,7 @@ interface Props {
   className?: string
   style?: JSX.CSSProperties
   url?: string
-  content?: VNode
+  content?: VNode|string
 }
 
 class ReadAlso extends Component<Props, {}> {

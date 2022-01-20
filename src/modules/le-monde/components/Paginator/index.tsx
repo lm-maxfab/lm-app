@@ -110,6 +110,7 @@ class Paginator extends Component<Props, State> {
           return null
         }
       } catch (err) {
+        console.warn('Non JSON parsable values in Paginator pages may cause undesirable side effects.')
         if (newVal !== curr.value) return { ...curr, value: newVal }
         else {
           this.clearNextChildrenLoopTimeout()

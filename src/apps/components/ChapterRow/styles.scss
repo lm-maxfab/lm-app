@@ -3,15 +3,19 @@
   display: flex;
   flex-wrap: nowrap;
   align-items: flex-start;
-  height: var(--len-visible-screen-height);
   background-color: olivedrab;
   overflow-x: scroll;
 
   .illus21-chapter-row__image-block {
     position: relative;
-    height: 100%;
     overflow: hidden;
     flex-shrink: 0;
+    --illus21-chapter-row-this-img-block-width: calc(var(--illus21-chapter-row-this-img-block-percent-width) * var(--vw));
+    width: var(--illus21-chapter-row-this-img-block-width);
+
+    @media screen and (max-width: 800px) {
+      --illus21-chapter-row-this-img-block-width: calc(100 * var(--vw));
+    }
   }
 
   .illus21-chapter-row__image-block:nth-child(even) {

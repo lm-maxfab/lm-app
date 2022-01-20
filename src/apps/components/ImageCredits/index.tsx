@@ -6,12 +6,12 @@ import './styles.scss'
 interface Props {
   className?: string
   style?: JSX.CSSProperties
-  content?: VNode
+  content?: VNode|string
 }
 
-class Credits extends Component<Props, {}> {
-  static clss = 'illus21-credits'
-  clss = Credits.clss
+class ImageCredits extends Component<Props, {}> {
+  static clss = 'illus21-image-credits'
+  clss = ImageCredits.clss
 
   /* * * * * * * * * * * * * * *
    * RENDER
@@ -33,4 +33,4 @@ class Credits extends Component<Props, {}> {
 }
 
 export type { Props }
-export default Credits
+export default ImageCredits

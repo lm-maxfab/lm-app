@@ -10,8 +10,8 @@ interface Props {
   bgSize?: string
   bgPosition?: string
   bgOpacity?: number
-  title?: VNode
-  kicker?: VNode
+  title?: VNode|string
+  kicker?: VNode|string
 }
 
 class Home extends Component<Props, {}> {

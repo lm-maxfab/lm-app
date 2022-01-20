@@ -6,8 +6,8 @@ import './styles.scss'
 interface Props {
   className?: string
   style?: JSX.CSSProperties
-  title?: VNode
-  kicker?: VNode
+  title?: VNode|string
+  kicker?: VNode|string
 }
 
 class ChapterHead extends Component<Props, {}> {

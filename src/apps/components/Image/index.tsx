@@ -1,4 +1,5 @@
 import { Component, JSX } from 'preact'
+import Img from '../../../modules/le-monde/components/Img'
 import bem from '../../../modules/le-monde/utils/bem'
 
 import './styles.scss'
@@ -24,7 +25,7 @@ class Image extends Component<Props, {}> {
     const wrapperStyle: JSX.CSSProperties = { ...props.style }
 
     /* Display */
-    return <img
+    return <Img
       src={props.url}
       className={wrapperClasses.value}
       style={wrapperStyle} />

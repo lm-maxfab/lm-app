@@ -6,7 +6,7 @@ import './styles.scss'
 interface Props {
   className?: string
   style?: JSX.CSSProperties
-  content?: VNode
+  content?: VNode|string
 }
 
 class Legend extends Component<Props, {}> {
