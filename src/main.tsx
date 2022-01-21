@@ -45,7 +45,9 @@ function renderApp (sheetBase?: SheetBase): void {
     const { app: App, rootNodeClass } = toRender
     silentLogger.log(`Rendering ${App.wrapped.name} in .${rootNodeClass} ...`)
     const rootNodes: HTMLCollectionOf<Element> = document.getElementsByClassName(rootNodeClass)
-    for (const rootNode of rootNodes) render(<App sheetBase={sheetBase} />, rootNode)
+    for (const rootNode of rootNodes) {
+      render(<App sheetBase={sheetBase} />, rootNode)
+    }
     if (rootNodes.length == 0) silentLogger.log('No node found to render', App.wrapped.name)
     else silentLogger.log(`Rendered ${App.wrapped.name} in ${rootNodes.length} nodes.`)
   })
@@ -60,6 +62,7 @@ async function cronFetchAndRender (step = 0) {
   try {
     await fetchAndRender()
   } catch (error) {
+    silentLogger.log(error)
     if (step >= 5) return silentLogger.log('Could not fetch sheetbase in 5 attemps, stop retrying.')
     silentLogger.log('Something went wrong while fetching sheetBase, new try in 500ms.')
     window.setTimeout(() => { cronFetchAndRender(step + 1) }, 500)

@@ -1,4 +1,7 @@
 .illus21-chapter-row {
+  --illus21-chapter-row-max-height: calc(var(--len-visible-screen-height) - 64px);
+
+  height: var(--illus21-chapter-row-max-height);
   position: relative;
   display: flex;
   flex-wrap: nowrap;

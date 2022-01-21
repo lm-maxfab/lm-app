@@ -32,7 +32,7 @@ const fakeData = {
       blocks: [{
         id: '1',
         layout: ('text-on-left' as 'text-on-left'),
-        size: '1/1',
+        size: '14/15',
         imageUrl: 'https://images3.alphacoders.com/823/thumb-1920-82317.jpg', //'https://www.robin-noorda.com/uploads/1/6/8/3/16830688/3347022_orig.jpg', //'https://images.adsttc.com/media/images/5b08/b87c/f197/ccb5/4900/00bd/medium_jpg/The_S_02_filter_edit2_06.jpg?1527298139',//'https://static01.nyt.com/images/2020/12/06/books/review/06Thrillers-LYALL-SUB01/06Thrillers-LYALL-SUB01-jumbo.jpg',
         bgColor: 'black',
         legendContent: <>Image 1</>,

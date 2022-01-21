@@ -1,6 +1,6 @@
 
 .illus21-image-block {
-  --illus21-image-block-max-height: calc(var(--len-visible-screen-height) - 64px);
+  --illus21-image-block-max-height: var(--illus21-chapter-row-max-height);
   --illus21-image-block-grid-gap: 16px;
   --illus21-image-block-side-panel-max-width: 288px;
   --illus21-image-block-credits-min-height: 32px;

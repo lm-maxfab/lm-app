@@ -1,5 +1,6 @@
 import { Component, JSX } from 'preact'
 import bem from '../../../modules/le-monde/utils/bem'
+import GroupDelay from '../../../modules/le-monde/utils/group-delay'
 import ImageBlock, { Props as ImageBlockProps } from '../ImageBlock'
 
 import './styles.scss'
@@ -14,10 +15,17 @@ interface Props {
   blocks?: Block[]
 }
 
-class ChapterRow extends Component<Props, {}> {
+interface State {
+  isScrolled: boolean
+}
+
+class ChapterRow extends Component<Props, State> {
   static clss = 'illus21-chapter-row'
   clss = ChapterRow.clss
   $root: HTMLDivElement|null = null
+  state: State = {
+    isScrolled: false
+  }
 
   /* * * * * * * * * * * * * * *
    * LIFECYCLE
@@ -26,11 +34,18 @@ class ChapterRow extends Component<Props, {}> {
     super(props)
     this.horizontalScrollListener = this.horizontalScrollListener.bind(this)
     this.requestHorizontalScrollToggle = this.requestHorizontalScrollToggle.bind(this)
+    this.horizontalScrollToggle = this.horizontalScrollToggle.bind(this)
   }
 
   componentDidMount () {
     if (this.$root !== null) {
       this.$root.onscroll = this.horizontalScrollListener
+    }
+  }
+
+  componentWillMount () {
+    if (this.$root !== null) {
+      this.$root.onscroll = null
     }
   }
 
@@ -41,26 +56,34 @@ class ChapterRow extends Component<Props, {}> {
     this.requestHorizontalScrollToggle()
   }
 
-  requestHorizontalScrollToggle () {
-    console.log('request h scroll toggle')
+  requestHorizontalScrollToggle = new GroupDelay(this.horizontalScrollToggle.bind(this), 20).call
+
+  horizontalScrollToggle () {
+    if (this.$root === null) return
+    const scrolled = this.$root.scrollLeft
+    if (this.state.isScrolled && scrolled < 100) this.setState({ isScrolled: false })
+    else if (!this.state.isScrolled && scrolled >= 100) this.setState({ isScrolled: true })
   }
 
   /* * * * * * * * * * * * * * *
    * RENDER
    * * * * * * * * * * * * * * */
   render (): JSX.Element|null {
-    const { props } = this
+    const { props, state } = this
 
     /* Logic */
     const contentWidth = props.blocks?.reduce((acc: number, block: Block) => {
       const [num, denom] = (block.size ?? '1/1').split('/').map(e => parseFloat(e))
       return acc + (num ?? 1) / (denom ?? 1)
     }, 0)
-    console.log(contentWidth)
 
     /* Classes and style */
-    const wrapperClasses = bem(props.className).block(this.clss)
-    const wrapperStyle: JSX.CSSProperties = { ...props.style }
+    const wrapperClasses = bem(props.className)
+      .block(this.clss)
+      .mod({ 'is-scrolled': state.isScrolled })
+    const wrapperStyle: JSX.CSSProperties = {
+      ...props.style
+    }
 
     /* Display */
     return (

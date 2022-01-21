@@ -5,6 +5,7 @@ import './styles.scss'
 import ChapterHead from '../components/ChapterHead'
 import Home from '../components/Home'
 import ChapterRow from '../components/ChapterRow'
+import { HomeData, ChapterData, ImageBlockData, ConsolidatedChapterData } from '../types'
 
 import fakeData from './fakeData'
 import Paginator from '../../modules/le-monde/components/Paginator'
@@ -40,7 +41,35 @@ class Longform extends Component<Props, State> {
    * RENDER
    * * * * * * * * * * * * * * */
   render (): JSX.Element {
-    const { props, state } = this
+    const { props } = this
+
+    // Retrieve data
+    const homeData = (props.sheetBase.collection('home').entry('1').value as unknown as HomeData)
+    const chaptersData = (props.sheetBase.collection('chapters').value as unknown as ConsolidatedChapterData[])
+    const imageBlocksData = (props.sheetBase.collection('image_blocks').value as unknown as ImageBlockData[])
+
+    // imageBlocksData.forEach(imageBlock => {
+    //   const chapterPos = imageBlock.chapter_number
+    //   const rowPos = imageBlock.row_number
+    //   const blockPos = imageBlock.position_in_row
+    //   if (chapterPos === undefined
+    //     || rowPos === undefined
+    //     || blockPos === undefined) return
+    //   const chapter = chaptersData[chapterPos]
+    //   if (chapter === undefined) return
+    //   if (!Array.isArray(chapter.rows)) chapter.rows = []
+    //   if (!Array.isArray(chapter.rows[chapterPos])) chapter.rows[chapterPos] = []
+    //   chapter.rows[chapterPos][blockPos] = imageBlock
+    // })
+
+    console.log(chaptersData)
+
+    // chaptersData.forEach(chapterData => {
+    //   const sortedRows = chapterData.rows?.map(row => {
+    //     return row.filter(e => e !== undefined)
+    //   })
+    //   chapterData.rows = sortedRows
+    // })
 
     // Assign classes
     const wrapperClasses = bem(props.className).block(this.clss)
@@ -62,19 +91,19 @@ class Longform extends Component<Props, State> {
             <Paginator.Page value='home'>
               <div className={bem(this.clss).elt('home').value}>
                 <Home
-                  bgImageUrl={fakeData.home.bgImageUrl}
-                  bgSize={fakeData.home.bgSize}
-                  bgPosition={fakeData.home.bgPosition}
-                  bgOpacity={fakeData.home.bgOpacity}
-                  title={fakeData.home.title}
-                  kicker={fakeData.home.kicker} />
+                  bgImageUrl={homeData.bg_image_url}
+                  bgSize={homeData.bg_size}
+                  bgPosition={homeData.bg_position}
+                  bgOpacity={homeData.bg_opacity}
+                  title={homeData.title}
+                  kicker={homeData.kicker} />
               </div>
             </Paginator.Page>
             
             {/* INTRO */}
             <Paginator.Page value='intro'>
               <div className={bem(this.clss).elt('intro').value}>
-                <ChapterHead kicker={fakeData.intro.content} />
+                <ChapterHead kicker={homeData.intro} />
               </div>
             </Paginator.Page>
 
@@ -86,7 +115,8 @@ class Longform extends Component<Props, State> {
                   onPageChange={this.handleChapterChange}>
                   
                   {/* CHAPTER */}
-                  {fakeData.chapters.map(chapter => {
+                  {chaptersData.map(chapter => {
+                    console.log(chapter)
                     return <Paginator.Page value={`chapter-${chapter.id}`}>
                       <div className={bem(this.clss).elt('chapter').value}>
 
@@ -104,10 +134,10 @@ class Longform extends Component<Props, State> {
                           onPageChange={this.handleChapterRowChange}>
 
                           {/* CHAPTER ROW */}
-                          {chapter.rows.map(row => {
-                            return <Paginator.Page value={`row-${row.id}`}>
+                          {chapter.rows?.map((row, rowPos) => {
+                            return <Paginator.Page value={`row-${rowPos}`}>
                               <div className={bem(this.clss).elt('chapter-row').value}>
-                                <ChapterRow blocks={row.blocks} />
+                                <ChapterRow blocks={row} />
                               </div>
                             </Paginator.Page>
                           })}
