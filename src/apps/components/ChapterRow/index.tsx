@@ -1,18 +1,15 @@
 import { Component, JSX } from 'preact'
 import bem from '../../../modules/le-monde/utils/bem'
 import GroupDelay from '../../../modules/le-monde/utils/group-delay'
-import ImageBlock, { Props as ImageBlockProps } from '../ImageBlock'
+import { ImageBlockData } from '../../types'
+import ImageBlock from '../ImageBlock'
 
 import './styles.scss'
-
-interface Block extends ImageBlockProps {
-  size?: string
-}
 
 interface Props {
   className?: string
   style?: JSX.CSSProperties
-  blocks?: Block[]
+  blocks?: ImageBlockData[]
 }
 
 interface State {
@@ -72,15 +69,18 @@ class ChapterRow extends Component<Props, State> {
     const { props, state } = this
 
     /* Logic */
-    const contentWidth = props.blocks?.reduce((acc: number, block: Block) => {
+    const contentWidth = props.blocks?.reduce((acc: number, block: ImageBlockData) => {
       const [num, denom] = (block.size ?? '1/1').split('/').map(e => parseFloat(e))
       return acc + (num ?? 1) / (denom ?? 1)
-    }, 0)
+    }, 0) ?? 1
 
     /* Classes and style */
     const wrapperClasses = bem(props.className)
       .block(this.clss)
-      .mod({ 'is-scrolled': state.isScrolled })
+      .mod({
+        'is-scrolled': state.isScrolled,
+        'pad-blocks': contentWidth > 1
+      })
     const wrapperStyle: JSX.CSSProperties = {
       ...props.style
     }
@@ -101,12 +101,12 @@ class ChapterRow extends Component<Props, State> {
             style={imageBlockStyle}
             className={bem(this.clss).elt('image-block').value}>
             <ImageBlock
-              layout={block.layout as 'text-on-left'|'text-under'}
-              imageUrl={block.imageUrl}
-              legendContent={block.legendContent}
-              creditsContent={block.creditsContent}
-              readAlsoContent={block.readAlsoContent}
-              readAlsoUrl={block.readAlsoUrl} />
+              layout={block.layout}
+              imageUrl={block.image_url}
+              legendContent={block.legend_content}
+              creditsContent={block.credits_content}
+              readAlsoContent={block.read_also_content}
+              readAlsoUrl={block.read_also_url} />
           </div>})}
       </div>
     )

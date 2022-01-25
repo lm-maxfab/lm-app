@@ -25,12 +25,18 @@ class ReadAlso extends Component<Props, {}> {
     const wrapperStyle: JSX.CSSProperties = { ...props.style }
 
     /* Display */
-    return <>{props.content && <a
-      href={props.url}
+    return <>{props.content && <div
       className={wrapperClasses.value}
       style={wrapperStyle}>
-      {props.content}
-    </a>}</>
+      <div className={bem(this.clss).elt('label').value}>
+        Lire :
+      </div>
+      <a
+        className={bem(this.clss).elt('link').value}
+        href={props.url}>
+        {props.content}
+      </a>
+    </div>}</>
   }
 }
 

@@ -43,33 +43,26 @@ class Longform extends Component<Props, State> {
   render (): JSX.Element {
     const { props } = this
 
-    // Retrieve data
+    // Pull and reorganize data
     const homeData = (props.sheetBase.collection('home').entry('1').value as unknown as HomeData)
-    const chaptersData = (props.sheetBase.collection('chapters').value as unknown as ConsolidatedChapterData[])
+    const chaptersData = (props.sheetBase.collection('chapters').value as unknown as ChapterData[])
     const imageBlocksData = (props.sheetBase.collection('image_blocks').value as unknown as ImageBlockData[])
-
-    // imageBlocksData.forEach(imageBlock => {
-    //   const chapterPos = imageBlock.chapter_number
-    //   const rowPos = imageBlock.row_number
-    //   const blockPos = imageBlock.position_in_row
-    //   if (chapterPos === undefined
-    //     || rowPos === undefined
-    //     || blockPos === undefined) return
-    //   const chapter = chaptersData[chapterPos]
-    //   if (chapter === undefined) return
-    //   if (!Array.isArray(chapter.rows)) chapter.rows = []
-    //   if (!Array.isArray(chapter.rows[chapterPos])) chapter.rows[chapterPos] = []
-    //   chapter.rows[chapterPos][blockPos] = imageBlock
-    // })
-
-    console.log(chaptersData)
-
-    // chaptersData.forEach(chapterData => {
-    //   const sortedRows = chapterData.rows?.map(row => {
-    //     return row.filter(e => e !== undefined)
-    //   })
-    //   chapterData.rows = sortedRows
-    // })
+    const cChaptersData: ConsolidatedChapterData[] = [...chaptersData].map((chapter, chapterPos) => {
+      const cChapter = (chapter as ConsolidatedChapterData)
+      cChapter.rows = []
+      const rows = cChapter.rows
+      const thisChapterImageBlocks = imageBlocksData.filter(imageBlock => imageBlock.chapter_number === chapterPos + 1)
+      thisChapterImageBlocks.forEach(imageBlock => {
+        const rowNb = imageBlock.row_number
+        if (rowNb === undefined) return
+        if (rows[rowNb - 1] === undefined) rows[rowNb - 1] = []
+        const row = rows[rowNb - 1]
+        const blockPos = imageBlock.position_in_row
+        if (blockPos === undefined) return
+        row[blockPos - 1] = imageBlock
+      })
+      return chapter
+    })
 
     // Assign classes
     const wrapperClasses = bem(props.className).block(this.clss)
@@ -115,8 +108,7 @@ class Longform extends Component<Props, State> {
                   onPageChange={this.handleChapterChange}>
                   
                   {/* CHAPTER */}
-                  {chaptersData.map(chapter => {
-                    console.log(chapter)
+                  {cChaptersData.map(chapter => {
                     return <Paginator.Page value={`chapter-${chapter.id}`}>
                       <div className={bem(this.clss).elt('chapter').value}>
 

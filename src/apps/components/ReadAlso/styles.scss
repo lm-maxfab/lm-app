@@ -1,0 +1,21 @@
+.illus21-read-also {
+  font-size: 16px;
+  line-height: 1.5;
+  color: #FCFCFD;
+  font-weight: 500;
+
+  @media screen and (max-width: 1200px) {
+    font-size: 15px;
+  }
+
+  .illus21-read-also__label {
+    font-family: var(--ff-marr-sans);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .illus21-read-also__link {
+    font-family: var(--ff-the-antiqua-b);
+    text-decoration: underline;
+  }
+}

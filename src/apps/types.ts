@@ -26,7 +26,7 @@ export interface ChapterData extends SheetbaseCollectionData {
 }
 
 export interface ImageBlockData extends SheetbaseCollectionData {
-  layout?: 'text-on-left'|'text-under'
+  layout?: 'photo-top-right'|'photo-top-left'|'photo-above'
   size?: string
   image_url?: string
   bg_color?: string

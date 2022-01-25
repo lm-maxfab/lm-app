@@ -11,7 +11,7 @@ import './styles.scss'
 interface Props {
   className?: string
   style?: JSX.CSSProperties
-  layout?: 'text-on-left'|'text-under'
+  layout?: 'photo-top-right'|'photo-top-left'|'photo-above'
   imageUrl?: string
   legendContent?: VNode|string
   creditsContent?: VNode|string
@@ -33,8 +33,9 @@ class ImageBlock extends Component<Props, {}> {
     const wrapperClasses = bem(props.className)
       .block(this.clss)
       .mod({
-        'text-on-left': props.layout === 'text-on-left',
-        'text-under': props.layout === 'text-under' || isNullish(props.layout)
+        'photo-top-right': props.layout === 'photo-top-right',
+        'photo-top-left': props.layout === 'photo-top-left',
+        'photo-above': props.layout === 'photo-above' || isNullish(props.layout)
       })
     const wrapperStyle: JSX.CSSProperties = { ...props.style }
 

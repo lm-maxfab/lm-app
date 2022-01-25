@@ -5,4 +5,43 @@
   align-items: center;
   flex-direction: column;
   text-align: center;
+
+  .illus21-chapter-head__title,
+  .illus21-chapter-head__kicker {
+    max-width: 704px;
+  }
+
+  .illus21-chapter-head__title {
+    font-family: var(--ff-marr-sans);
+    font-weight: 700;
+    color: #FCFCFD;
+    font-size: 56px;
+    line-height: 1.2;
+    margin-bottom: 24px;
+
+    @media screen and (max-width: 1200px) {
+      font-size: 40px;
+      margin-bottom: 20px;
+    }
+
+    @media screen and (max-width: 800px) {
+      font-size: 24px;
+      margin-bottom: 16px;
+    }
+  }
+
+  .illus21-chapter-head__kicker {
+    font-family: var(--ff-the-antiqua-b);
+    color: #FCFCFD;
+    font-size: 22px;
+    line-height: 1.5;
+
+    @media screen and (max-width: 1200px) {
+      font-size: 18px;
+    }
+
+    @media screen and (max-width: 800px) {
+      font-size: 15px;
+    }
+  }
 }
