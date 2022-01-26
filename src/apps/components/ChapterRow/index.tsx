@@ -1,8 +1,10 @@
 import { Component, JSX } from 'preact'
+import Svg from '../../../modules/le-monde/components/Svg'
 import bem from '../../../modules/le-monde/utils/bem'
 import GroupDelay from '../../../modules/le-monde/utils/group-delay'
 import { ImageBlockData } from '../../types'
 import ImageBlock from '../ImageBlock'
+import chevronSvgUrl from './chevron.svg'
 
 import './styles.scss'
 
@@ -20,6 +22,7 @@ class ChapterRow extends Component<Props, State> {
   static clss = 'illus21-chapter-row'
   clss = ChapterRow.clss
   $root: HTMLDivElement|null = null
+  $scroller: HTMLDivElement|null = null
   state: State = {
     isScrolled: false
   }
@@ -30,19 +33,19 @@ class ChapterRow extends Component<Props, State> {
   constructor (props: Props) {
     super(props)
     this.horizontalScrollListener = this.horizontalScrollListener.bind(this)
-    this.requestHorizontalScrollToggle = this.requestHorizontalScrollToggle.bind(this)
-    this.horizontalScrollToggle = this.horizontalScrollToggle.bind(this)
+    this.requestInternalScrollListen = this.requestInternalScrollListen.bind(this)
+    this.internalScrollListen = this.internalScrollListen.bind(this)
   }
 
   componentDidMount () {
-    if (this.$root !== null) {
-      this.$root.onscroll = this.horizontalScrollListener
+    if (this.$scroller !== null) {
+      this.$scroller.onscroll = this.horizontalScrollListener
     }
   }
 
   componentWillMount () {
-    if (this.$root !== null) {
-      this.$root.onscroll = null
+    if (this.$scroller !== null) {
+      this.$scroller.onscroll = null
     }
   }
 
@@ -50,16 +53,63 @@ class ChapterRow extends Component<Props, State> {
    * METHODS
    * * * * * * * * * * * * * * */
   horizontalScrollListener (event: Event) {
-    this.requestHorizontalScrollToggle()
+    this.requestInternalScrollListen()
   }
 
-  requestHorizontalScrollToggle = new GroupDelay(this.horizontalScrollToggle.bind(this), 20).call
+  requestInternalScrollListen = new GroupDelay(this.internalScrollListen.bind(this), 20).call
 
-  horizontalScrollToggle () {
-    if (this.$root === null) return
-    const scrolled = this.$root.scrollLeft
-    if (this.state.isScrolled && scrolled < 100) this.setState({ isScrolled: false })
-    else if (!this.state.isScrolled && scrolled >= 100) this.setState({ isScrolled: true })
+  internalScrollListen () {
+    if (this.$scroller === null) return
+
+    const scrolledLeft = this.$scroller.scrollLeft
+    if (this.state.isScrolled && scrolledLeft < 100) this.setState({ isScrolled: false })
+    else if (!this.state.isScrolled && scrolledLeft >= 100) this.setState({ isScrolled: true })
+
+    const scrollerWidth = this.$scroller.getBoundingClientRect().width
+    
+    const $scrollerChildren = [...this.$scroller.children]
+    const childrenRects = $scrollerChildren.map(child => child.getBoundingClientRect())
+    const xSortedChildrenRects = [...childrenRects].sort((chiA, chiB) => chiA.x - chiB.x)
+    const xChildrenLocalRects = xSortedChildrenRects.map(e => {
+      const { x, y, width, height, top, left, right, bottom } = e
+      const rect = {
+        x: x + scrolledLeft,
+        left: left + scrolledLeft,
+        right: right + scrolledLeft,
+        y, top, bottom, width, height
+      }
+      return rect
+    })
+
+    const scrollerInnerWidth = Math.max(...xChildrenLocalRects.map(rect => rect.right))
+
+    console.log('scrolled:', scrolledLeft)
+    console.log('inner width:', scrollerInnerWidth)
+    console.log('scroller width:', scrollerWidth)
+    console.log('max?', scrollerInnerWidth - scrolledLeft === scrollerWidth)
+    console.log('==')
+    
+    // const nearestChildX = xChildrenLocalRects[0]?.x
+    // const farthestChildX = xChildrenLocalRects.slice(-1)[0]?.x
+    // const farthestChildWidth = xChildrenLocalRects.slice(-1)[0]?.width
+    // const childrenRowWidth = (farthestChildX - nearestChildX) + farthestChildWidth
+
+    // const scrollPercent = -1 * nearestChildX
+    
+    // console.log({
+    //   rects: xChildrenLocalRects,
+    //   scrollerWidth,
+    //   scrollerInnerWidth,
+    //   scrollLeft: this.$scroller.scrollLeft,
+    // })
+
+    // const childrenMinX = Math.min(...$scrollerChildren.map($child => $child.getBoundingClientRect().x))
+    // const childrenMaxX = Math.max(...$scrollerChildren.map($child => $child.getBoundingClientRect().x))
+    // const farthestChild = $scrollerChildren.find()
+
+    // ;[...this.$scroller.children].forEach(($child, childPos) => {
+    //   console.log(childPos, $child.getBoundingClientRect())
+    // })
   }
 
   /* * * * * * * * * * * * * * *
@@ -79,7 +129,7 @@ class ChapterRow extends Component<Props, State> {
       .block(this.clss)
       .mod({
         'is-scrolled': state.isScrolled,
-        'pad-blocks': contentWidth > 1
+        'is-scrollable': contentWidth > 1
       })
     const wrapperStyle: JSX.CSSProperties = {
       ...props.style
@@ -91,23 +141,30 @@ class ChapterRow extends Component<Props, State> {
         style={wrapperStyle}
         className={wrapperClasses.value}
         ref={n => { this.$root = n }}>
-        {props.blocks?.map(block => {
-          const [num, denom] = (block.size ?? '1/1').split('/').map(e => parseFloat(e))
-          const imageBlockWidthPercent = 100 * (num ?? 1) / (denom ?? 1)
-          const imageBlockStyle: JSX.CSSProperties = {
-            '--illus21-chapter-row-this-img-block-percent-width': imageBlockWidthPercent
-          }
-          return <div
-            style={imageBlockStyle}
-            className={bem(this.clss).elt('image-block').value}>
-            <ImageBlock
-              layout={block.layout}
-              imageUrl={block.image_url}
-              legendContent={block.legend_content}
-              creditsContent={block.credits_content}
-              readAlsoContent={block.read_also_content}
-              readAlsoUrl={block.read_also_url} />
-          </div>})}
+        <button className={bem(this.clss).elt('scroll-btn').value}>
+          <Svg src={chevronSvgUrl} />
+        </button>
+        <div
+          ref={n => { this.$scroller = n }}
+          className={bem(this.clss).elt('inner').value}>{
+          props.blocks?.map(block => {
+            const [num, denom] = (block.size ?? '1/1').split('/').map(e => parseFloat(e))
+            const imageBlockWidthPercent = 100 * (num ?? 1) / (denom ?? 1)
+            const imageBlockStyle: JSX.CSSProperties = {
+              '--illus21-chapter-row-this-img-block-percent-width': imageBlockWidthPercent
+            }
+            return <div
+              style={imageBlockStyle}
+              className={bem(this.clss).elt('image-block').value}>
+              <ImageBlock
+                layout={block.layout}
+                imageUrl={block.image_url}
+                legendContent={block.legend_content}
+                creditsContent={block.credits_content}
+                readAlsoContent={block.read_also_content}
+                readAlsoUrl={block.read_also_url} />
+            </div>})
+        }</div>
       </div>
     )
   }

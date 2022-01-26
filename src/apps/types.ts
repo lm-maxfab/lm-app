@@ -1,4 +1,5 @@
 import { VNode } from 'preact'
+import { SheetBaseCollection } from '../modules/le-monde/utils/sheet-base'
 
 export interface MyNavigator extends Navigator {
   connection: NetworkInformation
@@ -41,4 +42,8 @@ export interface ImageBlockData extends SheetbaseCollectionData {
 
 export interface ConsolidatedChapterData extends ChapterData {
   rows?: ImageBlockData[][]
+}
+
+export interface CreditsData extends SheetBaseCollection {
+  content?: VNode
 }

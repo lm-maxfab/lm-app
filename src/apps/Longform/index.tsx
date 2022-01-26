@@ -1,14 +1,18 @@
 import { Component, JSX } from 'preact'
 import wrapper, { InjectedProps } from '../../wrapper'
 import bem from '../../modules/le-monde/utils/bem'
-import './styles.scss'
+import Paginator from '../../modules/le-monde/components/Paginator'
 import ChapterHead from '../components/ChapterHead'
 import Home from '../components/Home'
 import ChapterRow from '../components/ChapterRow'
-import { HomeData, ChapterData, ImageBlockData, ConsolidatedChapterData } from '../types'
-
-import fakeData from './fakeData'
-import Paginator from '../../modules/le-monde/components/Paginator'
+import {
+  HomeData,
+  ChapterData,
+  ImageBlockData,
+  ConsolidatedChapterData,
+  CreditsData
+} from '../types'
+import './styles.scss'
 
 interface Props extends InjectedProps {}
 interface State {
@@ -47,6 +51,7 @@ class Longform extends Component<Props, State> {
     const homeData = (props.sheetBase.collection('home').entry('1').value as unknown as HomeData)
     const chaptersData = (props.sheetBase.collection('chapters').value as unknown as ChapterData[])
     const imageBlocksData = (props.sheetBase.collection('image_blocks').value as unknown as ImageBlockData[])
+    const creditsData = (props.sheetBase.collection('credits_content').entries[0].value as unknown as CreditsData)
     const cChaptersData: ConsolidatedChapterData[] = [...chaptersData].map((chapter, chapterPos) => {
       const cChapter = (chapter as ConsolidatedChapterData)
       cChapter.rows = []
@@ -145,7 +150,7 @@ class Longform extends Component<Props, State> {
             {/* CREDITS */}
             <Paginator.Page value='credits'>
               <div className={bem(this.clss).elt('credits').value}>
-                <ChapterHead kicker='Crédits' />
+                <ChapterHead kicker={creditsData.content} />
               </div>
             </Paginator.Page>
           </Paginator>
