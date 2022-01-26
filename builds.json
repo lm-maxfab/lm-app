@@ -182,5 +182,18 @@
       "description": "Add explicit link on chapters",
       "time": "2021-12-15T09:57:37.411Z"
     }
+  ],
+  "10-2201-illustrations21": [
+    {
+      "version": {
+        "major": 0,
+        "minor": 1,
+        "patch": 0,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "First version to STG",
+      "time": "2022-01-26T09:32:53.855Z"
+    }
   ]
 }
