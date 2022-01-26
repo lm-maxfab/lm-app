@@ -194,6 +194,17 @@
       },
       "description": "First version to STG",
       "time": "2022-01-26T09:32:53.855Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 1,
+        "patch": 1,
+        "status": "alpha",
+        "build": 0
+      },
+      "description": "",
+      "time": "2022-01-26T18:36:21.841Z"
     }
   ]
 }
