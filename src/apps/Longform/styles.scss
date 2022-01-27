@@ -1,9 +1,32 @@
 .illus21-longform {
   --illus21-main-block-h-margin: 16px;
-  --illus21-main-block-v-margin: 32px;
+  // --illus21-main-block-v-margin: 32px;
 
-  background-color: #000000;
+  background-color: #090B0E;
+  transition: background-color 400ms;
   position: relative;
+}
+
+.illus21-longform__header {
+  position: fixed;
+  z-index: 2;
+}
+
+.illus21-longform__overlay {
+  position: fixed;
+  z-index: 3;
+  top: 112px;
+  left: 0;
+
+  .illus21-image-block {
+    width: calc(100 * var(--vw));
+    background-color: rgb(220, 20, 60, .5);
+
+    .lm-img {
+      height: calc(var(--len-visible-screen-height) - 112px);
+    }
+  }
+  // background-color: crimson;
 }
 
 .illus21-longform__home {
@@ -52,10 +75,7 @@
 }
 
 .illus21-longform__chapter-row {
-  padding: var(--illus21-main-block-v-margin) 0;
-  padding-top: 0;
-  margin-bottom: calc(60 * var(--vh));
-  // background-color: crimson;
+  padding-bottom: calc(60 * var(--vh));
 }
 
 .illus21-longform__credits {

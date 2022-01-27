@@ -12,10 +12,13 @@ interface Props {
   className?: string
   style?: JSX.CSSProperties
   blocks?: ImageBlockData[]
+  loadImages?: boolean
+  showFixedStuff?: boolean
 }
 
 interface State {
   isScrolled: boolean
+  hasReachedScrollEnd: boolean
 }
 
 class ChapterRow extends Component<Props, State> {
@@ -24,7 +27,8 @@ class ChapterRow extends Component<Props, State> {
   $root: HTMLDivElement|null = null
   $scroller: HTMLDivElement|null = null
   state: State = {
-    isScrolled: false
+    isScrolled: false,
+    hasReachedScrollEnd: false
   }
 
   /* * * * * * * * * * * * * * *
@@ -35,6 +39,7 @@ class ChapterRow extends Component<Props, State> {
     this.horizontalScrollListener = this.horizontalScrollListener.bind(this)
     this.requestInternalScrollListen = this.requestInternalScrollListen.bind(this)
     this.internalScrollListen = this.internalScrollListen.bind(this)
+    this.scrollABit = this.scrollABit.bind(this)
   }
 
   componentDidMount () {
@@ -66,7 +71,6 @@ class ChapterRow extends Component<Props, State> {
     else if (!this.state.isScrolled && scrolledLeft >= 100) this.setState({ isScrolled: true })
 
     const scrollerWidth = this.$scroller.getBoundingClientRect().width
-    
     const $scrollerChildren = [...this.$scroller.children]
     const childrenRects = $scrollerChildren.map(child => child.getBoundingClientRect())
     const xSortedChildrenRects = [...childrenRects].sort((chiA, chiB) => chiA.x - chiB.x)
@@ -80,36 +84,16 @@ class ChapterRow extends Component<Props, State> {
       }
       return rect
     })
-
     const scrollerInnerWidth = Math.max(...xChildrenLocalRects.map(rect => rect.right))
+    const leftToScroll = Math.floor(scrollerInnerWidth - scrollerWidth) - Math.ceil(scrolledLeft)
+    if (this.state.hasReachedScrollEnd && leftToScroll > 60) this.setState({ hasReachedScrollEnd: false })
+    else if (!this.state.hasReachedScrollEnd && leftToScroll <= 60) this.setState({ hasReachedScrollEnd: true })
+  }
 
-    console.log('scrolled:', scrolledLeft)
-    console.log('inner width:', scrollerInnerWidth)
-    console.log('scroller width:', scrollerWidth)
-    console.log('max?', scrollerInnerWidth - scrolledLeft === scrollerWidth)
-    console.log('==')
-    
-    // const nearestChildX = xChildrenLocalRects[0]?.x
-    // const farthestChildX = xChildrenLocalRects.slice(-1)[0]?.x
-    // const farthestChildWidth = xChildrenLocalRects.slice(-1)[0]?.width
-    // const childrenRowWidth = (farthestChildX - nearestChildX) + farthestChildWidth
-
-    // const scrollPercent = -1 * nearestChildX
-    
-    // console.log({
-    //   rects: xChildrenLocalRects,
-    //   scrollerWidth,
-    //   scrollerInnerWidth,
-    //   scrollLeft: this.$scroller.scrollLeft,
-    // })
-
-    // const childrenMinX = Math.min(...$scrollerChildren.map($child => $child.getBoundingClientRect().x))
-    // const childrenMaxX = Math.max(...$scrollerChildren.map($child => $child.getBoundingClientRect().x))
-    // const farthestChild = $scrollerChildren.find()
-
-    // ;[...this.$scroller.children].forEach(($child, childPos) => {
-    //   console.log(childPos, $child.getBoundingClientRect())
-    // })
+  scrollABit (_e: Event) {
+    if (this.$scroller === null) return
+    const screenWidth = document.body.clientWidth
+    this.$scroller.scrollBy({ left: screenWidth, behavior: 'smooth' })
   }
 
   /* * * * * * * * * * * * * * *
@@ -124,12 +108,16 @@ class ChapterRow extends Component<Props, State> {
       return acc + (num ?? 1) / (denom ?? 1)
     }, 0) ?? 1
 
+    console.log('row')
+
     /* Classes and style */
     const wrapperClasses = bem(props.className)
       .block(this.clss)
       .mod({
         'is-scrolled': state.isScrolled,
-        'is-scrollable': contentWidth > 1
+        'has-reached-scroll-end': state.hasReachedScrollEnd,
+        'is-scrollable': contentWidth > 1,
+        'show-fixed-stuff': !state.isScrolled && props.showFixedStuff
       })
     const wrapperStyle: JSX.CSSProperties = {
       ...props.style
@@ -141,7 +129,9 @@ class ChapterRow extends Component<Props, State> {
         style={wrapperStyle}
         className={wrapperClasses.value}
         ref={n => { this.$root = n }}>
-        <button className={bem(this.clss).elt('scroll-btn').value}>
+        <button
+          onClick={this.scrollABit}
+          className={bem(this.clss).elt('scroll-btn').value}>
           <Svg src={chevronSvgUrl} />
         </button>
         <div
@@ -157,6 +147,7 @@ class ChapterRow extends Component<Props, State> {
               style={imageBlockStyle}
               className={bem(this.clss).elt('image-block').value}>
               <ImageBlock
+                eagerLoad={props.loadImages}
                 layout={block.layout}
                 imageUrl={block.image_url}
                 legendContent={block.legend_content}
@@ -165,6 +156,16 @@ class ChapterRow extends Component<Props, State> {
                 readAlsoUrl={block.read_also_url} />
             </div>})
         }</div>
+        <div className={bem(this.clss).elt('fixed-stuff').value}>
+          <ImageBlock
+            eagerLoad={props.loadImages}
+            layout={(props.blocks ?? [])[0]?.layout}
+            imageUrl={(props.blocks ?? [])[0]?.image_url}
+            legendContent={(props.blocks ?? [])[0]?.legend_content}
+            creditsContent={(props.blocks ?? [])[0]?.credits_content}
+            readAlsoContent={(props.blocks ?? [])[0]?.read_also_content}
+            readAlsoUrl={(props.blocks ?? [])[0]?.read_also_url} />
+        </div>
       </div>
     )
   }

@@ -1,21 +1,25 @@
 .illus21-read-also {
-  font-size: 16px;
+  font-size: 14px;
   line-height: 1.5;
-  color: #FCFCFD;
+  color: #A4A9B4;
   font-weight: 500;
+  font-family: var(--ff-marr-sans);
+  display: flex;
 
   @media screen and (max-width: 1200px) {
-    font-size: 15px;
+    font-size: 13px;
   }
 
-  .illus21-read-also__label {
-    font-family: var(--ff-marr-sans);
-    text-transform: uppercase;
-    margin-bottom: 4px;
+  @media screen and (max-width: 800px) {
+    font-size: 12px;
+  }
+
+  .illus21-read-also__arrow {
+    margin-right: 4px;
+    display: block;
   }
 
   .illus21-read-also__link {
-    font-family: var(--ff-the-antiqua-b);
     text-decoration: underline;
   }
 }

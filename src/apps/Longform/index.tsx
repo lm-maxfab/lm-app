@@ -2,8 +2,9 @@ import { Component, JSX } from 'preact'
 import wrapper, { InjectedProps } from '../../wrapper'
 import bem from '../../modules/le-monde/utils/bem'
 import Paginator from '../../modules/le-monde/components/Paginator'
-import ChapterHead from '../components/ChapterHead'
+import Header from '../components/Header'
 import Home from '../components/Home'
+import ChapterHead from '../components/ChapterHead'
 import ChapterRow from '../components/ChapterRow'
 import {
   HomeData,
@@ -13,6 +14,8 @@ import {
   CreditsData
 } from '../types'
 import './styles.scss'
+import ImageBlock from '../components/ImageBlock'
+import isNullish from '../../modules/le-monde/utils/is-nullish'
 
 interface Props extends InjectedProps {}
 interface State {
@@ -37,15 +40,23 @@ class Longform extends Component<Props, State> {
     this.handleChapterRowChange = this.handleChapterRowChange.bind(this)
   }
 
-  handlePageChange (val: any) { this.setState({ currentPage: val }) }
-  handleChapterChange (val: any) { this.setState({ currentChapter: val }) }
-  handleChapterRowChange (val: any) { this.setState({ currentChapterRow: val }) }
+  handlePageChange (val: any) {
+    this.setState({ currentPage: val })
+  }
+  
+  handleChapterChange (val: any) {
+    this.setState({ currentChapter: val })
+  }
+  
+  handleChapterRowChange (val: any) {
+    this.setState({ currentChapterRow: val })
+  }
 
   /* * * * * * * * * * * * * * *
    * RENDER
    * * * * * * * * * * * * * * */
   render (): JSX.Element {
-    const { props } = this
+    const { props, state } = this
 
     // Pull and reorganize data
     const homeData = (props.sheetBase.collection('home').entry('1').value as unknown as HomeData)
@@ -69,11 +80,35 @@ class Longform extends Component<Props, State> {
       return chapter
     })
 
-    // Assign classes
+    // Get current overlay content
+    const shouldDisplayOverlay = state.currentPage === 'chapters'
+      && state.currentChapter !== null
+      && state.currentChapter !== undefined
+      && state.currentChapterRow !== null
+      && state.currentChapterRow !== undefined
+
+    const currentChapter = cChaptersData[state.currentChapter]
+    const currentRows = (currentChapter ?? {}).rows
+    const currentRow = (currentRows ?? [])[state.currentChapterRow]
+    const firstBlockInRow = (currentRow ?? [])[0]
+    const bgColor = firstBlockInRow?.bg_color
+    
+    // const imageUrl = firstBlockInRow?.image_url
+    // const creditsContent = firstBlockInRow?.credits_content
+    // const legendContent = firstBlockInRow?.legend_content
+    // const readAlsoUrl = firstBlockInRow?.read_also_url
+    // const readAlsoContent = firstBlockInRow?.read_also_content
+    
+
+    // Assign classes and styles
     const wrapperClasses = bem(props.className).block(this.clss)
     const wrapperStyle: JSX.CSSProperties = {
       ...props.style,
+      backgroundColor: bgColor,
       marginTop: 'var(--len-nav-height)'
+    }
+    const overlayStyle: JSX.CSSProperties = {
+      display: shouldDisplayOverlay ? 'block' : 'none'
     }
 
     // Display
@@ -81,6 +116,23 @@ class Longform extends Component<Props, State> {
         <div
           style={wrapperStyle}
           className={wrapperClasses.value}>
+          
+          {/* HEADER */}
+          <Header className={bem(this.clss).elt('header').value} />
+
+          {/* OVERLAY */}
+          <div className={bem(this.clss).elt('overlay').value}>
+            {/* <ImageBlock
+              style={overlayStyle}
+              layout='photo-top-right'
+              imageUrl={imageUrl}
+              legendContent={legendContent}
+              creditsContent={creditsContent}
+              readAlsoContent={readAlsoContent}
+              readAlsoUrl={readAlsoUrl} /> */}
+          </div>
+
+          {/* PAGES */}
           <Paginator
             triggerBound='bottom'
             onPageChange={this.handlePageChange}>
@@ -113,8 +165,8 @@ class Longform extends Component<Props, State> {
                   onPageChange={this.handleChapterChange}>
                   
                   {/* CHAPTER */}
-                  {cChaptersData.map(chapter => {
-                    return <Paginator.Page value={`chapter-${chapter.id}`}>
+                  {cChaptersData.map((chapter, chapterPos) => {
+                    return <Paginator.Page value={chapterPos}>
                       <div className={bem(this.clss).elt('chapter').value}>
 
                         {/* CHAPTER HEAD */}
@@ -132,9 +184,19 @@ class Longform extends Component<Props, State> {
 
                           {/* CHAPTER ROW */}
                           {chapter.rows?.map((row, rowPos) => {
-                            return <Paginator.Page value={`row-${rowPos}`}>
+                            const shouldShowFixedStuff = state.currentPage === 'chapters'
+                              && state.currentChapter !== null
+                              && state.currentChapter !== undefined
+                              && state.currentChapterRow !== null
+                              && state.currentChapterRow !== undefined
+                              && chapterPos === state.currentChapter
+                              && rowPos === state.currentChapterRow
+                            return <Paginator.Page value={rowPos}>
                               <div className={bem(this.clss).elt('chapter-row').value}>
-                                <ChapterRow blocks={row} />
+                                <ChapterRow
+                                  loadImages={shouldShowFixedStuff}
+                                  showFixedStuff={shouldShowFixedStuff}
+                                  blocks={row} />
                               </div>
                             </Paginator.Page>
                           })}

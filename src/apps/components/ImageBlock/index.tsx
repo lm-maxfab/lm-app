@@ -1,12 +1,12 @@
 import { Component, JSX, VNode } from 'preact'
 import bem from '../../../modules/le-monde/utils/bem'
 import ImageCredits from '../ImageCredits'
-import Image from '../Image'
 import Legend from '../Legend'
 import ReadAlso from '../ReadAlso'
 import isNullish from '../../../modules/le-monde/utils/is-nullish'
 
 import './styles.scss'
+import Img from '../../../modules/le-monde/components/Img'
 
 interface Props {
   className?: string
@@ -17,6 +17,7 @@ interface Props {
   creditsContent?: VNode|string
   readAlsoContent?: VNode|string
   readAlsoUrl?: string
+  eagerLoad?: boolean
 }
 
 class ImageBlock extends Component<Props, {}> {
@@ -45,7 +46,9 @@ class ImageBlock extends Component<Props, {}> {
         className={wrapperClasses.value}
         style={wrapperStyle}>
         <div className={bem(this.clss).elt('image').value}>
-          <Image url={props.imageUrl} />
+          <Img
+            src={props.imageUrl}
+            loading={props.eagerLoad ? 'eager' : 'lazy'} />
         </div>
         <div className={bem(this.clss).elt('legend').value}>
           <Legend content={props.legendContent} />

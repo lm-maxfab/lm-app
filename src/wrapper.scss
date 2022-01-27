@@ -57,9 +57,9 @@ sup, sub {
   border: none !important;
 }
 
-/* APP ROOT STYLES */
+/* APP STYLES */
 
-.lm-app-root {
+.lm-app {
   --vw: 1vw;
   --vh: 1vh;
   
@@ -80,12 +80,12 @@ sup, sub {
 }
 
 @media screen and (max-width: 768px) {
-  .lm-app-root {
+  .lm-app {
     --len-nav-height: 59px; /* Overwritten by /src/wrapper.tsx */
   }
 }
 
-.lm-app-root * {
+.lm-app, .lm-app * {
   box-sizing: border-box;
 }
 

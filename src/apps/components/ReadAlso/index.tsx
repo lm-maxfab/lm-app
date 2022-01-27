@@ -28,9 +28,9 @@ class ReadAlso extends Component<Props, {}> {
     return <>{props.content && <div
       className={wrapperClasses.value}
       style={wrapperStyle}>
-      <div className={bem(this.clss).elt('label').value}>
-        Lire :
-      </div>
+      <span className={bem(this.clss).elt('arrow').value}>
+        ➝
+      </span>
       <a
         className={bem(this.clss).elt('link').value}
         href={props.url}>

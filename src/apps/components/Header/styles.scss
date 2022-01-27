@@ -1,0 +1,15 @@
+.illus21-header {
+  padding: 12px;
+
+  .lm-svg {
+    width: 100px;
+
+    @media screen and (max-width: 1200px) {
+      width: 80px;
+    }
+
+    @media screen and (max-width: 600px) {
+      width: 72px;
+    }
+  }
+}
