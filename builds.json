@@ -205,6 +205,17 @@
       },
       "description": "",
       "time": "2022-01-26T18:36:21.841Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 2,
+        "patch": 0,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "Closer to the end, just before holidays",
+      "time": "2022-01-28T17:42:37.539Z"
     }
   ]
 }
