@@ -31,6 +31,8 @@ export interface ImageBlockData extends SheetbaseCollectionData {
   size?: string
   image_url?: string
   bg_color?: string
+  text_1_color?: string
+  text_2_color?: string
   legend_content?: VNode
   credits_content?: VNode
   read_also_content?: VNode

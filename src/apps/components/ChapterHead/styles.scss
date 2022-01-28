@@ -18,6 +18,7 @@
     font-size: 56px;
     line-height: 1.2;
     margin-bottom: 24px;
+    padding: 0 8px;
 
     @media screen and (max-width: 1200px) {
       font-size: 40px;
@@ -32,9 +33,10 @@
 
   .illus21-chapter-head__kicker {
     font-family: var(--ff-the-antiqua-b);
-    color: #FCFCFD;
+    color: #E8EAEE;
     font-size: 22px;
     line-height: 1.5;
+    padding: 0 8px;
 
     @media screen and (max-width: 1200px) {
       font-size: 18px;

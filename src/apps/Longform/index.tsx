@@ -14,8 +14,6 @@ import {
   CreditsData
 } from '../types'
 import './styles.scss'
-import ImageBlock from '../components/ImageBlock'
-import isNullish from '../../modules/le-monde/utils/is-nullish'
 
 interface Props extends InjectedProps {}
 interface State {
@@ -81,34 +79,26 @@ class Longform extends Component<Props, State> {
     })
 
     // Get current overlay content
-    const shouldDisplayOverlay = state.currentPage === 'chapters'
-      && state.currentChapter !== null
-      && state.currentChapter !== undefined
-      && state.currentChapterRow !== null
-      && state.currentChapterRow !== undefined
-
     const currentChapter = cChaptersData[state.currentChapter]
     const currentRows = (currentChapter ?? {}).rows
     const currentRow = (currentRows ?? [])[state.currentChapterRow]
     const firstBlockInRow = (currentRow ?? [])[0]
     const bgColor = firstBlockInRow?.bg_color
+    const text1Color = firstBlockInRow?.text_1_color
+    const text2Color = firstBlockInRow?.text_2_color
     
-    // const imageUrl = firstBlockInRow?.image_url
-    // const creditsContent = firstBlockInRow?.credits_content
-    // const legendContent = firstBlockInRow?.legend_content
-    // const readAlsoUrl = firstBlockInRow?.read_also_url
-    // const readAlsoContent = firstBlockInRow?.read_also_content
-    
-
     // Assign classes and styles
-    const wrapperClasses = bem(props.className).block(this.clss)
+    const wrapperClasses = bem(props.className)
+      .block(this.clss)
+      .mod({
+        'fix-bg': ['home', 'intro'].includes(state.currentPage)
+      })
     const wrapperStyle: JSX.CSSProperties = {
       ...props.style,
-      backgroundColor: bgColor,
+      '--current-bg-color': bgColor ?? '#090B0E',
+      '--current-text-1-color': text1Color ?? '#E8EAEE',
+      '--current-text-2-color': text2Color ?? '#A4A9B4',
       marginTop: 'var(--len-nav-height)'
-    }
-    const overlayStyle: JSX.CSSProperties = {
-      display: shouldDisplayOverlay ? 'block' : 'none'
     }
 
     // Display
@@ -120,18 +110,6 @@ class Longform extends Component<Props, State> {
           {/* HEADER */}
           <Header className={bem(this.clss).elt('header').value} />
 
-          {/* OVERLAY */}
-          <div className={bem(this.clss).elt('overlay').value}>
-            {/* <ImageBlock
-              style={overlayStyle}
-              layout='photo-top-right'
-              imageUrl={imageUrl}
-              legendContent={legendContent}
-              creditsContent={creditsContent}
-              readAlsoContent={readAlsoContent}
-              readAlsoUrl={readAlsoUrl} /> */}
-          </div>
-
           {/* PAGES */}
           <Paginator
             triggerBound='bottom'
@@ -141,21 +119,23 @@ class Longform extends Component<Props, State> {
             <Paginator.Page value='home'>
               <div className={bem(this.clss).elt('home').value}>
                 <Home
+                  playAnimation={state.currentPage === 'home'}
                   bgImageUrl={homeData.bg_image_url}
                   bgSize={homeData.bg_size}
                   bgPosition={homeData.bg_position}
                   bgOpacity={homeData.bg_opacity}
                   title={homeData.title}
-                  kicker={homeData.kicker} />
+                  kicker={homeData.kicker}
+                  intro={homeData.intro} />
               </div>
             </Paginator.Page>
             
             {/* INTRO */}
-            <Paginator.Page value='intro'>
+            {/* <Paginator.Page value='intro'>
               <div className={bem(this.clss).elt('intro').value}>
                 <ChapterHead kicker={homeData.intro} />
               </div>
-            </Paginator.Page>
+            </Paginator.Page> */}
 
             {/* CHAPTERS */}
             <Paginator.Page value='chapters'>

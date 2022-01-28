@@ -11,6 +11,9 @@ interface Props {
   length?: number
   sequence?: any[]
   renderer?: (args: RendererArgs) => any
+  onFirstStep?: (args: RendererArgs) => any
+  onLastStep?: (args: RendererArgs) => any
+  onStepChange?: (args: RendererArgs) => any
 }
 
 interface State {
@@ -32,6 +35,8 @@ class Sequencer extends Component<Props, State> {
     this.stopPlaying = this.stopPlaying.bind(this)
     this.updateTempo = this.updateTempo.bind(this)
     this.goToStep = this.goToStep.bind(this)
+    this.getLoopLength = this.getLoopLength.bind(this)
+    this.getCurrentValue = this.getCurrentValue.bind(this)
   }
 
   componentDidMount () {
@@ -57,6 +62,9 @@ class Sequencer extends Component<Props, State> {
     if (cappedTempo !== tempo) console.warn('Maximum tempo is 60 000 bpm')
     const timeIntervalMs = (60 * 1000) / cappedTempo
     this.intervaller = window.setInterval(() => this.goToStep('next'), timeIntervalMs)
+    const stepAndValue = this.getCurrentStepAndValue()
+    if (this.props.onStepChange) this.props.onStepChange(stepAndValue)
+    if (this.state.step === 0 && this.props.onFirstStep) this.props.onFirstStep(stepAndValue)
   }
 
   stopPlaying () {
@@ -65,17 +73,40 @@ class Sequencer extends Component<Props, State> {
     this.intervaller = null
   }
 
+  getLoopLength () {
+    if (this.props.length !== undefined) return this.props.length
+    else if (this.props.sequence !== undefined) return this.props.sequence.length
+    else return Infinity
+  }
+
+  getCurrentValue () {
+    return 
+  }
+
+  getCurrentStepAndValue (): RendererArgs {
+    return {
+      step: this.state.step,
+      value: this.props.sequence !== undefined
+        ? this.props.sequence[this.state.step]
+        : this.state.step
+    }
+  }
+
   goToStep (step: number|'next'|'prev') {
     this.setState(curr => {
-      const newStep = typeof step === 'number'
-        ? step
-        : step === 'next'
-          ? curr.step + 1
-          : curr.step - 1
+      const loopLength = this.getLoopLength()
+      let newStep
+      if (typeof step === 'number') newStep = step % loopLength
+      else if (step === 'next') newStep = (curr.step + 1) % loopLength
+      else newStep = (curr.step - 1) % loopLength
       if (curr.step === newStep) return null
-      if (this.props.length !== undefined) return { ...curr, step: newStep % this.props.length }
-      else if (this.props.sequence !== undefined) return { ...curr, step: newStep % this.props.sequence.length }
-      else return { ...curr, step: newStep }
+      return { ...curr, step: newStep % loopLength }
+    }, () => {
+      const loopLength = this.getLoopLength()
+      const stepAndValue = this.getCurrentStepAndValue()
+      if (this.props.onStepChange) this.props.onStepChange(stepAndValue)
+      if (this.state.step === 0 && this.props.onFirstStep) this.props.onFirstStep(stepAndValue)
+      if (this.state.step === loopLength - 1 && this.props.onLastStep) this.props.onLastStep(stepAndValue)
     })
   }
 
@@ -91,16 +122,14 @@ class Sequencer extends Component<Props, State> {
    * RENDER
    * * * * * * * * * * * * * * */
   render (): JSX.Element|null {
-    const { props, state } = this
-    if (props.renderer === undefined) return null
-    
-    const value = props.sequence !== undefined
-      ? props.sequence[state.step]
-      : state.step
-    
-    return props.renderer({ step: state.step, value })
+    const { props } = this
+    const stepAndValue = this.getCurrentStepAndValue()
+    return <>
+      {props.children}
+      {props.renderer && props.renderer(stepAndValue)}
+    </>
   }
 }
 
-export type { Props }
+export type { Props, RendererArgs }
 export default Sequencer

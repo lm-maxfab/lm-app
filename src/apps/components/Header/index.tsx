@@ -26,9 +26,12 @@ class Header extends Component<Props, {}> {
 
     /* Display */
     return (
-      <div className={wrapperClasses.value} style={wrapperStyle}>
+      <a
+        href='https://www.lemonde.fr/'
+        style={wrapperStyle}
+        className={wrapperClasses.value}>
         <Svg src={logoUrl} />
-      </div>
+      </a>
     )
   }
 }

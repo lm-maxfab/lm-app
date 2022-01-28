@@ -2,7 +2,9 @@
   font-family: var(--ff-the-antiqua-b);
   font-size: 16px;
   line-height: 1.5;
-  color: #FCFCFD;
+  color: #E8EAEE;
+  color: var(--current-text-1-color);
+  transition: color var(--illus21-color-transition-duration);
 
   @media screen and (max-width: 800px) {
     font-size: 15px;

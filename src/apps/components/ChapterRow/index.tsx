@@ -5,6 +5,7 @@ import GroupDelay from '../../../modules/le-monde/utils/group-delay'
 import { ImageBlockData } from '../../types'
 import ImageBlock from '../ImageBlock'
 import chevronSvgUrl from './chevron.svg'
+import backChevronSvgUrl from './back-chevron.svg'
 
 import './styles.scss'
 
@@ -40,6 +41,7 @@ class ChapterRow extends Component<Props, State> {
     this.requestInternalScrollListen = this.requestInternalScrollListen.bind(this)
     this.internalScrollListen = this.internalScrollListen.bind(this)
     this.scrollABit = this.scrollABit.bind(this)
+    this.unScrollABit = this.unScrollABit.bind(this)
   }
 
   componentDidMount () {
@@ -96,6 +98,12 @@ class ChapterRow extends Component<Props, State> {
     this.$scroller.scrollBy({ left: screenWidth, behavior: 'smooth' })
   }
 
+  unScrollABit (_e: Event) {
+    if (this.$scroller === null) return
+    const screenWidth = document.body.clientWidth
+    this.$scroller.scrollBy({ left: -1 * screenWidth, behavior: 'smooth' })
+  }
+
   /* * * * * * * * * * * * * * *
    * RENDER
    * * * * * * * * * * * * * * */
@@ -107,8 +115,6 @@ class ChapterRow extends Component<Props, State> {
       const [num, denom] = (block.size ?? '1/1').split('/').map(e => parseFloat(e))
       return acc + (num ?? 1) / (denom ?? 1)
     }, 0) ?? 1
-
-    console.log('row')
 
     /* Classes and style */
     const wrapperClasses = bem(props.className)
@@ -130,8 +136,13 @@ class ChapterRow extends Component<Props, State> {
         className={wrapperClasses.value}
         ref={n => { this.$root = n }}>
         <button
+          onClick={this.unScrollABit}
+          className={bem(this.clss).elt('scroll-btn').mod('to-left').value}>
+          <Svg src={backChevronSvgUrl} />
+        </button>
+        <button
           onClick={this.scrollABit}
-          className={bem(this.clss).elt('scroll-btn').value}>
+          className={bem(this.clss).elt('scroll-btn').mod('to-right').value}>
           <Svg src={chevronSvgUrl} />
         </button>
         <div

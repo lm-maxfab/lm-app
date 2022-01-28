@@ -2,6 +2,8 @@
   font-size: 14px;
   line-height: 1.5;
   color: #A4A9B4;
+  color: var(--current-text-2-color);
+  transition: color var(--illus21-color-transition-duration);
   font-weight: 500;
   font-family: var(--ff-marr-sans);
   display: flex;
