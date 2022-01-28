@@ -15,7 +15,7 @@
   .illus21-longform__home {
     position: relative;
     width: calc(100 * var(--vw));
-    height: var(--len-visible-screen-height) + calc(30 * var(--vh));
+    height: calc(var(--len-visible-screen-height) + calc(30 * var(--vh)));
     padding-bottom: calc(30 * var(--vh));
   
     .illus21-home {
