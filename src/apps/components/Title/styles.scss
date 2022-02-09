@@ -1,0 +1,13 @@
+.covid-title {
+  color: blue;
+  background-color: coral;
+  text-align: center;
+  transform: translateY(calc(-0.3 * var(--len-visible-screen-height)));
+  opacity: 1;
+  transition: opacity 600ms, transform 600ms;
+
+  &.covid-title_inactive {
+    opacity: 0;
+    transform: translateY(0);
+  }
+}

@@ -1,4 +1,4 @@
-import { Component, JSX, VNode } from 'preact'
+import { Component, JSX } from 'preact'
 import bem from '../../../modules/le-monde/utils/bem'
 
 import './styles.scss'
@@ -6,12 +6,12 @@ import './styles.scss'
 interface Props {
   className?: string
   style?: JSX.CSSProperties
-  content?: VNode|string
+  isActive?: boolean
 }
 
-class Legend extends Component<Props, {}> {
-  static clss = 'illus21-legend'
-  clss = Legend.clss
+class Title extends Component<Props, {}> {
+  static clss = 'covid-title'
+  clss = Title.clss
 
   /* * * * * * * * * * * * * * *
    * RENDER
@@ -20,17 +20,21 @@ class Legend extends Component<Props, {}> {
     const { props } = this
 
     /* Classes and style */
-    const wrapperClasses = bem(props.className).block(this.clss)
+    const wrapperClasses = bem(props.className)
+      .block(this.clss)
+      .mod({ inactive: !props.isActive })
     const wrapperStyle: JSX.CSSProperties = { ...props.style }
 
     /* Display */
-    return <>{props.content && <p
-      className={wrapperClasses.value}
-      style={wrapperStyle}>
-      {props.content}
-    </p>}</>
+    return (
+      <h1
+        style={wrapperStyle}
+        className={wrapperClasses.value}>
+        Title.
+      </h1>
+    )
   }
 }
 
 export type { Props }
-export default Legend
+export default Title

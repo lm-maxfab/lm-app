@@ -1,10 +1,10 @@
 {
-  "assets_root_url": "https://assets-decodeurs.lemonde.fr/redacweb/10-2201-illustrations21-assets",
+  "assets_root_url": "https://assets-decodeurs.lemonde.fr/redacweb/11-2202-covid-assets",
   "sheetbases": {
-    "production": "https://assets-decodeurs.lemonde.fr/sheets/pjniV966vt5wAkNmJkmQBDqdLfhyTA_811",
-    "staging": "https://assets-decodeurs.lemonde.fr/sheets/pjniV966vt5wAkNmJkmQBDqdLfhyTA_812",
-    "testing": "https://assets-decodeurs.lemonde.fr/sheets/pjniV966vt5wAkNmJkmQBDqdLfhyTA_813",
-    "developpment": "https://assets-decodeurs.lemonde.fr/sheets/pjniV966vt5wAkNmJkmQBDqdLfhyTA_814"
+    "production": "https://assets-decodeurs.lemonde.fr/sheets/hytoRnERx9ZS2pki38BAgapzWAZWTg_822",
+    "staging": "https://assets-decodeurs.lemonde.fr/sheets/hytoRnERx9ZS2pki38BAgapzWAZWTg_823",
+    "testing": "https://assets-decodeurs.lemonde.fr/sheets/hytoRnERx9ZS2pki38BAgapzWAZWTg_824",
+    "developpment": "https://assets-decodeurs.lemonde.fr/sheets/hytoRnERx9ZS2pki38BAgapzWAZWTg_825"
   },
   "env": null
 }

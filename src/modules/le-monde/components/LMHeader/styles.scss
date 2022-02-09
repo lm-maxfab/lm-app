@@ -1,0 +1,16 @@
+.lm-header {
+  position: relative;
+  padding: 8px;
+
+  .lm-header__logo {
+    height: 32px;
+
+    .fill-1 {
+      fill: blueviolet;
+    }
+
+    .fill-2 {
+      fill: brown;
+    }
+  }
+}

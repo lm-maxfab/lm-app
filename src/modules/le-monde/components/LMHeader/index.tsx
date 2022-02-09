@@ -1,18 +1,18 @@
-import { Component, JSX, VNode } from 'preact'
-import bem from '../../../modules/le-monde/utils/bem'
+import { Component, JSX } from 'preact'
+import bem from '../../utils/bem'
+import Svg from '../Svg'
+import logoUrl from './logo.svg'
 
 import './styles.scss'
 
 interface Props {
   className?: string
   style?: JSX.CSSProperties
-  title?: VNode|string
-  kicker?: VNode|string
 }
 
-class ChapterHead extends Component<Props, {}> {
-  static clss = 'illus21-chapter-head'
-  clss = ChapterHead.clss
+class LMHeader extends Component<Props, {}> {
+  static clss = 'lm-header'
+  clss = LMHeader.clss
 
   /* * * * * * * * * * * * * * *
    * RENDER
@@ -27,12 +27,15 @@ class ChapterHead extends Component<Props, {}> {
     /* Display */
     return (
       <div className={wrapperClasses.value} style={wrapperStyle}>
-        {props.title && <h2 className={bem(this.clss).elt('title').value}>{props.title}</h2>}
-        {props.kicker && <p className={bem(this.clss).elt('kicker').value}>{props.kicker}</p>}
+        <a href='https://lemonde.fr'>
+          <Svg
+            src={logoUrl}
+            className={bem(this.clss).elt('logo').value} />
+        </a>
       </div>
     )
   }
 }
 
 export type { Props }
-export default ChapterHead
+export default LMHeader

@@ -1,87 +1,39 @@
-.illus21-longform {
-  --illus21-main-block-h-margin: 16px;
-  --illus21-main-block-v-margin: 32px;
-  --illus21-color-transition-duration: 600ms;
-
-  background-color: var(--current-bg-color);
-  transition: background-color var(--illus21-color-transition-duration);
+.covid-longform {
   position: relative;
 
-  .illus21-longform__header {
+  .covid-longform__header-slot {
     position: fixed;
-    z-index: 2;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 5;
   }
 
-  .illus21-longform__home {
+  .covid-longform__image-flipper-slot {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: chocolate;
+    z-index: 1;
+    opacity: 1;
+    transition: opacity 600ms;
+  }
+
+  .covid-longform__intro-slot {
     position: relative;
-    width: calc(100 * var(--vw));
-    height: calc(var(--len-visible-screen-height) + calc(30 * var(--vh)));
-    padding-bottom: calc(30 * var(--vh));
-  
-    .illus21-home {
-      width: 100%;
-      height: 100%;
-      padding: var(--illus21-main-block-v-margin) var(--illus21-main-block-h-margin);
-    }
+    height: calc(1.05 * var(--len-visible-screen-height));
+    display: flex;
+    justify-content: center;
+    z-index: 3;
   }
 
-  .illus21-longform__intro {
+  .covid-longform__title-slot {
     position: relative;
-    width: calc(100 * var(--vw));
-    height: var(--len-visible-screen-height);
-    padding: var(--illus21-main-block-v-margin) var(--illus21-main-block-h-margin);
-    margin-bottom: calc(30 * var(--vh));
-  
-    .illus21-chapter-head {
-      width: 100%;
-      height: 100%;
-      text-align: left;
-
-      > * {
-        max-width: 560px;
-      }
-    }
-  }
-
-  .illus21-longform__chapter-head {
-    position: relative;
-    width: calc(100 * var(--vw));
-    height: var(--len-visible-screen-height);
-    padding: var(--illus21-main-block-v-margin) var(--illus21-main-block-h-margin);
-    padding-top: 0;
-    margin-bottom: calc(30 * var(--vh));
-  
-    .illus21-chapter-head {
-      width: 100%;
-      height: 100%;
-    }
-  }
-
-  .illus21-longform__chapter-row {
-    padding-bottom: calc(60 * var(--vh));
-  }
-
-  .illus21-longform__credits {
-    height: var(--len-visible-screen-height);
-    padding: 0 var(--illus21-main-block-h-margin);
-
-    .illus21-chapter-head__kicker {
-      text-align: left;
-      font-size: 16px;
-      max-width: 480px;
-
-      @media screen and (max-width: 1200px) {
-        font-size: 15px;
-        max-width: 400px;
-      }
-
-      @media screen and (max-width: 800px) {
-        max-width: 320px;
-      }
-
-      p {
-        margin-bottom: 1.5em;
-      }
-    }
+    height: calc(0.5 * var(--len-visible-screen-height));
+    z-index: 4;
   }
 }

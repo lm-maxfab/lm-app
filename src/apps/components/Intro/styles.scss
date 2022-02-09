@@ -1,0 +1,25 @@
+.covid-intro {
+  height: calc(var(--len-visible-screen-height));
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 0 12px;
+  opacity: 1;
+  background-color: burlywood;
+  transform: translateY(0);
+  transition: opacity 600ms, transform 600ms;
+
+  &.covid-intro_inactive {
+    opacity: 0;
+    transform: translateY(calc(-0.3 * var(--len-visible-screen-height)));
+  }
+
+  .covid-intro__inner {
+    width: 400px;
+
+    p {
+      margin-bottom: 12px;
+    }
+  }  
+}
