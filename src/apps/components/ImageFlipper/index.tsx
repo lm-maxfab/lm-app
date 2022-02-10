@@ -28,7 +28,7 @@ class ImageFlipper extends Component<Props, {}> {
       <div className={wrapperClasses.value} style={wrapperStyle}>
         <Sequencer
           play
-          tempo={640}
+          tempo={64}
           sequence={['lil', 'lal', 'loul', 'hihi']}
           renderer={({ step, value }) => <div>{step}: {value}</div>} />
       </div>

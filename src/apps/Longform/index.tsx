@@ -5,6 +5,7 @@ import './styles.scss'
 import Paginator from '../../modules/le-monde/components/Paginator'
 import LMHeader from '../../modules/le-monde/components/LMHeader'
 import ImageFlipper from '../components/ImageFlipper'
+import Chapter from '../components/Chapter'
 import Intro from '../components/Intro'
 import Title from '../components/Title'
 
@@ -12,6 +13,26 @@ interface Props extends InjectedProps {}
 interface State {
   currentPageValue?: any
 }
+
+const chapters = [{
+  supertitle: <>Agata Kubis, 44 ans, Pologne</>,
+  kicker: <>« Le Covid et le licenciement m'ont décidé à me consacrer pleinement à l'activisme et à la photographie »</>,
+  intro: <>Agata Kubis a 44 ans, elle vit a Varsovie. Employée de banque depuis plus de 20 ans, elle perd son emploi à cause de la crise financière provoquée par le covid. Elle se consacre depuis entièrement à l’activisme, contre les réformes du gouvernement polonais.</>,
+  credits: <>Photos par Marie Sumalla</>,
+  content: 'Lorem ipsum dolor sit amet'
+}, {
+  supertitle: <>Agata Kubis, 44 ans, Pologne</>,
+  kicker: <>« Le Covid et le licenciement m'ont décidé à me consacrer pleinement à l'activisme et à la photographie »</>,
+  intro: <>Agata Kubis a 44 ans, elle vit a Varsovie. Employée de banque depuis plus de 20 ans, elle perd son emploi à cause de la crise financière provoquée par le covid. Elle se consacre depuis entièrement à l’activisme, contre les réformes du gouvernement polonais.</>,
+  credits: <>Photos par Marie Sumalla</>,
+  content: 'Lorem ipsum dolor sit amet'
+}, {
+  supertitle: <>Agata Kubis, 44 ans, Pologne</>,
+  kicker: <>« Le Covid et le licenciement m'ont décidé à me consacrer pleinement à l'activisme et à la photographie »</>,
+  intro: <>Agata Kubis a 44 ans, elle vit a Varsovie. Employée de banque depuis plus de 20 ans, elle perd son emploi à cause de la crise financière provoquée par le covid. Elle se consacre depuis entièrement à l’activisme, contre les réformes du gouvernement polonais.</>,
+  credits: <>Photos par Marie Sumalla</>,
+  content: 'Lorem ipsum dolor sit amet'
+}]
 
 class Longform extends Component<Props, State> {
   static clss: string = 'covid-longform'
@@ -65,33 +86,35 @@ class Longform extends Component<Props, State> {
       </div>
 
       {/* Image flipper */}
-      <div
+      {/* <div
         style={{ opacity: showImageFlipper ? 1 : 0  }}
         className={bem(this.clss).elt('image-flipper-slot').value}>
         <ImageFlipper />
-      </div>
+      </div> */}
 
       <Paginator
         onPageChange={this.handlePageChange}>
 
         {/* Intro */}
-        <Paginator.Page value='intro'>
+        {/* <Paginator.Page value='intro'>
           <div className={bem(this.clss).elt('intro-slot').value}>
             <Intro isActive={introIsActive} />
           </div>
-        </Paginator.Page>
+        </Paginator.Page> */}
 
         {/* Title */}
-        <Paginator.Page value='title'>
+        {/* <Paginator.Page value='title'>
           <div className={bem(this.clss).elt('title-slot').value}>
             <Title isActive={titleIsActive} />
           </div>
-        </Paginator.Page>
+        </Paginator.Page> */}
 
         {/* Chapters */}
         <Paginator.Page value='chapters'>
           <div className={bem(this.clss).elt('chapters-slot').value}>
-            Chapters
+            {chapters.map(chapter => <div className={bem(this.clss).elt('chapter-slot').value}>
+              <Chapter data={chapter} />
+            </div>)}
           </div>
         </Paginator.Page>
 

@@ -1,0 +1,15 @@
+.covid-chapter {
+  display: flex;
+  .covid-chapter__images,
+  .covid-chapter__content {
+    width: 50%;
+  }
+
+  .covid-chapter__images {
+    background-color: cadetblue;
+  }
+
+  .covid-chapter__content {
+    background-color: chocolate;
+  }
+}
