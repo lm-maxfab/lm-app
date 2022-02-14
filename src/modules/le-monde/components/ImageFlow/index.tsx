@@ -46,7 +46,7 @@ class ImageFlow extends Component<Props, {}> {
           const slotStyle: JSX.CSSProperties = { height: image.slotHeight }
           const imageStyle: JSX.CSSProperties = {
             width: image.width,
-            height: image.height ?? '100%',
+            height: image.height,
             objectFit: image.fit ?? 'cover',
             objectPosition: image.position ?? 'center',
             left: image.hPos ?? '50%',
