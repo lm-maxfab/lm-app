@@ -1,3 +1,48 @@
 .covid-image-flipper {
   height: calc(var(--len-visible-screen-height));
+  display: flex;
+  width: 100%;
+
+  .covid-image-flipper__left,
+  .covid-image-flipper__right,
+  .covid-image-flipper__mobile {
+    .lm-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+  }
+
+  .covid-image-flipper__left,
+  .covid-image-flipper__right {
+    width: 50%;
+    height: 100%;
+  }
+
+  .covid-image-flipper__left {
+    background-color: khaki;
+  }
+
+  .covid-image-flipper__right {
+    background-color: chartreuse;
+  }
+
+  .covid-image-flipper__mobile {
+    background-color: cornflowerblue;
+    display: none;
+    width: 100%;
+    height: 100%;
+  }
+
+  @media screen and (max-width: 800px) {
+    .covid-image-flipper__left,
+    .covid-image-flipper__right {
+      display: none;
+    }
+
+    .covid-image-flipper__mobile {
+      display: block;
+    }
+  }
 }

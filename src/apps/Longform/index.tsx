@@ -55,7 +55,6 @@ class Longform extends Component<Props, State> {
     const introIsActive = ['init', 'intro'].includes(currentPageValue)
     const titleIsActive = ['title'].includes(currentPageValue)
     const consolidatedChaptersData: ChapterData[] = chaptersData.map(chapter => {
-      console.log(chapter)
       const imageFlowData = [{
         slotHeight: chapter.image_1_slot_height,
         width: chapter.image_1_width,
