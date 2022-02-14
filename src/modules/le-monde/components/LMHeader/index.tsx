@@ -8,6 +8,9 @@ import './styles.scss'
 interface Props {
   className?: string
   style?: JSX.CSSProperties
+  fill1?: string
+  fill2?: string
+  fillTransitionTime?: string
 }
 
 class LMHeader extends Component<Props, {}> {
@@ -22,7 +25,12 @@ class LMHeader extends Component<Props, {}> {
 
     /* Classes and style */
     const wrapperClasses = bem(props.className).block(this.clss)
-    const wrapperStyle: JSX.CSSProperties = { ...props.style }
+    const wrapperStyle: JSX.CSSProperties = {
+      ...props.style,
+      ['--fill-1']: props.fill1 ?? '#FFFFFF',
+      ['--fill-2']: props.fill2 ?? 'rgb(255, 255, 255, .6)',
+      ['--fill-transition-time']: props.fillTransitionTime ?? '600ms'
+    }
 
     /* Display */
     return (

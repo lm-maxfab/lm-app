@@ -1,5 +1,11 @@
 .covid-longform {
   position: relative;
+  background-color: #F5F2E4;
+
+  .covid-longform__intro-slot,
+  .covid-longform__title-slot {
+    background-color: #000000;
+  }
 
   .covid-longform__header-slot {
     position: fixed;
@@ -17,7 +23,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: chocolate;
     z-index: 1;
     opacity: 1;
     transition: opacity 600ms;

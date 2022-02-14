@@ -15,6 +15,25 @@ interface ChapterData {
   main_photo_url?: string
   image_flow_data?: ImageFlowImageData[]
   content_with_images?: string
+
+  image_1_slot_height?: string
+  image_1_width?: string
+  image_1_height?: string
+  image_1_h_pos?: string
+  image_1_v_pos?: string
+  image_1_url?: string
+  image_2_slot_height?: string
+  image_2_width?: string
+  image_2_height?: string
+  image_2_h_pos?: string
+  image_2_v_pos?: string
+  image_2_url?: string
+  image_3_slot_height?: string
+  image_3_width?: string
+  image_3_height?: string
+  image_3_h_pos?: string
+  image_3_v_pos?: string
+  image_3_url?: string
 }
 
 interface Props {

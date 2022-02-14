@@ -68,6 +68,7 @@ async function cronFetchAndRender (step = 0) {
     await fetchAndRender()
   } catch (error) {
     silentLogger.log(error)
+    console.error(error)
     if (step >= 5) return silentLogger.log('Could not fetch sheetbase in 5 attemps, stop retrying.')
     silentLogger.log('Something went wrong while fetching sheetBase, new try in 500ms.')
     window.setTimeout(() => { cronFetchAndRender(step + 1) }, 500)

@@ -6,11 +6,13 @@
     height: 32px;
 
     .fill-1 {
-      fill: blueviolet;
+      fill: var(--fill-1);
+      transition: fill var(--fill-transition-time);
     }
 
     .fill-2 {
-      fill: brown;
+      fill: var(--fill-2);
+      transition: fill var(--fill-transition-time);
     }
   }
 }

@@ -1,4 +1,4 @@
-import { Component, JSX } from 'preact'
+import { Component, JSX, VNode } from 'preact'
 import bem from '../../../modules/le-monde/utils/bem'
 
 import './styles.scss'
@@ -7,6 +7,7 @@ interface Props {
   className?: string
   style?: JSX.CSSProperties
   isActive?: boolean
+  content?: VNode|string
 }
 
 class Title extends Component<Props, {}> {
@@ -30,7 +31,7 @@ class Title extends Component<Props, {}> {
       <h1
         style={wrapperStyle}
         className={wrapperClasses.value}>
-        Title.
+        {props.content}
       </h1>
     )
   }

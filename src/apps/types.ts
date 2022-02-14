@@ -10,3 +10,12 @@ export interface MyNavigator extends Navigator {
 export interface SheetbaseCollectionData {
   id: string
 }
+
+export interface IntroData extends SheetbaseCollectionData {
+  paragraph?: VNode
+  title?: VNode
+}
+
+export interface IntroImageData extends SheetbaseCollectionData {
+  url?: string
+}
