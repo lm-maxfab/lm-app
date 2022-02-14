@@ -127,6 +127,8 @@ class Longform extends Component<Props, State> {
     const { props, state } = this
     const { currentPageValue } = state
 
+    console.log(props.sheetBase.value)
+
     // Logic
     const showImageFlipper = ['init', 'intro', 'title'].includes(currentPageValue)
     const introIsActive = ['init', 'intro'].includes(currentPageValue)
