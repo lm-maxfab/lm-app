@@ -68,18 +68,20 @@ class Chapter extends Component<Props, {}> {
             className={bem(this.clss).elt('image-flow').value} />
         </div>
         <div className={bem(this.clss).elt('content').value}>
-          <div className={bem(this.clss).elt('supertitle').value}>{props.data?.supertitle}</div>
-          <div className={bem(this.clss).elt('supertitle-separator').value} />
-          <div className={bem(this.clss).elt('kicker').value}>{props.data?.kicker}</div>
-          <div className={bem(this.clss).elt('kicker-separator').value} />
-          <Img
-            src={props.data?.main_photo_url}
-            className={bem(this.clss).elt('main-image').value} />
-          <div className={bem(this.clss).elt('credits').value}>{props.data?.credits}</div>
-          <div className={bem(this.clss).elt('intro').value}>{props.data?.intro}</div>
-          <div className={bem(this.clss).elt('intro-separator').value} />
-          <div className={bem(this.clss).elt('article-content').value}>
-            <StrToHtml content={props.data?.content_with_images} />
+          <div className={bem(this.clss).elt('inner-content').value}>
+            <div className={bem(this.clss).elt('supertitle').value}>{props.data?.supertitle}</div>
+            <div className={bem(this.clss).elt('supertitle-separator').value} />
+            <div className={bem(this.clss).elt('kicker').value}>{props.data?.kicker}</div>
+            <div className={bem(this.clss).elt('kicker-separator').value} />
+            <Img
+              src={props.data?.main_photo_url}
+              className={bem(this.clss).elt('main-image').value} />
+            <div className={bem(this.clss).elt('credits').value}>{props.data?.credits}</div>
+            <div className={bem(this.clss).elt('intro').value}>{props.data?.intro}</div>
+            <div className={bem(this.clss).elt('intro-separator').value} />
+            <div className={bem(this.clss).elt('article-content').value}>
+              <StrToHtml content={props.data?.content_with_images} />
+            </div>
           </div>
         </div>
       </div>

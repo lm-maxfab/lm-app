@@ -14,7 +14,10 @@ export type {
 
 export default function getCurrentDownlink (): number|undefined {
   const navigator = window.navigator as ExtendedNavigator|undefined
-  const connection = (navigator?.connection ?? navigator?.mozConnection ?? navigator?.webkitConnection) as ExtendedConnection|undefined
-  const downlink = connection?.downlink
-  return downlink
+  const connection = (
+    navigator?.connection
+    ?? navigator?.mozConnection
+    ?? navigator?.webkitConnection
+  ) as ExtendedConnection|undefined
+  return connection?.downlink
 }

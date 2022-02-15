@@ -5,7 +5,7 @@ import Img from '../../../modules/le-monde/components/Img'
 import { IntroImageData } from '../../types'
 
 import './styles.scss'
-import arrayRandomPick from '../../../modules/le-monde/utils/array-random-pick'
+import absoluteModulo from '../../../modules/le-monde/utils/absolute-modulo'
 
 interface Props {
   className?: string
@@ -14,19 +14,13 @@ interface Props {
 }
 
 interface State {
-  active_left: any
-  active_right: any
-  active_mobile: any
+  step: number
 }
 
 class ImageFlipper extends Component<Props, State> {
   static clss = 'covid-image-flipper'
   clss = ImageFlipper.clss
-  state: State = {
-    active_left: null,
-    active_right: null,
-    active_mobile: null
-  }
+  state: State = { step: 0 }
 
   /* * * * * * * * * * * * * * *
    * RENDER
@@ -38,66 +32,86 @@ class ImageFlipper extends Component<Props, State> {
     const wrapperClasses = bem(props.className).block(this.clss)
     const wrapperStyle: JSX.CSSProperties = { ...props.style }
     
-    const leftList = (props.images ?? []).filter((_image, pos) => pos % 2)
-    const rightList = (props.images ?? []).filter((_image, pos) => (pos + 1) % 2)
-
     /* Display */
     return (
-      <div className={wrapperClasses.value} style={wrapperStyle}>
+      <div
+        style={wrapperStyle}
+        className={wrapperClasses.value}>
         <Sequencer
           play
-          tempo={60}
-          sequence={['left', 'right']}
-          length={(leftList?.length ?? 0) * 2}
-          onStepChange={({ value }) => {
-            // console.log('step change')
-            const shouldLeftChange = value === 'left'
-            const shouldRightChange = value === 'right'
-            this.setState(currState => {
-              console.log('shouldLeftChange', shouldLeftChange)
-              console.log('currState.active_left?.id', currState.active_left?.id)
-              console.log('leftList.includes(currState.active_left)', leftList.includes(currState.active_left))
-
-              console.log('shouldRightChange', shouldRightChange)
-              console.log('currState.active_right?.id', currState.active_right?.id)
-              console.log('rightList.includes(currState.active_right)', rightList.includes(currState.active_right))
-
-              return {
-                ...currState,
-                active_left: shouldLeftChange
-                  ? arrayRandomPick(leftList, [currState.active_left])
-                  : currState.active_left,
-                active_right: shouldRightChange
-                  ? arrayRandomPick(rightList, [currState.active_right])
-                  : currState.active_right
-              }
-            })
+          tempo={80}
+          onStepChange={() => {
+            if (Math.random() < (2 / 3)) {
+              this.setState(curr => ({
+                ...curr,
+                step: curr.step + 1
+              }))
+            }
           }}
           renderer={() => {
+            const { step } = state
+            const sequenceLength = (props.images ?? []).length
+            const leftNb = Math.floor(step / 2) * 2 + 1
+            const rightNb = (Math.floor((step + 1) / 2) * 2)
+
+            const leftPos = absoluteModulo(leftNb, sequenceLength)
+            const rightPos = absoluteModulo(rightNb, sequenceLength)
+            const mobilePos = absoluteModulo(step, sequenceLength)
+
+            const pLeftPos = absoluteModulo((leftPos - 2), sequenceLength)
+            const pRightPos = absoluteModulo((rightPos - 2), sequenceLength)
+            const pMobilePos = absoluteModulo(mobilePos - 1, sequenceLength)
+
+            const nLeftPos = absoluteModulo((leftPos + 2), sequenceLength)
+            const nRightPos = absoluteModulo((rightPos + 2), sequenceLength)
+            const nMobilePos = absoluteModulo(mobilePos + 1, sequenceLength)
             return <>
               <div className={bem(this.clss).elt('left').value}>
-                {leftList.map((imgData, imgDataPos) => {
-                  const imageClass = imgData === state.active_left ? 'active' : 'inactive'
-                  return <Img className={imageClass} src={imgData.url} />
+                {props.images?.map((imgData, imgPos) => {
+                  const isActive = imgPos === leftPos
+                  const isPrev = imgPos === pLeftPos
+                  const isNext = imgPos === nLeftPos
+                  const imgClass = bem(this.clss).elt('image').mod({
+                    active: isActive,
+                    previous: isPrev
+                  })
+                  return <Img
+                    loading={isActive || isNext ? 'eager' : 'lazy'}
+                    src={imgData.url}
+                    className={imgClass.value} />
                 })}
               </div>
               <div className={bem(this.clss).elt('right').value}>
-                {rightList.map((imgData, imgDataPos) => {
-                  const imageClass = imgData === state.active_right ? 'active' : 'inactive'
-                  return <Img className={imageClass} src={imgData.url} />
+                {props.images?.map((imgData, imgPos) => {
+                  const isActive = imgPos === rightPos
+                  const isPrev = imgPos === pRightPos
+                  const isNext = imgPos === nRightPos
+                  const imgClass = bem(this.clss).elt('image').mod({
+                    active: isActive,
+                    previous: isPrev
+                  })
+                  return <Img
+                    loading={isActive || isNext ? 'eager' : 'lazy'}
+                    src={imgData.url}
+                    className={imgClass.value} />
+                })}
+              </div>
+              <div className={bem(this.clss).elt('mobile').value}>
+                {props.images?.map((imgData, imgPos) => {
+                  const isActive = imgPos === mobilePos
+                  const isPrev = imgPos === pMobilePos
+                  const isNext = imgPos === nMobilePos
+                  const imgClass = bem(this.clss).elt('image').mod({
+                    active: isActive,
+                    previous: isPrev
+                  })
+                  return <Img
+                    loading={isActive || isNext ? 'eager' : 'lazy'}
+                    src={imgData.url}
+                    className={imgClass.value} />
                 })}
               </div>
             </>
-          }} />
-        <Sequencer
-          play
-          tempo={64}
-          renderer={({ step, value }) => {
-            return <div className={bem(this.clss).elt('mobile').value}>
-              {(props.images ?? []).map((imgData, imgDataPos) => {
-                return <Img src={imgData.url} />
-              })}
-            </div>
           }} />
       </div>
     )

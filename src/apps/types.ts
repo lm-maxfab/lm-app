@@ -19,3 +19,7 @@ export interface IntroData extends SheetbaseCollectionData {
 export interface IntroImageData extends SheetbaseCollectionData {
   url?: string
 }
+
+export interface CreditsData extends SheetbaseCollectionData {
+  content?: VNode|string
+}

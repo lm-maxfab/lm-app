@@ -6,12 +6,10 @@
   flex-direction: column;
   padding: 0 12px;
   opacity: 1;
-  transform: translateY(0);
   transition: opacity 600ms, transform 600ms;
 
   &.covid-intro_inactive {
     opacity: 0;
-    transform: translateY(calc(-0.3 * var(--len-visible-screen-height)));
   }
 
   .covid-intro__inner {
@@ -19,6 +17,7 @@
     max-width: 400px;
     font-family: var(--ff-marr-sans);
     font-size: 18px;
+    font-weight: 500;
     line-height: 1.5;
     color: #FCFCFD;
     text-align: center;
