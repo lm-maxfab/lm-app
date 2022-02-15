@@ -11,6 +11,7 @@ interface Props {
   className?: string
   style?: JSX.CSSProperties
   images?: IntroImageData[]
+  opacity?: number
 }
 
 interface State {
@@ -37,6 +38,9 @@ class ImageFlipper extends Component<Props, State> {
       <div
         style={wrapperStyle}
         className={wrapperClasses.value}>
+        <div
+          style={{ opacity: props.opacity ?? 0 }}
+          className={bem(this.clss).elt('opacifier').value} />
         <Sequencer
           play
           tempo={80}

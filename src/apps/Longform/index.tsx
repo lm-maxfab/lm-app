@@ -6,10 +6,12 @@ import Paginator from '../../modules/le-monde/components/Paginator'
 import ArticleHeader from '../../modules/le-monde/components/ArticleHeader'
 import ImageFlipper from '../components/ImageFlipper'
 import Chapter, { ChapterData } from '../components/Chapter'
+import Kicker from '../components/Kicker'
 import Intro from '../components/Intro'
 import Title from '../components/Title'
 import { IntroData, IntroImageData, CreditsData } from '../types'
 import ArticleCredits from '../../modules/le-monde/components/ArticleCredits'
+import ArrowButton from '../components/ArrowButton'
 
 interface Props extends InjectedProps {}
 interface State {
@@ -52,8 +54,8 @@ class Longform extends Component<Props, State> {
     const creditsData = props.sheetBase.collection('credits').entries[0].value as unknown as CreditsData
 
     // Logic
-    const showImageFlipper = ['init', 'intro', 'title'].includes(currentPageValue)
-    const introIsActive = ['init', 'intro'].includes(currentPageValue)
+    const showImageFlipper = ['init', 'kicker', 'intro', 'title'].includes(currentPageValue)
+    const introIsActive = ['init', 'kicker', 'intro'].includes(currentPageValue)
     const titleIsActive = ['title'].includes(currentPageValue)
     const consolidatedChaptersData: ChapterData[] = chaptersData.map(chapter => {
       const imageFlowData = [{
@@ -100,9 +102,17 @@ class Longform extends Component<Props, State> {
       }
     })
     const logoColors = {
-      main: ['init', 'intro', 'title'].includes(currentPageValue) ? undefined : 'rgb(27, 23, 27)',
-      shadow: ['init', 'intro', 'title'].includes(currentPageValue) ? undefined : 'rgb(27, 23, 27, .6)'
+      main: ['init', 'kicker', 'intro', 'title'].includes(currentPageValue)
+        ? undefined
+        : 'rgb(27, 23, 27)',
+      shadow: ['init', 'kicker', 'intro', 'title'].includes(currentPageValue)
+        ? undefined
+        : 'rgb(27, 23, 27, .6)'
     }
+
+    let arrowOpacity = 0
+    if (state.currentPageValue === 'init' || state.currentPageValue === 'kicker') arrowOpacity = 1
+    else if (state.currentPageValue === 'intro' || state.currentPageValue === 'title') arrowOpacity = .3
 
     // Assign classes and styles
     const wrapperClasses = bem(props.className).block(this.clss)
@@ -127,36 +137,67 @@ class Longform extends Component<Props, State> {
       <div
         style={{ opacity: showImageFlipper ? 1 : 0 }}
         className={bem(this.clss).elt('image-flipper-slot').value}>
-        <ImageFlipper images={introImagesData} />
+        <ImageFlipper
+          opacity={introData.images_opacity}
+          images={introImagesData} />
+      </div>
+
+      {/* Arrow button */}
+      <div className={bem(this.clss).elt('arrow-button-slot').value}>
+        <div className={bem(this.clss).elt('arrow-button-inner-slot').value}>
+          <ArrowButton style={{
+            opacity: arrowOpacity,
+            display: ['init', 'kicker', 'intro', 'title'].includes(state.currentPageValue)
+              ? 'block'
+              : 'none'
+          }} />
+        </div>
       </div>
 
       <Paginator
         onPageChange={this.handlePageChange}>
 
+        {/* Kicker */}
+        <Paginator.Page value='kicker'>
+          <div className={bem(this.clss).elt('kicker-slot').value}>
+            <div className={bem(this.clss).elt('kicker-slot-inner').value}>
+              <Kicker
+                content={introData.kicker}
+                isActive={introIsActive} />
+            </div>
+          </div>
+        </Paginator.Page>
+
         {/* Intro */}
         <Paginator.Page value='intro'>
           <div className={bem(this.clss).elt('intro-slot').value}>
-            <Intro
-              content={introData.paragraph}
-              isActive={introIsActive} />
+            <div className={bem(this.clss).elt('intro-slot-inner').value}>
+              <Intro
+                content={introData.paragraph}
+                isActive={introIsActive} />
+            </div>
           </div>
         </Paginator.Page>
 
         {/* Title */}
         <Paginator.Page value='title'>
           <div className={bem(this.clss).elt('title-slot').value}>
-            <Title
-              content={introData.title}
-              isActive={titleIsActive} />
+            <div className={bem(this.clss).elt('title-slot-inner').value}>
+              <Title
+                content={introData.title}
+                isActive={titleIsActive} />
+            </div>
           </div>
         </Paginator.Page>
 
         {/* Chapters */}
         <Paginator.Page value='chapters'>
           <div className={bem(this.clss).elt('chapters-slot').value}>
-            {consolidatedChaptersData.map(chapter => <div className={bem(this.clss).elt('chapter-slot').value}>
-              <Chapter data={chapter} />
-            </div>)}
+            {consolidatedChaptersData.map(chapter => {
+              return <div className={bem(this.clss).elt('chapter-slot').value}>
+                <Chapter data={chapter} />
+              </div>
+            })}
           </div>
         </Paginator.Page>
 

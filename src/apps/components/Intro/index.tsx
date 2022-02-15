@@ -31,9 +31,7 @@ class Intro extends Component<Props, {}> {
       <div
         style={wrapperStyle}
         className={wrapperClasses.value}>
-        <div className={bem(this.clss).elt('inner').value}>
-          {props.content}
-        </div>
+        {props.content}
       </div>
     )
   }

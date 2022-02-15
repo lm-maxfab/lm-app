@@ -273,6 +273,17 @@
       },
       "description": "First version that looks like something",
       "time": "2022-02-15T13:38:45.482Z"
+    },
+    {
+      "version": {
+        "major": 1,
+        "minor": 1,
+        "patch": 0,
+        "status": "alpha",
+        "build": 0
+      },
+      "description": "",
+      "time": "2022-02-15T17:33:19.378Z"
     }
   ]
 }

@@ -12,8 +12,10 @@ export interface SheetbaseCollectionData {
 }
 
 export interface IntroData extends SheetbaseCollectionData {
-  paragraph?: VNode
-  title?: VNode
+  kicker?: VNode|string
+  paragraph?: VNode|string
+  title?: VNode|string
+  images_opacity?: number
 }
 
 export interface IntroImageData extends SheetbaseCollectionData {
