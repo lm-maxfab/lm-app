@@ -49,9 +49,14 @@ class ImageFlow extends Component<Props, {}> {
             height: image.height,
             objectFit: image.fit ?? 'cover',
             objectPosition: image.position ?? 'center',
-            left: image.hPos ?? '50%',
-            top: image.vPos ?? '50%',
-            transform: `translate(calc(-1 * ${image.hPos}), calc(-1 * ${image.vPos}))`,
+            '--local-h-pos': image.hPos ?? '50%',
+            '--local-v-pos': image.vPos ?? '50%',
+            left: 'var(--local-h-pos)',
+            top: 'var(--local-v-pos)',
+            transform: `translate(
+              calc(-1 * var(--local-h-pos)),
+              calc(-1 * var(--local-v-pos))
+            )`,
             zIndex: image.zIndex,
           }
           return <div

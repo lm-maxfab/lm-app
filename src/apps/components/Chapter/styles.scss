@@ -1,6 +1,6 @@
 .covid-chapter {
   --local-em-bg-color: #EACFB6;
-  --local-chapter-padding-bottom: 80px;
+  --local-chapter-padding-bottom: calc(0.6 * var(--len-visible-screen-height));
   --local-content-padding: 80px;
   --local-elements-margin-bottom: 56px;
   --local-elements-side-offset: 64px;
