@@ -143,7 +143,8 @@ class Longform extends Component<Props, State> {
         content: chapter.content,
         main_photo_url: chapter.main_photo_url,
         content_with_images: contentWithImages,
-        image_flow_data: imageFlowData
+        image_flow_data: imageFlowData,
+        kicker_span_color: chapter.kicker_span_color
       }
     })
     const logoColors = {
@@ -180,7 +181,10 @@ class Longform extends Component<Props, State> {
 
       {/* Image flipper */}
       <div
-        style={{ opacity: showImageFlipper ? 1 : 0 }}
+        style={{
+          opacity: showImageFlipper ? 1 : 0,
+          zIndex: showImageFlipper ? 2 : 1
+        }}
         className={bem(this.clss).elt('image-flipper-slot').value}>
         <ImageFlipper
           opacity={introData.images_opacity}
@@ -238,7 +242,12 @@ class Longform extends Component<Props, State> {
 
         {/* Chapters */}
         <Paginator.Page value='chapters'>
-          <div className={bem(this.clss).elt('chapters-slot').value}>
+          <div
+            style={{
+              opacity: showImageFlipper ? 0 : 1,
+              zIndex: showImageFlipper ? 1 : 2
+            }}
+            className={bem(this.clss).elt('chapters-slot').value}>
             {consolidatedChaptersData.map(chapter => {
               return <div className={bem(this.clss).elt('chapter-slot').value}>
                 <Chapter data={chapter} />
@@ -249,7 +258,8 @@ class Longform extends Component<Props, State> {
 
         {/* Credits */}
         <Paginator.Page value='credits'>
-          <div className={bem(this.clss).elt('credits-slot').value}>
+          <div
+            className={bem(this.clss).elt('credits-slot').value}>
             <ArticleCredits content={creditsData.content} />
           </div>
         </Paginator.Page>

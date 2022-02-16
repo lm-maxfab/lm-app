@@ -15,6 +15,7 @@ interface ChapterData {
   main_photo_url?: string
   image_flow_data?: ImageFlowImageData[]
   content_with_images?: string
+  kicker_span_color?: string
 
   image_1_slot_height?: string
   image_1_width?: string
@@ -72,7 +73,10 @@ class Chapter extends Component<Props, {}> {
 
     /* Classes and style */
     const wrapperClasses = bem(props.className).block(this.clss)
-    const wrapperStyle: JSX.CSSProperties = { ...props.style }
+    const wrapperStyle: JSX.CSSProperties = {
+      ...props.style,
+      '--local-em-bg-color': props.data?.kicker_span_color
+    }
 
     /* Display */
     return (

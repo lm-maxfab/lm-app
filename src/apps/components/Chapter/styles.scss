@@ -1,4 +1,5 @@
 .covid-chapter {
+  --local-em-bg-color: #EACFB6;
   --local-chapter-padding-bottom: 80px;
   --local-content-padding: 80px;
   --local-elements-margin-bottom: 56px;
@@ -115,6 +116,14 @@
       line-height: 1.1;
       font-weight: 900;
       max-width: 70%;
+
+      em {
+        font-style: normal;
+        background-color: var(--local-em-bg-color);
+        box-shadow:
+          4px 0 var(--local-em-bg-color),
+          -4px 0 var(--local-em-bg-color);
+      }
 
       @media screen and (max-width: 1200px) {
         font-size: 28px;

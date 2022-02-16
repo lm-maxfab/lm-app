@@ -95,6 +95,7 @@
   .covid-longform__chapters-slot {
     position: relative;
     z-index: 2;
+    transition: opacity 600ms;
 
     .covid-longform__chapter-slot {
       transform: translateY(calc(-0.3 * var(--len-visible-screen-height)));
