@@ -24,6 +24,24 @@ class ImageFlipper extends Component<Props, State> {
   state: State = { step: 0 }
 
   /* * * * * * * * * * * * * * *
+   * CONSTRUCTOR
+   * * * * * * * * * * * * * * */
+  constructor (props: Props) {
+    super(props)
+    this.getRealImageUrl = this.getRealImageUrl.bind(this)
+  }
+
+  /* * * * * * * * * * * * * * *
+   * METHODS
+   * * * * * * * * * * * * * * */
+  getRealImageUrl (url: string, size: number) {
+    return url.replace(
+      /[a-z]+$/igm,
+      match => `${size}.q65.comp.${match}`
+    )
+  }
+
+  /* * * * * * * * * * * * * * *
    * RENDER
    * * * * * * * * * * * * * * */
   render (): JSX.Element|null {
@@ -81,7 +99,13 @@ class ImageFlipper extends Component<Props, State> {
                   })
                   return <Img
                     loading={isActive || isNext ? 'eager' : 'lazy'}
-                    src={imgData.url}
+                    srcset={`
+                      ${this.getRealImageUrl(imgData.url ?? '', 1400)} 1400w,
+                      ${this.getRealImageUrl(imgData.url ?? '', 900)} 900w,
+                      ${this.getRealImageUrl(imgData.url ?? '', 600)} 600w
+                    `}
+                    sizes={`50vw`}
+                    src={this.getRealImageUrl(imgData.url ?? '', 1400)}
                     className={imgClass.value} />
                 })}
               </div>
@@ -96,7 +120,13 @@ class ImageFlipper extends Component<Props, State> {
                   })
                   return <Img
                     loading={isActive || isNext ? 'eager' : 'lazy'}
-                    src={imgData.url}
+                    srcset={`
+                      ${this.getRealImageUrl(imgData.url ?? '', 1400)} 1400w,
+                      ${this.getRealImageUrl(imgData.url ?? '', 900)} 900w,
+                      ${this.getRealImageUrl(imgData.url ?? '', 600)} 600w
+                    `}
+                    sizes={`50vw`}
+                    src={this.getRealImageUrl(imgData.url ?? '', 1400)}
                     className={imgClass.value} />
                 })}
               </div>
@@ -111,7 +141,13 @@ class ImageFlipper extends Component<Props, State> {
                   })
                   return <Img
                     loading={isActive || isNext ? 'eager' : 'lazy'}
-                    src={imgData.url}
+                    srcset={`
+                      ${this.getRealImageUrl(imgData.url ?? '', 1400)} 1400w,
+                      ${this.getRealImageUrl(imgData.url ?? '', 900)} 900w,
+                      ${this.getRealImageUrl(imgData.url ?? '', 600)} 600w
+                    `}
+                    sizes={`100vw`}
+                    src={this.getRealImageUrl(imgData.url ?? '', 1400)}
                     className={imgClass.value} />
                 })}
               </div>

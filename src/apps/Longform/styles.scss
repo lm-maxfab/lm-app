@@ -95,6 +95,10 @@
   .covid-longform__chapters-slot {
     position: relative;
     z-index: 2;
+
+    .covid-longform__chapter-slot {
+      transform: translateY(calc(-0.3 * var(--len-visible-screen-height)));
+    }
   }
 
   .covid-longform__credits-slot {

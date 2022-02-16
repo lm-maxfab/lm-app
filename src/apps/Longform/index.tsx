@@ -31,6 +31,17 @@ class Longform extends Component<Props, State> {
   constructor (props: Props) {
     super(props)
     this.handlePageChange = this.handlePageChange.bind(this)
+    this.getRealImageUrl = this.getRealImageUrl.bind(this)
+  }
+
+  /* * * * * * * * * * * * * * *
+   * METHODS
+   * * * * * * * * * * * * * * */
+  getRealImageUrl (url: string, size: number) {
+    return url.replace(
+      /[a-z]+$/igm,
+      match => `${size}.q65.comp.${match}`
+    )
   }
 
   /* * * * * * * * * * * * * * *
@@ -86,9 +97,43 @@ class Longform extends Component<Props, State> {
         url3: imageFlowData[2].url
       }
       const contentWithImages = (chapter.content ?? '')
-        .replace('[[1]]', url1 !== '' ? `<img src="${url1}" />` : '')
-        .replace('[[2]]', url2 !== '' ? `<img src="${url2}" />` : '')
-        .replace('[[3]]', url3 !== '' ? `<img src="${url3}" />` : '')
+        .replace(
+          '[[1]]',
+          url1 !== ''
+            ? `<img
+              srcset="
+                ${this.getRealImageUrl(url1 ?? '', 1400)} 1400w,
+                ${this.getRealImageUrl(url1 ?? '', 900)} 900w,
+                ${this.getRealImageUrl(url1 ?? '', 600)} 600w
+              "
+              sizes="100vw"
+              src="${this.getRealImageUrl(url1 ?? '', 900)}" />`
+            : ''
+        ).replace(
+          '[[2]]',
+          url2 !== ''
+            ? `<img
+              srcset="
+                ${this.getRealImageUrl(url2 ?? '', 1400)} 1400w,
+                ${this.getRealImageUrl(url2 ?? '', 900)} 900w,
+                ${this.getRealImageUrl(url2 ?? '', 600)} 600w
+              "
+              sizes="100vw"
+              src="${this.getRealImageUrl(url2 ?? '', 900)}" />`
+            : ''
+        ).replace(
+          '[[3]]',
+          url3 !== ''
+            ? `<img
+              srcset="
+                ${this.getRealImageUrl(url3 ?? '', 1400)} 1400w,
+                ${this.getRealImageUrl(url3 ?? '', 900)} 900w,
+                ${this.getRealImageUrl(url3 ?? '', 600)} 600w
+              "
+              sizes="100vw"
+              src="${this.getRealImageUrl(url3 ?? '', 900)}" />`
+            : ''
+        )
       return {
         ...chapter,
         supertitle: chapter.supertitle,
@@ -143,14 +188,15 @@ class Longform extends Component<Props, State> {
       </div>
 
       {/* Arrow button */}
-      <div className={bem(this.clss).elt('arrow-button-slot').value}>
+      <div
+        style={{
+          display: ['init', 'kicker', 'intro', 'title'].includes(state.currentPageValue)
+            ? 'flex'
+            : 'none'
+        }}
+        className={bem(this.clss).elt('arrow-button-slot').value}>
         <div className={bem(this.clss).elt('arrow-button-inner-slot').value}>
-          <ArrowButton style={{
-            opacity: arrowOpacity,
-            display: ['init', 'kicker', 'intro', 'title'].includes(state.currentPageValue)
-              ? 'block'
-              : 'none'
-          }} />
+          <ArrowButton style={{ opacity: arrowOpacity }} />
         </div>
       </div>
 

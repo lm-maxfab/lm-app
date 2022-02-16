@@ -47,6 +47,24 @@ class Chapter extends Component<Props, {}> {
   clss = Chapter.clss
 
   /* * * * * * * * * * * * * * *
+   * CONSTRUCTOR
+   * * * * * * * * * * * * * * */
+  constructor (props: Props) {
+    super(props)
+    this.getRealImageUrl = this.getRealImageUrl.bind(this)
+  }
+
+  /* * * * * * * * * * * * * * *
+   * METHODS
+   * * * * * * * * * * * * * * */
+  getRealImageUrl (url: string, size: number) {
+    return url.replace(
+      /[a-z]+$/igm,
+      match => `${size}.q65.comp.${match}`
+    )
+  }
+
+  /* * * * * * * * * * * * * * *
    * RENDER
    * * * * * * * * * * * * * * */
   render (): JSX.Element|null {
@@ -61,10 +79,22 @@ class Chapter extends Component<Props, {}> {
       <div className={wrapperClasses.value} style={wrapperStyle}>
         <div className={bem(this.clss).elt('images').value}>
           <Img
+            srcset={`
+              ${this.getRealImageUrl(props.data?.main_photo_url ?? '', 1400)} 1400w,
+              ${this.getRealImageUrl(props.data?.main_photo_url ?? '', 900)} 900w,
+              ${this.getRealImageUrl(props.data?.main_photo_url ?? '', 600)} 600w
+            `}
+            sizes={`
+              (max-width: 1024px) 50vw,
+              100vw
+            `}
             src={props.data?.main_photo_url}
             className={bem(this.clss).elt('main-image').value} />
           <ImageFlow
-            images={props.data?.image_flow_data}
+            images={props.data?.image_flow_data?.map(data => ({
+              ...data,
+              url: this.getRealImageUrl(data.url ?? '', 900)
+            }))}
             className={bem(this.clss).elt('image-flow').value} />
         </div>
         <div className={bem(this.clss).elt('content').value}>
@@ -74,7 +104,16 @@ class Chapter extends Component<Props, {}> {
             <div className={bem(this.clss).elt('kicker').value}>{props.data?.kicker}</div>
             <div className={bem(this.clss).elt('kicker-separator').value} />
             <Img
-              src={props.data?.main_photo_url}
+              srcset={`
+                ${this.getRealImageUrl(props.data?.main_photo_url ?? '', 1400)} 1400w,
+                ${this.getRealImageUrl(props.data?.main_photo_url ?? '', 900)} 900w,
+                ${this.getRealImageUrl(props.data?.main_photo_url ?? '', 600)} 600w
+              `}
+              sizes={`
+                (max-width: 1024px) 50vw,
+                100vw
+              `}
+              src={this.getRealImageUrl(props.data?.main_photo_url ?? '', 1400)}
               className={bem(this.clss).elt('main-image').value} />
             <div className={bem(this.clss).elt('credits').value}>{props.data?.credits}</div>
             <div className={bem(this.clss).elt('intro').value}>{props.data?.intro}</div>
