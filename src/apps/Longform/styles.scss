@@ -37,7 +37,7 @@
     align-items: center;
 
     .covid-longform__arrow-button-inner-slot {
-      margin-bottom: 24px;
+      margin-bottom: 56px;
     }
   }
 
@@ -48,7 +48,7 @@
 
     .covid-longform__kicker-slot-inner {
       position: absolute;
-      bottom: 112px;
+      bottom: 128px;
       width: calc(100% - 24px);
       max-width: 420px;
       left: 50%;
@@ -69,7 +69,7 @@
       position: absolute;
       top: 24px;
       width: calc(100% - 24px);
-      max-width: 420px;
+      max-width: 600px;
       left: 50%;
       transform: translateX(-50%);
       display: flex;
@@ -106,7 +106,7 @@
     color: #383F4E;
     display: flex;
     justify-content: center;
-    padding: calc(40 * var(--vh)) 0 calc(60 * var(--vh)) 0;
+    padding: calc(40 * var(--vh)) 8px calc(60 * var(--vh)) 8px;
     .lm-article-credits {
       max-width: 600px;
     }

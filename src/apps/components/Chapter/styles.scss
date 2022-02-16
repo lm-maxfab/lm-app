@@ -70,11 +70,20 @@
 
     .covid-chapter__main-image {
       width: 100%;
+      margin-bottom: 24px;
     }
   }
 
   .covid-chapter__inner-content {
     padding: var(--local-content-padding);
+
+    em {
+      font-style: normal;
+      background-color: var(--local-em-bg-color);
+      box-shadow:
+        .125em 0 var(--local-em-bg-color),
+        -.125em 0 var(--local-em-bg-color);
+    }
 
     .covid-chapter__supertitle-separator,
     .covid-chapter__kicker-separator,
@@ -116,14 +125,6 @@
       line-height: 1.1;
       font-weight: 900;
       max-width: 70%;
-
-      em {
-        font-style: normal;
-        background-color: var(--local-em-bg-color);
-        box-shadow:
-          4px 0 var(--local-em-bg-color),
-          -4px 0 var(--local-em-bg-color);
-      }
 
       @media screen and (max-width: 1200px) {
         font-size: 28px;
@@ -209,6 +210,7 @@
       }
 
       img {
+        margin-top: 1em;
         margin-bottom: 1em;
         display: none;
         max-width: 100%;

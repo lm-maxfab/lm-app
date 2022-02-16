@@ -101,6 +101,7 @@ class Longform extends Component<Props, State> {
           '[[1]]',
           url1 !== ''
             ? `<img
+              loading="lazy"
               srcset="
                 ${this.getRealImageUrl(url1 ?? '', 1400)} 1400w,
                 ${this.getRealImageUrl(url1 ?? '', 900)} 900w,
@@ -113,6 +114,7 @@ class Longform extends Component<Props, State> {
           '[[2]]',
           url2 !== ''
             ? `<img
+              loading="lazy"
               srcset="
                 ${this.getRealImageUrl(url2 ?? '', 1400)} 1400w,
                 ${this.getRealImageUrl(url2 ?? '', 900)} 900w,
@@ -125,6 +127,7 @@ class Longform extends Component<Props, State> {
           '[[3]]',
           url3 !== ''
             ? `<img
+              loading="lazy"
               srcset="
                 ${this.getRealImageUrl(url3 ?? '', 1400)} 1400w,
                 ${this.getRealImageUrl(url3 ?? '', 900)} 900w,

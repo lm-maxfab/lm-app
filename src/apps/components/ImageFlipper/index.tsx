@@ -61,7 +61,7 @@ class ImageFlipper extends Component<Props, State> {
           className={bem(this.clss).elt('opacifier').value} />
         <Sequencer
           play
-          tempo={80}
+          tempo={40}
           onStepChange={() => {
             if (Math.random() < (2 / 3)) {
               this.setState(curr => ({
