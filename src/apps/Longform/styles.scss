@@ -105,8 +105,10 @@
   .covid-longform__credits-slot {
     color: #383F4E;
     display: flex;
+    z-index: 2;
     justify-content: center;
-    padding: calc(40 * var(--vh)) 8px calc(60 * var(--vh)) 8px;
+    transform: translateY(calc(-0.3 * var(--len-visible-screen-height)));
+    padding: 0 8px calc(10 * var(--vh)) 8px;
     .lm-article-credits {
       max-width: 600px;
     }
