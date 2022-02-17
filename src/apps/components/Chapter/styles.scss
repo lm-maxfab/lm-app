@@ -196,9 +196,15 @@
       padding-left: var(--local-elements-side-offset);
       padding-right: var(--local-elements-side-offset);
 
+      max-width: 70%;
+     
       @media screen and (max-width: 1200px) {
         font-size: 17px;
         line-height: 27px;
+      }
+      
+      @media screen and (max-width: 1024px) {
+        max-width: 400px;
       }
 
       // @media screen and (max-width: 1024px) {
