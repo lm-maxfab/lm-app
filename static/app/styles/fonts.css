@@ -126,6 +126,16 @@
     url(../fonts/marr-sans/MarrSans-Bold-Web.woff) format("woff");
 }
 
+/* Bold */
+@font-face {
+  font-family: "Marr-Sans";
+  font-display: swap;
+  font-style: normal;
+  font-weight: 900;
+  src: url(../fonts/marr-sans/MarrSans-UltraBlack-Web.woff2) format("woff2"),
+    url(../fonts/marr-sans/MarrSans-UltraBlack-Web.woff) format("woff");
+}
+
 /* * * * * * * * * * * * * * *
  *
  * MARR SANS CONDENSED
