@@ -11,22 +11,18 @@
   line-height: 1.5;
   color: #FCFCFD;
   text-align: center;
-  transition: opacity 600ms 300ms;
+  transition: opacity 600ms 100ms;
 
   @media screen and (max-width: 1200px) {
     font-size: 16px;
   }
 
   @media screen and (max-width: 800px) {
-    font-size: 14px;
-  }
-
-  @media screen and (max-width: 640px) {
-    font-size: 13px;
+    font-size: 15px;
   }
 
   p {
-    margin-bottom: 12px;
+    margin-bottom: 1em;
   }
 
   &.covid-intro_inactive {

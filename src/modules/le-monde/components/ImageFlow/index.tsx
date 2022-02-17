@@ -40,7 +40,7 @@ class ImageFlow extends Component<Props, {}> {
     /* Display */
     return (
       <div
-      style={wrapperStyle}
+        style={wrapperStyle}
         className={wrapperClasses.value}>
         {props.images?.map(image => {
           const slotStyle: JSX.CSSProperties = { height: image.slotHeight }

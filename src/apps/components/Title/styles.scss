@@ -1,7 +1,7 @@
 .covid-title {
   text-align: center;
   opacity: 1;
-  transition: opacity 600ms 300ms;
+  transition: opacity 600ms 100ms;
 
   font-family: var(--ff-marr-sans);
   font-size: 52px;
@@ -15,6 +15,10 @@
 
   @media screen and (max-width: 800px) {
     font-size: 29px;
+  }
+
+  p {
+    margin-bottom: 0 !important;
   }
 
   p:nth-child(1) {

@@ -65,8 +65,8 @@ class Longform extends Component<Props, State> {
     const creditsData = props.sheetBase.collection('credits').entries[0].value as unknown as CreditsData
 
     // Logic
-    const showImageFlipper = ['init', 'kicker', 'intro', 'title'].includes(currentPageValue)
-    const introIsActive = ['init', 'kicker', 'intro'].includes(currentPageValue)
+    const showImageFlipper = ['init', 'title', 'intro'].includes(currentPageValue)
+    const introIsActive = ['init', 'intro'].includes(currentPageValue)
     const titleIsActive = ['title'].includes(currentPageValue)
     const consolidatedChaptersData: ChapterData[] = chaptersData.map(chapter => {
       const imageFlowData = [{
@@ -151,17 +151,17 @@ class Longform extends Component<Props, State> {
       }
     })
     const logoColors = {
-      main: ['init', 'kicker', 'intro', 'title'].includes(currentPageValue)
+      main: ['init', 'title', 'intro'].includes(currentPageValue)
         ? undefined
         : 'rgb(27, 23, 27)',
-      shadow: ['init', 'kicker', 'intro', 'title'].includes(currentPageValue)
+      shadow: ['init', 'title', 'intro'].includes(currentPageValue)
         ? undefined
         : 'rgb(27, 23, 27, .6)'
     }
 
     let arrowOpacity = 0
-    if (state.currentPageValue === 'init' || state.currentPageValue === 'kicker') arrowOpacity = 1
-    else if (state.currentPageValue === 'intro' || state.currentPageValue === 'title') arrowOpacity = .3
+    if (state.currentPageValue === 'init' || state.currentPageValue === 'title') arrowOpacity = 1
+    else if (state.currentPageValue === 'intro') arrowOpacity = .3
 
     // Assign classes and styles
     const wrapperClasses = bem(props.className).block(this.clss)
@@ -210,8 +210,19 @@ class Longform extends Component<Props, State> {
       <Paginator
         onPageChange={this.handlePageChange}>
 
+        {/* Title */}
+        <Paginator.Page value='title'>
+          <div className={bem(this.clss).elt('title-slot').value}>
+            <div className={bem(this.clss).elt('title-slot-inner').value}>
+              <Title
+                content={introData.title}
+                isActive={titleIsActive} />
+            </div>
+          </div>
+        </Paginator.Page>
+
         {/* Kicker */}
-        <Paginator.Page value='kicker'>
+        {/* <Paginator.Page value='kicker'>
           <div className={bem(this.clss).elt('kicker-slot').value}>
             <div className={bem(this.clss).elt('kicker-slot-inner').value}>
               <Kicker
@@ -219,7 +230,7 @@ class Longform extends Component<Props, State> {
                 isActive={introIsActive} />
             </div>
           </div>
-        </Paginator.Page>
+        </Paginator.Page> */}
 
         {/* Intro */}
         <Paginator.Page value='intro'>
@@ -228,17 +239,6 @@ class Longform extends Component<Props, State> {
               <Intro
                 content={introData.paragraph}
                 isActive={introIsActive} />
-            </div>
-          </div>
-        </Paginator.Page>
-
-        {/* Title */}
-        <Paginator.Page value='title'>
-          <div className={bem(this.clss).elt('title-slot').value}>
-            <div className={bem(this.clss).elt('title-slot-inner').value}>
-              <Title
-                content={introData.title}
-                isActive={titleIsActive} />
             </div>
           </div>
         </Paginator.Page>

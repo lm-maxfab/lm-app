@@ -1,14 +1,15 @@
 .covid-chapter {
   --local-em-bg-color: #EACFB6;
-  --local-chapter-padding-bottom: calc(0.6 * var(--len-visible-screen-height));
+  --local-chapter-padding-bottom: calc(0.3 * var(--len-visible-screen-height));
   --local-content-padding: 80px;
   --local-elements-margin-bottom: 56px;
-  --local-elements-side-offset: 64px;
+  --local-elements-side-offset: 0px; /* 64px; */
 
   @media screen and (max-width: 1280px) {
     --local-content-padding: 64px;
     --local-elements-margin-bottom: 40px;
     --local-elements-side-offset: 48px;
+    --local-chapter-padding-bottom: calc(0.4 * var(--len-visible-screen-height));
   }
 
   @media screen and (max-width: 1200px) {
@@ -80,9 +81,6 @@
     em {
       font-style: normal;
       background-color: var(--local-em-bg-color);
-      box-shadow:
-        .125em 0 var(--local-em-bg-color),
-        -.125em 0 var(--local-em-bg-color);
     }
 
     .covid-chapter__supertitle-separator,
@@ -109,7 +107,7 @@
       max-width: 70%;
 
       @media screen and (max-width: 1024px) {
-        max-width: unset;
+        max-width: 400px;
       }
     }
 
@@ -131,7 +129,7 @@
       }
 
       @media screen and (max-width: 1024px) {
-        max-width: unset;
+        max-width: 400px;
       }
 
       @media screen and (max-width: 800px) {
@@ -159,7 +157,7 @@
       max-width: 70%;
 
       @media screen and (max-width: 1024px) {
-        max-width: unset;
+        max-width: 400px;
       }
     }
 
@@ -177,7 +175,7 @@
       }
 
       @media screen and (max-width: 1024px) {
-        max-width: unset;
+        max-width: 640px;
       }
 
       @media screen and (max-width: 800px) {
@@ -199,11 +197,16 @@
 
       @media screen and (max-width: 1200px) {
         font-size: 17px;
+        line-height: 27px;
       }
+
+      // @media screen and (max-width: 1024px) {
+      //   max-width: 640px;
+      // }
       
-      @media screen and (max-width: 800px) {
-        font-size: 16px;
-      }
+      // @media screen and (max-width: 800px) {
+      //   font-size: 16px;
+      // }
 
       p {
         margin-bottom: 1em;

@@ -63,12 +63,10 @@ class ImageFlipper extends Component<Props, State> {
           play
           tempo={40}
           onStepChange={() => {
-            if (Math.random() < (2 / 3)) {
-              this.setState(curr => ({
-                ...curr,
-                step: curr.step + 1
-              }))
-            }
+            this.setState(curr => ({
+              ...curr,
+              step: curr.step + 1
+            }))
           }}
           renderer={() => {
             const { step } = state
