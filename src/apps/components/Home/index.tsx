@@ -15,6 +15,7 @@ interface Props {
   kicker?: VNode|string
   intro?: VNode|string
   playAnimation?: boolean
+  hideImage?: boolean
 }
 
 interface State {
@@ -41,8 +42,8 @@ class Home extends Component<Props, {}> {
   }
 
   handleStepChange (args: RendererArgs) {
-    const { step } = args
-    this.setState({ animationStep: step })
+    const { value } = args
+    this.setState({ animationStep: value })
   }
 
   /* * * * * * * * * * * * * * *
@@ -51,21 +52,26 @@ class Home extends Component<Props, {}> {
   render (): JSX.Element|null {
     const { props, state } = this
 
+    /* Logic */
+    const playAnimation = props.playAnimation
+      && !state.sequencerHasLooped
+
     /* Classes and style */
     const wrapperClasses = bem(props.className)
       .block(this.clss)
       .mod({
-        'show-first-block': state.animationStep >= 1,
-        'show-second-block': state.animationStep >= 2,
-        'show-third-block': state.animationStep >= 3
+        'show-opacifier': state.animationStep >= 1,
+        'show-title': state.animationStep >= 3,
+        'show-kicker': state.animationStep >= 5,
+        'show-intro': state.animationStep >= 9,
+        'hide-image': props.hideImage
       })
     const wrapperStyle: JSX.CSSProperties = { ...props.style }
-
     const imageStyle: JSX.CSSProperties = {
       backgroundImage: `url(${props.bgImageUrl})`,
       backgroundSize: props.bgSize,
       backgroundPosition: props.bgPosition,
-      opacity: props.bgOpacity
+      '--img-opacity': props.bgOpacity
     }
 
     /* Display */
@@ -74,15 +80,18 @@ class Home extends Component<Props, {}> {
         className={wrapperClasses.value}
         style={wrapperStyle}>
         <Sequencer
-          play={props.playAnimation && !state.sequencerHasLooped}
-          sequence={[0, 1, 2, 3]}
-          tempo={60}
+          play={playAnimation}
+          length={15}
+          tempo={140}
           onStepChange={this.handleStepChange}
           onLastStep={this.handleSequencerLastStep}>
           {props.bgImageUrl && <div className={bem(this.clss).elt('image').value} style={imageStyle} />}
-          {props.title && <h1 className={bem(this.clss).elt('title').value}>{props.title}</h1>}
-          {props.kicker && <p className={bem(this.clss).elt('kicker').value}>{props.kicker}</p>}
-          {props.intro && <p className={bem(this.clss).elt('intro').value}>{props.intro}</p>}
+          <div className={bem(this.clss).elt('opacifier').value} />
+          <div className={bem(this.clss).elt('text-wrapper').value}>
+            {props.title && <h1 className={bem(this.clss).elt('title').value}>{props.title}</h1>}
+            {props.kicker && <p className={bem(this.clss).elt('kicker').value}>{props.kicker}</p>}
+            {props.intro && <p className={bem(this.clss).elt('intro').value}>{props.intro}</p>}
+          </div>
         </Sequencer>
       </div>
     )

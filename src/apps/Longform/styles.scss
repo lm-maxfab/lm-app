@@ -13,6 +13,7 @@
   }
 
   .illus21-longform__home {
+    z-index: 1;
     position: relative;
     width: calc(100 * var(--vw));
     height: calc(var(--len-visible-screen-height) + calc(30 * var(--vh)));
@@ -43,6 +44,11 @@
     }
   }
 
+  .illus21-longform__chapters {
+    z-index: 3;
+    position: relative;
+  }
+
   .illus21-longform__chapter-head {
     position: relative;
     width: calc(100 * var(--vw));
@@ -62,6 +68,7 @@
   }
 
   .illus21-longform__credits {
+    z-index: 4;
     height: var(--len-visible-screen-height);
     padding: 0 var(--illus21-main-block-h-margin);
 

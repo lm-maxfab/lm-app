@@ -1,69 +1,94 @@
 .illus21-home {
   position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  text-align: center;
+  // display: flex;
+  // justify-content: flex-end;
+  // align-items: center;
+  // flex-direction: column;
+  // text-align: center;
 
   .illus21-home__image {
-    position: absolute;
+    position: fixed;
     z-index: 1;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     background-repeat: no-repeat;
+    opacity: var(--img-opacity);
+    transition: opacity 1s;
+  }
+
+  &.illus21-home_hide-image {
+    .illus21-home__image {
+      opacity: 0;
+    }
+  }
+
+  .illus21-home__opacifier {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    z-index: 2;
+    opacity: 0;
+    transition: opacity 1s ease-out;
+  }
+
+  &.illus21-home_show-opacifier {
+    .illus21-home__opacifier {
+      opacity: .4;
+    }
+  }
+
+  .illus21-home__text-wrapper {
+    position: absolute;
+    top: 80%;
+    left: 50%;
+    z-index: 3;
+    transform: translate(-50%, -80%);
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
   }
   
   .illus21-home__title,
   .illus21-home__kicker,
   .illus21-home__intro {
-    opacity: 0;
-    transition: opacity 1200ms;
     position: relative;
-    z-index: 2;
-  }
-
-  &.illus21-home_show-first-block {
-    .illus21-home__title {
-      opacity: 1;
-    }
-  }
-
-  &.illus21-home_show-second-block {
-    .illus21-home__title,
-    .illus21-home__kicker {
-      opacity: 1;
-    }
-  }
-
-  &.illus21-home_show-third-block {
-    .illus21-home__title,
-    .illus21-home__kicker,
-    .illus21-home__intro {
-      opacity: 1;
-    }
   }
   
   .illus21-home__title {
     font-family: var(--ff-the-antiqua-b);
     color: #FCFCFD;
-    font-size: 62px;
+    font-size: 48px;
     line-height: 1.2;
     margin-bottom: 24px;
     max-width: 670px;
+    opacity: 0;
+    transform: translateY(calc(.05 * var(--len-visible-screen-height)));
+    transition: opacity 1000ms ease-out, transform 1000ms ease-out;
   
     @media screen and (max-width: 1200px) {
-      font-size: 44px;
+      font-size: 42px;
       max-width: 440px;
       margin-bottom: 20px;
     }
   
     @media screen and (max-width: 800px) {
-      font-size: 26px;
+      font-size: 24px;
       max-width: 282px;
       margin-bottom: 16px;
+    }
+  }
+
+  &.illus21-home_show-title {
+    .illus21-home__title {
+      opacity: 1;
+      transform: translateY(0);
     }
   }
   
@@ -72,9 +97,40 @@
     color: #FCFCFD;
     font-size: 28px;
     line-height: 1.25;
+    margin-bottom: 48px;
+    opacity: 0;
+    transform: translateY(calc(.04 * var(--len-visible-screen-height)));
+    transition: opacity 1000ms ease-out, transform 1000ms ease-out;
   
     @media screen and (max-width: 1200px) {
       font-size: 23px;
+      margin-bottom: 40px;
+    }
+  
+    @media screen and (max-width: 800px) {
+      font-size: 18px;
+      margin-bottom: 32px;
+    }
+  }
+
+  &.illus21-home_show-kicker {
+    .illus21-home__kicker {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .illus21-home__intro {
+    font-family: var(--ff-the-antiqua-b);
+    color: #FCFCFD;
+    font-size: 20px;
+    line-height: 1.25;
+    opacity: 0;
+    transform: translateY(calc(.01 * var(--len-visible-screen-height)));
+    transition: opacity 1000ms ease-out, transform 1000ms ease-out;
+  
+    @media screen and (max-width: 1200px) {
+      font-size: 19px;
     }
   
     @media screen and (max-width: 800px) {
@@ -82,19 +138,10 @@
     }
   }
 
-  .illus21-home__intro {
-    font-family: var(--ff-the-antiqua-b);
-    color: #FCFCFD;
-    font-size: 28px;
-    line-height: 1.25;
-  
-    @media screen and (max-width: 1200px) {
-      font-size: 23px;
-    }
-  
-    @media screen and (max-width: 800px) {
-      font-size: 18px;
+  &.illus21-home_show-intro {
+    .illus21-home__intro {
+      opacity: 1;
+      transform: translateY(0);
     }
   }
-  
 }

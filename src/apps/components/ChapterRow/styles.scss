@@ -1,11 +1,6 @@
 .illus21-chapter-row {
   position: relative;
 
-  scrollbar-width: 0;
-  &::-webkit-scrollbar {
-    display: none;
-  }
-
   .illus21-chapter-row__fixed-stuff {
     opacity: 0;
     height: 0;
@@ -155,6 +150,12 @@
     align-items: flex-start;
     overflow-x: scroll;
     overflow-y: hidden;
+
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+      display: none;
+      -ms-overflow-style: none;
+    }
 
     .illus21-chapter-row__image-block {
       --illus21-chapter-row-this-img-block-width: calc(var(--illus21-chapter-row-this-img-block-percent-width) * var(--vw));

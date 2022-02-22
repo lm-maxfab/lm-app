@@ -26,7 +26,7 @@ class Longform extends Component<Props, State> {
   static clss: string = 'illus21-longform'
   clss = Longform.clss
   state: State = {
-    currentPage: null,
+    currentPage: 'init',
     currentChapter: null,
     currentChapterRow: null
   }
@@ -55,6 +55,8 @@ class Longform extends Component<Props, State> {
    * * * * * * * * * * * * * * */
   render (): JSX.Element {
     const { props, state } = this
+
+    console.log(state.currentPage)
 
     // Pull and reorganize data
     const homeData = (props.sheetBase.collection('home').entry('1').value as unknown as HomeData)
@@ -106,6 +108,8 @@ class Longform extends Component<Props, State> {
         <div
           style={wrapperStyle}
           className={wrapperClasses.value}>
+
+          <div style={{ position: 'fixed', right: '0', top: 0, zIndex: 10 }}>{state.currentPage}</div>
           
           {/* HEADER */}
           <Header className={bem(this.clss).elt('header').value} />
@@ -119,6 +123,7 @@ class Longform extends Component<Props, State> {
             <Paginator.Page value='home'>
               <div className={bem(this.clss).elt('home').value}>
                 <Home
+                  hideImage={state.currentPage !== 'home' && state.currentPage !== 'init'}
                   playAnimation={state.currentPage === 'home'}
                   bgImageUrl={homeData.bg_image_url}
                   bgSize={homeData.bg_size}
