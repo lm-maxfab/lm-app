@@ -56,8 +56,6 @@ class Longform extends Component<Props, State> {
   render (): JSX.Element {
     const { props, state } = this
 
-    console.log(state.currentPage)
-
     // Pull and reorganize data
     const homeData = (props.sheetBase.collection('home').entry('1').value as unknown as HomeData)
     const chaptersData = (props.sheetBase.collection('chapters').value as unknown as ChapterData[])

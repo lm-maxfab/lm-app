@@ -1,7 +1,8 @@
-import Longform from './Longform'
+// import Longform from './Longform'
+import Test from './Test'
 
 const rendered = [
-  { app: Longform, rootNodeClass: 'illus21-longform-root' }
+  { app: Test, rootNodeClass: 'illus21-longform-root' }
 ]
 
 export default rendered
