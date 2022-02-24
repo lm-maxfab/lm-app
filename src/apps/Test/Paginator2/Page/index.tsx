@@ -1,8 +1,6 @@
 import { Component, JSX } from 'preact'
 import bem from '../../../../modules/le-monde/utils/bem'
 
-import './styles.scss'
-
 interface Props {
   className?: string
   style?: JSX.CSSProperties

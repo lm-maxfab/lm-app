@@ -13,18 +13,20 @@ interface PagePositionAndValue {
 interface Props {
   className?: string
   style?: JSX.CSSProperties
-  direction?: 'horizontal'|'vertical'
   root?: 'self'|'window'
+  direction?: 'horizontal'|'vertical'
   tresholdOffset?: string
   delay?: number
   intervalCheck?: boolean
-  onPageChange?: (state: State) => void
+  onPageChange?: (value: State['value'], state?: State) => void
 }
 
 interface State {
   passed: PagePositionAndValue[]
   active: PagePositionAndValue[]
   coming: PagePositionAndValue[]
+  direction: 'forwards'|'backwards'|null
+  value: any
 }
 
 class Paginator extends Component<Props, State> {
@@ -34,7 +36,9 @@ class Paginator extends Component<Props, State> {
   state: State = {
     passed: [],
     active: [],
-    coming: []
+    coming: [],
+    direction: null,
+    value: undefined
   }
   childrenRefs: Page[] = []
   $thresholdBar: HTMLDivElement|null = null
@@ -140,17 +144,28 @@ class Paginator extends Component<Props, State> {
       const currPassedStr = curr.passed.sort(e => e.position).map(e => `${e.position}`).join(',')
       const currActiveStr = curr.active.sort(e => e.position).map(e => `${e.position}`).join(',')
       const currComingStr = curr.coming.sort(e => e.position).map(e => `${e.position}`).join(',')
+      
       const passedStr = passedChildrenRefs.sort(ref => ref.props.position ?? 0).map(ref => `${ref.props.position ?? 0}`).join(',')
       const activeStr = activeChildrenRefs.sort(ref => ref.props.position ?? 0).map(ref => `${ref.props.position ?? 0}`).join(',')
       const comingStr = comingChildrenRefs.sort(ref => ref.props.position ?? 0).map(ref => `${ref.props.position ?? 0}`).join(',')
+      
       if (currPassedStr === passedStr
         && currActiveStr === activeStr
         && currComingStr === comingStr) return null
+      
       const passed = passedChildrenRefs.map(ref => ({ position: ref.props.position ?? 0, value: ref.props.value })).sort(e => e.position)
       const active = activeChildrenRefs.map(ref => ({ position: ref.props.position ?? 0, value: ref.props.value })).sort(e => e.position)
       const coming = comingChildrenRefs.map(ref => ({ position: ref.props.position ?? 0, value: ref.props.value })).sort(e => e.position)
-      if (this.props.onPageChange) this.props.onPageChange({ passed, active, coming })
-      return { passed, active, coming }
+      const value = active[0]?.value
+      
+      let direction: 'forwards'|'backwards'|null = null
+      if (curr.passed.length < passed.length) { direction = 'forwards' }
+      else if (curr.passed.length > passed.length) { direction = 'backwards' }
+
+      const newState = { passed, active, coming, direction, value }
+
+      if (this.props.onPageChange) this.props.onPageChange(newState.value, newState)
+      return newState
     })
   }
 
@@ -177,7 +192,7 @@ class Paginator extends Component<Props, State> {
    * RENDER
    * * * * * * * * * * * * * * */
   render (): JSX.Element|null {
-    const { props } = this
+    const { props, state } = this
 
     /* Classes and style */
     const wrapperClasses = bem(props.className)

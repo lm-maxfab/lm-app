@@ -1,7 +1,7 @@
 import { Component, JSX } from 'preact'
 import wrapper, { InjectedProps } from '../../wrapper'
 import bem from '../../modules/le-monde/utils/bem'
-import Paginator from '../../modules/le-monde/components/Paginator'
+import Paginator from '../../modules/le-monde/components/Paginator2'
 import Header from '../components/Header'
 import Home from '../components/Home'
 import ChapterHead from '../components/ChapterHead'
@@ -39,14 +39,17 @@ class Longform extends Component<Props, State> {
   }
 
   handlePageChange (val: any) {
+    console.log('PAGE CHANGE', val)
     this.setState({ currentPage: val })
   }
   
   handleChapterChange (val: any) {
+    console.log('CHAPTER CHANGE', val)
     this.setState({ currentChapter: val })
   }
   
   handleChapterRowChange (val: any) {
+    console.log('ROW CHANGE', val)
     this.setState({ currentChapterRow: val })
   }
 
@@ -106,15 +109,14 @@ class Longform extends Component<Props, State> {
         <div
           style={wrapperStyle}
           className={wrapperClasses.value}>
-
-          <div style={{ position: 'fixed', right: '0', top: 0, zIndex: 10 }}>{state.currentPage}</div>
           
           {/* HEADER */}
           <Header className={bem(this.clss).elt('header').value} />
 
           {/* PAGES */}
           <Paginator
-            triggerBound='bottom'
+            style={{ zIndex: 1 }}
+            thresholdOffset='75%'
             onPageChange={this.handlePageChange}>
             
             {/* HOME */}
@@ -144,7 +146,7 @@ class Longform extends Component<Props, State> {
             <Paginator.Page value='chapters'>
               <div className={bem(this.clss).elt('chapters').value}>
                 <Paginator
-                  triggerBound='bottom'
+                  thresholdOffset='75%'
                   onPageChange={this.handleChapterChange}>
                   
                   {/* CHAPTER */}
@@ -162,7 +164,7 @@ class Longform extends Component<Props, State> {
 
                         {/* CHAPTER ROWS */}
                         <Paginator
-                          triggerBound='bottom'
+                          thresholdOffset='75%'
                           onPageChange={this.handleChapterRowChange}>
 
                           {/* CHAPTER ROW */}

@@ -7,7 +7,13 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgb(0, 0, 0, .9);
+    z-index: 1;
+    opacity: 0;
+    visibility: hidden;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
   }
 
   &.lm-paginator_self-rooted {
@@ -22,38 +28,29 @@
     }
   }
 
-  .lm-paginator__threshold-bar {
-    z-index: 2;
-  }
-
   &.lm-paginator_horizontal {
     .lm-paginator__threshold-bar {
       position: absolute;
-      width: 2px;
+      width: 0px;
       top: 0;
       bottom: 0;
       left: var(--threshold-offset);
-      transform: translateX(-50%);
-      background-color: red;
     }
   }
 
   &.lm-paginator_vertical {
     .lm-paginator__threshold-bar {
       position: absolute;
-      height: 2px;
+      height: 0px;
       left: 0;
       right: 0;
       top: var(--threshold-offset);
-      transform: translateY(-50%);
-      background-color: red;
     }
   }
 
   .lm-paginator__scrollable-area {
     position: relative;
-    z-index: 1;
-    opacity: .5;
+    z-index: 2;
     display: flex;
     flex-wrap: nowrap;
     overflow: scroll;

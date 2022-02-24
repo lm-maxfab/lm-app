@@ -24,47 +24,34 @@ class Longform extends Component<Props, State> {
       ...props.style,
       marginTop: 'var(--len-nav-height)'
     }
-    const paginatorStyle: JSX.CSSProperties = {
-      // marginLeft: '30px',
-      // marginTop: '200px',
-      // marginBottom: '200px',
-      
-      
-      width: '800px',
-      height: '800px',
-      
-      backgroundColor: 'cornflowerblue'
-    }
 
     // Display
     return <div
       style={wrapperStyle}
       className={wrapperClasses.value}>
       <Paginator
-        root='self'
-        direction='horizontal'
+        root='window'
+        delay={50}
+        direction='vertical'
         tresholdOffset='10%'
-        onPageChange={() => {
-          console.log('page change!')
-        }}
-        style={paginatorStyle}>
+        onPageChange={value => console.log('page change!', value)}>
         <Paginator.Page value='première'>Child</Paginator.Page>
         <Paginator.Page style={{ backgroundColor: 'blue' }}>Child</Paginator.Page>
-        <Paginator.Page>Child</Paginator.Page>
-        <Paginator.Page style={{ backgroundColor: 'blue' }}>Child</Paginator.Page>
+        <Paginator.Page value='lol'>Child</Paginator.Page>
+        <Paginator.Page value='lol' style={{ backgroundColor: 'blue' }}>Child</Paginator.Page>
         <span>COUCOU</span>
-        <Paginator.Page>Child</Paginator.Page>
-        <Paginator.Page style={{ backgroundColor: 'blue' }}>Child</Paginator.Page>
-        <Paginator.Page>Child</Paginator.Page>
-        <Paginator.Page style={{ backgroundColor: 'blue' }}>Child</Paginator.Page>
+        <Paginator.Page value='lol'>Child</Paginator.Page>
+        <Paginator.Page value='lol' style={{ backgroundColor: 'blue' }}>Child</Paginator.Page>
+        <Paginator.Page value='lol'>Child</Paginator.Page>
+        <Paginator.Page value='lol' style={{ backgroundColor: 'blue' }}>Child</Paginator.Page>
         <span>COUCOU</span>
-        <Paginator.Page>Child</Paginator.Page>
-        <Paginator.Page style={{ backgroundColor: 'blue' }}>Child</Paginator.Page>
-        <Paginator.Page>Child</Paginator.Page>
-        <Paginator.Page style={{ backgroundColor: 'blue' }}>Child</Paginator.Page>
+        <Paginator.Page value='lol'>Child</Paginator.Page>
+        <Paginator.Page value='lol' style={{ backgroundColor: 'blue' }}>Child</Paginator.Page>
+        <Paginator.Page value='lol'>Child</Paginator.Page>
+        <Paginator.Page value='lol' style={{ backgroundColor: 'blue' }}>Child</Paginator.Page>
         <span>COUCOU</span>
-        <Paginator.Page>Child</Paginator.Page>
-        <Paginator.Page style={{ backgroundColor: 'blue' }}>Child</Paginator.Page>
+        <Paginator.Page value='lol'>Child</Paginator.Page>
+        <Paginator.Page value='lol' style={{ backgroundColor: 'blue' }}>Child</Paginator.Page>
         <Paginator.Page>Child</Paginator.Page>
         <Paginator.Page style={{ backgroundColor: 'blue' }}>Child</Paginator.Page>
         <span>COUCOU</span>
