@@ -1,73 +1,55 @@
-import { Component, JSX, toChildArray, cloneElement } from 'preact'
-
-interface BoundPositionInScreen {
-  fromTop: number
-  fromBottom: number
-}
-
-interface PositionInScreen {
-  top: BoundPositionInScreen
-  bottom: BoundPositionInScreen
-}
+import { Component, JSX } from 'preact'
+import bem from '../../../utils/bem'
 
 interface Props {
+  className?: string
+  style?: JSX.CSSProperties
   value?: any
+  position?: number
 }
 
 class Page extends Component<Props, {}> {
-  value: any
-  $root: any = null
-  
+  static clss = 'lm-paginator-page'
+  clss = Page.clss
+  $root: HTMLDivElement|null = null
+
   /* * * * * * * * * * * * * * *
-   * CONSTRUCTOR & LIFE CYCLE
+   * CONSTRUCTOR
    * * * * * * * * * * * * * * */
   constructor (props: Props) {
     super(props)
-    this.value = props.value
-    this.getBoundingClientRect = this.getBoundingClientRect.bind(this)
-    this.getPositionInScreen = this.getPositionInScreen.bind(this)
-    this.cloneChildren = this.cloneChildren.bind(this)
+    this.getRect = this.getRect.bind(this)
   }
 
   /* * * * * * * * * * * * * * *
    * METHODS
    * * * * * * * * * * * * * * */
-  getBoundingClientRect (): DOMRect|null {
+  getRect () {
     if (this.$root === null) return null
     return this.$root.getBoundingClientRect()
-  }
-
-  getPositionInScreen (): PositionInScreen|null {
-    const boundingClientRect = this.getBoundingClientRect()
-    if (boundingClientRect === null) return null
-    const viewportHeight = window.innerHeight
-    const { top, bottom } = boundingClientRect
-    return {
-      top: { fromTop: top, fromBottom: top - viewportHeight },
-      bottom: { fromTop: bottom, fromBottom: bottom - viewportHeight }
-    }
-  }
-
-  cloneChildren (): JSX.Element {
-    const children = toChildArray(this.props.children)
-    const ref = (node: any) => { this.$root = node }
-    if (children.length !== 1) return <span ref={ref}>{children}</span>
-    else {
-      const child = children[0]
-      if (typeof child !== 'object') return <span ref={ref}>{child}</span>
-      else if (child.type === Page || typeof child.type === 'string') return cloneElement(child, { ref })
-      else return <span ref={ref}>{child}</span>
-    }
   }
 
   /* * * * * * * * * * * * * * *
    * RENDER
    * * * * * * * * * * * * * * */
-  render (): JSX.Element {
-    this.value = this.props.value
-    return this.cloneChildren()
+  render (): JSX.Element|null {
+    const { props } = this
+
+    /* Classes and style */
+    const wrapperClasses = bem(props.className).block(this.clss)
+    const wrapperStyle: JSX.CSSProperties = { ...props.style }
+
+    /* Display */
+    return (
+      <div
+        ref={n => { this.$root = n }}
+        style={wrapperStyle}
+        className={wrapperClasses.value}>
+        {props.children}
+      </div>
+    )
   }
 }
 
-export type { Props, BoundPositionInScreen, PositionInScreen }
+export type { Props }
 export default Page
