@@ -41,9 +41,9 @@ async function fetchSheetBase () {
 
 function renderApp (sheetBase?: SheetBase): void {
   // DELETE HEADER
-  const headerSelectors = '.Header__nav-container, #Header, .multimediaNav'
-  const headerElements = [...document.querySelectorAll(headerSelectors)]
-  headerElements.forEach(element => element.remove())
+  // const headerSelectors = '.Header__nav-container, #Header, .multimediaNav'
+  // const headerElements = [...document.querySelectorAll(headerSelectors)]
+  // headerElements.forEach(element => element.remove())
 
   silentLogger.log('Start rendering apps...')  
   renderList.map(toRender => {
