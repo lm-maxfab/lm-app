@@ -25,7 +25,7 @@
 
   /* Photo top right */
   &.illus21-image-block_photo-top-right {
-    padding-left: var(--illus21-main-block-h-margin);
+    padding-left: calc(var(--illus21-main-block-h-margin) * 2);
 
     grid-template-columns: var(--illus21-image-block-side-panel-max-width) 1fr auto;
     grid-template-rows: auto auto 32px;
@@ -69,7 +69,7 @@
 
   /* Photo top left */
   &.illus21-image-block_photo-top-left {
-    padding-right: var(--illus21-main-block-h-margin);
+    padding-right: calc(var(--illus21-main-block-h-margin) * 2);
 
     grid-template-columns: auto var(--illus21-image-block-side-panel-max-width) 1fr;
     grid-template-rows: auto auto 32px;

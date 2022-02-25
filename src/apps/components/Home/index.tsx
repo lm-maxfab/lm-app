@@ -90,7 +90,7 @@ class Home extends Component<Props, {}> {
           <div className={bem(this.clss).elt('text-wrapper').value}>
             {props.title && <h1 className={bem(this.clss).elt('title').value}>{props.title}</h1>}
             {props.kicker && <p className={bem(this.clss).elt('kicker').value}>{props.kicker}</p>}
-            {props.intro && <p className={bem(this.clss).elt('intro').value}>{props.intro}</p>}
+            {/* {props.intro && <p className={bem(this.clss).elt('intro').value}>{props.intro}</p>} */}
           </div>
         </Sequencer>
       </div>

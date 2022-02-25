@@ -38,20 +38,9 @@ class Longform extends Component<Props, State> {
     this.handleChapterRowChange = this.handleChapterRowChange.bind(this)
   }
 
-  handlePageChange (val: any) {
-    console.log('PAGE CHANGE', val)
-    this.setState({ currentPage: val })
-  }
-  
-  handleChapterChange (val: any) {
-    console.log('CHAPTER CHANGE', val)
-    this.setState({ currentChapter: val })
-  }
-  
-  handleChapterRowChange (val: any) {
-    console.log('ROW CHANGE', val)
-    this.setState({ currentChapterRow: val })
-  }
+  handlePageChange (val: any) { this.setState({ currentPage: val }) }
+  handleChapterChange (val: any) { this.setState({ currentChapter: val }) }
+  handleChapterRowChange (val: any) { this.setState({ currentChapterRow: val }) }
 
   /* * * * * * * * * * * * * * *
    * RENDER
@@ -60,7 +49,7 @@ class Longform extends Component<Props, State> {
     const { props, state } = this
 
     // Pull and reorganize data
-    const homeData = (props.sheetBase.collection('home').entry('1').value as unknown as HomeData)
+    const homeData = (props.sheetBase.collection('home').entries[0].value as unknown as HomeData)
     const chaptersData = (props.sheetBase.collection('chapters').value as unknown as ChapterData[])
     const imageBlocksData = (props.sheetBase.collection('image_blocks').value as unknown as ImageBlockData[])
     const creditsData = (props.sheetBase.collection('credits_content').entries[0].value as unknown as CreditsData)
@@ -123,8 +112,8 @@ class Longform extends Component<Props, State> {
             <Paginator.Page value='home'>
               <div className={bem(this.clss).elt('home').value}>
                 <Home
-                  hideImage={state.currentPage !== 'home' && state.currentPage !== 'init'}
-                  playAnimation={state.currentPage === 'home'}
+                  hideImage={!['init' ,'home', 'intro'].includes(state.currentPage)}
+                  playAnimation={['home'].includes(state.currentPage)}
                   bgImageUrl={homeData.bg_image_url}
                   bgSize={homeData.bg_size}
                   bgPosition={homeData.bg_position}
@@ -136,11 +125,11 @@ class Longform extends Component<Props, State> {
             </Paginator.Page>
             
             {/* INTRO */}
-            {/* <Paginator.Page value='intro'>
+            <Paginator.Page value='intro'>
               <div className={bem(this.clss).elt('intro').value}>
                 <ChapterHead kicker={homeData.intro} />
               </div>
-            </Paginator.Page> */}
+            </Paginator.Page>
 
             {/* CHAPTERS */}
             <Paginator.Page value='chapters'>
@@ -177,7 +166,7 @@ class Longform extends Component<Props, State> {
                               && chapterPos === state.currentChapter
                               && rowPos === state.currentChapterRow
                             return <Paginator.Page value={rowPos}>
-                              <div className={bem(this.clss).elt('chapter-row').value}>
+                              <div className={bem(this.clss).elt('chapter-row').mod({ 'in-screen': shouldShowFixedStuff }).value}>
                                 <ChapterRow
                                   loadImages={shouldShowFixedStuff}
                                   showFixedStuff={shouldShowFixedStuff}
