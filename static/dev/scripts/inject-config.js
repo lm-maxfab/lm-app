@@ -4,7 +4,7 @@
   if (configPre === null) return
   const innerText = JSON.stringify({
     "assets_root_url": "",
-    "sheetbases": {
+    "spreadsheets_urls": {
       "production": "",
       "staging": "",
       "testing": "",

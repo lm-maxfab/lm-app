@@ -1,6 +1,6 @@
 import { Component, JSX, toChildArray, cloneElement } from 'preact'
 import bem from '../../utils/bem'
-import GroupDelay from '../../utils/group-delay'
+import { groupDelay } from '../../utils/group-delay'
 import Page, { Props as PageProps } from './Page'
 
 import './styles.scss'
@@ -169,10 +169,7 @@ class Paginator extends Component<Props, State> {
     })
   }
 
-  groupedCheckPages = new GroupDelay(
-    this.checkPages.bind(this),
-    this.getDelay.bind(this)()
-  ).call
+  groupedCheckPages = groupDelay(this.checkPages.bind(this), this.getDelay.bind(this)())
 
   activateIntervalChecker () {
     this.inactivateIntervalChecker()

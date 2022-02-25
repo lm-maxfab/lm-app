@@ -1,6 +1,6 @@
 {
   "assets_root_url": "",
-  "sheetbases": {
+  "spreadsheets_urls": {
     "production": "",
     "staging": "",
     "testing": "",

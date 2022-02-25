@@ -39,4 +39,7 @@ class GroupDelay {
   }
 }
 
+const groupDelay = (fn: FunctionParam, delay: DelayParam) => new GroupDelay(fn, delay).call
+
+export { groupDelay }
 export default GroupDelay

@@ -1,9 +1,9 @@
-import { Component } from 'preact'
-import { SheetBase } from './modules/le-monde/utils/sheet-base'
-import getViewportDimensions, { ViewportDimensions } from './modules/le-monde/utils/get-viewport-dimensions'
-import GroupDelay from './modules/le-monde/utils/group-delay'
-import bem from './modules/le-monde/utils/bem'
-import './wrapper.scss'
+import { Component, ComponentClass } from 'preact'
+import { SheetBase } from '../../modules/le-monde/utils/sheet-base'
+import getViewportDimensions, { ViewportDimensions } from '../../modules/le-monde/utils/get-viewport-dimensions'
+import { groupDelay } from '../../modules/le-monde/utils/group-delay'
+import bem from '../../modules/le-monde/utils/bem'
+import './styles.scss'
 
 interface Props {
   sheetBase?: SheetBase
@@ -12,25 +12,22 @@ interface Props {
 interface InjectedProps {
   className: string
   style: JSX.CSSProperties
-  sheetBase: SheetBase
-  viewportDimensions: ViewportDimensions
+  sheetBase?: SheetBase
+  viewportDimensions?: ViewportDimensions
 }
 
 interface State {
-  viewportDimensions: ViewportDimensions|null
+  viewportDimensions?: ViewportDimensions
 }
 
-// [WIP] remove any and get something smarter
-function wrapper (Wrapped: any) {
+function wrapper (Wrapped: ComponentClass<InjectedProps>) {
   return class Wrapper extends Component<Props, State> {
     static clss: string = 'lm-app'
     static wrapped = Wrapped
     clss = Wrapper.clss
     timeouts: number[] = []
     intervals: number[] = []
-    state: State = {
-      viewportDimensions: null
-    }
+    state: State = { viewportDimensions: undefined }
 
     /* * * * * * * * * * * * * * *
      * CONSTRUCTOR & LIFECYCLE
@@ -47,13 +44,8 @@ function wrapper (Wrapped: any) {
       document.addEventListener('scroll', this.groupDelayedSetViewportDimensions)
     }
   
-    componentDidMount () {
-      this.groupDelayedSetViewportDimensions()
-    }
-  
-    componentDidUpdate () {
-      this.groupDelayedSetViewportDimensions()
-    }
+    componentDidMount () { this.groupDelayedSetViewportDimensions() }
+    componentDidUpdate () { this.groupDelayedSetViewportDimensions() }
   
     componentWillUnmount () {
       this.timeouts.forEach(timeout => window.clearTimeout(timeout))
@@ -82,10 +74,7 @@ function wrapper (Wrapped: any) {
       })
     }
 
-    groupDelayedSetViewportDimensions = new GroupDelay(
-      this.setViewportDimensions.bind(this),
-      100
-    ).call
+    groupDelayedSetViewportDimensions = groupDelay(this.setViewportDimensions.bind(this), 100)
   
     /* * * * * * * * * * * * * * *
      * RENDER

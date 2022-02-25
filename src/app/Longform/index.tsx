@@ -1,9 +1,10 @@
 import { Component, JSX } from 'preact'
-import wrapper, { InjectedProps } from '../../wrapper'
+import appWrapper, { InjectedProps } from '../wrapper'
 import bem from '../../modules/le-monde/utils/bem'
 import './styles.scss'
 import ArticleHeader from '../../modules/le-monde/components/ArticleHeader'
 import ArticleCredits from '../../modules/le-monde/components/ArticleCredits'
+import Carousel from '../../modules/le-monde/components/Carousel'
 
 interface Props extends InjectedProps {}
 interface State {}
@@ -24,7 +25,7 @@ class Longform extends Component<Props, State> {
    * RENDER
    * * * * * * * * * * * * * * */
   render (): JSX.Element {
-    const { props, state } = this
+    const { props } = this
 
     // Assign classes and styles
     const wrapperClasses = bem(props.className).block(this.clss)
@@ -35,10 +36,11 @@ class Longform extends Component<Props, State> {
       style={wrapperStyle}
       className={wrapperClasses.value}>
       <ArticleHeader />
+      <Carousel />
       <ArticleCredits content='Credits.' />
     </div>
   }
 }
 
 export type { Props, Longform }
-export default wrapper(Longform)
+export default appWrapper(Longform)
