@@ -1,6 +1,6 @@
 import { Component, JSX } from 'preact'
-import bem from '../../utils/bem'
-import Svg from '../Svg'
+import bem from '../../../modules/utils/bem'
+import Svg from '../../../modules/components/Svg'
 import logoUrl from './logo.svg'
 
 import './styles.scss'

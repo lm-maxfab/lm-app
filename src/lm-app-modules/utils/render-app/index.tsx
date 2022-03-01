@@ -1,5 +1,5 @@
 import { render, ComponentClass } from 'preact'
-import { SheetBase } from '../sheet-base'
+import { SheetBase } from '../../../modules/utils/sheet-base'
 
 interface AppNodeMap {
   app: ComponentClass<{ sheetBase?: SheetBase }>,

@@ -6,6 +6,10 @@ interface Config {
     testing?: string
     developpment?: string
   }
+  layouts?: Array<{
+    name?: string
+    DOM_nodes?: string[]
+  }>
   env?: 'production'|'staging'|'testing'|'developpment'
 }
 

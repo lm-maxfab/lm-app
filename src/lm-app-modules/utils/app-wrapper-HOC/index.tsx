@@ -1,8 +1,8 @@
 import { Component, ComponentClass } from 'preact'
-import { SheetBase } from '../../modules/le-monde/utils/sheet-base'
-import getViewportDimensions, { ViewportDimensions } from '../../modules/le-monde/utils/get-viewport-dimensions'
-import { groupDelay } from '../../modules/le-monde/utils/group-delay'
-import bem from '../../modules/le-monde/utils/bem'
+import { SheetBase } from '../../../modules/utils/sheet-base'
+import getViewportDimensions, { ViewportDimensions } from '../../utils/get-viewport-dimensions'
+import { groupDelay } from '../../../modules/utils/group-delay'
+import bem from '../../../modules/utils/bem'
 import './styles.scss'
 
 interface Props {

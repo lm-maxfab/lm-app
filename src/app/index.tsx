@@ -1,9 +1,8 @@
 import Longform from './Longform'
-import { AppNodeMap } from '../modules/le-monde/utils/render-lm-app'
+import { AppNodeMap } from '../lm-app-modules/utils/render-app'
 
-const appsNodes: AppNodeMap[] = [{
-  app: Longform,
-  selector: '.covid-longform-root'
-}]
+const appsNodes: AppNodeMap[] = [
+  { app: Longform, selector: '.covid-longform-root' }
+]
 
 export default appsNodes

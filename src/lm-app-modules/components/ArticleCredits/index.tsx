@@ -1,5 +1,5 @@
 import { Component, JSX, VNode } from 'preact'
-import bem from '../../utils/bem'
+import bem from '../../../modules/utils/bem'
 
 import './styles.scss'
 

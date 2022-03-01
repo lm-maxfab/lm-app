@@ -168,8 +168,7 @@ async function build () {
       + `  indexJs:  ${DST_INDEX_JS.name}\n`
       + `  indexCss: ${DST_INDEX_CSS.name}\n`
       + '*/\n'
-    const buildVariable = `!function(){window.LM_APP_BUILD={version:'${versionName}',branch:'${branch}',time:'${buildTime.toISOString()}',vendorJs:'${DST_VENDOR_JS.name}',indexJs:'${DST_INDEX_JS.name}',indexCss:'${DST_INDEX_CSS.name}'}}();\n`
-    await DST_ROLLEDUP_JS.editQuiet(content => (buildComment + buildVariable + content))
+    await DST_ROLLEDUP_JS.editQuiet(content => (buildComment + content))
     await DST_INDEX_CSS.editQuiet(content => (buildComment + content))
     console.log(chalk.grey(buildComment.trim()))
 
