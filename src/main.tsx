@@ -14,7 +14,7 @@ window.LM_APP.renderLMApp = renderLMApp
 window.LM_APP.init = init
 
 async function init () {
-  // Read config in DOM (injected via static/dev/scripts/inject-config in dev or at build)
+  // Read config in DOM (injected on `npm run dev` or `npm run build`)
   const config = getConfig()
   if (config === undefined) throw new Error('Could not load config, app rendering stops.')
   const env = config.env ?? 'production'

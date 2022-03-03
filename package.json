@@ -6,7 +6,9 @@
     "dev": "node ./scripts/dev.mjs",
     "postdev": "vite",
     "start": "npm run dev",
-    "build": "node ./scripts/build.mjs"
+    "_build": "node ./scripts/build.BAK.mjs",
+    "build": "tsc && vite build",
+    "postbuild": "node ./scripts/postbuild.mjs"
   },
   "dependencies": {
     "classnames": "^2.3.1",
@@ -20,7 +22,9 @@
     "@babel/core": "^7.16.0",
     "@babel/plugin-transform-modules-umd": "^7.16.0",
     "@preact/preset-vite": "^2.1.5",
+    "@types/fs-extra": "^9.0.13",
     "@types/node": "^16.11.9",
+    "@types/prompts": "^2.0.14",
     "@types/smoothscroll-polyfill": "^0.3.1",
     "async-prompt": "^1.0.1",
     "chalk": "^4.1.2",

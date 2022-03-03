@@ -11,7 +11,18 @@ body, html {
   overflow-x: hidden;
 }
 
-img, table, td, blockquote, code, pre, textarea, input, iframe, object, embed, video {
+img,
+table,
+td,
+blockquote,
+code,
+pre,
+textarea,
+input,
+iframe,
+object,
+embed,
+video {
   max-width: 100%;
 }
 
@@ -49,17 +60,20 @@ sup, sub {
   border: none !important;
 }
 
-.lm-app a {
-  -webkit-touch-callout: none;
-  -webkit-tap-highlight-color: transparent;
-  text-decoration: none;
-  color: unset;
-  border: none !important;
-}
-
 /* CANCEL LEMONDE.FR RESET */
 
-img, table, td, blockquote, code, pre, textarea, input, iframe, object, embed, video {
+img,
+table,
+td,
+blockquote,
+code,
+pre,
+textarea,
+input,
+iframe,
+object,
+embed,
+video {
   max-width: unset;
 }
 
@@ -77,21 +91,27 @@ img, table, td, blockquote, code, pre, textarea, input, iframe, object, embed, v
   --len-rem:                   16px;
   --len-nav-height:            65px; /* Overwritten by /src/wrapper.tsx */
   --len-visible-screen-height: calc(100 * var(--vh) - var(--len-nav-height));
+
+  @media screen and (max-width: 768px) {
+    --len-nav-height: 59px; /* Overwritten by /src/wrapper.tsx */
+  }
   
   font-family: initial;
   font-size: var(--l-rem);
   line-height: 1.25;
   color: initial;
   position: relative;
-}
+  box-sizing: border-box;
 
-@media screen and (max-width: 768px) {
-  .lm-app {
-    --len-nav-height: 59px; /* Overwritten by /src/wrapper.tsx */
+  * {
+    box-sizing: border-box;
+  }
+
+  a {
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
+    text-decoration: none;
+    color: unset;
+    border: none !important;
   }
 }
-
-.lm-app, .lm-app * {
-  box-sizing: border-box;
-}
-

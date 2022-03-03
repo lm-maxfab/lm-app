@@ -2,23 +2,26 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="./static/dev/styles/fonts_last.css" rel="stylesheet" class="delete-at-build" >
-    <link href="./static/dev/styles/icons.css" rel="stylesheet" class="delete-at-build" >
-    <link href="./static/dev/styles/multimedia.css" rel="stylesheet" class="delete-at-build" >
-    <link href="./static/dev/styles/snippets.css" rel="stylesheet" class="delete-at-build" >
-    <link href="./static/dev/styles/swg-button.css" rel="stylesheet" class="delete-at-build" >
-    <link href="./static/dev/styles/fake-header-and-footer.css" rel="stylesheet" class="delete-at-build" >
-    <link href="./static/app/styles/fonts.css" rel="stylesheet">
+    <link rel="stylesheet" class="delete-at-build" href="http://localhost:3001/lm-app/le-monde-inject-fake-page/fonts_last.css">
+    <link rel="stylesheet" class="delete-at-build" href="http://localhost:3001/lm-app/le-monde-inject-fake-page/icons.css">
+    <link rel="stylesheet" class="delete-at-build" href="http://localhost:3001/lm-app/le-monde-inject-fake-page/multimedia.css">
+    <link rel="stylesheet" class="delete-at-build" href="http://localhost:3001/lm-app/le-monde-inject-fake-page/snippets.css">
+    <link rel="stylesheet" class="delete-at-build" href="http://localhost:3001/lm-app/le-monde-inject-fake-page/swg-button.css">
+    <link rel="stylesheet" class="delete-at-build" href="http://localhost:3001/lm-app/le-monde-inject-fake-page/header-footer.css">
+    <link rel="stylesheet" href="http://localhost:3001/fonts/production.css">
+    <link rel="stylesheet" class="delete-at-build" href="http://localhost:3001/fonts/developpment.css">
   </head>
   <body>
+
     <!-- Config -->
-    <pre id="lm-app-config" style="display: none;"><!-- Populated on `npm run dev` or `npm run build` --></pre>
+    <pre id="lm-app-config" style="display: none;">{"assets_root_url":"","spreadsheets_urls":{"production":"","staging":"","testing":"","developpment":""},"layouts":[{"name":"some-name","DOM_nodes_classes":["ma-div-1","ma-div-2","ma-div-3"]},{"name":"some-other-name","DOM_nodes_classes":["ma-div-4","ma-div-5","ma-div-6"]}],"env":"developpment"}</pre>
+
     <!-- Apps -->
     <div class="lm-app-root covid-longform-root"></div>
+
     <!-- Scripts -->
-    <noscript>Cette page a besoin de <a href="https://www.enable-javascript.com/fr/" target="_blank">l'activation de Javascript</a> pour fonctionner correctement.</noscript>
-    <script type="module" src="./static/dev/scripts/inject-config.js" class="delete-at-build"></script>
-    <script type="module" src="./static/dev/scripts/inject-fake-header-and-footer.js" class="delete-at-build"></script>
-    <script async type="module" src="/src/main.tsx"></script>
+    <noscript><a href="https://www.enable-javascript.com/fr/" target="_blank">Activez Javascript</a> pour voir cette page.</noscript>
+    <script type="module" class="delete-at-build" src="http://localhost:3001/lm-app/le-monde-inject-fake-page/index.js"></script>
+    <script type="module" async="" src="/src/main.tsx"></script>
   </body>
 </html>

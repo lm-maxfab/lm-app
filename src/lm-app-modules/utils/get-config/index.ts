@@ -8,7 +8,7 @@ interface Config {
   }
   layouts?: Array<{
     name?: string
-    DOM_nodes?: string[]
+    DOM_nodes_classes?: string[]
   }>
   env?: 'production'|'staging'|'testing'|'developpment'
 }
