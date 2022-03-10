@@ -1,33 +1,11 @@
-/* CANCEL LEMONDE.FR RESET */
-img,
-table,
-td,
-blockquote,
-code,
-pre,
-textarea,
-input,
-iframe,
-object,
-embed,
-video {
-  max-width: unset;
-}
-
-/* APP STYLES */
-
 .lm-app {
   --vw: 1vw;
   --vh: 1vh;
-  
-  --ff-the-antiqua-b:       "The-Antiqua-B", Garamond, Times, serif;
-  --ff-marr-sans:           "Marr-Sans", Helvetica, Arial, Roboto, sans-serif;
-  --ff-marr-sans-condensed: "Marr-Sans-Condensed", Helvetica, Arial, Roboto, sans-serif;
-  --ff-fette-engschrift:    "Fette-Engschrift", Helvetica, Arial, sans-serif;
 
   --len-rem:                   16px;
   --len-nav-height:            65px; /* Overwritten by /src/wrapper.tsx */
   --len-visible-screen-height: calc(100 * var(--vh) - var(--len-nav-height));
+
 
   @media screen and (max-width: 768px) {
     --len-nav-height: 59px; /* Overwritten by /src/wrapper.tsx */
