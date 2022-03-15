@@ -57,7 +57,7 @@ class ImageFlow extends Component<Props, {}> {
               calc(-1 * var(--local-h-pos)),
               calc(-1 * var(--local-v-pos))
             )`,
-            zIndex: image.zIndex,
+            zIndex: image.zIndex
           }
           return <div
             style={slotStyle}

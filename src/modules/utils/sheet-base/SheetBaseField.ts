@@ -36,6 +36,8 @@ class SheetBaseField {
   get type (): FieldType { return this._type }
   get raw (): string { return this._raw }
   get parentEntry (): SheetBaseEntry { return this._parentEntry }
+
+  /* eslint-disable getter-return */
   get value (): SheetBaseFieldValue {
     switch (this.type) {
       case 'string':
@@ -73,6 +75,7 @@ class SheetBaseField {
       }
     }
   }
+  /* eslint-enable getter-return */
 }
 
 export type { SheetBaseFieldDescriptor, SheetBaseFieldValue }

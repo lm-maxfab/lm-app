@@ -1,16 +1,4 @@
 .lm-app {
-  --vw: 1vw;
-  --vh: 1vh;
-
-  --len-rem:                   16px;
-  --len-nav-height:            65px; /* Overwritten by /src/wrapper.tsx */
-  --len-visible-screen-height: calc(100 * var(--vh) - var(--len-nav-height));
-
-
-  @media screen and (max-width: 768px) {
-    --len-nav-height: 59px; /* Overwritten by /src/wrapper.tsx */
-  }
-  
   font-family: initial;
   font-size: var(--l-rem);
   line-height: 1.25;

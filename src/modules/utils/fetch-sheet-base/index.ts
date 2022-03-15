@@ -1,6 +1,6 @@
-import { tsvToSheetBase } from '../sheet-base'
+import { SheetBase, tsvToSheetBase } from '../sheet-base'
 
-async function fetchSheetBase (url: string) {
+async function fetchSheetBase (url: string): Promise<SheetBase|undefined> {
   try {
     const res = await window.fetch(url)
     if (!res.ok) throw new Error(`${res.status}: ${res.statusText}`)

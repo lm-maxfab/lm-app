@@ -27,9 +27,9 @@ class ArticleHeader extends Component<Props, {}> {
     const wrapperClasses = bem(props.className).block(this.clss)
     const wrapperStyle: JSX.CSSProperties = {
       ...props.style,
-      ['--fill-1']: props.fill1 ?? '#FFFFFF',
-      ['--fill-2']: props.fill2 ?? 'rgb(255, 255, 255, .6)',
-      ['--fill-transition-time']: props.fillTransitionTime ?? '600ms'
+      '--fill-1': props.fill1 ?? '#FFFFFF',
+      '--fill-2': props.fill2 ?? 'rgb(255, 255, 255, .6)',
+      '--fill-transition-time': props.fillTransitionTime ?? '600ms'
     }
 
     /* Display */

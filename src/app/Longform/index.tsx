@@ -5,19 +5,10 @@ import bem from '../../modules/utils/bem'
 import './styles.scss'
 
 interface Props extends InjectedProps {}
-interface State {}
 
-class Longform extends Component<Props, State> {
+class Longform extends Component<Props, {}> {
   static clss: string = 'template-longform'
   clss = Longform.clss
-  state: State = {}
-
-  /* * * * * * * * * * * * * * *
-   * CONSTRUCTOR
-   * * * * * * * * * * * * * * */
-  constructor (props: Props) {
-    super(props)
-  }
 
   /* * * * * * * * * * * * * * *
    * RENDER
@@ -30,7 +21,7 @@ class Longform extends Component<Props, State> {
     const wrapperStyle: JSX.CSSProperties = {
       ...props.style,
       fontSize: '48px',
-      margin: 'calc(var(--len-nav-height) + 32px) 32px 32px 32px'
+      margin: 'calc(var(--nav-height) + 32px) 32px 32px 32px'
     }
 
     const labelStyle = {
@@ -41,10 +32,10 @@ class Longform extends Component<Props, State> {
     }
 
     // Display
-    return <div 
+    return <div
       style={wrapperStyle}
       className={wrapperClasses.value}>
-      
+
       <ArticleHeader />
 
       <p style={labelStyle}>The Antiqua B — 500</p>

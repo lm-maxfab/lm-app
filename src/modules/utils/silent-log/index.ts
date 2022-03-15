@@ -37,16 +37,17 @@ class SilentLog {
     const logs = this.get().slice(-1 * slice)
     logs.forEach(log => {
       const time = log.time
-      let timeStr = new Date(time).toLocaleDateString(navigator.language, {
+      const timeStr = new Date(time).toLocaleDateString(navigator.language, {
         year: 'numeric',
         month: 'short',
         day: 'numeric',
         weekday: 'short',
         hour: 'numeric',
         minute: 'numeric',
-        second: 'numeric',
+        second: 'numeric'
       }) + `:${time.getMilliseconds()}`
-      if (options.verbose) console.log(`🪵 ${timeStr}\n\n${log.stack?.join('\n')}\n\n`, ...log.message)
+      const stackStr = log.stack?.join('\n') ?? ''
+      if (options.verbose === true) console.log(`🪵 ${timeStr}\n\n${stackStr}\n\n`, ...log.message)
       else console.log(...log.message)
     })
   }

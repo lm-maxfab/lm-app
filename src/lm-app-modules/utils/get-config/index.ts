@@ -13,7 +13,7 @@ interface Config {
   env?: 'production'|'staging'|'testing'|'developpment'
 }
 
-function getConfig () {
+function getConfig (): Config|undefined {
   const configElement = document.documentElement.querySelector('#lm-app-config')
   if (configElement === null) throw new Error('#lm-app-config is missing in page.')
   try {

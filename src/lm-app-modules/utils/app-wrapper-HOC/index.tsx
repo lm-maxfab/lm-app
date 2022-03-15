@@ -20,7 +20,7 @@ interface State {
   viewportDimensions?: ViewportDimensions
 }
 
-function wrapper (Wrapped: ComponentClass<InjectedProps>) {
+function wrapper (Wrapped: ComponentClass<InjectedProps>): any {
   return class Wrapper extends Component<Props, State> {
     static clss: string = 'lm-app'
     static wrapped = Wrapped
@@ -43,21 +43,21 @@ function wrapper (Wrapped: ComponentClass<InjectedProps>) {
       window.addEventListener('resize', this.groupDelayedSetViewportDimensions)
       document.addEventListener('scroll', this.groupDelayedSetViewportDimensions)
     }
-  
-    componentDidMount () { this.groupDelayedSetViewportDimensions() }
-    componentDidUpdate () { this.groupDelayedSetViewportDimensions() }
-  
-    componentWillUnmount () {
+
+    componentDidMount (): void { this.groupDelayedSetViewportDimensions() }
+    componentDidUpdate (): void { this.groupDelayedSetViewportDimensions() }
+
+    componentWillUnmount (): void {
       this.timeouts.forEach(timeout => window.clearTimeout(timeout))
       this.intervals.forEach(interval => window.clearInterval(interval))
       window.removeEventListener('resize', this.groupDelayedSetViewportDimensions)
       document.removeEventListener('scroll', this.groupDelayedSetViewportDimensions)
     }
-  
+
     /* * * * * * * * * * * * * * *
      * METHODS
      * * * * * * * * * * * * * * */
-    setViewportDimensions () {
+    setViewportDimensions (): void {
       const dimensions = getViewportDimensions()
       this.setState(curr => {
         if (curr.viewportDimensions?.display !== dimensions.display
@@ -68,25 +68,25 @@ function wrapper (Wrapped: ComponentClass<InjectedProps>) {
           || curr.viewportDimensions.navHeight !== dimensions.navHeight) {
           return {
             ...curr,
-            viewportDimensions: dimensions   
+            viewportDimensions: dimensions
           }
         } else return null
       })
     }
 
     groupDelayedSetViewportDimensions = groupDelay(this.setViewportDimensions.bind(this), 100)
-  
+
     /* * * * * * * * * * * * * * *
      * RENDER
      * * * * * * * * * * * * * * */
-    render () {
+    render (): JSX.Element {
       const { props, state } = this
       const wrapperClasses = bem(this.clss).mod({
-        ['env-dev']: process.env.NODE_ENV === 'development',
-        ['env-prod']: process.env.NODE_ENV === 'production'
+        'env-dev': process.env.NODE_ENV === 'development',
+        'env-prod': process.env.NODE_ENV === 'production'
       })
       const wrapperNavHeightVar = `${state.viewportDimensions?.navHeight ?? 0}px`
-      const wrapperStyle: JSX.CSSProperties = { '--len-nav-height': wrapperNavHeightVar }
+      const wrapperStyle: JSX.CSSProperties = { '--nav-height': wrapperNavHeightVar }
       return <Wrapped
         className={wrapperClasses.value}
         style={wrapperStyle}

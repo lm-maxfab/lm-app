@@ -1,5 +1,6 @@
 {
-  "assets_root_url": "",
+  "assets_root_url": "https://assets.root.url",
+  "statics_root_url": "https://statics.root.url",
   "spreadsheets_urls": {
     "production": "",
     "staging": "",

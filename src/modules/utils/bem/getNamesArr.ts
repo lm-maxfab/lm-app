@@ -1,7 +1,7 @@
 import isValidClassName from '../is-valid-css-class-name'
 import isNullish from '../is-nullish'
 
-function getNamesArr (arg: any) {
+function getNamesArr (arg: any): string[] {
   const returned: string[] = []
   if (typeof arg === 'string') {
     arg.trim().split(/\s+/gm).forEach(name => { if (isValidClassName(name)) returned.push(name) })

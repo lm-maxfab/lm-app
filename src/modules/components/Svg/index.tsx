@@ -80,7 +80,7 @@ class Svg extends Component<Props, State> {
       .block(props.className)
       .block(this.bem.value)
     const inlineStyle = { ...props.style }
-    
+
     /* Display */
     return <svg
       {...attributes as any}

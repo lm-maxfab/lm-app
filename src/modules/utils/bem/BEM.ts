@@ -62,7 +62,7 @@ class BEM {
   elt (elementNameArg: any): BEM { return this.element(elementNameArg) }
   mod (modifierNameArg: any): BEM { return this.modifier(modifierNameArg) }
 
-  get value () {
+  get value (): string {
     return this.blocks.map(block => {
       return [block.name, ...block.modifiers.map(modifier => {
         return `${block.name}_${modifier}`
@@ -72,7 +72,7 @@ class BEM {
 
   private blocks: Block[] = []
 
-  private findBlockByName (name: string) {
+  private findBlockByName (name: string): Block|undefined {
     return this.blocks.find(block => block.name === name)
   }
 

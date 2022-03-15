@@ -1,6 +1,6 @@
-function isNullish (val: any) {
+function isNullish (val: any): boolean {
   const nullishValues = [0, '', false, null, undefined]
-  return nullishValues.indexOf(val) !== -1
+  return nullishValues.includes(val)
 }
 
 export default isNullish

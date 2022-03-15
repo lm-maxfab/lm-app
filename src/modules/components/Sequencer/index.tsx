@@ -39,11 +39,11 @@ class Sequencer extends Component<Props, State> {
     this.getCurrentValue = this.getCurrentValue.bind(this)
   }
 
-  componentDidMount () {
-    if (this.props.play) this.startPlaying()
+  componentDidMount (): void {
+    if (this.props.play === true) this.startPlaying()
   }
 
-  componentDidUpdate (prevProps: Props) {
+  componentDidUpdate (prevProps: Props): void {
     if (prevProps.play !== this.props.play) {
       if (this.props.play === true) this.startPlaying()
       else this.stopPlaying()
@@ -56,31 +56,31 @@ class Sequencer extends Component<Props, State> {
   /* * * * * * * * * * * * * * *
    * METHODS
    * * * * * * * * * * * * * * */
-  startPlaying () {
+  startPlaying (): void {
     const tempo = (this.props.tempo === undefined || this.props.tempo <= 0) ? 60 : this.props.tempo
     const cappedTempo = Math.min(tempo, 60 * 1000)
     if (cappedTempo !== tempo) console.warn('Maximum tempo is 60 000 bpm')
     const timeIntervalMs = (60 * 1000) / cappedTempo
     this.intervaller = window.setInterval(() => this.goToStep('next'), timeIntervalMs)
     const stepAndValue = this.getCurrentStepAndValue()
-    if (this.props.onStepChange) this.props.onStepChange(stepAndValue)
-    if (this.state.step === 0 && this.props.onFirstStep) this.props.onFirstStep(stepAndValue)
+    if (this.props.onStepChange !== undefined) this.props.onStepChange(stepAndValue)
+    if (this.state.step === 0 && this.props.onFirstStep !== undefined) this.props.onFirstStep(stepAndValue)
   }
 
-  stopPlaying () {
+  stopPlaying (): void {
     if (this.intervaller === null) return
     window.clearInterval(this.intervaller)
     this.intervaller = null
   }
 
-  getLoopLength () {
+  getLoopLength (): number {
     if (this.props.length !== undefined) return this.props.length
     else if (this.props.sequence !== undefined) return this.props.sequence.length
     else return Infinity
   }
 
-  getCurrentValue () {
-    return 
+  getCurrentValue (): any {
+    return this.getCurrentStepAndValue().value
   }
 
   getCurrentStepAndValue (): RendererArgs {
@@ -92,7 +92,7 @@ class Sequencer extends Component<Props, State> {
     }
   }
 
-  goToStep (step: number|'next'|'prev') {
+  goToStep (step: number|'next'|'prev'): void {
     this.setState(curr => {
       const loopLength = this.getLoopLength()
       let newStep
@@ -104,29 +104,30 @@ class Sequencer extends Component<Props, State> {
     }, () => {
       const loopLength = this.getLoopLength()
       const stepAndValue = this.getCurrentStepAndValue()
-      if (this.props.onStepChange) this.props.onStepChange(stepAndValue)
-      if (this.state.step === 0 && this.props.onFirstStep) this.props.onFirstStep(stepAndValue)
-      if (this.state.step === loopLength - 1 && this.props.onLastStep) this.props.onLastStep(stepAndValue)
+      if (this.props.onStepChange !== undefined) this.props.onStepChange(stepAndValue)
+      if (this.state.step === 0 && this.props.onFirstStep !== undefined) this.props.onFirstStep(stepAndValue)
+      if (this.state.step === loopLength - 1 && this.props.onLastStep !== undefined) this.props.onLastStep(stepAndValue)
     })
   }
 
-  updateTempo () {
+  updateTempo (): void {
     if (this.intervaller === null) return
-    else {
-      this.stopPlaying()
-      this.startPlaying()
-    }
+    this.stopPlaying()
+    this.startPlaying()
   }
 
   /* * * * * * * * * * * * * * *
    * RENDER
    * * * * * * * * * * * * * * */
-  render (): JSX.Element|null {
+  render (): JSX.Element {
     const { props } = this
     const stepAndValue = this.getCurrentStepAndValue()
     return <>
       {props.children}
-      {props.renderer && props.renderer(stepAndValue)}
+      {props.renderer !== undefined
+        ? props.renderer(stepAndValue)
+        : null
+      }
     </>
   }
 }
