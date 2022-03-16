@@ -1,6 +1,7 @@
-import appsNodes from './app'
+import appsNodes from './apps'
 import fetchSheetBase from './modules/utils/fetch-sheet-base'
 import getConfig from './lm-app-modules/utils/get-config'
+import getPageSettings from './lm-app-modules/utils/get-page-settings'
 import renderLMApp from './lm-app-modules/utils/render-app'
 
 /* Init */
@@ -11,6 +12,7 @@ init()
 /* Attach some utils to window */
 if (window.LM_APP === undefined) window.LM_APP = {}
 window.LM_APP.getConfig = getConfig
+window.LM_APP.getPageSettings = getPageSettings
 window.LM_APP.fetchSheetBase = fetchSheetBase
 window.LM_APP.renderLMApp = renderLMApp
 window.LM_APP.init = init
@@ -30,6 +32,10 @@ async function init (): Promise<void> {
   if (window.LM_APP === undefined) window.LM_APP = {}
   window.LM_APP.sheetBase = sheetBase
 
+  // Setup the page according to the settings
+  const settings = getPageSettings()
+  console.log('settings', settings)
+  
   // Render apps
   renderLMApp(appsNodes, sheetBase)
 }

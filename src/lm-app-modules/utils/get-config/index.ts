@@ -14,8 +14,8 @@ interface Config {
 }
 
 function getConfig (): Config|undefined {
-  const configElement = document.documentElement.querySelector('#lm-app-config')
-  if (configElement === null) throw new Error('#lm-app-config is missing in page.')
+  const configElement = document.documentElement.querySelector('.lm-app-config')
+  if (configElement === null) throw new Error('.lm-app-config is missing in page.')
   try {
     const config = JSON.parse(configElement.innerHTML) as Config
     return config

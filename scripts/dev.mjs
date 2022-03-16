@@ -13,7 +13,7 @@ async function dev () {
   const INDEX_HTML = await ROOT.get('index.html')
   await INDEX_HTML.editHTMLQuiet(jsdom => {
     const document = jsdom.window.document.documentElement
-    const configPre = document.querySelector('#lm-app-config')
+    const configPre = document.querySelector('.lm-app-config')
     configPre.innerHTML = strConfig
   })
   await INDEX_HTML.prettifyHTMLQuiet()

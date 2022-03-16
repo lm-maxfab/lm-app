@@ -1,5 +1,5 @@
 import path from 'path'
-import process, { config } from 'process'
+import process from 'process'
 import prompts from 'prompts'
 import fse from 'fs-extra'
 import chalk from 'chalk'
@@ -50,33 +50,33 @@ async function postbuild () {
   if (doVersionAndCommit) console.log()
   if (doVersionAndCommit) console.log(chalk.bold.bgBlack.rgb(255, 255, 255)(` Preparing build of ${buildVersionNameWithDesc} `))
   
-  // Lint
-  console.log(chalk.bold('\n👀 Linting...\n'))
-  try {
-    const lintExec = await execPromise('npm run lint')
-    if (lintExec.stdout !== '') console.log(chalk.grey(lintExec.stdout))
-    if (lintExec.stderr !== '') {
-      console.log(chalk.red(lintExec.stderr))
-      const lintContinue = (await prompts({
-        type: 'confirm',
-        name: 'lintContinue',
-        message: 'You have lint errors, do you want to continue?'
-      })).lintContinue
-      if (!lintContinue) throw new Error('You aborted build process due to lint errors.')
-    }
-  } catch (err) {
-    if (err.stdout !== '') console.log(chalk.grey(err.stdout))
-    if (err.stderr !== '') console.log(chalk.red(err.stderr))
-    if (err.err !== '') console.log(chalk.red(err.err))
-    if (err.stderr !== '' || err.err !== '') {
-      const lintContinue = (await prompts({
-        type: 'confirm',
-        name: 'lintContinue',
-        message: 'You have lint errors, do you want to continue?'
-      })).lintContinue
-      if (!lintContinue) throw new Error('You aborted build process due to lint errors.')
-    }
-  }
+  // // Lint
+  // console.log(chalk.bold('\n👀 Linting...\n'))
+  // try {
+  //   const lintExec = await execPromise('npm run lint')
+  //   if (lintExec.stdout !== '') console.log(chalk.grey(lintExec.stdout))
+  //   if (lintExec.stderr !== '') {
+  //     console.log(chalk.red(lintExec.stderr))
+  //     const lintContinue = (await prompts({
+  //       type: 'confirm',
+  //       name: 'lintContinue',
+  //       message: 'You have lint errors, do you want to continue?'
+  //     })).lintContinue
+  //     if (!lintContinue) throw new Error('You aborted build process due to lint errors.')
+  //   }
+  // } catch (err) {
+  //   if (err.stdout !== '') console.log(chalk.grey(err.stdout))
+  //   if (err.stderr !== '') console.log(chalk.red(err.stderr))
+  //   if (err.err !== '') console.log(chalk.red(err.err))
+  //   if (err.stderr !== '' || err.err !== '') {
+  //     const lintContinue = (await prompts({
+  //       type: 'confirm',
+  //       name: 'lintContinue',
+  //       message: 'You have lint errors, do you want to continue?'
+  //     })).lintContinue
+  //     if (!lintContinue) throw new Error('You aborted build process due to lint errors.')
+  //   }
+  // }
 
   // Check git status
   if (doVersionAndCommit) console.log(chalk.bold('\n📡 Checking git status...\n'))
@@ -95,35 +95,110 @@ async function postbuild () {
     throw new Error('Build process needs to commit and push every changes in the current branch.')
   }
 
+  // Delete dev resources in index.html
+  const BUILD_INDEX = new File(path.join(__dirname, 'build/index.html'))
+  await BUILD_INDEX.editHTMLQuiet(jsdom => {
+    const document = jsdom.window.document
+    const documentElement = document.documentElement
+    const nodesToDelete = [...documentElement.querySelectorAll('.delete-at-build')]
+    nodesToDelete.forEach(node => node.remove())
+    return jsdom
+  })
+
+  // Replace {{ASSETS_ROOT_URL}} and http://localhost:3001 everywhere
+  console.log(chalk.bold(`\n🔗 Relinking assets...\n`))
+  const CONFIG = new File(path.join(__dirname, 'config.json'))
+  const config = JSON.parse(await CONFIG.read())
+  console.log(`[\/\.]*{{ASSETS_ROOT_URL}} => ${config.assets_root_url}`)
+  console.log(`http://localhost:3001 => ${config.statics_root_url}`)
+  const BUILD = new Directory(path.join(__dirname, 'build'))
+  const pathsToBatchEdit = await deepLs(BUILD.path)
+  await batchFileEdit(pathsToBatchEdit, BUILD.path, fileData => {
+    const newContent = fileData.content
+      .replace(/[\/\.]*{{ASSETS_ROOT_URL}}/gm, config.assets_root_url)
+      .replace(/http:\/\/localhost:3001/gm, config.statics_root_url)
+    return newContent
+  })
+
   // Bundle vendor and index js into a single iife
   console.log(chalk.bold('\n⚙️  Bundle vendor and index into a single IIFE...\n'))
   const BUILD_ASSETS = new Directory(path.join(__dirname, 'build/{{ASSETS_ROOT_URL}}'))
+  await BUILD_ASSETS.moveTo('assets')
   let buildAssetsFiles = await BUILD_ASSETS.list()
   const BUILD_INDEX_JS = buildAssetsFiles.find(file => file.name.match(/^index.[a-f0-9]{8}.js$/gm))
   const BUILD_VENDOR_JS = buildAssetsFiles.find(file => file.name.match(/^vendor.[a-f0-9]{8}.js$/gm))
-  const BUILD_INDEX_CSS = buildAssetsFiles.find(file => file.name.match(/^index.[a-f0-9]{8}.css$/gm))
-  const bundledExec = await execPromise(`npx rollup -i ${BUILD_INDEX_JS.path} -o ${path.join(BUILD_ASSETS.path, `index.${versionName ?? 'no-version'}.js`)} -f iife`)
-
-  // Replace {{ASSETS_ROOT_URL}} and http://localhost:3001 everywhere
-  const CONFIG = new File(path.join(__dirname, 'config.json'))
-  const config = JSON.parse(await CONFIG.read())
-  const BUILD = new Directory(path.join(__dirname, 'build'))
-  const pathsToBatchEdit = await deepLs(BUILD.path)
-
-  console.log('{{ASSETS_ROOT_URL}} =>', config.assets_root_url)
-  console.log('http://localhost:3001 =>', config.statics_root_url)
-  await batchFileEdit(pathsToBatchEdit, BUILD.path, fileData => {
-    const newContent = fileData.content
-      .replace(/(\.*\/*)*{{ASSETS_ROOT_URL}}/gm, config.assets_root_url)
-      .replace(/http:\/\/localhost:3001/gm, config.statics_root_url)
-    if (newContent !== fileData.content) return newContent
-  })
-  
-  // Generate .latest and .live js and css
+  const versionNameForFileNames = versionName ?? 'no-version'
+  await execPromise(`npx rollup -i ${BUILD_INDEX_JS.path} -o ${path.join(BUILD_ASSETS.path, `index.${versionNameForFileNames}.js`)} -f iife`)
   buildAssetsFiles = await BUILD_ASSETS.list()
-  const BUILD_VERSIONNED_JS = buildAssetsFiles.find(file => file.name === `index.${versionName ?? 'no-version'}.js`)
+
+  // Create .<version>, .latest and .live js and css files
+  console.log(chalk.bold(`\n👭 Creating .${versionNameForFileNames}, .latest and .live js and css files...\n`))
+  const BUILD_VERSIONNED_JS = buildAssetsFiles.find(file => file.name === `index.${versionNameForFileNames}.js`)
+  await BUILD_VERSIONNED_JS.editQuiet(content => `/* Version: ${versionName}, built index.js: ${BUILD_INDEX_JS.name}, built vendor.js: ${BUILD_VENDOR_JS.name} */\n${content}`)
   await BUILD_VERSIONNED_JS.copyTo(`index.latest.js`)
-  await BUILD_VERSIONNED_JS.copyTo(`index.live.js`)
+  if (linkToLive) await BUILD_VERSIONNED_JS.copyTo(`index.live.js`)
+  const BUILD_INDEX_CSS = buildAssetsFiles.find(file => file.name.match(/^index.[a-f0-9]{8}.css$/gm))
+  await BUILD_INDEX_CSS.copyTo(`index.${versionNameForFileNames}.css`)
+  await BUILD_INDEX_CSS.copyTo(`index.latest.css`)
+  if (linkToLive) await BUILD_INDEX_CSS.copyTo(`index.live.css`)
+
+  // Link index.html to live js and css
+  await BUILD_INDEX.editHTMLQuiet(jsdom => {
+    const document = jsdom.window.document
+    const documentElement = document.documentElement
+    const vendorTag = documentElement.querySelector(`link[href*="${BUILD_VENDOR_JS.name}"]`)
+    vendorTag.remove()
+    const indexJsTag = documentElement.querySelector(`script[src*="${BUILD_INDEX_JS.name}"]`)
+    indexJsTag.outerHTML = `<script async type="text/javascript" src="${config.assets_root_url}/index.live.js"></script>`
+    const indexCssTag = documentElement.querySelector(`link[href*="${BUILD_INDEX_CSS.name}"]`)
+    indexCssTag.outerHTML = `<link rel="stylesheet" href="${config.assets_root_url}/index.live.css">`
+    return jsdom
+  })
+  await BUILD_INDEX.editQuiet(content => {
+    return content.split('\n')
+      .filter(line => line.trim() !== '')
+      .join('\n')
+      .replace('<html lang="en"><head>', '<html lang="en">\n  <head>')
+      .replace('</body></html>', '  </body>\n</html>')
+      + '\n'
+  })
+
+  await BUILD.mkdir('layouts')
+  const LAYOUTS = await BUILD.get('layouts')
+  for (const layoutData of config.layouts) {
+    await LAYOUTS.mkdir(layoutData.name)
+    const LAYOUT = await LAYOUTS.get(layoutData.name)
+    await fse.copy(BUILD_INDEX.path, `${LAYOUT.path}/index.html`)
+    const INDEX = new File(path.join(LAYOUT.path, 'index.html'))
+    await INDEX.editHTMLQuiet(jsdom => {
+      const document = jsdom.window.document
+      const documentElement = document.documentElement
+      const $lmAppConfig = documentElement.querySelector('.lm-app-config')
+      const layoutNodesHTML = layoutData.DOM_nodes_classes
+        .map(DOMNodeClass => `<div class="${DOMNodeClass}"></div>`)
+        .join('\n')
+      $lmAppConfig.insertAdjacentHTML('afterend', `\n${layoutNodesHTML}`)
+      return jsdom
+    })
+
+    for (const env of ['testing', 'staging', 'production']) {
+      await LAYOUT.mkdir(env)
+      await INDEX.copyTo(`./${env}/index.html`)
+      const ENV_INDEX = await LAYOUT.get(`${env}/index.html`)
+      await ENV_INDEX.editHTMLQuiet(jsdom => {
+        const document = jsdom.window.document
+        const documentElement = document.documentElement
+        const $lmAppConfig = documentElement.querySelector('.lm-app-config')
+        $lmAppConfig.innerHTML = JSON.stringify({ ...config, env }, null, null).replace(/\n/gm, '\n    ')
+        return jsdom
+      })
+      await ENV_INDEX.prettifyHTMLQuiet()
+    }
+    await INDEX.deleteSelfQuiet()
+  }
+  await BUILD_INDEX.deleteSelfQuiet()
+  
+  
 
 
 
