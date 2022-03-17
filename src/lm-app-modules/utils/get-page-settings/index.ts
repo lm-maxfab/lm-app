@@ -1,10 +1,10 @@
-interface PageSettings {
+export interface PageSettings {
   layout: string|null
   template: string|null
   env: string|null
 }
 
-function getPageSettings (): PageSettings|undefined {
+export default function getPageSettings (): PageSettings|undefined {
   if (window.location.hostname !== 'localhost') return
   const params = new window.URLSearchParams(window.location.search)
   const layout = params.get('layout')
@@ -12,6 +12,3 @@ function getPageSettings (): PageSettings|undefined {
   const env = params.get('env')
   return { layout, template, env }
 }
-
-export default getPageSettings
-export type { PageSettings }

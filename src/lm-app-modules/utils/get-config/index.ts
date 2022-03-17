@@ -1,19 +1,28 @@
-interface Config {
-  assets_root_url?: string
-  spreadsheets_urls?: {
-    production?: string
-    staging?: string
-    testing?: string
-    developpment?: string
-  }
-  layouts?: Array<{
-    name?: string
-    DOM_nodes_classes?: string[]
-  }>
-  env?: 'production'|'staging'|'testing'|'developpment'
+export interface ConfigSpreadsheetUrls {
+  production: string
+  staging: string
+  testing: string
+  developpment: string
 }
 
-function getConfig (): Config|undefined {
+export interface ConfigLayoutNode {
+  class: string
+  type: 'cover'|'snippet'|'longform'
+}
+
+export interface ConfigLayout {
+  name: string
+  nodes: ConfigLayoutNode[]
+}
+
+export interface Config {
+  assets_root_url: string
+  spreadsheets_urls: ConfigSpreadsheetUrls
+  layouts: Array<ConfigLayout>
+  env: 'production'|'staging'|'testing'|'developpment'
+}
+
+export default function getConfig (): Config|undefined {
   const configElement = document.documentElement.querySelector('.lm-app-config')
   if (configElement === null) throw new Error('.lm-app-config is missing in page.')
   try {
@@ -25,6 +34,3 @@ function getConfig (): Config|undefined {
     return undefined
   }
 }
-
-export type { Config }
-export default getConfig

@@ -15,6 +15,7 @@ async function dev () {
     const document = jsdom.window.document.documentElement
     const configPre = document.querySelector('.lm-app-config')
     configPre.innerHTML = strConfig
+    return jsdom
   })
   await INDEX_HTML.prettifyHTMLQuiet()
 }

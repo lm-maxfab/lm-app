@@ -1,5 +1,5 @@
 import { JSX } from 'preact'
-import { Config } from '../lm-app-modules/utils/get-config'
+import { Config, ConfigLayout } from '../lm-app-modules/utils/get-config'
 import { PageSettings } from '../lm-app-modules/utils/get-page-settings'
 import { AppNodeMap } from '../lm-app-modules/utils/render-app'
 import { SheetBase } from '../modules/utils/sheet-base'
@@ -15,6 +15,8 @@ export declare global {
     LM_APP?: {
       getConfig?: () => Config|undefined
       getPageSettings?: () => PageSettings|undefined
+      applyPageTemplate?: (template: string) => Promise<void>
+      applyPageLayout?: (layout: ConfigLayout) => void
       fetchSheetBase?: (url: string) => Promise<SheetBase | undefined>
       renderLMApp?: (renderList: AppNodeMap[], sheetBase?: SheetBase) => JSX.Element[]
       init?: () => Promise<void>

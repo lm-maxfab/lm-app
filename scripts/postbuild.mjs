@@ -174,8 +174,8 @@ async function postbuild () {
       const document = jsdom.window.document
       const documentElement = document.documentElement
       const $lmAppConfig = documentElement.querySelector('.lm-app-config')
-      const layoutNodesHTML = layoutData.DOM_nodes_classes
-        .map(DOMNodeClass => `<div class="${DOMNodeClass}"></div>`)
+      const layoutNodesHTML = layoutData.nodes
+        .map(nodeData => `<div class="lm-app-root lm-app-root_${nodeData.type} ${nodeData.class}"></div>`)
         .join('\n')
       $lmAppConfig.insertAdjacentHTML('afterend', `\n${layoutNodesHTML}`)
       return jsdom
