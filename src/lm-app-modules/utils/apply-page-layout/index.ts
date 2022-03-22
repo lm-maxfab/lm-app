@@ -8,9 +8,19 @@ export default function applyPageLayout(layout: ConfigLayout) {
   layout.nodes.forEach(nodeData => {
     const node = document.createElement('DIV')
     node.setAttribute('class', `lm-app-root lm-app-root_${nodeData.type} ${nodeData.class}`)
-    if (nodeData.type === 'cover') $coversPlaceholder?.parentNode?.insertBefore(node, $coversPlaceholder)
-    else if (nodeData.type === 'snippet') $snippetsPlaceholder?.parentNode?.insertBefore(node, $snippetsPlaceholder)
-    else if (nodeData.type === 'longform') $longformsPlaceholder?.parentNode?.insertBefore(node, $longformsPlaceholder)
+    if (nodeData.type === 'cover') {
+      const wrapper = document.createElement('DIV')
+      wrapper.setAttribute('class', 'multimedia-embed hero-container')
+      wrapper.innerHTML = node.outerHTML
+      $coversPlaceholder?.parentNode?.insertBefore(wrapper, $coversPlaceholder)
+    } else if (nodeData.type === 'snippet') {
+      const wrapper = document.createElement('DIV')
+      wrapper.setAttribute('class', 'snippet-container multimedia-embed snippet-medium snippet-right')
+      wrapper.innerHTML = node.outerHTML
+      $snippetsPlaceholder?.parentNode?.insertBefore(wrapper, $snippetsPlaceholder)
+    } else if (nodeData.type === 'longform') {
+      $longformsPlaceholder?.parentNode?.insertBefore(node, $longformsPlaceholder)
+    }
   })
   $coversPlaceholder?.remove()
   $snippetsPlaceholder?.remove()

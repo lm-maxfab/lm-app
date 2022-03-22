@@ -10,8 +10,8 @@
   "layouts": [{
     "name": "some-name",
     "nodes": [
-      { "class": "covid-longform-root", "type": "snippet"  },
-      { "class": "ma-div-1",            "type": "cover"    },
+      { "class": "covid-longform-root", "type": "cover"  },
+      { "class": "ma-div-1",            "type": "snippet"    },
       { "class": "ma-div-2",            "type": "longform" }
     ]
   }, {

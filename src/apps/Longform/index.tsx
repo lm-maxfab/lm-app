@@ -21,7 +21,8 @@ class Longform extends Component<Props, {}> {
     const wrapperStyle: JSX.CSSProperties = {
       ...props.style,
       fontSize: '48px',
-      margin: 'calc(var(--nav-height) + 32px) 32px 32px 32px'
+      // margin: 'calc(var(--nav-height) + 32px) 32px 32px 32px',
+      backgroundColor: 'blue'
     }
 
     const labelStyle = {
