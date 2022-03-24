@@ -109,8 +109,6 @@ async function postbuild () {
   console.log(chalk.bold(`\n🔗 Relinking assets...\n`))
   const CONFIG = new File(path.join(__dirname, 'config.json'))
   const config = JSON.parse(await CONFIG.read())
-  console.log(`[\/\.]*{{ASSETS_ROOT_URL}} => ${config.assets_root_url}`)
-  console.log(`http://localhost:3001 => ${config.statics_root_url}`)
   const BUILD = new Directory(path.join(__dirname, 'build'))
   const pathsToBatchEdit = await deepLs(BUILD.path)
   await batchFileEdit(pathsToBatchEdit, BUILD.path, fileData => {
@@ -119,6 +117,7 @@ async function postbuild () {
       .replace(/http:\/\/localhost:3001/gm, config.statics_root_url)
     return newContent
   })
+  console.log(chalk.grey('relinked.'))
 
   // Bundle vendor and index js into a single iife
   console.log(chalk.bold('\n⚙️  Bundle vendor and index into a single IIFE...\n'))
