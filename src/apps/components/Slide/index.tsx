@@ -1,16 +1,17 @@
 import { Component, JSX } from 'preact'
-import bem from '../../modules/utils/bem'
+import bem from '../../../modules/utils/bem'
 
 import './styles.scss'
 
 interface Props {
   className?: string
   style?: JSX.CSSProperties
+  height?: JSX.CSSProperties['height']
 }
 
-class Template extends Component<Props, {}> {
-  static clss = 'lm-component-css-class'
-  clss = Template.clss
+class Slide extends Component<Props, {}> {
+  static clss = 'carto-twitter-slide'
+  clss = Slide.clss
 
   /* * * * * * * * * * * * * * *
    * RENDER
@@ -20,16 +21,19 @@ class Template extends Component<Props, {}> {
 
     /* Classes and style */
     const wrapperClasses = bem(props.className).block(this.clss)
-    const wrapperStyle: JSX.CSSProperties = { ...props.style }
+    const wrapperStyle: JSX.CSSProperties = {
+      ...props.style,
+      height: props.height ?? '100vh'
+    }
 
     /* Display */
     return (
       <div className={wrapperClasses.value} style={wrapperStyle}>
-        TSX component template.
+        {props.children}
       </div>
     )
   }
 }
 
 export type { Props }
-export default Template
+export default Slide

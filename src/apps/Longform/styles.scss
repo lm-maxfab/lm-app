@@ -1,0 +1,19 @@
+.carto-twitter-longform {
+  padding-top: 40px;
+
+  .carto-twitter-longform__bg-image {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: crimson;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+
+  .lm-article-credits {
+    min-height: calc(100 * var(--vh));
+  }
+}

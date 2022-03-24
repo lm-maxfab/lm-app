@@ -18,7 +18,7 @@ interface Props {
   thresholdOffset?: string
   delay?: number
   intervalCheck?: boolean
-  onPageChange?: (value: State['value'], state?: State) => void
+  onPageChange?: (state?: State) => void
 }
 
 interface State {
@@ -167,7 +167,7 @@ class Paginator extends Component<Props, State> {
 
       const newState = { passed, active, coming, direction, value }
 
-      if (this.props.onPageChange !== undefined) this.props.onPageChange(newState.value, newState)
+      if (this.props.onPageChange !== undefined) this.props.onPageChange(newState)
       return newState
     })
   }
@@ -228,5 +228,5 @@ class Paginator extends Component<Props, State> {
   }
 }
 
-export type { Props }
+export type { Props, State }
 export default Paginator

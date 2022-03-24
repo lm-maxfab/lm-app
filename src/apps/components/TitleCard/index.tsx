@@ -1,16 +1,18 @@
-import { Component, JSX } from 'preact'
-import bem from '../../modules/utils/bem'
+import { Component, JSX, VNode } from 'preact'
+import bem from '../../../modules/utils/bem'
 
 import './styles.scss'
 
 interface Props {
   className?: string
   style?: JSX.CSSProperties
+  overhead?: VNode|string
+  title?: VNode|string
 }
 
-class Template extends Component<Props, {}> {
-  static clss = 'lm-component-css-class'
-  clss = Template.clss
+class TitleCard extends Component<Props, {}> {
+  static clss = 'carto-twitter-title-card'
+  clss = TitleCard.clss
 
   /* * * * * * * * * * * * * * *
    * RENDER
@@ -25,11 +27,12 @@ class Template extends Component<Props, {}> {
     /* Display */
     return (
       <div className={wrapperClasses.value} style={wrapperStyle}>
-        TSX component template.
+        <p>{props.overhead}</p>
+        <h1>{props.title}</h1>
       </div>
     )
   }
 }
 
 export type { Props }
-export default Template
+export default TitleCard

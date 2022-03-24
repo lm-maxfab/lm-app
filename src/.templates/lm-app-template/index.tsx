@@ -1,6 +1,6 @@
 import { Component, JSX } from 'preact'
-import appWrapper, { InjectedProps } from '../../modules/le-monde/utils/lm-app-wrapper-HOC'
-import bem from '../../modules/le-monde/utils/bem'
+import appWrapper, { InjectedProps } from '../../modules/utils/app-wrapper-HOC'
+import bem from '../../modules/utils/bem'
 
 import './styles.scss'
 

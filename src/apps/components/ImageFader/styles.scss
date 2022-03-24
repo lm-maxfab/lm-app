@@ -1,0 +1,29 @@
+.carto-twitter-image-fader {
+  width: 100%;
+  height: 100%;
+  position: relative;
+
+  .lm-img {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    opacity: 0;
+    transition: opacity 500ms;
+
+    &.carto-twitter-image-fader__image_passed {
+      opacity: 0;
+    }
+
+    &.carto-twitter-image-fader__image_previous {
+      opacity: 1;
+    }
+
+    &.carto-twitter-image-fader__image_active {
+      opacity: 1;
+    }
+  }
+}
