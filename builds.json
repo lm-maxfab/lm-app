@@ -506,6 +506,17 @@
       },
       "description": "test",
       "time": "2022-03-24T11:33:18.262Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 4
+      },
+      "description": "test",
+      "time": "2022-03-24T11:38:24.582Z"
     }
   ]
 }
