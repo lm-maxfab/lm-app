@@ -1,8 +1,8 @@
 import { JSX } from 'preact'
-import { Config, ConfigLayout } from '../lm-app-modules/utils/get-config'
-import { PageSettings } from '../lm-app-modules/utils/get-page-settings'
-import { AppNodeMap } from '../lm-app-modules/utils/render-app'
-import { SheetBase } from '../modules/utils/sheet-base'
+import { Config, ConfigLayout } from './modules/utils/get-config'
+import { PageSettings } from './modules/utils/get-page-settings'
+import { AppNodeMap } from './modules/utils/render-app'
+import { SheetBase } from './modules/utils/sheet-base'
 
 export interface MyNavigator extends Navigator {
   connection: NetworkInformation

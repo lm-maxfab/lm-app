@@ -1,10 +1,10 @@
 import appsNodes from './apps'
 import fetchSheetBase from './modules/utils/fetch-sheet-base'
-import getConfig, { ConfigLayout } from './lm-app-modules/utils/get-config'
-import getPageSettings from './lm-app-modules/utils/get-page-settings'
-import applyPageTemplate from './lm-app-modules/utils/apply-page-template'
-import applyPageLayout from './lm-app-modules/utils/apply-page-layout'
-import renderLMApp from './lm-app-modules/utils/render-app'
+import getConfig, { ConfigLayout } from './modules/utils/get-config'
+import getPageSettings from './modules/utils/get-page-settings'
+import applyPageTemplate from './modules/utils/apply-page-template'
+import applyPageLayout from './modules/utils/apply-page-layout'
+import renderLMApp from './modules/utils/render-app'
 
 /* Init */
 init()

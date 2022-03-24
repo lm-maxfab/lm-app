@@ -134,7 +134,7 @@ async function postbuild () {
   // Create .<version>, .latest and .live js and css files
   console.log(chalk.bold(`\n👭 Creating .${versionNameForFileNames}, .latest and .live js and css files...\n`))
   const BUILD_VERSIONNED_JS = buildAssetsFiles.find(file => file.name === `index.${versionNameForFileNames}.js`)
-  await BUILD_VERSIONNED_JS.editQuiet(content => `/* Version: ${versionName}, built index.js: ${BUILD_INDEX_JS.name}, built vendor.js: ${BUILD_VENDOR_JS.name} */\n${content}`)
+  await BUILD_VERSIONNED_JS.editQuiet(content => `/* Version: ${versionName}, date: ${buildTime.toISOString()} built index.js: ${BUILD_INDEX_JS.name}, built vendor.js: ${BUILD_VENDOR_JS.name} */\n${content}`)
   await BUILD_VERSIONNED_JS.copyTo(`index.latest.js`)
   if (linkToLive) await BUILD_VERSIONNED_JS.copyTo(`index.live.js`)
   const BUILD_INDEX_CSS = buildAssetsFiles.find(file => file.name.match(/^index.[a-f0-9]{8}.css$/gm))
@@ -197,6 +197,44 @@ async function postbuild () {
     await INDEX.deleteSelfQuiet()
   }
   await BUILD_INDEX.deleteSelfQuiet()
+
+  // Remove all .DS_Store files in build
+  console.log(chalk.bold('\n🧹 Removing all .DS_Store files...\n'))
+  await execPromise(`cd ${BUILD.path} && find . -name ".DS_Store" -print -delete`)
+  console.log(chalk.grey('removed.'))
+
+  // Write build info to builds.json
+  if (doVersionAndCommit) {
+    console.log(chalk.bold('\n✍️  Storing build info to builds.json...\n'))
+    await new File(PATHS.BUILDS_JSON).editQuiet(content => {
+      const parsed = JSON.parse(content)
+      if (parsed[currentBranch] === undefined) parsed[currentBranch] = []
+      const branchData = parsed[currentBranch]
+      const newBuildData = {
+        version: targetBuildVersion,
+        description: buildDescription,
+        time: buildTime
+      }
+      branchData.push(newBuildData)
+      const returned = JSON.stringify(parsed, null, 2) + '\n'
+      return returned
+    })
+    console.log(chalk.grey('stored.'))
+  }
+
+  // Commit and push to Github
+  if (doVersionAndCommit) {
+    console.log(chalk.bold('\n📣 Commiting and pushing to Github...'))
+    await execPromise('git add -u')
+    await execPromise(`git commit -m "BUILD - ${currentBranch} - ${buildVersionNameWithDesc}"`)
+    const pushResult = await execPromise(`git push origin ${currentBranch}`)
+    console.log(chalk.grey(`\nPushed: BUILD - ${buildVersionNameWithDesc}`))
+    if (pushResult.stdout !== '') console.log(`${chalk.grey(pushResult.stdout.trim())}`)
+    if (pushResult.stderr !== '') console.log(`${chalk.grey(pushResult.stderr.trim())}`)
+  }
+
+  // The end.
+  console.log(chalk.bold('\n🍸 That\'s all good my friend!\n'))
   
   
 

@@ -1,6 +1,6 @@
 import { Component, JSX } from 'preact'
-import ArticleHeader from '../../lm-app-modules/components/ArticleHeader'
-import appWrapper, { InjectedProps } from '../../lm-app-modules/utils/app-wrapper-HOC'
+import ArticleHeader from '../../modules/components/ArticleHeader'
+import appWrapper, { InjectedProps } from '../../modules/utils/app-wrapper-HOC'
 import bem from '../../modules/utils/bem'
 import './styles.scss'
 
