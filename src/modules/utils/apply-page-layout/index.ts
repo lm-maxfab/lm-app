@@ -1,6 +1,6 @@
 import { ConfigLayout } from '../get-config'
 
-export default function applyPageLayout(layout: ConfigLayout) {
+export default function applyPageLayout (layout: ConfigLayout): void {
   if (window.location.hostname !== 'localhost') return console.warn('Using this utility is only allowed from localhost.')
   const $coversPlaceholder = document.querySelector('.lm-app-covers-placeholder')
   const $snippetsPlaceholder = document.querySelector('.lm-app-snippets-placeholder')

@@ -58,7 +58,7 @@ async function init (): Promise<void> {
     const layout: ConfigLayout|undefined = layouts.find(layout => layout.name === settings?.layout) ?? layouts[0]
     if (layout !== undefined) applyPageLayout(layout)
   }
-  
+
   // Render apps
   renderLMApp(appsNodes, sheetBase)
 }

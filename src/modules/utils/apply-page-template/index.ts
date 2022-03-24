@@ -1,4 +1,4 @@
-export default async function applyPageTemplate (template: string) {
+export default async function applyPageTemplate (template: string): Promise<void> {
   if (window.location.hostname !== 'localhost') return console.warn('Using this utility is only allowed from localhost.')
   try {
     const templateResponse = await window.fetch(`http://localhost:3001/utils/le-monde-page-templates/${template}/index.html`)
@@ -20,7 +20,7 @@ export default async function applyPageTemplate (template: string) {
     const $script = $body?.querySelector('.lm-app-script')
 
     const headChildren = [...($head?.children ?? [])]
-    headChildren.forEach(headChild => $templateHeadPlaceholder?.parentNode?.insertBefore(headChild, $templateHeadPlaceholder))    
+    headChildren.forEach(headChild => $templateHeadPlaceholder?.parentNode?.insertBefore(headChild, $templateHeadPlaceholder))
     $templateConfigPlaceholder?.insertAdjacentHTML('afterend', $config?.outerHTML ?? '')
     $templateScriptsPlaceholder?.insertAdjacentHTML('afterend', $script?.outerHTML ?? '')
 

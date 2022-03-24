@@ -18,7 +18,7 @@ export interface ConfigLayout {
 export interface Config {
   assets_root_url: string
   spreadsheets_urls: ConfigSpreadsheetUrls
-  layouts: Array<ConfigLayout>
+  layouts: ConfigLayout[]
   env: 'production'|'staging'|'testing'|'developpment'
 }
 
