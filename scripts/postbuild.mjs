@@ -130,6 +130,7 @@ async function postbuild () {
   const versionNameForFileNames = versionName ?? 'no-version'
   await execPromise(`npx rollup -i ${BUILD_INDEX_JS.path} -o ${path.join(BUILD_ASSETS.path, `index.${versionNameForFileNames}.js`)} -f iife`)
   buildAssetsFiles = await BUILD_ASSETS.list()
+  console.log(chalk.grey('bundled.'))
 
   // Create .<version>, .latest and .live js and css files
   console.log(chalk.bold(`\n👭 Creating .${versionNameForFileNames}, .latest and .live js and css files...\n`))
@@ -141,8 +142,10 @@ async function postbuild () {
   await BUILD_INDEX_CSS.copyTo(`index.${versionNameForFileNames}.css`)
   await BUILD_INDEX_CSS.copyTo(`index.latest.css`)
   if (linkToLive) await BUILD_INDEX_CSS.copyTo(`index.live.css`)
+  console.log(chalk.grey('created.'))
 
   // Link index.html to live js and css
+  console.log(chalk.bold(`\n🔗 Linking index.html to corresponding js and css files...\n`))
   await BUILD_INDEX.editHTMLQuiet(jsdom => {
     const document = jsdom.window.document
     const documentElement = document.documentElement
@@ -162,7 +165,9 @@ async function postbuild () {
       .replace('</body></html>', '  </body>\n</html>')
       + '\n'
   })
+  console.log(chalk.grey('linked.'))
 
+  console.log(chalk.bold(`\n📥 Creating layout outputs...\n`))
   await BUILD.mkdir('layouts')
   const LAYOUTS = await BUILD.get('layouts')
   for (const layoutData of config.layouts) {
@@ -197,6 +202,7 @@ async function postbuild () {
     await INDEX.deleteSelfQuiet()
   }
   await BUILD_INDEX.deleteSelfQuiet()
+  console.log(chalk.grey('created.'))
 
   // Remove all .DS_Store files in build
   console.log(chalk.bold('\n🧹 Removing all .DS_Store files...\n'))
