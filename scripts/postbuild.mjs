@@ -50,33 +50,33 @@ async function postbuild () {
   if (doVersionAndCommit) console.log()
   if (doVersionAndCommit) console.log(chalk.bold.bgBlack.rgb(255, 255, 255)(` Preparing build of ${buildVersionNameWithDesc} `))
   
-  // // Lint
-  // console.log(chalk.bold('\n👀 Linting...\n'))
-  // try {
-  //   const lintExec = await execPromise('npm run lint')
-  //   if (lintExec.stdout !== '') console.log(chalk.grey(lintExec.stdout))
-  //   if (lintExec.stderr !== '') {
-  //     console.log(chalk.red(lintExec.stderr))
-  //     const lintContinue = (await prompts({
-  //       type: 'confirm',
-  //       name: 'lintContinue',
-  //       message: 'You have lint errors, do you want to continue?'
-  //     })).lintContinue
-  //     if (!lintContinue) throw new Error('You aborted build process due to lint errors.')
-  //   }
-  // } catch (err) {
-  //   if (err.stdout !== '') console.log(chalk.grey(err.stdout))
-  //   if (err.stderr !== '') console.log(chalk.red(err.stderr))
-  //   if (err.err !== '') console.log(chalk.red(err.err))
-  //   if (err.stderr !== '' || err.err !== '') {
-  //     const lintContinue = (await prompts({
-  //       type: 'confirm',
-  //       name: 'lintContinue',
-  //       message: 'You have lint errors, do you want to continue?'
-  //     })).lintContinue
-  //     if (!lintContinue) throw new Error('You aborted build process due to lint errors.')
-  //   }
-  // }
+  // Lint
+  console.log(chalk.bold('\n👀 Linting...\n'))
+  try {
+    const lintExec = await execPromise('npm run lint')
+    if (lintExec.stdout !== '') console.log(chalk.grey(lintExec.stdout))
+    if (lintExec.stderr !== '') {
+      console.log(chalk.red(lintExec.stderr))
+      const lintContinue = (await prompts({
+        type: 'confirm',
+        name: 'lintContinue',
+        message: 'You have lint errors, do you want to continue?'
+      })).lintContinue
+      if (!lintContinue) throw new Error('You aborted build process due to lint errors.')
+    }
+  } catch (err) {
+    if (err.stdout !== '') console.log(chalk.grey(err.stdout))
+    if (err.stderr !== '') console.log(chalk.red(err.stderr))
+    if (err.err !== '') console.log(chalk.red(err.err))
+    if (err.stderr !== '' || err.err !== '') {
+      const lintContinue = (await prompts({
+        type: 'confirm',
+        name: 'lintContinue',
+        message: 'You have lint errors, do you want to continue?'
+      })).lintContinue
+      if (!lintContinue) throw new Error('You aborted build process due to lint errors.')
+    }
+  }
 
   // Check git status
   if (doVersionAndCommit) console.log(chalk.bold('\n📡 Checking git status...\n'))
