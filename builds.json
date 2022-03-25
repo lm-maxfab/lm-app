@@ -540,5 +540,18 @@
       "description": "",
       "time": "2022-03-24T11:43:10.623Z"
     }
+  ],
+  "12-2203-carto-twitter": [
+    {
+      "version": {
+        "major": 0,
+        "minor": 1,
+        "patch": 0,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "1st to STG",
+      "time": "2022-03-25T17:18:41.409Z"
+    }
   ]
 }
