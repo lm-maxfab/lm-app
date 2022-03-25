@@ -27,8 +27,8 @@ class TitleCard extends Component<Props, {}> {
     /* Display */
     return (
       <div className={wrapperClasses.value} style={wrapperStyle}>
-        <p>{props.overhead}</p>
-        <h1>{props.title}</h1>
+        {props.overhead !== undefined && <p className={bem(this.clss).elt('overhead').value}>{props.overhead}</p>}
+        {props.title !== undefined && <h1 className={bem(this.clss).elt('title').value}>{props.title}</h1>}
       </div>
     )
   }

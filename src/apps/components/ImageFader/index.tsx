@@ -21,10 +21,10 @@ class ImageFader extends Component<Props, State> {
   state: State = { previous: undefined }
   previousImage?: string
 
-  getSnapshotBeforeUpdate (prevProps: Props): null {
-    if (prevProps.current === this.props.current) return null
-    this.previousImage = prevProps.current
-    return null
+  shouldComponentUpdate (nextProps: Props): boolean {
+    if (this.props.current === nextProps.current) return false
+    this.previousImage = this.props.current
+    return true
   }
 
   /* * * * * * * * * * * * * * *
@@ -42,9 +42,12 @@ class ImageFader extends Component<Props, State> {
       <div className={wrapperClasses.value} style={wrapperStyle}>
         {props.list?.map(url => {
           const imageBem = bem(this.clss).elt('image')
-          if (url === props.current) imageBem.addModifier('active')
-          else if (url === this.previousImage) imageBem.addModifier('previous')
-          else imageBem.addModifier('passed')
+          if (props.current === undefined) imageBem.addModifier('passed')
+          else {
+            if (url === props.current) imageBem.addModifier('active')
+            else if (url === this.previousImage) imageBem.addModifier('previous')
+            else imageBem.addModifier('passed')
+          }
           return <Img src={url} className={imageBem.value} />
         })}
       </div>

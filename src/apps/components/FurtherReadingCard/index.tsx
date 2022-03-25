@@ -6,15 +6,13 @@ import './styles.scss'
 interface Props {
   className?: string
   style?: JSX.CSSProperties
+  title?: VNode|string
   paragraph?: VNode|string
-  readAlsoTitle?: VNode|string
-  readAlsoText?: VNode|string
-  readAlsoUrl?: string
 }
 
-class TextCard extends Component<Props, {}> {
-  static clss = 'carto-twitter-text-card'
-  clss = TextCard.clss
+class FurtherReadingCard extends Component<Props, {}> {
+  static clss = 'carto-twitter-further-reading-card'
+  clss = FurtherReadingCard.clss
 
   /* * * * * * * * * * * * * * *
    * RENDER
@@ -29,13 +27,12 @@ class TextCard extends Component<Props, {}> {
     /* Display */
     return (
       <div className={wrapperClasses.value} style={wrapperStyle}>
-        {props.paragraph !== undefined && <p className={bem(this.clss).elt('text').value}>{props.paragraph}</p>}
-        {props.readAlsoTitle !== undefined && <h4 className={bem(this.clss).elt('label').value}>{props.readAlsoTitle}</h4>}
-        {props.readAlsoUrl !== undefined && <a className={bem(this.clss).elt('link').value} href={props.readAlsoUrl}>{props.readAlsoText}</a>}
+        <h4 className={bem(this.clss).elt('title').value}>{props.title}</h4>
+        <p className={bem(this.clss).elt('text').value}>{props.paragraph}</p>
       </div>
     )
   }
 }
 
 export type { Props }
-export default TextCard
+export default FurtherReadingCard

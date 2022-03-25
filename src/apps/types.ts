@@ -29,6 +29,27 @@ export interface ChapterData extends SheetbaseCollectionData {
   background_image_url?: string
 }
 
+export interface SummaryData extends SheetbaseCollectionData {
+  title?: VNode|string
+  link_1_text?: VNode|string
+  link_1_url?: string
+  link_2_text?: VNode|string
+  link_2_url?: string
+  link_3_text?: VNode|string
+  link_3_url?: string
+  link_4_text?: VNode|string
+  link_4_url?: string
+  link_5_text?: VNode|string
+  link_5_url?: string
+  background_image_url?: string
+}
+
+export interface FurtherReadingData extends SheetbaseCollectionData {
+  title?: VNode|string
+  paragraph?: VNode|string
+  background_image_url?: string
+}
+
 export interface CreditsData extends SheetbaseCollectionData {
   content?: VNode|string
   background_image_url?: string

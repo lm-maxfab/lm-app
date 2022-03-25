@@ -6,15 +6,13 @@ import './styles.scss'
 interface Props {
   className?: string
   style?: JSX.CSSProperties
-  paragraph?: VNode|string
-  readAlsoTitle?: VNode|string
-  readAlsoText?: VNode|string
-  readAlsoUrl?: string
+  title?: VNode|string
+  links?: Array<{text?: VNode|string, url?: string}>
 }
 
-class TextCard extends Component<Props, {}> {
-  static clss = 'carto-twitter-text-card'
-  clss = TextCard.clss
+class SummaryCard extends Component<Props, {}> {
+  static clss = 'carto-twitter-summary-card'
+  clss = SummaryCard.clss
 
   /* * * * * * * * * * * * * * *
    * RENDER
@@ -29,13 +27,14 @@ class TextCard extends Component<Props, {}> {
     /* Display */
     return (
       <div className={wrapperClasses.value} style={wrapperStyle}>
-        {props.paragraph !== undefined && <p className={bem(this.clss).elt('text').value}>{props.paragraph}</p>}
-        {props.readAlsoTitle !== undefined && <h4 className={bem(this.clss).elt('label').value}>{props.readAlsoTitle}</h4>}
-        {props.readAlsoUrl !== undefined && <a className={bem(this.clss).elt('link').value} href={props.readAlsoUrl}>{props.readAlsoText}</a>}
+        <h4 className={bem(this.clss).elt('title').value}>{props.title}</h4>
+        {props.links?.map(link => {
+          return <a className={bem(this.clss).elt('link').value} href={link.url}>{link.text}</a>
+        })}
       </div>
     )
   }
 }
 
 export type { Props }
-export default TextCard
+export default SummaryCard

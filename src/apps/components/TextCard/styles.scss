@@ -2,4 +2,33 @@
   max-width: 580px;
   background-color: white;
   padding: 40px;
+
+  .carto-twitter-text-card__text {
+    font-family: var(--ff-the-antiqua-b);
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1.5;
+    color: #383f4E;
+  }
+
+  .carto-twitter-text-card__label {
+    font-family: var(--ff-marr-sans-condensed);
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 1;
+    text-transform: uppercase;
+    color: #717B8E;
+    margin-top: 24px;
+  }
+
+  .carto-twitter-text-card__link {
+    font-family: var(--ff-marr-sans-condensed);
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 1.1;
+    color: #383F4E;
+    text-decoration: underline;
+    margin-top: 16px;
+    display: block;
+  }
 }

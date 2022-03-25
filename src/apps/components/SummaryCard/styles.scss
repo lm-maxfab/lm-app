@@ -1,28 +1,27 @@
-.carto-twitter-title-card {
+.carto-twitter-summary-card {
   max-width: 580px;
   background-color: white;
   padding: 40px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
 
-  .carto-twitter-title-card__overhead {
+  .carto-twitter-summary-card__title {
     font-family: var(--ff-marr-sans-condensed);
     font-weight: 600;
     font-size: 18px;
     line-height: 1;
-    margin-bottom: 24px;
     text-transform: uppercase;
     color: #717B8E;
+    margin-bottom: 24px;
+    text-align: center;
   }
 
-  .carto-twitter-title-card__title {
+  .carto-twitter-summary-card__link {
     font-family: var(--ff-marr-sans-condensed);
-    font-weight: 800;
-    font-size: 64px;
+    font-weight: 600;
+    font-size: 22px;
     line-height: 1.1;
-    color: #2A303C;
+    color: #383F4E;
+    text-decoration: underline;
+    margin-top: 16px;
+    display: block;
   }
 }

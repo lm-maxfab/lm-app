@@ -20,10 +20,12 @@
 
     &.carto-twitter-image-fader__image_previous {
       opacity: 1;
+      z-index: 0;
     }
 
     &.carto-twitter-image-fader__image_active {
       opacity: 1;
+      z-index: 1;
     }
   }
 }

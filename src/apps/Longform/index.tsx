@@ -1,13 +1,15 @@
-import { Component, JSX } from 'preact'
+import { Component, JSX, VNode } from 'preact'
 import Paginator, { State as PaginatorState } from '../../modules/components/Paginator'
 import appWrapper, { InjectedProps } from '../../modules/utils/app-wrapper-HOC'
 import bem from '../../modules/utils/bem'
-import { ChapterData, CreditsData, HeadData, IntroData } from '../types'
+import { ChapterData, CreditsData, HeadData, IntroData, SummaryData, FurtherReadingData } from '../types'
 import './styles.scss'
 
 import Slide from '../components/Slide'
 import TitleCard from '../components/TitleCard'
 import TextCard from '../components/TextCard'
+import SummaryCard from '../components/SummaryCard'
+import FurtherReadingCard from '../components/FurtherReadingCard'
 import ArticleCredits from '../../modules/components/ArticleCredits'
 import ImageFader from '../components/ImageFader'
 
@@ -45,6 +47,8 @@ class Longform extends Component<Props, State> {
     const headData = props.sheetBase?.collection('head')?.entries[0].value as unknown as HeadData|undefined
     const introData = props.sheetBase?.collection('intro')?.value as unknown as IntroData[]|undefined
     const chaptersData = props.sheetBase?.collection('chapters')?.value as unknown as ChapterData[]|undefined
+    const summaryData = props.sheetBase?.collection('summary')?.value as unknown as SummaryData[]|undefined
+    const furtherReadingData = props.sheetBase?.collection('further_reading')?.value as unknown as FurtherReadingData[]|undefined
     const creditsData = props.sheetBase?.collection('credits')?.entries[0].value as unknown as CreditsData|undefined
 
     // Logic
@@ -72,7 +76,7 @@ class Longform extends Component<Props, State> {
         <Paginator
           root='window'
           direction='vertical'
-          thresholdOffset='60%'
+          thresholdOffset='75%'
           onPageChange={this.handlePageChange}>
           
           {/* HEAD */}
@@ -116,12 +120,50 @@ class Longform extends Component<Props, State> {
             </Paginator.Page>
           })}
 
+          {/* SUMMARY */}
+          {summaryData?.map(summaryItem => {
+            const summaryLinks: Array<{ text?: VNode|string, url?: string }> = []
+            if (summaryItem.link_1_url !== undefined) summaryLinks.push({ text: summaryItem.link_1_text ?? summaryItem.link_1_url, url: summaryItem.link_1_url })
+            if (summaryItem.link_2_url !== undefined) summaryLinks.push({ text: summaryItem.link_2_text ?? summaryItem.link_2_url, url: summaryItem.link_2_url })
+            if (summaryItem.link_3_url !== undefined) summaryLinks.push({ text: summaryItem.link_3_text ?? summaryItem.link_3_url, url: summaryItem.link_3_url })
+            if (summaryItem.link_4_url !== undefined) summaryLinks.push({ text: summaryItem.link_4_text ?? summaryItem.link_4_url, url: summaryItem.link_4_url })
+            if (summaryItem.link_5_url !== undefined) summaryLinks.push({ text: summaryItem.link_5_text ?? summaryItem.link_5_url, url: summaryItem.link_5_url })
+
+            return <Paginator.Page value={{
+              section: 'summary',
+              imageUrl: summaryItem.background_image_url
+            }}>
+              <Slide height='calc(120 * var(--vh))'>
+                <SummaryCard
+                  title={summaryItem.title}
+                  links={summaryLinks} />
+              </Slide>
+            </Paginator.Page>
+          })}
+
+          {/* FURTHER READING */}
+          {furtherReadingData?.map(furtherReadingItem => {
+
+            return <Paginator.Page value={{
+              section: 'further-reading',
+              imageUrl: furtherReadingItem.background_image_url
+            }}>
+              <Slide height='calc(120 * var(--vh))'>
+                <FurtherReadingCard 
+                  title={furtherReadingItem.title}
+                  paragraph={furtherReadingItem.paragraph} />
+              </Slide>
+            </Paginator.Page>
+          })}
+
           {/* CREDITS */}
           <Paginator.Page value={{
             section: 'credits',
             imageUrl: creditsData?.background_image_url
           }}>
-            <ArticleCredits content={creditsData?.content} />
+            <Slide height='calc(120 * var(--vh))'>
+              <ArticleCredits content={creditsData?.content} />
+            </Slide>
           </Paginator.Page>
         </Paginator>
       </div>
