@@ -161,8 +161,10 @@ class Longform extends Component<Props, State> {
             section: 'credits',
             imageUrl: creditsData?.background_image_url
           }}>
-            <Slide height='calc(120 * var(--vh))'>
-              <ArticleCredits content={creditsData?.content} />
+            <Slide style={{ height:'calc(90 * var(--vh))', marginBottom: 'calc(10 * var(--vh))' }}>
+              <div className={bem(this.clss).elt('credits-wrapper').value}>
+                <ArticleCredits content={creditsData?.content} />
+              </div>
             </Slide>
           </Paginator.Page>
         </Paginator>

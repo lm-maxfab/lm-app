@@ -2,6 +2,16 @@
   max-width: 580px;
   background-color: white;
   padding: 40px;
+  margin-left: 16px;
+  margin-right: 16px;
+
+  @media screen and (max-width: 1200px) {
+    padding: 32px;
+  }
+
+  @media screen and (max-width: 800px) {
+    padding: 24px;
+  }
 
   .carto-twitter-text-card__text {
     font-family: var(--ff-the-antiqua-b);
@@ -9,26 +19,71 @@
     font-size: 18px;
     line-height: 1.5;
     color: #383f4E;
+
+    @media screen and (max-width: 1200px) {
+      font-size: 16px;
+    }
+
+    @media screen and (max-width: 800px) {
+      font-size: 14px;
+    }
   }
 
   .carto-twitter-text-card__label {
     font-family: var(--ff-marr-sans-condensed);
-    font-weight: 600;
-    font-size: 18px;
+    font-weight: 500;
+    font-size: 17px;
     line-height: 1;
+    letter-spacing: .05em;
     text-transform: uppercase;
     color: #717B8E;
     margin-top: 24px;
+
+    @media screen and (max-width: 1200px) {
+      font-size: 15px;
+    }
+
+    @media screen and (max-width: 800px) {
+      font-size: 13px;
+    }
   }
 
   .carto-twitter-text-card__link {
+    display: flex;
+    justify-content: start;
+    align-items: flex-start;
+    margin-top: 16px;
     font-family: var(--ff-marr-sans-condensed);
     font-weight: 600;
-    font-size: 22px;
     line-height: 1.1;
     color: #383F4E;
+
+    &::before {
+      content: "➝\00a0\00a0";
+      text-decoration: none;
+      font-size: 19px;
+      margin-top: .2em;
+
+      @media screen and (max-width: 1200px) {
+        font-size: 17px;
+      }
+  
+      @media screen and (max-width: 800px) {
+        font-size: 14px;
+      }
+    }
+  }
+
+  .carto-twitter-text-card__link-content {
     text-decoration: underline;
-    margin-top: 16px;
-    display: block;
+    font-size: 22px;
+
+    @media screen and (max-width: 1200px) {
+      font-size: 20px;
+    }
+
+    @media screen and (max-width: 800px) {
+      font-size: 18px;
+    }
   }
 }

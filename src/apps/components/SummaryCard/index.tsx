@@ -29,7 +29,9 @@ class SummaryCard extends Component<Props, {}> {
       <div className={wrapperClasses.value} style={wrapperStyle}>
         <h4 className={bem(this.clss).elt('title').value}>{props.title}</h4>
         {props.links?.map(link => {
-          return <a className={bem(this.clss).elt('link').value} href={link.url}>{link.text}</a>
+          return <a className={bem(this.clss).elt('link').value} href={link.url}>
+            <span className={bem(this.clss).elt('link-content').value}>{link.text}</span>
+          </a>
         })}
       </div>
     )

@@ -31,7 +31,9 @@ class TextCard extends Component<Props, {}> {
       <div className={wrapperClasses.value} style={wrapperStyle}>
         {props.paragraph !== undefined && <p className={bem(this.clss).elt('text').value}>{props.paragraph}</p>}
         {props.readAlsoTitle !== undefined && <h4 className={bem(this.clss).elt('label').value}>{props.readAlsoTitle}</h4>}
-        {props.readAlsoUrl !== undefined && <a className={bem(this.clss).elt('link').value} href={props.readAlsoUrl}>{props.readAlsoText}</a>}
+        {props.readAlsoUrl !== undefined && <a className={bem(this.clss).elt('link').value} href={props.readAlsoUrl}>
+          <span className={bem(this.clss).elt('link-content').value}>{props.readAlsoText}</span>
+        </a>}
       </div>
     )
   }
