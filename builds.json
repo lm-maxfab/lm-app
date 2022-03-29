@@ -552,6 +552,17 @@
       },
       "description": "1st to STG",
       "time": "2022-03-25T17:18:41.409Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 1,
+        "patch": 1,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "",
+      "time": "2022-03-29T15:24:23.016Z"
     }
   ]
 }
