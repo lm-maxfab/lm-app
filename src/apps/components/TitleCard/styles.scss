@@ -1,8 +1,8 @@
 .carto-twitter-title-card {
-  max-width: 320px;
+  max-width: 420px;
   background-color: white;
   box-sizing: content-box;
-  padding: 40px 120px;
+  padding: 40px 80px;
   margin-left: 16px;
   margin-right: 16px;
   display: flex;
@@ -12,19 +12,19 @@
   text-align: center;
 
   @media screen and (max-width: 1200px) {
-    max-width: 260px;
+    max-width: 340px;
   }
 
   @media screen and (max-width: 800px) {
-    max-width: 200px;
+    max-width: 280px;
   }
 
   @media screen and (max-width: 600px) {
-    padding: 32px 80px;
+    padding: 32px 40px;
   }
 
   @media screen and (max-width: 420px) {
-    padding: 32px 40px;
+    padding: 32px 32px;
   }
 
   .carto-twitter-title-card__overhead {
@@ -49,16 +49,16 @@
   .carto-twitter-title-card__title {
     font-family: var(--ff-marr-sans-condensed);
     font-weight: 800;
-    font-size: 64px;
+    font-size: 42px;
     line-height: 1.1;
     color: #2A303C;
 
     @media screen and (max-width: 1200px) {
-      font-size: 51px;
+      font-size: 34px;
     }
 
     @media screen and (max-width: 800px) {
-      font-size: 39px;
+      font-size: 28px;
     }
   }
 }
