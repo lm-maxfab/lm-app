@@ -12,20 +12,22 @@
     object-fit: cover;
     object-position: center;
     opacity: 0;
-    transition: opacity 500ms;
+    // transition: opacity 500ms;
 
     &.carto-twitter-image-fader__image_passed {
       opacity: 0;
     }
 
     &.carto-twitter-image-fader__image_previous {
-      opacity: 1;
+      opacity: 0;
       z-index: 0;
+      transition: opacity 500ms 500ms;
     }
 
     &.carto-twitter-image-fader__image_active {
       opacity: 1;
       z-index: 1;
+      transition: opacity 500ms;
     }
   }
 }

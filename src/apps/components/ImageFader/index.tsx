@@ -11,14 +11,9 @@ interface Props {
   current?: string
 }
 
-interface State {
-  previous?: string
-}
-
-class ImageFader extends Component<Props, State> {
+class ImageFader extends Component<Props, {}> {
   static clss = 'carto-twitter-image-fader'
   clss = ImageFader.clss
-  state: State = { previous: undefined }
   previousImage?: string
 
   shouldComponentUpdate (nextProps: Props): boolean {
@@ -36,6 +31,10 @@ class ImageFader extends Component<Props, State> {
     /* Classes and style */
     const wrapperClasses = bem(props.className).block(this.clss)
     const wrapperStyle: JSX.CSSProperties = { ...props.style }
+
+    console.log('prev:', this.previousImage)
+    console.log('curr:', props.current)
+    console.log('----')
 
     /* Display */
     return (
@@ -55,5 +54,5 @@ class ImageFader extends Component<Props, State> {
   }
 }
 
-export type { Props, State }
+export type { Props }
 export default ImageFader

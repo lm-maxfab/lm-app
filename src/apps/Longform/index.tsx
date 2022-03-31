@@ -16,18 +16,27 @@ import ImageFader from '../components/ImageFader'
 interface Props extends InjectedProps {}
 interface State {
   currentBgImageUrl: string|null
+  readyToDisplayBgImages: boolean
 }
 
 class Longform extends Component<Props, State> {
   static clss: string = 'carto-twitter-longform'
   clss = Longform.clss
   state: State = {
-    currentBgImageUrl: null
+    currentBgImageUrl: null,
+    readyToDisplayBgImages: false
   }
+  
 
   constructor (props: Props) {
     super(props)
     this.handlePageChange = this.handlePageChange.bind(this)
+  }
+
+  componentDidMount () {
+    window.setTimeout(() => {
+      this.setState({ readyToDisplayBgImages: true })
+    }, 100)
   }
 
   /* * * * * * * * * * * * * * *
@@ -70,7 +79,11 @@ class Longform extends Component<Props, State> {
       <div className={bem(this.clss).elt('bg-image').value}>
         <ImageFader
           list={allImages.filter(e => e !== undefined) as string[]}
-          current={state.currentBgImageUrl ?? undefined} />
+          current={
+            state.readyToDisplayBgImages === true
+              ? state.currentBgImageUrl ?? undefined
+              : undefined
+          } />
       </div>
       <div className={bem(this.clss).elt('flow').value}>
         <Paginator

@@ -563,6 +563,17 @@
       },
       "description": "",
       "time": "2022-03-29T15:24:23.016Z"
+    },
+    {
+      "version": {
+        "major": 1,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "Good to go",
+      "time": "2022-03-31T14:06:47.394Z"
     }
   ]
 }
