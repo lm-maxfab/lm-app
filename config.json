@@ -1,25 +1,16 @@
 {
-  "assets_root_url": "https://assets.root.url",
-  "statics_root_url": "https://statics.root.url",
+  "assets_root_url": "https://assets-decodeurs.lemonde.fr/redacweb/13-2204-campagne-assets",
+  "statics_root_url": "https://assets-decodeurs.lemonde.fr/redacweb/statics",
   "spreadsheets_urls": {
-    "production": "prod.spreadsheet.url",
-    "staging": "stg.spreadsheet.url",
-    "testing": "tst.spreadsheet.url",
-    "developpment": "dev.spreadsheet.url"
+    "production": "https://assets-decodeurs.lemonde.fr/sheets/PI1lhhtoYWjPUhXlL4aXfQiTZeOzMw_1014",
+    "staging": "https://assets-decodeurs.lemonde.fr/sheets/PI1lhhtoYWjPUhXlL4aXfQiTZeOzMw_1015",
+    "testing": "https://assets-decodeurs.lemonde.fr/sheets/PI1lhhtoYWjPUhXlL4aXfQiTZeOzMw_1016",
+    "developpment": "https://assets-decodeurs.lemonde.fr/sheets/PI1lhhtoYWjPUhXlL4aXfQiTZeOzMw_1017"
   },
   "layouts": [{
-    "name": "some-name",
+    "name": "longform",
     "nodes": [
-      { "class": "covid-longform-root", "type": "cover"  },
-      { "class": "ma-div-1",            "type": "snippet"    },
-      { "class": "ma-div-2",            "type": "longform" }
-    ]
-  }, {
-    "name": "some-other-name",
-    "nodes": [
-      { "class": "covid-longform-root", "type": "longform"  },
-      { "class": "ma-div-1",            "type": "cover"    },
-      { "class": "ma-div-2",            "type": "longform" }
+      { "class": "carnet-de-campagne", "type": "longform"  }
     ]
   }],
   "env": null
