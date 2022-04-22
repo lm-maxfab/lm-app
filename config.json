@@ -1,5 +1,5 @@
 {
-  "assets_root_url": "https://assets-decodeurs.lemonde.fr/redacweb/13-2204-campagne-assets",
+  "assets_root_url": "https://assets-decodeurs.lemonde.fr/redacweb/13-2204-carnet-de-campagne-assets",
   "statics_root_url": "https://assets-decodeurs.lemonde.fr/redacweb/statics",
   "spreadsheets_urls": {
     "production": "https://assets-decodeurs.lemonde.fr/sheets/PI1lhhtoYWjPUhXlL4aXfQiTZeOzMw_1014",
@@ -10,7 +10,7 @@
   "layouts": [{
     "name": "longform",
     "nodes": [
-      { "class": "carnet-de-campagne", "type": "longform"  }
+      { "class": "carnet-de-campagne-longform-root", "type": "longform"  }
     ]
   }],
   "env": null

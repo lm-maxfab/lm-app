@@ -552,6 +552,17 @@
       },
       "description": "First STG version",
       "time": "2022-04-22T09:33:14.639Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 1,
+        "patch": 0,
+        "status": "stable",
+        "build": 1
+      },
+      "description": "",
+      "time": "2022-04-22T09:48:34.889Z"
     }
   ]
 }
