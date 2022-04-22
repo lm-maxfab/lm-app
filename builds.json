@@ -585,6 +585,17 @@
       },
       "description": "",
       "time": "2022-04-22T15:42:57.068Z"
+    },
+    {
+      "version": {
+        "major": 1,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "First release",
+      "time": "2022-04-22T16:13:25.078Z"
     }
   ]
 }
