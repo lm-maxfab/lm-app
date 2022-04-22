@@ -74,6 +74,14 @@
     line-height: 1.5;
     color: #383F4E;
 
+    a {
+      border-bottom: 1px solid #a4a9b4 !important;
+
+      &:hover {
+        border-bottom-color: #0070b2 !important;
+      }
+    }
+
     @media screen and (max-width: 1200px) {
       font-size: 13.5px;
     }

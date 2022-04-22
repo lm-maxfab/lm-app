@@ -1,8 +1,8 @@
-.carnet-de-campagne-longform {
+.cdc-longform {
   position: relative;
 }
 
-.carnet-de-campagne-longform__fixed-image-slot {
+.cdc-longform__fixed-image-slot {
   --nav-height: 35px;
   position: fixed;
   z-index: 1;
@@ -24,12 +24,12 @@
   }
 }
 
-.carnet-de-campagne-longform__content-slot {
+.cdc-longform__content-slot {
   position: relative;
   z-index: 2;
 }
 
-.carnet-de-campagne-longform__page {
+.cdc-longform__page {
   display: flex;
   justify-content: var(--justify-content);
   padding: var(--padding-top) 20px var(--padding-bottom) 20px;

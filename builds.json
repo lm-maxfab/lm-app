@@ -540,5 +540,18 @@
       "description": "",
       "time": "2022-03-24T11:43:10.623Z"
     }
+  ],
+  "13-2204-campagne": [
+    {
+      "version": {
+        "major": 0,
+        "minor": 1,
+        "patch": 0,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "First STG version",
+      "time": "2022-04-22T09:33:14.639Z"
+    }
   ]
 }

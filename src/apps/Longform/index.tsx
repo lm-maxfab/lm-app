@@ -4,8 +4,9 @@ import bem from '../../modules/utils/bem'
 import ImageFader from '../../modules/components/ImageFader'
 import Paginator from '../../modules/components/Paginator'
 import TextBlock from '../components/TextBlock'
-import { PageData } from '../types'
+import { CreditsData, PageData } from '../types'
 import './styles.scss'
+import ArticleCredits from '../../modules/components/ArticleCredits'
 
 interface Props extends InjectedProps {}
 interface State {
@@ -13,7 +14,7 @@ interface State {
 }
 
 class Longform extends Component<Props, State> {
-  static clss: string = 'carnet-de-campagne-longform'
+  static clss: string = 'cdc-longform'
   clss = Longform.clss
 
   /* * * * * * * * * * * * * * *
@@ -22,11 +23,10 @@ class Longform extends Component<Props, State> {
   render (): JSX.Element {
     const { props, state } = this
 
-    // Assign classes and styles
-    const wrapperClasses = bem(props.className).block(this.clss)
-    const wrapperStyle: JSX.CSSProperties = { ...props.style }
-
+    // Extract data
     const pagesData = (props.sheetBase?.collection('pages').value ?? []) as unknown as PageData[]
+    const creditsData = (props.sheetBase?.collection('credits').entry('1').value ?? []) as unknown as CreditsData
+    
     const mobileImages = pagesData.map(pageData => pageData.mobile_image_url).filter(e => e !== undefined) as string[]
     const desktopImages = pagesData.map(pageData => pageData.desktop_image_url).filter(e => e !== undefined) as string[]
     const imagesToPreload = window.innerWidth > 800 ? desktopImages : mobileImages
@@ -34,6 +34,10 @@ class Longform extends Component<Props, State> {
     const currentImage = window.innerWidth > 800
       ? state.currentPageData?.desktop_image_url
       : state.currentPageData?.mobile_image_url
+
+    // Assign classes and styles
+    const wrapperClasses = bem(props.className).block(this.clss)
+    const wrapperStyle: JSX.CSSProperties = { ...props.style }
 
     // Display
     return <div
@@ -74,6 +78,9 @@ class Longform extends Component<Props, State> {
             </Paginator.Page>
           })}
         </Paginator>
+      </div>
+      <div className={bem(this.clss).elt('credits-slot').value}>
+        <ArticleCredits content={creditsData.content} />
       </div>
     </div>
   }

@@ -19,3 +19,14 @@ export interface PageData extends SheetbaseCollectionData {
   position?: string
   text_align?: string
 }
+
+export interface CreditsData extends SheetbaseCollectionData {
+  content?: VNode
+}
+
+export interface StyleVariantsData extends SheetbaseCollectionData {
+  variant_name?: string
+  selector?: string
+  max_width?: number
+  inline_style?: string
+}
