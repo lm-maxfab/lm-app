@@ -1,5 +1,6 @@
 .cdc-longform {
   position: relative;
+  background-color: #17181a;
 }
 
 .cdc-longform__fixed-image-slot {
@@ -33,4 +34,11 @@
   display: flex;
   justify-content: var(--justify-content);
   padding: var(--padding-top) 20px var(--padding-bottom) 20px;
+}
+
+.cdc-longform__credits-slot {
+  color: #e8eaee;
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 30vh 16px 50vh 16px;
 }

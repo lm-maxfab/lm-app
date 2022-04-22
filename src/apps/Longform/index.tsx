@@ -4,9 +4,10 @@ import bem from '../../modules/utils/bem'
 import ImageFader from '../../modules/components/ImageFader'
 import Paginator from '../../modules/components/Paginator'
 import TextBlock from '../components/TextBlock'
-import { CreditsData, PageData } from '../types'
+import { CreditsData, PageData, StyleVariantsData } from '../types'
 import './styles.scss'
 import ArticleCredits from '../../modules/components/ArticleCredits'
+import fakeUuid from '../../modules/utils/fake-uuid'
 
 interface Props extends InjectedProps {}
 interface State {
@@ -16,6 +17,7 @@ interface State {
 class Longform extends Component<Props, State> {
   static clss: string = 'cdc-longform'
   clss = Longform.clss
+  uuid = fakeUuid()
 
   /* * * * * * * * * * * * * * *
    * RENDER
@@ -25,7 +27,37 @@ class Longform extends Component<Props, State> {
 
     // Extract data
     const pagesData = (props.sheetBase?.collection('pages').value ?? []) as unknown as PageData[]
-    const creditsData = (props.sheetBase?.collection('credits').entry('1').value ?? []) as unknown as CreditsData
+    const creditsData = (props.sheetBase?.collection('credits').entry('1').value ?? {}) as unknown as CreditsData
+    const styleVariantsData = (props.sheetBase?.collection('style-variants').value ?? []) as unknown as StyleVariantsData[]
+
+    const customStyle = styleVariantsData.map(ruleSet => {
+      if (ruleSet.inline_style === '') return
+      if (ruleSet.variant_name === '') return
+      let textBlockSelector = `#${this.uuid}`
+      textBlockSelector += ` .cdc-text-block.cdc-text-block_style-variant-${ruleSet.variant_name}`
+      let selector = ''
+      if (ruleSet.selector === undefined) {
+        selector = textBlockSelector
+      } else {
+        selector = ruleSet.selector
+          .split(',')
+          .map(e => e.trim())
+          .map(sel => `${textBlockSelector} ${sel}`)
+          .join(',\n')
+      }
+      const formattedStyle = ruleSet.inline_style?.split(';')
+        .filter(e => e !== '')
+        .map(e => `  ${e.trim()};`)
+        .join('\n')
+      const noMediaQueryRule = `${selector} {\n${formattedStyle}\n}`
+      const mediaQueryRule = ruleSet.max_width !== undefined
+        ? `@media screen and (max-width: ${ruleSet.max_width}px)`
+        : undefined
+      const finalRule = mediaQueryRule !== undefined
+        ? `${mediaQueryRule} {\n  ${noMediaQueryRule.split('\n').join('\n  ')}\n}`
+        : noMediaQueryRule
+      return finalRule
+    }).filter(e => e !== undefined).join('\n\n')
     
     const mobileImages = pagesData.map(pageData => pageData.mobile_image_url).filter(e => e !== undefined) as string[]
     const desktopImages = pagesData.map(pageData => pageData.desktop_image_url).filter(e => e !== undefined) as string[]
@@ -41,8 +73,10 @@ class Longform extends Component<Props, State> {
 
     // Display
     return <div
+      id={this.uuid}
       style={wrapperStyle}
       className={wrapperClasses.value}>
+      <style>{customStyle}</style>
       <div className={bem(this.clss).elt('fixed-image-slot').value}>
         <ImageFader
           preload={imagesToPreload}
@@ -73,7 +107,9 @@ class Longform extends Component<Props, State> {
                 className={bem(this.clss).elt('page').value}>
                 <TextBlock  
                   textAlign={pageData.text_align}
-                  content={pageData.text_block_content} />
+                  content={pageData.text_block_content}
+                  desktopVariants={pageData.desktop_box_style_variants}
+                  mobileVariants={pageData.mobile_box_style_variants} />
               </div>
             </Paginator.Page>
           })}

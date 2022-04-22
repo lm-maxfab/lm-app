@@ -563,6 +563,17 @@
       },
       "description": "",
       "time": "2022-04-22T09:48:34.889Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 2,
+        "patch": 0,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "Almost ready to go",
+      "time": "2022-04-22T14:47:03.660Z"
     }
   ]
 }

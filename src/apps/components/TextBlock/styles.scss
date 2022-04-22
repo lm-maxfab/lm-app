@@ -109,6 +109,8 @@
     font-size: 22px;
     line-height: 1.1;
     color: #2A303C;
+    margin-left: 0;
+    margin-right: 0;
 
     @media screen and (max-width: 1200px) {
       font-size: 21px;
@@ -116,14 +118,6 @@
 
     @media screen and (max-width: 800px) {
       font-size: 20px;
-    }
-
-    &::before {
-      content: "« ";
-    }
-
-    &::after {
-      content: " »";
     }
   }
 }

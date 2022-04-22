@@ -18,6 +18,8 @@ export interface PageData extends SheetbaseCollectionData {
   padding_bottom?: string
   position?: string
   text_align?: string
+  desktop_box_style_variants?: string
+  mobile_box_style_variants?: string
 }
 
 export interface CreditsData extends SheetbaseCollectionData {
