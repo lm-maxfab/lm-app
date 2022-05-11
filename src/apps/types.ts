@@ -13,13 +13,15 @@ export interface SheetbaseCollectionData {
 export interface PageData extends SheetbaseCollectionData {
   mobile_image_url?: string
   desktop_image_url?: string
+  
+  background_block_content?: VNode|string
+  background_block_style_variants?: string
   text_block_content?: VNode
-  padding_top?: string
-  padding_bottom?: string
-  position?: string
-  text_align?: string
-  desktop_box_style_variants?: string
-  mobile_box_style_variants?: string
+  text_block_margin_top?: string
+  text_block_margin_bottom?: string
+  text_block_position?: string
+  text_block_text_align?: string
+  text_block_style_variants?: string
 }
 
 export interface CreditsData extends SheetbaseCollectionData {

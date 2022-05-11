@@ -1,0 +1,38 @@
+.lm-layout-scrollator {
+  position: relative;
+  background-color: #17181a;
+}
+
+.lm-layout-scrollator__fixed-blocks-slot {
+  --nav-height: 35px;
+  position: fixed;
+  z-index: 1;
+  top: var(--nav-height);
+  left: 0;
+  width: 100%;
+  height: calc(100vh - var(--nav-height));
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    
+    @media screen and (max-width: 800px) {
+      width: 100%;
+      height: unset;
+      object-fit: contain;
+    }
+  }
+}
+
+.lm-layout-scrollator__content-slot {
+  position: relative;
+  z-index: 2;
+}
+
+.lm-layout-scrollator__credits-slot {
+  color: #e8eaee;
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 30vh 16px 50vh 16px;
+}
