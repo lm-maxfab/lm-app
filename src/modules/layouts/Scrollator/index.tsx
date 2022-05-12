@@ -41,7 +41,7 @@ export interface Props {
 }
 
 export interface State {
-  currentPageData?: ScrollatorPageData
+  currentPageNumber?: number
 }
 
 export default class Scrollator extends Component<Props, State> {
@@ -53,19 +53,27 @@ export default class Scrollator extends Component<Props, State> {
     this.pageChangeHandler = this.pageChangeHandler.bind(this)
   }
 
-  pageChangeHandler (value: any) {
-    this.setState({ currentPageData: value })
+  pageChangeHandler (value: number) {
+    this.setState({ currentPageNumber: value })
   }
 
   render () {
     const { props, state } = this
-    const { currentPageData: currPage } = state
+    const { currentPageNumber } = state
 
     // Logic
-    const currentBlock = {
-      content: currPage?.background_block_content,
-      style_variants: currPage?.background_block_style_variants
-    }
+    const allBgBlocks = props.pagesData.map(pageData => ({
+      content: pageData.background_block_content,
+      style_variants: pageData.background_block_style_variants
+    }))
+
+    const allTextBlocks = props.pagesData.map((pageData, pagePos) => (
+      <Paginator.Page value={pagePos}>
+        <Slide
+          pageData={pageData}
+          styleVariantsData={props.styleVariantsData} />
+      </Paginator.Page>
+    ))
 
     // Assign classes and styles
     const wrapperClasses = bem(props.className).block(this.clss)
@@ -75,17 +83,11 @@ export default class Scrollator extends Component<Props, State> {
       style={wrapperStyle}
       className={wrapperClasses.value}>
       <div className={bem(this.clss).elt('fixed-blocks-slot').value}>
-        {/* <ImageFader
-          preload={imagesToPreload}
-          current={currentImage} /> */}
         <BlocksFader
-          current={currentBlock}
-          blocks={
-            props.pagesData.map(pageData => ({
-              content: pageData.background_block_content,
-              style_variants: pageData.background_block_style_variants
-            }))
-          } />
+          style={{ width: '100%' }}
+          current={currentPageNumber}
+          blocks={allBgBlocks}
+          animationDuration={200} />
       </div>
       <div className={bem(this.clss).elt('content-slot').value}>
         <Paginator
@@ -94,13 +96,7 @@ export default class Scrollator extends Component<Props, State> {
           thresholdOffset='80%'
           delay={50}
           onPageChange={this.pageChangeHandler}>
-          {props.pagesData.map(pageData => (
-            <Paginator.Page value={pageData}>
-              <Slide
-                pageData={pageData}
-                styleVariantsData={props.styleVariantsData} />
-            </Paginator.Page>
-          ))}
+          {allTextBlocks}
         </Paginator>
       </div>
       <div className={bem(this.clss).elt('credits-slot').value}>

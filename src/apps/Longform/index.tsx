@@ -30,10 +30,12 @@ class Longform extends Component<Props, {}> {
     return <div
       style={wrapperStyle}
       className={wrapperClasses.value}>
+      <div style={{ height: '1000px' }} />
       <Scrollator
         pagesData={pagesData}
         creditsData={creditsData}
         styleVariantsData={styleVariantsData} />
+      <div style={{ height: '1000px' }} />
     </div>
   }
 }
