@@ -4,7 +4,6 @@
 }
 
 .lm-layout-scrollator__fixed-blocks-slot {
-  --nav-height: 35px;
   position: sticky;
   z-index: 1;
   top: var(--nav-height);
