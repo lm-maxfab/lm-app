@@ -2,10 +2,10 @@
   "assets_root_url": "https://assets-decodeurs.lemonde.fr/redacweb/13-2204-carnet-de-campagne-assets",
   "statics_root_url": "https://assets-decodeurs.lemonde.fr/redacweb/statics",
   "spreadsheets_urls": {
-    "production": "https://assets-decodeurs.lemonde.fr/sheets/Jt7pChR7wHAMhbn4DcN3oZJU6OxUOg_1066",
-    "staging": "https://assets-decodeurs.lemonde.fr/sheets/Jt7pChR7wHAMhbn4DcN3oZJU6OxUOg_1067",
-    "testing": "https://assets-decodeurs.lemonde.fr/sheets/Jt7pChR7wHAMhbn4DcN3oZJU6OxUOg_1068",
-    "developpment": "https://assets-decodeurs.lemonde.fr/sheets/Jt7pChR7wHAMhbn4DcN3oZJU6OxUOg_1069"
+    "production": "https://assets-decodeurs.lemonde.fr/sheets/t1B3ZCzQ5TpOEjBZv_BOidPgefc0Zw_1081",
+    "staging": "https://assets-decodeurs.lemonde.fr/sheets/t1B3ZCzQ5TpOEjBZv_BOidPgefc0Zw_1082",
+    "testing": "https://assets-decodeurs.lemonde.fr/sheets/t1B3ZCzQ5TpOEjBZv_BOidPgefc0Zw_1083",
+    "developpment": "https://assets-decodeurs.lemonde.fr/sheets/t1B3ZCzQ5TpOEjBZv_BOidPgefc0Zw_1084"
   },
   "layouts": [{
     "name": "art-1",
