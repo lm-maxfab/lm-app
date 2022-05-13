@@ -4,7 +4,6 @@ import './styles.scss'
 
 interface BlockDescriptor {
   content?: VNode|string
-  style_variants?: string
 }
 
 interface Props {
@@ -58,8 +57,8 @@ export default class BlocksFader extends Component<Props, State> {
   componentDidUpdate () { this.fadeCurrentBlock() }
 
   fadeCurrentBlock () {
-    const { animationDuration } = this.props
-    const timeout = animationDuration ?? 500
+    // const { animationDuration } = this.props
+    // const timeout = animationDuration ?? 500
     window.setTimeout(() => {
       const { $wrapper } = this
       if ($wrapper === null) return
@@ -70,7 +69,7 @@ export default class BlocksFader extends Component<Props, State> {
       if ($preCurrent === null) return
       $preCurrent.classList.remove(preCurrBlockClass)
       $preCurrent.classList.add(currBlockClass)
-    }, timeout)
+    }, 10)
   }
 
   render () {
@@ -100,8 +99,6 @@ export default class BlocksFader extends Component<Props, State> {
         {state.blocks?.map((block, blockPos) => {
           const isCurrent = blockPos === state.current
           const isPrevious = blockPos === state.previous
-          if (isCurrent) { console.log(JSON.stringify({ pos: blockPos, isCurrent, isPrevious }, null, 2)) }
-          if (isPrevious) { console.log(JSON.stringify({ pos: blockPos, isCurrent, isPrevious }, null, 2)) }
           if (isCurrent) return <div className={preCurrBlockClass.value}>{block.content}</div>
           if (isPrevious) return <div className={prevBlockClass.value}>{block.content}</div>
           return <div className={hideBlockClass.value}>{block.content}</div>

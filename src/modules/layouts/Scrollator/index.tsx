@@ -1,18 +1,13 @@
 import { Component, VNode, JSX } from 'preact'
 import ArticleCredits from '../../components/ArticleCredits'
 import BlocksFader from '../../components/BlocksFader'
-import ImageFader from '../../components/ImageFader'
-import Paginator from '../../components/Paginator'
+import Paginator, { State as PaginatorState } from '../../components/Paginator'
 import bem from '../../utils/bem'
 import Slide from './Slide'
 import './styles.scss'
 
 export interface ScrollatorPageData {
-  mobile_image_url?: string
-  desktop_image_url?: string
-
   background_block_content?: VNode|string
-  background_block_style_variants?: string
   text_block_content?: VNode
   text_block_margin_top?: string
   text_block_margin_bottom?: string
@@ -36,7 +31,7 @@ export interface Props {
   className?: string
   style?: JSX.CSSProperties
   pagesData: ScrollatorPageData[]
-  creditsData: ScrollatorCreditsData
+  creditsData?: ScrollatorCreditsData
   styleVariantsData: ScrollatorStyleVariantData[]
 }
 
@@ -53,8 +48,10 @@ export default class Scrollator extends Component<Props, State> {
     this.pageChangeHandler = this.pageChangeHandler.bind(this)
   }
 
-  pageChangeHandler (value: number) {
-    this.setState({ currentPageNumber: value })
+  pageChangeHandler (value: number|undefined, paginatorState: PaginatorState|undefined) {
+    let activePageValue = value
+    if (value === undefined && paginatorState?.direction === 'backwards') { activePageValue = 0 }
+    this.setState({ currentPageNumber: activePageValue })
   }
 
   render () {
@@ -62,11 +59,7 @@ export default class Scrollator extends Component<Props, State> {
     const { currentPageNumber } = state
 
     // Logic
-    const allBgBlocks = props.pagesData.map(pageData => ({
-      content: pageData.background_block_content,
-      style_variants: pageData.background_block_style_variants
-    }))
-
+    const allBgBlocks = props.pagesData.map(pageData => ({ content: pageData.background_block_content }))
     const allTextBlocks = props.pagesData.map((pageData, pagePos) => (
       <Paginator.Page value={pagePos}>
         <Slide
@@ -87,21 +80,21 @@ export default class Scrollator extends Component<Props, State> {
           style={{ width: '100%' }}
           current={currentPageNumber}
           blocks={allBgBlocks}
-          animationDuration={200} />
+          animationDuration={500} />
       </div>
       <div className={bem(this.clss).elt('content-slot').value}>
         <Paginator
           root='window'
           direction='vertical'
           thresholdOffset='80%'
-          delay={50}
+          delay={30}
           onPageChange={this.pageChangeHandler}>
           {allTextBlocks}
         </Paginator>
       </div>
-      <div className={bem(this.clss).elt('credits-slot').value}>
+      {props.creditsData && <div className={bem(this.clss).elt('credits-slot').value}>
         <ArticleCredits content={props.creditsData.content} />
-      </div>
+      </div>}
     </div>
   }
 }

@@ -5,12 +5,12 @@ import Page, { Props as PageProps } from './Page'
 
 import './styles.scss'
 
-interface PagePositionAndValue {
+export interface PagePositionAndValue {
   position: number
   value?: any
 }
 
-interface Props {
+export interface Props {
   className?: string
   style?: JSX.CSSProperties
   root?: 'self'|'window'
@@ -21,7 +21,7 @@ interface Props {
   onPageChange?: (value: State['value'], state?: State) => void
 }
 
-interface State {
+export interface State {
   passed: PagePositionAndValue[]
   active: PagePositionAndValue[]
   coming: PagePositionAndValue[]
@@ -29,7 +29,7 @@ interface State {
   value: any
 }
 
-class Paginator extends Component<Props, State> {
+export default class Paginator extends Component<Props, State> {
   static Page = Page
   static clss = 'lm-paginator'
   clss = Paginator.clss
@@ -159,15 +159,25 @@ class Paginator extends Component<Props, State> {
       const value = active[0]?.value
 
       let direction: 'forwards'|'backwards'|null = null
-      if (curr.passed.length < passed.length) {
-        direction = 'forwards'
-      } else if (curr.passed.length > passed.length) {
-        direction = 'backwards'
+
+      if (curr.passed.length < passed.length) { direction = 'forwards' }
+      else if (curr.passed.length > passed.length) { direction = 'backwards' }
+      else if (curr.passed.length === passed.length) {
+        if (curr.coming.length > coming.length) { direction = 'forwards' }
+        else if (curr.coming.length < coming.length) { direction = 'backwards' }
       }
 
-      const newState = { passed, active, coming, direction, value }
+      const newState: State = {
+        passed,
+        active,
+        coming,
+        direction,
+        value
+      }
 
-      if (this.props.onPageChange !== undefined) this.props.onPageChange(newState.value, newState)
+      if (this.props.onPageChange !== undefined) {
+        this.props.onPageChange(newState.value, newState)
+      }
       return newState
     })
   }
@@ -227,6 +237,3 @@ class Paginator extends Component<Props, State> {
     )
   }
 }
-
-export type { Props }
-export default Paginator

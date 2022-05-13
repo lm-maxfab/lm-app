@@ -11,11 +11,8 @@ export interface SheetbaseCollectionData {
 }
 
 export interface PageData extends SheetbaseCollectionData {
-  mobile_image_url?: string
-  desktop_image_url?: string
-  
+  destination_slot?: string
   background_block_content?: VNode|string
-  background_block_style_variants?: string
   text_block_content?: VNode
   text_block_margin_top?: string
   text_block_margin_bottom?: string
