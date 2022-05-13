@@ -19,9 +19,17 @@ class Backbone extends Component<Props, {}> {
     const pagesData = allPagesData.filter(pageData => pageData.destination_slot === props.slotName)
 
     // Display
-    return <Scrollator
-      pagesData={pagesData}
-      styleVariantsData={styleVariantsData} />
+    return <>
+      <style>{`
+        .lm-app { --nav-height: 53px; }
+        @media screen and (max-width: 1023px) {
+          .lm-app { --nav-height: 60px; }
+        }
+      `}</style>
+      <Scrollator
+        pagesData={pagesData}
+        styleVariantsData={styleVariantsData} />
+    </>
   }
 }
 
