@@ -21,10 +21,8 @@ class Backbone extends Component<Props, {}> {
     // Display
     return <>
       <style>{`
-        .lm-app { --nav-height: 53px; }
-        @media screen and (max-width: 1023px) {
-          .lm-app { --nav-height: 60px; }
-        }
+        .lm-app { --nav-height: 58px !important; }
+        @media screen and (max-width: 1023px) { .lm-app { --nav-height: 60px !important; } }
       `}</style>
       <Scrollator
         pagesData={pagesData}
