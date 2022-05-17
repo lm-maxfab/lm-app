@@ -1,6 +1,6 @@
 .lm-layout-scrollator {
   position: relative;
-  background-color: #17181a;
+  // background-color: #17181a;
 }
 
 .lm-layout-scrollator__fixed-blocks-slot {
@@ -9,7 +9,6 @@
   top: var(--nav-height);
   left: 0;
   width: 100%;
-  height: 0;
 
   img {
     width: 100%;

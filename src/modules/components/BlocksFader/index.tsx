@@ -22,6 +22,7 @@ interface State {
 
 export default class BlocksFader extends Component<Props, State> {
   static clss = 'lm-blocks-fader'
+  static fadeInDelay = 5
 
   static getDerivedStateFromProps (props: Props, state: State) {
     if (props.current === state.current) return null
@@ -57,8 +58,6 @@ export default class BlocksFader extends Component<Props, State> {
   componentDidUpdate () { this.fadeCurrentBlock() }
 
   fadeCurrentBlock () {
-    // const { animationDuration } = this.props
-    // const timeout = animationDuration ?? 500
     window.setTimeout(() => {
       const { $wrapper } = this
       if ($wrapper === null) return
@@ -69,7 +68,7 @@ export default class BlocksFader extends Component<Props, State> {
       if ($preCurrent === null) return
       $preCurrent.classList.remove(preCurrBlockClass)
       $preCurrent.classList.add(currBlockClass)
-    }, 10)
+    }, BlocksFader.fadeInDelay)
   }
 
   render () {
@@ -87,7 +86,8 @@ export default class BlocksFader extends Component<Props, State> {
     const wrapperClasses = bem(props.className).block(this.clss)
     const wrapperStyle: JSX.CSSProperties = {
       ...props.style,
-      '--animation-duration': props.animationDuration !== undefined ? `${props.animationDuration}ms` : '500ms'
+      '--animation-duration': props.animationDuration !== undefined ? `${props.animationDuration}ms` : '500ms',
+      '--fade-in-delay': `${BlocksFader.fadeInDelay}ms`
     }
 
     return <div

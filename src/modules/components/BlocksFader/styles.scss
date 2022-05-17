@@ -2,6 +2,7 @@
   position: absolute;
   opacity: 0;
   width: 100%;
+  background-color: green;
 
   &.lm-blocks-fader__block_hide {
     z-index: 1;
@@ -12,7 +13,7 @@
   &.lm-blocks-fader__block_previous {
     z-index: 2;
     opacity: 0;
-    transition: opacity var(--animation-duration) 100ms;
+    transition: opacity var(--animation-duration) calc(var(--animation-duration) + var(--fade-in-delay));
   }
 
   &.lm-blocks-fader__block_pre-current {
