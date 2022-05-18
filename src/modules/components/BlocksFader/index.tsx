@@ -86,8 +86,10 @@ export default class BlocksFader extends Component<Props, State> {
     const wrapperClasses = bem(props.className).block(this.clss)
     const wrapperStyle: JSX.CSSProperties = {
       ...props.style,
-      '--animation-duration': props.animationDuration !== undefined ? `${props.animationDuration}ms` : '500ms',
-      '--fade-in-delay': `${BlocksFader.fadeInDelay}ms`
+      '--fade-in-delay': `${BlocksFader.fadeInDelay}ms`,
+      '--animation-duration': props.animationDuration !== undefined
+        ? `${props.animationDuration}ms`
+        : '300ms'
     }
 
     return <div

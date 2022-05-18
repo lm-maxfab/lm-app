@@ -1,6 +1,6 @@
 .lm-layout-scrollator {
   position: relative;
-  // background-color: #17181a;
+  transition: background-color var(--bg-fade-transition-duration);
 }
 
 .lm-layout-scrollator__fixed-blocks-slot {

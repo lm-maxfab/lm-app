@@ -12,6 +12,7 @@ export interface SheetbaseCollectionData {
 
 export interface PageData extends SheetbaseCollectionData {
   destination_slot?: string
+  background_block_color?: string
   background_block_content?: VNode|string
   text_block_content?: VNode
   text_block_margin_top?: string

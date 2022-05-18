@@ -7,6 +7,7 @@ import Slide from './Slide'
 import './styles.scss'
 
 export interface ScrollatorPageData {
+  background_block_color?: string
   background_block_content?: VNode|string
   text_block_content?: VNode
   text_block_margin_top?: string
@@ -30,6 +31,7 @@ export interface ScrollatorStyleVariantData {
 export interface Props {
   className?: string
   style?: JSX.CSSProperties
+  animationDuration?: number
   pagesData: ScrollatorPageData[]
   creditsData?: ScrollatorCreditsData
   styleVariantsData: ScrollatorStyleVariantData[]
@@ -59,7 +61,10 @@ export default class Scrollator extends Component<Props, State> {
     const { currentPageNumber } = state
 
     // Logic
-    const allBgBlocks = props.pagesData.map(pageData => ({ content: pageData.background_block_content }))
+    const allBgBlocks = props.pagesData.map(pageData => ({
+      content: pageData.background_block_content
+    }))
+
     const allTextBlocks = props.pagesData.map((pageData, pagePos) => (
       <Paginator.Page value={pagePos}>
         <Slide
@@ -68,9 +73,18 @@ export default class Scrollator extends Component<Props, State> {
       </Paginator.Page>
     ))
 
+    const currentPage = currentPageNumber !== undefined ? props.pagesData[currentPageNumber] : undefined
+    const currentPageBgColor = currentPage?.background_block_color
+
     // Assign classes and styles
     const wrapperClasses = bem(props.className).block(this.clss)
-    const wrapperStyle: JSX.CSSProperties = { ...props.style }
+    const wrapperStyle: JSX.CSSProperties = {
+      ...props.style,
+      '--bg-fade-transition-duration': props.animationDuration !== undefined
+        ? `${props.animationDuration}ms`
+        : '300ms',
+      backgroundColor: currentPageBgColor
+    }
 
     return <div
       style={wrapperStyle}
@@ -80,7 +94,7 @@ export default class Scrollator extends Component<Props, State> {
           style={{ width: '100%' }}
           current={currentPageNumber}
           blocks={allBgBlocks}
-          animationDuration={500} />
+          animationDuration={props.animationDuration ?? 300} />
       </div>
       <div className={bem(this.clss).elt('content-slot').value}>
         <Paginator
