@@ -21,6 +21,7 @@ class Backbone extends Component<Props, {}> {
     // Display
     return <Scrollator
       pagesData={pagesData}
+      fixedBlocksPanelHeight='100vh'
       styleVariantsData={styleVariantsData}
       animationDuration={300} />
   }

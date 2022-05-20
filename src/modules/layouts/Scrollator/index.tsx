@@ -35,6 +35,7 @@ export interface Props {
   pagesData: ScrollatorPageData[]
   creditsData?: ScrollatorCreditsData
   styleVariantsData: ScrollatorStyleVariantData[]
+  fixedBlocksPanelHeight: JSX.CSSProperties['height']
 }
 
 export interface State {
@@ -53,6 +54,7 @@ export default class Scrollator extends Component<Props, State> {
   pageChangeHandler (value: number|undefined, paginatorState: PaginatorState|undefined) {
     let activePageValue = value
     if (value === undefined && paginatorState?.direction === 'backwards') { activePageValue = 0 }
+    if (value === undefined && paginatorState?.direction === 'forwards') { activePageValue = this.props.pagesData.length - 1 }
     this.setState({ currentPageNumber: activePageValue })
   }
 
@@ -91,7 +93,7 @@ export default class Scrollator extends Component<Props, State> {
       className={wrapperClasses.value}>
       <div className={bem(this.clss).elt('fixed-blocks-slot').value}>
         <BlocksFader
-          style={{ width: '100%' }}
+          style={{ width: '100%', height: props.fixedBlocksPanelHeight }}
           current={currentPageNumber}
           blocks={allBgBlocks}
           animationDuration={props.animationDuration ?? 300} />
