@@ -91,14 +91,18 @@ export default class Scrollator extends Component<Props, State> {
     return <div
       style={wrapperStyle}
       className={wrapperClasses.value}>
-      <div className={bem(this.clss).elt('fixed-blocks-slot').value}>
+      <div
+        className={bem(this.clss).elt('fixed-blocks-slot').value}
+        style={{ height: props.fixedBlocksPanelHeight }}>
         <BlocksFader
-          style={{ width: '100%', height: props.fixedBlocksPanelHeight }}
+          style={{ width: '100%' }}
           current={currentPageNumber}
           blocks={allBgBlocks}
           animationDuration={props.animationDuration ?? 300} />
       </div>
-      <div className={bem(this.clss).elt('content-slot').value}>
+      <div
+        className={bem(this.clss).elt('content-slot').value}
+        style={{ marginTop: `calc(-1 * ${props.fixedBlocksPanelHeight ?? '0px'})` }}>
         <Paginator
           root='window'
           direction='vertical'

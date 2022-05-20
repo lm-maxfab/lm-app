@@ -708,6 +708,17 @@
       },
       "description": "",
       "time": "2022-05-20T13:54:27.303Z"
+    },
+    {
+      "version": {
+        "major": 1,
+        "minor": 2,
+        "patch": 4,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "",
+      "time": "2022-05-20T16:11:41.273Z"
     }
   ]
 }
