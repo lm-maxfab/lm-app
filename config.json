@@ -12,13 +12,13 @@
     "nodes": [
       { "class": "xjg-files-art-1-cover-root", "type": "cover"  },
       { "class": "xjg-files-art-1-snip-1-root", "type": "snippet"  },
-      { "class": "xjg-files-art-1-snip-2-root", "type": "snippet"  }
+      { "class": "xjg-files-art-1-snip-2-root", "type": "snippet"  },
+      { "class": "xjg-files-art-1-snip-3-root", "type": "snippet"  }
     ]
   }, {
     "name": "art-2",
     "nodes": [
-      { "class": "xjg-files-art-2-cover-root", "type": "cover"  },
-      { "class": "xjg-files-art-2-snip-1-root", "type": "snippet"  }
+      { "class": "xjg-files-art-2-cover-root", "type": "cover"  }
     ]
   }],
   "env": null
