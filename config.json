@@ -17,7 +17,8 @@
   }, {
     "name": "art-2",
     "nodes": [
-      { "class": "xjg-files-art-2-cover-root", "type": "cover"  }
+      { "class": "xjg-files-art-2-cover-root", "type": "cover"  },
+      { "class": "xjg-files-art-2-snip-1-root", "type": "snippet"  }
     ]
   }],
   "env": null
