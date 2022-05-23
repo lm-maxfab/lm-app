@@ -1,4 +1,5 @@
-import { VNode } from "preact";
+import { VNode } from 'preact'
+import { SheetBaseCollection } from '../modules/utils/sheet-base'
 
 export interface MyNavigator extends Navigator {
   connection: NetworkInformation
@@ -31,4 +32,8 @@ export interface StyleVariantsData extends SheetbaseCollectionData {
   selector?: string
   max_width?: number
   inline_style?: string
+}
+
+export interface SettingsData extends SheetBaseCollection {
+  scrollator_threshold_offset: string
 }
