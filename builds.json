@@ -720,5 +720,18 @@
       "description": "",
       "time": "2022-05-20T16:11:41.273Z"
     }
+  ],
+  "15-2205-cannes": [
+    {
+      "version": {
+        "major": 1,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "",
+      "time": "2022-05-24T14:11:53.213Z"
+    }
   ]
 }
