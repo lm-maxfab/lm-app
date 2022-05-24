@@ -5,6 +5,7 @@ import getPageSettings from './modules/utils/get-page-settings'
 import applyPageTemplate from './modules/utils/apply-page-template'
 import applyPageLayout from './modules/utils/apply-page-layout'
 import renderLMApp from './modules/utils/render-app'
+import getHeaderElement from './modules/utils/get-header-element'
 
 /* Init */
 init()
@@ -25,6 +26,10 @@ async function init (): Promise<void> {
   // Read config in DOM (injected on `npm run dev` or `npm run build`)
   const config = getConfig()
   if (config === undefined) throw new Error('Could not load config, app rendering stops.')
+
+  // Remove header
+  const $header = document.querySelector('header.multimediaNav')
+  if ($header !== null) $header.remove()
 
   // Get settings from window.location.search
   const settings = getPageSettings()
