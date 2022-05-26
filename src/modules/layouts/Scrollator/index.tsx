@@ -36,6 +36,7 @@ export interface Props {
   creditsData?: ScrollatorCreditsData
   styleVariantsData: ScrollatorStyleVariantData[]
   fixedBlocksPanelHeight: JSX.CSSProperties['height']
+  thresholdOffset?: string
 }
 
 export interface State {
@@ -106,7 +107,7 @@ export default class Scrollator extends Component<Props, State> {
         <Paginator
           root='window'
           direction='vertical'
-          thresholdOffset='80%'
+          thresholdOffset={props.thresholdOffset ?? '80%'}
           delay={30}
           onPageChange={this.pageChangeHandler}>
           {allTextBlocks}

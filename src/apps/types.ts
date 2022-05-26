@@ -1,4 +1,4 @@
-import { VNode } from "preact";
+import { VNode } from 'preact'
 
 export interface MyNavigator extends Navigator {
   connection: NetworkInformation
@@ -6,11 +6,11 @@ export interface MyNavigator extends Navigator {
   webkitConnection?: NetworkInformation
 }
 
-export interface SheetbaseCollectionData {
+export interface SheetBaseCollectionData {
   id: string
 }
 
-export interface PageData extends SheetbaseCollectionData {
+export interface PageData extends SheetBaseCollectionData {
   destination_slot?: string
   background_block_color?: string
   background_block_content?: VNode|string
@@ -22,13 +22,17 @@ export interface PageData extends SheetbaseCollectionData {
   text_block_style_variants?: string
 }
 
-export interface CreditsData extends SheetbaseCollectionData {
+export interface CreditsData extends SheetBaseCollectionData {
   content?: VNode
 }
 
-export interface StyleVariantsData extends SheetbaseCollectionData {
+export interface StyleVariantsData extends SheetBaseCollectionData {
   variant_name?: string
   selector?: string
   max_width?: number
   inline_style?: string
+}
+
+export interface SettingsData extends SheetBaseCollectionData {
+  scrollator_threshold_offset: string
 }
