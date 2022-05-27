@@ -8,7 +8,7 @@ import './styles.scss'
 interface Props extends InjectedProps {}
 
 class Longform extends Component<Props, {}> {
-  static clss: string = 'cannes-longform'
+  static clss: string = 'deuxieme-monde-longform'
   clss = Longform.clss
 
   /* * * * * * * * * * * * * * *

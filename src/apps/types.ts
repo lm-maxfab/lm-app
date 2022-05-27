@@ -36,3 +36,14 @@ export interface StyleVariantsData extends SheetBaseCollectionData {
 export interface SettingsData extends SheetBaseCollectionData {
   scrollator_threshold_offset: string
 }
+
+export interface ArticleBlockData extends SheetBaseCollectionData {
+  type?: string
+  image_or_video_url?: string
+  title?: VNode|string
+  content?: VNode|string
+  contrast_color?: string
+  text_color?: string
+  border_color?: string
+  bg_color?: string
+}

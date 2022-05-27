@@ -788,5 +788,18 @@
       "description": "",
       "time": "2022-05-26T14:39:58.877Z"
     }
+  ],
+  "16-2205-deuxieme-monde": [
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 1,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "",
+      "time": "2022-05-27T15:50:38.434Z"
+    }
   ]
 }
