@@ -1,0 +1,38 @@
+.verbatim {
+  --img-width: 72px;
+  --padding: 20px;
+  padding:
+    calc(var(--padding) + var(--img-width) / 2)
+    var(--padding)
+    calc(2 * var(--padding))
+    var(--padding);
+  position: relative;
+  background-color: var(--bg-color);
+  border: 1px solid var(--border-color);
+
+  h3 {
+    font-family: var(--ff-pixeloid-sans);
+  }
+  
+  img {
+    position: absolute;
+    top: 0;
+    left: var(--padding);
+    width: var(--img-width);
+    height: var(--img-width);
+    object-fit: cover;
+    border-radius: calc(var(--img-width) / 2);
+    transform: translateY(calc(var(--img-width) / -2));
+    border: 1px solid var(--border-color);
+  }
+
+  .lm-svg {
+    position: absolute;
+    top: 100%;
+    width: 40px;
+    
+    .bg { fill: transparent; }
+    .fill-1 { fill: var(--bg-color); }
+    .stroke-1 { stroke: var(--border-color); }
+  }
+}
