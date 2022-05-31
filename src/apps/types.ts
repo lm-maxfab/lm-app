@@ -40,7 +40,10 @@ export interface SettingsData extends SheetBaseCollectionData {
 export interface ArticleBlockData extends SheetBaseCollectionData {
   type?: string
   image_or_video_url?: string
-  title?: VNode|string
+  image_or_video_legend?: VNode|string
+  image_or_video_credits?: VNode|string
+  verbatim_author?: VNode|string
+  verbatim_author_role?: VNode|string
   content?: VNode|string
   contrast_color?: string
   text_color?: string

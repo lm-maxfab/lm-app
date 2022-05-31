@@ -6,6 +6,7 @@ import IntersectionObserverComponent from '../../modules/components/Intersection
 import ArticleCredits from '../../modules/components/ArticleCredits'
 import Verbatim from '../components/Verbatim'
 import './styles.scss'
+import MediaCaption from '../../modules/components/MediaCaption'
 
 interface Props {
   slotName: string
@@ -32,8 +33,6 @@ class Backbone extends Component<Props, State> {
     const articleBlocksData = (props.sheetBase?.collection('article-blocks').value ?? []) as unknown as ArticleBlockData[]
     const pagesData = allPagesData.filter(pageData => pageData.destination_slot === props.slotName)
 
-    console.log(state)
-
     // Display
     return <>
       <Scrollator
@@ -46,53 +45,47 @@ class Backbone extends Component<Props, State> {
       <div className='article-blocks'>
         {articleBlocksData.map((articleBlockData, articleBlockDataPos) => {
           let childComp: JSX.Element|null = null
+
           if (articleBlockData.type === 'verbatim') {
             childComp = <Verbatim
               imageUrl={articleBlockData.image_or_video_url}
-              title={articleBlockData.title}
+              verbatimAuthor={articleBlockData.verbatim_author}
+              verbatimAuthorRole={articleBlockData.verbatim_author_role}
               content={articleBlockData.content}
               contrastColor={articleBlockData.contrast_color}
               textColor={articleBlockData.text_color}
               borderColor={articleBlockData.border_color}
               bgColor={articleBlockData.bg_color} />
+
           } else if (articleBlockData.type === 'intertitre') {
             childComp = <img
               className='intertitre'
-              style={{ maxWidth: '720px' }}
               src={articleBlockData.image_or_video_url} />
+
           } else if (articleBlockData.type === 'video') {
             childComp = <div className='video'>
               <IntersectionObserverComponent
-                threshold={.2}
+                threshold={.3}
                 callback={entry => {
-                  if (entry.isIntersecting === true) {
-                    this.setState(current => {
-                      return {
-                        ...current,
-                        playingVideos: [...new Set([
-                          ...current.playingVideos,
-                          articleBlockDataPos
-                        ])]
-                      }
-                    })
-                  } else if (entry.isIntersecting === false) {
-                    this.setState(current => {
-                      const currentPos = current.playingVideos.indexOf(articleBlockDataPos)
-                      if (currentPos === null) return null
-                      return {
-                        ...current,
-                        playingVideos: [
-                          ...current.playingVideos.slice(0, currentPos),
-                          ...current.playingVideos.slice(currentPos + 1)
-                        ]
-                      }
-                    })
-                  }
+                  const $video = entry.target.querySelector('video') as HTMLVideoElement|null
+                  if ($video === null) return
+                  if (entry.isIntersecting === true) $video.play()
+                  else $video.pause()
                 }}>
-                <video autoPlay={state.playingVideos.includes(articleBlockDataPos)}>
+                <video loop muted>
                   <source src={articleBlockData.image_or_video_url} />
                 </video>
+                <MediaCaption
+                  description={articleBlockData.image_or_video_legend}
+                  credits={articleBlockData.image_or_video_credits} />
               </IntersectionObserverComponent>
+            </div>
+          } else if (articleBlockData.type === 'image') {
+            childComp = <div className='image'>
+              <img src={articleBlockData.image_or_video_url} />
+              <MediaCaption
+                description={articleBlockData.image_or_video_legend}
+                credits={articleBlockData.image_or_video_credits} />
             </div>
           }
 
@@ -104,12 +97,12 @@ class Backbone extends Component<Props, State> {
 
       <div style={{
         padding: '40vh 8px',
-        backgroundColor: 'black',
-        color: 'white',
+        backgroundColor: 'transparent',
+        color: '#0047A7',
         display: 'flex',
         justifyContent: 'center'
       }}>
-        <div style={{ maxWidth: '480px' }}>
+        <div style={{ maxWidth: '720px' }}>
           <ArticleCredits content={creditsData.content} />
         </div>
       </div>

@@ -1,5 +1,8 @@
 import { Component, JSX } from 'preact'
 import ArticleHeader from '../../modules/components/ArticleHeader'
+import MediaCaption from '../../modules/components/MediaCaption'
+import MediaCredits from '../../modules/components/MediaCredits'
+import MediaDescription from '../../modules/components/MediaDescription'
 import appWrapper, { InjectedProps } from '../../modules/utils/app-wrapper-HOC'
 import bem from '../../modules/utils/bem'
 import Backbone from '../Backbone'
