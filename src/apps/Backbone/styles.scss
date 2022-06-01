@@ -1,8 +1,12 @@
 .article-blocks {
 
   a {
-    border-bottom: 1px solid black !important;
+    border-bottom: 1px solid rgb(185, 185, 185) !important;
     cursor: pointer;
+
+    &:hover {
+      border-bottom-color: rgb(185, 185, 185, .4) !important;
+    }
   }
 
   .article-block {
