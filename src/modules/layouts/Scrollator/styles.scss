@@ -5,15 +5,21 @@
 
 .lm-layout-scrollator__fixed-blocks-slot {
   position: sticky;
-  z-index: 1;
   top: var(--nav-height);
   left: 0;
   width: 100%;
 }
 
+.lm-blocks-fader__blocks {
+  z-index: 2;
+}
+
 .lm-layout-scrollator__content-slot {
   position: relative;
-  z-index: 2;
+}
+
+.lm-layout-scrollator-page .lm-simple-stylable-text-card {
+  z-index: 3;
 }
 
 .lm-layout-scrollator__credits-slot {

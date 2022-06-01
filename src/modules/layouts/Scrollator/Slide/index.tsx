@@ -22,7 +22,8 @@ export default class Slide extends Component<Props, {}> {
         ? 'center'
         : props.pageData.text_block_position === 'right'
           ? 'flex-end'
-          : 'flex-start'
+          : 'flex-start',
+      userSelect: 'none'
     }
     return <div
       style={pageStyle}

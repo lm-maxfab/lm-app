@@ -26,7 +26,8 @@ class Verbatim extends Component<Props, {}> {
       style={cssVars}>
       <img src={props.imageUrl} />
       <h3 style={{ color: props.contrastColor }}>
-        <strong>{props.verbatimAuthor}</strong> | {props.verbatimAuthorRole}
+        {props.verbatimAuthor && <strong>{props.verbatimAuthor}</strong>}
+        {props.verbatimAuthorRole && <> | {props.verbatimAuthorRole}</>}
       </h3>
       <p style={{ color: props.textColor }}>{props.content}</p>
       <Svg src={arrowSvg} />

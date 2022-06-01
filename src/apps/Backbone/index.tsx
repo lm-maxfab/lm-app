@@ -13,17 +13,10 @@ interface Props {
   sheetBase?: SheetBase
 }
 
-interface State {
-  playingVideos: number[]
-}
-
-class Backbone extends Component<Props, State> {
-  state: State = {
-    playingVideos: []
-  }
-
+class Backbone extends Component<Props, {}> {
+  $scrollatorWrapper: HTMLDivElement|null = null
   render (): JSX.Element {
-    const { props, state } = this
+    const { props } = this
 
     // Extract data
     const allPagesData = (props.sheetBase?.collection('scrollator-pages').value ?? []) as unknown as PageData[]
@@ -35,15 +28,24 @@ class Backbone extends Component<Props, State> {
 
     // Display
     return <>
-      <Scrollator
-        pagesData={pagesData}
-        fixedBlocksPanelHeight='100vh'
-        styleVariantsData={styleVariantsData}
-        animationDuration={300}
-        thresholdOffset={settingsData?.scrollator_threshold_offset} />
+      <div
+        ref={n => { this.$scrollatorWrapper = n }}
+        onClick={e => {
+          const { $scrollatorWrapper } = this
+          if ($scrollatorWrapper === null) return
+          const videos = $scrollatorWrapper.querySelectorAll('video')
+          videos.forEach(video => { video.play() })
+      }}>
+        <Scrollator
+          pagesData={pagesData}
+          fixedBlocksPanelHeight='100vh'
+          styleVariantsData={styleVariantsData}
+          animationDuration={300}
+          thresholdOffset={settingsData?.scrollator_threshold_offset} />
+      </div>
       
       <div className='article-blocks'>
-        {articleBlocksData.map((articleBlockData, articleBlockDataPos) => {
+        {articleBlocksData.map(articleBlockData => {
           let childComp: JSX.Element|null = null
 
           if (articleBlockData.type === 'verbatim') {
@@ -62,8 +64,12 @@ class Backbone extends Component<Props, State> {
               className='intertitre'
               src={articleBlockData.image_or_video_url} />
 
-          } else if (articleBlockData.type === 'video') {
-            childComp = <div className='video'>
+          } else if (
+            articleBlockData.type === 'video'
+            || articleBlockData.type === 'wide-video') {
+            const classes = ['video']
+            if (articleBlockData.type === 'wide-video') classes.push('video_wide')
+            childComp = <div className={classes.join(' ')}>
               <IntersectionObserverComponent
                 threshold={.3}
                 callback={entry => {
@@ -80,8 +86,13 @@ class Backbone extends Component<Props, State> {
                   credits={articleBlockData.image_or_video_credits} />
               </IntersectionObserverComponent>
             </div>
-          } else if (articleBlockData.type === 'image') {
-            childComp = <div className='image'>
+
+          } else if (
+            articleBlockData.type === 'image'
+            || articleBlockData.type === 'wide-image') {
+            const classes = ['image']
+            if (articleBlockData.type === 'wide-image') classes.push('image_wide')
+            childComp = <div className={classes.join(' ')}>
               <img src={articleBlockData.image_or_video_url} />
               <MediaCaption
                 description={articleBlockData.image_or_video_legend}
