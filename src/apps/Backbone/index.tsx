@@ -89,14 +89,9 @@ class Backbone extends Component<Props, State> {
                   const $video = entry.target.querySelector('video') as HTMLVideoElement|null
                   if ($video === null) return
                   if (entry.isIntersecting === true) {
-                    try {
-                      await $video.play()
-                    } catch (err) {
-                      $video.setAttribute('controls', 'true')
-                    }
-                  } else {
-                    $video.pause()
-                  }
+                    try { await $video.play() }
+                    catch (err) { $video.setAttribute('controls', 'true') }
+                  } else $video.pause()
                 }}>
                 <video playsInline loop muted poster={articleBlockData.video_poster_url}>
                   <source src={articleBlockData.image_or_video_url} />
