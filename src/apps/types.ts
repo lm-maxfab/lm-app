@@ -42,6 +42,7 @@ export interface ArticleBlockData extends SheetBaseCollectionData {
   image_or_video_url?: string
   image_or_video_legend?: VNode|string
   image_or_video_credits?: VNode|string
+  video_poster_url?: string
   verbatim_author?: VNode|string
   verbatim_author_role?: VNode|string
   content?: VNode|string

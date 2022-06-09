@@ -1,8 +1,4 @@
 import { Component, JSX } from 'preact'
-import ArticleHeader from '../../modules/components/ArticleHeader'
-import MediaCaption from '../../modules/components/MediaCaption'
-import MediaCredits from '../../modules/components/MediaCredits'
-import MediaDescription from '../../modules/components/MediaDescription'
 import appWrapper, { InjectedProps } from '../../modules/utils/app-wrapper-HOC'
 import bem from '../../modules/utils/bem'
 import Backbone from '../Backbone'
@@ -31,10 +27,6 @@ class Longform extends Component<Props, {}> {
     return <div
       style={wrapperStyle}
       className={wrapperClasses.value}>
-      <ArticleHeader
-        style={{ zIndex: 2, position: 'fixed' }}
-        fill1='white'
-        fill2='rgb(255, 255, 255, .3)' />
       <div style={{ zIndex: 1, position: 'relative' }}>
         <Backbone
           slotName='longform'

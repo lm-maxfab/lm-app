@@ -7,16 +7,22 @@ import ArticleCredits from '../../modules/components/ArticleCredits'
 import Verbatim from '../components/Verbatim'
 import './styles.scss'
 import MediaCaption from '../../modules/components/MediaCaption'
+import ArticleHeader from '../../modules/components/ArticleHeader'
 
 interface Props {
   slotName: string
   sheetBase?: SheetBase
 }
 
-class Backbone extends Component<Props, {}> {
+interface State {
+  headerState: 'light'|'dark'
+}
+
+class Backbone extends Component<Props, State> {
+  state: State = { headerState: 'light' }
   $scrollatorWrapper: HTMLDivElement|null = null
   render (): JSX.Element {
-    const { props } = this
+    const { props, state } = this
 
     // Extract data
     const allPagesData = (props.sheetBase?.collection('scrollator-pages').value ?? []) as unknown as PageData[]
@@ -28,22 +34,29 @@ class Backbone extends Component<Props, {}> {
 
     // Display
     return <>
-      <div
-        ref={n => { this.$scrollatorWrapper = n }}
-        onClick={e => {
-          const { $scrollatorWrapper } = this
-          if ($scrollatorWrapper === null) return
-          const videos = $scrollatorWrapper.querySelectorAll('video')
-          videos.forEach(video => { video.play() })
-      }}>
-        <Scrollator
-          pagesData={pagesData}
-          fixedBlocksPanelHeight='100vh'
-          styleVariantsData={styleVariantsData}
-          animationDuration={300}
-          thresholdOffset={settingsData?.scrollator_threshold_offset} />
-      </div>
-      
+      <ArticleHeader
+        style={{ zIndex: 30, position: 'fixed' }}
+        fill1={state.headerState === 'light' ? 'white' : 'black'}
+        fill2={state.headerState === 'light' ? 'rgb(255, 255, 255, .3)' : 'rgb(0, 0, 0, .3)'} />
+      <IntersectionObserverComponent
+        threshold={.05}
+        callback={entry => { this.setState({ headerState: entry.isIntersecting ? 'light' : 'dark' }) }}>
+        <div
+          ref={n => { this.$scrollatorWrapper = n }}
+          onClick={e => {
+            const { $scrollatorWrapper } = this
+            if ($scrollatorWrapper === null) return
+            const videos = $scrollatorWrapper.querySelectorAll('video')
+            videos.forEach(video => { video.play() })
+        }}>
+          <Scrollator
+            pagesData={pagesData}
+            fixedBlocksPanelHeight='100vh'
+            styleVariantsData={styleVariantsData}
+            animationDuration={300}
+            thresholdOffset={settingsData?.scrollator_threshold_offset} />
+        </div>
+      </IntersectionObserverComponent>
       <div className='article-blocks'>
         {articleBlocksData.map(articleBlockData => {
           let childComp: JSX.Element|null = null
@@ -78,7 +91,7 @@ class Backbone extends Component<Props, {}> {
                   if (entry.isIntersecting === true) $video.play()
                   else $video.pause()
                 }}>
-                <video loop muted>
+                <video loop muted poster={articleBlockData.video_poster_url}>
                   <source src={articleBlockData.image_or_video_url} />
                 </video>
                 <MediaCaption
@@ -106,14 +119,8 @@ class Backbone extends Component<Props, {}> {
         })}
       </div>
 
-      <div style={{
-        padding: '40vh 8px',
-        backgroundColor: 'transparent',
-        color: '#0047A7',
-        display: 'flex',
-        justifyContent: 'center'
-      }}>
-        <div style={{ maxWidth: '720px' }}>
+      <div className='credits-block'>
+        <div className='credits-block-inner'>
           <ArticleCredits content={creditsData.content} />
         </div>
       </div>
