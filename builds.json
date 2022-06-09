@@ -855,6 +855,17 @@
       },
       "description": "",
       "time": "2022-06-09T15:12:28.088Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 7,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "",
+      "time": "2022-06-09T15:16:18.527Z"
     }
   ]
 }

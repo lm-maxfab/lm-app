@@ -98,7 +98,7 @@ class Backbone extends Component<Props, State> {
                     $video.pause()
                   }
                 }}>
-                <video loop muted poster={articleBlockData.video_poster_url}>
+                <video playsInline loop muted poster={articleBlockData.video_poster_url}>
                   <source src={articleBlockData.image_or_video_url} />
                 </video>
                 <MediaCaption
