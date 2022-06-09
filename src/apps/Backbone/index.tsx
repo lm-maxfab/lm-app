@@ -85,11 +85,18 @@ class Backbone extends Component<Props, State> {
             childComp = <div className={classes.join(' ')}>
               <IntersectionObserverComponent
                 threshold={.3}
-                callback={entry => {
+                callback={async entry => {
                   const $video = entry.target.querySelector('video') as HTMLVideoElement|null
                   if ($video === null) return
-                  if (entry.isIntersecting === true) $video.play()
-                  else $video.pause()
+                  if (entry.isIntersecting === true) {
+                    try {
+                      await $video.play()
+                    } catch (err) {
+                      $video.setAttribute('controls', 'true')
+                    }
+                  } else {
+                    $video.pause()
+                  }
                 }}>
                 <video loop muted poster={articleBlockData.video_poster_url}>
                   <source src={articleBlockData.image_or_video_url} />

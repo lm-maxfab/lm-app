@@ -844,6 +844,17 @@
       },
       "description": "",
       "time": "2022-06-09T14:02:28.165Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 6,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "",
+      "time": "2022-06-09T15:12:28.088Z"
     }
   ]
 }
