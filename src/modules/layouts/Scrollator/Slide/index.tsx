@@ -1,12 +1,11 @@
 import { Component } from 'preact'
 import SimpleStylableTextCard from '../../../components/SimpleStylableTextCard'
 import bem from '../../../utils/bem'
-import { ScrollatorPageData, ScrollatorStyleVariantData } from '../'
+import { ScrollatorPageData } from '../'
 import './styles.scss'
 
 export interface Props {
   pageData: ScrollatorPageData
-  styleVariantsData: ScrollatorStyleVariantData[]
 }
 
 export default class Slide extends Component<Props, {}> {
@@ -30,9 +29,7 @@ export default class Slide extends Component<Props, {}> {
       className={bem(this.clss).value}>
       <SimpleStylableTextCard
         content={props.pageData.text_block_content}
-        textAlign={props.pageData.text_block_text_align}
-        styleVariants={props.styleVariantsData}
-        variantNames={props.pageData.text_block_style_variants} />
+        textAlign={props.pageData.text_block_text_align} />
     </div>
   }
 }

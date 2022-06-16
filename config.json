@@ -1,16 +1,16 @@
 {
-  "assets_root_url": "https://assets-decodeurs.lemonde.fr/redacweb/16-2205-deuxieme-monde-assets",
+  "assets_root_url": "https://assets-decodeurs.lemonde.fr/redacweb/17-2206-unnamed-longform-1-assets",
   "statics_root_url": "https://assets-decodeurs.lemonde.fr/redacweb/statics",
   "spreadsheets_urls": {
-    "production": "https://assets-decodeurs.lemonde.fr/sheets/wSsA4YjgNXloB1orTrPziibd0Wqciw_1123",
-    "staging": "https://assets-decodeurs.lemonde.fr/sheets/wSsA4YjgNXloB1orTrPziibd0Wqciw_1124",
-    "testing": "https://assets-decodeurs.lemonde.fr/sheets/wSsA4YjgNXloB1orTrPziibd0Wqciw_1125",
-    "developpment": "https://assets-decodeurs.lemonde.fr/sheets/wSsA4YjgNXloB1orTrPziibd0Wqciw_1126"
+    "production": "https://assets-decodeurs.lemonde.fr/sheets/J6eLUgtYbsBRKIaFOB5hHP7OK1J1OA_1181",
+    "staging": "https://assets-decodeurs.lemonde.fr/sheets/J6eLUgtYbsBRKIaFOB5hHP7OK1J1OA_1182",
+    "testing": "https://assets-decodeurs.lemonde.fr/sheets/J6eLUgtYbsBRKIaFOB5hHP7OK1J1OA_1183",
+    "developpment": "https://assets-decodeurs.lemonde.fr/sheets/J6eLUgtYbsBRKIaFOB5hHP7OK1J1OA_1184"
   },
   "layouts": [{
     "name": "art-1",
     "nodes": [
-      { "class": "deuxieme-monde-longform-root", "type": "longform"  }
+      { "class": "unnamed-longform-1-root", "type": "longform" }
     ]
   }],
   "env": null

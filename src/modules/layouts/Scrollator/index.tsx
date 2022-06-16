@@ -1,5 +1,4 @@
 import { Component, VNode, JSX } from 'preact'
-import ArticleCredits from '../../components/ArticleCredits'
 import BlocksFader from '../../components/BlocksFader'
 import Paginator, { State as PaginatorState } from '../../components/Paginator'
 import bem from '../../utils/bem'
@@ -14,18 +13,6 @@ export interface ScrollatorPageData {
   text_block_margin_bottom?: string
   text_block_position?: string
   text_block_text_align?: string
-  text_block_style_variants?: string
-}
-
-export interface ScrollatorCreditsData {
-  content?: VNode
-}
-
-export interface ScrollatorStyleVariantData {
-  variant_name?: string
-  selector?: string
-  max_width?: number
-  inline_style?: string
 }
 
 export interface Props {
@@ -33,8 +20,6 @@ export interface Props {
   style?: JSX.CSSProperties
   animationDuration?: number
   pagesData: ScrollatorPageData[]
-  creditsData?: ScrollatorCreditsData
-  styleVariantsData: ScrollatorStyleVariantData[]
   fixedBlocksPanelHeight: JSX.CSSProperties['height']
   thresholdOffset?: string
 }
@@ -70,9 +55,7 @@ export default class Scrollator extends Component<Props, State> {
 
     const allTextBlocks = props.pagesData.map((pageData, pagePos) => (
       <Paginator.Page value={pagePos}>
-        <Slide
-          pageData={pageData}
-          styleVariantsData={props.styleVariantsData} />
+        <Slide pageData={pageData} />
       </Paginator.Page>
     ))
 
@@ -113,9 +96,6 @@ export default class Scrollator extends Component<Props, State> {
           {allTextBlocks}
         </Paginator>
       </div>
-      {props.creditsData && <div className={bem(this.clss).elt('credits-slot').value}>
-        <ArticleCredits content={props.creditsData.content} />
-      </div>}
     </div>
   }
 }
