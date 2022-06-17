@@ -1,6 +1,6 @@
 {
   "assets_root_url": "https://assets-decodeurs.lemonde.fr/redacweb/17-2206-unnamed-longform-1-assets",
-  "statics_root_url": "https://assets-decodeurs.lemonde.fr/redacweb/statics",
+  "statics_root_url": "https://assets-decodeurs.lemonde.fr/redacweb/statics-v2",
   "spreadsheets_urls": {
     "production": "https://assets-decodeurs.lemonde.fr/sheets/J6eLUgtYbsBRKIaFOB5hHP7OK1J1OA_1181",
     "staging": "https://assets-decodeurs.lemonde.fr/sheets/J6eLUgtYbsBRKIaFOB5hHP7OK1J1OA_1182",

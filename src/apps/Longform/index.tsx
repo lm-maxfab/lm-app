@@ -38,7 +38,6 @@ class Longform extends Component<Props, {}> {
     const pagesData = (props.sheetBase?.collection('scrollator-pages').value ?? []) as unknown as PageData[]
     const settingsData = (props.sheetBase?.collection('scrollator-settings').entries[0]?.value ?? {}) as unknown as SettingsData
     const creditsData = (props.sheetBase?.collection('credits').entries[0]?.value ?? {}) as unknown as CreditsData
-    const customCssData = (props.sheetBase?.collection('custom-css').entries[0]?.value ?? {}) as unknown as CustomCssData
 
     // Assign classes and styles
     const wrapperClasses = bem(props.className).block(this.clss)
