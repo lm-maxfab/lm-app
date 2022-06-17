@@ -16,6 +16,19 @@ class Longform extends Component<Props, {}> {
   clss = Longform.clss
 
   /* * * * * * * * * * * * * * *
+   * LIFECYCLE
+   * * * * * * * * * * * * * * */
+  componentDidMount () {
+    const customCssData = (this.props.sheetBase?.collection('custom-css').entries[0]?.value ?? {}) as unknown as CustomCssData
+    if (customCssData.css === undefined) return
+    const head = document.head
+    const style = document.createElement('style')
+    style.setAttribute('type', 'text/css')
+    style.innerText = customCssData.css
+    head.append(style)
+  }
+
+  /* * * * * * * * * * * * * * *
    * RENDER
    * * * * * * * * * * * * * * */
   render (): JSX.Element {
@@ -38,7 +51,6 @@ class Longform extends Component<Props, {}> {
     return <div
       style={wrapperStyle}
       className={wrapperClasses.value}>
-      <style type='text/css'>{customCssData.css}</style>
       <ArticleHeader
         className='unnamed-longform__header'
         fill1={'white'}
