@@ -60,6 +60,7 @@ class Longform extends Component<Props, {}> {
         animationDuration={300}
         thresholdOffset={settingsData?.scrollator_threshold_offset} />
       <ArticleCredits
+        className='unnamed-longform__credits-test'
         content={creditsData.content} />
     </div>
   }
