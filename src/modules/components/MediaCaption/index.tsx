@@ -12,7 +12,8 @@ export default class MediaCaption extends Component<Props, {}> {
     const { description, credits } = this.props
 
     return <figcaption className='lm-media-caption'>
-      {description !== undefined && <><MediaDescription content={description} /> </> }
+      {description !== undefined && <><MediaDescription content={description} /></> }
+      {description !== undefined && credits !== undefined && <> </>}
       {credits !== undefined && <MediaCredits content={credits} />}
     </figcaption>
   }

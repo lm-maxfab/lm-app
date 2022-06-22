@@ -2,15 +2,15 @@
   "assets_root_url": "https://assets-decodeurs.lemonde.fr/redacweb/17-2206-unnamed-longform-1-assets",
   "statics_root_url": "https://assets-decodeurs.lemonde.fr/redacweb/statics-v2",
   "spreadsheets_urls": {
-    "production": "https://assets-decodeurs.lemonde.fr/sheets/J6eLUgtYbsBRKIaFOB5hHP7OK1J1OA_1181",
-    "staging": "https://assets-decodeurs.lemonde.fr/sheets/J6eLUgtYbsBRKIaFOB5hHP7OK1J1OA_1182",
-    "testing": "https://assets-decodeurs.lemonde.fr/sheets/J6eLUgtYbsBRKIaFOB5hHP7OK1J1OA_1183",
-    "developpment": "https://assets-decodeurs.lemonde.fr/sheets/J6eLUgtYbsBRKIaFOB5hHP7OK1J1OA_1184"
+    "production": "",
+    "staging": "",
+    "testing": "",
+    "developpment": ""
   },
   "layouts": [{
     "name": "art-1",
     "nodes": [
-      { "class": "unnamed-longform-1-root", "type": "longform" }
+      { "class": "master-root", "type": "longform" }
     ]
   }],
   "env": null
