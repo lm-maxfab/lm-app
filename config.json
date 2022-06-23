@@ -1,16 +1,17 @@
 {
-  "assets_root_url": "https://assets-decodeurs.lemonde.fr/redacweb/17-2206-unnamed-longform-1-assets",
+  "assets_root_url": "https://assets-decodeurs.lemonde.fr/redacweb/18-2206-triton-assets",
   "statics_root_url": "https://assets-decodeurs.lemonde.fr/redacweb/statics-v2",
   "spreadsheets_urls": {
-    "production": "",
-    "staging": "",
-    "testing": "",
-    "developpment": ""
+    "production": "https://assets-decodeurs.lemonde.fr/sheets/PHVO2HSeIh6cU2vYFHJN0pyfZ175Wg_1213",
+    "staging": "https://assets-decodeurs.lemonde.fr/sheets/PHVO2HSeIh6cU2vYFHJN0pyfZ175Wg_1214",
+    "testing": "https://assets-decodeurs.lemonde.fr/sheets/PHVO2HSeIh6cU2vYFHJN0pyfZ175Wg_1215",
+    "developpment": "https://assets-decodeurs.lemonde.fr/sheets/PHVO2HSeIh6cU2vYFHJN0pyfZ175Wg_1216"
   },
   "layouts": [{
     "name": "art-1",
     "nodes": [
-      { "class": "master-root", "type": "longform" }
+      { "class": "triton-scrollator-root", "type": "cover" },
+      { "class": "triton-footer-root", "type": "snippet" }
     ]
   }],
   "env": null
