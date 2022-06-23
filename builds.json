@@ -901,6 +901,17 @@
       },
       "description": "first building test",
       "time": "2022-06-23T12:45:29.302Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 2,
+        "patch": 0,
+        "status": "stable",
+        "build": 1
+      },
+      "description": "",
+      "time": "2022-06-23T12:52:22.688Z"
     }
   ]
 }
