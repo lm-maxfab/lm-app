@@ -1,0 +1,103 @@
+.lm-article-series-highlight {
+  background-color: black;
+  padding: 64px 32px;
+
+  @media screen and (max-width: 800px) {
+    padding: 48px 16px;
+  }
+
+  @media screen and (max-width: 480px) {
+    padding: 42px 8px;
+  }
+
+  .lm-article-series-highlight__inner {
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  .lm-article-series-highlight__title {
+    font-family: var(--ff-marr-sans);
+    font-size: 60px;
+    line-height: 1.1;
+    color: white;
+    max-width: 740px;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 32px;
+
+    @media screen and (max-width: 1200px) {
+      font-size: 56px;
+    }
+
+    @media screen and (max-width: 800px) {
+      font-size: 48px;
+    }
+
+    @media screen and (max-width: 600px) {
+      font-size: 36px;
+    }
+  }
+
+  .lm-article-series-highlight__paragraph {
+    font-family: var(--ff-the-antiqua-b);
+    font-size: 20px;
+    line-height: 1.5;
+    color: rgb(255, 255, 255, .5);
+    text-align: center;
+    max-width: 860px;
+    margin-bottom: 32px;
+
+    @media screen and (max-width: 1200px) {
+      font-size: 18px;
+    }
+
+    @media screen and (max-width: 800px) {
+      font-size: 17px;
+    }
+
+    @media screen and (max-width: 600px) {
+      font-size: 16px;
+    }
+  }
+
+  .lm-article-series-highlight__button {
+    font-family: var(--ff-marr-sans);
+    font-size: 13px;
+    font-weight: 500;
+    color: black;
+    padding: 12px 32px;
+    border-radius: 100px;
+    background-color: white;
+    margin-bottom: 72px;
+  }
+
+  .lm-article-series-highlight__thumbs {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 1152px;
+  }
+
+  .lm-article-series-highlight__thumb {
+    flex-grow: 0;
+    flex-shrink: 0;
+    width: calc(100% / 4);
+    padding: 0 12px;
+    margin-bottom: 24px;
+
+    @media screen and (max-width: 1200px) {
+      width: calc(100% / 3);
+    }
+
+    @media screen and (max-width: 700px) {
+      width: calc(100% / 2);
+    }
+
+    @media screen and (max-width: 374px) {
+      width: calc(100%);
+    }
+  }
+}

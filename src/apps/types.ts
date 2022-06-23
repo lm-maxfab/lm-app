@@ -31,3 +31,20 @@ export interface SettingsData extends SheetBaseCollectionData {
 export interface CustomCssData extends SheetBaseCollectionData {
   css?: string
 }
+
+export interface FooterData extends SheetBaseCollectionData {
+  title?: VNode|string
+  paragraph?: VNode|string
+  button_text?: VNode|string
+  button_url?: string
+  button_opens_new_tab?: boolean
+}
+
+export interface FooterThumbData extends SheetBaseCollectionData {
+  bgImageUrl?: string
+  title?: VNode|string
+  articleUrl?: string
+  openNewTab?: boolean
+  filterColor?: string
+  filterColorHover?: string
+}
