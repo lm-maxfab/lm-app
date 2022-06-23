@@ -21,7 +21,10 @@ class Longform extends Component<Props, {}> {
     const head = document.head
     const style = document.createElement('style')
     style.setAttribute('type', 'text/css')
-    style.innerText = customCssData.css + '\n.article--longform { overflow: unset !important; }'
+    style.innerText = customCssData.css + `
+      .article--longform { overflow: unset !important; }
+      .article--longform.article--longform-nocover > div { width: 100% !important; }
+    `
     head.append(style)
   }
 
