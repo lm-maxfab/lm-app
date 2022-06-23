@@ -1,4 +1,3 @@
-//test
 import { Component, JSX } from 'preact'
 import appWrapper, { InjectedProps } from '../../modules/utils/app-wrapper-HOC'
 import bem from '../../modules/utils/bem'
