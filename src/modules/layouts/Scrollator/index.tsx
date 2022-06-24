@@ -13,6 +13,7 @@ export interface ScrollatorPageData {
   text_block_margin_bottom?: string
   text_block_position?: string
   text_block_text_align?: string
+  text_block_classes?: string
 }
 
 export interface Props {
@@ -53,11 +54,12 @@ export default class Scrollator extends Component<Props, State> {
       content: pageData.background_block_content
     }))
 
-    const allTextBlocks = props.pagesData.map((pageData, pagePos) => (
-      <Paginator.Page value={pagePos}>
+    const allTextBlocks = props.pagesData.map((pageData, pagePos) => {
+      console.log(pageData.text_block_classes)
+      return <Paginator.Page value={pagePos}>
         <Slide pageData={pageData} />
       </Paginator.Page>
-    ))
+    })
 
     const currentPage = currentPageNumber !== undefined ? props.pagesData[currentPageNumber] : undefined
     const currentPageBgColor = currentPage?.background_block_color

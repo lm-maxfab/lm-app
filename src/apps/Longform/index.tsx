@@ -20,12 +20,13 @@ class Longform extends Component<Props, {}> {
    * LIFECYCLE
    * * * * * * * * * * * * * * */
   componentDidMount () {
-    const customCssData = (this.props.sheetBase?.collection('custom-css').entries[0]?.value ?? {}) as unknown as CustomCssData
-    if (customCssData.css === undefined) return
+    const allCustomCssData = (this.props.sheetBase?.collection('custom-css').value ?? []) as unknown as CustomCssData[]
+    const customCssData = allCustomCssData.map(elt => elt.css).join('\n')
+    if (customCssData === '') return
     const head = document.head
     const style = document.createElement('style')
     style.setAttribute('type', 'text/css')
-    style.innerText = customCssData.css
+    style.innerText = customCssData
     head.append(style)
   }
 
