@@ -935,5 +935,40 @@
       "description": "",
       "time": "2022-06-24T07:19:57.481Z"
     }
+  ],
+  "18-2206-triton": [
+    {
+      "version": {
+        "major": 0,
+        "minor": 1,
+        "patch": 0,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "",
+      "time": "2022-06-23T14:20:45.222Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 1,
+        "patch": 1,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "",
+      "time": "2022-06-23T14:34:28.249Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 1,
+        "patch": 2,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "",
+      "time": "2022-06-24T14:50:46.091Z"
+    }
   ]
 }
