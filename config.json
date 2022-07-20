@@ -1,17 +1,21 @@
 {
-  "assets_root_url": "https://assets-decodeurs.lemonde.fr/redacweb/17-2206-unnamed-longform-1-assets",
+  "assets_root_url": "https://assets-decodeurs.lemonde.fr/redacweb/21-2207-syrie-assets",
   "statics_root_url": "https://assets-decodeurs.lemonde.fr/redacweb/statics-v2",
   "spreadsheets_urls": {
-    "production": "",
-    "staging": "",
-    "testing": "",
-    "developpment": ""
+    "production": "https://assets-decodeurs.lemonde.fr/sheets/Xw9SndJWXi2FsLkNn_ZkyqgRCbeG5w_1257",
+    "staging": "https://assets-decodeurs.lemonde.fr/sheets/Xw9SndJWXi2FsLkNn_ZkyqgRCbeG5w_1258",
+    "testing": "https://assets-decodeurs.lemonde.fr/sheets/Xw9SndJWXi2FsLkNn_ZkyqgRCbeG5w_1259",
+    "developpment": "https://assets-decodeurs.lemonde.fr/sheets/Xw9SndJWXi2FsLkNn_ZkyqgRCbeG5w_1260"
   },
   "layouts": [{
     "name": "art-1",
-    "nodes": [
-      { "class": "master-root", "type": "longform" }
-    ]
+    "nodes": [{
+      "class": "syrie-cover-root",
+      "type": "cover"
+    }, {
+      "class": "syrie-snippet-root",
+      "type": "snippet"
+    }]
   }],
   "env": null
 }

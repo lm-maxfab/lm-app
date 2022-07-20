@@ -15,8 +15,8 @@ export default class Slide extends Component<Props, {}> {
   render () {
     const { props } = this
     const pageStyle: JSX.CSSProperties = {
-      '--padding-top': props.pageData.text_block_margin_top ?? '30vh',
-      '--padding-bottom': props.pageData.text_block_margin_bottom ?? '30vh',
+      '--padding-top': props.pageData.text_block_margin_top,
+      '--padding-bottom': props.pageData.text_block_margin_bottom,
       '--justify-content': props.pageData.text_block_position === 'center'
         ? 'center'
         : props.pageData.text_block_position === 'right'
