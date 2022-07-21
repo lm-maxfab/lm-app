@@ -13,6 +13,7 @@ export interface PageData extends SheetBaseCollectionData {
   text_block_margin_bottom?: string
   text_block_position?: string
   text_block_text_align?: string
+  text_block_classes?: string
 }
 
 export interface SettingsData extends SheetBaseCollectionData {

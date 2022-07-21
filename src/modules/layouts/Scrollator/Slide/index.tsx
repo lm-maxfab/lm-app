@@ -24,10 +24,18 @@ export default class Slide extends Component<Props, {}> {
           : 'flex-start',
       userSelect: 'none'
     }
+
+    const parsedClasses = props.pageData
+      .text_block_classes
+      ?.split(',')
+      .map(e => e.trim())
+      .join(' ')
+
     return <div
       style={pageStyle}
       className={bem(this.clss).value}>
       <SimpleStylableTextCard
+        className={parsedClasses}
         content={props.pageData.text_block_content}
         textAlign={props.pageData.text_block_text_align} />
     </div>
