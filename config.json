@@ -15,6 +15,9 @@
     }, {
       "class": "syrie-snippet-root",
       "type": "snippet"
+    }, {
+      "class": "syrie-snippet-2-root",
+      "type": "snippet"
     }]
   }],
   "env": null
