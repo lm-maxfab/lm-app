@@ -1,0 +1,11 @@
+.lm-dyptich__separated-slot {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  position: relative;
+}
+
+.lm-dyptich__left-slot,
+.lm-dyptich__right-slot {
+  width: 50%;
+}

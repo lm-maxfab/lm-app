@@ -1,5 +1,5 @@
 {
-  "assets_root_url": "https://assets-decodeurs.lemonde.fr/redacweb/17-2206-unnamed-longform-1-assets",
+  "assets_root_url": "https://assets-decodeurs.lemonde.fr/redacweb/22-2207-randos-assets",
   "statics_root_url": "https://assets-decodeurs.lemonde.fr/redacweb/statics-v2",
   "spreadsheets_urls": {
     "production": "",
@@ -10,7 +10,7 @@
   "layouts": [{
     "name": "art-1",
     "nodes": [
-      { "class": "master-root", "type": "longform" }
+      { "class": "randos-root", "type": "longform" }
     ]
   }],
   "env": null

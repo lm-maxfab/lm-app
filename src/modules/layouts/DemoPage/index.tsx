@@ -4,6 +4,7 @@ import ArticleHeader from '../../components/ArticleHeader'
 import ArticleSeriesHighlight from '../../components/ArticleSeriesHighlight'
 import ArticleThumb from '../../components/ArticleThumb'
 import ComponentDemo from '../../components/ComponentDemo'
+import Dyptich from '../../components/Dyptich'
 import MediaCaption from '../../components/MediaCaption'
 import MediaCredits from '../../components/MediaCredits'
 import MediaDescription from '../../components/MediaDescription'
@@ -98,6 +99,14 @@ export default class DemoPage extends Component<Props, {}> {
           credits='Un crédit' />} />
 
       <ComponentDemo
+        name='Dyptich'
+        propsDescription={``}
+        description='Displays images as a dyptich'
+        component={<Dyptich
+          leftImagesUrls={['https://upload.wikimedia.org/wikipedia/commons/9/9a/Gull_portrait_ca_usa.jpg', 'https://www.industrialempathy.com/img/remote/ZiClJf-1920w.jpg']}
+          rightImagesUrls={['https://upload.wikimedia.org/wikipedia/commons/9/9a/Gull_portrait_ca_usa.jpg', 'https://www.industrialempathy.com/img/remote/ZiClJf-1920w.jpg'].reverse()} />} />
+
+      <ComponentDemo
         name='ArticleThumb'
         description='Thumbnail card for an article'
         propsDescription={`
@@ -131,6 +140,7 @@ export default class DemoPage extends Component<Props, {}> {
           buttonUrl?: string
           buttonOpensNewTab?: boolean
           buttonClickHandler?: (e: JSX.TargetedMouseEvent<HTMLAnchorElement>) => void
+          thumbsData?: ArticleThumbProps[]
         `}
         component={<ArticleSeriesHighlight
           title={`Le titre d'une super série d'articles`}
