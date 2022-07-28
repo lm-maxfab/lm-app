@@ -1,11 +1,5 @@
 import { VNode } from 'preact'
 
-export interface MyNavigator extends Navigator {
-  connection: NetworkInformation
-  mozConnection?: NetworkInformation
-  webkitConnection?: NetworkInformation
-}
-
 export interface SheetBaseCollectionData {
   id: string
 }
@@ -18,6 +12,7 @@ export interface PageData extends SheetBaseCollectionData {
   text_block_margin_bottom?: string
   text_block_position?: string
   text_block_text_align?: string
+  text_block_classes?: string
 }
 
 export interface CreditsData extends SheetBaseCollectionData {

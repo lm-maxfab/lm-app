@@ -1005,5 +1005,18 @@
       "description": "",
       "time": "2022-07-22T14:31:13.667Z"
     }
+  ],
+  "22-2207-randos": [
+    {
+      "version": {
+        "major": 0,
+        "minor": 1,
+        "patch": 0,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "",
+      "time": "2022-07-28T10:10:28.422Z"
+    }
   ]
 }

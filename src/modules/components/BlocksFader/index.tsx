@@ -44,7 +44,6 @@ export default class BlocksFader extends Component<Props, State> {
   }
 
   static blocksAreEqual (block1: BlockDescriptor, block2: BlockDescriptor) {
-    console.log(block1, block2)
     let strContent1 = undefined
     if (block1.content === undefined) strContent1 = undefined
     else if (typeof block1.content === 'string') strContent1 = block1.content

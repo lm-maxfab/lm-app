@@ -2,10 +2,10 @@
   "assets_root_url": "https://assets-decodeurs.lemonde.fr/redacweb/22-2207-randos-assets",
   "statics_root_url": "https://assets-decodeurs.lemonde.fr/redacweb/statics-v2",
   "spreadsheets_urls": {
-    "production": "",
-    "staging": "",
-    "testing": "",
-    "developpment": ""
+    "production": "https://assets-decodeurs.lemonde.fr/sheets/FLEgVT_exFSPlHJ7KUwjxN6H2NyAPQ_1270",
+    "staging": "https://assets-decodeurs.lemonde.fr/sheets/FLEgVT_exFSPlHJ7KUwjxN6H2NyAPQ_1271",
+    "testing": "https://assets-decodeurs.lemonde.fr/sheets/FLEgVT_exFSPlHJ7KUwjxN6H2NyAPQ_1272",
+    "developpment": "https://assets-decodeurs.lemonde.fr/sheets/FLEgVT_exFSPlHJ7KUwjxN6H2NyAPQ_1273"
   },
   "layouts": [{
     "name": "art-1",
