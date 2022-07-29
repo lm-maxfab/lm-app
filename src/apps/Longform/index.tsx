@@ -4,6 +4,7 @@ import bem from '../../modules/utils/bem'
 import Scrollator from '../../modules/layouts/Scrollator'
 import { CustomCssData, PageData, SettingsData } from '../types'
 import './styles.scss'
+import ArticleHeader from '../../modules/components/ArticleHeader'
 
 interface Props extends InjectedProps {}
 
@@ -43,6 +44,10 @@ class Longform extends Component<Props, {}> {
     return <div
       style={wrapperStyle}
       className={wrapperClasses.value}>
+      <ArticleHeader
+        style={{ position: 'fixed', top: 0, zIndex: 4 }}
+        fill1='rgb(0, 0, 0, 1)'
+        fill2='rgb(0, 0, 0, .3)' />
       <Scrollator
         pagesData={pagesData}
         fixedBlocksPanelHeight='100vh'
