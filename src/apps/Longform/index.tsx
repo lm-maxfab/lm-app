@@ -1,7 +1,6 @@
 import { Component, JSX } from 'preact'
 import appWrapper, { InjectedProps } from '../../modules/utils/app-wrapper-HOC'
 import bem from '../../modules/utils/bem'
-import DemoPage from '../../modules/layouts/DemoPage'
 import Scrollator from '../../modules/layouts/Scrollator'
 import { CustomCssData, PageData, SettingsData } from '../types'
 import './styles.scss'
@@ -22,7 +21,8 @@ class Longform extends Component<Props, {}> {
     const head = document.head
     const style = document.createElement('style')
     style.setAttribute('type', 'text/css')
-    style.innerText = customCssData
+    const minifiedCustomCssData = customCssData.split('\n').map(e => e.trim()).join('')
+    style.innerText = minifiedCustomCssData
     head.append(style)
   }
 
