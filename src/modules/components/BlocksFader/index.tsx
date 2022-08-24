@@ -3,6 +3,7 @@ import bem from '../../utils/bem'
 import './styles.scss'
 
 interface BlockDescriptor {
+  id?: string
   content?: VNode|string
 }
 
@@ -44,6 +45,11 @@ export default class BlocksFader extends Component<Props, State> {
   }
 
   static blocksAreEqual (block1: BlockDescriptor, block2: BlockDescriptor) {
+    if (
+      block1.id === block2.id
+      && block1.id !== undefined
+    ) return true
+    
     let strContent1 = undefined
     if (block1.content === undefined) strContent1 = undefined
     else if (typeof block1.content === 'string') strContent1 = block1.content

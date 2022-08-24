@@ -6,6 +6,7 @@ import applyPageTemplate from './modules/utils/apply-page-template'
 import applyPageLayout from './modules/utils/apply-page-layout'
 import renderLMApp from './modules/utils/render-app'
 import getHeaderElement from './modules/utils/get-header-element'
+import { CustomCssData } from './sheet-base-entries'
 
 /* Init */
 init()
@@ -50,6 +51,18 @@ async function init (): Promise<void> {
   const sheetBase = url !== '' ? await fetchSheetBase(url) : undefined
   if (window.LM_APP === undefined) window.LM_APP = {}
   window.LM_APP.sheetBase = sheetBase
+
+  // Apply page custom CSS from sheet base
+  const allCustomCssData = sheetBase?.collection('_custom-css').value as unknown as CustomCssData[]
+  const customCssData = allCustomCssData.map(elt => elt.css).join('\n')
+  if (customCssData !== '') {
+    const head = document.head
+    const style = document.createElement('style')
+    style.setAttribute('type', 'text/css')
+    const minifiedCustomCssData = customCssData.split('\n').map(e => e.trim()).join('')
+    style.innerText = minifiedCustomCssData
+    head.append(style)  
+  }
 
   // Apply page template in dev
   if (window.location.hostname === 'localhost') {

@@ -16,11 +16,13 @@ export default async function applyPageTemplate (template: string): Promise<void
     const $html = document.querySelector('html')
     const $head = $html?.querySelector('head')
     const $body = $html?.querySelector('body')
+    const $id = $body?.querySelector('.lm-app-id')
     const $config = $body?.querySelector('.lm-app-config')
     const $script = $body?.querySelector('.lm-app-script')
 
     const headChildren = [...($head?.children ?? [])]
     headChildren.forEach(headChild => $templateHeadPlaceholder?.parentNode?.insertBefore(headChild, $templateHeadPlaceholder))
+    $templateConfigPlaceholder?.insertAdjacentHTML('afterend', $id?.outerHTML ?? '')
     $templateConfigPlaceholder?.insertAdjacentHTML('afterend', $config?.outerHTML ?? '')
     $templateScriptsPlaceholder?.insertAdjacentHTML('afterend', $script?.outerHTML ?? '')
 

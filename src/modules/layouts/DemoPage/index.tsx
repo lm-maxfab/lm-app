@@ -9,6 +9,10 @@ import MediaCaption from '../../components/MediaCaption'
 import MediaCredits from '../../components/MediaCredits'
 import MediaDescription from '../../components/MediaDescription'
 import bem from '../../utils/bem'
+
+import palmiers from './test-assets/frame-1.jpg'
+import mouette from './test-assets/frame-2.jpg'
+
 import './styles.scss'
 
 interface Props {
@@ -37,6 +41,19 @@ export default class DemoPage extends Component<Props, {}> {
       <h1 className={bem(this.clss).elt('page-title').value}>
         LM Components
       </h1>
+
+      <ComponentDemo
+        name='Dyptich'
+        propsDescription={``}
+        description='Displays images as a dyptich'
+        component={<Dyptich
+          tempo={60}
+          mobileBehavior='merge'
+          mergeOrder='alternate'
+          leftImagesUrls={[palmiers, mouette]}
+          rightImagesUrls={[palmiers, mouette].reverse()}
+          mediaDescription='Une description'
+          mediaCredits='Un crédit.' />} />
 
       <ComponentDemo
         name='ArticleCredits'
@@ -98,13 +115,15 @@ export default class DemoPage extends Component<Props, {}> {
           description='Une description'
           credits='Un crédit' />} />
 
-      <ComponentDemo
+      {/* <ComponentDemo
         name='Dyptich'
         propsDescription={``}
         description='Displays images as a dyptich'
         component={<Dyptich
-          leftImagesUrls={['https://upload.wikimedia.org/wikipedia/commons/9/9a/Gull_portrait_ca_usa.jpg', 'https://www.industrialempathy.com/img/remote/ZiClJf-1920w.jpg']}
-          rightImagesUrls={['https://upload.wikimedia.org/wikipedia/commons/9/9a/Gull_portrait_ca_usa.jpg', 'https://www.industrialempathy.com/img/remote/ZiClJf-1920w.jpg'].reverse()} />} />
+          tempo={100}
+          mobileBehavior='merge'
+          leftImagesUrls={[palmiers, mouette]}
+          rightImagesUrls={[palmiers, mouette].reverse()} />} /> */}
 
       <ComponentDemo
         name='ArticleThumb'
