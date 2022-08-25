@@ -3,19 +3,25 @@ import appWrapper, { InjectedProps } from '../../modules/utils/app-wrapper-HOC'
 import bem from '../../modules/utils/bem'
 import './styles.scss'
 import Scrollator, { ScrollatorPageData } from '../../modules/layouts/Scrollator'
+import getPageId from '../../modules/utils/get-page-id'
+
+type TargetedScrollatorPageData = ScrollatorPageData & { target_article_id: string }
 
 interface Props extends InjectedProps {}
 
-class Longform extends Component<Props, {}> {
-  static clss: string = 'sable-longform'
-  clss = Longform.clss
+class Header extends Component<Props, {}> {
+  static clss: string = 'sable-header'
+  clss = Header.clss
 
   /* * * * * * * * * * * * * * *
    * RENDER
    * * * * * * * * * * * * * * */
   render (): JSX.Element {
+    
     const { props } = this
-    const longformPagesData = props.sheetBase?.collection('longform-pages').value as unknown as ScrollatorPageData[]
+    const allHeaderPagesData = props.sheetBase?.collection('article-cover-pages').value as unknown as TargetedScrollatorPageData[]
+    const currentArticleId = getPageId()
+    const headerPagesData = allHeaderPagesData.filter(pageData => pageData.target_article_id === currentArticleId)
 
     // Assign classes and styles
     const wrapperClasses = bem(props.className).block(this.clss)
@@ -26,12 +32,11 @@ class Longform extends Component<Props, {}> {
       style={wrapperStyle}
       className={wrapperClasses.value}>
       <Scrollator
-        thresholdOffset='0%'
         fixedBlocksPanelHeight='100vh'
-        pagesData={longformPagesData} />
+        pagesData={headerPagesData} />
     </div>
   }
 }
 
-export type { Props, Longform }
-export default appWrapper(Longform)
+export type { Props, Header }
+export default appWrapper(Header)

@@ -14,6 +14,7 @@ import palmiers from './test-assets/frame-1.jpg'
 import mouette from './test-assets/frame-2.jpg'
 
 import './styles.scss'
+import BackgroundVideo from '../../components/BackgroundVideo'
 
 interface Props {
   className?: string
@@ -41,6 +42,17 @@ export default class DemoPage extends Component<Props, {}> {
       <h1 className={bem(this.clss).elt('page-title').value}>
         LM Components
       </h1>
+
+      <ComponentDemo
+        name='BackgroundVideo'
+        propsDescription={`
+          sourceUrl?: string
+          fallbackUrl?: string`
+        }
+        description='Displays an autoplay video without controls, or a static image fallback'
+        component={<BackgroundVideo
+          fallbackUrl='https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg'
+          sourceUrl='https://player.vimeo.com/progressive_redirect/playback/742207975/rendition/720p/file.mp4?loc=external&signature=f0dcd89921fa5a37ee86b1213cc1f87888eb915f4d79c6f41089410cefa9ed7d' />} />
 
       <ComponentDemo
         name='Dyptich'
