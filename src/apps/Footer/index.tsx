@@ -82,13 +82,6 @@ class Footer extends Component<Props, {}> {
                   height='100%'
                   sourceUrl={articleData.bg_video_url}
                   fallbackUrl={articleData.bg_image_url} />
-                {/* <img
-                  src={articleData.bg_image_url}
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover'
-                  }} /> */}
               </div>,
 
               text_block_content: <div

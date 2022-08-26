@@ -15,8 +15,8 @@
   }, {
     "name": "article",
     "nodes": [
-      { "class": "//sable-header-root", "type": "cover" },
-      { "class": "//sable-side-root", "type": "snippet" },
+      { "class": "sable-header-root", "type": "cover" },
+      { "class": "sable-side-root", "type": "snippet" },
       { "class": "sable-footer-root", "type": "snippet" }
     ]
   }],

@@ -13,24 +13,33 @@ interface State {
 }
 
 export default class BackgroundVideo extends Component<Props, State> {
+  /* * * * * * * * * * * * * * *
+   * PROPERTIES
+   * * * * * * * * * * * * * * */
+  static clss = 'lm-background-video'
+  clss = BackgroundVideo.clss
+  $video: HTMLVideoElement|null = null
+  intervalPlayingStateChecker: number|null = null
   state: State = {
     isPlaying: false
   }
 
-  static clss = 'lm-background-video'
-  clss = BackgroundVideo.clss
-
-  $video: HTMLVideoElement|null = null
-  intervalPlayingStateChecker: number|null = null
-
+  /* * * * * * * * * * * * * * *
+   * CONSTRUCTOR
+   * * * * * * * * * * * * * * */
   constructor (props: Props) {
     super(props)
     this.checkIfPlaying = this.checkIfPlaying.bind(this)
     this.setPlayingState = this.setPlayingState.bind(this)
   }
 
+  /* * * * * * * * * * * * * * *
+   * LIFECYCLE
+   * * * * * * * * * * * * * * */
   componentDidMount (): void {
-    this.intervalPlayingStateChecker = window.setInterval(() => { this.setPlayingState() }, 500)
+    this.intervalPlayingStateChecker = window.setInterval(() => {
+      this.setPlayingState()
+    }, 500)
   }
 
   componentWillUnmount(): void {
@@ -39,6 +48,9 @@ export default class BackgroundVideo extends Component<Props, State> {
     }
   }
 
+  /* * * * * * * * * * * * * * *
+   * METHODS
+   * * * * * * * * * * * * * * */
   checkIfPlaying () {
     const { $video } = this
     if ($video === null) return false
@@ -50,6 +62,9 @@ export default class BackgroundVideo extends Component<Props, State> {
     this.setState({ isPlaying: this.checkIfPlaying() })
   }
 
+  /* * * * * * * * * * * * * * *
+   * RENDER
+   * * * * * * * * * * * * * * */
   render () {
     const { sourceUrl, fallbackUrl, height } = this.props
     const { isPlaying } = this.state
