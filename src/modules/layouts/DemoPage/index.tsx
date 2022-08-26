@@ -15,6 +15,7 @@ import mouette from './test-assets/frame-2.jpg'
 
 import './styles.scss'
 import BackgroundVideo from '../../components/BackgroundVideo'
+import P5Thing from '../../../apps/components/P5Thing'
 
 interface Props {
   className?: string
@@ -42,6 +43,12 @@ export default class DemoPage extends Component<Props, {}> {
       <h1 className={bem(this.clss).elt('page-title').value}>
         LM Components
       </h1>
+
+      <ComponentDemo
+        name='P5Thing'
+        propsDescription={``}
+        description=''
+        component={<P5Thing />} />
 
       <ComponentDemo
         name='BackgroundVideo'

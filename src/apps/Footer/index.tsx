@@ -11,33 +11,6 @@ import './styles.scss'
 
 interface Props extends InjectedProps {}
 
-// bgImageUrl
-// title
-// articleUrl
-// openNewTab
-// filterColor
-// filterColorHover
-
-
-// background_block_color?: string
-// background_block_content?: VNode|string
-// text_block_content?: VNode
-// text_block_margin_top?: string
-// text_block_margin_bottom?: string
-// text_block_position?: string
-// text_block_text_align?: string
-// text_block_classes?: string
-
-
-
-
-// episode_number
-// title
-// published
-// url
-// bg_image_url
-// bg_video_url
-
 class Footer extends Component<Props, {}> {
   static clss: string = 'sable-footer'
   clss = Footer.clss
@@ -62,8 +35,8 @@ class Footer extends Component<Props, {}> {
     return <div
       style={wrapperStyle}
       className={wrapperClasses.value}>
-      {/* <DemoPage /> */}
-      <ArticleSeriesHighlight
+      <DemoPage />
+      {/* <ArticleSeriesHighlight
         title={<img src={footerContentData.marqueur_url} />}
         paragraph={footerContentData.paragraph}
         thumbsData={[]} />
@@ -73,11 +46,8 @@ class Footer extends Component<Props, {}> {
           fixedBlocksPanelHeight='100vh'
           pagesData={articlesData.map(articleData => {
             const ret: ScrollatorPageData = {
-              background_block_content: <div style={{
-                padding: '20px',
-                width: '100%',
-                height: '100vh'
-                }}>
+              background_block_content: <div
+                className={bem(this.clss).elt('fixed-video').value}>
                 <BackgroundVideo
                   height='100%'
                   sourceUrl={articleData.bg_video_url}
@@ -85,25 +55,21 @@ class Footer extends Component<Props, {}> {
               </div>,
 
               text_block_content: <div
-                style={{
-                  backgroundColor: 'red',
-                  width: '100%',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  marginBottom: '30vh'
-                }}>
+                className={bem(this.clss).elt('article-slide').value}>
                 <ArticleCard
                   overhead={`Épisode ${articleData.episode_number}`}
                   title={articleData.title}
-                  buttonText='lire' />
+                  buttonText='Lire'
+                  activeButtons={articleData.published}
+                  inactiveButtonText={`À lire le ${articleData.displayed_publication_date}`}
+                  buttonTargetUrl={articleData.url} />
               </div>,
 
               text_block_position: 'center'
             }
             return ret
           })} />
-      </div>
+      </div> */}
     </div>
   }
 }

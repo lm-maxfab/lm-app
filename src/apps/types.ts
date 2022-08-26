@@ -22,4 +22,5 @@ export interface ArticlesData {
   url?: string
   bg_image_url?: string
   bg_video_url?: string
+  displayed_publication_date?: string
 }
