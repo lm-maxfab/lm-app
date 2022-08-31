@@ -25,8 +25,6 @@ class Footer extends Component<Props, {}> {
     const footerContentData = sheetBase?.collection('footer-content').entries[0].value as unknown as FooterContentData
     const articlesData = sheetBase?.collection('articles-data').value as unknown as ArticlesData[]
 
-    console.log(articlesData)
-
     // Assign classes and styles
     const wrapperClasses = bem(props.className).block(this.clss)
     const wrapperStyle: JSX.CSSProperties = { ...props.style }

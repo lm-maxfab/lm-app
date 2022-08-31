@@ -23,6 +23,8 @@ export interface Props {
   pagesData: ScrollatorPageData[]
   fixedBlocksPanelHeight: JSX.CSSProperties['height']
   thresholdOffset?: string
+  _dirtyIntermediateLayer?: VNode
+  onPageChange?: (value: number|undefined, state: PaginatorState|undefined) => void
 }
 
 export interface State {
@@ -42,7 +44,12 @@ export default class Scrollator extends Component<Props, State> {
     let activePageValue = value
     if (value === undefined && paginatorState?.direction === 'backwards') { activePageValue = 0 }
     if (value === undefined && paginatorState?.direction === 'forwards') { activePageValue = this.props.pagesData.length - 1 }
-    this.setState({ currentPageNumber: activePageValue })
+    this.setState({ currentPageNumber: activePageValue }, () => {
+      const { onPageChange } = this.props
+      if (onPageChange !== undefined) {
+        onPageChange(activePageValue, paginatorState)
+      }
+    })
   }
 
   render () {
@@ -84,6 +91,9 @@ export default class Scrollator extends Component<Props, State> {
           current={currentPageNumber}
           blocks={allBgBlocks}
           animationDuration={props.animationDuration ?? 300} />
+        {props._dirtyIntermediateLayer !== undefined && <div className={bem(this.clss).elt('dirty-intermediate-layer-slot').value}>
+          {props._dirtyIntermediateLayer}
+        </div>}
       </div>
       <div
         className={bem(this.clss).elt('content-slot').value}

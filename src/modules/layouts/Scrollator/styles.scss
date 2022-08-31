@@ -14,10 +14,18 @@
   z-index: 2;
 }
 
+.lm-layout-scrollator__dirty-intermediate-layer-slot {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 3;
+}
+
 .lm-layout-scrollator__content-slot {
   position: relative;
 }
 
 .lm-layout-scrollator-page .lm-simple-stylable-text-card {
-  z-index: 3;
+  z-index: 4;
 }

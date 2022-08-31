@@ -48,7 +48,13 @@ export default class DemoPage extends Component<Props, {}> {
         name='P5Thing'
         propsDescription={``}
         description=''
-        component={<P5Thing />} />
+        component={<P5Thing
+          height='100vh'
+          flow={400}
+          aperture={20}
+          gravity={1}
+          maxSimultaneousGrains={100000}
+          showStats={true} />} />
 
       <ComponentDemo
         name='BackgroundVideo'

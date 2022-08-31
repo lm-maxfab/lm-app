@@ -1063,6 +1063,17 @@
       },
       "description": "",
       "time": "2022-08-26T09:23:54.637Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 3
+      },
+      "description": "",
+      "time": "2022-08-31T15:26:03.117Z"
     }
   ]
 }
