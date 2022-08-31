@@ -50,7 +50,7 @@ class Longform extends Component<Props, State> {
             frameRate={60}
             maxSimultaneousGrains={100 * 1000}
             gravity={.05}
-            showStats={true} />
+            showStats={false} />
           </div>
         }
         thresholdOffset='0%'
