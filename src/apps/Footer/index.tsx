@@ -33,8 +33,8 @@ class Footer extends Component<Props, {}> {
     return <div
       style={wrapperStyle}
       className={wrapperClasses.value}>
-      <DemoPage />
-      {/* <ArticleSeriesHighlight
+      {/* <DemoPage /> */}
+      <ArticleSeriesHighlight
         title={<img src={footerContentData.marqueur_url} />}
         paragraph={footerContentData.paragraph}
         thumbsData={[]} />
@@ -67,7 +67,7 @@ class Footer extends Component<Props, {}> {
             }
             return ret
           })} />
-      </div> */}
+      </div>
     </div>
   }
 }
