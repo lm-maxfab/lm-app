@@ -19,7 +19,7 @@
     transition:
       opacity
       var(--animation-duration)
-      calc(var(--animation-duration) / 2 + var(--fade-in-delay));
+      calc(var(--animation-duration) + var(--fade-in-delay));
   }
 
   &.lm-blocks-fader__block_pre-current {

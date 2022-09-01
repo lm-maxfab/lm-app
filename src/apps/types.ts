@@ -18,9 +18,14 @@ export interface FooterContentData {
 export interface ArticlesData {
   episode_number?: string
   title?: VNode|string
+  kicker?: VNode|string
   published?: boolean
   url?: string
   bg_image_url?: string
   bg_video_url?: string
   displayed_publication_date?: string
+}
+
+export interface CreditsData extends SheetBaseCollectionData {
+  content?: VNode|string
 }

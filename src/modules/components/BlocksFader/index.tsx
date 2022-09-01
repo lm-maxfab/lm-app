@@ -23,7 +23,7 @@ interface State {
 
 export default class BlocksFader extends Component<Props, State> {
   static clss = 'lm-blocks-fader'
-  static fadeInDelay = 5
+  static fadeInDelay = 50
 
   constructor (props: Props) {
     super(props)

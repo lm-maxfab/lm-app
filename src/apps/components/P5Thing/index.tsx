@@ -14,8 +14,6 @@ interface Props {
 
 export default class P5Thing extends Component<Props, {}> {
   $root: HTMLDivElement|null = null
-  $input: HTMLInputElement|null = null
-  $button: HTMLButtonElement|null = null
   sketch: p5|null = null
   resizeInterval: number|null = null
   canvasSizeSetter: ((w: number, h: number) => void)|null = null
@@ -25,7 +23,6 @@ export default class P5Thing extends Component<Props, {}> {
     super(props)
     this.sketchCreator = sketchCreator()
     this.setCanvasSize = this.setCanvasSize.bind(this)
-    this.handleButtonClick = this.handleButtonClick.bind(this)
   }
 
   componentDidMount() {
@@ -86,26 +83,13 @@ export default class P5Thing extends Component<Props, {}> {
     this.canvasSizeSetter(width, height)
   }
 
-  handleButtonClick () {
-    const { $input } = this
-    if ($input === null) return
-    if (this.sketchCreator === null) return
-    const { setFlow } = this.sketchCreator
-    const { value } = $input
-    setFlow(window.parseInt(value))
-  }
-
   render () {
-    return <>
-      <input type='number' ref={n => { this.$input = n }} />
-      <button ref={n => { this.$button = n }} onClick={this.handleButtonClick}>Set</button>
-      <div
-        ref={n => { this.$root = n }}
-        style={{
-          position: 'relative',
-          width: '100%',
-          height: this.props.height
-        }} />
-    </>
+    return <div
+      ref={n => { this.$root = n }}
+      style={{
+        position: 'relative',
+        width: '100%',
+        height: this.props.height
+      }} />
   }
 }

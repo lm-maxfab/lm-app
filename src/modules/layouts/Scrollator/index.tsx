@@ -24,7 +24,7 @@ export interface Props {
   fixedBlocksPanelHeight: JSX.CSSProperties['height']
   thresholdOffset?: string
   _dirtyIntermediateLayer?: VNode
-  onPageChange?: (value: number|undefined, state: PaginatorState|undefined) => void
+  onPageChange?: (state: PaginatorState) => void
 }
 
 export interface State {
@@ -40,14 +40,15 @@ export default class Scrollator extends Component<Props, State> {
     this.pageChangeHandler = this.pageChangeHandler.bind(this)
   }
 
-  pageChangeHandler (value: number|undefined, paginatorState: PaginatorState|undefined) {
-    let activePageValue = value
-    if (value === undefined && paginatorState?.direction === 'backwards') { activePageValue = 0 }
-    if (value === undefined && paginatorState?.direction === 'forwards') { activePageValue = this.props.pagesData.length - 1 }
-    this.setState({ currentPageNumber: activePageValue }, () => {
+  pageChangeHandler (paginatorState: PaginatorState) {
+    const { position, direction } = paginatorState
+    let currentPageNumber = position ?? 0
+    if (position === null && direction === 'backwards') { currentPageNumber = 0 }
+    if (position === null && direction === 'forwards') { currentPageNumber = this.props.pagesData.length - 1 }
+    this.setState({ currentPageNumber }, () => {
       const { onPageChange } = this.props
       if (onPageChange !== undefined) {
-        onPageChange(activePageValue, paginatorState)
+        onPageChange(paginatorState)
       }
     })
   }
@@ -62,7 +63,9 @@ export default class Scrollator extends Component<Props, State> {
     }))
 
     const allTextBlocks = props.pagesData.map((pageData, pagePos) => (
-      <Paginator.Page value={pagePos}>
+      <Paginator.Page
+        value={pageData}
+        position={pagePos}>
         <Slide pageData={pageData} />
       </Paginator.Page>
     ))

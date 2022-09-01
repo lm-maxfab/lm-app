@@ -18,7 +18,7 @@ export interface Props {
   thresholdOffset?: string
   delay?: number
   intervalCheck?: boolean
-  onPageChange?: (value: State['value'], state?: State) => void
+  onPageChange?: (state: State) => void
 }
 
 export interface State {
@@ -27,6 +27,7 @@ export interface State {
   coming: PagePositionAndValue[]
   direction: 'forwards'|'backwards'|null
   value: any
+  position: number|null
 }
 
 export default class Paginator extends Component<Props, State> {
@@ -38,7 +39,8 @@ export default class Paginator extends Component<Props, State> {
     active: [],
     coming: [],
     direction: null,
-    value: undefined
+    value: undefined,
+    position: null
   }
   childrenRefs: Page[] = []
   $thresholdBar: HTMLDivElement|null = null
@@ -157,6 +159,7 @@ export default class Paginator extends Component<Props, State> {
       const active = activeChildrenRefs.map(ref => ({ position: ref.props.position ?? 0, value: ref.props.value })).sort(e => e.position)
       const coming = comingChildrenRefs.map(ref => ({ position: ref.props.position ?? 0, value: ref.props.value })).sort(e => e.position)
       const value = active[0]?.value
+      const position = (active[0]?.position ?? null) as any|null
 
       let direction: 'forwards'|'backwards'|null = null
 
@@ -172,11 +175,12 @@ export default class Paginator extends Component<Props, State> {
         active,
         coming,
         direction,
-        value
+        value,
+        position
       }
 
       if (this.props.onPageChange !== undefined) {
-        this.props.onPageChange(newState.value, newState)
+        this.props.onPageChange(newState)
       }
       return newState
     })
