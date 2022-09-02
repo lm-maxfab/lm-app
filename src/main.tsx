@@ -29,8 +29,11 @@ async function init (): Promise<void> {
   if (config === undefined) throw new Error('Could not load config, app rendering stops.')
 
   // Remove header
-  const $header = document.querySelector('header.multimediaNav')
-  if ($header !== null) $header.remove()
+  function removeHeader () {
+    const $header = document.querySelector('header.multimediaNav')
+    if ($header !== null) $header.remove()
+  }
+  window.setTimeout(removeHeader, 100)
 
   // Get settings from window.location.search
   const settings = getPageSettings()

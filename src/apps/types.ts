@@ -23,6 +23,11 @@ export interface ArticlesData {
   url?: string
   bg_image_url?: string
   bg_video_url?: string
+  bg_video_1080_url?: string
+  bg_video_720_url?: string
+  bg_video_540_url?: string
+  bg_video_360_url?: string
+  bg_video_240_url?: string
   displayed_publication_date?: string
 }
 

@@ -7,6 +7,7 @@ import appWrapper, { InjectedProps } from '../../modules/utils/app-wrapper-HOC'
 import bem from '../../modules/utils/bem'
 import ArticleCard from '../components/ArticleCard'
 import { FooterContentData, ArticlesData } from '../types'
+import chooseVideoSource from '../utils/choose-video-source'
 import './styles.scss'
 
 interface Props extends InjectedProps {}
@@ -43,12 +44,19 @@ class Footer extends Component<Props, {}> {
           thresholdOffset='70%'
           fixedBlocksPanelHeight='100vh'
           pagesData={articlesData.map(articleData => {
+            const videoSource = chooseVideoSource({
+              '1080': articleData.bg_video_1080_url ?? '',
+              '720': articleData.bg_video_720_url ?? '',
+              '540': articleData.bg_video_540_url ?? '',
+              '360': articleData.bg_video_360_url ?? '',
+              '240': articleData.bg_video_240_url ?? ''
+            })
             const ret: ScrollatorPageData = {
               background_block_content: <div
                 className={bem(this.clss).elt('fixed-video').value}>
                 <BackgroundVideo
                   height='100%'
-                  sourceUrl={articleData.bg_video_url}
+                  sourceUrl={videoSource}
                   fallbackUrl={articleData.bg_image_url} />
               </div>,
 

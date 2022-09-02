@@ -3,6 +3,13 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  text-align: center;
+  padding: 40px;
+}
+
+.sable-article-card__overhead,
+.sable-article-card__title {
+  max-width: 520px;
 }
 
 .sable-article-card__overhead {

@@ -6,6 +6,8 @@ import Scrollator, { ScrollatorPageData } from '../../modules/layouts/Scrollator
 import P5Thing from '../components/P5Thing'
 import { ArticlesData, CreditsData } from '../types'
 import BackgroundVideo from '../../modules/components/BackgroundVideo'
+import ArticleHeader from '../../modules/components/ArticleHeader'
+import chooseVideoSource from '../utils/choose-video-source'
 
 type ScrollatorPageWithSandControls = ScrollatorPageData & {
   sand_flow?: number
@@ -38,11 +40,18 @@ class Longform extends Component<Props, State> {
     const introPagesData = props.sheetBase?.collection('longform-pages').value as unknown as ScrollatorPageWithSandControls[]
     const articlesData = props.sheetBase?.collection('articles-data').value as unknown as ArticlesData[]
     const articlesDataAsPageData: ScrollatorPageData[] = articlesData.map(articleData => {
+      const videoSource = chooseVideoSource({
+        '1080': articleData.bg_video_1080_url ?? '',
+        '720': articleData.bg_video_720_url ?? '',
+        '540': articleData.bg_video_540_url ?? '',
+        '360': articleData.bg_video_360_url ?? '',
+        '240': articleData.bg_video_240_url ?? ''
+      })
       return {
         background_block_color: 'black',
         background_block_content: <div style={{ height: '100vh', width: '100%', padding: '100px' }}>
           <BackgroundVideo
-            sourceUrl={articleData.bg_video_url}
+            sourceUrl={videoSource}
             fallbackUrl={articleData.bg_image_url}
             height='100%' />
         </div>,
@@ -60,7 +69,7 @@ class Longform extends Component<Props, State> {
       background_block_content: <div style={{ height: '100vh', width: '100%', display: 'block' }} />,
       text_block_content: <>{creditsData.content}</>,
       text_block_margin_top: '100vh',
-      text_block_margin_bottom: '10vh',
+      text_block_margin_bottom: '50vh',
       text_block_position: 'center',
       text_block_text_align: 'left',
       text_block_classes: 'credits'
@@ -80,33 +89,37 @@ class Longform extends Component<Props, State> {
     return <div
       style={wrapperStyle}
       className={wrapperClasses.value}>
-      <Scrollator
-        onPageChange={(state) => {
-          const value = state.value as ScrollatorPageWithSandControls
-          console.log(state)
-          this.setState({
-            flow: value.sand_flow ?? 100,
-            aperture: value.sand_aperture ?? 1,
-            activateSand: value.sand_on ?? false
-          })
-        }}
-        _dirtyIntermediateLayer={
-          state.activateSand
-            ? <div style={{ opacity: 1 }}><P5Thing
-              height='100vh'
-              flow={state.flow}
-              aperture={state.aperture}
-              frameRate={60}
-              maxSimultaneousGrains={10 * 1000}
-              gravity={.05}
-              showStats={false} />
-            </div>
-            : undefined
-        }
-        thresholdOffset='10%'
-        fixedBlocksPanelHeight='100vh'
-        animationDuration={800}
-        pagesData={longformPagesData} />
+      <div style={{ zIndex: 2, position: 'fixed', margin: 8, padding: 0, backgroundColor: 'rgb(0, 0, 0, .9)', top: 0, left: 0 }}><ArticleHeader
+        fill1='rgb(255, 255, 255, 1)'
+        fill2='rgb(255, 255, 255, .3)' /></div>
+      <div style={{ position: 'relative', zIndex: 1 }}>
+        <Scrollator
+          onPageChange={(state) => {
+            const value = state.value as ScrollatorPageWithSandControls
+            this.setState({
+              flow: value.sand_flow ?? 100,
+              aperture: value.sand_aperture ?? 1,
+              activateSand: value.sand_on ?? false
+            })
+          }}
+          _dirtyIntermediateLayer={
+            state.activateSand
+              ? <div style={{ opacity: 1 }}><P5Thing
+                height='100vh'
+                flow={state.flow}
+                aperture={state.aperture}
+                frameRate={60}
+                maxSimultaneousGrains={10 * 1000}
+                gravity={.05}
+                showStats={false} />
+              </div>
+              : undefined
+          }
+          thresholdOffset='10%'
+          fixedBlocksPanelHeight='100vh'
+          animationDuration={800}
+          pagesData={longformPagesData} />
+      </div>
     </div>
   }
 }
