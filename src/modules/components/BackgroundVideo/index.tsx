@@ -30,6 +30,7 @@ export default class BackgroundVideo extends Component<Props, State> {
    * * * * * * * * * * * * * * */
   constructor (props: Props) {
     super(props)
+    this.canAutoplay = this.canAutoplay.bind(this)
     this.checkIfPlaying = this.checkIfPlaying.bind(this)
     this.setPlayingState = this.setPlayingState.bind(this)
   }
@@ -52,14 +53,19 @@ export default class BackgroundVideo extends Component<Props, State> {
   /* * * * * * * * * * * * * * *
    * METHODS
    * * * * * * * * * * * * * * */
-  async checkIfPlaying () {
-    // const { $video } = this
-    // if ($video === null) return false
-    // const { paused, ended } = $video
-    // return !paused && !ended
-    const response = await canAutoplay.video({ timeout: 100, muted: true })
-    const { result } = response
+  async canAutoplay () {
+    const { result } = await canAutoplay.video({
+      timeout: 100,
+      muted: true
+    })
     return result
+  }
+
+  async checkIfPlaying () {
+    const { $video } = this
+    if ($video === null) return false
+    const { paused, ended } = $video
+    return !paused && !ended
   }
 
   async setPlayingState () {
@@ -67,7 +73,8 @@ export default class BackgroundVideo extends Component<Props, State> {
     this.setState({ isPlaying })
     const { $video } = this
     if ($video === null) return
-    if (isPlaying) $video.play()
+    const canAutoplay = await this.canAutoplay()
+    if (canAutoplay) $video.play()
     else $video.pause()
   }
 
@@ -94,9 +101,8 @@ export default class BackgroundVideo extends Component<Props, State> {
         autoPlay
         playsInline
         poster={fallbackUrl}
-        ref={n => { this.$video = n }}>
-        <source src={sourceUrl} />
-      </video>
+        ref={n => { this.$video = n }}
+        src={sourceUrl} />
     </div>
   }
 }
