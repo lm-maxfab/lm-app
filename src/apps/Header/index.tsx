@@ -47,12 +47,14 @@ class Header extends Component<Props, {}> {
         text_block_position: pageData.text_block_position,
         text_block_text_align: pageData.text_block_text_align,
         text_block_classes: pageData.text_block_classes,
-        background_block_content: <div style={{ width: '100%', height: '100vh' }}>
-          <BackgroundVideo
-            play
-            height='100%'
-            sourceUrl={theVideo}
-            fallbackUrl={thisArticleData?.bg_image_url} />
+        background_block_content: <div style={{ width: '100%', height: '100vh', backgroundColor: 'black' }}>
+          <div style={{ opacity: .8, width: '100%', height: '100%' }}>
+            <BackgroundVideo
+              play
+              height='100%'
+              sourceUrl={theVideo}
+              fallbackUrl={thisArticleData?.bg_image_url} />
+          </div>
         </div>
       }
     })
