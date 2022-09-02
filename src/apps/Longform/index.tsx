@@ -64,7 +64,7 @@ class Longform extends Component<Props, State> {
               idValue={articlePos}
               sourceUrl={videoSource}
               fallbackUrl={articleData.bg_image_url}
-              height={isCurrent ? '50%' : '100%'} />
+              height={'100%'} />
           </div>
         })(),
         text_block_content: <ArticleCard
