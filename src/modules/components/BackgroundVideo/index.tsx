@@ -92,6 +92,7 @@ export default class BackgroundVideo extends Component<Props, State> {
         muted
         loop
         autoPlay
+        playsInline
         poster={fallbackUrl}
         ref={n => { this.$video = n }}>
         <source src={sourceUrl} />

@@ -107,6 +107,7 @@ class Longform extends Component<Props, State> {
       <div style={{ zIndex: 2, position: 'fixed', margin: 8, padding: 0, backgroundColor: 'rgb(255, 255, 255, 0)', top: 0, left: 0 }}><ArticleHeader
         fill1={state.logoMode === 'dark' ? 'rgb(255, 255, 255, 1)' : 'rgb(0, 0, 0, 1)'}
         fill2={state.logoMode === 'dark' ? 'rgb(255, 255, 255, .3)' : 'rgb(0, 0, 0, .3)'} /></div>
+      <div style={{ position: 'absolute', zIndex: '50', top: 100, left: 20 }}><button /></div>
       <div style={{ position: 'relative', zIndex: 1 }}>
         <Scrollator
           onPageChange={(state) => {
