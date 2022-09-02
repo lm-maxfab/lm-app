@@ -36,7 +36,8 @@ class Footer extends Component<Props, {}> {
       className={wrapperClasses.value}>
       {/* <DemoPage /> */}
       <ArticleSeriesHighlight
-        title={<img src={footerContentData.marqueur_url} />}
+        style={{ padding: '32px', paddingBottom: '0px', paddingTop: '64px' }}
+        title={<img src={footerContentData.marqueur_url} style={{ maxWidth: '480px' }} />}
         paragraph={footerContentData.paragraph}
         thumbsData={[]} />
       <div style={{ backgroundColor: 'black' }}>
@@ -65,9 +66,10 @@ class Footer extends Component<Props, {}> {
                 <ArticleCard
                   overhead={`Épisode ${articleData.episode_number}`}
                   title={articleData.title}
+                  kicker={articleData.kicker}
                   buttonText='Lire'
                   activeButtons={articleData.published}
-                  inactiveButtonText={`À lire le ${articleData.displayed_publication_date}`}
+                  inactiveButtonText={`${articleData.displayed_publication_date}`}
                   buttonTargetUrl={articleData.url} />
               </div>,
 

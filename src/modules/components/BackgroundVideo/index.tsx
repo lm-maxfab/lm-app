@@ -80,9 +80,9 @@ export default class BackgroundVideo extends Component<Props, State> {
         src={fallbackUrl} />}
       <video
         className={bem(this.clss).elt('video').value}
-        autoPlay
         muted
         loop
+        autoPlay
         poster={fallbackUrl}
         ref={n => { this.$video = n }}>
         <source src={sourceUrl} />
