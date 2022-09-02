@@ -37,7 +37,7 @@ class Footer extends Component<Props, {}> {
       {/* <DemoPage /> */}
       <ArticleSeriesHighlight
         style={{ padding: '32px', paddingBottom: '0px', paddingTop: '64px' }}
-        title={<img src={footerContentData.marqueur_url} style={{ maxWidth: '480px' }} />}
+        title={<img src={footerContentData.marqueur_url} />}
         paragraph={footerContentData.paragraph}
         thumbsData={[]} />
       <div style={{ backgroundColor: 'black' }}>
