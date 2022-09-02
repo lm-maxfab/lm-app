@@ -70,6 +70,7 @@ export default class P5Thing extends Component<Props, {}> {
 
   componentWillUnmount(): void {
     window.removeEventListener('resize', this.setCanvasSize)
+    if (this.sketch !== null) { this.sketch.remove() }
     if (this.resizeInterval !== null) {
       window.clearInterval(this.resizeInterval)
       this.resizeInterval = null
