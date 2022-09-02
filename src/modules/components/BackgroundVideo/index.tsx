@@ -69,13 +69,13 @@ export default class BackgroundVideo extends Component<Props, State> {
   }
 
   async setPlayingState () {
+    const { $video } = this
+    if ($video !== null) {
+      const canAutoplay = await this.canAutoplay()
+      if (canAutoplay) $video.play()
+    }
     const isPlaying = await this.checkIfPlaying()
     this.setState({ isPlaying })
-    const { $video } = this
-    if ($video === null) return
-    const canAutoplay = await this.canAutoplay()
-    if (canAutoplay) $video.play()
-    else $video.pause()
   }
 
   /* * * * * * * * * * * * * * *
