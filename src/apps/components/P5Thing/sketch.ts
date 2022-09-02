@@ -55,8 +55,8 @@ export default (width?: number, height?: number) => {
         this.id = fakeUuid()
         this.x = (Math.random() - .5) * params.width * (params.aperture / 100)
         this.y = (Math.random() - .5) * 100 - 100
-        this.vx = (Math.random() - .5) * 1
-        this.vy = (Math.random() - .5) * 1
+        this.vx = (Math.random() - .5) * 2
+        this.vy = (Math.random() - .5) * 2
       }
     }
     const addGrains = (...grains: Grain[]) => {

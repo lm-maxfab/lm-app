@@ -130,9 +130,9 @@ class Longform extends Component<Props, State> {
                 height='100vh'
                 flow={state.flow}
                 aperture={state.aperture}
-                frameRate={60}
+                frameRate={24}
                 maxSimultaneousGrains={10 * 1000}
-                gravity={.05}
+                gravity={.1}
                 showStats={false} />
               </div>
               : undefined
