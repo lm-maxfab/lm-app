@@ -3,7 +3,7 @@ import appWrapper, { InjectedProps } from '../../modules/utils/app-wrapper-HOC'
 import bem from '../../modules/utils/bem'
 import './styles.scss'
 import Scrollator, { ScrollatorPageData } from '../../modules/layouts/Scrollator'
-import P5Thing from '../components/P5Thing'
+// import P5Thing from '../components/P5Thing'
 import { ArticlesData, CreditsData } from '../types'
 import BackgroundVideo from '../../modules/components/BackgroundVideo'
 import ArticleHeader from '../../modules/components/ArticleHeader'
@@ -104,14 +104,7 @@ class Longform extends Component<Props, State> {
           }}
           _dirtyIntermediateLayer={
             state.activateSand
-              ? <div style={{ opacity: 1 }}><P5Thing
-                height='100vh'
-                flow={state.flow}
-                aperture={state.aperture}
-                frameRate={60}
-                maxSimultaneousGrains={10 * 1000}
-                gravity={.05}
-                showStats={false} />
+              ? <div style={{ opacity: 1 }}>
               </div>
               : undefined
           }
