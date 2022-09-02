@@ -1140,6 +1140,17 @@
       },
       "description": "",
       "time": "2022-09-02T16:18:27.559Z"
+    },
+    {
+      "version": {
+        "major": 1,
+        "minor": 0,
+        "patch": 1,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "",
+      "time": "2022-09-02T17:19:37.839Z"
     }
   ]
 }

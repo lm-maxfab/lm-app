@@ -118,6 +118,26 @@
   }
 }
 
+.sable-article-card__read-later {
+  font-family: var(--ff-marr-sans);
+  color: white;
+  font-size: 16px;
+  letter-spacing: .125em;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 14px;
+  margin-top: 12px;
+
+  @media screen and (max-width: 1024px) {
+    font-size: 14.5px;
+  }
+
+  @media screen and (max-width: 600px) {
+    font-size: 13px;
+    margin-top: 6px;
+  }
+}
+
 .sable-article-card.sable-article-card_inactive-buttons {
   opacity: .7;
 

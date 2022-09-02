@@ -1,5 +1,6 @@
 import { Component } from 'preact'
 import bem from '../../utils/bem'
+import canAutoplay from 'can-autoplay'
 import './styles.scss'
 
 interface Props {
@@ -51,15 +52,23 @@ export default class BackgroundVideo extends Component<Props, State> {
   /* * * * * * * * * * * * * * *
    * METHODS
    * * * * * * * * * * * * * * */
-  checkIfPlaying () {
-    const { $video } = this
-    if ($video === null) return false
-    const { paused, ended } = $video
-    return !paused && !ended
+  async checkIfPlaying () {
+    // const { $video } = this
+    // if ($video === null) return false
+    // const { paused, ended } = $video
+    // return !paused && !ended
+    const response = await canAutoplay.video({ timeout: 100, muted: true })
+    const { result } = response
+    return result
   }
 
-  setPlayingState () {
-    this.setState({ isPlaying: this.checkIfPlaying() })
+  async setPlayingState () {
+    const isPlaying = await this.checkIfPlaying()
+    this.setState({ isPlaying })
+    const { $video } = this
+    if ($video === null) return
+    if (isPlaying) $video.play()
+    else $video.pause()
   }
 
   /* * * * * * * * * * * * * * *
