@@ -7,6 +7,8 @@ interface Props {
   height?: string|number
   sourceUrl?: string
   fallbackUrl?: string
+  play?: boolean
+  idValue?: any
 }
 
 interface State {

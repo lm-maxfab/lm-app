@@ -17,6 +17,7 @@ export interface FooterContentData {
 
 export interface ArticlesData {
   episode_number?: string
+  target_article_id?: string
   title?: VNode|string
   kicker?: VNode|string
   published?: boolean

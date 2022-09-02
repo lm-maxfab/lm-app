@@ -186,7 +186,10 @@ export default class Paginator extends Component<Props, State> {
     })
   }
 
-  groupedCheckPages = groupDelay(this.checkPages.bind(this), this.getDelay.bind(this)())
+  groupedCheckPages = groupDelay(
+    this.checkPages.bind(this),
+    this.getDelay.bind(this)()
+  )
 
   activateIntervalChecker (): void {
     this.inactivateIntervalChecker()

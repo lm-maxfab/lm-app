@@ -52,16 +52,21 @@ class Longform extends Component<Props, State> {
         '360': articleData.bg_video_360_url ?? '',
         '240': articleData.bg_video_240_url ?? ''
       })
+      const isCurrent = articlePos === state.currentVideo
       return {
         logoMode: 'dark',
         pos: articlePos,
         background_block_color: 'black',
-        background_block_content: <div style={{ height: '100vh', width: '100%', padding: '5vw' }}>
-          <BackgroundVideo
-            sourceUrl={videoSource}
-            fallbackUrl={articleData.bg_image_url}
-            height='100%' />
-        </div>,
+        background_block_content: (() => {
+          return <div style={{ height: '100vh', width: '100%', padding: '5vw' }}>
+            <BackgroundVideo
+              play={isCurrent}
+              idValue={articlePos}
+              sourceUrl={videoSource}
+              fallbackUrl={articleData.bg_image_url}
+              height={isCurrent ? '50%' : '100%'} />
+          </div>
+        })(),
         text_block_content: <ArticleCard
           overhead={`Épisode ${articleData.episode_number}`}
           title={articleData.title}
@@ -69,7 +74,7 @@ class Longform extends Component<Props, State> {
           buttonText='Lire'
           activeButtons={articleData.published}
           inactiveButtonText={`${articleData.displayed_publication_date}`}
-          buttonTargetUrl={articleData.url} />,// <>{articleData.kicker}</>,
+          buttonTargetUrl={articleData.url} />,
         text_block_margin_top: '60vh',
         text_block_margin_bottom: '20vh',
         text_block_position: 'center',
@@ -121,7 +126,7 @@ class Longform extends Component<Props, State> {
           }}
           _dirtyIntermediateLayer={
             state.activateSand
-              ? <div style={{ opacity: 1 }}><P5Thing
+              ? <div><P5Thing
                 height='100vh'
                 flow={state.flow}
                 aperture={state.aperture}
