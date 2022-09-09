@@ -41,7 +41,6 @@ export default class ArticleCard extends Component<Props, {}> {
 
     return <div className={wrapperClasses.value}>
       {overhead && <div className={bem(this.clss).elt('overhead').value}><span>{overhead}</span></div>}
-      {/* {overhead && !activeButtons && <div className={bem(this.clss).elt('overhead').mod('no-underline').value}><span>{overhead}</span><span> / {inactiveButtonText}</span></div>} */}
       {title && <h3 className={bem(this.clss).elt('title').value}>{title}</h3>}
       {kicker && activeButtons && <div className={bem(this.clss).elt('kicker').value}>{kicker}</div>}
       {buttonText && activeButtons && <button

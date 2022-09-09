@@ -12,6 +12,7 @@ export interface SideNoteData {
 
 export interface FooterContentData {
   marqueur_url?: string
+  marqueur_substitute_text?: string
   paragraph?: VNode|string
 }
 
@@ -30,6 +31,7 @@ export interface ArticlesData {
   bg_video_360_url?: string
   bg_video_240_url?: string
   displayed_publication_date?: string
+  read_button_text?: string
 }
 
 export interface CreditsData extends SheetBaseCollectionData {

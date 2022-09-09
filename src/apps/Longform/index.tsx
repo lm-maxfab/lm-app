@@ -45,13 +45,15 @@ class Longform extends Component<Props, State> {
     const introPagesData = props.sheetBase?.collection('longform-pages').value as unknown as ScrollatorPageWithSandControls[]
     const articlesData = props.sheetBase?.collection('articles-data').value as unknown as ArticlesData[]
     const articlesDataAsPageData: ScrollatorPageData[] = articlesData.map((articleData, articlePos) => {
-      const videoSource = chooseVideoSource({
-        '1080': articleData.bg_video_1080_url ?? '',
-        '720': articleData.bg_video_720_url ?? '',
-        '540': articleData.bg_video_540_url ?? '',
-        '360': articleData.bg_video_360_url ?? '',
-        '240': articleData.bg_video_240_url ?? ''
-      })
+      const videoSource = chooseVideoSource([
+        { source: articleData.bg_video_1080_url ?? '', height: 1080 },
+        { source: articleData.bg_video_720_url ?? '', height: 720 },
+        { source: articleData.bg_video_540_url ?? '', height: 540 },
+        { source: articleData.bg_video_360_url ?? '', height: 360 },
+        { source: articleData.bg_video_240_url ?? '', height: 240 }
+      ], {
+        downlink: (window.navigator as any)?.connection?.downlink * 0.8 ?? 5
+      }) ?? articleData.bg_video_720_url ?? ''
       const isCurrent = articlePos === state.currentVideo
       return {
         logoMode: 'dark',
@@ -68,10 +70,10 @@ class Longform extends Component<Props, State> {
           </div>
         })(),
         text_block_content: <ArticleCard
-          overhead={`Épisode ${articleData.episode_number}`}
+          overhead={articleData.episode_number}
           title={articleData.title}
           kicker={articleData.kicker}
-          buttonText='Lire'
+          buttonText={articleData.read_button_text}
           activeButtons={articleData.published}
           inactiveButtonText={`${articleData.displayed_publication_date}`}
           buttonTargetUrl={articleData.url} />,

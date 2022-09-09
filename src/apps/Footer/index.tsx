@@ -1,7 +1,6 @@
 import { Component, JSX } from 'preact'
 import ArticleSeriesHighlight from '../../modules/components/ArticleSeriesHighlight'
 import BackgroundVideo from '../../modules/components/BackgroundVideo'
-import DemoPage from '../../modules/layouts/DemoPage'
 import Scrollator, { ScrollatorPageData } from '../../modules/layouts/Scrollator'
 import appWrapper, { InjectedProps } from '../../modules/utils/app-wrapper-HOC'
 import bem from '../../modules/utils/bem'
@@ -30,14 +29,19 @@ class Footer extends Component<Props, {}> {
     const wrapperClasses = bem(props.className).block(this.clss)
     const wrapperStyle: JSX.CSSProperties = { ...props.style }
 
+    const marqueurSubstitute = footerContentData.marqueur_substitute_text
+    const marqueurNode = marqueurSubstitute !== '' && marqueurSubstitute !== undefined
+      ? <p className={bem(this.clss).elt('marqueur-substitute').value}>{marqueurSubstitute}</p>
+      : <img src={footerContentData.marqueur_url} />
+    console.log(marqueurSubstitute)
+
     // Display
     return <div
       style={wrapperStyle}
       className={wrapperClasses.value}>
-      {/* <DemoPage /> */}
       <ArticleSeriesHighlight
         style={{ padding: '32px', paddingBottom: '0px', paddingTop: '64px' }}
-        title={<img src={footerContentData.marqueur_url} />}
+        title={marqueurNode}
         paragraph={footerContentData.paragraph}
         thumbsData={[]} />
       <div style={{ backgroundColor: 'black' }}>
@@ -45,13 +49,15 @@ class Footer extends Component<Props, {}> {
           thresholdOffset='70%'
           fixedBlocksPanelHeight='100vh'
           pagesData={articlesData.map(articleData => {
-            const videoSource = chooseVideoSource({
-              '1080': articleData.bg_video_1080_url ?? '',
-              '720': articleData.bg_video_720_url ?? '',
-              '540': articleData.bg_video_540_url ?? '',
-              '360': articleData.bg_video_360_url ?? '',
-              '240': articleData.bg_video_240_url ?? ''
-            })
+            const videoSource = chooseVideoSource([
+              { source: articleData.bg_video_1080_url ?? '', height: 1080 },
+              { source: articleData.bg_video_720_url ?? '', height: 720 },
+              { source: articleData.bg_video_540_url ?? '', height: 540 },
+              { source: articleData.bg_video_360_url ?? '', height: 360 },
+              { source: articleData.bg_video_240_url ?? '', height: 240 }
+            ], {
+              downlink: (window.navigator as any)?.connection?.downlink * 0.8 ?? 5
+            }) ?? articleData.bg_video_720_url ?? ''
             const ret: ScrollatorPageData = {
               background_block_content: <div
                 className={bem(this.clss).elt('fixed-video').value}>
@@ -64,12 +70,12 @@ class Footer extends Component<Props, {}> {
               text_block_content: <div
                 className={bem(this.clss).elt('article-slide').value}>
                 <ArticleCard
-                  overhead={`Épisode ${articleData.episode_number}`}
+                  overhead={articleData.episode_number}
                   title={articleData.title}
                   kicker={articleData.kicker}
-                  buttonText='Lire'
+                  buttonText={articleData.read_button_text}
                   activeButtons={articleData.published}
-                  inactiveButtonText={`${articleData.displayed_publication_date}`}
+                  inactiveButtonText={articleData.displayed_publication_date}
                   buttonTargetUrl={articleData.url} />
               </div>,
 

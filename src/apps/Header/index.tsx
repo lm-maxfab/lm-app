@@ -20,23 +20,23 @@ class Header extends Component<Props, {}> {
    * RENDER
    * * * * * * * * * * * * * * */
   render (): JSX.Element {
-    
     const { props } = this
     const allHeaderPagesData = props.sheetBase?.collection('article-cover-pages').value as unknown as TargetedScrollatorPageData[]
     const currentArticleId = getPageId()
     const headerPagesData = allHeaderPagesData.filter(pageData => pageData.target_article_id === currentArticleId)
     const articlesData = props.sheetBase?.collection('articles-data').value as unknown as ArticlesData[]
     const thisArticleData = articlesData.find(articleData => articleData.target_article_id === currentArticleId)
-    const theVideo = chooseVideoSource({
-      '1080': thisArticleData?.bg_video_1080_url ?? '',
-      '720': thisArticleData?.bg_video_720_url ?? '',
-      '540': thisArticleData?.bg_video_540_url ?? '',
-      '360': thisArticleData?.bg_video_360_url ?? '',
-      '240': thisArticleData?.bg_video_240_url ?? ''
-    })
+    const theVideo = chooseVideoSource([
+      { source: thisArticleData?.bg_video_1080_url ?? '', height: 1080 },
+      { source: thisArticleData?.bg_video_720_url ?? '', height: 720 },
+      { source: thisArticleData?.bg_video_540_url ?? '', height: 540 },
+      { source: thisArticleData?.bg_video_360_url ?? '', height: 360 },
+      { source: thisArticleData?.bg_video_240_url ?? '', height: 240 }
+    ], {
+      downlink: (window.navigator as any)?.connection?.downlink * 0.8 ?? 5
+    }) ?? thisArticleData?.bg_video_720_url ?? ''
 
     const trickedHeaderPagesData = headerPagesData.map(pageData => {
-      console.log(pageData)
       return {
         ...pageData,
         background_block_color: pageData.background_block_color,
