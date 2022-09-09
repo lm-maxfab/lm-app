@@ -54,7 +54,6 @@ async function init (): Promise<void> {
   const sheetBase = url !== '' ? await fetchSheetBase(url) : undefined
   if (window.LM_APP === undefined) window.LM_APP = {}
   window.LM_APP.sheetBase = sheetBase
-  console.log(sheetBase)
 
   // Apply page custom CSS from sheet base
   const allCustomCssData = sheetBase?.collection('_custom-css').value as unknown as CustomCssData[]
