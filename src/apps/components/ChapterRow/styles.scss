@@ -206,7 +206,7 @@
     .illus21-chapter-row__inner {
       .illus21-chapter-row__image-block:first-child {
         @media screen and (max-width: 800px) {
-          --illus21-chapter-row-this-img-block-width: calc(95 * var(--vw));
+          --illus21-chapter-row-this-img-block-width: calc((98 * var(--vw)) - 24px);
         }
       }
     }
