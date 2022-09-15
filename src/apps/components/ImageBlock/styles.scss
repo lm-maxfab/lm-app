@@ -41,7 +41,7 @@
     .illus21-image-block__legend {
       grid-column: 1;
       grid-row: 1;
-      padding-right: 80px;
+      padding-right: 24px;
     }
 
     .illus21-image-block__read-also {
@@ -50,7 +50,7 @@
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
-      padding-right: 80px;
+      padding-right: 24px;
     }
 
     @media screen and (max-width: 1200px) {
