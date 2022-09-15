@@ -98,7 +98,6 @@ class Longform extends Component<Props, State> {
         <div
           style={wrapperStyle}
           className={wrapperClasses.value}>
-          
           {/* HEADER */}
           <Header className={bem(this.clss).elt('header').value} />
 

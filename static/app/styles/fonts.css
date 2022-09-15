@@ -1,5 +1,131 @@
 /* * * * * * * * * * * * * * *
  *
+ * SANG BLEU OG SERIF
+ *
+ * * * * * * * * * * * * * * */
+
+ @font-face {
+  font-family: "Sang-Bleu-OG-Serif";
+  font-display: swap;
+  font-style: normal;
+  font-weight: 100;
+  src:
+    url(../fonts/sang-bleu-og-serif/SangBleuOGSerif-Hairline-WebS.woff),
+    url(../fonts/sang-bleu-og-serif/SangBleuOGSerif-Hairline-WebS.woff2);
+}
+
+@font-face {
+  font-family: "Sang-Bleu-OG-Serif";
+  font-display: swap;
+  font-style: italic;
+  font-weight: 100;
+  src:
+    url(../fonts/sang-bleu-og-serif/SangBleuOGSerif-HairlineItalic-WebS.woff),
+    url(../fonts/sang-bleu-og-serif/SangBleuOGSerif-HairlineItalic-WebS.woff2);
+}
+
+@font-face {
+  font-family: "Sang-Bleu-OG-Serif";
+  font-display: swap;
+  font-style: normal;
+  font-weight: 200;
+  src:
+    url(../fonts/sang-bleu-og-serif/SangBleuOGSerif-Light-WebS.woff),
+    url(../fonts/sang-bleu-og-serif/SangBleuOGSerif-Light-WebS.woff2);
+}
+
+@font-face {
+  font-family: "Sang-Bleu-OG-Serif";
+  font-display: swap;
+  font-style: italic;
+  font-weight: 200;
+  src:
+    url(../fonts/sang-bleu-og-serif/SangBleuOGSerif-LightItalic-WebS.woff),
+    url(../fonts/sang-bleu-og-serif/SangBleuOGSerif-LightItalic-WebS.woff2);
+}
+
+@font-face {
+  font-family: "Sang-Bleu-OG-Serif";
+  font-display: swap;
+  font-style: normal;
+  font-weight: 400;
+  src:
+    url(../fonts/sang-bleu-og-serif/SangBleuOGSerif-Regular-WebS.woff),
+    url(../fonts/sang-bleu-og-serif/SangBleuOGSerif-Regular-WebS.woff2);
+}
+
+@font-face {
+  font-family: "Sang-Bleu-OG-Serif";
+  font-display: swap;
+  font-style: italic;
+  font-weight: 400;
+  src:
+    url(../fonts/sang-bleu-og-serif/SangBleuOGSerif-RegularItalic-WebS.woff),
+    url(../fonts/sang-bleu-og-serif/SangBleuOGSerif-RegularItalic-WebS.woff2);
+}
+
+@font-face {
+  font-family: "Sang-Bleu-OG-Serif";
+  font-display: swap;
+  font-style: normal;
+  font-weight: 500;
+  src:
+    url(../fonts/sang-bleu-og-serif/SangBleuOGSerif-Medium-WebS.woff),
+    url(../fonts/sang-bleu-og-serif/SangBleuOGSerif-Medium-WebS.woff2);
+}
+
+@font-face {
+  font-family: "Sang-Bleu-OG-Serif";
+  font-display: swap;
+  font-style: italic;
+  font-weight: 500;
+  src:
+    url(../fonts/sang-bleu-og-serif/SangBleuOGSerif-MediumItalic-WebS.woff),
+    url(../fonts/sang-bleu-og-serif/SangBleuOGSerif-MediumItalic-WebS.woff2);
+}
+
+@font-face {
+  font-family: "Sang-Bleu-OG-Serif";
+  font-display: swap;
+  font-style: normal;
+  font-weight: 700;
+  src:
+    url(../fonts/sang-bleu-og-serif/SangBleuOGSerif-Bold-WebS.woff),
+    url(../fonts/sang-bleu-og-serif/SangBleuOGSerif-Bold-WebS.woff2);
+}
+
+@font-face {
+  font-family: "Sang-Bleu-OG-Serif";
+  font-display: swap;
+  font-style: italic;
+  font-weight: 700;
+  src:
+    url(../fonts/sang-bleu-og-serif/SangBleuOGSerif-BoldItalic-WebS.woff),
+    url(../fonts/sang-bleu-og-serif/SangBleuOGSerif-BoldItalic-WebS.woff2);
+}
+
+@font-face {
+  font-family: "Sang-Bleu-OG-Serif";
+  font-display: swap;
+  font-style: normal;
+  font-weight: 800;
+  src:
+    url(../fonts/sang-bleu-og-serif/SangBleuOGSerif-Black-WebS.woff),
+    url(../fonts/sang-bleu-og-serif/SangBleuOGSerif-Black-WebS.woff2);
+}
+
+@font-face {
+  font-family: "Sang-Bleu-OG-Serif";
+  font-display: swap;
+  font-style: italic;
+  font-weight: 800;
+  src:
+    url(../fonts/sang-bleu-og-serif/SangBleuOGSerif-BlackItalic-WebS.woff),
+    url(../fonts/sang-bleu-og-serif/SangBleuOGSerif-BlackItalic-WebS.woff2);
+}
+
+/* * * * * * * * * * * * * * *
+ *
  * THE ANTIQUA
  *
  * * * * * * * * * * * * * * */

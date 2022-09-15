@@ -2,6 +2,7 @@
   position: relative;
 
   .illus21-chapter-row__fixed-stuff {
+    z-index: 2;
     opacity: 0;
     height: 0;
     transition: opacity 800ms, height 5ms 800ms;
@@ -50,7 +51,7 @@
   .illus21-chapter-row__scroll-btn {
     display: none;
     position: absolute;
-    z-index: 2;
+    z-index: 3;
     
     &.illus21-chapter-row__scroll-btn_to-right {
       right: calc(2 * var(--vw));
