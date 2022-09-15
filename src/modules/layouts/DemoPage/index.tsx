@@ -15,7 +15,7 @@ import mouette from './test-assets/frame-2.jpg'
 
 import './styles.scss'
 import BackgroundVideo from '../../components/BackgroundVideo'
-import P5Thing from '../../../apps/components/P5Thing'
+import P5Thing from '../../components/WIPP5Thing'
 
 interface Props {
   className?: string
@@ -44,17 +44,19 @@ export default class DemoPage extends Component<Props, {}> {
         LM Components
       </h1>
 
-      <ComponentDemo
-        name='P5Thing'
-        propsDescription={``}
-        description=''
-        component={<P5Thing
-          height='100vh'
-          flow={400}
-          aperture={20}
-          gravity={1}
-          maxSimultaneousGrains={100000}
-          showStats={true} />} />
+      <div style={{ width: '400px' }}>
+        <ComponentDemo
+          name='P5Thing'
+          propsDescription={``}
+          description=''
+          component={<P5Thing
+            height='400px'
+            flow={400}
+            aperture={20}
+            gravity={1}
+            maxSimultaneousGrains={100000}
+            showStats={true} />} />
+      </div>
 
       <ComponentDemo
         name='BackgroundVideo'

@@ -56,8 +56,8 @@ async function init (): Promise<void> {
   window.LM_APP.sheetBase = sheetBase
 
   // Apply page custom CSS from sheet base
-  const allCustomCssData = sheetBase?.collection('_custom-css').value as unknown as CustomCssData[]
-  const customCssData = allCustomCssData.map(elt => elt.css).join('\n')
+  const allCustomCssData = sheetBase?.collection('_custom-css').value as unknown as CustomCssData[]|undefined
+  const customCssData = allCustomCssData?.map(elt => elt.css).join('\n') ?? ''
   if (customCssData !== '') {
     const head = document.head
     const style = document.createElement('style')
