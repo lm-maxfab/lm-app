@@ -1,11 +1,5 @@
 import { VNode } from 'preact'
 
-export interface MyNavigator extends Navigator {
-  connection: NetworkInformation
-  mozConnection?: NetworkInformation
-  webkitConnection?: NetworkInformation
-}
-
 export interface SheetBaseCollectionData {
   id: string
 }
@@ -46,8 +40,4 @@ export interface ArticleBlockData extends SheetBaseCollectionData {
   verbatim_author?: VNode|string
   verbatim_author_role?: VNode|string
   content?: VNode|string
-  contrast_color?: string
-  text_color?: string
-  border_color?: string
-  bg_color?: string
 }

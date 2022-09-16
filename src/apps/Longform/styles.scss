@@ -1,3 +1,7 @@
 .golden-moustache-longform {
-  background-color: #FFFFFF;
+  background-color: #F2EEEE;
+
+  @media screen and (max-width: 800px) {
+    background-color: transparent;
+  }
 }

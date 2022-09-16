@@ -8,6 +8,8 @@ import Verbatim from '../components/Verbatim'
 import './styles.scss'
 import MediaCaption from '../../modules/components/MediaCaption'
 import ArticleHeader from '../../modules/components/ArticleHeader'
+import bem from '../../modules/utils/bem'
+import ratioUrl from './16x9.png'
 
 interface Props {
   slotName: string
@@ -60,23 +62,21 @@ class Backbone extends Component<Props, State> {
       <div className='article-blocks'>
         {articleBlocksData.map(articleBlockData => {
           let childComp: JSX.Element|null = null
-
+          // VERBATIM
           if (articleBlockData.type === 'verbatim') {
             childComp = <Verbatim
               imageUrl={articleBlockData.image_or_video_url}
               verbatimAuthor={articleBlockData.verbatim_author}
               verbatimAuthorRole={articleBlockData.verbatim_author_role}
-              content={articleBlockData.content}
-              contrastColor={articleBlockData.contrast_color}
-              textColor={articleBlockData.text_color}
-              borderColor={articleBlockData.border_color}
-              bgColor={articleBlockData.bg_color} />
-
+              content={articleBlockData.content} />
+          // INTERTITRE
           } else if (articleBlockData.type === 'intertitre') {
-            childComp = <img
-              className='intertitre'
-              src={articleBlockData.image_or_video_url} />
+            childComp = <div
+              className='intertitre'>
+              {articleBlockData.content}
+            </div>
 
+          // VIDEO
           } else if (
             articleBlockData.type === 'video'
             || articleBlockData.type === 'wide-video') {
@@ -102,6 +102,7 @@ class Backbone extends Component<Props, State> {
               </IntersectionObserverComponent>
             </div>
 
+          // IMAGE
           } else if (
             articleBlockData.type === 'image'
             || articleBlockData.type === 'wide-image') {
@@ -109,6 +110,29 @@ class Backbone extends Component<Props, State> {
             if (articleBlockData.type === 'wide-image') classes.push('image_wide')
             childComp = <div className={classes.join(' ')}>
               <img src={articleBlockData.image_or_video_url} />
+              <MediaCaption
+                description={articleBlockData.image_or_video_legend}
+                credits={articleBlockData.image_or_video_credits} />
+            </div>
+
+          // EMBED
+          } else if (
+            articleBlockData.type === 'embed'
+            || articleBlockData.type === 'wide-embed') {
+            const classes = ['embed']
+            if (articleBlockData.type === 'wide-embed') classes.push('embed_wide')
+            childComp = <div className={classes.join(' ')}>
+              <div className={bem('embed').elt('inner').value}>
+                <img
+                  src={ratioUrl}
+                  className={bem('embed').elt('ratio').value} />
+                <iframe
+                  src={articleBlockData.image_or_video_url}
+                  title="YouTube video player"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen />
+              </div>
               <MediaCaption
                 description={articleBlockData.image_or_video_legend}
                 credits={articleBlockData.image_or_video_credits} />
