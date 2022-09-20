@@ -2,10 +2,10 @@
   "assets_root_url": "https://assets-decodeurs.lemonde.fr/redacweb/23-2208-sable",
   "statics_root_url": "https://assets-decodeurs.lemonde.fr/redacweb/statics-v2",
   "spreadsheets_urls": {
-    "production": "https://assets-decodeurs.lemonde.fr/sheets/R3yOeTYY1kIcUEM5gfhcVOL6-y83tw_1284",
-    "staging": "https://assets-decodeurs.lemonde.fr/sheets/R3yOeTYY1kIcUEM5gfhcVOL6-y83tw_1285",
-    "testing": "https://assets-decodeurs.lemonde.fr/sheets/R3yOeTYY1kIcUEM5gfhcVOL6-y83tw_1286",
-    "developpment": "https://assets-decodeurs.lemonde.fr/sheets/R3yOeTYY1kIcUEM5gfhcVOL6-y83tw_1287"
+    "production": "https://assets-decodeurs.lemonde.fr/sheets/4K3zPGWVNe5nyb7mkJXqg8t2jJeg3A_1297",
+    "staging": "https://assets-decodeurs.lemonde.fr/sheets/4K3zPGWVNe5nyb7mkJXqg8t2jJeg3A_1298",
+    "testing": "https://assets-decodeurs.lemonde.fr/sheets/4K3zPGWVNe5nyb7mkJXqg8t2jJeg3A_1299",
+    "developpment": "https://assets-decodeurs.lemonde.fr/sheets/4K3zPGWVNe5nyb7mkJXqg8t2jJeg3A_1300"
   },
   "layouts": [{
     "name": "longform",
