@@ -156,7 +156,7 @@ async function build () {
     const DST_INDEX_JS_MAP = dstAssetsFiles.find(file => file.name.match(/^index.[a-f0-9]{8}.js.map$/gm))
     const DST_VENDOR_JS_MAP = dstAssetsFiles.find(file => file.name.match(/^vendor.[a-f0-9]{8}.js.map$/gm))
     await DST_INDEX_JS_MAP.deleteSelfQuiet()
-    await DST_VENDOR_JS_MAP.deleteSelfQuiet()
+    await DST_VENDOR_JS_MAP?.deleteSelfQuiet()
     console.log(chalk.grey('deleted.'))
 
     // Add build info into rolledup.js
@@ -165,11 +165,11 @@ async function build () {
       + `  version:  ${doVersionAndCommit ? `${versionName}` : '-'}\n`
       + `  branch:   ${branch}\n`
       + `  time:     ${buildTime.toISOString()}\n`
-      + `  vendorJs: ${DST_VENDOR_JS.name}\n`
+      + `  vendorJs: ${DST_VENDOR_JS?.name}\n`
       + `  indexJs:  ${DST_INDEX_JS.name}\n`
       + `  indexCss: ${DST_INDEX_CSS.name}\n`
       + '*/\n'
-    const buildVariable = `!function(){window.LM_APP_BUILD={version:'${versionName}',branch:'${branch}',time:'${buildTime.toISOString()}',vendorJs:'${DST_VENDOR_JS.name}',indexJs:'${DST_INDEX_JS.name}',indexCss:'${DST_INDEX_CSS.name}'}}();\n`
+    const buildVariable = `!function(){window.LM_APP_BUILD={version:'${versionName}',branch:'${branch}',time:'${buildTime.toISOString()}',vendorJs:'${DST_VENDOR_JS?.name}',indexJs:'${DST_INDEX_JS.name}',indexCss:'${DST_INDEX_CSS.name}'}}();\n`
     await DST_ROLLEDUP_JS.editQuiet(content => (buildComment + buildVariable + content))
     await DST_INDEX_CSS.editQuiet(content => (buildComment + content))
     console.log(chalk.grey(buildComment.trim()))
@@ -180,7 +180,7 @@ async function build () {
     await DST_INDEX.editHTMLQuiet(jsdom => {
       const documentElement = jsdom.window.document.documentElement
       const indexJsTags = documentElement.querySelectorAll(`script[src*="${DST_INDEX_JS.name}"], link[href*="${DST_INDEX_JS.name}"]`)
-      const vendorJsTags = documentElement.querySelectorAll(`script[src*="${DST_VENDOR_JS.name}"], link[href*="${DST_VENDOR_JS.name}"]`)
+      const vendorJsTags = documentElement.querySelectorAll(`script[src*="${DST_VENDOR_JS?.name}"], link[href*="${DST_VENDOR_JS?.name}"]`)
       const indexCssTags = documentElement.querySelectorAll(`link[href*="${DST_INDEX_CSS.name}"]`)
       indexJsTags.forEach(tag => {
         jsdom.window.document.body.innerHTML += '\n<script'
@@ -189,7 +189,7 @@ async function build () {
           + ` src="/lm-assets-for-vite-build/${linkToLive ? 'index.live.js' : DST_INDEX_JS.name}"></script>`
         tag.remove()
       })
-      vendorJsTags.forEach(tag => tag.remove())
+      vendorJsTags?.forEach(tag => tag.remove())
       indexCssTags.forEach(tag => {
         jsdom.window.document.body.innerHTML += '\n<link'
           + ' rel="stylesheet"'
