@@ -1,10 +1,5 @@
 .illus21-home {
   position: relative;
-  // display: flex;
-  // justify-content: flex-end;
-  // align-items: center;
-  // flex-direction: column;
-  // text-align: center;
 
   .illus21-home__image {
     position: fixed;
@@ -16,6 +11,20 @@
     background-repeat: no-repeat;
     opacity: var(--img-opacity);
     transition: opacity 1s;
+  }
+
+  .illus21-home__image.illus21-home__image_mobile {
+    display: none;
+  }
+
+  @media screen and (max-width: 800px) {
+    .illus21-home__image.illus21-home__image_desktop {
+      display: none;
+    }
+
+    .illus21-home__image.illus21-home__image_mobile {
+      display: block;
+    }
   }
 
   &.illus21-home_hide-image {

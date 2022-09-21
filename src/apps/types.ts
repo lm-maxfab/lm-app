@@ -1,18 +1,13 @@
 import { VNode } from 'preact'
 import { SheetBaseCollection } from '../modules/le-monde/utils/sheet-base'
 
-export interface MyNavigator extends Navigator {
-  connection: NetworkInformation
-  mozConnection?: NetworkInformation
-  webkitConnection?: NetworkInformation
-}
-
 export interface SheetbaseCollectionData {
   id: string
 }
 
 export interface HomeData extends SheetbaseCollectionData {
   bg_image_url?: string
+  bg_image_mobile_url?: string
   bg_size?: string
   bg_position?: string
   bg_opacity?: number

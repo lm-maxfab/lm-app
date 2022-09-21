@@ -114,6 +114,7 @@ class Longform extends Component<Props, State> {
                   hideImage={!['init' ,'home', 'intro'].includes(state.currentPage)}
                   playAnimation={['home'].includes(state.currentPage)}
                   bgImageUrl={homeData.bg_image_url}
+                  bgImageMobileUrl={homeData.bg_image_mobile_url}
                   bgSize={homeData.bg_size}
                   bgPosition={homeData.bg_position}
                   bgOpacity={homeData.bg_opacity}

@@ -8,6 +8,7 @@ interface Props {
   className?: string
   style?: JSX.CSSProperties
   bgImageUrl?: string
+  bgImageMobileUrl?: string
   bgSize?: string
   bgPosition?: string
   bgOpacity?: number
@@ -73,6 +74,12 @@ class Home extends Component<Props, {}> {
       backgroundPosition: props.bgPosition,
       '--img-opacity': props.bgOpacity
     }
+    const mobileImageStyle: JSX.CSSProperties = {
+      backgroundImage: `url(${props.bgImageMobileUrl})`,
+      backgroundSize: props.bgSize,
+      backgroundPosition: props.bgPosition,
+      '--img-opacity': props.bgOpacity
+    }
 
     /* Display */
     return (
@@ -85,7 +92,8 @@ class Home extends Component<Props, {}> {
           tempo={140}
           onStepChange={this.handleStepChange}
           onLastStep={this.handleSequencerLastStep}>
-          {props.bgImageUrl && <div className={bem(this.clss).elt('image').value} style={imageStyle} />}
+          {props.bgImageUrl && <div className={bem(this.clss).elt('image').mod('desktop').value} style={imageStyle} />}
+          {props.bgImageMobileUrl && <div className={bem(this.clss).elt('image').mod('mobile').value} style={mobileImageStyle} />}
           <div className={bem(this.clss).elt('opacifier').value} />
           <div className={bem(this.clss).elt('text-wrapper').value}>
             {props.title && <h1 className={bem(this.clss).elt('title').value}>{props.title}</h1>}
