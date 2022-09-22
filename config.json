@@ -2,10 +2,10 @@
   "assets_root_url": "https://assets-decodeurs.lemonde.fr/redacweb/24-2209-golden-moustache-assets",
   "statics_root_url": "https://assets-decodeurs.lemonde.fr/redacweb/statics",
   "spreadsheets_urls": {
-    "production": "https://assets-decodeurs.lemonde.fr/sheets/CrqGntCqvKlC9C4k_g6u66SmP1hH3A_1336",
-    "staging": "https://assets-decodeurs.lemonde.fr/sheets/CrqGntCqvKlC9C4k_g6u66SmP1hH3A_1337",
-    "testing": "https://assets-decodeurs.lemonde.fr/sheets/CrqGntCqvKlC9C4k_g6u66SmP1hH3A_1338",
-    "developpment": "https://assets-decodeurs.lemonde.fr/sheets/CrqGntCqvKlC9C4k_g6u66SmP1hH3A_1339"
+    "production": "https://assets-decodeurs.lemonde.fr/sheets/Qw0bjmEaUnhgMqshBXk0Npw4-gkMqA_1286",
+    "staging": "https://assets-decodeurs.lemonde.fr/sheets/Qw0bjmEaUnhgMqshBXk0Npw4-gkMqA_1287",
+    "testing": "https://assets-decodeurs.lemonde.fr/sheets/Qw0bjmEaUnhgMqshBXk0Npw4-gkMqA_1288",
+    "developpment": "https://assets-decodeurs.lemonde.fr/sheets/Qw0bjmEaUnhgMqshBXk0Npw4-gkMqA_1289"
   },
   "layouts": [{
     "name": "art-1",

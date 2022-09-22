@@ -21,7 +21,8 @@
   align-items: flex-start;
 
   @media screen and (max-width: 800px) {
-    width: 66px;
+    width: 55px;
+    margin-right: 20px;
   }
 
   .verbatim__author-image {
@@ -41,8 +42,8 @@
 
   .verbatim__author-name {
     font-size: 16px;
-    text-transform: uppercase;
     font-weight: 600;
+    letter-spacing: .02em;
 
     @media screen and (max-width: 800px) {
       font-size: 14px;
@@ -63,7 +64,6 @@
 .verbatim__right {
   position: relative;
   width: calc(100% - 116px - 32px);
-  padding: 0 16px 0 0;
   font-size: 18px;
   line-height: 1.5;
 

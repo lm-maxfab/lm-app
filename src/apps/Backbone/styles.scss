@@ -21,9 +21,13 @@
 
     .intertitre {
       max-width: 800px;
-      width: 100%;
-      margin: 80px 8px 120px 8px;
+      width: calc(100% - 16px);
+      margin: 80px 8px;
       text-align: left;
+
+      @media screen and (max-width: 800px) {
+        margin: 40px 8px;
+      }
       
       label {
         color: #2A303B;
@@ -55,10 +59,14 @@
     }
 
     .video {
-      width: 100%;
-      margin: 40px 0;
+      width: calc(100% - 16px);
+      margin: 40px 8px;
       padding: 0 16px;
-      max-width: 664px;
+      max-width: 800px;
+
+      @media screen and (max-width: 800px) {
+        margin: 24px 8px;
+      }
 
       &.video_wide {
         max-width: 960px;
@@ -71,10 +79,9 @@
     }
 
     .image {
-      width: 100%;
-      margin: 40px 0;
-      padding: 0 16px;
-      max-width: 664px;
+      width: calc(100% - 16px);
+      margin: 40px 8px;
+      max-width: 800px;
 
       &.image_wide {
         max-width: 960px;
@@ -88,10 +95,13 @@
     }
 
     .embed {
-      margin-top: 120px;
-      margin-bottom: 120px;
-      width: 100%;
-      max-width: 664px;
+      margin: 40px 8px;
+      width: calc(100% - 16px);
+      max-width: 800px;
+
+      @media screen and (max-width: 800px) {
+        margin: 24px 8px;
+      }
 
       .embed__inner {
         position: relative;
