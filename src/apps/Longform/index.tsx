@@ -2,7 +2,7 @@ import { Component, JSX } from 'preact'
 import ArticleCredits from '../../modules/components/ArticleCredits'
 import ArticleHeader from '../../modules/components/ArticleHeader'
 import ResponsiveDisplayer from '../../modules/components/ResponsiveDisplayer'
-import Scrollator, { ScrollatorPageData } from '../../modules/layouts/Scrollator'
+import Scrollator, { ScrollatorPageData, ScrollatorPagesState } from '../../modules/layouts/Scrollator'
 import appWrapper, { InjectedProps } from '../../modules/utils/app-wrapper-HOC'
 import bem from '../../modules/utils/bem'
 import BackgroundSlot from '../components/BackgroundSlot'
@@ -13,11 +13,40 @@ import { ChapterData, ChapterDataWithLinks, CreditsData, IntroPageData, LinkData
 import './styles.scss'
 
 interface Props extends InjectedProps {}
-interface State {}
+interface State {
+  bgColor?: string
+  mainColor?: string
+  separatorColor?: string
+  secondColor?: string
+}
 
 class Longform extends Component<Props, State> {
   static clss: string = 'metoo-longform'
   clss = Longform.clss
+  state: State = {
+    bgColor: 'white',
+    mainColor: 'black',
+    separatorColor: 'rgb(0, 0, 0, .3)',
+    secondColor: 'black'
+  }
+
+  constructor (props: Props) {
+    super(props)
+    this.handlePageChange = this.handlePageChange.bind(this)
+  }
+
+  handlePageChange (state: ScrollatorPagesState) {
+    if (state.value === undefined) return
+    const customData = state.value.custom_data
+    if (customData === undefined) return
+    const { bgColor, mainColor, separatorColor, secondColor } = customData
+    const newState: State = {}
+    if (bgColor !== undefined) newState.bgColor = bgColor
+    if (mainColor !== undefined) newState.mainColor = mainColor
+    if (separatorColor !== undefined) newState.separatorColor = separatorColor
+    if (secondColor !== undefined) newState.secondColor = secondColor
+    this.setState(curr => ({ ...curr, ...newState }))
+  }
 
   /* * * * * * * * * * * * * * *
    * RENDER
@@ -26,7 +55,6 @@ class Longform extends Component<Props, State> {
     const { props } = this
 
     // Pulling data from Sheetbase
-    // const 
     const introPageData = (props.sheetBase?.collection('intro_page').entries[0]?.value ?? {}) as unknown as IntroPageData
     const chaptersData = (props.sheetBase?.collection('chapters').value ?? []) as unknown as ChapterData[]
     const linksData = (props.sheetBase?.collection('links').value ?? []) as unknown as LinkData[]
@@ -49,7 +77,7 @@ class Longform extends Component<Props, State> {
       background_block_content: <BackgroundSlot>
         <div style={{ height: '100%', width: '100%', backgroundColor: '#0F0225' }}>I am the animation here</div>
       </BackgroundSlot>,
-      background_block_color: '',
+      background_block_color: introPageData.background_color,
       text_block_content: <FrontSlot>
         <IntroBlock
           heading={introPageData.heading}
@@ -57,11 +85,19 @@ class Longform extends Component<Props, State> {
           paragraph={introPageData.paragraph} />
       </FrontSlot>,
       text_block_margin_top: '30vh',
-      text_block_margin_bottom: '40vh'
+      text_block_margin_bottom: '40vh',
+      custom_data: {
+        bgColor: introPageData.background_color,
+        mainColor: introPageData.main_color,
+        separatorColor: introPageData.separator_color,
+        secondColor: introPageData.second_color
+      }
     }
 
-    const chapterPagesProps: ScrollatorPageData[] = chaptersDataWithLinks.map(chapterData => {
-      return {
+    const chapterPagesProps: ScrollatorPageData[] = []
+    chaptersDataWithLinks.forEach(chapterData => {
+      const prePageProps: ScrollatorPageData = {
+        background_block_color: chapterData.background_color,
         background_block_content: <BackgroundSlot>
           <ResponsiveDisplayer min={1024}>
             <img
@@ -74,55 +110,72 @@ class Longform extends Component<Props, State> {
               src={chapterData.mobile_illustration_url} />
           </ResponsiveDisplayer>
         </BackgroundSlot>,
-        background_block_color: '',
+        text_block_content: <div style={{ height: '20vh' }} />,
+        text_block_margin_top: '40vh',
+        text_block_margin_bottom: '0vh',
+        custom_data: {
+          bgColor: chapterData.background_color,
+          mainColor: chapterData.main_color,
+          separatorColor: chapterData.separator_color,
+          secondColor: chapterData.second_color
+        }
+      }
+      const actualPageProps: ScrollatorPageData = {
+        background_block_color: chapterData.background_color,
+        background_block_content: <BackgroundSlot>
+          <ResponsiveDisplayer min={1024}>
+            <img
+              style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 1 }}
+              src={chapterData.desktop_illustration_url} />
+          </ResponsiveDisplayer>
+          <ResponsiveDisplayer max={1024}>
+            <img
+              style={{ height: '30vh', width: '30vh', objectFit: 'cover', margin: '0 auto', opacity: .3 }}
+              src={chapterData.mobile_illustration_url} />
+          </ResponsiveDisplayer>
+        </BackgroundSlot>,
         text_block_content: <FrontSlot>
           <ChapterBlock
             title={chapterData.title}
             paragraph={chapterData.paragraph}
-            links={chapterData.links} />
+            links={chapterData.links}
+            mobileImageUrl={chapterData.mobile_illustration_url} />
         </FrontSlot>,
-        text_block_margin_top: '40vh',
-        text_block_margin_bottom: '40vh'
+        text_block_margin_top: '0vh',
+        text_block_margin_bottom: '40vh',
+        custom_data: {
+          bgColor: chapterData.background_color,
+          mainColor: chapterData.main_color,
+          separatorColor: chapterData.separator_color,
+          secondColor: chapterData.second_color
+        }
       }
+      chapterPagesProps.push(
+        prePageProps,
+        actualPageProps
+      )
     })
 
-    // const chapterPagesWithPrePageProps: ScrollatorPageData[] = []
-    // chapterPagesProps.forEach(chapterPageProps => {
-    //   const prePageProps: ScrollatorPageData = {
-    //     background_block_content: <BackgroundSlot>
-    //       <ResponsiveDisplayer min={1024}>
-    //         <img
-    //           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-    //           src={chapterPageProps.desktop_illustration_url} />
-    //       </ResponsiveDisplayer>
-    //       <ResponsiveDisplayer max={1024}>
-    //         <img
-    //           style={{ height: '30vh', width: '30vh', objectFit: 'cover', margin: '0 auto' }}
-    //           src={chapterPageProps.mobile_illustration_url} />
-    //       </ResponsiveDisplayer>
-    //     </BackgroundSlot>,
-    //     background_block_color: '',
-    //     text_block_content: <FrontSlot>
-    //       <ChapterBlock
-    //         title={chapterPageProps.title}
-    //         paragraph={chapterPageProps.paragraph}
-    //         links={chapterPageProps.links} />
-    //     </FrontSlot>,
-    //     text_block_margin_top: '0',
-    //     text_block_margin_bottom: '40vh'
-    //   }
-    //   chapterPagesWithPrePageProps.push(prePageProps, chapterPageProps)
-    // })
-
     const creditsPageProps: ScrollatorPageData = {
+      background_block_color: creditsData.background_color,
       background_block_content: <BackgroundSlot>
         <div style={{ height: '100%', width: '100%', backgroundColor: '#0F0225' }}>I am the animation here also?</div>
       </BackgroundSlot>,
       text_block_content: <FrontSlot>
-        <ArticleCredits content={creditsData.content} />
+        <ArticleCredits content={<div style={{
+          color: `var(--metoo-c-second-color)`
+        }}>
+          {creditsData.content}
+        </div>} />
       </FrontSlot>,
       text_block_margin_top: '40vh',
-      text_block_margin_bottom: '40vh'
+      text_block_margin_bottom: '40vh',
+      custom_data: {
+        bgColor: creditsData.background_color,
+        mainColor: creditsData.main_color,
+        separatorColor: creditsData.separator_color,
+        secondColor: creditsData.second_color
+      }
     }
 
     const scrollatorPages: ScrollatorPageData[] = [
@@ -132,7 +185,13 @@ class Longform extends Component<Props, State> {
     ]
     // Assign classes and styles
     const wrapperClasses = bem(props.className).block(this.clss)
-    const wrapperStyle: JSX.CSSProperties = { ...props.style }
+    const wrapperStyle: JSX.CSSProperties = {
+      ...props.style,
+      ['--metoo-c-bg-color']: this.state.bgColor,
+      ['--metoo-c-main-color']: this.state.mainColor,
+      ['--metoo-c-separator-color']: this.state.separatorColor,
+      ['--metoo-c-second-color']: this.state.secondColor
+    }
 
     // Display
     return <div
@@ -145,7 +204,9 @@ class Longform extends Component<Props, State> {
       </div>
       <div style={{ position: 'relative', zIndex: 1 }}>
         <Scrollator
+          onPageChange={this.handlePageChange}
           fixedBlocksPanelHeight='100vh'
+          thresholdOffset='60%'
           pagesData={scrollatorPages} />
       </div>
     </div>

@@ -14,6 +14,7 @@ export interface ScrollatorPageData {
   text_block_position?: string
   text_block_text_align?: string
   text_block_classes?: string
+  custom_data?: any
 }
 
 export interface Props {
@@ -30,6 +31,8 @@ export interface Props {
 export interface State {
   currentPageNumber?: number
 }
+
+export type ScrollatorPagesState = PaginatorState
 
 export default class Scrollator extends Component<Props, State> {
   static clss: string = 'lm-layout-scrollator'

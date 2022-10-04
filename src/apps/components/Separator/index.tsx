@@ -1,15 +1,11 @@
 import { Component } from 'preact'
+import bem from '../../../modules/utils/bem'
+import './styles.scss'
 
-type Props = {
-  color?: string
-}
+export const className = bem('metoo-separator')
 
-export default class Separator extends Component<Props, {}> {
+export default class Separator extends Component<{}, {}> {
   render () {
-    return <div style={{
-      width: '100%',
-      height: '1px',
-      backgroundColor: this.props.color ?? 'black'
-    }} />
+    return <div className={className.value} />
   }
 }

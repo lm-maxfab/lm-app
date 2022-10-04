@@ -4,6 +4,8 @@
   font-size: 14px;
   text-transform: uppercase;
   letter-spacing: .07em;
+  color: var(--metoo-c-main-color);
+  transition: color 400ms;
 
   @media screen and (max-width: 1024px) {
     display: none;
@@ -20,6 +22,8 @@
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: .11em;
+  color: var(--metoo-c-second-color);
+  transition: color 400ms;
 }
 
 .metoo-intro-block__content-spacer {
@@ -34,6 +38,8 @@
   font-size: 18px;
   line-height: 1.8;
   letter-spacing: .01em;
+  color: var(--metoo-c-main-color);
+  transition: color 400ms;
 
   @media screen and (max-width: 1024px) {
     font-size: 16px;

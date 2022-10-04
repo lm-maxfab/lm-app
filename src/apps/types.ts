@@ -5,6 +5,10 @@ export interface IntroPageData extends SheetBaseCollectionData {
   heading?: VNode|string
   kicker?: VNode|string
   paragraph?: VNode|string
+  background_color?: string
+  main_color?: string
+  separator_color?: string
+  second_color?: string
 }
 
 export interface ChapterData extends SheetBaseCollectionData {
@@ -13,6 +17,10 @@ export interface ChapterData extends SheetBaseCollectionData {
   title?: VNode|string
   paragraph?: VNode|string
   links_ids?: string
+  background_color?: string
+  main_color?: string
+  separator_color?: string
+  second_color?: string
 }
 
 export interface LinkData extends SheetBaseCollectionData {
@@ -30,6 +38,10 @@ export interface ChapterDataWithLinks extends ChapterData {
 
 export interface CreditsData extends SheetBaseCollectionData {
   content?: VNode|string
+  background_color?: string
+  main_color?: string
+  separator_color?: string
+  second_color?: string
 }
 
 export interface SideNoteData extends SheetBaseCollectionData {

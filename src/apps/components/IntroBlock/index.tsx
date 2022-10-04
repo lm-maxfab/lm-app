@@ -16,7 +16,7 @@ export default class IntroBlock extends Component<Props, {}> {
     return <div className={className.value}>
       <h1 className={className.elt('heading').value}>{this.props.heading}</h1>
       <div className={className.elt('separator').value}>
-        <Separator color='black' />
+        <Separator />
       </div>
       <p className={className.elt('kicker').value}>{this.props.kicker}</p>
       <div className={className.elt('content-spacer').value}></div>

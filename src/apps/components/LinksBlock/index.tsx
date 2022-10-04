@@ -45,7 +45,7 @@ export default class LinksBlock extends Component<Props, State> {
           </div>
         })}
       </div>
-      <div className={className.elt('separator').value}><Separator color='black' /></div>
+      <div className={className.elt('separator').value}><Separator /></div>
       <div className={className.elt('secondary-links').value}>
         <button
           className={className.elt('see-all').value}

@@ -32,6 +32,8 @@
   font-size: 12px;
   letter-spacing: .06em;
   text-transform: uppercase;
+  color: var(--metoo-c-main-color);
+  transition: color 400ms;
 }
 
 .metoo-links-block__secondary-links {
