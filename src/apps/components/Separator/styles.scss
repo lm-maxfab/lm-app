@@ -1,6 +1,7 @@
 .metoo-separator {
   width: 100%;
   height: 1px;
-  background-color: var(--metoo-c-separator-color);
+  background-color: var(--metoo-c-main-color);
+  opacity: .35;
   transition: background-color 400ms;
 }

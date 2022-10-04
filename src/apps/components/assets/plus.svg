@@ -1,6 +1,6 @@
 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
   <g clip-path="url(#clip0_1_19)">
-    <circle cx="8" cy="8" r="7.5" transform="rotate(90 8 8)" stroke="var(--metoo-c-second-color)" stroke-opacity="0.5"/>
+    <circle cx="8" cy="8" r="7.5" transform="rotate(90 8 8)" stroke="var(--metoo-c-main-color)" stroke-opacity="0.35"/>
     <path d="M8 5L8 11" stroke="var(--metoo-c-main-color)"/>
     <path d="M5 8H11" stroke="var(--metoo-c-main-color)"/>
   </g>

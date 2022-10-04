@@ -7,8 +7,6 @@ export interface IntroPageData extends SheetBaseCollectionData {
   paragraph?: VNode|string
   background_color?: string
   main_color?: string
-  separator_color?: string
-  second_color?: string
 }
 
 export interface ChapterData extends SheetBaseCollectionData {
@@ -19,8 +17,6 @@ export interface ChapterData extends SheetBaseCollectionData {
   links_ids?: string
   background_color?: string
   main_color?: string
-  separator_color?: string
-  second_color?: string
 }
 
 export interface LinkData extends SheetBaseCollectionData {
@@ -30,6 +26,7 @@ export interface LinkData extends SheetBaseCollectionData {
   pre_publication_label?: VNode|string
   is_published?: boolean
   is_primary?: boolean
+  show_in_longform?: boolean
 }
 
 export interface ChapterDataWithLinks extends ChapterData {
@@ -40,8 +37,6 @@ export interface CreditsData extends SheetBaseCollectionData {
   content?: VNode|string
   background_color?: string
   main_color?: string
-  separator_color?: string
-  second_color?: string
 }
 
 export interface SideNoteData extends SheetBaseCollectionData {

@@ -16,8 +16,6 @@ interface Props extends InjectedProps {}
 interface State {
   bgColor?: string
   mainColor?: string
-  separatorColor?: string
-  secondColor?: string
 }
 
 class Longform extends Component<Props, State> {
@@ -25,9 +23,7 @@ class Longform extends Component<Props, State> {
   clss = Longform.clss
   state: State = {
     bgColor: 'white',
-    mainColor: 'black',
-    separatorColor: 'rgb(0, 0, 0, .3)',
-    secondColor: 'black'
+    mainColor: 'black'
   }
 
   constructor (props: Props) {
@@ -39,12 +35,10 @@ class Longform extends Component<Props, State> {
     if (state.value === undefined) return
     const customData = state.value.custom_data
     if (customData === undefined) return
-    const { bgColor, mainColor, separatorColor, secondColor } = customData
+    const { bgColor, mainColor } = customData
     const newState: State = {}
     if (bgColor !== undefined) newState.bgColor = bgColor
     if (mainColor !== undefined) newState.mainColor = mainColor
-    if (separatorColor !== undefined) newState.separatorColor = separatorColor
-    if (secondColor !== undefined) newState.secondColor = secondColor
     this.setState(curr => ({ ...curr, ...newState }))
   }
 
@@ -57,7 +51,8 @@ class Longform extends Component<Props, State> {
     // Pulling data from Sheetbase
     const introPageData = (props.sheetBase?.collection('intro_page').entries[0]?.value ?? {}) as unknown as IntroPageData
     const chaptersData = (props.sheetBase?.collection('chapters').value ?? []) as unknown as ChapterData[]
-    const linksData = (props.sheetBase?.collection('links').value ?? []) as unknown as LinkData[]
+    const linksData = ((props.sheetBase?.collection('links').value ?? []) as unknown as LinkData[])
+      .filter(linkData => linkData.show_in_longform)
     const chaptersDataWithLinks: ChapterDataWithLinks[] = chaptersData.map(chapterData => {
       const linksStr = chapterData.links_ids
         ?.split(',')
@@ -84,13 +79,11 @@ class Longform extends Component<Props, State> {
           kicker={introPageData.kicker}
           paragraph={introPageData.paragraph} />
       </FrontSlot>,
-      text_block_margin_top: '30vh',
+      text_block_margin_top: '40vh',
       text_block_margin_bottom: '40vh',
       custom_data: {
         bgColor: introPageData.background_color,
-        mainColor: introPageData.main_color,
-        separatorColor: introPageData.separator_color,
-        secondColor: introPageData.second_color
+        mainColor: introPageData.main_color
       }
     }
 
@@ -106,7 +99,7 @@ class Longform extends Component<Props, State> {
           </ResponsiveDisplayer>
           <ResponsiveDisplayer max={1024}>
             <img
-              style={{ height: '30vh', width: '30vh', objectFit: 'cover', margin: '0 auto' }}
+              style={{ height: '40vh', width: '40vh', objectFit: 'cover', margin: '0 auto' }}
               src={chapterData.mobile_illustration_url} />
           </ResponsiveDisplayer>
         </BackgroundSlot>,
@@ -115,9 +108,7 @@ class Longform extends Component<Props, State> {
         text_block_margin_bottom: '0vh',
         custom_data: {
           bgColor: chapterData.background_color,
-          mainColor: chapterData.main_color,
-          separatorColor: chapterData.separator_color,
-          secondColor: chapterData.second_color
+          mainColor: chapterData.main_color
         }
       }
       const actualPageProps: ScrollatorPageData = {
@@ -130,7 +121,7 @@ class Longform extends Component<Props, State> {
           </ResponsiveDisplayer>
           <ResponsiveDisplayer max={1024}>
             <img
-              style={{ height: '30vh', width: '30vh', objectFit: 'cover', margin: '0 auto', opacity: .3 }}
+              style={{ height: '40vh', width: '40vh', objectFit: 'cover', margin: '0 auto', opacity: .3 }}
               src={chapterData.mobile_illustration_url} />
           </ResponsiveDisplayer>
         </BackgroundSlot>,
@@ -145,9 +136,7 @@ class Longform extends Component<Props, State> {
         text_block_margin_bottom: '40vh',
         custom_data: {
           bgColor: chapterData.background_color,
-          mainColor: chapterData.main_color,
-          separatorColor: chapterData.separator_color,
-          secondColor: chapterData.second_color
+          mainColor: chapterData.main_color
         }
       }
       chapterPagesProps.push(
@@ -162,9 +151,7 @@ class Longform extends Component<Props, State> {
         <div style={{ height: '100%', width: '100%', backgroundColor: '#0F0225' }}>I am the animation here also?</div>
       </BackgroundSlot>,
       text_block_content: <FrontSlot>
-        <ArticleCredits content={<div style={{
-          color: `var(--metoo-c-second-color)`
-        }}>
+        <ArticleCredits content={<div style={{ color: `var(--metoo-c-main-color)` }}>
           {creditsData.content}
         </div>} />
       </FrontSlot>,
@@ -172,9 +159,7 @@ class Longform extends Component<Props, State> {
       text_block_margin_bottom: '40vh',
       custom_data: {
         bgColor: creditsData.background_color,
-        mainColor: creditsData.main_color,
-        separatorColor: creditsData.separator_color,
-        secondColor: creditsData.second_color
+        mainColor: creditsData.main_color
       }
     }
 
@@ -188,9 +173,7 @@ class Longform extends Component<Props, State> {
     const wrapperStyle: JSX.CSSProperties = {
       ...props.style,
       ['--metoo-c-bg-color']: this.state.bgColor,
-      ['--metoo-c-main-color']: this.state.mainColor,
-      ['--metoo-c-separator-color']: this.state.separatorColor,
-      ['--metoo-c-second-color']: this.state.secondColor
+      ['--metoo-c-main-color']: this.state.mainColor
     }
 
     // Display
