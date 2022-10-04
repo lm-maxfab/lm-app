@@ -31,7 +31,10 @@ class SheetBase {
 
   get value (): SheetBaseValue {
     const returned: SheetBaseValue = {}
-    for (const col of this._collections) Object.defineProperty(returned, col.name, { get: () => col.value })
+    for (const col of this._collections) Object.defineProperty(returned, col.name, {
+      enumerable: true,
+      get: () => col.value
+    })
     return returned
   }
 

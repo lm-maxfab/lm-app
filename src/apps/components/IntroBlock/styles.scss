@@ -1,0 +1,49 @@
+.metoo-intro-block__heading {
+  font-family: var(--ff-marr-sans);
+  font-weight: 700;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+
+  @media screen and (max-width: 1024px) {
+    display: none;
+  }
+}
+
+.metoo-intro-block__separator {
+  margin: 16px 0;
+}
+
+.metoo-intro-block__kicker {
+  font-family: var(--ff-marr-sans);
+  font-weight: 400;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: .11em;
+}
+
+.metoo-intro-block__content-spacer {
+  height: 20vh;
+  width: 100%;
+  background-color: transparent;
+}
+
+.metoo-intro-block__paragraph {
+  font-family: var(--ff-marr-sans);
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.8;
+  letter-spacing: .01em;
+
+  @media screen and (max-width: 1024px) {
+    font-size: 16px;
+  }
+
+  p {
+    margin-bottom: .8em;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}

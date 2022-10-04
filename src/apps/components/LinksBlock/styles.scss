@@ -1,0 +1,43 @@
+.metoo-links-block__primary-link {
+  margin-bottom: 24px;
+}
+
+.metoo-links-block__separator {
+  margin-bottom: 16px;
+}
+
+.metoo-links-block__see-all {
+  display: flex;
+  align-items: center;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.metoo-links-block__see-all__icon {
+  margin-right: 8px;
+  transition: transform 400ms;
+}
+
+.metoo-links-block.metoo-links-block_opened {
+  .metoo-links-block__see-all__icon {
+    transform: rotateZ(90deg);
+  }
+}
+
+.metoo-links-block__see-all__label {
+  font-family: var(--ff-marr-sans);
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+.metoo-links-block__secondary-links {
+  margin-top: 16px;
+}
+
+.metoo-links-block__secondary-link {
+  margin-bottom: 16px;
+}

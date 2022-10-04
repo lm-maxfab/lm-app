@@ -1,39 +1,39 @@
 import { VNode } from 'preact'
+import { SheetBaseCollectionData } from '../sheet-base-entries'
 
-export interface SheetBaseCollectionData {
-  id: string
-}
-
-export interface SideNoteData {
-  bg_color?: string
-  title?: VNode|string
-  content?: VNode|string
-}
-
-export interface FooterContentData {
-  marqueur_url?: string
-  marqueur_substitute_text?: string
+export interface IntroPageData extends SheetBaseCollectionData {
+  heading?: VNode|string
+  kicker?: VNode|string
   paragraph?: VNode|string
 }
 
-export interface ArticlesData {
-  episode_number?: string
-  target_article_id?: string
+export interface ChapterData extends SheetBaseCollectionData {
+  desktop_illustration_url?: string
+  mobile_illustration_url?: string
+  title?: VNode|string
+  paragraph?: VNode|string
+  links_ids?: string
+}
+
+export interface LinkData extends SheetBaseCollectionData {
   title?: VNode|string
   kicker?: VNode|string
-  published?: boolean
   url?: string
-  bg_image_url?: string
-  bg_video_url?: string
-  bg_video_1080_url?: string
-  bg_video_720_url?: string
-  bg_video_540_url?: string
-  bg_video_360_url?: string
-  bg_video_240_url?: string
-  displayed_publication_date?: string
-  read_button_text?: string
+  pre_publication_label?: VNode|string
+  is_published?: boolean
+  is_primary?: boolean
+}
+
+export interface ChapterDataWithLinks extends ChapterData {
+  links?: LinkData[]
 }
 
 export interface CreditsData extends SheetBaseCollectionData {
   content?: VNode|string
+}
+
+export interface SideNoteData extends SheetBaseCollectionData {
+  title?: VNode|string
+  paragraph?: VNode|string
+  link_url?: string
 }

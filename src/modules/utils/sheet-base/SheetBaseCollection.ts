@@ -53,11 +53,10 @@ class SheetBaseCollection {
   get value (): SheetBaseCollectionValue {
     const returned: SheetBaseCollectionValue = []
     this._entries.forEach((entry, entryPos) => {
-      Object.defineProperty(
-        returned,
-        entryPos,
-        { get: () => entry.value }
-      )
+      Object.defineProperty(returned, entryPos, {
+        enumerable: true,
+        get: () => entry.value
+      })
     })
     return returned
   }

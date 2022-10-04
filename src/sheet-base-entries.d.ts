@@ -3,5 +3,5 @@ export interface SheetBaseCollectionData {
 }
 
 export interface CustomCssData extends SheetBaseCollectionData {
-  css?: string
+  content?: string
 }

@@ -1,0 +1,24 @@
+.metoo-chapter-block__title {
+  font-family: var(--ff-the-antiqua-b);
+  font-size: 48px;
+  font-weight: 100;
+  margin-bottom: 40px;
+
+  @media screen and (max-width: 1024px) {
+    font-size: 36px;
+    margin-bottom: 30px;
+  }
+}
+
+.metoo-chapter-block__top-bar {
+  margin-bottom: 40px;
+
+  @media screen and (max-width: 1024px) {
+    display: none;
+    margin-bottom: 30px;
+  }
+}
+
+.metoo-chapter-block__bottom-bar {
+  margin-top: 16px;
+}
