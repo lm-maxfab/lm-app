@@ -1,8 +1,15 @@
 .lm-article-header {
   position: relative;
-  padding: 8px;
+  padding: 4px;
+  display: inline-block;
+
+  .lm-article-header__link {
+    display: inline-block;
+  }
 
   .lm-article-header__logo {
+    position: relative;
+    display: block;
     height: 32px;
 
     @media screen and (max-width: 1200px) {

@@ -35,7 +35,7 @@ class ArticleHeader extends Component<Props, {}> {
     /* Display */
     return (
       <div className={wrapperClasses.value} style={wrapperStyle}>
-        <a href='https://lemonde.fr'>
+        <a href='https://lemonde.fr' className={bem(this.clss).elt('link').value}>
           <Svg
             src={logoUrl}
             className={bem(this.clss).elt('logo').value} />

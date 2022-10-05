@@ -13,6 +13,7 @@ import IntroBlock from '../components/IntroBlock'
 import { ChapterData, ChapterDataWithLinks, CreditsData, IntroPageData, LinkData } from '../types'
 import './styles.scss'
 import DirtyFitter from '../components/DirtyFitter'
+import Separator from '../components/Separator'
 
 interface Props extends InjectedProps {}
 interface State {
@@ -71,22 +72,37 @@ class Longform extends Component<Props, State> {
 
     // Logic
     const introPageProps: ScrollatorPageData = {
-      background_block_content: <BackgroundSlot>
-        <div style={{ backgroundColor: '#0F0225', width: '100%', height: '100%', padding: '3.5vw' }}>
-          <DirtyFitter>
-            <Animation />
-          </DirtyFitter>
-        </div>
-      </BackgroundSlot>,
+      background_block_content: <ResponsiveDisplayer min={1024}>
+        <BackgroundSlot>
+          <div style={{ backgroundColor: '#0F0225', width: '100%', height: '100%', padding: '3.5vw' }}>
+            <DirtyFitter>
+              <Animation />
+            </DirtyFitter>
+          </div>
+        </BackgroundSlot>
+      </ResponsiveDisplayer>,
       background_block_color: introPageData.background_color,
       text_block_content: <FrontSlot>
+        <ResponsiveDisplayer max={1024}>
+          <div style={{
+            backgroundColor: '#0F0225',
+            width: '100%',
+            height: '40vh',
+            padding: '3.5vw',
+            marginTop: '-40vh'
+          }}>
+            <DirtyFitter>
+              <Animation />
+            </DirtyFitter>
+          </div>
+        </ResponsiveDisplayer>
         <IntroBlock
           heading={introPageData.heading}
           kicker={introPageData.kicker}
           paragraph={introPageData.paragraph} />
       </FrontSlot>,
       text_block_margin_top: '40vh',
-      text_block_margin_bottom: '40vh',
+      text_block_margin_bottom: '20vh',
       custom_data: {
         bgColor: introPageData.background_color,
         mainColor: introPageData.main_color
@@ -110,7 +126,7 @@ class Longform extends Component<Props, State> {
           </ResponsiveDisplayer>
         </BackgroundSlot>,
         text_block_content: <div style={{ height: '20vh' }} />,
-        text_block_margin_top: '40vh',
+        text_block_margin_top: '30vh',
         text_block_margin_bottom: '0vh',
         custom_data: {
           bgColor: chapterData.background_color,
@@ -139,7 +155,7 @@ class Longform extends Component<Props, State> {
             mobileImageUrl={chapterData.mobile_illustration_url} />
         </FrontSlot>,
         text_block_margin_top: '0vh',
-        text_block_margin_bottom: '40vh',
+        text_block_margin_bottom: '30vh',
         custom_data: {
           bgColor: chapterData.background_color,
           mainColor: chapterData.main_color
@@ -153,9 +169,7 @@ class Longform extends Component<Props, State> {
 
     const creditsPageProps: ScrollatorPageData = {
       background_block_color: creditsData.background_color,
-      background_block_content: <BackgroundSlot>
-        <div style={{ height: '100%', width: '100%', backgroundColor: '#0F0225' }}>I am the animation here also?</div>
-      </BackgroundSlot>,
+      background_block_content: '',
       text_block_content: <FrontSlot>
         <ArticleCredits content={<div style={{ color: `var(--metoo-c-main-color)` }}>
           {creditsData.content}
@@ -187,9 +201,11 @@ class Longform extends Component<Props, State> {
       style={wrapperStyle}
       className={wrapperClasses.value}>
       <div style={{ position: 'fixed', top: 0, width: '100%', zIndex: 2 }}>
-        <ArticleHeader
-          fill1='white'
-          fill2='rgb(255, 255, 255, .7)' />
+        <div style={{ position: 'relative', backgroundColor: 'rgb(15, 2, 37, .9)', display: 'inline-block', marginTop: '4px', marginLeft: '4px' }}>
+          <ArticleHeader
+            fill1='white'
+            fill2='rgb(255, 255, 255, .7)' />
+        </div>
       </div>
       <div style={{ position: 'relative', zIndex: 1 }}>
         <Scrollator
