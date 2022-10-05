@@ -42,6 +42,12 @@ class Longform extends Component<Props, State> {
     const newState: State = {}
     if (bgColor !== undefined) newState.bgColor = bgColor
     if (mainColor !== undefined) newState.mainColor = mainColor
+
+    if (state.passed.length === 0 && window.innerWidth < 1024) {
+      newState.bgColor = '#0F0225'
+      newState.mainColor = 'white'
+    }
+
     this.setState(curr => ({ ...curr, ...newState }))
   }
 
@@ -72,16 +78,18 @@ class Longform extends Component<Props, State> {
 
     // Logic
     const introPageProps: ScrollatorPageData = {
-      background_block_content: <ResponsiveDisplayer min={1024}>
-        <BackgroundSlot>
-          <div style={{ backgroundColor: '#0F0225', width: '100%', height: '100%', padding: '3.5vw' }}>
-            <DirtyFitter>
-              <Animation />
-            </DirtyFitter>
-          </div>
-        </BackgroundSlot>
-      </ResponsiveDisplayer>,
-      background_block_color: introPageData.background_color,
+      background_block_content: <>
+        <ResponsiveDisplayer min={1024}>
+          <BackgroundSlot>
+            <div style={{ backgroundColor: '#0F0225', width: '100%', height: '100%', padding: '3.5vw' }}>
+              <DirtyFitter>
+                <Animation />
+              </DirtyFitter>
+            </div>
+          </BackgroundSlot>
+        </ResponsiveDisplayer>
+      </>,
+      background_block_color: this.state.bgColor,
       text_block_content: <FrontSlot>
         <ResponsiveDisplayer max={1024}>
           <div style={{
@@ -102,7 +110,7 @@ class Longform extends Component<Props, State> {
           paragraph={introPageData.paragraph} />
       </FrontSlot>,
       text_block_margin_top: '40vh',
-      text_block_margin_bottom: '20vh',
+      text_block_margin_bottom: '40vh',
       custom_data: {
         bgColor: introPageData.background_color,
         mainColor: introPageData.main_color
@@ -126,7 +134,7 @@ class Longform extends Component<Props, State> {
           </ResponsiveDisplayer>
         </BackgroundSlot>,
         text_block_content: <div style={{ height: '20vh' }} />,
-        text_block_margin_top: '30vh',
+        text_block_margin_top: '20vh',
         text_block_margin_bottom: '0vh',
         custom_data: {
           bgColor: chapterData.background_color,
@@ -155,7 +163,7 @@ class Longform extends Component<Props, State> {
             mobileImageUrl={chapterData.mobile_illustration_url} />
         </FrontSlot>,
         text_block_margin_top: '0vh',
-        text_block_margin_bottom: '30vh',
+        text_block_margin_bottom: '40vh',
         custom_data: {
           bgColor: chapterData.background_color,
           mainColor: chapterData.main_color
