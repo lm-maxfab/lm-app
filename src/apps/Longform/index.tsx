@@ -101,7 +101,7 @@ class Longform extends Component<Props, State> {
             width: '100%',
             height: '100vw', /* here */
             padding: '24px 0',
-            marginTop: '-10vh'
+            marginTop: 'calc(-10vh + 20px)'
           }}>
             <DirtyFitter>
               <Animation />
@@ -139,10 +139,11 @@ class Longform extends Component<Props, State> {
             <div style={{ padding: '24px' }}>
               <img
                 style={{
-                  height: '100vw',
+                  height: 'calc(100vw - 20px)',
                   width: '100vw',
                   objectFit: 'cover',
-                  margin: '0 auto'
+                  margin: '0 auto',
+                  marginTop: '20px'
                 } /* here */}
                 src={chapterData.mobile_illustration_url} />
             </div>
@@ -173,11 +174,12 @@ class Longform extends Component<Props, State> {
             <div style={{ padding: '24px' }}>
               <img
                 style={{
-                  height: '100vw',
+                  height: 'calc(100vw - 20px)',
                   width: '100vw',
                   objectFit: 'cover',
                   margin: '0 auto',
-                  opacity: .15
+                  opacity: .15,
+                  marginTop: '20px'
                 } /* here */ }
                 src={chapterData.mobile_illustration_url} />
             </div>
