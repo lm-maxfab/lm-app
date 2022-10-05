@@ -18,13 +18,6 @@ export const className = bem('metoo-chapter-block')
 export default class ChapterBlock extends Component<Props, {}> {
   render () {
     return <div className={className.value}>
-      <div className={className.elt('scrolling-image').value}>
-        <ResponsiveDisplayer max={1024}>
-          <img
-            src={this.props.mobileImageUrl}
-            style={{ margin: '0 auto 30px auto' }} />
-        </ResponsiveDisplayer>
-      </div>
       <div className={className.elt('top-bar').value}>
         <Separator />
       </div>

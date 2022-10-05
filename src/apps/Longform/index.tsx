@@ -7,10 +7,12 @@ import appWrapper, { InjectedProps } from '../../modules/utils/app-wrapper-HOC'
 import bem from '../../modules/utils/bem'
 import BackgroundSlot from '../components/BackgroundSlot'
 import ChapterBlock from '../components/ChapterSlot'
+import Animation from '../components/Animation'
 import FrontSlot from '../components/FrontSlot'
 import IntroBlock from '../components/IntroBlock'
 import { ChapterData, ChapterDataWithLinks, CreditsData, IntroPageData, LinkData } from '../types'
 import './styles.scss'
+import DirtyFitter from '../components/DirtyFitter'
 
 interface Props extends InjectedProps {}
 interface State {
@@ -70,7 +72,11 @@ class Longform extends Component<Props, State> {
     // Logic
     const introPageProps: ScrollatorPageData = {
       background_block_content: <BackgroundSlot>
-        <div style={{ height: '100%', width: '100%', backgroundColor: '#0F0225' }}>I am the animation here</div>
+        <div style={{ backgroundColor: '#0F0225', width: '100%', height: '100%', padding: '3.5vw' }}>
+          <DirtyFitter>
+            <Animation />
+          </DirtyFitter>
+        </div>
       </BackgroundSlot>,
       background_block_color: introPageData.background_color,
       text_block_content: <FrontSlot>
@@ -99,7 +105,7 @@ class Longform extends Component<Props, State> {
           </ResponsiveDisplayer>
           <ResponsiveDisplayer max={1024}>
             <img
-              style={{ height: '40vh', width: '40vh', objectFit: 'cover', margin: '0 auto' }}
+              style={{ height: '40vh', width: '40vh', objectFit: 'cover', margin: '0 auto', marginTop: '30px' }}
               src={chapterData.mobile_illustration_url} />
           </ResponsiveDisplayer>
         </BackgroundSlot>,
@@ -121,7 +127,7 @@ class Longform extends Component<Props, State> {
           </ResponsiveDisplayer>
           <ResponsiveDisplayer max={1024}>
             <img
-              style={{ height: '40vh', width: '40vh', objectFit: 'cover', margin: '0 auto', opacity: .3 }}
+              style={{ height: '40vh', width: '40vh', objectFit: 'cover', margin: '0 auto', opacity: .15, marginTop: '30px' }}
               src={chapterData.mobile_illustration_url} />
           </ResponsiveDisplayer>
         </BackgroundSlot>,

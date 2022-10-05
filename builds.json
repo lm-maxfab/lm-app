@@ -1329,6 +1329,17 @@
       },
       "description": "",
       "time": "2022-10-05T08:30:19.674Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 2,
+        "patch": 0,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "With animation",
+      "time": "2022-10-05T10:37:06.810Z"
     }
   ]
 }
