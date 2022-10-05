@@ -32,7 +32,11 @@ async function init (): Promise<void> {
     const $header = document.querySelector('header.multimediaNav')
     if ($header !== null) $header.remove()
   }
+  removeHeader()
+  window.setTimeout(removeHeader, 50)
+  window.setTimeout(removeHeader, 100)
   window.setTimeout(removeHeader, 300)
+  window.setTimeout(removeHeader, 600)
 
   // Get settings from window.location.search
   const settings = getPageSettings()

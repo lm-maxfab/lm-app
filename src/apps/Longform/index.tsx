@@ -80,7 +80,12 @@ class Longform extends Component<Props, State> {
       background_block_content: <>
         <ResponsiveDisplayer min={1024}>
           <BackgroundSlot>
-            <div style={{ backgroundColor: '#0F0225', width: '100%', height: '100%', padding: '3.5vw' }}>
+            <div style={{
+              backgroundColor: '#0F0225',
+              width: '100%',
+              height: '100%',
+              padding: '64px'
+            }}>
               <DirtyFitter>
                 <Animation />
               </DirtyFitter>
@@ -94,9 +99,9 @@ class Longform extends Component<Props, State> {
           <div style={{
             backgroundColor: '#0F0225',
             width: '100%',
-            height: '40vh',
-            padding: '3.5vw',
-            marginTop: '-40vh'
+            height: '100vw', /* here */
+            padding: '24px 0',
+            marginTop: '-10vh'
           }}>
             <DirtyFitter>
               <Animation />
@@ -108,7 +113,7 @@ class Longform extends Component<Props, State> {
           kicker={introPageData.kicker}
           paragraph={introPageData.paragraph} />
       </FrontSlot>,
-      text_block_margin_top: '40vh',
+      text_block_margin_top: '10vh',
       text_block_margin_bottom: '40vh',
       custom_data: {
         bgColor: introPageData.background_color,
@@ -123,13 +128,24 @@ class Longform extends Component<Props, State> {
         background_block_content: <BackgroundSlot>
           <ResponsiveDisplayer min={1024}>
             <img
-              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover'
+              }}
               src={chapterData.desktop_illustration_url} />
           </ResponsiveDisplayer>
           <ResponsiveDisplayer max={1024}>
-            <img
-              style={{ height: '40vh', width: '40vh', objectFit: 'cover', margin: '0 auto', marginTop: '30px' }}
-              src={chapterData.mobile_illustration_url} />
+            <div style={{ padding: '24px' }}>
+              <img
+                style={{
+                  height: '100vw',
+                  width: '100vw',
+                  objectFit: 'cover',
+                  margin: '0 auto'
+                } /* here */}
+                src={chapterData.mobile_illustration_url} />
+            </div>
           </ResponsiveDisplayer>
         </BackgroundSlot>,
         text_block_content: <div style={{ height: '20vh' }} />,
@@ -145,13 +161,26 @@ class Longform extends Component<Props, State> {
         background_block_content: <BackgroundSlot>
           <ResponsiveDisplayer min={1024}>
             <img
-              style={{ width: '100%', height: '100%', objectFit: 'cover', opacity: 1 }}
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                opacity: 1
+              }}
               src={chapterData.desktop_illustration_url} />
           </ResponsiveDisplayer>
           <ResponsiveDisplayer max={1024}>
-            <img
-              style={{ height: '40vh', width: '40vh', objectFit: 'cover', margin: '0 auto', opacity: .15, marginTop: '30px' }}
-              src={chapterData.mobile_illustration_url} />
+            <div style={{ padding: '24px' }}>
+              <img
+                style={{
+                  height: '100vw',
+                  width: '100vw',
+                  objectFit: 'cover',
+                  margin: '0 auto',
+                  opacity: .15
+                } /* here */ }
+                src={chapterData.mobile_illustration_url} />
+            </div>
           </ResponsiveDisplayer>
         </BackgroundSlot>,
         text_block_content: <FrontSlot>

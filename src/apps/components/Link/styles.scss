@@ -2,10 +2,6 @@
   display: flex;
 }
 
-.metoo-link.metoo-link_unpublished {
-  opacity: .6;
-}
-
 .metoo-link__bullet {
   width: 24px;
   height: 24px;
@@ -81,5 +77,15 @@
   .metoo-link__teaser {
     font-size: 9px;
     margin-top: 4px;
+  }
+}
+
+.metoo-link.metoo-link_unpublished {
+  opacity: .6;
+
+  .metoo-link__title {
+    &:hover {
+      text-decoration: none;
+    }
   }
 }
