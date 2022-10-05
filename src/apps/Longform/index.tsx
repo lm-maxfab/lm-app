@@ -13,7 +13,6 @@ import IntroBlock from '../components/IntroBlock'
 import { ChapterData, ChapterDataWithLinks, CreditsData, IntroPageData, LinkData } from '../types'
 import './styles.scss'
 import DirtyFitter from '../components/DirtyFitter'
-import Separator from '../components/Separator'
 
 interface Props extends InjectedProps {}
 interface State {
@@ -209,7 +208,7 @@ class Longform extends Component<Props, State> {
       style={wrapperStyle}
       className={wrapperClasses.value}>
       <div style={{ position: 'fixed', top: 0, width: '100%', zIndex: 2 }}>
-        <div style={{ position: 'relative', backgroundColor: 'rgb(15, 2, 37, .9)', display: 'inline-block', marginTop: '4px', marginLeft: '4px' }}>
+        <div style={{ position: 'relative', backgroundColor: 'transparent', display: 'inline-block', marginTop: '4px', marginLeft: '4px' }}>
           <ArticleHeader
             fill1='white'
             fill2='rgb(255, 255, 255, .7)' />
