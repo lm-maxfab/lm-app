@@ -2,10 +2,10 @@
   "assets_root_url": "https://assets-decodeurs.lemonde.fr/redacweb/26-2210-metoo-assets",
   "statics_root_url": "https://assets-decodeurs.lemonde.fr/redacweb/statics-v2",
   "spreadsheets_urls": {
-    "production": "https://assets-decodeurs.lemonde.fr/sheets/CYNRZeXoS3SsVRnsSwcrcAG1_a-E3A_1309",
-    "staging": "https://assets-decodeurs.lemonde.fr/sheets/CYNRZeXoS3SsVRnsSwcrcAG1_a-E3A_1310",
-    "testing": "https://assets-decodeurs.lemonde.fr/sheets/CYNRZeXoS3SsVRnsSwcrcAG1_a-E3A_1311",
-    "developpment": "https://assets-decodeurs.lemonde.fr/sheets/CYNRZeXoS3SsVRnsSwcrcAG1_a-E3A_1312"
+    "production": "https://assets-decodeurs.lemonde.fr/sheets/CYNRZeXoS3SsVRnsSwcrcAG1_a-E3A_1316",
+    "staging": "https://assets-decodeurs.lemonde.fr/sheets/CYNRZeXoS3SsVRnsSwcrcAG1_a-E3A_1317",
+    "testing": "https://assets-decodeurs.lemonde.fr/sheets/CYNRZeXoS3SsVRnsSwcrcAG1_a-E3A_1318",
+    "developpment": "https://assets-decodeurs.lemonde.fr/sheets/CYNRZeXoS3SsVRnsSwcrcAG1_a-E3A_1319"
   },
   "layouts": [{
     "name": "longform",

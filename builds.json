@@ -1395,6 +1395,17 @@
       },
       "description": "",
       "time": "2022-10-05T15:25:06.506Z"
+    },
+    {
+      "version": {
+        "major": 1,
+        "minor": 0,
+        "patch": 1,
+        "status": "stable",
+        "build": 1
+      },
+      "description": "New sheetbases urls",
+      "time": "2022-10-05T15:41:24.664Z"
     }
   ]
 }
