@@ -1,0 +1,313 @@
+/* Timing for animating the title */
+:root {
+	--apparition-delay: 0;
+	--metoo-apparition-duration: 300ms;
+	--title-apparition-duration: 600ms;
+}
+
+.metoo-composition-mobile {
+	--initial-step-timing: 1200ms;
+	--pace: 70ms;
+	--total-duration: calc(var(--initial-step-timing) + var(--pace)*26);
+}
+
+.metoo-composition-portrait {
+	--initial-step-timing: 1600ms;
+	--pace: 30ms;
+	--total-duration: calc(var(--initial-step-timing) + var(--pace)*54);
+}
+
+.metoo-composition {
+	width: 300px;
+	margin: 0 auto;
+	display: grid;
+	grid-auto-flow: column;
+	grid-template-columns: repeat(3, 96.6px);
+	grid-template-rows: repeat(12, 1.15em);
+	grid-column-gap: 5px;
+	font-family: 'Marr-Sans';
+	font-weight: 600;
+	font-size: 23px;
+	color: white;
+}
+
+.metoo-composition-mobile {
+	grid-template-rows: repeat(12, 1.15em);
+}
+
+.metoo-composition-portrait {
+	grid-template-rows: repeat(21, 1.15em);
+}
+
+.metoo-composition p {
+	padding: 0;
+	margin: 0;
+}
+
+.metoo-composition .metoo {
+	height: 1.15em;
+	overflow: hidden;
+}
+
+.metoo-composition .metoo p {
+	opacity: 0.2;
+	pointer-events: none;
+}
+
+.metoo-composition .main-title {
+	height: 1.15em;
+	overflow: hidden;
+	letter-spacing: 0.5px;
+}
+
+.metoo-composition .main-title .fade-in-bottom {
+	animation-duration: var(--title-apparition-duration);
+}
+
+.metoo-composition-mobile .les_cinq_ans .fade-in-bottom {
+	animation-delay: 2.3s;
+}
+
+.metoo-composition-mobile .d_une .fade-in-bottom {
+	animation-delay: 2.5s;
+}
+
+.metoo-composition-mobile .revolution .fade-in-bottom {
+	animation-delay: 2.7s;
+}
+
+.metoo-composition-portrait .les_cinq_ans .fade-in-bottom {
+	animation-delay: 2.5s;
+}
+
+.metoo-composition-portrait .d_une .fade-in-bottom {
+	animation-delay: 2.7s;
+}
+
+.metoo-composition-portrait .revolution .fade-in-bottom {
+	animation-delay: 2.9s;
+}
+
+.metoo-composition-mobile .les_cinq_ans {
+	grid-row: 5;
+	grid-column: 1 / 3;
+	text-align: right;
+}
+
+.metoo-composition-mobile .d_une {
+	grid-row: 7;
+	grid-column: 2 / 4;
+}
+
+.metoo-composition-mobile .revolution {
+	grid-row: 8;
+	grid-column: 2 / 4;
+}
+
+.metoo-composition-portrait .les_cinq_ans {
+	grid-row: 9;
+	grid-column: 1 / 3;
+	text-align: right;
+}
+
+.metoo-composition-portrait .d_une {
+	grid-row: 11;
+	grid-column: 2 / 4;
+}
+
+.metoo-composition-portrait .revolution {
+	grid-row: 12;
+	grid-column: 2 / 4;
+}
+
+.metoo-composition .A5, 
+.metoo-composition .B5, 
+.metoo-composition .B7, 
+.metoo-composition .B8, 
+.metoo-composition .C7, 
+.metoo-composition .C8 {
+	display: none;
+}
+
+/* General animation settings */
+
+.metoo-composition .fade-in {
+	opacity: 0;
+	animation-name: fadeIn;
+	animation-timing-function: ease-out;
+	animation-duration: var(--metoo-apparition-duration);;
+	animation-delay: var(--apparition-delay);
+	animation-fill-mode: forwards;
+}
+
+.metoo-composition .fade-in-bottom {
+	opacity: 0;
+	animation-name: fadeInBottom;
+	animation-timing-function: ease-out;		
+	animation-fill-mode: forwards;
+}
+
+.metoo-composition .after-title-animation {
+	animation-duration: var(--total-duration);		
+	animation-name: fadeIn;
+}
+
+/* timing anim #metoo */
+
+/* Slow beginning, slightly accelerating */
+.metoo-composition-mobile .C12 { --apparition-delay: 200ms; } 
+.metoo-composition-mobile .A8 { --apparition-delay: 500ms; } 
+.metoo-composition-mobile .C2 { --apparition-delay: 800ms; } 
+.metoo-composition-mobile .B4 { --apparition-delay: 1200ms; } 
+/* All the rest : one by one, at the same pace */
+.metoo-composition-mobile .C9 { --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*1); }
+.metoo-composition-mobile .A11 { --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*2); }
+.metoo-composition-mobile .A3 { --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*3); }
+.metoo-composition-mobile .A1 { --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*4); }
+.metoo-composition-mobile .B9 { --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*5); }
+.metoo-composition-mobile .A12 { --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*6); }
+.metoo-composition-mobile .C6 { --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*7); }
+.metoo-composition-mobile .B3 { --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*8); }
+.metoo-composition-mobile .B1 { --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*9); }
+.metoo-composition-mobile .A6 { --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*10); }
+.metoo-composition-mobile .C4 { --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*11); }
+.metoo-composition-mobile .B10 { --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*12); }
+.metoo-composition-mobile .B11 { --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*13); }
+.metoo-composition-mobile .A7 { --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*14); }
+.metoo-composition-mobile .B6 { --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*15); }
+.metoo-composition-mobile .C11 { --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*16); }
+.metoo-composition-mobile .C1 { --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*17); }
+.metoo-composition-mobile .C5 { --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*18); }
+.metoo-composition-mobile .C10 {  --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*19)}
+.metoo-composition-mobile .A2 { --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*20)}
+.metoo-composition-mobile .A9 { --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*21); }
+.metoo-composition-mobile .A4 { --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*22); }
+.metoo-composition-mobile .A10 { --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*23); }
+.metoo-composition-mobile .B2 { --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*24); }
+.metoo-composition-mobile .B12 {  --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*25)}
+.metoo-composition-mobile .C3 {  --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*26)}
+
+/* Slow beginning, slightly accelerating */
+.metoo-composition-portrait .C21 { --apparition-delay: 200ms; }
+.metoo-composition-portrait .A12 { --apparition-delay: 500ms; }
+.metoo-composition-portrait .C2 { --apparition-delay: 800ms; }
+.metoo-composition-portrait .B6 { --apparition-delay: 1200ms; }
+.metoo-composition-portrait .A8 { --apparition-delay: 1400ms; }
+.metoo-composition-portrait .B16 { --apparition-delay: 1600ms; }
+/* All the rest : one by one, at the same pace */
+.metoo-composition-portrait .A8 { --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*1)}
+.metoo-composition-portrait .A15 {  --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*2)}
+.metoo-composition-portrait .B18 {  --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*3)}
+.metoo-composition-portrait .A11 { --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*4)}
+.metoo-composition-portrait .C16 {  --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*5)}
+.metoo-composition-portrait .A18 {  --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*6)}
+.metoo-composition-portrait .B13 {  --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*7)}
+.metoo-composition-portrait .B20 {  --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*8)}
+.metoo-composition-portrait .B16 {  --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*9)}
+.metoo-composition-portrait .C17 {  --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*10)}
+.metoo-composition-portrait .B4 { --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*11)}
+.metoo-composition-portrait .C15 {  --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*12)}
+.metoo-composition-portrait .A1 { --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*13)}
+.metoo-composition-portrait .B9 { --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*14)}
+.metoo-composition-portrait .B12 {  --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*15)}
+.metoo-composition-portrait .C6 { --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*16)}
+.metoo-composition-portrait .C18 {  --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*17)}
+.metoo-composition-portrait .B3 { --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*18)}
+.metoo-composition-portrait .C14 {  --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*19)}
+.metoo-composition-portrait .B15 {  --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*20)}
+.metoo-composition-portrait .B1 { --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*21)}
+.metoo-composition-portrait .B17 {  --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*22)}
+.metoo-composition-portrait .A21 {  --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*23)}
+.metoo-composition-portrait .A6 { --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*24)}
+.metoo-composition-portrait .C20 {  --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*25)}
+.metoo-composition-portrait .C4 { --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*26)}
+.metoo-composition-portrait .B10 { --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*27)}
+.metoo-composition-portrait .B11 { --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*28)}
+.metoo-composition-portrait .A13 {  --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*29)}
+.metoo-composition-portrait .A7 { --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*30)}
+.metoo-composition-portrait .C12 { --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*31)}
+.metoo-composition-portrait .C11 { --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*32)}
+.metoo-composition-portrait .C13 {  --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*33)}
+.metoo-composition-portrait .A3 { --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*34)}
+.metoo-composition-portrait .B21 {  --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*35)}
+.metoo-composition-portrait .C1 { --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*36)}
+.metoo-composition-portrait .A14 {  --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*37)}
+.metoo-composition-portrait .B19 {  --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*38)}
+.metoo-composition-portrait .B14 {  --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*39)}
+.metoo-composition-portrait .A17 {  --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*40)}
+.metoo-composition-portrait .A19 {  --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*41)}
+.metoo-composition-portrait .C9 { --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*42)}
+.metoo-composition-portrait .C5 { --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*43)}
+.metoo-composition-portrait .C10 {  --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*44)}
+.metoo-composition-portrait .A2 { --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*45)}
+.metoo-composition-portrait .A20 {  --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*46)}
+.metoo-composition-portrait .A9 { --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*47)}
+.metoo-composition-portrait .A4 { --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*48)}
+.metoo-composition-portrait .A10 { --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*49)}
+.metoo-composition-portrait .C19 {  --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*50)}
+.metoo-composition-portrait .B2 { --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*51)}
+.metoo-composition-portrait .A16 { --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*52)}
+.metoo-composition-portrait .C3 {  --apparition-delay: calc(var(--initial-step-timing) + var(--pace)*53)}
+
+
+/* anim 'RT' */
+.metoo-composition .animated p:first-child { 
+	animation: slideOut 10s ease-in-out 0s infinite; 
+} 
+
+.metoo-composition .animated p:last-child {
+	animation: slideIn 10s ease-in-out 0s infinite;
+}
+
+/* on fait partir chaque RT à intervalle régulier */
+.metoo-composition-mobile .A2 p:first-child, 
+.metoo-composition-mobile .A2 p:last-child,
+.metoo-composition-portrait .A4 p:first-child,
+.metoo-composition-portrait .A4 p:last-child { 
+	animation-delay: calc(-3s + 0ms); 
+}
+
+.metoo-composition-mobile .C10 p:first-child, 
+.metoo-composition-mobile .C10 p:last-child,
+.metoo-composition-portrait .C18 p:first-child,
+.metoo-composition-portrait .C18 p:last-child { 
+	animation-delay: calc(-3s + 1800ms); 
+}
+
+.metoo-composition-mobile .C3 p:first-child, 
+.metoo-composition-mobile .C3 p:last-child,
+.metoo-composition-portrait .C6 p:first-child,
+.metoo-composition-portrait .C6 p:last-child { 
+	animation-delay: calc(-3s + 3600ms);; 
+}
+
+.metoo-composition-mobile .B11 p:first-child, 
+.metoo-composition-mobile .B11 p:last-child,
+.metoo-composition-portrait .B15 p:first-child,
+.metoo-composition-portrait .B15 p:last-child { 
+	animation-delay: calc(-3s + 4000ms);; 
+}
+
+@keyframes fadeIn {
+	0% { opacity: 0; filter: blur(2px);	}
+	100% { opacity: 1; }
+}
+
+@keyframes fadeInBottom {
+	0% { opacity: 0; transform: translateY(4vh); }
+	100% { opacity: 1; }
+}
+
+@keyframes slideOut {
+	0% { transform: translateY(0); }
+	95% { transform: translateY(0); }
+	100% { transform: translateY(-1.3em); }
+}
+
+@keyframes slideIn {
+	0% { transform: translateY(0); opacity: 0.2; }
+	50% { transform: translateY(0); opacity: 0.2; }
+	94% { opacity: 0.7; }
+	95% { transform: translateY(0); }
+	100% { transform: translateY(-1.3em); opacity: 0.2; }
+}
