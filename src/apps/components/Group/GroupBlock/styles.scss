@@ -1,0 +1,13 @@
+.mondial-group {
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin: 24px 0 42px 0;
+    grid-row-gap: 26px;
+
+    @media screen and (min-width: 800px) {
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      margin: 36px 0 52px 0;
+    }
+  }
+}
