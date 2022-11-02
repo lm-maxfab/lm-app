@@ -1,8 +1,9 @@
 import { Component, JSX } from 'preact'
+import GuideCover from '../components/GuideCover'
 import GroupBlock from '../components/Group/GroupBlock'
 import appWrapper, { InjectedProps } from '../../modules/utils/app-wrapper-HOC'
 import bem from '../../modules/utils/bem'
-import { TeamData } from '../types'
+import { TeamData, GeneralData } from '../types'
 import './styles.scss'
 
 interface Props extends InjectedProps {}
@@ -17,6 +18,8 @@ class Longform extends Component<Props, State> {
    * * * * * * * * * * * * * * */
   render (): JSX.Element {
     const { props } = this
+
+    const generalData = props.sheetBase?.collection('general').value[0] as unknown as GeneralData;
 
     const teamsData = ((props.sheetBase?.collection('teams').value ?? []) as unknown as TeamData[])
     
@@ -34,12 +37,19 @@ class Longform extends Component<Props, State> {
     return <div
       style={wrapperStyle}
       className={wrapperClasses.value}>
+
+        <GuideCover
+          title={generalData.title}
+          intro={generalData.intro}
+        ></GuideCover>
+
         {groupsData?.map(group => {
-          return <GroupBlock 
+          return <GroupBlock
             group={group}
             teams={teamsData.filter(el => el.group === group)}
           />
         })}
+
     </div>
   }
 }

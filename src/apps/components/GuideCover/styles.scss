@@ -1,0 +1,130 @@
+.mondial-guide-cover {
+  --mondial-cover-side-padding: 46px;
+  --mondial-cover-circle-width: 140%;
+  display: grid;
+  overflow: hidden;
+  margin-bottom: 146px;
+
+  >* {
+    grid-area: 1 / -1;
+  }
+
+  @media screen and (min-width: 800px) {
+    --mondial-cover-side-padding: 120px;
+    --mondial-cover-circle-width: 88%;
+  }
+
+  @media screen and (min-width: 1200px) {
+    --mondial-cover-side-padding: calc((100% - 960px) / 2);
+  }
+
+
+  &__container {
+    max-height: 800px;
+    padding: 120px var(--mondial-cover-side-padding);
+    display: grid;
+    overflow: hidden;
+
+    >* {
+      grid-area: 1 / -1;
+    }
+
+    &__circle {
+      justify-self: center;
+      position: relative;
+      top: 46px;
+      max-width: unset;
+      width: var(--mondial-cover-circle-width);
+      z-index: 0;
+
+      &_overlay {
+        z-index: 1;
+        mix-blend-mode: overlay;
+        top: calc(-100% + 46px);
+        left: calc(-1 * (var(--mondial-cover-circle-width) - 100%) / 2);
+        opacity: 0.6;
+      }
+    }
+
+    &__gradient {
+      z-index: 1;
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    @media screen and (max-width: 800px) {
+      &__marker {
+        width: 85px;
+      }
+
+      &__scrollicon {
+        width: 38px;
+      }
+    }
+
+    &__text {
+      z-index: 2;
+      text-align: center;
+      align-self: center;
+      justify-self: center;
+      max-width: 520px;
+      color: #fff;
+      display: grid;
+      justify-items: center;
+
+      &__title {
+        font-size: 35px;
+        line-height: 40px;
+        text-shadow: 2px 2px rgba(0, 0, 0, 0.5);
+        margin: 16px 16px 32px 16px;
+
+        @media screen and (min-width: 450px) {
+          font-size: 45px;
+          line-height: 50px;
+          margin: 24px 24px 48px 24px;
+        }
+
+        @media screen and (min-width: 650px) {
+          font-size: 60px;
+          line-height: 65px;
+        }
+      }
+    }
+  }
+
+  &__player {
+    z-index: 1;
+    align-self: flex-end;
+    max-height: 480px;
+    --mondial-cover-player-offset: 40vw;
+
+    @media screen and (min-width: 600px) {
+      --mondial-cover-player-offset: 30vw;
+      max-height: 550px;
+    }
+
+    @media screen and (min-width: 800px) {
+      --mondial-cover-player-offset: 20vw;
+      max-height: unset;
+    }
+
+    @media screen and (min-width: 1000px) {
+      --mondial-cover-player-offset: 10vw;
+    }
+
+    @media screen and (min-width: 1200px) {
+      --mondial-cover-player-offset: 0;
+    }
+
+    &_left {
+      transform: translateX(calc(-1 * var(--mondial-cover-player-offset)));
+    }
+
+    &_right {
+      justify-self: flex-end;
+      transform: translateX(calc(1 * var(--mondial-cover-player-offset)));
+    }
+  }
+
+}
