@@ -1,0 +1,22 @@
+.mondial-button {
+  background-color: var(--mondial-main-color);
+  color: #fff;
+  display: inline-block;
+  text-transform: uppercase;
+  font-weight: 700;
+  padding: 15px;
+  cursor: pointer;
+
+  &_light {
+    background-color: #fff;
+    color: var(--mondial-main-color);
+  }
+
+  & span {
+    padding: 3px;
+  }
+
+  &:hover span {
+    border-bottom: 1px solid;
+  }
+}
