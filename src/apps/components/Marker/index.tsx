@@ -12,7 +12,7 @@ type State = {
 export default class Marker extends Component<Props, State> {
   render () {
     const fillColor = this.props.color ?? 'var(--mondial-main-color)'
-    const width = this.props.width ?? '117'
+    const width = this.props.width ?? '120'
 
     return  <svg width={width} height="24" viewBox="0 0 1210 255" fill={fillColor} xmlns="http://www.w3.org/2000/svg">
               <path d="M778.117 226.593H865.457V215.363H791.35V191.58C791.35 168.789 798.959 161.192 813.516 144.676L839.982 115.609C856.855 96.7811 865.457 81.9171 865.457 64.0803V42.9404C865.457 13.8731 850.238 0.990952 822.779 0.990952C795.651 0.990952 778.779 15.8549 778.779 45.5829V71.0168H792.343V45.2526C792.343 21.8005 804.583 12.2215 822.448 12.2215C839.982 12.2215 851.892 20.4793 851.892 42.9404V62.7591C851.892 79.2746 843.291 93.1477 829.727 108.012L805.245 135.097C786.719 155.576 778.117 166.807 778.117 191.58V226.593Z"/>
