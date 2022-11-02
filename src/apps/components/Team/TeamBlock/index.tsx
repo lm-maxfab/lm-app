@@ -15,7 +15,7 @@ type State = {
 
 export const className = bem('mondial-team')
 
-export default class GroupBlock extends Component<Props, State> {
+export default class TeamBlock extends Component<Props, State> {
   render () {
     return <div className={className.value}>
         <Flag 
@@ -23,15 +23,14 @@ export default class GroupBlock extends Component<Props, State> {
         />
 
         <TeamTitle
-          className={className.elt('title').value}
+          className={className.elt('title')}
           country={this.props.team?.country}
           surname={this.props.team?.surname}
         />
         
         <TeamImage 
-          className={className.elt('image').value}
-          player={this.props.team?.player}
-          background={this.props.team?.background}
+          className={className.elt('image')}
+          iso={this.props.team?.iso}
         />
     </div>
   }

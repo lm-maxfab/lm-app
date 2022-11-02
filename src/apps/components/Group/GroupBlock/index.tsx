@@ -6,8 +6,9 @@ import { TeamData } from '../../../types'
 import './styles.scss'
 
 type Props = {
-  group?: string
-  teams?: TeamData[]
+  group?: string,
+  teams?: TeamData[],
+  nav?: boolean
 }
 
 type State = {
@@ -17,12 +18,18 @@ export const className = bem('mondial-group')
 
 export default class GroupBlock extends Component<Props, State> {
   render () {
-    return <div className={className.value}>
+
+    const groupClasses = className.mod({
+      'navbar': this.props.nav,
+      'default': !this.props.nav,
+    })
+
+    return <div className={groupClasses.value}>
           <GroupTab 
-            className={className.elt('tab').value} 
+            className={groupClasses.elt('tab').value} 
             group={this.props.group} 
           />
-          <div className={className.elt('grid').value}>
+          <div className={groupClasses.elt('grid').value}>
             {this.props.teams?.map(team => {
               return <TeamBlock 
                 team={team}

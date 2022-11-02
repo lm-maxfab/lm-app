@@ -1,13 +1,26 @@
 .mondial-group__tab {
-  border-bottom: 2px solid var(--mondial-main-color);
-
   p {
-    padding: 4px 18px;
     text-transform: uppercase;
-    background-color: var(--mondial-main-color);
-    display: inline-block;
     color: #fff;
-    font-weight: 700;
     letter-spacing: 10%;
+  }
+
+  &_default {
+    border-bottom: 2px solid var(--mondial-main-color);
+
+    p {
+      padding: 4px 18px;
+      background-color: var(--mondial-main-color);
+      display: inline-block;
+      font-weight: 700;
+    }
+  }
+
+  &_navbar {
+    border-bottom: 1px solid #fff;
+
+    p {
+      font-weight: 300;
+    }
   }
 }

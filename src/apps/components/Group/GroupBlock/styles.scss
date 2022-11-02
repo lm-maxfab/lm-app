@@ -1,13 +1,21 @@
 .mondial-group {
-  &__grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    margin: 24px 0 42px 0;
-    grid-row-gap: 26px;
+  margin: 0 max(40px, 8vw);
 
-    @media screen and (min-width: 800px) {
-      grid-template-columns: 1fr 1fr 1fr 1fr;
-      margin: 36px 0 52px 0;
+  &__grid {
+
+    &_default {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(100px, 280px));
+      margin: 24px 0 42px 0;
+      grid-row-gap: 26px;
+      grid-column-gap: 26px;
+      justify-content: space-between;
+  
+      @media screen and (min-width: 1000px) {
+        grid-template-columns: repeat(4, minmax(100px, 280px));
+        margin: 36px 0 52px 0;
+      }
     }
   }
+
 }
