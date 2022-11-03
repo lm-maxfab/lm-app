@@ -17,10 +17,14 @@
   }
 
   &_navbar {
-    border-bottom: 1px solid #fff;
+    border-bottom: 0.5px solid #fff;
 
     p {
       font-weight: 300;
+      font-size: 17px;
+      line-height: 20px;
+      letter-spacing: calc(0.1 * 17px);
+      padding-bottom: 2px;
     }
   }
 }

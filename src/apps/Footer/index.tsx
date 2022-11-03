@@ -40,6 +40,8 @@ class Footer extends Component<Props, State> {
     const imgPlayer1 = `${config?.assets_root_url}/cover-1.png`
 
     // Display
+    // return <div></div>
+
     return <div
       style={wrapperStyle}
       className={wrapperClasses.value}>
@@ -51,7 +53,6 @@ class Footer extends Component<Props, State> {
       <p className={className.elt('title').value}>{footerData.title}</p>
 
       <div className={className.elt('container').value}>
-        {/* <img className={className.elt('container').elt('circle').value} src={imgCircle} alt="" /> */}
 
         <div className={className.elt('container').elt('circle').value}>
           <Circle></Circle>
@@ -62,7 +63,6 @@ class Footer extends Component<Props, State> {
           <div className={className.elt('container').elt('circle').mod('overlay').value}>
             <Circle></Circle>
           </div>
-          {/* <img className={className.elt('container').elt('circle').mod('overlay').value} src={imgCircle} alt="" /> */}
         </div>
 
         <div className={className.elt('container').elt('players').value}>

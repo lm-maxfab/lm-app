@@ -38,11 +38,11 @@ class Cover extends Component<Props, State> {
 
     const className = bem(this.clss);
 
-    console.log(coverTeam)
-
     const imgPlayer = `${config?.assets_root_url}/player-${coverTeam?.iso?.toLowerCase()}.png`
 
     // Display
+    // return <div></div>
+    
     return <div
       style={wrapperStyle}
       className={wrapperClasses.value}>

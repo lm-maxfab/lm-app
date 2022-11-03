@@ -1,6 +1,7 @@
 import { Component } from 'preact'
 import GroupTab from '../GroupTab'
 import TeamBlock from '../../Team/TeamBlock'
+import TeamBlockNav from '../../Team/TeamBlockNav'
 import bem from '../../../../modules/utils/bem'
 import { TeamData } from '../../../types'
 import './styles.scss'
@@ -29,11 +30,12 @@ export default class GroupBlock extends Component<Props, State> {
             className={groupClasses.elt('tab').value} 
             group={this.props.group} 
           />
-          <div className={groupClasses.elt('grid').value}>
+
+          <div className={groupClasses.elt('teams').value}>
             {this.props.teams?.map(team => {
-              return <TeamBlock 
-                team={team}
-              />
+              return this.props.nav 
+              ? <TeamBlockNav team={team}/>
+              : <TeamBlock team={team}/>
             })}
           </div>
     </div>

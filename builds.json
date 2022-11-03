@@ -1284,5 +1284,18 @@
       "description": "",
       "time": "2022-09-09T15:32:58.739Z"
     }
+  ],
+  "28-2210-mondial": [
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 1
+      },
+      "description": "",
+      "time": "2022-11-03T16:57:27.110Z"
+    }
   ]
 }

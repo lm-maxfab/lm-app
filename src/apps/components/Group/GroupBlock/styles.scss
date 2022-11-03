@@ -1,7 +1,10 @@
 .mondial-group {
-  margin: 0 max(40px, 8vw);
 
-  &__grid {
+  &_default {
+    margin: 0 max(40px, 8vw);
+  }
+
+  &__teams {
 
     &_default {
       display: grid;
@@ -16,6 +19,14 @@
         margin: 36px 0 52px 0;
       }
     }
+  }
+
+}
+
+.mondial-group {
+
+  &_navbar {
+    margin: 0 0 32px 0;
   }
 
 }

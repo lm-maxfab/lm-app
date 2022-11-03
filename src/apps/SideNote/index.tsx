@@ -1,7 +1,7 @@
 import { Component, JSX } from 'preact'
 import appWrapper, { InjectedProps } from '../../modules/utils/app-wrapper-HOC'
 import Marker from '../components/Marker'
-import Arrow from '../components/Arrow'
+import Arrow from '../components/Icons/Arrow'
 import bem from '../../modules/utils/bem'
 import { GeneralData } from '../types'
 import './styles.scss'

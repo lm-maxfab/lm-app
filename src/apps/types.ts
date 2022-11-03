@@ -22,5 +22,6 @@ export interface TeamData extends SheetBaseCollectionData {
   group?: string,
   player?: string,
   background?: string,
-  article?: string
+  article?: string,
+  url?: string,
 }

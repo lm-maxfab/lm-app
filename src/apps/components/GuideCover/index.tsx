@@ -2,7 +2,7 @@ import { Component, VNode } from 'preact'
 import bem from '../../../modules/utils/bem'
 import Marker from '../Marker'
 import Gradient from '../Gradient'
-import ScrollIcon from '../ScrollIcon'
+import ScrollIcon from '../Icons/ScrollIcon'
 import './styles.scss'
 
 import getConfig from '../../../modules/utils/get-config'

@@ -1,6 +1,7 @@
 .mondial-guide-cover {
   --mondial-cover-side-padding: 46px;
   --mondial-cover-circle-width: 140%;
+  --mondial-cover-player-offset-transition: 0px;
   display: grid;
   overflow: hidden;
   margin-bottom: 146px;
@@ -42,7 +43,6 @@
         mix-blend-mode: overlay;
         top: calc(-100% + 46px);
         left: calc(-1 * (var(--mondial-cover-circle-width) - 100%) / 2);
-        opacity: 0.6;
       }
     }
 
@@ -117,13 +117,17 @@
       --mondial-cover-player-offset: 0;
     }
 
+    @media screen and (min-width: 1600px) {
+      --mondial-cover-player-offset: -10vw;
+    }
+
     &_left {
-      transform: translateX(calc(-1 * var(--mondial-cover-player-offset)));
+      transform: translateX(calc(-1 * var(--mondial-cover-player-offset) + var(--mondial-cover-player-offset-transition)));
     }
 
     &_right {
       justify-self: flex-end;
-      transform: translateX(calc(1 * var(--mondial-cover-player-offset)));
+      transform: translateX(calc(1 * var(--mondial-cover-player-offset) + var(--mondial-cover-player-offset-transition)));
     }
   }
 
