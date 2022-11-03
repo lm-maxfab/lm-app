@@ -1,6 +1,7 @@
 .mondial-circle {
   height: auto;
   stroke-width: 40px;
+  max-width: 100%;
 
   @media screen and (min-width: 900px) {
     circle {
