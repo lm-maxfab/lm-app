@@ -39,28 +39,28 @@ class Cover extends Component<Props, State> {
     const className = bem(this.clss);
 
     // const imgPlayer = `${config?.assets_root_url}/player-${coverTeam?.iso}.png`
-    const imgPlayer = `${config?.assets_root_url}/player-eng.png`
+    const imgPlayer = `${config?.assets_root_url}/player-fra.png`
 
     // Display
-    return <div></div>
+    // return <div></div>
     
-    // return <div
-    //   style={wrapperStyle}
-    //   className={wrapperClasses.value}>
+    return <div
+      style={wrapperStyle}
+      className={wrapperClasses.value}>
 
-    //   <div className={className.elt('circle').value}>
-    //     <Circle></Circle>
-    //   </div>
+      <div className={className.elt('circle').value}>
+        <Circle></Circle>
+      </div>
 
-    //   <div className={className.elt('gradient').value}>
-    //     <Gradient></Gradient>
-    //     <div className={className.elt('circle').mod('overlay').value}>
-    //       <Circle></Circle>
-    //     </div>
-    //   </div>
+      <div className={className.elt('gradient').value}>
+        <Gradient></Gradient>
+        <div className={className.elt('circle').mod('overlay').value}>
+          <Circle></Circle>
+        </div>
+      </div>
 
-    //   <img className={className.elt('player').value} src={imgPlayer}></img>
-    // </div>
+      <img className={className.elt('player').value} src={imgPlayer}></img>
+    </div>
   }
 }
 
