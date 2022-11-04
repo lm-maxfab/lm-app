@@ -46,34 +46,38 @@ class Footer extends Component<Props, State> {
       style={wrapperStyle}
       className={wrapperClasses.value}>
 
-      <div className={className.elt('marker').value}>
-        <Marker></Marker>
-      </div>
+      <a href={footerData.url}>
 
-      <p className={className.elt('title').value}>{footerData.title}</p>
-
-      <div className={className.elt('container').value}>
-
-        <div className={className.elt('circle').value}>
-          <Circle></Circle>
+        <div className={className.elt('marker').value}>
+          <Marker></Marker>
         </div>
 
-        <div className={className.elt('gradient').value}>
-          <Gradient></Gradient>
-          <div className={className.elt('circle').mod('overlay').value}>
+        <p className={className.elt('title').value}>{footerData.title}</p>
+
+        <div className={className.elt('container').value}>
+
+          <div className={className.elt('circle').value}>
             <Circle></Circle>
           </div>
+
+          <div className={className.elt('gradient').value}>
+            <Gradient></Gradient>
+            <div className={className.elt('circle').mod('overlay').value}>
+              <Circle></Circle>
+            </div>
+          </div>
+
+          <div className={className.elt('players').value}>
+            <img src={imgPlayer1} alt="" />
+            <img src={imgPlayer1} alt="" />
+            <img src={imgPlayer1} alt="" />
+            <img src={imgPlayer1} alt="" />
+          </div>
+
+          <Button light>{footerData.cta}</Button>
         </div>
 
-        <div className={className.elt('players').value}>
-          <img src={imgPlayer1} alt="" />
-          <img src={imgPlayer1} alt="" />
-          <img src={imgPlayer1} alt="" />
-          <img src={imgPlayer1} alt="" />
-        </div>
-
-        <Button light>{footerData.cta}</Button>
-      </div>
+      </a>
     </div>
   }
 }

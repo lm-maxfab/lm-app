@@ -12,7 +12,8 @@ export interface GeneralData extends SheetBaseCollectionData {
 
 export interface FooterData extends SheetBaseCollectionData {
   title?: string,
-  cta?: string
+  cta?: string,
+  url?: string,
 }
 
 export interface TeamData extends SheetBaseCollectionData {

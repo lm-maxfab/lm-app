@@ -4,11 +4,20 @@
   --mondial-footer-padding-top: 28px;
   --mondial-footer-padding-left: 56px;
   font-family: var(--ff-giorgio-sans);
-  display: grid;
-  justify-items: center;
   max-width: 800px;
   padding: 0 36px;
   margin: 0 auto;
+
+  a {
+    display: grid;
+    justify-items: center;
+
+    &:hover {
+      .mondial-button span {
+        border-bottom: 1px solid;
+      }
+    }
+  }
 
   @media screen and (min-width: 500px) {
     --mondial-footer-aspect-ratio: 3/2;
@@ -121,6 +130,7 @@
     img {
       max-width: unset;
       height: 100%;
+      width: auto !important;
     }
   }
 }
