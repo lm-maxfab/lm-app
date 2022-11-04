@@ -1,6 +1,7 @@
 import { Component, VNode } from 'preact'
 import bem from '../../../modules/utils/bem'
 import Marker from '../Marker'
+import Circle from '../Circle'
 import Gradient from '../Gradient'
 import ScrollIcon from '../Icons/ScrollIcon'
 import './styles.scss'
@@ -28,25 +29,30 @@ export default class GuideCover extends Component<Props, State> {
     return <div className={className.value}>
       <div className={className.elt('container').value}>
 
-        <img className={className.elt('circle').value} src={imgCircle} />
+        <div className={className.elt('circle').value}>
+          <Circle></Circle>
+        </div>
 
         <div className={className.elt('gradient').value}>
           <Gradient />
-          <img className={className.elt('circle').mod('overlay').value} src={imgCircle} />
-        </div>
 
-
-        <div className={className.elt('text').value}>
-          <div className={className.elt('marker').value}>
-            <Marker color='#fff' />
+          <div className={className.elt('circle').mod('overlay').value}>
+            <Circle></Circle>
           </div>
 
-          <p className={className.elt('title').value}>{this.props.title}</p>
-          
-          <div className={className.elt('scrollicon').value}>
-            <ScrollIcon />
+          <div className={className.elt('text').value}>
+            <div className={className.elt('marker').value}>
+              <Marker color='#fff' />
+            </div>
+
+            <p className={className.elt('title').value}>{this.props.title}</p>
+
+            <div className={className.elt('scrollicon').value}>
+              <ScrollIcon />
+            </div>
           </div>
         </div>
+
       </div>
 
       <img className={className.elt('player').mod('left').value} src={imgPlayer1} />

@@ -3,9 +3,22 @@
   stroke-width: 40px;
   max-width: 100%;
 
-  @media screen and (min-width: 900px) {
-    circle {
+  circle {
+    stroke-dasharray: var(--mondial-circle-length);
+    stroke-dashoffset: 0;
+    animation: 2.6s cubic-bezier(0.33, 1, 0.68, 1) 0s 1 animateCircle;
+    // pour cacher la suture
+    transform: rotate(90deg);
+    transform-origin: center;
+
+    @media screen and (min-width: 900px) {
       stroke-width: 30px;
     }
+  }
+}
+
+@keyframes animateCircle {
+  0% {
+    stroke-dashoffset: var(--mondial-circle-length);
   }
 }

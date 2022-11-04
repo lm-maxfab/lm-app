@@ -1,7 +1,9 @@
 .mondial-guide-cover {
   --mondial-cover-side-padding: 46px;
-  --mondial-cover-circle-width: 140%;
+  --mondial-cover-circle-width: 200%;
   --mondial-cover-player-offset-transition: 0px;
+  --mondial-cover-aspect-ratio: 4/7;
+  --mondial-cover-player-offset: 40vw;
   display: grid;
   overflow: hidden;
   margin-bottom: 146px;
@@ -10,16 +12,45 @@
     grid-area: 1 / -1;
   }
 
-  @media screen and (min-width: 800px) {
+  @media screen and (min-width: 400px) {
+    --mondial-cover-player-offset: 35vw;
+    --mondial-cover-aspect-ratio: 5/7;
+  }
+
+  @media screen and (min-width: 600px) {
+    --mondial-cover-player-offset: 30vw;
+    --mondial-cover-aspect-ratio: 6/7;
+    --mondial-cover-circle-width: 140%;
+  }
+
+  @media screen and (min-width: 850px) {
+    --mondial-cover-player-offset: 20vw;
     --mondial-cover-side-padding: 120px;
+    --mondial-cover-circle-width: 120%;
+    --mondial-cover-aspect-ratio: 8/7;
+  }
+
+  @media screen and (min-width: 1000px) {
+    --mondial-cover-player-offset: 10vw;
+    --mondial-cover-aspect-ratio: 10/7;
+  }
+
+  @media screen and (min-width: 1100px) {
     --mondial-cover-circle-width: 88%;
+    --mondial-cover-aspect-ratio: 11/7;
   }
 
   @media screen and (min-width: 1200px) {
+    --mondial-cover-player-offset: 0;
+    --mondial-cover-aspect-ratio: 12/7;
     --mondial-cover-side-padding: calc((100% - 960px) / 2);
   }
 
-  @media screen and (max-width: 800px) {
+  @media screen and (min-width: 1600px) {
+    --mondial-cover-player-offset: -10vw;
+  }
+
+  @media screen and (max-width: 650px) {
     &__marker {
       width: 85px;
     }
@@ -31,7 +62,7 @@
 
   &__container {
     max-height: 800px;
-    padding: 120px var(--mondial-cover-side-padding);
+    padding: 80px var(--mondial-cover-side-padding);
     display: grid;
     overflow: hidden;
 
@@ -49,6 +80,17 @@
     color: #fff;
     display: grid;
     justify-items: center;
+    width: 100%;
+    position: absolute;
+    bottom: 50%;
+    left: 50%;    
+    transform: translate(-50%, 50%);
+    animation: 1s cubic-bezier(0.33, 1, 0.68, 1) 0s 1 animateText;
+
+    @media screen and (min-width: 700px) {
+      bottom: 20%;
+      transform: translate(-50%, 10%);
+    }
   }
 
   &__title {
@@ -77,6 +119,7 @@
     top: 46px;
     max-width: unset;
     width: var(--mondial-cover-circle-width);
+    height: 0;
     z-index: 0;
 
     &_overlay {
@@ -92,44 +135,52 @@
     height: 100%;
     width: 100%;
     overflow: hidden;
+    aspect-ratio: var(--mondial-cover-aspect-ratio);
+    position: relative;
   }
 
   &__player {
     z-index: 1;
     align-self: flex-end;
-    max-height: 480px;
-    --mondial-cover-player-offset: 40vw;
+    max-height: 400px;
+    position: relative;
+    left: 0;
 
-    @media screen and (min-width: 600px) {
-      --mondial-cover-player-offset: 30vw;
-      max-height: 550px;
+    @media screen and (min-width: 500px) {
+      max-height: 520px;
     }
 
-    @media screen and (min-width: 800px) {
-      --mondial-cover-player-offset: 20vw;
+    @media screen and (min-width: 700px) {
       max-height: unset;
     }
 
-    @media screen and (min-width: 1000px) {
-      --mondial-cover-player-offset: 10vw;
-    }
-
-    @media screen and (min-width: 1200px) {
-      --mondial-cover-player-offset: 0;
-    }
-
-    @media screen and (min-width: 1600px) {
-      --mondial-cover-player-offset: -10vw;
-    }
-
     &_left {
-      transform: translateX(calc(-1 * var(--mondial-cover-player-offset) + var(--mondial-cover-player-offset-transition)));
+      transform: translateX(calc(-1 * var(--mondial-cover-player-offset)));
+      animation: 1s cubic-bezier(0.33, 1, 0.68, 1) 0s 1 animatePlayerLeft;
     }
 
     &_right {
       justify-self: flex-end;
-      transform: translateX(calc(1 * var(--mondial-cover-player-offset) + var(--mondial-cover-player-offset-transition)));
+      transform: translateX(calc(1 * var(--mondial-cover-player-offset)));
+      animation: 1s cubic-bezier(0.33, 1, 0.68, 1) 0s 1 animatePlayerRight;
     }
   }
+}
 
+@keyframes animateText {
+  0% {
+    bottom: -100%;
+  }
+}
+
+@keyframes animatePlayerLeft {
+  0% {
+    left: -50vw;
+  }
+}
+
+@keyframes animatePlayerRight {
+  0% {
+    left: 50vw;
+  }
 }
