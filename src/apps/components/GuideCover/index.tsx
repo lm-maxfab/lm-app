@@ -28,22 +28,22 @@ export default class GuideCover extends Component<Props, State> {
     return <div className={className.value}>
       <div className={className.elt('container').value}>
 
-        <img className={className.elt('container').elt('circle').value} src={imgCircle} />
+        <img className={className.elt('circle').value} src={imgCircle} />
 
-        <div className={className.elt('container').elt('gradient').value}>
+        <div className={className.elt('gradient').value}>
           <Gradient />
-          <img className={className.elt('container').elt('circle').mod('overlay').value} src={imgCircle} />
+          <img className={className.elt('circle').mod('overlay').value} src={imgCircle} />
         </div>
 
 
-        <div className={className.elt('container').elt('text').value}>
-          <div className={className.elt('container').elt('marker').value}>
+        <div className={className.elt('text').value}>
+          <div className={className.elt('marker').value}>
             <Marker color='#fff' />
           </div>
 
-          <p className={className.elt('container').elt('text').elt('title').value}>{this.props.title}</p>
+          <p className={className.elt('title').value}>{this.props.title}</p>
           
-          <div className={className.elt('container').elt('scrollicon').value}>
+          <div className={className.elt('scrollicon').value}>
             <ScrollIcon />
           </div>
         </div>

@@ -32,12 +32,14 @@
     font-weight: 300;
     font-size: 30px;
     line-height: 35px;
+    letter-spacing: calc(0.05 * 30px);
     text-align: center;
     margin: 32px 0 22px 0;
 
     @media screen and (min-width: 600px) {
       font-size: 40px;
       line-height: 42px;
+      letter-spacing: calc(0.05 * 40px);
     }
   }
 
@@ -52,73 +54,73 @@
     >* {
       grid-area: -1 / 1;
     }
+  }
 
-    &__gradient {
-      height: calc(100% - var(--mondial-footer-padding-top) * 2);
-      width: calc(100% - var(--mondial-footer-padding-left) * 2);
-      display: grid;
-      overflow: hidden;
+  &__gradient {
+    height: calc(100% - var(--mondial-footer-padding-top) * 2);
+    width: calc(100% - var(--mondial-footer-padding-left) * 2);
+    display: grid;
+    overflow: hidden;
 
-      >* {
-        grid-area: 1 / -1;
-      }
-
-      @media screen and (max-width: 500px) {
-        width: calc(100% - var(--mondial-footer-padding-left) * 1);
-        justify-self: end;
-      }
+    >* {
+      grid-area: 1 / -1;
     }
 
-    &__circle {
-      align-self: flex-start;
-      position: relative;
-      top: 32px;
-      width: 100%;
-      height: 0;
-      z-index: 0;
+    @media screen and (max-width: 500px) {
+      width: calc(100% - var(--mondial-footer-padding-left) * 1);
+      justify-self: end;
+    }
+  }
+
+  &__circle {
+    align-self: flex-start;
+    position: relative;
+    top: 32px;
+    width: 100%;
+    height: 0;
+    z-index: 0;
+
+    &_overlay {
+      width: calc((100% + var(--mondial-footer-padding-left) * 2));
+      max-width: unset;
+      top: calc((32px - var(--mondial-footer-padding-top)));
+      left: calc((-1 * var(--mondial-footer-padding-left)));
+      mix-blend-mode: overlay;
+      z-index: 1;
+    }
+
+    @media screen and (min-width: 0px) {
+      width: 92%;
 
       &_overlay {
-        width: calc((100% + var(--mondial-footer-padding-left) * 2));
-        max-width: unset;
-        top: calc((32px - var(--mondial-footer-padding-top)));
-        left: calc((-1 * var(--mondial-footer-padding-left)));
-        mix-blend-mode: overlay;
-        z-index: 1;
-      }
-
-      @media screen and (min-width: 0px) {
-        width: 92%;
-
-        &_overlay {
-          width: calc((100% + var(--mondial-footer-padding-left) * 2) * 0.92);
-          left: calc((-1 * var(--mondial-footer-padding-left)) * 0.92 + 4%);
-        }
-      }
-
-      @media screen and (max-width: 500px) {
-        justify-self: flex-start;
-        left: 24px;
-        width: 200%;
-        max-width: unset;
-
-        &_overlay {
-          width: calc(200% + var(--mondial-footer-padding-left) * 2);
-          left: calc((-1 * var(--mondial-footer-padding-left)) + 24px);
-        }
+        width: calc((100% + var(--mondial-footer-padding-left) * 2) * 0.92);
+        left: calc((-1 * var(--mondial-footer-padding-left)) * 0.92 + 4%);
       }
     }
 
-    &__players {
-      display: grid;
-      justify-items: center;
-      grid-template-columns: var(--mondial-footer-columns);
-      grid-template-rows: 1fr 0;
-      aspect-ratio: var(--mondial-footer-aspect-ratio);
+    @media screen and (max-width: 500px) {
+      justify-self: flex-start;
+      left: 24px;
+      width: 200%;
+      max-width: unset;
 
-      img {
-        max-width: unset;
-        height: 100%;
+      &_overlay {
+        width: calc(200% + var(--mondial-footer-padding-left) * 2);
+        left: calc((-1 * var(--mondial-footer-padding-left)) + 24px);
       }
+    }
+  }
+
+  &__players {
+    display: grid;
+    justify-items: center;
+    grid-template-columns: var(--mondial-footer-columns);
+    grid-template-rows: 1fr 0;
+    aspect-ratio: var(--mondial-footer-aspect-ratio);
+
+    img {
+      max-width: unset;
+      height: 100%;
     }
   }
 }

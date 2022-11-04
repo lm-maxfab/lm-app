@@ -54,18 +54,18 @@ class Footer extends Component<Props, State> {
 
       <div className={className.elt('container').value}>
 
-        <div className={className.elt('container').elt('circle').value}>
+        <div className={className.elt('circle').value}>
           <Circle></Circle>
         </div>
 
-        <div className={className.elt('container').elt('gradient').value}>
+        <div className={className.elt('gradient').value}>
           <Gradient></Gradient>
-          <div className={className.elt('container').elt('circle').mod('overlay').value}>
+          <div className={className.elt('circle').mod('overlay').value}>
             <Circle></Circle>
           </div>
         </div>
 
-        <div className={className.elt('container').elt('players').value}>
+        <div className={className.elt('players').value}>
           <img src={imgPlayer1} alt="" />
           <img src={imgPlayer1} alt="" />
           <img src={imgPlayer1} alt="" />
