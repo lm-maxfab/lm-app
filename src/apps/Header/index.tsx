@@ -16,6 +16,9 @@ interface State {
 class Header extends Component<Props, State> {
   static clss: string = 'mondial-header'
   clss = Header.clss
+  state: State = {
+    open: true,
+  }
 
   constructor(props: Props) {
     super(props)
@@ -41,7 +44,10 @@ class Header extends Component<Props, State> {
     const groupsData: string[] = groups.filter((el, index) => groups.indexOf(el) === index)
 
     // Assign classes and styles
-    const wrapperClasses = bem(props.className).block(this.clss)
+    const wrapperClasses = bem(props.className).block(this.clss).mod({
+      'open': this.state.open,
+    })
+
     const wrapperStyle: JSX.CSSProperties = {
       ...props.style,
       ['--mondial-main-color']: '#3E001F',
@@ -56,11 +62,11 @@ class Header extends Component<Props, State> {
 
       <div className={className.elt('top').value}>
 
-        <div onClick={this.toggleMenu} className={className.elt('top').elt('marker').value}>
+        <div onClick={this.toggleMenu} className={className.elt('marker').value}>
           <Marker color='#fff'></Marker>
         </div>
 
-        <div onClick={this.toggleMenu} className={className.elt('top').elt('burger').value}>
+        <div onClick={this.toggleMenu} className={className.elt('burger').value}>
           {this.state.open
             ? <Close></Close>
             : <Burger></Burger>}
