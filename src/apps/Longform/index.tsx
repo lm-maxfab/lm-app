@@ -31,6 +31,7 @@ class Longform extends Component<Props, State> {
     const wrapperStyle: JSX.CSSProperties = {
       ...props.style,
       ['--mondial-main-color']: '#3E001F',
+      ['--mondial-animation-delay']: '600ms',
     }
 
     // Display

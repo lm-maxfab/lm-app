@@ -5,9 +5,7 @@
 
   circle {
     stroke-dasharray: var(--mondial-circle-length);
-    stroke-dashoffset: 0;
-    animation: 2.6s cubic-bezier(0.33, 1, 0.68, 1) 0s 1 animateCircle;
-    // pour cacher la suture
+    // pour cacher la suture à l'anim
     transform: rotate(90deg);
     transform-origin: center;
 
@@ -17,8 +15,22 @@
   }
 }
 
-@keyframes animateCircle {
+@keyframes animateCircleIn {
   0% {
+    stroke-dashoffset: var(--mondial-circle-length);
+  }
+
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes animateCircleOut {
+  0% {
+    stroke-dashoffset: 0;
+  }
+
+  100% {
     stroke-dashoffset: var(--mondial-circle-length);
   }
 }
