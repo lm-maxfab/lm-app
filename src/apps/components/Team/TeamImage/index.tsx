@@ -21,6 +21,7 @@ export default class TeamImage extends Component<Props, State> {
     const bemClass = this.props.className;
 
     const circleSrc = `${config?.assets_root_url}/circle-eng.svg`
+    // const playerSrc = `${config?.assets_root_url}/player-${this.props.iso}.png`
     const playerSrc = `${config?.assets_root_url}/player-eng.png`
 
     return <div className={bemClass.value}>
@@ -30,6 +31,9 @@ export default class TeamImage extends Component<Props, State> {
         <Gradient />
       </div>
       <img class={bemClass.elt('player').value} src={playerSrc} alt="" />
+      <div class={bemClass.elt('overlay').value}>
+        <p>En savoir plus sur l'équipe</p>
+      </div>
     </div>
   }
 }
