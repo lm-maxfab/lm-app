@@ -14,8 +14,11 @@
       grid-column-gap: 26px;
       justify-content: space-between;
   
-      @media screen and (min-width: 1000px) {
+      @media screen and (min-width: 800px) {
         grid-template-columns: repeat(4, minmax(100px, 280px));
+      }
+  
+      @media screen and (min-width: 900px) {
         margin: 36px 0 52px 0;
       }
     }
