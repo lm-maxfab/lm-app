@@ -55,6 +55,11 @@
     height: 0;
     z-index: 0;
 
+    circle {
+      stroke-dashoffset: var(--mondial-circle-length);
+      animation: 2.6s cubic-bezier(0.33, 1, 0.68, 1) var(--mondial-animation-delay) 1 animateCircleIn forwards;
+    }
+
     &_overlay {
       width: calc(100% + var(--mondial-cover-padding-left)*2);
       left: calc(-1 * var(--mondial-cover-padding-left));
@@ -76,13 +81,34 @@
   &__player {
     align-self: flex-end;
     z-index: 1;
-    width: 100%;
+    height: 90%;
+    max-width: unset;
     position: relative;
     top: 0;
+    left: 100%;
+    opacity: 0;
+    animation: 2.6s cubic-bezier(0.33, 1, 0.68, 1) 0s 1 animatePlayerIn forwards;
 
     @media screen and (min-width: 500px) {
-      width: 68%;
+      width: 100%;
+      height: unset;
       top: var(--mondial-cover-offset-top);
     }
+  }
+}
+
+@keyframes animatePlayerIn {
+  0% {
+    opacity: 0;
+    left: 100%;
+  }
+
+  40% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+    left: 0;
   }
 }
