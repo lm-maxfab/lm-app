@@ -13,12 +13,12 @@
       background-color: var(--mondial-main-color);
       display: inline-block;
       font-weight: 700;
-      font-size: 25px;
+      font-size: 24px;
       letter-spacing: calc(0.1 * 25px);
 
       @media screen and (min-width: 900px) {
-        font-size: 35px;
-        letter-spacing: calc(0.1 * 35px);
+        font-size: 28px;
+        letter-spacing: calc(0.1 * 32px);
       }
     }
   }

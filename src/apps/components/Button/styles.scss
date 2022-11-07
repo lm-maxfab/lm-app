@@ -4,16 +4,16 @@
   display: inline-block;
   text-transform: uppercase;
   text-align: center;
-  font-size: 25px;
-  line-height: 25px;
+  font-size: 20px;
+  line-height: 20px;
   letter-spacing: calc(0.1 * 25px);
   font-weight: 700;
-  padding: 15px;
+  padding: 12px;
   cursor: pointer;
 
   @media screen and (min-width: 600px) {
-    font-size: 35px;
-    line-height: 42px;
+    font-size: 25px;
+    line-height: 32px;
     letter-spacing: calc(0.1 * 35px);
   }
 

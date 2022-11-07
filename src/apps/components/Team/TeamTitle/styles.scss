@@ -7,13 +7,14 @@
 
   @media screen and (min-width: 900px) {
     margin: 12px 0 20px 0;
-    font-size: 30px;
-    line-height: 30px;
+    font-size: 26px;
+    line-height: 26px;
   }
 
   & > p:first-child {
     font-weight: 700;
     text-transform: uppercase;
+    letter-spacing: calc(0.02*26px);
   }
 
   & > p:last-child {
