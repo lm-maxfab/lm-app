@@ -38,12 +38,12 @@
 
   &__player {
     max-width: unset;
-    width: 180%;
+    width: 240%;
     z-index: 1;
     justify-self: center;
-    align-self: flex-start; 
+    align-self: flex-end; 
     position: relative; 
-    left: 0;
+    left: 5%;
     transition: left var(--mondial-team-img-transition);  
   }
 
@@ -95,7 +95,7 @@
     }
 
     .mondial-team__image__player {
-      left: -20%;
+      left: -10%;
     }
   }
 }
