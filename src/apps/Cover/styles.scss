@@ -8,17 +8,22 @@
   overflow: hidden;
   max-width: 1100px;
   margin: 0 24px;
+  margin-top: 42px;
 
   @media screen and (min-width: 500px) {
-    aspect-ratio: 9/7;
-    --mondial-cover-offset-top: 100px;
+    aspect-ratio: 11/7;
     --mondial-cover-padding-left: 75px;
+    --mondial-cover-offset-top: 100px;
+  }
+
+  @media screen and (min-width: 800px) {
+    margin-top: 56px;
   }
 
   @media screen and (min-width: 900px) {
     --mondial-cover-padding-left: 125px;
     --mondial-cover-padding-top: 96px;
-    --mondial-cover-offset-top: 150px;
+    --mondial-cover-offset-top: 170px;
   }
 
   * {
