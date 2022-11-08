@@ -36,11 +36,9 @@ class Footer extends Component<Props, State> {
 
     const className = bem(this.clss)
 
-    // const imgCircle = `${config?.assets_root_url}/circle.svg`
-    const imgPlayer1 = `${config?.assets_root_url}/cover-1.png`
+    const imgFooter = `${config?.assets_root_url}/footer-${window.innerWidth > 480 ? 'desktop' : 'mobile'}.png`
 
     // Display
-    // return <div></div>
 
     return <div
       style={wrapperStyle}
@@ -68,10 +66,7 @@ class Footer extends Component<Props, State> {
           </div>
 
           <div className={className.elt('players').value}>
-            <img src={imgPlayer1} alt="" />
-            <img src={imgPlayer1} alt="" />
-            <img src={imgPlayer1} alt="" />
-            <img src={imgPlayer1} alt="" />
+            <img src={imgFooter} alt="" />
           </div>
 
           <Button light>{footerData.cta}</Button>
@@ -79,6 +74,7 @@ class Footer extends Component<Props, State> {
 
       </a>
     </div>
+
   }
 }
 

@@ -1,3 +1,11 @@
 .mondial-longform {
   font-family: var(--ff-giorgio-sans);
+  padding-bottom: calc(80px + 12vw);
+
+  .lm-article-credits {
+    margin: 0 max(40px, 8vw);
+    color: var(--mondial-main-color);
+    border-top: 2px solid var(--mondial-main-color);
+    padding-top: 64px;
+  }
 }

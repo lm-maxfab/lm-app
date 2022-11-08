@@ -2,6 +2,10 @@
 
   &_default {
     margin: 0 max(40px, 8vw);
+
+    &:last-child {
+      margin-bottom: 64px;
+    }
   }
 
   &__teams {

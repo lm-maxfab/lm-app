@@ -23,9 +23,7 @@ export default class TeamBlockNav extends Component<Props, State> {
           />
           <p className={className.elt('title').value}>{this.props.team?.country}</p>
         </div>
-
-        <p className={className.elt('article').value}>{this.props.team?.article}</p>
-        
+                
     </a>
   }
 }

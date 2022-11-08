@@ -20,7 +20,7 @@ export default class TeamImage extends Component<Props, State> {
 
     const bemClass = this.props.className;
 
-    const circleSrc = `${config?.assets_root_url}/circle-eng.svg`
+    const circleSrc = `${config?.assets_root_url}/circle-${this.props.iso}.svg`
     const playerSrc = `${config?.assets_root_url}/player-${this.props.iso}.png`
     // const playerSrc = `${config?.assets_root_url}/player-fra.png`
 

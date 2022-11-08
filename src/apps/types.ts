@@ -8,6 +8,7 @@ export interface GeneralData extends SheetBaseCollectionData {
   title?: VNode | string,
   intro?: string,
   sidenote?: string
+  credits?: VNode | string,
 }
 
 export interface FooterData extends SheetBaseCollectionData {

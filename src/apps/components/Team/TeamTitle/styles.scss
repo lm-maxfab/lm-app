@@ -5,20 +5,20 @@
   font-size: 20px;
   line-height: 20px;
 
-  @media screen and (min-width: 900px) {
-    margin: 12px 0 20px 0;
+  h3 {
     font-size: 26px;
-    line-height: 26px;
-  }
-
-  & > p:first-child {
+    line-height: 26px;  
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: calc(0.02*26px);
   }
 
-  & > p:last-child {
-    font-weight: 300;
-    letter-spacing: 1px;
+  @media screen and (min-width: 900px) {
+    margin: 12px 0 20px 0;
+
+    h3 {
+      font-size: 32px;
+      line-height: 32px;  
+    }
   }
 }

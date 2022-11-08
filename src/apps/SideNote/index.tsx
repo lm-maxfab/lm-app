@@ -1,13 +1,14 @@
 import { Component, JSX } from 'preact'
 import appWrapper, { InjectedProps } from '../../modules/utils/app-wrapper-HOC'
+import Gradient from '../components/Gradient'
 import Marker from '../components/Marker'
 import Arrow from '../components/Icons/Arrow'
 import bem from '../../modules/utils/bem'
 import { GeneralData } from '../types'
 import './styles.scss'
 
-interface Props extends InjectedProps {}
-interface State {}
+interface Props extends InjectedProps { }
+interface State { }
 
 class SideNote extends Component<Props, State> {
   static clss: string = 'mondial-sidenote'
@@ -16,12 +17,12 @@ class SideNote extends Component<Props, State> {
   /* * * * * * * * * * * * * * *
    * RENDER
    * * * * * * * * * * * * * * */
-  render (): JSX.Element {
+  render(): JSX.Element {
     const { props } = this
 
     const generalData = ((props.sheetBase?.collection('general').value ?? []) as unknown as GeneralData[])
     const sideNoteText = generalData[0]?.sidenote
-    
+
     // Assign classes and styles
     const wrapperClasses = bem(props.className).block(this.clss)
     const wrapperStyle: JSX.CSSProperties = {
@@ -33,12 +34,13 @@ class SideNote extends Component<Props, State> {
       style={wrapperStyle}
       className={wrapperClasses.value}>
 
-      <Marker width='93' color='#fff'></Marker>
+      <Gradient></Gradient>
 
-      <span>{sideNoteText ?? 'Quelles sont les équipes de la coupe du monde ?'}</span>
-
-      <Arrow color='#fff'></Arrow>
-      
+      <div>
+        <Marker width='94' color='#fff'></Marker>
+        <span>{sideNoteText ?? 'Quelles sont les équipes de la coupe du monde ?'}</span>
+        <Arrow color='#fff'></Arrow>
+      </div>
     </div>
   }
 }

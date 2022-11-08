@@ -17,8 +17,7 @@ export const className = bem('mondial-flag')
 
 export default class Flag extends Component<Props, State> {
   render () {
-  // const imgSrc = `${config?.assets_root_url}/${this.props.iso?.toLowerCase()}.png`
-  const imgSrc = `${config?.assets_root_url}/qat.png`
+  const imgSrc = `${config?.assets_root_url}/flag-${this.props.iso}.svg`
 
     return <div className={className.value}>
         <img src={imgSrc}></img>

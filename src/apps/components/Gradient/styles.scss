@@ -1,9 +1,24 @@
 .mondial-gradient {
-  background-color: var(--mondial-main-color);
-  background-image: url(https://assets-decodeurs.lemonde.fr/redacweb/28-2210-mondial-assets/gradient.png);
-  background-size: 600px 400px;
-  background-size: cover;
-  background-position: center;
+  display: grid;
   height: 100%;
   width: 100%;
+
+  >div {
+    grid-area: 1 / -1;
+    background-color: var(--mondial-main-color);
+    background-position: center;
+    height: 100%;
+    width: 100%;
+  }
+
+  &__background {
+    background-size: cover;
+    background-image: url(https://assets-decodeurs.lemonde.fr/redacweb/28-2210-mondial-assets/gradient.jpg);
+  }
+
+  &__grain {
+    background-size: 400px;
+    mix-blend-mode: multiply;
+    background-image: url(https://assets-decodeurs.lemonde.fr/redacweb/28-2210-mondial-assets/grain.jpg);
+  }
 }

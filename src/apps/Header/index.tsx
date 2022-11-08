@@ -17,7 +17,7 @@ class Header extends Component<Props, State> {
   static clss: string = 'mondial-header'
   clss = Header.clss
   state: State = {
-    open: true,
+    open: false,
   }
 
   constructor(props: Props) {
@@ -75,21 +75,17 @@ class Header extends Component<Props, State> {
 
       </div>
 
-      {this.state.open
-        ? <div className={className.elt('groups').value}>
+      <div className={className.elt('groups').value}>
 
-          {groupsData?.map(group => {
-            return <GroupBlock
-              nav
-              group={group}
-              teams={teamsData.filter(el => el.group === group)}
-            />
-          })}
+        {groupsData?.map(group => {
+          return <GroupBlock
+            nav
+            group={group}
+            teams={teamsData.filter(el => el.group === group)}
+          />
+        })}
 
-        </div>
-        : ''}
-
-
+      </div>
 
     </div>
   }

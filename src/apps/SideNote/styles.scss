@@ -3,19 +3,25 @@
   background-color: var(--mondial-main-color);
   color: #fff;
   display: grid;
-  grid-template-columns: 93px auto 33px;
-  align-items: center;
-  justify-content: center;
-  padding: 30px 20px 32px 20px;
   cursor: pointer;
   width: 100%;
-  background-image: url(https://assets-decodeurs.lemonde.fr/redacweb/28-2210-mondial-assets/gradient.png);
-  background-position: 0% 85%;
-  background-size: cover;
+
+  >* {
+    grid-area: 1 / -1;
+  }
+
+  >div:last-child {
+    display: grid;
+    grid-template-columns: 85px auto 33px;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 16px;
+    width: 100%;
+    z-index: 2;
+  }
 
   span {
-    margin-left: 9px;
-    margin-right: 6px;
+    margin: 0 12px;
     text-decoration: underline;
     text-decoration-thickness: 1px;
     text-underline-offset: 0.3em;
@@ -24,15 +30,36 @@
     font-weight: 400;
   }
 
+  &:hover span {
+    text-decoration: none;
+  }
+
+  .mondial-marker {
+    position: relative;
+    top: 2px;
+  }
+
+  @media screen and (min-width: 400px) {
+    .mondial-gradient__background {
+      background-size: 200%;
+    }
+  }
+
   @media screen and (min-width: 650px) {
+    >div:last-child {
+      grid-template-columns: 95px auto 33px;
+      padding: 30px 20px 32px 20px;
+      align-items: flex-end;
+    }
+
     span {
       margin-left: 18px;
       font-size: 30px;
       letter-spacing: calc(0.02 * 30px);
     }
 
-    svg {
-      height: 26px;
+    .mondial-marker {
+      top: -3px;
     }
   }
 }

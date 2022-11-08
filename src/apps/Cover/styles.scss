@@ -4,13 +4,13 @@
   --mondial-cover-offset-top: 58px;
   display: grid;
   justify-items: center;
-  aspect-ratio: 11/12;
+  aspect-ratio: 1;
   overflow: hidden;
   max-width: 1100px;
   margin: 0 24px;
 
   @media screen and (min-width: 500px) {
-    aspect-ratio: 120/75;
+    aspect-ratio: 9/7;
     --mondial-cover-offset-top: 100px;
     --mondial-cover-padding-left: 75px;
   }
