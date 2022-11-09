@@ -1,11 +1,51 @@
 .mondial-longform {
   font-family: var(--ff-giorgio-sans);
-  padding-bottom: calc(80px + 12vw);
 
-  .lm-article-credits {
+  &__end {
     margin: 0 max(40px, 8vw);
+    padding: 160px 0;
     color: var(--mondial-main-color);
-    border-top: 2px solid var(--mondial-main-color);
-    padding-top: 64px;
+    display: flex;
+    justify-content: center;
+
+    >div {
+      max-width: 660px;
+    }
+
+    @media screen and (min-width: 1000px) {
+      padding: 200px 0;
+    }
+  }
+
+  &__conclusion {
+    font-family: var(--ff-the-antiqua-b);
+    font-size: 18px;
+    line-height: 28px;
+    margin-bottom: 34px;
+
+    a {
+      text-decoration: underline;
+      text-decoration-thickness: 0.06em;
+      text-underline-offset: 0.2em;
+
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+
+  &__credits.lm-article-credits {
+    font-family: var(--ff-giorgio-sans);
+    font-size: 20px;
+    letter-spacing: 0.02em;
+
+    strong {
+      text-transform: uppercase;
+      letter-spacing: 0;
+    }
+
+    @media screen and (min-width: 600px) {
+      font-size: 24px;
+    }
   }
 }

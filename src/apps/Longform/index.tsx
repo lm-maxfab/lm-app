@@ -36,6 +36,8 @@ class Longform extends Component<Props, State> {
       ['--mondial-animation-delay']: '600ms',
     }
 
+    const className = bem(this.clss)
+
     // Display
     return <div
       style={wrapperStyle}
@@ -58,9 +60,15 @@ class Longform extends Component<Props, State> {
         })}
       </div>
 
-      <ArticleCredits
-        content={generalData.credits}
-      ></ArticleCredits>
+      <div className={className.elt('end').value}>
+        <div>
+          <p className={className.elt('conclusion').value}>{generalData.conclusion}</p>
+          <ArticleCredits
+            className={className.elt('credits').value}
+            content={generalData.credits}
+          ></ArticleCredits>
+        </div>
+      </div>
 
     </div>
   }

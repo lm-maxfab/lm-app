@@ -8,6 +8,7 @@ export interface GeneralData extends SheetBaseCollectionData {
   title?: VNode | string,
   intro?: string,
   sidenote?: string
+  conclusion?: VNode | string,
   credits?: VNode | string,
 }
 
@@ -20,10 +21,6 @@ export interface FooterData extends SheetBaseCollectionData {
 export interface TeamData extends SheetBaseCollectionData {
   iso?: string,
   country?: string,
-  surname?: string,
   group?: string,
-  player?: string,
-  background?: string,
-  article?: string,
   url?: string,
 }
