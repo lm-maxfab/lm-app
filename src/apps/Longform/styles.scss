@@ -21,7 +21,9 @@
     font-family: var(--ff-the-antiqua-b);
     font-size: 18px;
     line-height: 28px;
-    margin-bottom: 34px;
+    padding-bottom: 96px;
+    margin-bottom: 32px;
+    border-bottom: 1px solid var(--mondial-main-color);
 
     a {
       text-decoration: underline;
@@ -31,21 +33,6 @@
       &:hover {
         text-decoration: none;
       }
-    }
-  }
-
-  &__credits.lm-article-credits {
-    font-family: var(--ff-giorgio-sans);
-    font-size: 20px;
-    letter-spacing: 0.02em;
-
-    strong {
-      text-transform: uppercase;
-      letter-spacing: 0;
-    }
-
-    @media screen and (min-width: 600px) {
-      font-size: 24px;
     }
   }
 }

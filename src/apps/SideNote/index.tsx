@@ -38,7 +38,7 @@ class SideNote extends Component<Props, State> {
 
       <div>
         <Marker width='94' color='#fff'></Marker>
-        <span>{sideNoteText ?? 'Quelles sont les équipes de la coupe du monde ?'}</span>
+        <span>{sideNoteText}</span>
         <Arrow color='#fff'></Arrow>
       </div>
     </div>

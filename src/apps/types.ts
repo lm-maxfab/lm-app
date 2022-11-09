@@ -10,6 +10,7 @@ export interface GeneralData extends SheetBaseCollectionData {
   sidenote?: string
   conclusion?: VNode | string,
   credits?: VNode | string,
+  markerURL?: string,
 }
 
 export interface FooterData extends SheetBaseCollectionData {

@@ -5,7 +5,7 @@ import GroupBlock from '../components/Group/GroupBlock'
 import Marker from '../components/Marker'
 import Burger from '../components/Icons/Burger'
 import Close from '../components/Icons/Close'
-import { TeamData } from '../types'
+import { TeamData, GeneralData } from '../types'
 import './styles.scss'
 
 interface Props extends InjectedProps { }
@@ -38,6 +38,8 @@ class Header extends Component<Props, State> {
   render(): JSX.Element {
     const { props } = this
 
+    const generalData = props.sheetBase?.collection('general').value[0] as unknown as GeneralData;
+
     const teamsData = ((props.sheetBase?.collection('teams').value ?? []) as unknown as TeamData[])
 
     const groups: string[] = teamsData.map(el => el.group!)
@@ -55,6 +57,8 @@ class Header extends Component<Props, State> {
 
     const className = bem(this.clss)
 
+    console.log(generalData)
+
     // Display
     return <div
       style={wrapperStyle}
@@ -62,9 +66,9 @@ class Header extends Component<Props, State> {
 
       <div className={className.elt('top').value}>
 
-        <div onClick={this.toggleMenu} className={className.elt('marker').value}>
+        <a href={generalData.markerURL} className={className.elt('marker').value}>
           <Marker color='#fff'></Marker>
-        </div>
+        </a>
 
         <div onClick={this.toggleMenu} className={className.elt('burger').value}>
           {this.state.open

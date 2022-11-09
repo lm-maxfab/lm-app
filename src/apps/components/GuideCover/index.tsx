@@ -35,7 +35,7 @@ export default class GuideCoverV2 extends Component<Props, State> {
     // Assign classes and styles
     const wrapperStyle: JSX.CSSProperties = {
       '--height': '100vh',
-      '--step-height': '150px',
+      '--step-height': '250px',
       'padding-bottom': '150px',
     }
 
@@ -50,10 +50,10 @@ export default class GuideCoverV2 extends Component<Props, State> {
             onPageChange={this.handlePageChange}
             style={{ position: 'relative', marginTop: 'calc(-1 * var(--height))', zIndex: 1 }}>
             <Paginator.Page value={0}>
-              <div style={{ height: 'calc(var(--height) + var(--step-height))' }}></div>
+              <div style={{ height: 'calc(var(--height))' }}></div>
             </Paginator.Page>
             <Paginator.Page value={1}>
-              <div style={{ height: 'var(--step-height)'}}></div>
+              <div style={{ height: 'var(--step-height)' }}></div>
             </Paginator.Page>
           </Paginator>
       </div>

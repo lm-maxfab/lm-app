@@ -22,21 +22,24 @@
 
   span {
     margin: 0 12px;
-    text-decoration: underline;
-    text-decoration-thickness: 1px;
-    text-underline-offset: 0.3em;
-    font-size: 20px;
+    font-size: 24px;
     letter-spacing: 0.02em;
     font-weight: 400;
   }
 
   &:hover span {
-    text-decoration: none;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.3em;
   }
 
   .mondial-marker {
     position: relative;
     top: 2px;
+  }
+
+  .mondial-sidenote__arrow {
+    height: 30px;
   }
 
   @media screen and (min-width: 400px) {
@@ -53,12 +56,16 @@
     }
 
     span {
-      margin-left: 18px;
+      margin-left: 24px;
       font-size: 30px;
     }
 
     .mondial-marker {
-      top: -3px;
+      top: -4px;
+    }
+
+    .mondial-sidenote__arrow {
+      height: 33px;
     }
   }
 }

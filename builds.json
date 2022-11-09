@@ -1373,6 +1373,17 @@
       },
       "description": "",
       "time": "2022-11-09T13:53:32.616Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 9
+      },
+      "description": "",
+      "time": "2022-11-09T15:19:39.185Z"
     }
   ]
 }
