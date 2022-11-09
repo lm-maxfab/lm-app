@@ -1,0 +1,331 @@
+.mondial-guide-cover {
+  --mondial-cover-text-bottom: 30%;
+  --mondial-cover-aspect-ratio: 4/7;
+  --mondial-cover-circle-width: 220%;
+  --mondial-cover-players-width: 440%;
+  --mondial-cover-players-offset: 24%;
+  display: grid;
+  height: 100%;
+
+  >* {
+    grid-area: 1 / -1;
+  }
+
+  @media screen and (min-width: 600px) {
+    --mondial-cover-aspect-ratio: 6/7;
+    --mondial-cover-circle-width: 175%;
+    --mondial-cover-players-width: 320%;
+    --mondial-cover-players-offset: 20%;
+    --mondial-cover-text-bottom: 20%;
+  }
+
+  @media screen and (min-width: 700px) {
+    --mondial-cover-aspect-ratio: 8/7;
+    --mondial-cover-text-bottom: 10%;
+    --mondial-cover-players-width: 280%;
+    --mondial-cover-players-offset: 15%;
+  }
+
+  @media screen and (min-width: 850px) {
+    --mondial-cover-text-bottom: 15%;
+    --mondial-cover-circle-width: 120%;
+    --mondial-cover-players-width: 250%;
+    --mondial-cover-players-offset: 10%;
+  }
+
+  @media screen and (min-width: 1000px) {
+    --mondial-cover-aspect-ratio: 10/7;
+  }
+
+  @media screen and (min-width: 1100px) {
+    --mondial-cover-circle-width: 88%;
+    --mondial-cover-players-width: 200%;
+    --mondial-cover-aspect-ratio: 11/7;
+  }
+
+  @media screen and (min-width: 1200px) {
+    --mondial-cover-aspect-ratio: 12/7;
+  }
+
+  @media screen and (max-width: 750px) {
+    &__marker {
+      width: 85px;
+    }
+
+    &__scrollicon {
+      width: 38px;
+    }
+  }
+
+  &__container {
+    width: min(80vw, 1100px);
+    align-self: center;
+  }
+
+  &__gradient {
+    z-index: 1;
+    overflow: hidden;
+    aspect-ratio: var(--mondial-cover-aspect-ratio);
+    position: relative;
+
+    .mondial-gradient__background {
+      background-position-x: 12% !important;
+    }
+  }
+
+  &__text {
+    z-index: 2;
+    align-self: center;
+    justify-self: center;
+    color: #fff;
+
+    >div {
+      width: 100%;
+      position: absolute;
+    }
+
+    >div:first-child {
+      text-align: center;
+      max-width: 520px;
+      display: grid;
+      justify-items: center;
+      bottom: -100%;
+      left: 50%;
+      transform: translate(-50%, 0%);
+      animation: 1s cubic-bezier(0.33, 1, 0.68, 1) var(--mondial-animation-delay) 1 animateTitleIn forwards;
+
+      @media screen and (min-width: 700px) {
+        // transform: translate(-50%, 10%);
+      }
+    }
+
+    >div:last-child {
+      top: 200%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 0 28px;
+      font-family: var(--ff-the-antiqua-b);
+      font-size: 20px;
+      line-height: 28px;
+      // animation: 1s cubic-bezier(0.33, 1, 0.68, 1) var(--mondial-animation-delay) 1 animateTitleIn forwards;
+
+      @media screen and (min-width: 400px) {
+        padding: 0 56px;
+      }
+
+      @media screen and (min-width: 600px) {
+        padding: 0 100px;
+        font-size: 24px;
+        line-height: 32px;
+      }
+
+      @media screen and (min-width: 800px) {
+        padding: 0 160px;
+      }
+    }
+  }
+
+
+  &__title {
+    font-size: 35px;
+    line-height: 40px;
+    font-weight: 700;
+    letter-spacing: calc(0.05 * 35px);
+    text-shadow: 2px 2px rgba(0, 0, 0, 0.5);
+    margin: 16px 16px 32px 16px;
+
+    @media screen and (min-width: 450px) {
+      font-size: 45px;
+      line-height: 50px;
+    }
+
+    @media screen and (min-width: 750px) {
+      font-size: 60px;
+      line-height: 65px;
+      margin: 24px 24px 48px 24px;
+    }
+  }
+
+  &__circle {
+    justify-self: center;
+    position: relative;
+    top: 46px;
+    max-width: unset;
+    width: var(--mondial-cover-circle-width);
+    height: 0;
+    z-index: 0;
+    left: calc(-1 * (var(--mondial-cover-circle-width) - 100%) / 2);
+
+    circle {
+      stroke-dashoffset: var(--mondial-circle-length);
+      animation: 2.6s cubic-bezier(0.33, 1, 0.68, 1) var(--mondial-animation-delay) 1 animateCircleIn forwards;
+    }
+
+    &_overlay {
+      z-index: 1;
+      mix-blend-mode: overlay;
+      top: calc(-100% + 46px);
+    }
+  }
+
+  &__players {
+    z-index: 1;
+    position: absolute;
+    display: flex;
+    justify-content: space-between;
+    width: var(--mondial-cover-players-width);
+    left: calc(-1 * (var(--mondial-cover-players-width) - 100%) / 2);
+    // position: relative;
+    align-self: flex-end;
+  }
+
+  &__player {
+    position: relative;
+
+    &_left {
+      left: -50vw;
+      transform: translateX(var(--mondial-cover-players-offset));
+      animation: 1s cubic-bezier(0.33, 1, 0.68, 1) var(--mondial-animation-delay) 1 animatePlayerLeftIn forwards;
+    }
+
+    &_right {
+      left: 50vw;
+      transform: translateX(calc(-1 * var(--mondial-cover-players-offset)));
+      animation: 1s cubic-bezier(0.33, 1, 0.68, 1) var(--mondial-animation-delay) 1 animatePlayerRightIn forwards;
+    }
+  }
+
+  &_out {
+    .mondial-guide-cover__text>div:first-child {
+      animation: 2.2s cubic-bezier(0.33, 1, 0.68, 1) animateTitleOut forwards;
+    }
+
+    .mondial-guide-cover__text>div:last-child {
+      animation: 2s cubic-bezier(0.33, 1, 0.68, 1) animateIntroIn forwards;
+    }
+
+    .mondial-guide-cover__player_left {
+      animation: 2s cubic-bezier(0.33, 1, 0.68, 1) animatePlayerLeftOut forwards;
+    }
+
+    .mondial-guide-cover__player_right {
+      animation: 2s cubic-bezier(0.33, 1, 0.68, 1) animatePlayerRightOut forwards;
+    }
+
+    .mondial-guide-cover__circle circle {
+      animation: 2s cubic-bezier(0.33, 1, 0.68, 1) animateCircleOut forwards;
+    }
+  }
+
+  &_back {
+    .mondial-guide-cover__text>div:first-child {
+      animation: 1.6s cubic-bezier(0.33, 1, 0.68, 1) animateTitleBack forwards;
+    }
+
+    .mondial-guide-cover__text>div:last-child {
+      animation: 1s cubic-bezier(0.33, 1, 0.68, 1) animateIntroBack forwards;
+    }
+
+    .mondial-guide-cover__player_left {
+      animation: 1s cubic-bezier(0.33, 1, 0.68, 1) animatePlayerLeftIn forwards;
+    }
+
+    .mondial-guide-cover__player_right {
+      animation: 1s cubic-bezier(0.33, 1, 0.68, 1) animatePlayerRightIn forwards;
+    }
+
+    .mondial-guide-cover__circle circle {
+      animation: 1s cubic-bezier(0.33, 1, 0.68, 1) animateCircleIn forwards;
+    }
+  }
+}
+
+@keyframes animateTitleIn {
+  0% {
+    bottom: -100%;
+  }
+
+  100% {
+    bottom: var(--mondial-cover-text-bottom);
+  }
+}
+
+@keyframes animateTitleOut {
+  0% {
+    bottom: var(--mondial-cover-text-bottom);
+  }
+
+  100% {
+    bottom: 150%;
+  }
+}
+
+@keyframes animateTitleBack {
+  0% {
+    bottom: 150%;
+  }
+
+  100% {
+    bottom: var(--mondial-cover-text-bottom);
+  }
+}
+
+@keyframes animateIntroIn {
+  0% {
+    top: 200%;
+  }
+
+  100% {
+    top: 50%;
+  }
+}
+
+@keyframes animateIntroBack {
+  0% {
+    top: 50%;
+  }
+
+  100% {
+    top: 200%;
+  }
+}
+
+@keyframes animatePlayerLeftIn {
+  0% {
+    left: -50vw;
+  }
+
+  100% {
+    left: 0;
+  }
+}
+
+@keyframes animatePlayerLeftOut {
+  0% {
+    left: 0;
+  }
+
+  100% {
+    left: -50vw;
+  }
+}
+
+@keyframes animatePlayerRightIn {
+  0% {
+    left: 50vw;
+  }
+
+  100% {
+    left: 0;
+  }
+}
+
+@keyframes animatePlayerRightOut {
+  0% {
+    left: 0;
+  }
+
+  100% {
+    left: 50vw;
+  }
+}
