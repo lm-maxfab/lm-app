@@ -46,14 +46,13 @@
     font-weight: 300;
     font-size: 28px;
     line-height: 32px;
-    letter-spacing: calc(0.05 * 28px);
+    letter-spacing: 0.05em;
     text-align: center;
     margin: 32px 0 22px 0;
 
     @media screen and (min-width: 600px) {
       font-size: 36px;
       line-height: 42px;
-      letter-spacing: calc(0.05 * 36px);
     }
   }
 

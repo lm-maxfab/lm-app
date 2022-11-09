@@ -4,7 +4,9 @@
     margin: 0 max(40px, 8vw);
 
     &:last-child {
-      margin-bottom: 64px;
+      .mondial-group__teams {
+        margin-bottom: 0;
+      }
     }
   }
 

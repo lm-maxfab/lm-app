@@ -25,7 +25,6 @@ export default class TeamBlock extends Component<Props, State> {
       <TeamTitle
         className={className.elt('title')}
         country={this.props.team?.country}
-        surname={this.props.team?.surname}
       />
 
       <a href={this.props.team?.url}>

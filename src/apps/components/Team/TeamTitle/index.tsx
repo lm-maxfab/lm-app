@@ -5,7 +5,6 @@ import './styles.scss'
 type Props = {
   className?: any,
   country?: string,
-  surname?: string
 }
 
 type State = {
