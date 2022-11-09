@@ -13,7 +13,7 @@
 
   @media screen and (min-width: 600px) {
     --mondial-cover-aspect-ratio: 6/7;
-    --mondial-cover-circle-width: 175%;
+    --mondial-cover-circle-width: 150%;
     --mondial-cover-players-width: 320%;
     --mondial-cover-players-offset: 20%;
     --mondial-cover-text-bottom: 20%;
@@ -28,7 +28,7 @@
 
   @media screen and (min-width: 850px) {
     --mondial-cover-text-bottom: 15%;
-    --mondial-cover-circle-width: 120%;
+    --mondial-cover-circle-width: 150%;
     --mondial-cover-players-width: 250%;
     --mondial-cover-players-offset: 10%;
   }
@@ -38,7 +38,7 @@
   }
 
   @media screen and (min-width: 1100px) {
-    --mondial-cover-circle-width: 88%;
+    --mondial-cover-circle-width: 120%;
     --mondial-cover-players-width: 200%;
     --mondial-cover-aspect-ratio: 11/7;
   }
