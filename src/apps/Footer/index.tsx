@@ -36,7 +36,7 @@ class Footer extends Component<Props, State> {
 
     const className = bem(this.clss)
 
-    const imgFooter = `${config?.assets_root_url}/footer-${window.innerWidth > 480 ? 'desktop' : 'mobile'}.png`
+    const imgFooter = `${config?.assets_root_url}/footer-${window.innerWidth > 480 ? 'desktop' : 'desktop'}.png`
 
     // Display
 

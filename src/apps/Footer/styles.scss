@@ -48,11 +48,12 @@
     line-height: 32px;
     letter-spacing: 0.05em;
     text-align: center;
-    margin: 32px 0 22px 0;
+    margin: 16px 0;
 
     @media screen and (min-width: 600px) {
       font-size: 36px;
       line-height: 42px;
+      margin: 32px 0 22px 0;
     }
   }
 
@@ -138,11 +139,6 @@
       max-width: unset;
       height: 100%;
       width: auto !important;
-
-      @media screen and (max-width: 480px) {
-        height: 110%;
-        top: -5%;
-      }
     }
   }
 }
