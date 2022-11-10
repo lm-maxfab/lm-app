@@ -15,8 +15,12 @@
       grid-template-columns: repeat(2, minmax(100px, 280px));
       margin: 24px 0 42px 0;
       grid-row-gap: 26px;
-      grid-column-gap: 26px;
+      grid-column-gap: 16px;
       justify-content: space-between;
+  
+      @media screen and (min-width: 480px) {
+        grid-column-gap: 26px;
+      }
   
       @media screen and (min-width: 800px) {
         grid-template-columns: repeat(4, minmax(100px, 280px));

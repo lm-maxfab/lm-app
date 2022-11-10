@@ -20,6 +20,10 @@
     >* {
       grid-area: 1 / -1;
     }
+
+    @media screen and (min-width: 600px) {
+      width: calc(100% - 38px);
+    }
   }
 
   &__circle {
@@ -40,10 +44,10 @@
     width: 240%;
     z-index: 1;
     justify-self: center;
-    align-self: flex-end; 
-    position: relative; 
+    align-self: flex-end;
+    position: relative;
     left: 5%;
-    transition: left var(--mondial-team-img-transition);  
+    transition: left var(--mondial-team-img-transition);
   }
 
   &__overlay {

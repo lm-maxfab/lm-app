@@ -29,12 +29,16 @@ class Cover extends Component<Props, State> {
     const teamsData = ((props.sheetBase?.collection('teams').value ?? []) as unknown as TeamData[])
     const coverTeam = teamsData.find(team => team.iso === appId.toLowerCase())
 
+    const isInApp = window.location.href.match(/apps.([a-z]+\-)?lemonde.(fr|io)/)
+
     // Assign classes and styles
-    const wrapperClasses = bem(props.className).block(this.clss)
+    const wrapperClasses = bem(props.className).block(this.clss).mod({
+      'in-app': isInApp,
+    })
+
     const wrapperStyle: JSX.CSSProperties = {
       ...props.style,
       ['--mondial-main-color']: '#3E001F',
-      ['--mondial-animation-delay']: '600ms',
     }
 
     const className = bem(this.clss);

@@ -71,7 +71,7 @@
 
     circle {
       stroke-dashoffset: var(--mondial-circle-length);
-      animation: 2.6s cubic-bezier(0.33, 1, 0.68, 1) var(--mondial-animation-delay) 1 animateCircleIn forwards;
+      animation: 2.6s cubic-bezier(0.33, 1, 0.68, 1) 0s 1 animateCircleIn forwards;
     }
 
     @media screen and (min-height: 720px) {
@@ -111,7 +111,7 @@
       bottom: -100%;
       left: 50%;
       transform: translate(-50%, 0%);
-      animation: 1s cubic-bezier(0.33, 1, 0.68, 1) var(--mondial-animation-delay) 1 animateTitleIn forwards;
+      animation: 1s cubic-bezier(0.33, 1, 0.68, 1) 0s 1 animateTitleIn forwards;
 
       @media screen and (min-width: 720px) {
         max-width: 460px;
@@ -192,13 +192,13 @@
     &_left {
       left: var(--mondial-cover-player-offset);
       transform: translateX(-1000px);
-      animation: 1s cubic-bezier(0.33, 1, 0.68, 1) var(--mondial-animation-delay) 1 animatePlayerLeftIn forwards;
+      animation: 1s cubic-bezier(0.33, 1, 0.68, 1) 0s 1 animatePlayerLeftIn forwards;
     }
 
     &_right {
       right: var(--mondial-cover-player-offset);
       transform: translateX(1000px);
-      animation: 1s cubic-bezier(0.33, 1, 0.68, 1) var(--mondial-animation-delay) 1 animatePlayerRightIn forwards;
+      animation: 1s cubic-bezier(0.33, 1, 0.68, 1) 0s 1 animatePlayerRightIn forwards;
     }
   }
 
