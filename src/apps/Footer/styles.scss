@@ -33,6 +33,12 @@
   &__marker {
     width: 100px;
 
+    @media (prefers-color-scheme: dark) {
+      svg {
+        fill: #fff;
+      }
+    }
+
     @media screen and (max-width: 600px) {
       width: 90px;
     }
@@ -47,6 +53,10 @@
     letter-spacing: 0.05em;
     text-align: center;
     margin: 16px 0;
+
+    @media (prefers-color-scheme: dark) {
+      color: #fff;
+    }
 
     @media screen and (min-width: 600px) {
       font-size: 36px;
