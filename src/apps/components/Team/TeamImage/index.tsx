@@ -19,8 +19,6 @@ type State = {
 export default class TeamImage extends Component<Props, State> {
   render() {
 
-    console.log(this.props.className)
-
     const bemClass = this.props.className;
 
     const circleSrc = `${config?.assets_root_url}/circle-${this.props.iso}.svg`

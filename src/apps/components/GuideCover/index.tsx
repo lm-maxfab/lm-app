@@ -27,7 +27,6 @@ export default class GuideCoverV2 extends Component<Props, State> {
   }
 
   handlePageChange(e: PaginatorState) {
-    console.log(e)
     this.setState({ currentPage: e.value })
   }
 

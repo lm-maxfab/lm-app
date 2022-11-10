@@ -60,8 +60,6 @@ class Header extends Component<Props, State> {
 
     const className = bem(this.clss)
 
-    console.log(generalData)
-
     // Display
     return <div
       style={wrapperStyle}

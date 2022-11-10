@@ -45,8 +45,6 @@ class Cover extends Component<Props, State> {
     const imgPlayer1 = `${config?.assets_root_url}/player-wls-cover.png`
     const imgPlayer2 = `${config?.assets_root_url}/player-can-cover.png`
 
-    console.log('render')
-
     if (this.lastStep === 0 && this.props.currentStep === 1) {
       this.stepClass = 'out'
     } else if (this.props.currentStep === 0 && this.stepClass != 'init') {
