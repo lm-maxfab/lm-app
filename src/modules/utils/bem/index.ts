@@ -3,6 +3,7 @@ import getNamesArr from './getNamesArr'
 
 function bem (blockNameArg: any): BEM {
   const bem = new BEM()
+  if (blockNameArg instanceof BEM) return blockNameArg.copy()
   return bem.addBlock(blockNameArg)
 }
 

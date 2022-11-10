@@ -18,6 +18,7 @@ class BEM {
     this.blk = this.blk.bind(this)
     this.elt = this.elt.bind(this)
     this.mod = this.mod.bind(this)
+    this.cp = this.cp.bind(this)
     this.addSingleBlock = this.addSingleBlock.bind(this)
     this.addSingleElement = this.addSingleElement.bind(this)
     this.addSingleModifier = this.addSingleModifier.bind(this)
@@ -61,6 +62,7 @@ class BEM {
   blk (blockNameArg: any): BEM { return this.block(blockNameArg) }
   elt (elementNameArg: any): BEM { return this.element(elementNameArg) }
   mod (modifierNameArg: any): BEM { return this.modifier(modifierNameArg) }
+  cp (): BEM { return this.copy() }
 
   get value (): string {
     return this.blocks.map(block => {
@@ -69,6 +71,8 @@ class BEM {
       })].join(' ')
     }).join(' ')
   }
+
+  get val (): string { return this.value }
 
   private blocks: Block[] = []
 

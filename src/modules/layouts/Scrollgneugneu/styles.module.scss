@@ -1,0 +1,42 @@
+.wrapper {
+  position: relative;
+  // --fixed-blocks-height is defined in index.tsx
+}
+
+.bg-fixed,
+.fg-fixed {
+  position: sticky;
+  top: 0;
+  height: var(--fixed-blocks-height);
+}
+
+.bg-fixed {
+  z-index: 1;
+}
+
+.fg-fixed {
+  z-index: 3;
+  margin-top: calc(-1 * var(--fixed-blocks-height));
+}
+
+.scrolling {
+  z-index: 2;
+  position: relative;
+  margin-top: calc(-1 * var(--fixed-blocks-height));
+}
+
+.bg-fixed-inner,
+.fg-fixed-inner {
+  position: absolute;
+  top: 0;
+}
+
+.bg-fixed-blocks,
+.fg-fixed-blocks {
+  display: none;
+}
+
+.bg-fixed-blocks_current,
+.fg-fixed-blocks_current {
+  display: block;
+}
