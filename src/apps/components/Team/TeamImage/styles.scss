@@ -16,7 +16,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-  
+
     .mondial-team__image__circle {
       height: 100%;
       width: 100%;
@@ -28,9 +28,13 @@
     position: relative;
     z-index: 2;
     padding-bottom: 166%;
-  
+
     .mondial-gradient {
       position: absolute;
+
+      & > div {
+        padding-bottom: 166%;
+      }
     }
   }
 
@@ -40,7 +44,7 @@
     left: calc(-1 * var(--padding));
     bottom: calc(-1 * var(--padding));
     right: calc(-1 * var(--padding));
-  
+
     .mondial-team__image__circle {
       height: 100%;
       width: 100%;
@@ -57,7 +61,7 @@
     height: 100%;
     z-index: 3;
     transition: transform var(--mondial-team-img-transition);
-  
+
     img {
       height: 100%;
       max-width: unset;
