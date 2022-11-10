@@ -11,6 +11,7 @@ export interface GeneralData extends SheetBaseCollectionData {
   conclusion?: VNode | string,
   credits?: VNode | string,
   markerURL?: string,
+  infoText?: VNode | string,
 }
 
 export interface FooterData extends SheetBaseCollectionData {

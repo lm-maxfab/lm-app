@@ -42,8 +42,8 @@ class Cover extends Component<Props, State> {
   }
 
   render() {
-    const imgPlayer1 = `${config?.assets_root_url}/player-wls.png`
-    const imgPlayer2 = `${config?.assets_root_url}/player-can.png`
+    const imgPlayer1 = `${config?.assets_root_url}/player-wls-cover.png`
+    const imgPlayer2 = `${config?.assets_root_url}/player-can-cover.png`
 
     console.log('render')
 
@@ -53,14 +53,13 @@ class Cover extends Component<Props, State> {
       this.stepClass = 'back'
     }
 
-    console.log(this.stepClass)
+    return <div className={className.mod(this.stepClass).value}>
 
-    return <div style={{ position: 'relative' }} className={className.mod(this.stepClass).value}>
+      <div className={className.elt('circle').value}>
+        <Circle></Circle>
+      </div>
+
       <div className={className.elt('container').value}>
-
-        <div className={className.elt('circle').value}>
-          <Circle></Circle>
-        </div>
 
         <div className={className.elt('gradient').value}>
 
@@ -70,7 +69,12 @@ class Cover extends Component<Props, State> {
             <Circle></Circle>
           </div>
 
+        </div>
+
+        <div className={className.elt('text-container').value}>
+
           <div className={className.elt('text').value}>
+
             <div>
               <div className={className.elt('marker').value}>
                 <Marker color='#fff' />
@@ -83,14 +87,15 @@ class Cover extends Component<Props, State> {
             <div>
               <p className={className.elt('intro').value}>{this.props.intro}</p>
             </div>
+
           </div>
 
         </div>
-      </div>
 
-      <div className={className.elt('players').value}>
-        <img className={className.elt('player').mod('left').value} src={imgPlayer1} />
-        <img className={className.elt('player').mod('right').value} src={imgPlayer2} />
+        <div className={className.elt('players').value}>
+          <img className={className.elt('player').mod('left').value} src={imgPlayer1} />
+          <img className={className.elt('player').mod('right').value} src={imgPlayer2} />
+        </div>
       </div>
     </div>
   }

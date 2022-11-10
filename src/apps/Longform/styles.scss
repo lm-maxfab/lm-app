@@ -1,8 +1,11 @@
 .mondial-longform {
   font-family: var(--ff-giorgio-sans);
 
-  &__end {
+  &__wrapper {
     margin: 0 max(40px, 8vw);
+  }
+
+  &__end {
     padding: 160px 0;
     color: var(--mondial-main-color);
     display: flex;

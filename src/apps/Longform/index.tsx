@@ -1,5 +1,6 @@
 import { Component, JSX } from 'preact'
 import GuideCover from '../components/GuideCover'
+import InfoText from '../components/InfoText'
 import GroupBlock from '../components/Group/GroupBlock'
 import appWrapper, { InjectedProps } from '../../modules/utils/app-wrapper-HOC'
 import bem from '../../modules/utils/bem'
@@ -33,7 +34,7 @@ class Longform extends Component<Props, State> {
     const wrapperStyle: JSX.CSSProperties = {
       ...props.style,
       ['--mondial-main-color']: '#3E001F',
-      ['--mondial-animation-delay']: '600ms',
+      ['--mondial-animation-delay']: '0ms',
     }
 
     const className = bem(this.clss)
@@ -51,22 +52,26 @@ class Longform extends Component<Props, State> {
         intro={generalData.intro}
       ></GuideCover>
 
-      <div>
-        {groupsData?.map(group => {
-          return <GroupBlock
-            group={group}
-            teams={teamsData.filter(el => el.group === group)}
-          />
-        })}
-      </div>
+      <div className={className.elt('wrapper').value}>
+        <InfoText content={generalData.infoText} />
 
-      <div className={className.elt('end').value}>
         <div>
-          <p className={className.elt('conclusion').value}>{generalData.conclusion}</p>
-          <ArticleCredits
-            className={className.elt('credits').value}
-            content={generalData.credits}
-          ></ArticleCredits>
+          {groupsData?.map(group => {
+            return <GroupBlock
+              group={group}
+              teams={teamsData.filter(el => el.group === group)}
+            />
+          })}
+        </div>
+
+        <div className={className.elt('end').value}>
+          <div>
+            <p className={className.elt('conclusion').value}>{generalData.conclusion}</p>
+            <ArticleCredits
+              className={className.elt('credits').value}
+              content={generalData.credits}
+            ></ArticleCredits>
+          </div>
         </div>
       </div>
 

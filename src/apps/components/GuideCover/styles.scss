@@ -3,13 +3,6 @@
   top: 0;
   width: 100%;
   height: var(--height);
-  display: grid;
-  justify-content: center;
-  align-items: center;
   z-index: 2;
   overflow: hidden;
-
-  > * {
-    grid-area: 1 / -1;
-  }
 }
