@@ -45,7 +45,7 @@ class Header extends Component<Props, State> {
     const groups: string[] = teamsData.map(el => el.group!)
     const groupsData: string[] = groups.filter((el, index) => groups.indexOf(el) === index)
 
-    const isInApp = window.location.href.match(/apps.([a-z]+\-)?lemonde.fr/)
+    const isInApp = window.location.href.match(/apps.([a-z]+\-)?lemonde.(fr|io)/)
 
     // Assign classes and styles
     const wrapperClasses = bem(props.className).block(this.clss).mod({
