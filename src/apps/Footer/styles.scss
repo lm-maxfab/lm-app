@@ -1,5 +1,4 @@
 .mondial-footer {
-  --mondial-footer-aspect-ratio: 3/2;
   --mondial-footer-padding-top: 56px;
   --mondial-footer-padding-left: 64px;
   font-family: var(--ff-giorgio-sans);
@@ -23,8 +22,6 @@
   }
 
   @media screen and (max-width: 600px) {
-    // padding: 32px 24px;
-    // --mondial-footer-aspect-ratio: 3/5;
     --mondial-footer-padding-top: 24px;
     --mondial-footer-padding-left: 0px;
   }
@@ -62,7 +59,6 @@
     display: grid;
     justify-items: center;
     align-items: center;
-    aspect-ratio: var(--mondial-footer-aspect-ratio);
     width: 100%;
     overflow: hidden;
 
@@ -104,16 +100,7 @@
     z-index: 1;
     display: grid;
     justify-items: center;
-    aspect-ratio: var(--mondial-footer-aspect-ratio);
     position: relative;
-    height: 100%;
     width: 100%;
-
-    img {
-      position: relative;
-      max-width: unset;
-      height: 100%;
-      width: auto !important;
-    }
   }
 }

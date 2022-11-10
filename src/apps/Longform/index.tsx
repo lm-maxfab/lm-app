@@ -43,9 +43,11 @@ class Longform extends Component<Props, State> {
     return <div
       style={wrapperStyle}
       className={wrapperClasses.value}>
-      <div style={{ position: 'fixed', top: 0 }}><ArticleHeader
-        fill1='black'
-        fill2='rgb(0,0,0,.3)' /></div>
+      <div style={{
+        position: 'fixed', top: 0, zIndex: 10
+      }}><ArticleHeader
+          fill1='black'
+          fill2='rgb(0,0,0,.3)' /></div>
 
       <GuideCover
         title={generalData.title}

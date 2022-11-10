@@ -1406,6 +1406,17 @@
       },
       "description": "refonte cover",
       "time": "2022-11-10T11:29:21.091Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 12
+      },
+      "description": "",
+      "time": "2022-11-10T11:51:54.775Z"
     }
   ]
 }
