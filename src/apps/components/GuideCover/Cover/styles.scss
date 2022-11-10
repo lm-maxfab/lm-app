@@ -64,7 +64,8 @@
   &__circle {
     position: absolute;
     top: 20vh;
-    z-index: 10;
+    left: 50%;
+    transform: translateX(-50%);
     width: 720px;
     z-index: 1;
 
