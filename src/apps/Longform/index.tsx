@@ -2,12 +2,14 @@ import { Component, JSX } from 'preact'
 import GuideCover from '../components/GuideCover'
 import InfoText from '../components/InfoText'
 import GroupBlock from '../components/Group/GroupBlock'
+import TeamImage from '../components/Team/TeamImage'
 import appWrapper, { InjectedProps } from '../../modules/utils/app-wrapper-HOC'
 import bem from '../../modules/utils/bem'
 import { TeamData, GeneralData } from '../types'
 import './styles.scss'
 import ArticleHeader from '../../modules/components/ArticleHeader'
 import ArticleCredits from '../../modules/components/ArticleCredits'
+import MyComp from '../components/MyComp'
 
 interface Props extends InjectedProps { }
 interface State { }

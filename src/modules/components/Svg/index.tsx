@@ -7,6 +7,8 @@ interface Props {
   loader?: JSX.Element
   fallback?: JSX.Element
   src: string
+  width?: string|number
+  height?: string|number
 }
 
 interface State {
@@ -86,7 +88,9 @@ class Svg extends Component<Props, State> {
       {...attributes as any}
       className={classes.value}
       style={inlineStyle}
-      dangerouslySetInnerHTML={{ __html: contents }} />
+      dangerouslySetInnerHTML={{ __html: contents }}
+      width={props.width}
+      height={props.height} />
   }
 }
 
