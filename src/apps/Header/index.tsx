@@ -60,39 +60,38 @@ class Header extends Component<Props, State> {
     console.log(generalData)
 
     // Display
-    return <div></div>
-    // <div
-    //   style={wrapperStyle}
-    //   className={wrapperClasses.value}>
+    return <div
+      style={wrapperStyle}
+      className={wrapperClasses.value}>
 
-    //   <div className={className.elt('top').value}>
+      <div className={className.elt('top').value}>
 
-    //     <a href={generalData.markerURL} className={className.elt('marker').value}>
-    //       <Marker color='#fff'></Marker>
-    //     </a>
+        <a href={generalData.markerURL} className={className.elt('marker').value}>
+          <Marker color='#fff'></Marker>
+        </a>
 
-    //     <div onClick={this.toggleMenu} className={className.elt('burger').value}>
-    //       {this.state.open
-    //         ? <Close></Close>
-    //         : <Burger></Burger>}
-    //       <p>Les équipes</p>
-    //     </div>
+        <div onClick={this.toggleMenu} className={className.elt('burger').value}>
+          {this.state.open
+            ? <Close></Close>
+            : <Burger></Burger>}
+          <p>Les équipes</p>
+        </div>
 
-    //   </div>
+      </div>
 
-    //   <div className={className.elt('groups').value}>
+      <div className={className.elt('groups').value}>
 
-    //     {groupsData?.map(group => {
-    //       return <GroupBlock
-    //         nav
-    //         group={group}
-    //         teams={teamsData.filter(el => el.group === group)}
-    //       />
-    //     })}
+        {groupsData?.map(group => {
+          return <GroupBlock
+            nav
+            group={group}
+            teams={teamsData.filter(el => el.group === group)}
+          />
+        })}
 
-    //   </div>
+      </div>
 
-    // </div>
+    </div>
   }
 }
 
