@@ -2,16 +2,11 @@ import { Component, VNode } from 'preact'
 import bem from '../../../modules/utils/bem'
 import './styles.scss'
 
-import getConfig from '../../../modules/utils/get-config'
-
-const config = getConfig()
-
 type Props = {
-  content?: VNode | string,
+  content?: VNode | string
 }
 
-type State = {
-}
+type State = {}
 
 export const className = bem('mondial-info')
 
