@@ -2,10 +2,10 @@
   "assets_root_url": "https://assets-decodeurs.lemonde.fr/redacweb/28-2210-mondial-assets",
   "statics_root_url": "https://assets-decodeurs.lemonde.fr/redacweb/statics-v2",
   "spreadsheets_urls": {
-    "production": "https://assets-decodeurs.lemonde.fr/sheets/xbXSuH2KcRTv6nmkCAhJp3y_NZmdUA_1356",
-    "staging": "https://assets-decodeurs.lemonde.fr/sheets/xbXSuH2KcRTv6nmkCAhJp3y_NZmdUA_1357",
-    "testing": "https://assets-decodeurs.lemonde.fr/sheets/xbXSuH2KcRTv6nmkCAhJp3y_NZmdUA_1358",
-    "developpment": "https://assets-decodeurs.lemonde.fr/sheets/xbXSuH2KcRTv6nmkCAhJp3y_NZmdUA_1359"
+    "production": "https://assets-decodeurs.lemonde.fr/sheets/xbXSuH2KcRTv6nmkCAhJp3y_NZmdUA_1379",
+    "staging": "https://assets-decodeurs.lemonde.fr/sheets/xbXSuH2KcRTv6nmkCAhJp3y_NZmdUA_1380",
+    "testing": "https://assets-decodeurs.lemonde.fr/sheets/xbXSuH2KcRTv6nmkCAhJp3y_NZmdUA_1381",
+    "developpment": "https://assets-decodeurs.lemonde.fr/sheets/xbXSuH2KcRTv6nmkCAhJp3y_NZmdUA_1382"
   },
   "layouts": [{
     "name": "longform",

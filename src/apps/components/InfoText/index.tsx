@@ -18,7 +18,7 @@ export const className = bem('mondial-info')
 export default class Flag extends Component<Props, State> {
   render () {
     return <div className={className.value}>
-        {this.props.content}
+      {this.props.content}
     </div>
   }
 }
