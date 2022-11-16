@@ -83,7 +83,7 @@ class Cover extends Component<Props, State> {
               </div>
             </div>
             <div>
-              <p className={className.elt('intro').value}>{this.props.intro}</p>
+              <h2 className={className.elt('intro').value}>{this.props.intro}</h2>
             </div>
 
           </div>

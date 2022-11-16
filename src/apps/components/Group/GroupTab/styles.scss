@@ -1,5 +1,5 @@
 .mondial-group__tab {
-  p {
+  h3 {
     text-transform: uppercase;
     color: #fff;
     letter-spacing: 10%;
@@ -9,7 +9,7 @@
   &_default {
     border-bottom: 2px solid var(--mondial-main-color);
 
-    p {
+    h3 {
       padding: 4px 18px;
       background-color: var(--mondial-main-color);
       display: inline-block;

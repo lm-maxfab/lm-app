@@ -13,7 +13,7 @@ type State = {
 export default class GroupTab extends Component<Props, State> {
   render () {
     return <div className={this.props.className}>
-        <p>Groupe {this.props.group}</p>
+        <h3>Groupe {this.props.group}</h3>
     </div>
   }
 }

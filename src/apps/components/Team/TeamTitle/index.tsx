@@ -13,7 +13,7 @@ type State = {
 export default class TeamTitle extends Component<Props, State> {
   render () {
     return <div className={this.props.className.value}>
-        <h3>{this.props.country}</h3>
+        <h4>{this.props.country}</h4>
     </div>
   }
 }
