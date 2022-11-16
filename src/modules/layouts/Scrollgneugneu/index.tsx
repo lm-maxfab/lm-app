@@ -23,7 +23,7 @@ type ReferenceBlockData = {
 }
 
 type ExploitableBlockData = ScrollingBlockData|FixedBlockData
-type BlockData = ExploitableBlockData|ReferenceBlockData
+type BlockData = ScrollingBlockData|FixedBlockData|ReferenceBlockData
 
 
 type PageData = {
@@ -38,7 +38,7 @@ type ExploitablePageData = Omit<PageData, 'blocks'> & {
 }
 
 type Props = {
-  thresholdOffsed?: string
+  thresholdOffset?: string
   fixedBlocksHeight?: string
   bgColorTransitionDuration?: string|number
   pages?: PageData[]
@@ -55,15 +55,35 @@ export default class Scrollgneugneu extends Component<Props, State> {
     super(props)
     this.handlePageChange = this.handlePageChange.bind(this)
     this.getExploitablePages = this.getExploitablePages.bind(this)
-    this.getCurrentPageData = this.getCurrentPageData.bind(this)
     this.getBgColorTransitionDuration = this.getBgColorTransitionDuration.bind(this)
+    this.getFixedBlocksNodes = this.getFixedBlocksNodes.bind(this)
   }
 
   handlePageChange (paginatorState: PaginatorState) {
+    const { coming, active, passed } = paginatorState
+    const pagesLength = active.length + coming.length + passed.length
+    const hasPages = pagesLength > 0
+    const noneComing = coming.length === 0
+    const nonePassed = passed.length === 0
+    const noneActive = active.length === 0
+    const pages = this.props.pages
+
+    const isBeforeFirst = hasPages && noneActive && nonePassed
+    const isAfterLast = hasPages && noneActive && noneComing
+    if (isBeforeFirst) return this.setState(curr => ({
+      ...curr,
+      currentPagePos: pages !== undefined ? 0 : undefined,
+      previousPagePos: curr.currentPagePos
+    }))
+    if (isAfterLast) return this.setState(curr => ({
+      ...curr,
+      currentPagePos: pages !== undefined ? pages.length - 1 : undefined,
+      previousPagePos: curr.currentPagePos
+    }))
     this.setState(curr => ({
       ...curr,
       currentPagePos: paginatorState.value as number|undefined,
-      previousPagePos: curr.currentPagePos
+      previousPageData: curr.currentPagePos
     }))
   }
 
@@ -90,23 +110,6 @@ export default class Scrollgneugneu extends Component<Props, State> {
     return exploitablePagesData
   }
 
-  getCurrentPageData (): ExploitablePageData|undefined
-  getCurrentPageData (asExp: undefined): ExploitablePageData|undefined
-  getCurrentPageData (asExp: true): ExploitablePageData|undefined
-  getCurrentPageData (asExp: false): PageData|undefined
-  getCurrentPageData (asExploitable: boolean = true): PageData|undefined {
-    // WIP keep first and last active ?
-    const pos = this.state.currentPagePos
-    if (pos === undefined) return
-    if (this.props.pages === undefined) return
-    if (asExploitable) {
-      const exploitable = this.getExploitablePages()
-      if (exploitable === undefined) return
-      return exploitable[pos]
-    }
-    return this.props.pages[pos]
-  }
-
   getBgColorTransitionDuration (): string {
     const { bgColorTransitionDuration } = this.props
     if (typeof bgColorTransitionDuration === 'number') return `${bgColorTransitionDuration}ms`
@@ -114,10 +117,79 @@ export default class Scrollgneugneu extends Component<Props, State> {
     return '200ms'
   }
 
+  getFixedBlocksNodes (depth: 'back'|'front'): JSX.Element[]|null {
+    const { state, getExploitablePages } = this
+    const exploitablePages = getExploitablePages()
+    if (exploitablePages === undefined) return null
+    const { currentPagePos, previousPagePos } = state
+    const currentPageData = currentPagePos !== undefined
+      ? exploitablePages[currentPagePos]
+      : undefined
+    const previousPageData = previousPagePos !== undefined
+      ? exploitablePages[previousPagePos]
+      : undefined
+
+    const alreadyRenderedIds = new Set<string>()
+    const fixedBlocksNodes: JSX.Element[] = []
+
+    const pushNodeFromBlock = (
+      blockData: ExploitableBlockData,
+      status: 'current'|'previous'|'inactive',
+      wrapperClass: string
+    ) => {
+      if (blockData.depth !== depth) return
+      const hasId = blockData.id !== undefined
+      if (!hasId) return fixedBlocksNodes.push(<div
+        key={blockData}
+        className={wrapperClass}
+        style={{ zIndex: blockData.zIndex }}>
+        <BlockRenderer
+          status={status}
+          type={blockData.type}
+          content={blockData.content} />
+      </div>)
+      
+      const id = blockData.id as string
+      const alreadyRendered = alreadyRenderedIds.has(id)
+      if (alreadyRendered) return
+
+      alreadyRenderedIds.add(id)
+      fixedBlocksNodes.push(<div
+        key={id}
+        className={wrapperClass}
+        style={{ zIndex: blockData.zIndex }}>
+        <BlockRenderer
+          status={status}
+          type={blockData.type}
+          content={blockData.content} />
+      </div>)
+    }
+
+    const blockWrapperClass = styles[depth === 'back'
+      ? 'bg-block'
+      : 'fg-block'
+    ]
+
+    currentPageData?.blocks?.forEach(blockData => { pushNodeFromBlock(blockData, 'current', blockWrapperClass) })
+    previousPageData?.blocks?.forEach(blockData => { pushNodeFromBlock(blockData, 'previous', blockWrapperClass) })
+    exploitablePages
+      ?.filter(pageData => pageData !== currentPageData && pageData !== previousPageData)
+      .forEach(pageData => {
+        pageData.blocks?.forEach(blockData => {
+          pushNodeFromBlock(blockData, 'inactive', blockWrapperClass)
+        })
+      })
+
+    return fixedBlocksNodes
+  }
+
   render () {
-    const { props } = this
+    const { props, state } = this
     const exploitablePages = this.getExploitablePages()
-    const currPageData = this.getCurrentPageData()
+    const { currentPagePos } = state
+    const currPageData = exploitablePages !== undefined && currentPagePos !== undefined
+      ? exploitablePages[currentPagePos]
+      : undefined
 
     return <div
       className={styles['wrapper']}
@@ -128,45 +200,17 @@ export default class Scrollgneugneu extends Component<Props, State> {
       }}>
       <div className={styles['bg-slot']}>
         <div className={styles['bg-slot-inner']}>
-          {currPageData?.blocks
-            ?.filter(blockData => 'depth' in blockData && blockData.depth === 'back')
-            .map(blockData => {
-              const key = ('id' in blockData) ? blockData.id : blockData
-              const zIndex = ('zIndex' in blockData) ? blockData.zIndex : undefined
-              return <div
-                key={key}
-                style={{ zIndex }}
-                className={styles['bg-block']}>
-                <BlockRenderer
-                  type={blockData.type}
-                  content={blockData.content} />
-              </div>
-            })
-          }
+          {this.getFixedBlocksNodes('back')}
         </div>
       </div>
       <div className={styles['fg-slot']}>
         <div className={styles['fg-slot-inner']}>
-          {currPageData?.blocks
-            ?.filter(blockData => 'depth' in blockData && blockData.depth === 'front')
-            .map(blockData => {
-              const key = ('id' in blockData) ? blockData.id : blockData
-              const zIndex = ('zIndex' in blockData) ? blockData.zIndex : undefined
-              return <div
-                key={key}
-                style={{ zIndex }}
-                className={styles['fg-block']}>
-                <BlockRenderer
-                  type={blockData.type}
-                  content={blockData.content} />
-              </div>
-            })
-          }
+          {this.getFixedBlocksNodes('front')}
         </div>
       </div>
       <div className={styles['scroll-slot']}>
         <Paginator
-          thresholdOffset={props.thresholdOffsed}
+          thresholdOffset={props.thresholdOffset}
           onPageChange={this.handlePageChange}>
           {exploitablePages?.map((pageData, pagePos) => (
             <Paginator.Page value={pagePos}>{

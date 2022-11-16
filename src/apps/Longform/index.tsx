@@ -55,49 +55,76 @@ interface State {}
 //     content: `<div style="position: relative; top: 100px; left: 100px;">I am fixed at 2</div>`
 //   }]
 // }]
+
+
+// const pagesData: PageData[] = [{
+//   bgColor: 'green',
+//   blocks: [{
+//     depth: 'scroll',
+//     type: 'html',
+//     content: '<div style="height: 1500px;">I am the first scrolling block</div>'
+//   }, {
+//     depth: 'front',
+//     type: 'html',
+//     content: '<div>I am a front fixed block</div>'
+//   }, {
+//     depth: 'back',
+//     type: 'html',
+//     zIndex: 2,
+//     id: 'une-petite-video',
+//     content: `<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/500px-Image_created_with_a_mobile_phone.png" />`
+//     // content: `<video muted autoplay style="width: 400px; height: 400px;">
+//     //   <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.webm" type="video/webm" />
+//     // </video>`
+//   }, {
+//     depth: 'back',
+//     type: 'html',
+//     zIndex: 1,
+//     content: `<div style="width: 40px; height: 40px; background-color: coral;">.</div>`
+//   }]
+// }, {
+//   bgColor: 'violet',
+//   blocks: [{
+//     depth: 'scroll',
+//     type: 'html',
+//     content: '<div style="height: 1500px;">I am the second scrolling block</div>'
+//   }, {
+//     id: 'une-petite-video'
+//   }, {
+//     depth: 'back',
+//     type: 'html',
+//     zIndex: 3
+//   }]
+// }, {
+//   bgColor: 'orange',
+//   blocks: [{
+//     depth: 'scroll',
+//     type: 'html',
+//     content: '<div style="height: 1500px;">I am the third scrolling block</div>'
+//   }, {
+//     id: 'une-petite-video'
+//   }]
+// }]
+
 const pagesData: PageData[] = [{
   bgColor: 'green',
-  blocks: [{
-    depth: 'scroll',
-    type: 'html',
-    content: '<div style="height: 1500px;">I am the first scrolling block</div>'
-  }, {
-    depth: 'front',
-    type: 'html',
-    content: '<div>I am a front fixed block</div>'
-  }, {
-    depth: 'back',
-    type: 'html',
-    zIndex: 2,
-    id: 'une-petite-video',
-    content: `<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/500px-Image_created_with_a_mobile_phone.png" />`
-    // content: `<video muted autoplay style="width: 400px; height: 400px;">
-    //   <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.webm" type="video/webm" />
-    // </video>`
-  }, {
-    depth: 'back',
-    type: 'html',
-    zIndex: 1,
-    content: `<div style="width: 40px; height: 40px; background-color: coral;">.</div>`
-  }]
+  blocks: [
+    { depth: 'scroll', type: 'html', content: `<div style="height: 1200px;">First page</div>` },
+    { depth: 'back', type: 'html', content: `<div style="width: 300px; position: relative; top: 20px; left: 20px;">First back block</div>`, id: 'first' }
+  ]
+}, {
+  bgColor: 'coral',
+  blocks: [
+    { depth: 'scroll', type: 'html', content: `<div style="height: 1200px;">Second page</div>` },
+    { depth: 'back', type: 'html', content: `<div style="width: 300px; position: relative; top: 60px; left: 60px;">Second back block</div>` }
+  ]
 }, {
   bgColor: 'violet',
-  blocks: [{
-    depth: 'scroll',
-    type: 'html',
-    content: '<div style="height: 1500px;">I am the second scrolling block</div>'
-  }, {
-    id: 'une-petite-video'
-  }]
-}, {
-  bgColor: 'orange',
-  blocks: [{
-    depth: 'scroll',
-    type: 'html',
-    content: '<div style="height: 1500px;">I am the third scrolling block</div>'
-  }, {
-    id: 'une-petite-video'
-  }]
+  blocks: [
+    { depth: 'scroll', type: 'html', content: `<div style="height: 1200px;">Third page</div>` },
+    { depth: 'back', type: 'html', content: `<div style="width: 300px; position: relative; top: 100px; left: 100px;">Third back block</div>` },
+    { id: 'first' }
+  ]
 }]
 
 class Longform extends Component<Props, State> {
@@ -120,8 +147,6 @@ class Longform extends Component<Props, State> {
       className={wrapperClasses.value}>
       <div style={{ height: '800px' }}>BEFORE SCRLGNGN</div>
       <Scrollgneugneu
-        thresholdOffsed='50%'
-        bgColorTransitionDuration='1000ms'
         fixedBlocksHeight='100vh'
         pages={pagesData} />
       <div style={{ height: '800px' }}>AFTER SCRLGNGN</div>

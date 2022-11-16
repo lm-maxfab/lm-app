@@ -13,6 +13,7 @@
   position: sticky;
   top: 0;
   height: var(--fixed-blocks-height);
+  width: 0; /* WIP: this trick in order to let scrolling area stuff be selectible */
 }
 
 .bg-slot {
