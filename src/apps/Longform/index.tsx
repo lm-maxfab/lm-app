@@ -8,51 +8,87 @@ import './styles.scss'
 interface Props extends InjectedProps {}
 interface State {}
 
-const fakeScrllGngnPagesData: PageData[] = [{
-  bgColor: 'red',
-  scrolling: {
+// const fakeScrllGngnPagesData: PageData[] = [{
+//   bgColor: 'red',
+//   scrolling: {
+//     type: 'html',
+//     content: `<div style="height: 1200px;">I am the <strong>CONTENT</strong></div>`
+//   },
+//   fixed: [{
+//     type: 'html',
+//     zIndex: -2,
+//     content: `<div style="position: relative; top: 10px; left: 10px;">I am fixed at -2</div>`
+//   }, {
+//     type: 'html',
+//     zIndex: -1,
+//     content: `<div style="position: relative; top: 40px; left: 40px;">I am fixed at -1</div>`
+//   }, {
+//     type: 'html',
+//     zIndex: 1,
+//     content: `<div style="position: relative; top: 70px; left: 70px;">I am fixed at 1</div>`
+//   }, {
+//     type: 'html',
+//     zIndex: 2,
+//     content: `<div style="position: relative; top: 100px; left: 100px;">I am fixed at 2</div>`
+//   }]
+// }, {
+//   bgColor: 'green',
+//   scrolling: {
+//     type: 'html',
+//     content: `<div style="height: 1000px;">I am the <strong>CONTENT</strong></div>`
+//   },
+//   fixed: [{
+//     type: 'html',
+//     zIndex: -2,
+//     content: `<div style="position: relative; top: 60px; left: 60px;">I am fixed at -2</div>`
+//   }, {
+//     type: 'html',
+//     zIndex: -1,
+//     content: `<div style="position: relative; top: 90px; left: 90px;">I am fixed at -1</div>`
+//   }, {
+//     type: 'html',
+//     zIndex: 1,
+//     content: `<div style="position: relative; top: 70px; left: 70px;">I am fixed at 1</div>`
+//   }, {
+//     type: 'html',
+//     zIndex: 2,
+//     content: `<div style="position: relative; top: 100px; left: 100px;">I am fixed at 2</div>`
+//   }]
+// }]
+const pagesData: PageData[] = [{
+  blocks: [{
+    depth: 'scroll',
     type: 'html',
-    content: `<div style="height: 1200px;">I am the <strong>CONTENT</strong></div>`
-  },
-  fixed: [{
-    type: 'html',
-    zIndex: -2,
-    content: `<div style="position: relative; top: 10px; left: 10px;">I am fixed at -2</div>`
+    content: '<div style="height: 1500px;">I am the first scrolling block</div>'
   }, {
+    depth: 'front',
     type: 'html',
-    zIndex: -1,
-    content: `<div style="position: relative; top: 40px; left: 40px;">I am fixed at -1</div>`
+    content: '<div>I am a front fixed block</div>'
   }, {
-    type: 'html',
-    zIndex: 1,
-    content: `<div style="position: relative; top: 70px; left: 70px;">I am fixed at 1</div>`
-  }, {
+    depth: 'back',
     type: 'html',
     zIndex: 2,
-    content: `<div style="position: relative; top: 100px; left: 100px;">I am fixed at 2</div>`
+    id: 'une-petite-video',
+    content: `<video muted autoplay>
+      <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.webm" type="video/webm" />
+    </video>`
+  }, {
+    depth: 'back',
+    type: 'html',
+    zIndex: 1,
+    content: `<div style="width: 40px; height: 40px; background-color: coral;">.</div>`
   }]
 }, {
-  bgColor: 'green',
-  scrolling: {
+  blocks: [{
+    depth: 'scroll',
     type: 'html',
-    content: `<div style="height: 1000px;">I am the <strong>CONTENT</strong></div>`
-  },
-  fixed: [{
-    type: 'html',
-    zIndex: -2,
-    content: `<div style="position: relative; top: 60px; left: 60px;">I am fixed at -2</div>`
+    content: '<div style="height: 1500px;">I am the second scrolling block</div>'
   }, {
-    type: 'html',
-    zIndex: -1,
-    content: `<div style="position: relative; top: 90px; left: 90px;">I am fixed at -1</div>`
-  }, {
-    type: 'html',
-    zIndex: 1,
-    content: `<div style="position: relative; top: 70px; left: 70px;">I am fixed at 1</div>`
-  }, {
-    type: 'html',
-    zIndex: 2,
-    content: `<div style="position: relative; top: 100px; left: 100px;">I am fixed at 2</div>`
+    id: 'une-petite-video'
+  }]
+}, {
+  blocks: [{
+    id: 'une-petite-video'
   }]
 }]
 
@@ -78,7 +114,7 @@ class Longform extends Component<Props, State> {
       <Scrollgneugneu
         thresholdOffsed='100%'
         fixedBlocksHeight='100vh'
-        pages={fakeScrllGngnPagesData} />
+        pages={pagesData} />
       <div style={{ height: '800px' }}>AFTER SCRLGNGN</div>
     </div>
   }
