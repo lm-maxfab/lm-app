@@ -56,6 +56,7 @@ interface State {}
 //   }]
 // }]
 const pagesData: PageData[] = [{
+  bgColor: 'green',
   blocks: [{
     depth: 'scroll',
     type: 'html',
@@ -69,9 +70,10 @@ const pagesData: PageData[] = [{
     type: 'html',
     zIndex: 2,
     id: 'une-petite-video',
-    content: `<video muted autoplay>
-      <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.webm" type="video/webm" />
-    </video>`
+    content: `<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/500px-Image_created_with_a_mobile_phone.png" />`
+    // content: `<video muted autoplay style="width: 400px; height: 400px;">
+    //   <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.webm" type="video/webm" />
+    // </video>`
   }, {
     depth: 'back',
     type: 'html',
@@ -79,6 +81,7 @@ const pagesData: PageData[] = [{
     content: `<div style="width: 40px; height: 40px; background-color: coral;">.</div>`
   }]
 }, {
+  bgColor: 'violet',
   blocks: [{
     depth: 'scroll',
     type: 'html',
@@ -87,7 +90,12 @@ const pagesData: PageData[] = [{
     id: 'une-petite-video'
   }]
 }, {
+  bgColor: 'orange',
   blocks: [{
+    depth: 'scroll',
+    type: 'html',
+    content: '<div style="height: 1500px;">I am the third scrolling block</div>'
+  }, {
     id: 'une-petite-video'
   }]
 }]
@@ -112,7 +120,8 @@ class Longform extends Component<Props, State> {
       className={wrapperClasses.value}>
       <div style={{ height: '800px' }}>BEFORE SCRLGNGN</div>
       <Scrollgneugneu
-        thresholdOffsed='100%'
+        thresholdOffsed='50%'
+        bgColorTransitionDuration='1000ms'
         fixedBlocksHeight='100vh'
         pages={pagesData} />
       <div style={{ height: '800px' }}>AFTER SCRLGNGN</div>

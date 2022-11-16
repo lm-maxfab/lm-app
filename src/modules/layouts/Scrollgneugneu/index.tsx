@@ -40,6 +40,7 @@ type ExploitablePageData = Omit<PageData, 'blocks'> & {
 type Props = {
   thresholdOffsed?: string
   fixedBlocksHeight?: string
+  bgColorTransitionDuration?: string|number
   pages?: PageData[]
 }
 
@@ -53,7 +54,9 @@ export default class Scrollgneugneu extends Component<Props, State> {
   constructor (props: Props) {
     super(props)
     this.handlePageChange = this.handlePageChange.bind(this)
-    this.makePagesExploitable = this.makePagesExploitable.bind(this)
+    this.getExploitablePages = this.getExploitablePages.bind(this)
+    this.getCurrentPageData = this.getCurrentPageData.bind(this)
+    this.getBgColorTransitionDuration = this.getBgColorTransitionDuration.bind(this)
   }
 
   handlePageChange (paginatorState: PaginatorState) {
@@ -64,7 +67,8 @@ export default class Scrollgneugneu extends Component<Props, State> {
     }))
   }
 
-  makePagesExploitable (pagesData: PageData[]|undefined): ExploitablePageData[]|undefined {
+  getExploitablePages (): ExploitablePageData[]|undefined {
+    const pagesData = this.props.pages
     if (pagesData === undefined) return
     const blockIdsMap = new Map<string, BlockData>()
     const exploitablePagesData: ExploitablePageData[] = pagesData.map(pageData => {
@@ -86,15 +90,84 @@ export default class Scrollgneugneu extends Component<Props, State> {
     return exploitablePagesData
   }
 
+  getCurrentPageData (): ExploitablePageData|undefined
+  getCurrentPageData (asExp: undefined): ExploitablePageData|undefined
+  getCurrentPageData (asExp: true): ExploitablePageData|undefined
+  getCurrentPageData (asExp: false): PageData|undefined
+  getCurrentPageData (asExploitable: boolean = true): PageData|undefined {
+    // WIP keep first and last active ?
+    const pos = this.state.currentPagePos
+    if (pos === undefined) return
+    if (this.props.pages === undefined) return
+    if (asExploitable) {
+      const exploitable = this.getExploitablePages()
+      if (exploitable === undefined) return
+      return exploitable[pos]
+    }
+    return this.props.pages[pos]
+  }
+
+  getBgColorTransitionDuration (): string {
+    const { bgColorTransitionDuration } = this.props
+    if (typeof bgColorTransitionDuration === 'number') return `${bgColorTransitionDuration}ms`
+    if (typeof bgColorTransitionDuration === 'string') return bgColorTransitionDuration
+    return '200ms'
+  }
+
   render () {
     const { props } = this
-    const exploitablePages = this.makePagesExploitable(props.pages)
-    console.log(exploitablePages)
-    return <div className={styles['wrapper']}>
-      <div className={styles['bg-slot']}>BACK</div>
-      <div className={styles['fg-slot']}>FRONT</div>
+    const exploitablePages = this.getExploitablePages()
+    const currPageData = this.getCurrentPageData()
+
+    return <div
+      className={styles['wrapper']}
+      style={{
+        backgroundColor: currPageData?.bgColor,
+        ['--fixed-blocks-height']: props.fixedBlocksHeight ?? '100vh',
+        ['--bg-color-transition-duration']: this.getBgColorTransitionDuration()
+      }}>
+      <div className={styles['bg-slot']}>
+        <div className={styles['bg-slot-inner']}>
+          {currPageData?.blocks
+            ?.filter(blockData => 'depth' in blockData && blockData.depth === 'back')
+            .map(blockData => {
+              const key = ('id' in blockData) ? blockData.id : blockData
+              const zIndex = ('zIndex' in blockData) ? blockData.zIndex : undefined
+              return <div
+                key={key}
+                style={{ zIndex }}
+                className={styles['bg-block']}>
+                <BlockRenderer
+                  type={blockData.type}
+                  content={blockData.content} />
+              </div>
+            })
+          }
+        </div>
+      </div>
+      <div className={styles['fg-slot']}>
+        <div className={styles['fg-slot-inner']}>
+          {currPageData?.blocks
+            ?.filter(blockData => 'depth' in blockData && blockData.depth === 'front')
+            .map(blockData => {
+              const key = ('id' in blockData) ? blockData.id : blockData
+              const zIndex = ('zIndex' in blockData) ? blockData.zIndex : undefined
+              return <div
+                key={key}
+                style={{ zIndex }}
+                className={styles['fg-block']}>
+                <BlockRenderer
+                  type={blockData.type}
+                  content={blockData.content} />
+              </div>
+            })
+          }
+        </div>
+      </div>
       <div className={styles['scroll-slot']}>
-        <Paginator onPageChange={this.handlePageChange}>
+        <Paginator
+          thresholdOffset={props.thresholdOffsed}
+          onPageChange={this.handlePageChange}>
           {exploitablePages?.map((pageData, pagePos) => (
             <Paginator.Page value={pagePos}>{
               pageData.blocks

@@ -1,11 +1,18 @@
+/*
+ * --fixed-blocks-height is defined in index.tsx
+ * --bg-color-transition-duration is defined in index.tsx
+ */
+
 .wrapper {
   position: relative;
+  transition: background-color var(--bg-color-transition-duration);
 }
 
 .bg-slot,
 .fg-slot {
   position: sticky;
   top: 0;
+  height: var(--fixed-blocks-height);
 }
 
 .bg-slot {
@@ -14,8 +21,23 @@
 
 .fg-slot {
   z-index: 3;
+  margin-top: calc(-1 * var(--fixed-blocks-height));
+}
+
+.bg-slot-inner,
+.fg-slot-inner {
+  position: absolute;
+  top: 0;
 }
 
 .scroll-slot {
   z-index: 2;
+  margin-top: calc(-1 * var(--fixed-blocks-height));
+}
+
+.bg-block,
+.fb-block {
+  position: absolute;
+  top: 0;
+  left: 0;
 }
