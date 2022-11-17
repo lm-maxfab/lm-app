@@ -67,7 +67,6 @@ export default class Scrollgneugneu extends Component<Props, State> {
     const nonePassed = passed.length === 0
     const noneActive = active.length === 0
     const pages = this.props.pages
-
     const isBeforeFirst = hasPages && noneActive && nonePassed
     const isAfterLast = hasPages && noneActive && noneComing
     if (isBeforeFirst) return this.setState(curr => ({
@@ -170,14 +169,12 @@ export default class Scrollgneugneu extends Component<Props, State> {
       : 'fg-block'
     ]
 
-    currentPageData?.blocks?.forEach(blockData => { pushNodeFromBlock(blockData, 'current', blockWrapperClass) })
-    previousPageData?.blocks?.forEach(blockData => { pushNodeFromBlock(blockData, 'previous', blockWrapperClass) })
+    currentPageData?.blocks?.forEach(blockData => pushNodeFromBlock(blockData, 'current', blockWrapperClass))
+    previousPageData?.blocks?.forEach(blockData => pushNodeFromBlock(blockData, 'previous', blockWrapperClass))
     exploitablePages
       ?.filter(pageData => pageData !== currentPageData && pageData !== previousPageData)
       .forEach(pageData => {
-        pageData.blocks?.forEach(blockData => {
-          pushNodeFromBlock(blockData, 'inactive', blockWrapperClass)
-        })
+        pageData.blocks?.forEach(blockData => pushNodeFromBlock(blockData, 'inactive', blockWrapperClass))
       })
 
     return fixedBlocksNodes
