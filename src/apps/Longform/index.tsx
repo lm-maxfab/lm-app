@@ -1,5 +1,4 @@
 import { Component, JSX } from 'preact'
-import DemoPage from '../../modules/layouts/DemoPage'
 import Scrollgneugneu, { PageData } from '../../modules/layouts/Scrollgneugneu'
 import appWrapper, { InjectedProps } from '../../modules/utils/app-wrapper-HOC'
 import bem from '../../modules/utils/bem'
@@ -8,122 +7,31 @@ import './styles.scss'
 interface Props extends InjectedProps {}
 interface State {}
 
-// const fakeScrllGngnPagesData: PageData[] = [{
-//   bgColor: 'red',
-//   scrolling: {
-//     type: 'html',
-//     content: `<div style="height: 1200px;">I am the <strong>CONTENT</strong></div>`
-//   },
-//   fixed: [{
-//     type: 'html',
-//     zIndex: -2,
-//     content: `<div style="position: relative; top: 10px; left: 10px;">I am fixed at -2</div>`
-//   }, {
-//     type: 'html',
-//     zIndex: -1,
-//     content: `<div style="position: relative; top: 40px; left: 40px;">I am fixed at -1</div>`
-//   }, {
-//     type: 'html',
-//     zIndex: 1,
-//     content: `<div style="position: relative; top: 70px; left: 70px;">I am fixed at 1</div>`
-//   }, {
-//     type: 'html',
-//     zIndex: 2,
-//     content: `<div style="position: relative; top: 100px; left: 100px;">I am fixed at 2</div>`
-//   }]
-// }, {
-//   bgColor: 'green',
-//   scrolling: {
-//     type: 'html',
-//     content: `<div style="height: 1000px;">I am the <strong>CONTENT</strong></div>`
-//   },
-//   fixed: [{
-//     type: 'html',
-//     zIndex: -2,
-//     content: `<div style="position: relative; top: 60px; left: 60px;">I am fixed at -2</div>`
-//   }, {
-//     type: 'html',
-//     zIndex: -1,
-//     content: `<div style="position: relative; top: 90px; left: 90px;">I am fixed at -1</div>`
-//   }, {
-//     type: 'html',
-//     zIndex: 1,
-//     content: `<div style="position: relative; top: 70px; left: 70px;">I am fixed at 1</div>`
-//   }, {
-//     type: 'html',
-//     zIndex: 2,
-//     content: `<div style="position: relative; top: 100px; left: 100px;">I am fixed at 2</div>`
-//   }]
-// }]
-
-
-// const pagesData: PageData[] = [{
-//   bgColor: 'green',
-//   blocks: [{
-//     depth: 'scroll',
-//     type: 'html',
-//     content: '<div style="height: 1500px;">I am the first scrolling block</div>'
-//   }, {
-//     depth: 'front',
-//     type: 'html',
-//     content: '<div>I am a front fixed block</div>'
-//   }, {
-//     depth: 'back',
-//     type: 'html',
-//     zIndex: 2,
-//     id: 'une-petite-video',
-//     content: `<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/500px-Image_created_with_a_mobile_phone.png" />`
-//     // content: `<video muted autoplay style="width: 400px; height: 400px;">
-//     //   <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.webm" type="video/webm" />
-//     // </video>`
-//   }, {
-//     depth: 'back',
-//     type: 'html',
-//     zIndex: 1,
-//     content: `<div style="width: 40px; height: 40px; background-color: coral;">.</div>`
-//   }]
-// }, {
-//   bgColor: 'violet',
-//   blocks: [{
-//     depth: 'scroll',
-//     type: 'html',
-//     content: '<div style="height: 1500px;">I am the second scrolling block</div>'
-//   }, {
-//     id: 'une-petite-video'
-//   }, {
-//     depth: 'back',
-//     type: 'html',
-//     zIndex: 3
-//   }]
-// }, {
-//   bgColor: 'orange',
-//   blocks: [{
-//     depth: 'scroll',
-//     type: 'html',
-//     content: '<div style="height: 1500px;">I am the third scrolling block</div>'
-//   }, {
-//     id: 'une-petite-video'
-//   }]
-// }]
-
 const pagesData: PageData[] = [{
   bgColor: 'green',
   blocks: [
-    { depth: 'scroll', type: 'html', content: `<div style="height: 1200px;">First page</div>` },
-    { depth: 'back', type: 'html', content: `<div style="width: 300px; position: relative; top: 20px; left: 20px;">First back block</div>`, id: 'first' }
+    { depth: 'scroll', type: 'html', content: `<div style="height: 1200px;">First page lorem ipsum dolor sit ampet cons</div>` },
+    { depth: 'front', type: 'html', content: `<div style="position: relative; background-color: rgb(200, 200, 200, 1); top: 0px;">P1. FRONT 1</div>`, id: 'first' },
+    { depth: 'front', type: 'html', content: `<video loop autoplay muted playsinline style="top: 200px; left: 100px; position: relative; width: 200px; height: 200px;"><source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.webm" /></video>`, zIndex: 2000, id: 'video' },
+    { depth: 'front', zIndex: -1, type: 'module', content: 'http://localhost:3003/index.js', id: 'module' }
   ]
 }, {
   bgColor: 'coral',
   blocks: [
-    { depth: 'scroll', type: 'html', content: `<div style="height: 1200px;">Second page</div>` },
-    { depth: 'back', type: 'html', content: `<div style="width: 300px; position: relative; top: 60px; left: 60px;">Second back block</div>` }
+    { depth: 'scroll', type: 'html', content: `<div style="height: 1200px;">Second page lorem ipsum dolor sit ampet cons</div>` },
+    { depth: 'back', type: 'html', content: `<div style="position: relative; background-color: rgb(200, 200, 200, 1); top: 50px;">P2. BACK 1</div>` },
+    { depth: 'front', type: 'html', content: `<div style="position: relative; background-color: rgb(200, 200, 200, 1); top: 100px;">P2. FRONT 1</div>`, zIndex: 600 },
+    { depth: 'back', type: 'html', content: `<div style="position: relative; background-color: rgb(200, 200, 200, 1); top: 150px;">P2. BACK 2</div>`, zIndex: 1000 },
+    { depth: 'front', id: 'video' },
+    { depth: 'front', id: 'module' }
   ]
 }, {
   bgColor: 'violet',
   blocks: [
-    { depth: 'scroll', type: 'html', content: `<div style="height: 1200px;">Third page</div>` },
-    { depth: 'back', type: 'html', content: `<div style="width: 300px; position: relative; top: 100px; left: 100px;">Third back block</div>` },
-    { id: 'first' }
+    { depth: 'scroll', type: 'html', content: `<div style="height: 1200px;">Third page lorem ipsum dolor sit ampet cons</div>` },
+    { depth: 'back', type: 'html', content: `<div style="position: relative; background-color: rgb(200, 200, 200, 1); top: 200px;">P3. BACK 1</div>` },
+    { id: 'first' },
+    { depth: 'front', id: 'video' }
   ]
 }]
 

@@ -25,8 +25,12 @@ type ReferenceBlockData = {
 type ExploitableBlockData = ScrollingBlockData|FixedBlockData
 type BlockData = ScrollingBlockData|FixedBlockData|ReferenceBlockData
 
+type ExploitableBlockDataWithZIndex = {
+  blockData: ExploitableBlockData,
+  zIndex: number
+}
 
-type PageData = {
+export type PageData = {
   chapterName?: string
   bgColor?: JSX.CSSProperties['backgroundColor']
   data?: any
@@ -56,7 +60,10 @@ export default class Scrollgneugneu extends Component<Props, State> {
     this.handlePageChange = this.handlePageChange.bind(this)
     this.getExploitablePages = this.getExploitablePages.bind(this)
     this.getBgColorTransitionDuration = this.getBgColorTransitionDuration.bind(this)
-    this.getFixedBlocksNodes = this.getFixedBlocksNodes.bind(this)
+    this.getAllFixedBlocks = this.getAllFixedBlocks.bind(this)
+    this.getDedupedFixedBlocks = this.getDedupedFixedBlocks.bind(this)
+    this.getZSortedFixedBlocks = this.getZSortedFixedBlocks.bind(this)
+    this.getBlockCurrentStatus = this.getBlockCurrentStatus.bind(this)
   }
 
   handlePageChange (paginatorState: PaginatorState) {
@@ -86,6 +93,13 @@ export default class Scrollgneugneu extends Component<Props, State> {
     }))
   }
 
+  getBgColorTransitionDuration (): string {
+    const { bgColorTransitionDuration } = this.props
+    if (typeof bgColorTransitionDuration === 'number') return `${bgColorTransitionDuration}ms`
+    if (typeof bgColorTransitionDuration === 'string') return bgColorTransitionDuration
+    return '200ms'
+  }
+
   getExploitablePages (): ExploitablePageData[]|undefined {
     const pagesData = this.props.pages
     if (pagesData === undefined) return
@@ -109,75 +123,87 @@ export default class Scrollgneugneu extends Component<Props, State> {
     return exploitablePagesData
   }
 
-  getBgColorTransitionDuration (): string {
-    const { bgColorTransitionDuration } = this.props
-    if (typeof bgColorTransitionDuration === 'number') return `${bgColorTransitionDuration}ms`
-    if (typeof bgColorTransitionDuration === 'string') return bgColorTransitionDuration
-    return '200ms'
+  getAllFixedBlocks (): ExploitableBlockData[] {
+    const { getExploitablePages } = this
+    const exploitablePages = getExploitablePages()
+    const allFixedBlocks: ExploitableBlockData[] = []
+    exploitablePages?.forEach(pageData => {
+      pageData.blocks?.forEach(blockData => {
+        const isBack = blockData.depth === 'back'
+        const isFront = blockData.depth === 'front'
+        const isFixed = isBack || isFront
+        if (isFixed) allFixedBlocks.push(blockData)
+      })
+    })
+    return allFixedBlocks
   }
 
-  getFixedBlocksNodes (depth: 'back'|'front'): JSX.Element[]|null {
+  getDedupedFixedBlocks (): ExploitableBlockData[] {
+    const { getAllFixedBlocks } = this
+    const allFixedBlocks = getAllFixedBlocks()
+    const dedupedFixedBlocks: ExploitableBlockData[] = []
+    const idsSet = new Set<string>()
+    allFixedBlocks.forEach(blockData => {
+      const idInBlockData = 'id' in blockData
+      if (!idInBlockData) return dedupedFixedBlocks.push(blockData)
+      const idIsUndef = blockData.id === undefined
+      if (idIsUndef) return dedupedFixedBlocks.push(blockData)
+      const id = blockData.id as string // TS should understand this by itself ?
+      const alreadyInDeduped = idsSet.has(id as string)
+      if (alreadyInDeduped) return
+      idsSet.add(id)
+      return dedupedFixedBlocks.push(blockData)
+    })
+    return dedupedFixedBlocks
+  }
+
+  getZSortedFixedBlocks (): ExploitableBlockDataWithZIndex[] {
+    const { getDedupedFixedBlocks } = this
+    const dedupedFixedBlocks = getDedupedFixedBlocks()
+    const dedupedBgBlocks = dedupedFixedBlocks.filter(blockData => blockData.depth === 'back')
+    const dedupedFgBlocks = dedupedFixedBlocks.filter(blockData => blockData.depth === 'front')
+    const blocksSorter = (aBlock: ExploitableBlockData, bBlock: ExploitableBlockData) => {
+      const aHasZid = 'zIndex' in aBlock
+      const aZid = aHasZid ? (aBlock.zIndex ?? 0) : 0
+      const bHasZid = 'zIndex' in bBlock
+      const bZid = bHasZid ? (bBlock.zIndex ?? 0) : 0
+      return aZid - bZid
+    }
+    const sortedBgBlocks = dedupedBgBlocks.sort(blocksSorter)
+    const sortedFgBlocks = dedupedFgBlocks.sort(blocksSorter)
+    const fgBlocksMinZindex = sortedBgBlocks.length + 1
+    return [
+      ...sortedBgBlocks.map((blockData, blockPos) => ({ blockData, zIndex: blockPos })),
+      ...sortedFgBlocks.map((blockData, blockPos) => ({ blockData, zIndex: fgBlocksMinZindex + blockPos }))
+    ]
+  }
+
+  getBlockCurrentStatus (blockData: ExploitableBlockData): 'current'|'previous'|'inactive' {
     const { state, getExploitablePages } = this
-    const exploitablePages = getExploitablePages()
-    if (exploitablePages === undefined) return null
+    const pages = getExploitablePages()
+    if (pages === undefined) return 'inactive'
     const { currentPagePos, previousPagePos } = state
     const currentPageData = currentPagePos !== undefined
-      ? exploitablePages[currentPagePos]
+      ? pages[currentPagePos]
       : undefined
-    const previousPageData = previousPagePos !== undefined
-      ? exploitablePages[previousPagePos]
-      : undefined
-
-    const alreadyRenderedIds = new Set<string>()
-    const fixedBlocksNodes: JSX.Element[] = []
-
-    const pushNodeFromBlock = (
-      blockData: ExploitableBlockData,
-      status: 'current'|'previous'|'inactive',
-      wrapperClass: string
-    ) => {
-      if (blockData.depth !== depth) return
-      const hasId = blockData.id !== undefined
-      if (!hasId) return fixedBlocksNodes.push(<div
-        key={blockData}
-        className={wrapperClass}
-        style={{ zIndex: blockData.zIndex }}>
-        <BlockRenderer
-          status={status}
-          type={blockData.type}
-          content={blockData.content} />
-      </div>)
-      
-      const id = blockData.id as string
-      const alreadyRendered = alreadyRenderedIds.has(id)
-      if (alreadyRendered) return
-
-      alreadyRenderedIds.add(id)
-      fixedBlocksNodes.push(<div
-        key={id}
-        className={wrapperClass}
-        style={{ zIndex: blockData.zIndex }}>
-        <BlockRenderer
-          status={status}
-          type={blockData.type}
-          content={blockData.content} />
-      </div>)
+    if (currentPageData !== undefined) {
+      const currentPageBlocks = currentPageData.blocks
+      if (currentPageBlocks !== undefined) {
+        const isInCurrentBlocks = currentPageBlocks.includes(blockData)
+        if (isInCurrentBlocks) return 'current'
+      }
     }
-
-    const blockWrapperClass = styles[depth === 'back'
-      ? 'bg-block'
-      : 'fg-block'
-    ]
-
-    currentPageData?.blocks?.forEach(blockData => pushNodeFromBlock(blockData, 'current', blockWrapperClass))
-    previousPageData?.blocks?.forEach(blockData => pushNodeFromBlock(blockData, 'previous', blockWrapperClass))
-    exploitablePages
-      ?.filter(pageData => pageData !== currentPageData && pageData !== previousPageData)
-      .forEach(pageData => {
-        pageData.blocks?.forEach(blockData => pushNodeFromBlock(blockData, 'inactive', blockWrapperClass))
-      })
-
-    return fixedBlocksNodes
+    const previousPageData = previousPagePos !== undefined
+      ? pages[previousPagePos]
+      : undefined
+    if (previousPageData !== undefined) {
+      const previousPageBlocks = previousPageData.blocks
+      if (previousPageBlocks !== undefined) {
+        const isInPreviousBlocks = previousPageBlocks.includes(blockData)
+        if (isInPreviousBlocks) return 'previous'
+      }
+    }
+    return 'inactive'
   }
 
   render () {
@@ -188,24 +214,47 @@ export default class Scrollgneugneu extends Component<Props, State> {
       ? exploitablePages[currentPagePos]
       : undefined
 
+    const zSortedFixedBlocks = this.getZSortedFixedBlocks()
+    const scrollPanelZIndex = zSortedFixedBlocks
+      .filter(blockWithZ => blockWithZ.blockData.depth === 'back')
+      .length
+
+    /* [WIP]
+     * - load modules
+     * - give context props to modules
+     * - transitions
+     * - layout
+     */
+
     return <div
       className={styles['wrapper']}
       style={{
         backgroundColor: currPageData?.bgColor,
         ['--fixed-blocks-height']: props.fixedBlocksHeight ?? '100vh',
-        ['--bg-color-transition-duration']: this.getBgColorTransitionDuration()
+        ['--bg-color-transition-duration']: this.getBgColorTransitionDuration(),
+        ['--scroll-panel-z-index']: scrollPanelZIndex
       }}>
-      <div className={styles['bg-slot']}>
-        <div className={styles['bg-slot-inner']}>
-          {this.getFixedBlocksNodes('back')}
+      {zSortedFixedBlocks.map(blockWithZ => {
+        const { blockData, zIndex } = blockWithZ
+        const stickyBlockClasses = [styles['sticky-block']]
+        if (blockData.depth === 'back') stickyBlockClasses.push(styles['sticky-block_back'])
+        if (blockData.depth === 'front') stickyBlockClasses.push(styles['sticky-block_front'])
+        const key = 'id' in blockData && blockData.id !== undefined
+          ? blockData.id
+          : blockData
+        return <div
+          key={key}
+          className={stickyBlockClasses.join(' ')}
+          style={{ ['--z-index']: zIndex }}>
+          <div className={styles['sticky-block-inner']}>
+            <BlockRenderer
+            status={this.getBlockCurrentStatus(blockData)}
+            type={blockData.type}
+            content={blockData.content} />
+          </div>
         </div>
-      </div>
-      <div className={styles['fg-slot']}>
-        <div className={styles['fg-slot-inner']}>
-          {this.getFixedBlocksNodes('front')}
-        </div>
-      </div>
-      <div className={styles['scroll-slot']}>
+      })}
+      <div className={styles['scroll-panel']}>
         <Paginator
           thresholdOffset={props.thresholdOffset}
           onPageChange={this.handlePageChange}>

@@ -1,6 +1,9 @@
 /*
- * --fixed-blocks-height is defined in index.tsx
- * --bg-color-transition-duration is defined in index.tsx
+ * Defined in index.tsx:
+ *
+ * --fixed-blocks-height
+ * --bg-color-transition-duration
+ * --scroll-panel-z-index
  */
 
 .wrapper {
@@ -8,37 +11,29 @@
   transition: background-color var(--bg-color-transition-duration);
 }
 
-.bg-slot,
-.fg-slot {
+.sticky-block {
+  /* --z-index is defined in index.tsx */
   position: sticky;
   top: 0;
+  display: inline-block;
   height: var(--fixed-blocks-height);
-  width: 0; /* WIP: this trick in order to let scrolling area stuff be selectible */
+  z-index: var(--z-index);
 }
 
-.bg-slot {
-  z-index: 1;
+.sticky-block_back {
+  margin-top: calc((-1 * var(--z-index)) * var(--fixed-blocks-height));
 }
 
-.fg-slot {
-  z-index: 3;
-  margin-top: calc(-1 * var(--fixed-blocks-height));
+.sticky-block_front {
+  margin-top: calc((-1 * var(--z-index) - 1) * var(--fixed-blocks-height));
 }
 
-.bg-slot-inner,
-.fg-slot-inner {
+.sticky-block-inner {
   position: absolute;
-  top: 0;
 }
 
-.scroll-slot {
-  z-index: 2;
-  margin-top: calc(-1 * var(--fixed-blocks-height));
-}
-
-.bg-block,
-.fb-block {
-  position: absolute;
-  top: 0;
-  left: 0;
+.scroll-panel {
+  position: relative;
+  z-index: var(--scroll-panel-z-index);
+  margin-top: calc(-1 * (var(--scroll-panel-z-index) - 3) * var(--fixed-blocks-height));
 }
