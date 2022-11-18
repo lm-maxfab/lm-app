@@ -7,9 +7,7 @@ type CommonBlockData = { type?: 'module'|'html', content?: string }
 type ScrollingBlockData = CommonBlockData & { depth?: 'scroll' }
 type FixedBlockData = CommonBlockData & { depth: 'back'|'front', id?: string, zIndex?: number }
 type ReferenceBlockData = { id?: string }
-type ExploitableBlockData = ScrollingBlockData|FixedBlockData
 type BlockData = ScrollingBlockData|FixedBlockData|ReferenceBlockData
-type ExploitableBlockDataWithZIndex = { blockData: ExploitableBlockData, zIndex: number }
 
 export type PageData = {
   chapterName?: string
@@ -18,6 +16,8 @@ export type PageData = {
   blocks?: BlockData[]
 }
 
+type ExploitableBlockData = ScrollingBlockData|FixedBlockData
+type ExploitableBlockDataWithZIndex = { blockData: ExploitableBlockData, zIndex: number }
 type ExploitablePageData = Omit<PageData, 'blocks'> & { blocks?: ExploitableBlockData[] }
 
 type Props = {
