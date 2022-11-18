@@ -3,32 +3,13 @@ import Paginator, { State as PaginatorState } from '../../components/Paginator'
 import BlockRenderer from './BlockRenderer'
 import styles from './styles.module.scss'
 
-type CommonBlockData = {
-  type?: 'module'|'html'
-  content?: string
-}
-
-type ScrollingBlockData = CommonBlockData & {
-  depth?: 'scroll'
-}
-
-type FixedBlockData = CommonBlockData & {
-  depth: 'back'|'front'
-  id?: string
-  zIndex?: number
-}
-
-type ReferenceBlockData = {
-  id?: string
-}
-
+type CommonBlockData = { type?: 'module'|'html', content?: string }
+type ScrollingBlockData = CommonBlockData & { depth?: 'scroll' }
+type FixedBlockData = CommonBlockData & { depth: 'back'|'front', id?: string, zIndex?: number }
+type ReferenceBlockData = { id?: string }
 type ExploitableBlockData = ScrollingBlockData|FixedBlockData
 type BlockData = ScrollingBlockData|FixedBlockData|ReferenceBlockData
-
-type ExploitableBlockDataWithZIndex = {
-  blockData: ExploitableBlockData,
-  zIndex: number
-}
+type ExploitableBlockDataWithZIndex = { blockData: ExploitableBlockData, zIndex: number }
 
 export type PageData = {
   chapterName?: string
@@ -37,9 +18,7 @@ export type PageData = {
   blocks?: BlockData[]
 }
 
-type ExploitablePageData = Omit<PageData, 'blocks'> & {
-  blocks?: ExploitableBlockData[]
-}
+type ExploitablePageData = Omit<PageData, 'blocks'> & { blocks?: ExploitableBlockData[] }
 
 type Props = {
   thresholdOffset?: string
@@ -220,10 +199,10 @@ export default class Scrollgneugneu extends Component<Props, State> {
       .length
 
     /* [WIP]
-     * - load modules
-     * - give context props to modules
-     * - transitions
+     * - OK load modules
      * - layout
+     * - transitions
+     * - give context props to modules
      */
 
     return <div
@@ -239,9 +218,8 @@ export default class Scrollgneugneu extends Component<Props, State> {
         const stickyBlockClasses = [styles['sticky-block']]
         if (blockData.depth === 'back') stickyBlockClasses.push(styles['sticky-block_back'])
         if (blockData.depth === 'front') stickyBlockClasses.push(styles['sticky-block_front'])
-        const key = 'id' in blockData && blockData.id !== undefined
-          ? blockData.id
-          : blockData
+        const hasId = 'id' in blockData && blockData.id !== undefined
+        const key = hasId ? blockData.id : blockData
         return <div
           key={key}
           className={stickyBlockClasses.join(' ')}
