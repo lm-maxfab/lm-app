@@ -3,13 +3,15 @@ import Paginator, { State as PaginatorState } from '../../components/Paginator'
 import BlockRenderer from './BlockRenderer'
 import styles from './styles.module.scss'
 
+type BlockLayout = 'left-half'|'right-half'
+
 type CommonBlockData = {
   type?: 'module'|'html'
   content?: string
-  layout?: string
-  mobileLayout?: string
-  customLayoutCss?: string
-  customMobileLayoutCss?: string
+  layout?: BlockLayout
+  mobileLayout?: BlockLayout
+  // customLayoutCss?: string
+  // customMobileLayoutCss?: string
 }
 
 type ScrollingBlockData = CommonBlockData & { depth?: 'scroll' }
@@ -226,6 +228,9 @@ export default class Scrollgneugneu extends Component<Props, State> {
         const stickyBlockClasses = [styles['sticky-block']]
         if (blockData.depth === 'back') stickyBlockClasses.push(styles['sticky-block_back'])
         if (blockData.depth === 'front') stickyBlockClasses.push(styles['sticky-block_front'])
+        if (blockData.layout !== undefined) stickyBlockClasses.push(styles[`layout-${blockData.layout}`])
+        if (blockData.mobileLayout === undefined) stickyBlockClasses.push(styles[`layout-mobile-${blockData.layout}`])
+        if (blockData.mobileLayout !== undefined) stickyBlockClasses.push(styles[`layout-mobile-${blockData.mobileLayout}`])
         const hasId = 'id' in blockData && blockData.id !== undefined
         const key = hasId ? blockData.id : blockData
         return <div
@@ -248,9 +253,17 @@ export default class Scrollgneugneu extends Component<Props, State> {
             <Paginator.Page value={pagePos}>{
               pageData.blocks
                 ?.filter(blockData => blockData.depth === 'scroll')
-                .map(blockData => <BlockRenderer
-                  type={blockData.type}
-                  content={blockData.content} />)
+                .map(blockData => {
+                  const scrollingBlockClasses = [styles['scrolling-block']]
+                  if (blockData.layout !== undefined) scrollingBlockClasses.push(styles[`layout-${blockData.layout}`])
+                  if (blockData.mobileLayout === undefined) scrollingBlockClasses.push(styles[`layout-mobile-${blockData.layout}`])
+                  if (blockData.mobileLayout !== undefined) scrollingBlockClasses.push(styles[`layout-mobile-${blockData.mobileLayout}`])
+                  return <div className={scrollingBlockClasses.join(' ')}>
+                    <BlockRenderer
+                      type={blockData.type}
+                      content={blockData.content} />
+                  </div>
+                })
             }</Paginator.Page>)
           )}
         </Paginator>

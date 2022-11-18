@@ -35,5 +35,77 @@
 .scroll-panel {
   position: relative;
   z-index: var(--scroll-panel-z-index);
-  margin-top: calc(-1 * (var(--scroll-panel-z-index) - 3) * var(--fixed-blocks-height));
+  margin-top: calc(-1 * var(--fixed-blocks-height) * var(--scroll-panel-z-index));
+  // margin-top: calc(-1 * (var(--scroll-panel-z-index) - 2) * var(--fixed-blocks-height));
 }
+
+/* LAYOUTS */
+
+$minWidth: 801px;
+$maxWidth: 800px;
+
+/* left-half */
+// .scrolling-block.layout-left-half {
+//   @media (min-width: $minWidth) {
+//     width: 50%;
+//     background-color: yellow;
+//   }
+// }
+
+// .scrolling-block.layout-mobile-left-half {
+//   @media (max-width: $maxWidth) {
+//     width: 50%;
+//     background-color: turquoise;
+//   }
+// }
+
+// .sticky-block.layout-left-half {
+//   @media (min-width: $minWidth) {
+//     width: 50%;
+//     background-color: yellow;
+//     margin-right: -50%;
+//   }
+// }
+
+// .sticky-block.layout-mobile-left-half {
+//   @media (max-width: $maxWidth) {
+//     width: 50%;
+//     background-color: turquoise;
+//     margin-right: -50%;
+//   }
+// }
+
+// /* right-half */
+// .scrolling-block.layout-right-half {
+//   @media (min-width: $minWidth) {
+//     margin-left: 50%;
+//     width: 50%;
+//     background-color: yellow;
+//   }
+// }
+
+// .scrolling-block.layout-mobile-right-half {
+//   @media (max-width: $maxWidth) {
+//     margin-left: 50%;
+//     width: 50%;
+//     background-color: turquoise;
+//   }
+// }
+
+// .sticky-block.layout-right-half {
+//   @media (min-width: $minWidth) {
+//     width: 50%;
+//     background-color: yellow;
+//     margin-right: -50%;
+//     left: 50%;
+//   }
+// }
+
+// .sticky-block.layout-mobile-right-half {
+//   @media (max-width: $maxWidth) {
+//     width: 50%;
+//     background-color: turquoise;
+//     margin-right: -50%;
+//     left: 50%;
+//   }
+// }
