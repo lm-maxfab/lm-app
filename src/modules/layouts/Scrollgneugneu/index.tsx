@@ -3,7 +3,15 @@ import Paginator, { State as PaginatorState } from '../../components/Paginator'
 import BlockRenderer from './BlockRenderer'
 import styles from './styles.module.scss'
 
-type CommonBlockData = { type?: 'module'|'html', content?: string }
+type CommonBlockData = {
+  type?: 'module'|'html'
+  content?: string
+  layout?: string
+  mobileLayout?: string
+  customLayoutCss?: string
+  customMobileLayoutCss?: string
+}
+
 type ScrollingBlockData = CommonBlockData & { depth?: 'scroll' }
 type FixedBlockData = CommonBlockData & { depth: 'back'|'front', id?: string, zIndex?: number }
 type ReferenceBlockData = { id?: string }
