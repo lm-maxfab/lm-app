@@ -49,7 +49,7 @@ export default class TeamImage extends Component<Props, State> {
       </div>
 
       <div class={bemClass.elt('overlay').value}>
-        <p>En savoir plus sur l’équipe</p>
+        <p>Voir la fiche</p>
       </div>
     </div>
   }

@@ -61,6 +61,9 @@
     height: 100%;
     z-index: 3;
     transition: transform var(--mondial-team-img-transition);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     img {
       height: 100%;
