@@ -1,33 +1,39 @@
 import { Component } from 'preact'
+import IntersectionObserverComponent from '../../components/IntersectionObserver'
 import Paginator, { State as PaginatorState } from '../../components/Paginator'
+import ResizeObserverComponent from '../../components/ResizeObserver'
 import BlockRenderer from './BlockRenderer'
 import styles from './styles.module.scss'
 
-type BlockLayout = 'left-half'|'right-half'
+type BlockLayoutName = 'left-half'|'right-half'
+type InTransitionName = 'in-fade'|'in-grow'
+type OutTransitionName = 'out-fade'|'out-grow'
+type TransitionName = InTransitionName|OutTransitionName
+type TransitionDescriptor = [TransitionName, string|number|undefined]
 
 type CommonBlockData = {
   type?: 'module'|'html'
   content?: string
-  layout?: BlockLayout
-  mobileLayout?: BlockLayout
-  // customLayoutCss?: string
-  // customMobileLayoutCss?: string
+  layout?: BlockLayoutName
+  mobileLayout?: BlockLayoutName
 }
-
 type ScrollingBlockData = CommonBlockData & { depth?: 'scroll' }
-type FixedBlockData = CommonBlockData & { depth: 'back'|'front', id?: string, zIndex?: number }
+type FixedBlockData = CommonBlockData & {
+  depth: 'back'|'front'
+  id?: string
+  zIndex?: number
+  transitions?: TransitionDescriptor[]
+  mobileTransitions?: TransitionDescriptor[]
+}
 type ReferenceBlockData = { id?: string }
 type BlockData = ScrollingBlockData|FixedBlockData|ReferenceBlockData
-
-export type PageData = {
-  chapterName?: string
-  bgColor?: JSX.CSSProperties['backgroundColor']
-  data?: any
-  blocks?: BlockData[]
-}
-
 type ExploitableBlockData = ScrollingBlockData|FixedBlockData
 type ExploitableBlockDataWithZIndex = { blockData: ExploitableBlockData, zIndex: number }
+
+export type PageData = {
+  bgColor?: JSX.CSSProperties['backgroundColor']
+  blocks?: BlockData[]
+}
 type ExploitablePageData = Omit<PageData, 'blocks'> & { blocks?: ExploitableBlockData[] }
 
 type Props = {
@@ -40,6 +46,10 @@ type Props = {
 type State = {
   currentPagePos?: number
   previousPagePos?: number
+  topVisible?: boolean
+  ctntVisible?: boolean
+  btmVisible?: boolean
+  scrollingBlockHeight?: number
 }
 
 export default class Scrollgneugneu extends Component<Props, State> {
@@ -53,6 +63,7 @@ export default class Scrollgneugneu extends Component<Props, State> {
     this.getDedupedFixedBlocks = this.getDedupedFixedBlocks.bind(this)
     this.getZSortedFixedBlocks = this.getZSortedFixedBlocks.bind(this)
     this.getBlockCurrentStatus = this.getBlockCurrentStatus.bind(this)
+    this.onPaginatorResize = this.onPaginatorResize.bind(this)
   }
 
   handlePageChange (paginatorState: PaginatorState) {
@@ -75,11 +86,13 @@ export default class Scrollgneugneu extends Component<Props, State> {
       currentPagePos: pages !== undefined ? pages.length - 1 : undefined,
       previousPagePos: curr.currentPagePos
     }))
-    this.setState(curr => ({
-      ...curr,
-      currentPagePos: paginatorState.value as number|undefined,
-      previousPageData: curr.currentPagePos
-    }))
+    this.setState(curr => {
+      return {
+        ...curr,
+        currentPagePos: paginatorState.value as number|undefined,
+        previousPagePos: curr.currentPagePos
+      }
+    })
   }
 
   getBgColorTransitionDuration (): string {
@@ -195,6 +208,20 @@ export default class Scrollgneugneu extends Component<Props, State> {
     return 'inactive'
   }
 
+  onPaginatorResize (entries: ResizeObserverEntry[]) {
+    const $paginator = entries[0]
+    if ($paginator === undefined) return
+    const { contentRect } = $paginator
+    const { height } = contentRect
+    this.setState(curr => {
+      if (curr.scrollingBlockHeight === height) return null
+      return {
+        ...curr,
+        scrollingBlockHeight: height
+      }
+    })
+  }
+
   render () {
     const { props, state } = this
     const exploitablePages = this.getExploitablePages()
@@ -210,63 +237,126 @@ export default class Scrollgneugneu extends Component<Props, State> {
 
     /* [WIP]
      * - OK load modules
-     * - layout
+     * - OK layout
      * - transitions
      * - give context props to modules
      */
 
+    const { topVisible, ctntVisible, btmVisible } = state
+    const blocksAreFixed = ctntVisible === true && topVisible !== true && btmVisible !== true
+    const offsetFixed = !blocksAreFixed && btmVisible
+
+    const wrapperClasses = [styles['wrapper']]
+    if (blocksAreFixed) wrapperClasses.push(styles['wrapper_fix-blocks'])
+    if (offsetFixed) wrapperClasses.push(styles['wrapper_offset-fixed-blocks'])
     return <div
-      className={styles['wrapper']}
+      className={wrapperClasses.join(' ')}
       style={{
         backgroundColor: currPageData?.bgColor,
         ['--fixed-blocks-height']: props.fixedBlocksHeight ?? '100vh',
+        ['--scrolling-block-height']: `${state.scrollingBlockHeight}px`,
         ['--bg-color-transition-duration']: this.getBgColorTransitionDuration(),
         ['--scroll-panel-z-index']: scrollPanelZIndex
       }}>
       {zSortedFixedBlocks.map(blockWithZ => {
-        const { blockData, zIndex } = blockWithZ
+        const { blockData: _blockData, zIndex } = blockWithZ
+        const blockData = _blockData as FixedBlockData
         const stickyBlockClasses = [styles['sticky-block']]
-        if (blockData.depth === 'back') stickyBlockClasses.push(styles['sticky-block_back'])
-        if (blockData.depth === 'front') stickyBlockClasses.push(styles['sticky-block_front'])
-        if (blockData.layout !== undefined) stickyBlockClasses.push(styles[`layout-${blockData.layout}`])
-        if (blockData.mobileLayout === undefined) stickyBlockClasses.push(styles[`layout-mobile-${blockData.layout}`])
-        if (blockData.mobileLayout !== undefined) stickyBlockClasses.push(styles[`layout-mobile-${blockData.mobileLayout}`])
+        const stickyBlockVariables: JSX.CSSProperties = {}
+        // Status classes
+        const blockStatus = this.getBlockCurrentStatus(blockData)
+        stickyBlockClasses.push(styles[`status-${blockStatus}`])
+        // Layout classes
+        const hasLayout = blockData.layout !== undefined
+        const hasMobileLayout = blockData.mobileLayout !== undefined
+        if (hasLayout) stickyBlockClasses.push(styles[`layout-${blockData.layout}`])
+        if (hasLayout && !hasMobileLayout) stickyBlockClasses.push(styles[`layout-mobile-${blockData.layout}`])
+        if (hasMobileLayout) stickyBlockClasses.push(styles[`layout-mobile-${blockData.mobileLayout}`]) 
+        // Transition classes
+        const hasTransitions = blockData.transitions !== undefined
+        const hasMobileTransitions = blockData.mobileTransitions !== undefined
+        if (hasTransitions) {
+          const transitions = blockData.transitions as TransitionDescriptor[]
+          transitions.forEach(([name, _duration]) => {
+            stickyBlockClasses.push(styles[`transition-${name}`])
+            if (_duration !== undefined) {
+              const variableName = `--transition-${name}-duration`
+              const duration = typeof _duration === 'number' ? `${_duration}ms` : _duration
+              stickyBlockVariables[variableName] = duration
+            }
+          })
+        }
+        if (hasTransitions && !hasMobileTransitions) {
+          const transitions = blockData.transitions as TransitionDescriptor[]
+          transitions.forEach(([name, _duration]) => {
+            stickyBlockClasses.push(styles[`transition-mobile-${name}`])
+            if (_duration !== undefined) {
+              const variableName = `--transition-mobile-${name}-duration`
+              const duration = typeof _duration === 'number' ? `${_duration}ms` : _duration
+              stickyBlockVariables[variableName] = duration
+            }
+          })
+        }
+        if (hasMobileTransitions) {
+          const mobileTransitions = blockData.mobileTransitions as TransitionDescriptor[]
+          mobileTransitions.forEach(([name, _duration]) => {
+            stickyBlockClasses.push(styles[`transition-mobile-${name}`])
+            if (_duration !== undefined) {
+              const variableName = `--transition-mobile-${name}-duration`
+              const duration = typeof _duration === 'number' ? `${_duration}ms` : _duration
+              stickyBlockVariables[variableName] = duration
+            }
+          })
+        }
+
         const hasId = 'id' in blockData && blockData.id !== undefined
         const key = hasId ? blockData.id : blockData
         return <div
           key={key}
           className={stickyBlockClasses.join(' ')}
-          style={{ ['--z-index']: zIndex }}>
-          <div className={styles['sticky-block-inner']}>
-            <BlockRenderer
-            status={this.getBlockCurrentStatus(blockData)}
+          style={{ ['--z-index']: zIndex, ...stickyBlockVariables }}>
+          <BlockRenderer
             type={blockData.type}
             content={blockData.content} />
-          </div>
         </div>
       })}
       <div className={styles['scroll-panel']}>
-        <Paginator
-          thresholdOffset={props.thresholdOffset}
-          onPageChange={this.handlePageChange}>
-          {exploitablePages?.map((pageData, pagePos) => (
-            <Paginator.Page value={pagePos}>{
-              pageData.blocks
-                ?.filter(blockData => blockData.depth === 'scroll')
-                .map(blockData => {
-                  const scrollingBlockClasses = [styles['scrolling-block']]
-                  if (blockData.layout !== undefined) scrollingBlockClasses.push(styles[`layout-${blockData.layout}`])
-                  if (blockData.mobileLayout === undefined) scrollingBlockClasses.push(styles[`layout-mobile-${blockData.layout}`])
-                  if (blockData.mobileLayout !== undefined) scrollingBlockClasses.push(styles[`layout-mobile-${blockData.mobileLayout}`])
-                  return <div className={scrollingBlockClasses.join(' ')}>
-                    <BlockRenderer
-                      type={blockData.type}
-                      content={blockData.content} />
-                  </div>
-                })
-            }</Paginator.Page>)
-          )}
-        </Paginator>
+        <IntersectionObserverComponent
+          threshold={0}
+          callback={({ isIntersecting }) => this.setState({ topVisible: isIntersecting })}
+          render={() => <div />} />
+        <IntersectionObserverComponent
+          threshold={0}
+          callback={({ isIntersecting }) => this.setState({ ctntVisible: isIntersecting })}>
+          <ResizeObserverComponent
+            onResize={this.onPaginatorResize}>
+            <Paginator
+              thresholdOffset={props.thresholdOffset}
+              onPageChange={this.handlePageChange}>
+              {exploitablePages?.map((pageData, pagePos) => (
+                <Paginator.Page value={pagePos}>{
+                  pageData.blocks
+                    ?.filter(blockData => blockData.depth === 'scroll')
+                    .map(blockData => {
+                      const classes = [styles['scrolling-block']]
+                      if (blockData.layout !== undefined) classes.push(styles[`layout-${blockData.layout}`])
+                      if (blockData.mobileLayout === undefined) classes.push(styles[`layout-mobile-${blockData.layout}`])
+                      if (blockData.mobileLayout !== undefined) classes.push(styles[`layout-mobile-${blockData.mobileLayout}`])
+                      return <div className={classes.join(' ')}>
+                        <BlockRenderer
+                          type={blockData.type}
+                          content={blockData.content} />
+                      </div>
+                    })
+                }</Paginator.Page>)
+              )}
+            </Paginator>
+          </ResizeObserverComponent>
+        </IntersectionObserverComponent>
+        <IntersectionObserverComponent
+          threshold={0}
+          callback={({ isIntersecting }) => this.setState({ btmVisible: isIntersecting })}
+          render={() => <div />} />
       </div>
     </div>
   }

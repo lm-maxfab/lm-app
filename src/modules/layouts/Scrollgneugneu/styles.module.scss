@@ -2,6 +2,7 @@
  * Defined in index.tsx:
  *
  * --fixed-blocks-height
+ * --scrolling-block-height
  * --bg-color-transition-duration
  * --scroll-panel-z-index
  */
@@ -13,99 +14,254 @@
 
 .sticky-block {
   /* --z-index is defined in index.tsx */
-  position: sticky;
+  position: absolute;
   top: 0;
   display: inline-block;
   height: var(--fixed-blocks-height);
   z-index: var(--z-index);
 }
 
-.sticky-block_back {
-  margin-top: calc((-1 * var(--z-index)) * var(--fixed-blocks-height));
+.wrapper.wrapper_fix-blocks {
+  .sticky-block {
+    position: fixed;
+  }
 }
 
-.sticky-block_front {
-  margin-top: calc((-1 * var(--z-index) - 1) * var(--fixed-blocks-height));
-}
-
-.sticky-block-inner {
-  position: absolute;
+.wrapper.wrapper_offset-fixed-blocks {
+  .sticky-block {
+    position: absolute;
+    top: calc(var(--scrolling-block-height) - var(--fixed-blocks-height));
+  }
 }
 
 .scroll-panel {
   position: relative;
   z-index: var(--scroll-panel-z-index);
-  margin-top: calc(-1 * var(--fixed-blocks-height) * var(--scroll-panel-z-index));
-  // margin-top: calc(-1 * (var(--scroll-panel-z-index) - 2) * var(--fixed-blocks-height));
 }
 
-/* LAYOUTS */
+/* * * * * * * * * * * * * * * * * * * * * * * * * *
+ *
+ * STATUS
+ *
+ * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+// .sticky-block.status-current {}
+// .sticky-block.status-previous {}
+// .sticky-block.status-inactive {}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * *
+ *
+ * LAYOUTS
+ *
+ * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 $minWidth: 801px;
 $maxWidth: 800px;
 
 /* left-half */
-// .scrolling-block.layout-left-half {
-//   @media (min-width: $minWidth) {
-//     width: 50%;
-//     background-color: yellow;
-//   }
-// }
+.scrolling-block {
+  &.layout-left-half { @media (min-width: $minWidth) { width: 50%; } }
+  &.layout-mobile-left-half { @media (max-width: $maxWidth) { width: 50%; } }
+}
 
-// .scrolling-block.layout-mobile-left-half {
-//   @media (max-width: $maxWidth) {
-//     width: 50%;
-//     background-color: turquoise;
-//   }
-// }
+.sticky-block {
+  &.layout-left-half {
+    @media (min-width: $minWidth) {
+      width: 50%;
+      margin-right: -50%;
+    }
+  }
+  &.layout-mobile-left-half {
+    @media (max-width: $maxWidth) {
+      width: 50%;
+      margin-right: -50%;
+    }
+  }
+}
 
-// .sticky-block.layout-left-half {
-//   @media (min-width: $minWidth) {
-//     width: 50%;
-//     background-color: yellow;
-//     margin-right: -50%;
-//   }
-// }
+/* right-half */
+.scrolling-block {
+  &.layout-right-half {
+    @media (min-width: $minWidth) {
+      margin-left: 50%;
+      width: 50%;
+    }
+  }
+  &.layout-mobile-right-half {
+    @media (max-width: $maxWidth) {
+      margin-left: 50%;
+      width: 50%;
+    }
+  }
+}
 
-// .sticky-block.layout-mobile-left-half {
-//   @media (max-width: $maxWidth) {
-//     width: 50%;
-//     background-color: turquoise;
-//     margin-right: -50%;
-//   }
-// }
+.sticky-block {
+  &.layout-right-half {
+    @media (min-width: $minWidth) {
+      width: 50%;
+      margin-right: -50%;
+      left: 50%;
+    }
+  }
+  &.layout-mobile-right-half {
+    @media (max-width: $maxWidth) {
+      width: 50%;
+      margin-right: -50%;
+      left: 50%;
+    }
+  }
+}
 
-// /* right-half */
-// .scrolling-block.layout-right-half {
-//   @media (min-width: $minWidth) {
-//     margin-left: 50%;
-//     width: 50%;
-//     background-color: yellow;
-//   }
-// }
+/* * * * * * * * * * * * * * * * * * * * * * * * * *
+ *
+ * TRANSITIONS
+ *
+ * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-// .scrolling-block.layout-mobile-right-half {
-//   @media (max-width: $maxWidth) {
-//     margin-left: 50%;
-//     width: 50%;
-//     background-color: turquoise;
-//   }
-// }
+.sticky-block {
+  /* * * * * * * * * * *
+   * FADE
+   * * * * * * * * * * */
 
-// .sticky-block.layout-right-half {
-//   @media (min-width: $minWidth) {
-//     width: 50%;
-//     background-color: yellow;
-//     margin-right: -50%;
-//     left: 50%;
-//   }
-// }
+  @keyframes in-fade { to { opacity: 1; } }
+  @keyframes out-fade { to { opacity: 0; } }
+  @keyframes fade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
 
-// .sticky-block.layout-mobile-right-half {
-//   @media (max-width: $maxWidth) {
-//     width: 50%;
-//     background-color: turquoise;
-//     margin-right: -50%;
-//     left: 50%;
-//   }
-// }
+  /* IN */
+  &.transition-in-fade {
+    @media (min-width: $minWidth) {
+      &.status-current {
+        animation-name: in-fade;
+        animation-duration: var(--transition-in-fade-duration, 400ms);
+        animation-timing-function: linear;
+        animation-delay: 0ms;
+        animation-iteration-count: 1;
+        animation-direction: normal;
+        animation-fill-mode: forwards;
+        animation-play-state: running;
+      }
+    }
+  }
+  &.transition-mobile-in-fade {
+    @media (max-width: $maxWidth) {
+      &.status-current {
+        animation-name: in-fade;
+        animation-duration: var(--transition-mobile-in-fade-duration, 400ms);
+        animation-timing-function: linear;
+        animation-delay: 0ms;
+        animation-iteration-count: 1;
+        animation-direction: normal;
+        animation-fill-mode: forwards;
+        animation-play-state: running;
+      }
+    }
+  }
+
+  /* OUT */
+  &.transition-out-fade {
+    @media (min-width: $minWidth) {
+      &.status-previous,
+      &.status-inactive {
+        animation-name: out-fade;
+        animation-duration: var(--transition-out-fade-duration, 400ms);
+        animation-timing-function: linear;
+        animation-delay: 0ms;
+        animation-iteration-count: 1;
+        animation-direction: normal;
+        animation-fill-mode: forwards;
+        animation-play-state: running;
+      }
+    }
+  }
+  &.transition-mobile-out-fade {
+    @media (max-width: $maxWidth) {
+      &.status-previous,
+      &.status-inactive {
+        animation-name: out-fade;
+        animation-duration: var(--transition-mobile-out-fade-duration, 400ms);
+        animation-timing-function: linear;
+        animation-delay: 0ms;
+        animation-iteration-count: 1;
+        animation-direction: normal;
+        animation-fill-mode: forwards;
+        animation-play-state: running;
+      }
+    }
+  }
+
+  /* * * * * * * * * * *
+   * GROW
+   * * * * * * * * * * */
+
+  @keyframes in-grow { to { transform: scale(1, 1); } }
+  @keyframes out-grow { to { transform: scale(0, 0); } }
+  @keyframes grow {
+    from { transform: scale(0, 0); }
+    to { transform: scale(1, 1); }
+  }
+
+   /* IN */
+  &.transition-in-grow {
+    @media (min-width: $minWidth) {
+      &.status-current {
+        animation-name: in-grow;
+        animation-duration: var(--transition-in-grow-duration, 400ms);
+        animation-timing-function: linear;
+        animation-delay: 0ms;
+        animation-iteration-count: 1;
+        animation-direction: normal;
+        animation-fill-mode: forwards;
+        animation-play-state: running;
+      }
+    }
+  }
+  &.transition-mobile-in-grow {
+    @media (max-width: $maxWidth) {
+      &.status-current {
+        animation-name: in-grow;
+        animation-duration: var(--transition-mobile-in-grow-duration, 400ms);
+        animation-timing-function: linear;
+        animation-delay: 0ms;
+        animation-iteration-count: 1;
+        animation-direction: normal;
+        animation-fill-mode: forwards;
+        animation-play-state: running;
+      }
+    }
+  }
+
+  /* OUT */
+  &.transition-out-grow {
+    @media (min-width: $minWidth) {
+      &.status-previous,
+      &.status-inactive {
+        animation-name: out-grow;
+        animation-duration: var(--transition-out-grow-duration, 400ms);
+        animation-timing-function: linear;
+        animation-delay: 0ms;
+        animation-iteration-count: 1;
+        animation-direction: normal;
+        animation-fill-mode: forwards;
+        animation-play-state: running;
+      }
+    }
+  }
+  &.transition-mobile-out-grow {
+    @media (max-width: $maxWidth) {
+      &.status-previous,
+      &.status-inactive {
+        animation-name: out-grow;
+        animation-duration: var(--transition-mobile-out-grow-duration, 400ms);
+        animation-timing-function: linear;
+        animation-delay: 0ms;
+        animation-iteration-count: 1;
+        animation-direction: normal;
+        animation-fill-mode: forwards;
+        animation-play-state: running;
+      }
+    }
+  }
+}

@@ -9,7 +9,6 @@ type RendererModule = {
 type Props = {
   type?: 'module'|'html'
   content?: string
-  status?: 'current'|'previous'|'inactive'
 }
 
 type State = {
@@ -97,33 +96,23 @@ export default class BlockRenderer extends Component<Props, State> {
 
   render () {
     const { props, state } = this
-    const wrapperClassName = [
-      styles['wrapper'],
-      styles[`${props.status ?? 'current'}`]
-    ].join(' ')
     const content = props.content ?? ''
 
     switch (props.type) {
       case 'html':
       case undefined:
-        return <div
-          className={wrapperClassName}
-          dangerouslySetInnerHTML={{ __html: content }} />
+        return <div dangerouslySetInnerHTML={{ __html: content }} />
       case 'module':
         const isLoading = state.rendererIsLoading
         const hasErrors = !isLoading && state.rendererLoadError !== null
         const hasTarget = !isLoading && !hasErrors && state.rendererTarget !== null
-        return <div
-          className={wrapperClassName}>
+        return <div>
           {isLoading && <div>Loading...</div>}
           {hasErrors && <div>Something went wrong while fetching the module.</div>}
           {hasTarget && <div ref={n => { this.$moduleWrapper = n }} />}
         </div>
       default:
-        return <div
-          className={wrapperClassName}>
-          Block type {props.type} is unknown
-        </div>
+        return <div>Block type {props.type} is unknown</div>
     }
   }
 }
