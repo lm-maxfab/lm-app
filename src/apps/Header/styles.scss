@@ -117,13 +117,3 @@
     }
   }
 }
-
-.Nav--contextual {
-  display: none;
-}
-
-@media (min-width: 1024px) {
-  .Nav--contextual {
-    display: block;
-  }
-}
