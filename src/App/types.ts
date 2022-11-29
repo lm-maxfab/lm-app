@@ -10,6 +10,7 @@ export interface SlideData {
   illus_url?: string
   illus_alt?: string
   illus_background?: boolean
+  illus_mask?: string
   illus_bottom?: boolean
 }
 

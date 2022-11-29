@@ -29,6 +29,27 @@
   }
 }
 
+.fraude-slide__background {
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.fraude-slide__background.fraude-slide__background_mask {
+  mask-image: url(var(--fraude-mask));
+  mask-size: 100%;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  -webkit-mask-image: url(var(--fraude-mask));
+  -webkit-mask-size: 100%;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+}
+
 .fraude-slide__inner {
   width: 100%;
   max-width: 608px;

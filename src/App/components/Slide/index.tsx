@@ -29,13 +29,24 @@ class Slide extends Component<Props, {}> {
     const classes = bem(props.className ?? '').block(this.clss)
     const inlineStyle: JSX.CSSProperties = {
       ...props.style,
-      backgroundImage: data.illus_background ? `url(${data.illus_url})` : ''
+    }
+
+    const backgroundStyle: JSX.CSSProperties = {
+      backgroundImage: data.illus_background ? `url(${data.illus_url})` : '',
+      maskImage: data.illus_mask ? `url(${data.illus_mask})` : '',
+      webkitMaskImage: data.illus_mask ? `url(${data.illus_mask})` : '',
     }
 
     /* Display */
     return (
       <div className={classes.value} style={inlineStyle}>
-        <div className={bem(this.clss).elt('inner').mod({ background: data.illus_background !== undefined }).value}>
+
+        {data.illus_background && <div 
+          className={bem(this.clss).elt('background').mod({ mask: data.illus_mask !== undefined }).value} 
+          style={backgroundStyle}>
+        </div>}
+
+        <div className={bem(this.clss).elt('inner').mod({ background: data.illus_background !== undefined && !data.illus_mask }).value}>
           {data.illus_url !== undefined && !data.illus_background && <Img
             src={data.illus_url}
             alt={data.illus_alt ?? ''}
