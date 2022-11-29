@@ -1,11 +1,13 @@
 import { Component, JSX } from 'preact'
-import { SlideData } from '../../types'
+import { IntroSlideData, SlideData } from '../../types'
 import bem from '../../../modules/le-monde/utils/bem'
 import './styles.scss'
 import Slide from '../Slide'
+import IntroSlide from '../IntroSlide'
+import Arrow from '../Arrow'
 
 interface Props {
-  data?: SlideData[]
+  data?: (IntroSlideData | SlideData)[]
   className?: string
   style?: JSX.CSSProperties
 }
@@ -16,7 +18,7 @@ interface State {
 
 class Slider extends Component<Props, State> {
   clss = 'fraude-slider'
-  $root: HTMLDivElement|null = null
+  $root: HTMLDivElement | null = null
 
   /* * * * * * * * * * * * * * *
    * INIT STATE
@@ -28,7 +30,7 @@ class Slider extends Component<Props, State> {
   /* * * * * * * * * * * * * * *
    * CONSTRUCTOR
    * * * * * * * * * * * * * * */
-  constructor (props: Props) {
+  constructor(props: Props) {
     super(props)
     this.handlePrevClick = this.handlePrevClick.bind(this)
     this.handleNextClick = this.handleNextClick.bind(this)
@@ -38,7 +40,7 @@ class Slider extends Component<Props, State> {
   /* * * * * * * * * * * * * * *
    * HANDLERS
    * * * * * * * * * * * * * * */
-  async handlePrevClick (e: JSX.TargetedMouseEvent<HTMLButtonElement>): Promise<void> {
+  async handlePrevClick(e: JSX.TargetedMouseEvent<HTMLButtonElement>): Promise<void> {
     e.preventDefault()
     await this.asyncSetState((curr: State) => {
       if (this.props.data === undefined) return
@@ -48,7 +50,7 @@ class Slider extends Component<Props, State> {
     })
   }
 
-  async handleNextClick (e: JSX.TargetedMouseEvent<HTMLButtonElement>): Promise<void> {
+  async handleNextClick(e: JSX.TargetedMouseEvent<HTMLButtonElement>): Promise<void> {
     e.preventDefault()
     await this.asyncSetState((curr: State) => {
       if (this.props.data === undefined) return
@@ -62,14 +64,14 @@ class Slider extends Component<Props, State> {
   /* * * * * * * * * * * * * * *
    * METHODS
    * * * * * * * * * * * * * * */
-  async asyncSetState (s: any): Promise<true> {
+  async asyncSetState(s: any): Promise<true> {
     return await new Promise(resolve => this.setState(s, () => resolve(true)))
   }
 
   /* * * * * * * * * * * * * * *
    * RENDER
    * * * * * * * * * * * * * * */
-  render (): JSX.Element {
+  render(): JSX.Element {
     const { props, state } = this
 
     /* Logic */
@@ -82,12 +84,23 @@ class Slider extends Component<Props, State> {
       else if (slidePos === currSlidePos) clss = bem(this.clss).elt('slide').mod('current')
       else clss = bem(this.clss).elt('slide').mod('to-come')
       const loading = slidePos === currSlidePos + 1 ? 'eager' : 'lazy'
-      return <div className={clss.value}>
-        <Slide
-          key={slideData.id}
-          imageLoading={loading}
-          data={slideData} />
-      </div>
+
+      if (slidePos === 0) {
+        return <div className={clss.value}>
+          <IntroSlide
+            key={slideData.id}
+            imageLoading={loading}
+            data={slideData as IntroSlideData} />
+        </div>
+      } else {
+        return <div className={clss.value}>
+          <Slide
+            key={slideData.id}
+            imageLoading={loading}
+            data={slideData as SlideData} />
+        </div>
+      }
+
     })
     const readProgressionRate = currSlidePos / ((slides?.length ?? 1) - 1)
 
@@ -101,24 +114,31 @@ class Slider extends Component<Props, State> {
       <div className={classes.value} style={inlineStyle} ref={node => { this.$root = node }}>
         {/* Progression bar */}
         <div className={bem(this.clss).elt('progression-bar').value}>
-          <div
+          {/* <div
             style={progBarInnerStyle}
-            className={bem(this.clss).elt('progression-bar-inner').value} />
+            className={bem(this.clss).elt('progression-bar-inner').value} /> */}
+          {props.data?.map((_el, index) => {
+            return <div
+              className={bem(this.clss).elt('progression-bar-slot').mod({ dark: index <= currSlidePos }).value}
+            ></div>
+          })}
         </div>
 
         {/* Slides */}
         {slides}
-        
+
         {/* Actions */}
         {currSlidePos !== 0 && <button
           onClick={this.handlePrevClick}
           className={prevButtonClass}>
-          {'<=='}
+          <Arrow direction="left" />
         </button>}
         {(currSlidePos + 1) !== slides?.length && <button
           onClick={this.handleNextClick}
           className={nextButtonClass}>
-          {'==>'}
+          <div>
+            <Arrow direction="right" />
+          </div>
         </button>}
       </div>
     )

@@ -4,7 +4,7 @@ import bem, { BEM } from '../modules/le-monde/utils/bem'
 import getViewportDimensions from '../modules/le-monde/utils/get-viewport-dimensions'
 import Slider from './components/Slider'
 import './styles.css'
-import { SlideData } from './types'
+import { SlideData, IntroSlideData } from './types'
 
 interface Props {
   className?: string
@@ -64,15 +64,19 @@ class App extends Component<Props, State> {
     const { props, state } = this
 
     // Logic
-    const slides: SlideData[] = (props.sheetBase?.collection('slides').value ?? []) as unknown as SlideData[]
+    const contentSlides: SlideData[] = (props.sheetBase?.collection('slides').value ?? []) as unknown as SlideData[]
+    const introSlide: IntroSlideData = (props.sheetBase?.collection('general').value[0] ?? []) as unknown as IntroSlideData
 
     // Extract data
     const classes = this.bem.block(props.className)
     const inlineStyle: JSX.CSSProperties = {
       ...props.style,
       '--nav-height': `${state.navHeight}px`,
+      '--fraude-background-color': `#FBF3E7`,
       paddingTop: 'var(--nav-height)'
     }
+
+    const slides: (IntroSlideData | SlideData)[] = [introSlide, ...contentSlides]
 
     // Display
     return (

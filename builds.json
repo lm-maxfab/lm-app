@@ -32,6 +32,17 @@
       },
       "description": "Fix assets_root_url in index.live.js and index.live.css",
       "time": "2021-11-25T10:41:38.070Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 1,
+        "patch": 2,
+        "status": "stable",
+        "build": 1
+      },
+      "description": "",
+      "time": "2022-11-29T11:09:26.948Z"
     }
   ]
 }
