@@ -5,6 +5,7 @@ import './styles.scss'
 import Slide from '../Slide'
 import IntroSlide from '../IntroSlide'
 import Arrow from '../Arrow'
+import ArticleHeader from '../../../modules/le-monde/components/ArticleHeader'
 
 interface Props {
   data?: (IntroSlideData | SlideData)[]
@@ -147,6 +148,12 @@ class Slider extends Component<Props, State> {
               onClick={() => this.goToSlide(index)}
             ></div>
           })}
+        </div>
+
+        <div className={bem(this.clss).elt('logo').value}>
+          <ArticleHeader
+            fill1='black'
+            fill2='rgb(0,0,0,.3)' />
         </div>
 
         {/* Slides */}

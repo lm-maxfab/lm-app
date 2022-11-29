@@ -1,8 +1,30 @@
+.multimediaNav {
+  display: none !important;
+}
+
 .fraude-slider {
   position: relative;
   width: 100%;
   height: calc(100 * var(--vh) - var(--nav-height));
   overflow: hidden;
+}
+
+.fraude-slider__logo {
+  position: relative;
+  z-index: 2;
+
+  .lm-article-header {
+    padding-top: 0;
+    padding-left: 16px;
+
+    @media screen and (max-width: 800px) {
+      padding-left: 8px;
+
+      .lm-article-header__logo {
+        max-width: 66px;
+      }
+    }
+  }
 }
 
 .fraude-slider__progression-bar {
@@ -33,7 +55,7 @@
     margin: 4px;
   }
 
-  .fraude-slider__progression-bar-slot {  
+  .fraude-slider__progression-bar-slot {
     &+.fraude-slider__progression-bar-slot {
       margin-left: 1px;
     }
