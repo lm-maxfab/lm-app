@@ -75,21 +75,37 @@
 }
 
 .fraude-slide__illus-cover {
-  max-width: 100px;
+  max-width: 150px;
+
+  @media screen and (max-width: 800px) {
+    max-width: 100px;
+  }
 }
 
 .fraude-slide__cta {
   margin-top: 8px;
   text-transform: uppercase;
   color: #A4361E;
+  font-size: 22px;
   font-weight: 600;
   font-family: var(--ff-marr-sans-condensed);
   letter-spacing: 0.06em;
   text-decoration: underline;
   text-decoration-thickness: 0.1em;
   text-underline-offset: 0.25em;
+  transition: opacity 200ms;
+
+  @media screen and (max-width: 800px) {
+    font-size: 16px;
+  }
 }
 
 .fraude-slide__cta-block {
   cursor: pointer;
+
+  &:hover {
+    .fraude-slide__cta {
+      opacity: 0.6;
+    }
+  }
 }
