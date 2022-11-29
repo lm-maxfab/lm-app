@@ -18,7 +18,7 @@
 
   ul {
     padding-left: 1em;
-    
+
     li {
       list-style-type: square;
 
@@ -90,13 +90,13 @@
 
 .fraude-slide__title {
   font-weight: 600;
-  font-size: 18px;
+  font-size: 32px;
   line-height: 2;
   margin-bottom: 42px;
   text-align: center;
 
-  @media screen and (min-width: 800px) {
-    font-size: 32px;
+  @media screen and (max-width: 800px) {
+    font-size: 18px;
   }
 }
 
@@ -108,22 +108,22 @@
 
 .fraude-slide__label {
   font-weight: 600;
-  font-size: 14px;
+  font-size: 24px;
   line-height: 2;
   margin-bottom: 12px;
   text-align: center;
   text-decoration: underline;
   text-underline-offset: 30%;
 
-  @media screen and (min-width: 800px) {
-    font-size: 24px;
+  @media screen and (max-width: 800px) {
+    font-size: 14px;
   }
 }
 
 .fraude-slide__para-1,
 .fraude-slide__para-2 {
   font-family: var(--ff-the-antiqua-b);
-  font-size: 14px;
+  font-size: 18px;
   line-height: 1.55;
   margin-bottom: 24px;
   flex-grow: 0;
@@ -145,8 +145,8 @@
     font-weight: 800;
   }
 
-  @media screen and (min-width: 800px) {
-    font-size: 18px;
+  @media screen and (max-width: 800px) {
+    font-size: 14px;
   }
 }
 
