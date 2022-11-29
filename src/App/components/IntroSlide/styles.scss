@@ -10,10 +10,6 @@
     padding-top: 0;
     padding: 28px;
   }
-
-  @media screen and (max-width: 800px) {
-    font-size: 16px;
-  }
 }
 
 .fraude-slide__date {
@@ -96,7 +92,7 @@
   transition: opacity 200ms;
 
   @media screen and (max-width: 800px) {
-    font-size: 16px;
+    font-size: 18px;
   }
 }
 
