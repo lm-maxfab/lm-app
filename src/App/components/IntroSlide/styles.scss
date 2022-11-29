@@ -56,8 +56,11 @@
     text-underline-offset: 0.3em;
     transition: opacity 200ms;
 
-    &:hover {
-      opacity: 0.6;
+
+    @media (hover: hover) {
+      &:hover {
+        opacity: 0.6;
+      }
     }
   }
 }
@@ -99,9 +102,11 @@
 .fraude-slide__cta-block {
   cursor: pointer;
 
-  &:hover {
-    .fraude-slide__cta {
-      opacity: 0.6;
+  @media (hover: hover) {
+    &:hover {
+      .fraude-slide__cta {
+        opacity: 0.6;
+      }
     }
   }
 }
