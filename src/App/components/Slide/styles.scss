@@ -156,3 +156,14 @@
   object-fit: contain;
   object-position: bottom;
 }
+
+.body-aec {
+  .fraude-slide__inner {
+    padding-top: 28px;
+  }
+
+  .fraude-slide__illus {
+    height: calc(100% - 28px);
+    min-height: calc(100% - 28px);
+  }
+}
