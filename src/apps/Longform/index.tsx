@@ -9,14 +9,14 @@ interface State {}
 
 const pagesData: PageData[] = [{
   // PAGE 1
-  bgColor: 'green',
+  bgColor: 'limegreen',
   blocks: [{
     depth: 'scroll',
     type: 'html',
     layout: 'left-half',
     mobileLayout: 'right-half',
     content: `<div style="
-      height: 110vh;
+      height: 100vw;
       width: calc(100% - 160px);
       background-color: black;
       color: white;
@@ -26,57 +26,56 @@ const pagesData: PageData[] = [{
       padding: 40px 120px">
       First page lorem ipsum dolor sit ampet cons
     </div>`
-  }, {
+  }, /*{
     id: 'leftblock',
     depth: 'back',
     type: 'html',
     layout: 'left-half',
-    mobileLayout: 'right-half',
-    transitions: [
-      ['in-fade', 2000],
-      ['out-fade', 2000],
-      ['in-grow', 2000],
-      ['out-grow', 2000],
-    ],
-    mobileTransitions: [
-      ['in-fade', 1200],
-      ['out-fade', 400]
-    ],
-    content: '<div style="background-color: yellow; width: 100%; height: 20%">I am the back block</div>'
-  }, {
-    id: 'rightblock',
-    depth: 'front',
-    type: 'html',
-    layout: 'right-half',
     mobileLayout: 'left-half',
     transitions: [
-      ['in-fade', 1200],
-      ['out-fade', 400]
+      ['fade', 2000],
+      ['grow', 600],
+      ['whirl', 600],
+      // ['slide-up', 600]
     ],
     mobileTransitions: [
-      ['in-fade', 400],
-      ['out-fade', 1200]
+      ['fade', 600],
+      ['whirl', 600],
+      ['grow', 600]
     ],
-    content: '<div style="background-color: yellow; width: 100%; height: 20%">I am the front block</div>'
+    content: '<div style="background-color: yellow; width: 100%; height: 20%">I am the back block</div>'
+  }, */{
+    id: 'rightblock',
+    depth: 'front',
+    type: 'module',
+    layout: 'right-half',
+    mobileLayout: 'right-half',
+    transitions: [
+      ['whirl', 600]
+    ],
+    mobileTransitions: [
+      ['left-open', 600]
+    ],
+    content: 'http://localhost:3003/index.js'
   }]
 }, {
-  bgColor: 'green',
+  bgColor: 'orange',
   blocks: [{
     depth: 'scroll',
     type: 'html',
-    content: '<div style="height: 140vh;">I am the second page</div>'
+    content: '<div style="height: 100vw;">I am the second page</div>'
   }]
 }, {
-  bgColor: 'black',
+  bgColor: 'violet',
   blocks: [{
     depth: 'scroll',
     type: 'html',
-    content: '<div style="height: 200vh; color: white">I am the third page</div>'
-  }, {
+    content: '<div style="height: 100vw; color: white">I am the third page</div>'
+  }/*, {
     id: 'leftblock'
   }, {
     id: 'rightblock'
-  }]
+  }*/]
 }]
 
 class Longform extends Component<Props, State> {

@@ -1,4 +1,4 @@
-import { Component } from 'preact'
+import { Component, toChildArray } from 'preact'
 
 type Props = {
   onResize?: (entries: ResizeObserverEntry[]) => void
@@ -24,19 +24,29 @@ export default class ResizeObserverComponent extends Component<Props> {
   }
 
   createObserver () {
+    const { props, $root } = this
     this.observer?.disconnect()
-    if (this.$root === null) return
+    if ($root === null) return
     this.observer = new ResizeObserver(entries => {
-      const { onResize } = this.props
+      const { onResize } = props
       if (onResize === undefined) return
       onResize(entries)
     })
-    this.observer.observe(this.$root)
+    const { children } = $root
+    const firstChild = children[0]
+    if (firstChild === undefined) return
+    this.observer.observe(firstChild)
   }
 
   render () {
+    const { children } = this.props
+    const childrenArr = toChildArray(children)
+    if (childrenArr.length !== 1) {
+      console.error('ResizeObserverComponent expects a single child.')
+      return <div />
+    }
     return <div ref={n => { this.$root = n }}>
-      {this.props.children}
+      {children}
     </div>
   }
 }

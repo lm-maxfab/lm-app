@@ -1,115 +1,87 @@
 import { Component } from 'preact'
-import styles from './styles.module.scss'
 
-type RendererModule = {
-  init: (props: any) => HTMLElement
-  update: (wrapper: HTMLElement, props: any) => void
+export type BlockContext = {
+  width?: number|undefined
+  height?: number|undefined
+}
+
+type ModuleData = {
+  init: (props: BlockContext) => HTMLElement
+  update: (wrapper: HTMLElement, props: BlockContext) => HTMLElement
 }
 
 type Props = {
   type?: 'module'|'html'
   content?: string
+  context?: BlockContext
 }
 
 type State = {
-  rendererUrl: string|null
-  rendererIsLoading: boolean
-  rendererLoadError: any
-  rendererModule: RendererModule|null
-  rendererTarget: HTMLElement|null
+  moduleLoading: boolean
+  moduleErrors: any
+  moduleData: ModuleData|null
 }
 
+type StateSetter = ((s: State) => State|null)|Partial<State>
+
 export default class BlockRenderer extends Component<Props, State> {
-  $moduleWrapper: HTMLElement|null = null
-  state: State = {
-    rendererUrl: null,
-    rendererIsLoading: false,
-    rendererLoadError: null,
-    rendererModule: null,
-    rendererTarget: null
+  constructor (props: Props) {
+    super(props)
+    this.aSetState = this.aSetState.bind(this)
+    this.loadModule = this.loadModule.bind(this)
+    this.initModule = this.initModule.bind(this)
+    this.loadInitModule = this.loadInitModule.bind(this)
+    this.updateModule = this.updateModule.bind(this)
   }
 
   componentDidMount () {
     const { type, content } = this.props
     if (type !== 'module' || content === undefined) return
-    this.loadRenderer(content)
-    if (this.$moduleWrapper === null) return
-    const { rendererTarget } = this.state
-    if (rendererTarget === null) return this.$moduleWrapper.replaceChildren()
-    return this.$moduleWrapper.replaceChildren(rendererTarget)
+    this.loadInitModule ()
   }
 
-  componentDidUpdate () {
-    const { type, content } = this.props
-    if (type !== 'module' || content === undefined) return
-    if (this.state.rendererUrl !== content) this.loadRenderer(content)
-    if (this.$moduleWrapper === null) return
-    const { rendererTarget } = this.state
-    if (rendererTarget === null) return this.$moduleWrapper.replaceChildren()
-    return this.$moduleWrapper.replaceChildren(rendererTarget)
-  }
-
-  async loadRenderer (url: string) {
-    const { state } = this
-    if (state.rendererIsLoading) return
-    await new Promise((resolve) => {
-      this.setState(curr => ({
-        ...curr,
-        rendererUrl: url,
-        rendererIsLoading: true,
-        rendererLoadError: null,
-        rendererModule: null,
-        rendererTarget: null
-      }), () => resolve(true))
+  async aSetState (stateSetter: StateSetter) {
+    return new Promise(resolve => {
+      this.setState(
+        stateSetter,
+        () => resolve(true)
+      )
     })
-    try {
-      const rawModule = await import(url)
-      const hasInit = typeof rawModule.init === 'function'
-      const hasUpdate = typeof rawModule.update === 'function'
-      if (!hasInit) throw new Error('Module has no exported function named init')
-      if (!hasUpdate) throw new Error('Module has no exported function named update')
-      const module = rawModule as RendererModule
-      const rendererTarget = module.init({})
-      await new Promise((resolve) => {
-        this.setState(curr => ({
-          ...curr,
-          rendererUrl: url,
-          rendererIsLoading: false,
-          rendererLoadError: null,
-          rendererModule: module,
-          rendererTarget
-        }), () => resolve(true))
-      })
-    } catch (err) {
-      await new Promise((resolve) => {
-        this.setState(curr => ({
-          ...curr,
-          rendererUrl: url,
-          rendererIsLoading: false,
-          rendererLoadError: err,
-          rendererModule: null,
-          rendererTarget: null
-        }), () => resolve(true))
-      })
-    }
+  }
+
+  async loadModule () {
+    await this.aSetState(curr => ({
+      ...curr,
+      moduleLoading: true,
+      moduleErrors: null,
+      moduleData: null
+    }))
+  }
+
+  async initModule () {
+    
+  }
+
+  async loadInitModule () {
+
+  }
+
+  async updateModule () {
+    
   }
 
   render () {
-    const { props, state } = this
+    const { props } = this
     const content = props.content ?? ''
+    console.log('BLKRDR - RENDER', props.context)
 
     switch (props.type) {
       case 'html':
       case undefined:
         return <div dangerouslySetInnerHTML={{ __html: content }} />
       case 'module':
-        const isLoading = state.rendererIsLoading
-        const hasErrors = !isLoading && state.rendererLoadError !== null
-        const hasTarget = !isLoading && !hasErrors && state.rendererTarget !== null
         return <div>
-          {isLoading && <div>Loading...</div>}
-          {hasErrors && <div>Something went wrong while fetching the module.</div>}
-          {hasTarget && <div ref={n => { this.$moduleWrapper = n }} />}
+          I am module
         </div>
       default:
         return <div>Block type {props.type} is unknown</div>

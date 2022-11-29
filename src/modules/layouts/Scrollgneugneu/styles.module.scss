@@ -45,9 +45,13 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-// .sticky-block.status-current {}
-// .sticky-block.status-previous {}
-// .sticky-block.status-inactive {}
+.sticky-block.status-current {
+  pointer-events: auto;
+}
+.sticky-block.status-previous,
+.sticky-block.status-inactive {
+  pointer-events: none;
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * *
  *
@@ -110,158 +114,4 @@ $maxWidth: 800px;
       left: 50%;
     }
   }
-}
-
-/* * * * * * * * * * * * * * * * * * * * * * * * * *
- *
- * TRANSITIONS
- *
- * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-.sticky-block {
-  /* * * * * * * * * * *
-   * FADE
-   * * * * * * * * * * */
-
-  @keyframes in-fade { to { opacity: 1; } }
-  @keyframes out-fade { to { opacity: 0; } }
-  @keyframes fade {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-
-  /* IN */
-  &.transition-in-fade {
-    @media (min-width: $minWidth) {
-      &.status-current {
-        animation-name: in-fade;
-        animation-duration: var(--transition-in-fade-duration, 400ms);
-        animation-timing-function: linear;
-        animation-delay: 0ms;
-        animation-iteration-count: 1;
-        animation-direction: normal;
-        animation-fill-mode: forwards;
-        animation-play-state: running;
-      }
-    }
-  }
-  &.transition-mobile-in-fade {
-    @media (max-width: $maxWidth) {
-      &.status-current {
-        animation-name: in-fade;
-        animation-duration: var(--transition-mobile-in-fade-duration, 400ms);
-        animation-timing-function: linear;
-        animation-delay: 0ms;
-        animation-iteration-count: 1;
-        animation-direction: normal;
-        animation-fill-mode: forwards;
-        animation-play-state: running;
-      }
-    }
-  }
-
-  /* OUT */
-  &.transition-out-fade {
-    @media (min-width: $minWidth) {
-      &.status-previous,
-      &.status-inactive {
-        animation-name: out-fade;
-        animation-duration: var(--transition-out-fade-duration, 400ms);
-        animation-timing-function: linear;
-        animation-delay: 0ms;
-        animation-iteration-count: 1;
-        animation-direction: normal;
-        animation-fill-mode: forwards;
-        animation-play-state: running;
-      }
-    }
-  }
-  &.transition-mobile-out-fade {
-    @media (max-width: $maxWidth) {
-      &.status-previous,
-      &.status-inactive {
-        animation-name: out-fade;
-        animation-duration: var(--transition-mobile-out-fade-duration, 400ms);
-        animation-timing-function: linear;
-        animation-delay: 0ms;
-        animation-iteration-count: 1;
-        animation-direction: normal;
-        animation-fill-mode: forwards;
-        animation-play-state: running;
-      }
-    }
-  }
-
-  /* * * * * * * * * * *
-   * GROW
-   * * * * * * * * * * */
-
-  @keyframes in-grow { to { transform: scale(1, 1); } }
-  @keyframes out-grow { to { transform: scale(0, 0); } }
-  @keyframes grow {
-    from { transform: scale(0, 0); }
-    to { transform: scale(1, 1); }
-  }
-
-   /* IN */
-  &.transition-in-grow {
-    @media (min-width: $minWidth) {
-      &.status-current {
-        animation-name: in-grow;
-        animation-duration: var(--transition-in-grow-duration, 400ms);
-        animation-timing-function: linear;
-        animation-delay: 0ms;
-        animation-iteration-count: 1;
-        animation-direction: normal;
-        animation-fill-mode: forwards;
-        animation-play-state: running;
-      }
-    }
-  }
-  &.transition-mobile-in-grow {
-    @media (max-width: $maxWidth) {
-      &.status-current {
-        animation-name: in-grow;
-        animation-duration: var(--transition-mobile-in-grow-duration, 400ms);
-        animation-timing-function: linear;
-        animation-delay: 0ms;
-        animation-iteration-count: 1;
-        animation-direction: normal;
-        animation-fill-mode: forwards;
-        animation-play-state: running;
-      }
-    }
-  }
-
-  /* OUT */
-  &.transition-out-grow {
-    @media (min-width: $minWidth) {
-      &.status-previous,
-      &.status-inactive {
-        animation-name: out-grow;
-        animation-duration: var(--transition-out-grow-duration, 400ms);
-        animation-timing-function: linear;
-        animation-delay: 0ms;
-        animation-iteration-count: 1;
-        animation-direction: normal;
-        animation-fill-mode: forwards;
-        animation-play-state: running;
-      }
-    }
-  }
-  &.transition-mobile-out-grow {
-    @media (max-width: $maxWidth) {
-      &.status-previous,
-      &.status-inactive {
-        animation-name: out-grow;
-        animation-duration: var(--transition-mobile-out-grow-duration, 400ms);
-        animation-timing-function: linear;
-        animation-delay: 0ms;
-        animation-iteration-count: 1;
-        animation-direction: normal;
-        animation-fill-mode: forwards;
-        animation-play-state: running;
-      }
-    }
-  }
-}
+} 

@@ -14,7 +14,7 @@ interface Props extends ObserverOptions {
   className?: string
   style?: JSX.CSSProperties
   callback?: (ioEntry: IOE, observer: IO) => void
-  render?: (ioEntry: IOE|null) => JSX.Element
+  render?: JSX.Element|((ioEntry: IOE|null) => JSX.Element)
 }
 
 interface State {
@@ -91,7 +91,13 @@ class IntersectionObserverComponent extends Component<Props, State> {
     const { props, state } = this
 
     // Logic
-    const rendered = props.render !== undefined ? props.render(state.io_entry) : null
+    const rendered = props.render !== undefined
+      ? (
+        typeof props.render === 'function'
+          ? props.render(state.io_entry)
+          : props.render
+      )
+      : null
 
     // Classes
     const classes: string = clss(this.mainClass, props.className)
