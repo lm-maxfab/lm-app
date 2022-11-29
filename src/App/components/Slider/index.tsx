@@ -114,7 +114,8 @@ class Slider extends Component<Props, State> {
           <IntroSlide
             key={slideData.id}
             imageLoading={loading}
-            data={slideData as IntroSlideData} />
+            data={slideData as IntroSlideData}
+            onStart={() => this.goToSlide(1)} />
         </div>
       } else {
         return <div className={clss.value}>

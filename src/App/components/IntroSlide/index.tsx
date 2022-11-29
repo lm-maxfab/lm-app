@@ -10,6 +10,7 @@ interface Props {
   imageLoading?: 'eager' | 'lazy'
   className?: string
   style?: JSX.CSSProperties
+  onStart?: () => void
 }
 
 class Slide extends Component<Props, {}> {
@@ -43,7 +44,7 @@ class Slide extends Component<Props, {}> {
 
           {data.intro !== undefined && <p className={bem(this.clss).elt('intro-text').value}>{data.intro}</p>}
 
-          <div className={bem(this.clss).elt('cta-block').value}>
+          <div onClick={props.onStart} className={bem(this.clss).elt('cta-block').value}>
             {data.illus_cover !== undefined && <Img
               src={data.illus_cover}
               loading={props.imageLoading ?? 'lazy'}
