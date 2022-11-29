@@ -153,6 +153,8 @@
 .fraude-slide__illus {
   position: absolute;
   height: calc(100% - 48px);
+  min-height: calc(100% - 48px);
+  max-width: 100%;
   object-fit: contain;
   object-position: bottom;
 }
