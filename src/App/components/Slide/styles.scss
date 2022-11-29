@@ -40,11 +40,9 @@
 }
 
 .fraude-slide__background.fraude-slide__background_mask {
-  mask-image: url(var(--fraude-mask));
   mask-size: 100%;
   mask-repeat: no-repeat;
   mask-position: center;
-  -webkit-mask-image: url(var(--fraude-mask));
   -webkit-mask-size: 100%;
   -webkit-mask-repeat: no-repeat;
   -webkit-mask-position: center;
