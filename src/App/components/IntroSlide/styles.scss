@@ -1,0 +1,95 @@
+.fraude-slide_intro {
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+
+  .fraude-slide__inner {
+    display: block;
+    text-align: center;
+    height: auto;
+    padding-top: 0;
+    padding: 28px;
+  }
+
+  @media screen and (max-width: 800px) {
+    font-size: 16px;
+  }
+}
+
+.fraude-slide__date {
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+
+.fraude-slide__header {
+
+  &::before,
+  &::after {
+    content: '';
+    display: block;
+    background-color: #E0BB1F;
+    height: 8px;
+    width: 8px;
+    transform: rotate(45deg);
+    margin: 0 auto;
+  }
+}
+
+.fraude-slide__main-title {
+  font-weight: 600;
+  font-size: 48px;
+  line-height: 1.25;
+  margin-top: 8px;
+  margin-bottom: 12px;
+
+  @media screen and (max-width: 800px) {
+    font-size: 32px;
+  }
+}
+
+.fraude-slide__credits {
+  color: #A4361E;
+  margin-bottom: 24px;
+  line-height: 1.4em;
+
+  a {
+    cursor: pointer;
+    font-weight: 500;
+    text-decoration: underline;
+    text-decoration-thickness: 0.08em;
+    text-underline-offset: 0.25em;
+    transition: opacity 200ms;
+
+    &:hover {
+      opacity: 0.6;
+    }
+  }
+}
+
+.fraude-slide__intro-text {
+  margin-top: 18px;
+  margin-bottom: 28px;
+  text-align: left;
+  font-family: var(--ff-the-antiqua-b);
+  line-height: 2;
+}
+
+.fraude-slide__illus-cover {
+  max-width: 100px;
+}
+
+.fraude-slide__cta {
+  margin-top: 8px;
+  text-transform: uppercase;
+  color: #A4361E;
+  font-weight: 600;
+  font-family: var(--ff-marr-sans-condensed);
+  letter-spacing: 0.06em;
+  text-decoration: underline;
+  text-decoration-thickness: 0.1em;
+  text-underline-offset: 0.25em;
+}
+
+.fraude-slide__cta-block {
+  cursor: pointer;
+}
