@@ -37,6 +37,14 @@ class Slider extends Component<Props, State> {
     this.asyncSetState = this.asyncSetState.bind(this)
   }
 
+  componentDidMount(): void {
+    const url = new URL(window.location.href)
+    if (url.searchParams.get('slide')) {
+      const targetIndex = Number(url.searchParams.get('slide'))
+      this.goToSlide(targetIndex)
+    }
+  }
+
   /* * * * * * * * * * * * * * *
    * HANDLERS
    * * * * * * * * * * * * * * */
@@ -46,6 +54,7 @@ class Slider extends Component<Props, State> {
       if (this.props.data === undefined) return
       const currPos = curr.currentSlidePos
       const newPos = currPos > 0 ? currPos - 1 : 0
+      this.updateURL(newPos)
       return { ...curr, currentSlidePos: newPos }
     })
   }
@@ -57,8 +66,23 @@ class Slider extends Component<Props, State> {
       const currPos = curr.currentSlidePos
       const maxPos = this.props.data.length - 1
       const newPos = currPos < maxPos ? currPos + 1 : currPos
+      this.updateURL(newPos)
       return { ...curr, currentSlidePos: newPos }
     })
+  }
+
+  async goToSlide(index: number): Promise<void> {
+    await this.asyncSetState((curr: State) => {
+      if (this.props.data === undefined) return
+      this.updateURL(index)
+      return { ...curr, currentSlidePos: index }
+    })
+  }
+
+  updateURL(index: number) {
+    const url = new URL(window.location.href)
+    url.searchParams.set('slide', index.toString());
+    window.history.replaceState({}, '', url)
   }
 
   /* * * * * * * * * * * * * * *
@@ -100,7 +124,6 @@ class Slider extends Component<Props, State> {
             data={slideData as SlideData} />
         </div>
       }
-
     })
     const readProgressionRate = currSlidePos / ((slides?.length ?? 1) - 1)
 
@@ -120,6 +143,7 @@ class Slider extends Component<Props, State> {
           {props.data?.map((_el, index) => {
             return <div
               className={bem(this.clss).elt('progression-bar-slot').mod({ dark: index <= currSlidePos }).value}
+              onClick={() => this.goToSlide(index)}
             ></div>
           })}
         </div>
