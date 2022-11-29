@@ -118,7 +118,8 @@
   margin-bottom: 12px;
   text-align: center;
   text-decoration: underline;
-  text-underline-offset: 30%;
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.3em;
 
   @media screen and (max-width: 800px) {
     font-size: 18px;
