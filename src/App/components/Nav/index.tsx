@@ -1,6 +1,7 @@
 import { Component, JSX } from 'preact'
 import bem from '../../../modules/le-monde/utils/bem'
 import { MonthData } from '../../types'
+import Logo from '../Logo'
 import './styles.scss'
 
 interface Props {
@@ -12,24 +13,24 @@ interface Props {
 }
 
 class Nav extends Component<Props, {}> {
-  $root: HTMLElement|null = null
+  $root: HTMLElement | null = null
   clss = 'photos22-nav'
 
   /* * * * * * * * * * * * * * *
    * CONSTRUCTOR & LIFECYCLE
    * * * * * * * * * * * * * * */
-  constructor (props: Props) {
+  constructor(props: Props) {
     super(props)
     this.scrollCurrentIntoView = this.scrollCurrentIntoView.bind(this)
   }
 
-  componentDidMount () {
+  componentDidMount() {
     if (this.props.current !== undefined) {
       this.scrollCurrentIntoView()
     }
   }
 
-  componentDidUpdate (prevProps: Props) {
+  componentDidUpdate(prevProps: Props) {
     const prevMonth = prevProps.current
     const currentMonth = this.props.current
     if (currentMonth !== undefined && prevMonth !== currentMonth) {
@@ -40,7 +41,7 @@ class Nav extends Component<Props, {}> {
   /* * * * * * * * * * * * * * *
    * METHODS
    * * * * * * * * * * * * * * */
-  scrollCurrentIntoView () {
+  scrollCurrentIntoView() {
     if (this.$root === null) return
     const currentMonth = this.props.current
     if (currentMonth === undefined) return
@@ -56,12 +57,13 @@ class Nav extends Component<Props, {}> {
   /* * * * * * * * * * * * * * *
    * RENDER
    * * * * * * * * * * * * * * */
-  render (): JSX.Element|null {
+  render(): JSX.Element | null {
     const { props } = this
 
     /* Classes and style */
     const classes = bem(props.className ?? '').block(this.clss)
     const innerClasses = bem(this.clss).elt('inner')
+    const monthsClasses = bem(this.clss).elt('months')
     const inlineStyle: JSX.CSSProperties = { ...props.style }
 
     /* Display */
@@ -71,17 +73,22 @@ class Nav extends Component<Props, {}> {
         className={classes.value}
         ref={node => { this.$root = node }}>
         <div className={innerClasses.value}>
-          {props.data?.map(month => {
-            const monthClasses = bem(this.clss)
-              .elt('month')
-              .mod({ current: month.id === props.current })
-            return <button
-              data-month-id={month.id}
-              className={monthClasses.value}
-              onClick={() => this.props.dispatchMonthButtonClick(month.id)}>
-              {month.name}
-            </button>
-          })}
+          <Logo></Logo>
+          <div className={monthsClasses.value}>
+            <div className={monthsClasses.elt('inner').value}>
+              {props.data?.map(month => {
+                const monthClasses = bem(this.clss)
+                  .elt('month')
+                  .mod({ current: month.id === props.current })
+                return <button
+                  data-month-id={month.id}
+                  className={monthClasses.value}
+                  onClick={() => this.props.dispatchMonthButtonClick(month.id)}>
+                  {month.name}
+                </button>
+              })}
+            </div>
+          </div>
         </div>
       </nav>
     )

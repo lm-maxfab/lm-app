@@ -1,0 +1,17 @@
+.photos22-logo {
+  position: relative;
+
+  .photos22-logo__svg {
+    height: 24px;
+
+    .fill-1 {
+      fill: var(--fill-1);
+      transition: fill var(--fill-transition-time);
+    }
+
+    .fill-2 {
+      fill: var(--fill-2);
+      transition: fill var(--fill-transition-time);
+    }
+  }
+}

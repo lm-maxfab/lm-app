@@ -111,7 +111,7 @@ class App extends Component<Props, State> {
       })
     const inlineStyle: JSX.CSSProperties = {
       ...props.style,
-      '--nav-height': `${state.navHeight}px`,
+      '--nav-height': `0px`,
       paddingTop: 'var(--nav-height)'
     }
 
