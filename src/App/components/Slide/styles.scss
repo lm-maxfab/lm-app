@@ -80,7 +80,7 @@
 
   .fraude-slide__title {
     line-height: 2;
-    margin-bottom: 0;
+    margin: 0;
   }
 
   span {
@@ -148,6 +148,7 @@
   flex-shrink: 0;
 
   a {
+    color: #383F4E !important;
     cursor: pointer;
     text-decoration: underline;
     transition: opacity 200ms;

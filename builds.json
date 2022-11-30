@@ -164,6 +164,17 @@
       },
       "description": "'fix pour l'aec'",
       "time": "2022-11-30T16:50:08.153Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 1,
+        "patch": 2,
+        "status": "stable",
+        "build": 13
+      },
+      "description": "d'autres fix pour l'aec",
+      "time": "2022-11-30T16:57:24.189Z"
     }
   ]
 }
