@@ -10,7 +10,7 @@ interface Props {
 }
 
 class Intro extends Component<Props, {}> {
-  clss = 'photos21-intro'
+  clss = 'photos22-intro'
 
   /* * * * * * * * * * * * * * *
    * RENDER

@@ -10,7 +10,7 @@ interface Props {
 }
 
 class Credits extends Component<Props, {}> {
-  clss = 'photos21-credits'
+  clss = 'photos22-credits'
 
   /* * * * * * * * * * * * * * *
    * RENDER

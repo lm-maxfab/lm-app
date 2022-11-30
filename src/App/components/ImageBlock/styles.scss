@@ -1,4 +1,4 @@
-.photos21-image-block {
+.photos22-image-block {
   --block-padding: 16px;
   position: relative;
   margin: 0 auto;
@@ -18,50 +18,50 @@
     width: 100%;
   }
 
-  &.photos21-image-block_ratio-pano {
+  &.photos22-image-block_ratio-pano {
     width: 100%;
     max-width: 1440px;
   }
 
-  &.photos21-image-block_ratio-landscape {
+  &.photos22-image-block_ratio-landscape {
     width: 100%;
     max-width: 1440px;
   }
 
-  &.photos21-image-block_ratio-square {
+  &.photos22-image-block_ratio-square {
     width: 66%;
     max-width: 980px;
   }
 
-  &.photos21-image-block_ratio-portrait {
+  &.photos22-image-block_ratio-portrait {
     width: 50%;
   }
 
-  &.photos21-image-block_ratio-strip {
+  &.photos22-image-block_ratio-strip {
     width: 40%;
   }
 
   @media screen and (max-width: 800px) {
     padding: 0;
 
-    &.photos21-image-block_ratio-pano,
-    &.photos21-image-block_ratio-landscape,
-    &.photos21-image-block_ratio-square,
-    &.photos21-image-block_ratio-portrait,
-    &.photos21-image-block_ratio-strip {
+    &.photos22-image-block_ratio-pano,
+    &.photos22-image-block_ratio-landscape,
+    &.photos22-image-block_ratio-square,
+    &.photos22-image-block_ratio-portrait,
+    &.photos22-image-block_ratio-strip {
       width: 100%;
     }
     
-    // .photos21-image-block__image_ratio-pano,
-    // .photos21-image-block__image_ratio-landscape,
-    // .photos21-image-block__image_ratio-square,
-    // .photos21-image-block__image_ratio-portrait,
-    // .photos21-image-block__image_ratio-strip {
+    // .photos22-image-block__image_ratio-pano,
+    // .photos22-image-block__image_ratio-landscape,
+    // .photos22-image-block__image_ratio-square,
+    // .photos22-image-block__image_ratio-portrait,
+    // .photos22-image-block__image_ratio-strip {
     //   max-height: calc(80 * var(--vh));
     // }
   }
 
-  .photos21-image-block__text {
+  .photos22-image-block__text {
     flex-shrink: 10;
     flex-grow: 0;
     max-width: 980px;
@@ -77,7 +77,7 @@
     }
   }
 
-  .photos21-image-block__credits {
+  .photos22-image-block__credits {
     text-transform: uppercase;
     font-weight: 100;
     letter-spacing: .05em;
@@ -90,7 +90,7 @@
 
 
 
-// .photos21-image-block {
+// .photos22-image-block {
 //   position: relative;
 //   width: 100%;
 //   display: flex;
@@ -98,11 +98,11 @@
 //   margin-bottom: var(--len-photo-block-margin-bottom);
 // }
 
-// .photos21-image-block:last-child {
+// .photos22-image-block:last-child {
 //   margin-bottom: 0;
 // }
 
-// .photos21-image-block__inner {
+// .photos22-image-block__inner {
 //   position: relative;
 //   padding: 0 16px;
   
@@ -111,41 +111,41 @@
 //   }
 // }
 
-// .photos21-image-block__image {
+// .photos22-image-block__image {
 //   margin-bottom: var(--len-photo-margin-bottom);
 // }
 
-// .photos21-image-block__image_ratio-pano {
+// .photos22-image-block__image_ratio-pano {
 //   max-height: calc(80 * var(--vh));
 // }
 
-// .photos21-image-block__image_ratio-landscape {
+// .photos22-image-block__image_ratio-landscape {
 //   max-height: calc(90 * var(--vh));
 // }
 
-// .photos21-image-block__image_ratio-square {
+// .photos22-image-block__image_ratio-square {
 //   max-height: calc(100 * var(--vh));
 // }
 
-// .photos21-image-block__image_ratio-portrait {
+// .photos22-image-block__image_ratio-portrait {
 //   max-height: calc(110 * var(--vh));
 // }
 
-// .photos21-image-block__image_ratio-strip {
+// .photos22-image-block__image_ratio-strip {
 //   max-height: calc(120 * var(--vh));
 // }
 
 // @media screen and (max-width: 800px) {
-//   .photos21-image-block__image_ratio-pano,
-//   .photos21-image-block__image_ratio-landscape,
-//   .photos21-image-block__image_ratio-square,
-//   .photos21-image-block__image_ratio-portrait,
-//   .photos21-image-block__image_ratio-strip {
+//   .photos22-image-block__image_ratio-pano,
+//   .photos22-image-block__image_ratio-landscape,
+//   .photos22-image-block__image_ratio-square,
+//   .photos22-image-block__image_ratio-portrait,
+//   .photos22-image-block__image_ratio-strip {
 //     max-height: calc(80 * var(--vh));
 //   }
 // }
 
-// .photos21-image-block__text {
+// .photos22-image-block__text {
 //   color: var(--c-main-text);
 //   padding: 0 var(--len-content-main-side-padding);
 //   font-family: var(--ff-marr-sans);
@@ -153,7 +153,7 @@
 //   font-size: var(--fs-descriptions-text);
 // }
 
-// .photos21-image-block__credits {
+// .photos22-image-block__credits {
 //   text-transform: uppercase;
 //   font-weight: 100;
 //   letter-spacing: .05em;

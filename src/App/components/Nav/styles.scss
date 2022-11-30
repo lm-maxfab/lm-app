@@ -1,4 +1,4 @@
-.photos21-nav {
+.photos22-nav {
   width: 100%;
   height: 40px;
   overflow: scroll;
@@ -7,11 +7,11 @@
   scrollbar-width: none;
 }
 
-.photos21-nav::-webkit-scrollbar {
+.photos22-nav::-webkit-scrollbar {
   display: none;
 }
 
-.photos21-nav__inner {
+.photos22-nav__inner {
   max-width: 1360px;
   height: 100%;
   text-align: center;
@@ -26,7 +26,7 @@
   }
 }
 
-.photos21-nav__month {
+.photos22-nav__month {
   color: var(--c-main-text);
   font-family: var(--ff-marr-sans);
   font-weight: 500;
@@ -41,7 +41,7 @@
   opacity: .5;
 }
 
-.photos21-nav__month:hover,
-.photos21-nav__month.photos21-nav__month_current {
+.photos22-nav__month:hover,
+.photos22-nav__month.photos22-nav__month_current {
   opacity: 1;
 }

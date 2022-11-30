@@ -15,7 +15,7 @@ interface Props {
 
 class Months extends Component<Props, {}> {
   $root: HTMLDivElement|null = null
-  clss = 'photos21-months'
+  clss = 'photos22-months'
 
   /* * * * * * * * * * * * * * *
    * CONSTRUCTOR & LIFECYCLE

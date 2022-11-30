@@ -14,7 +14,7 @@ interface Props {
 }
 
 class Home extends Component<Props, {}> {
-  clss = 'photos21-home'
+  clss = 'photos22-home'
 
   /* * * * * * * * * * * * * * *
    * RENDER

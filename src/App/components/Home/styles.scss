@@ -1,10 +1,10 @@
-.photos21-home {
+.photos22-home {
   width: 100%;
   height: calc(100 * var(--vh) - var(--nav-height));
   background-color: var(--c-page-bg);
 }
 
-.photos21-home__image {
+.photos22-home__image {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -13,15 +13,15 @@
   transition: opacity 1200ms;
 }
 
-.photos21-home__image.photos21-home__image_to-come {
+.photos22-home__image.photos22-home__image_to-come {
   opacity: 0;
 }
 
-.photos21-home__image.photos21-home__image_current {
+.photos22-home__image.photos22-home__image_current {
   box-shadow: 0 0 20px 5px rgba(0, 0, 0, .15);
 }
 
-.photos21-home__title {
+.photos22-home__title {
   position: absolute;
   padding: 56px 0;
   bottom: 0;
@@ -51,7 +51,7 @@
   }
 }
 
-.photos21-home__title-line-1 {
+.photos22-home__title-line-1 {
   font-size: 96px;
   font-weight: 600;
   font-family: var(--ff-marr-sans-condensed);
@@ -62,7 +62,7 @@
   flex-shrink: 0;
 }
 
-.photos21-home__title-line-2 {
+.photos22-home__title-line-2 {
   font-size: 56px;
   font-weight: 500;
   font-family: var(--ff-the-antiqua-b);
@@ -73,7 +73,7 @@
   flex-shrink: 0;
 }
 
-.photos21-home__title-line-3 {
+.photos22-home__title-line-3 {
   margin-bottom: 32px;
   font-size: 32px;
   font-weight: 400;
@@ -83,60 +83,60 @@
 }
 
 @media screen and (max-width: 1200px) {
-  .photos21-home__title-line-1 {
+  .photos22-home__title-line-1 {
     font-size: 88px;
   }
 
-  .photos21-home__title-line-2 {
+  .photos22-home__title-line-2 {
     font-size: 48px;
   }
 
-  .photos21-home__title-line-3 {
+  .photos22-home__title-line-3 {
     font-size: 28px;
   }
 
 }
 
 @media screen and (max-width: 800px) {
-  .photos21-home__title-line-1 {
+  .photos22-home__title-line-1 {
     font-size: 72px;
   }
   
-  .photos21-home__title-line-2 {
+  .photos22-home__title-line-2 {
     font-size: 40px;
   }
   
-  .photos21-home__title-line-3 {
+  .photos22-home__title-line-3 {
     font-size: 24px;
   }
   
 }
 
 @media screen and (max-width: 640px) {
-  .photos21-home__title-line-1 {
+  .photos22-home__title-line-1 {
     font-size: 48px;
   }
   
-  .photos21-home__title-line-2 {
+  .photos22-home__title-line-2 {
     font-size: 24px;
     margin-bottom: 16px;
   }
   
-  .photos21-home__title-line-3 {
+  .photos22-home__title-line-3 {
     font-size: 18px;
   }
   
 }
 
-.photos21-home__chevron svg {
+.photos22-home__chevron svg {
   width: 22px;
 }
 
-.photos21-home__chevron svg .background {
+.photos22-home__chevron svg .background {
   fill: transparent;
 }
 
-.photos21-home__chevron svg .fill-1 {
+.photos22-home__chevron svg .fill-1 {
   fill: var(--c-main-text);
   opacity: .8;
 }

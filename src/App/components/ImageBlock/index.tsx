@@ -14,7 +14,7 @@ interface Props {
 }
 
 class ImageBlock extends Component<Props, {}> {
-  clss = 'photos21-image-block'
+  clss = 'photos22-image-block'
 
   /* * * * * * * * * * * * * * *
    * RENDER

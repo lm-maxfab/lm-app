@@ -31,7 +31,7 @@ interface State {
 
 class App extends Component<Props, State> {
   $Months: Months|null = null
-  clss: string = 'photos21'
+  clss: string = 'photos22'
   updateNavHeightInterval: number|null = null
   updateNavHeightTimeout: number|null = null
   state: State = {

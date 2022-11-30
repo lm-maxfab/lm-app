@@ -13,7 +13,7 @@ interface Props {
 
 class Nav extends Component<Props, {}> {
   $root: HTMLElement|null = null
-  clss = 'photos21-nav'
+  clss = 'photos22-nav'
 
   /* * * * * * * * * * * * * * *
    * CONSTRUCTOR & LIFECYCLE

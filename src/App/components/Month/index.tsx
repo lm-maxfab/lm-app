@@ -12,7 +12,7 @@ interface Props {
 }
 
 class Months extends Component<Props, {}> {
-  clss = 'photos21-month'
+  clss = 'photos22-month'
 
   /* * * * * * * * * * * * * * *
    * RENDER

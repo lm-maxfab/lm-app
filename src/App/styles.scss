@@ -3,7 +3,7 @@ html, body {
   padding: 0;
 }
 
-.photos21 {
+.photos22 {
   position: relative;
   --c-page-bg: #081012;
   --c-header-bg: rgb(18, 22, 24, .8);
@@ -38,7 +38,7 @@ html, body {
   }
 }
 
-.photos21__nav {
+.photos22__nav {
   position: fixed;
   z-index: 5;
   top: 0;
@@ -46,30 +46,30 @@ html, body {
   transition: top 200ms;
 }
 
-.photos21_hide-nav .photos21__nav {
+.photos22_hide-nav .photos22__nav {
   top: calc(var(--nav-height) - 60px);
 }
 
-.photos21_show-nav .photos21__nav {
+.photos22_show-nav .photos22__nav {
   top: var(--nav-height);
 }
 
-.photos21__home {
+.photos22__home {
   position: relative;
   z-index: 1;
 }
 
-.photos21__intro {
+.photos22__intro {
   position: relative;
   z-index: 2;
 }
 
-.photos21__months {
+.photos22__months {
   position: relative;
   z-index: 3;
 }
 
-.photos21__credits {
+.photos22__credits {
   position: relative;
   z-index: 4;
 }
