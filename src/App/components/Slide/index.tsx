@@ -47,11 +47,6 @@ class Slide extends Component<Props, {}> {
         </div>}
 
         <div className={bem(this.clss).elt('inner').mod({ background: data.illus_background !== undefined && !data.illus_mask }).value}>
-          {data.illus_url !== undefined && !data.illus_background && <Img
-            src={data.illus_url}
-            alt={data.illus_alt ?? ''}
-            loading={props.imageLoading ?? 'lazy'}
-            className={bem(this.clss).elt('illus').mod({ bottom: data.illus_bottom !== undefined }).value} />}
 
           <div className={bem(this.clss).elt('text').value}>
             {data.label !== undefined && <p className={bem(this.clss).elt('label').value}>{data.label}</p>}
@@ -60,6 +55,12 @@ class Slide extends Component<Props, {}> {
             </p>}
             {data.para_1 !== undefined && <p className={bem(this.clss).elt('para-1').value}>{data.para_1}</p>}
           </div>
+
+          {data.illus_url !== undefined && !data.illus_background && <Img
+            src={data.illus_url}
+            alt={data.illus_alt ?? ''}
+            loading={props.imageLoading ?? 'lazy'}
+            className={bem(this.clss).elt('illus').mod({ bottom: data.illus_bottom !== undefined }).value} />}
 
           {data.title_bottom !== undefined && <p className={bem(this.clss).elt('title').mod('bottom').value}>
             <StrToHtml wrapperTag='span' content={data.title_bottom} />

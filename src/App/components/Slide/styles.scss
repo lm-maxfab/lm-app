@@ -39,10 +39,10 @@
 }
 
 .fraude-slide__background.fraude-slide__background_mask {
-  mask-size: 100%;
+  mask-size: 100% 100%;
   mask-repeat: no-repeat;
   mask-position: center;
-  -webkit-mask-size: 100%;
+  -webkit-mask-size: 100% 100%;
   -webkit-mask-repeat: no-repeat;
   -webkit-mask-position: center;
 }
@@ -57,7 +57,11 @@
   justify-content: space-between;
   align-items: center;
   flex-wrap: nowrap;
-  padding-top: 52px;
+  padding-top: 100px;
+
+  @media screen and (max-width: 800px) {
+    padding-top: 52px;
+  }
 
   em {
     margin: 0 .3em;
@@ -71,6 +75,11 @@
 
 .fraude-slide__inner.fraude-slide__inner_background {
   justify-content: center;
+  padding-top: 0;
+
+  .fraude-slide__title {
+    line-height: 2;
+  }
 
   span {
     background-color: #fff;
@@ -109,6 +118,7 @@
   position: absolute;
   margin-bottom: 0;
   bottom: 52px;
+  z-index: 1;
 }
 
 .fraude-slide__label {
@@ -160,20 +170,19 @@
 
 .fraude-slide__illus {
   position: absolute;
-  height: calc(100% - 52px);
-  min-height: calc(100% - 52px);
+  bottom: 0;
+  height: 100%;
   max-width: 100%;
   object-fit: contain;
   object-position: bottom;
 }
 
+.fraude-slide__illus.fraude-slide__illus_bottom {
+  height: 120%;
+}
+
 .body-aec {
   .fraude-slide__inner {
     padding-top: 28px;
-  }
-
-  .fraude-slide__illus {
-    height: calc(100% - 28px);
-    min-height: calc(100% - 28px);
   }
 }
