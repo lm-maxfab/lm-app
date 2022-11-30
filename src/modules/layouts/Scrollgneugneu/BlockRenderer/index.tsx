@@ -1,9 +1,5 @@
 import { Component } from 'preact'
-
-export type BlockContext = {
-  width?: number|undefined
-  height?: number|undefined
-}
+import { BlockContext, createBlockContext } from '..'
 
 type ModuleData = {
   init: (props: BlockContext) => HTMLElement
@@ -100,7 +96,7 @@ export default class BlockRenderer extends Component<Props, State> {
     const { context } = props
     const { moduleData } = state
     if (moduleData === null) return;
-    const moduleTarget = moduleData.init(context ?? {}) as unknown
+    const moduleTarget = moduleData.init(context ?? createBlockContext({})) as unknown
     const targetIsHTMLElement = moduleTarget instanceof HTMLElement
     if (!targetIsHTMLElement) {
       const errorStr = 'Imported module init exported function should return a HTMLElement object'
@@ -119,7 +115,7 @@ export default class BlockRenderer extends Component<Props, State> {
     const { context } = props
     const { moduleData, moduleTarget } = state
     if (moduleData === null || moduleTarget === null) return;
-    moduleData.update(moduleTarget, context ?? {})
+    moduleData.update(moduleTarget, context ?? createBlockContext({}))
   }
 
   attachModuleTarget () {

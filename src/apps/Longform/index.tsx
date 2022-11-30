@@ -23,59 +23,61 @@ const pagesData: PageData[] = [{
       margin: 80px;
       display: flex;
       justify-content: center;
-      padding: 40px 120px">
+      padding: 40px 24px;
+      text-align: center;">
       First page lorem ipsum dolor sit ampet cons
     </div>`
-  }, /*{
-    id: 'leftblock',
-    depth: 'back',
-    type: 'html',
-    layout: 'left-half',
-    mobileLayout: 'left-half',
-    transitions: [
-      ['fade', 2000],
-      ['grow', 600],
-      ['whirl', 600],
-      // ['slide-up', 600]
-    ],
-    mobileTransitions: [
-      ['fade', 600],
-      ['whirl', 600],
-      ['grow', 600]
-    ],
-    content: '<div style="background-color: yellow; width: 100%; height: 20%">I am the back block</div>'
-  }, */{
+  }, {
     id: 'rightblock',
     depth: 'front',
     type: 'module',
     layout: 'right-half',
-    mobileLayout: 'right-half',
+    mobileLayout: 'left-half',
     transitions: [
-      ['whirl', 600]
-    ],
-    mobileTransitions: [
-      ['left-open', 600]
+      ['whirl', 600],
+      ['grow', 600],
+      ['fade', 600],
     ],
     content: 'http://localhost:3003/index.js'
+  }]
+}, {
+  bgColor: 'deeppink',
+  blocks: [{
+    depth: 'scroll',
+    type: 'html',
+    layout: 'left-half',
+    mobileLayout: 'right-half',
+    content: `<div style="
+      height: 100vw;
+      width: calc(100% - 120px);
+      background-color: rgb(30, 30, 30);
+      color: white;
+      margin: 60px;
+      display: flex;
+      justify-content: center;
+      padding: 40px 24px;
+      text-align: center;">
+      Second page
+    </div>`
+  }, {
+    id: 'rightblock'
   }]
 }, {
   bgColor: 'orange',
   blocks: [{
     depth: 'scroll',
     type: 'html',
-    content: '<div style="height: 100vw;">I am the second page</div>'
+    content: '<div style="height: 100vw;">I am the third page</div>'
   }]
 }, {
   bgColor: 'violet',
   blocks: [{
     depth: 'scroll',
     type: 'html',
-    content: '<div style="height: 100vw; color: white">I am the third page</div>'
-  }/*, {
-    id: 'leftblock'
+    content: '<div style="height: 100vw; color: white">I am the fourth page</div>'
   }, {
     id: 'rightblock'
-  }*/]
+  }]
 }]
 
 class Longform extends Component<Props, State> {

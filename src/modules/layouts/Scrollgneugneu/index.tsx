@@ -2,11 +2,46 @@ import { Component } from 'preact'
 import IntersectionObserverComponent from '../../components/IntersectionObserver'
 import Paginator, { State as PaginatorState } from '../../components/Paginator'
 import ResizeObserverComponent from '../../components/ResizeObserver'
-import BlockRenderer, { BlockContext } from './BlockRenderer'
+import BlockRenderer from './BlockRenderer/index'
 import styles from './styles.module.scss'
 import TransitionsWrapper, { TransitionDescriptor } from './TransitionsWrapper'
 
 type BlockLayoutName = 'left-half'|'right-half'
+
+export type BlockContext = {
+  width: number|null
+  height: number|null
+  progression: number|null
+  page: number|null
+}
+
+const nullContext: BlockContext = {
+  width: null,
+  height: null,
+  progression: null,
+  page: null
+}
+export function createBlockContext (
+  partialContext: Partial<BlockContext>): BlockContext {
+  return { ...nullContext, ...partialContext }
+}
+export function contextsAreEqual (
+  contextA: BlockContext,
+  contextB: BlockContext
+) {
+  return Object.keys(contextA).every(_key => {
+    const keyInA = _key in contextA
+    const keyInB = _key in contextB
+    if (!keyInA || !keyInB) return false
+    const key = _key as keyof BlockContext
+    return contextA[key] === contextB[key]
+  })
+}
+
+type BlockContextsDryUpdation = null|{
+  previous: State['fixedBlocksPContextMap']
+  current: State['fixedBlocksContextMap']
+}
 
 type CommonBlockData = {
   type?: 'module'|'html'
@@ -48,6 +83,7 @@ type State = {
   btmVisible?: boolean
   scrollingBlockHeight?: number
   fixedBlocksContextMap?: Map<any, BlockContext>
+  fixedBlocksPContextMap?: Map<any, BlockContext>
 }
 
 export default class Scrollgneugneu extends Component<Props, State> {
@@ -66,21 +102,14 @@ export default class Scrollgneugneu extends Component<Props, State> {
     this.getDedupedFixedBlocks = this.getDedupedFixedBlocks.bind(this)
     this.getZSortedFixedBlocks = this.getZSortedFixedBlocks.bind(this)
     this.handleFixedBlockResize = this.handleFixedBlockResize.bind(this)
+    this.dryUpdateFixedBlockContext = this.dryUpdateFixedBlockContext.bind(this)
+    this.updateFixedBlockContext = this.updateFixedBlockContext.bind(this)
     this.FixedBlocks = this.FixedBlocks.bind(this)
     this.ScrollBlocks = this.ScrollBlocks.bind(this)
-    console.log('SCRLLGNGN - CONSTRUCT')
-  }
-
-  componentDidMount() {
-    console.log('SCRLLGNGN - DID MOUNT\n\n\n')
-  }
-
-  componentDidUpdate() {
-    console.log('SCRLLGNGN - DID UPDATE\n\n\n')
   }
 
   /* * * * * * * * * * * * * * * * * * * * * *
-   * POSITION DETECTION IN PAGE
+   * SCRLGNGN POSITION DETECTION IN PAGE
    * * * * * * * * * * * * * * * * * * * * * */
   topDetection ({ isIntersecting }: IntersectionObserverEntry) { this.setState({ topVisible: isIntersecting }) }
   cntDetection ({ isIntersecting }: IntersectionObserverEntry) { this.setState({ cntVisible: isIntersecting }) }
@@ -99,20 +128,13 @@ export default class Scrollgneugneu extends Component<Props, State> {
     const pages = this.props.pages
     const isBeforeFirst = hasPages && noneActive && nonePassed
     const isAfterLast = hasPages && noneActive && noneComing
-    if (isBeforeFirst) return this.setState(curr => ({
-      ...curr,
-      currentPagePos: pages !== undefined ? 0 : undefined,
-      previousPagePos: curr.currentPagePos
-    }))
-    if (isAfterLast) return this.setState(curr => ({
-      ...curr,
-      currentPagePos: pages !== undefined ? pages.length - 1 : undefined,
-      previousPagePos: curr.currentPagePos
-    }))
+    let newCurrentPagePos: State['currentPagePos'] = paginatorState.value as number|undefined
+    if (isBeforeFirst) newCurrentPagePos = pages !== undefined ? 0 : undefined
+    if (isAfterLast) newCurrentPagePos = pages !== undefined ? pages.length - 1 : undefined
     this.setState(curr => {
       return {
         ...curr,
-        currentPagePos: paginatorState.value as number|undefined,
+        currentPagePos: newCurrentPagePos,
         previousPagePos: curr.currentPagePos
       }
     })
@@ -271,29 +293,65 @@ export default class Scrollgneugneu extends Component<Props, State> {
    * * * * * * * * * * * * * * * * * * * * * */
   handleFixedBlockResize (entries: ResizeObserverEntry[], key: any) {
     const [entry] = entries
+    if (entry === undefined) return;
     const { width, height } = entry.contentRect
-    console.log('SCRLLGNGN - HANDLE FIX BLK RESIZE', { width, height })
+    this.updateFixedBlockContext(key, { width, height })
+  }
+
+  /* * * * * * * * * * * * * * * * * * * * * *
+   * DRY UPDATE FIXED BLOCK CONTEXT
+   * * * * * * * * * * * * * * * * * * * * * */
+  dryUpdateFixedBlockContext (
+    blockKey: any,
+    newPartialContext: Partial<BlockContext>,
+    currentState: State
+  ): BlockContextsDryUpdation {
+    const currContexts = currentState.fixedBlocksContextMap
+    // Contexts have not been initialized yet
+    if (currContexts === undefined) {
+      const fixedBlocksContextMap = new Map<any, BlockContext>()
+      fixedBlocksContextMap.set(blockKey, createBlockContext(newPartialContext))
+      return {
+        previous: currentState.fixedBlocksPContextMap,
+        current: fixedBlocksContextMap
+      }
+    }
+    const currContext = currContexts.get(blockKey)
+    // Contexts have been created but not the context of this block
+    if (currContext === undefined) {
+      const fixedBlocksContextMap = new Map<any, BlockContext>(currContext)
+      fixedBlocksContextMap.set(blockKey, createBlockContext(newPartialContext))
+      return {
+        previous: currentState.fixedBlocksPContextMap,
+        current: fixedBlocksContextMap
+      }
+    }
+    // This block already had a context
+    const newContext = createBlockContext({ ...currContext, ...newPartialContext })
+    const contextsHaventChanged = contextsAreEqual(currContext, newContext)
+    if (contextsHaventChanged) return null
+    const fixedBlocksContextMap = new Map<any, BlockContext>(currContexts)
+    fixedBlocksContextMap.set(blockKey, newContext)
+    const fixedBlocksPContextMap = new Map<any, BlockContext>(currentState.fixedBlocksPContextMap)
+    fixedBlocksPContextMap.set(blockKey, currContext)
+    return {
+      previous: fixedBlocksPContextMap,
+      current: fixedBlocksContextMap,
+    }
+  }
+
+  /* * * * * * * * * * * * * * * * * * * * * *
+   * UPDATE FIXED BLOCK CONTEXT
+   * * * * * * * * * * * * * * * * * * * * * */
+  updateFixedBlockContext (blockKey: any, newPartialContext: Partial<BlockContext>) {
     this.setState(curr => {
-      const currentMap = curr.fixedBlocksContextMap
-      if (currentMap === undefined) {
-        const newMap = new Map<any, BlockContext>()
-        newMap.set(key, { width, height })
-        return {
-          ...curr,
-          fixedBlocksContextMap: newMap
-        }
+      const dryUpdated = this.dryUpdateFixedBlockContext(blockKey, newPartialContext, curr)
+      if (dryUpdated === null) return null
+      return {
+        ...curr,
+        fixedBlocksPContextMap: dryUpdated.previous,
+        fixedBlocksContextMap: dryUpdated.current
       }
-      const currentContext = currentMap.get(key)
-      if (currentContext === undefined) {
-        const newMap = new Map<any, BlockContext>(currentMap)
-        newMap.set(key, { width, height })
-        return { ...curr, fixedBlocksContextMap: newMap }
-      }
-      const { width: currWidth, height: currHeight } = currentContext
-      if (currWidth === width && currHeight === height) return null
-      const newMap = new Map<any, BlockContext>(currentMap)
-      newMap.set(key, { width, height })
-      return { ...curr, fixedBlocksContextMap: newMap }
     })
   }
 
@@ -325,7 +383,6 @@ export default class Scrollgneugneu extends Component<Props, State> {
       const key = hasId ? blockData.id : blockData
       // Context
       const blockContext = state.fixedBlocksContextMap?.get(key)
-      console.log('SCRLLGNGN - CREATE FIXED BLOCK', blockContext)
       return <ResizeObserverComponent
         onResize={e => onResize(e, key)}>
         <div
@@ -386,9 +443,6 @@ export default class Scrollgneugneu extends Component<Props, State> {
       FixedBlocks,
       ScrollBlocks
     } = this
-    console.log('SCRLLGNGN - RENDER')
-    console.log(props)
-    console.log(state)
     const exploitablePages = this.getExploitablePages()
     const { currentPagePos } = state
     const currPageData = exploitablePages !== undefined && currentPagePos !== undefined
@@ -404,7 +458,10 @@ export default class Scrollgneugneu extends Component<Props, State> {
      * - OK load modules
      * - OK layout
      * - OK transitions
-     * - give context props to modules
+     * - OK give context props to modules
+     * - give page context
+     * - give scroll context
+     * - load modules css
      */
 
     const { topVisible, cntVisible, btmVisible } = state
