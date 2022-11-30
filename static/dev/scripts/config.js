@@ -2,10 +2,10 @@
 window.LM_APP_CONFIG = {
   "assets_root_url": "https://assets-decodeurs.lemonde.fr/redacweb/8-2111-photos21-assets",
   "sheetbases": {
-    "production": "https://assets-decodeurs.lemonde.fr/sheets/lcHZvwZYA1b7xKmbpx6gCh030ty_Eg_758",
-    "staging": "https://assets-decodeurs.lemonde.fr/sheets/lcHZvwZYA1b7xKmbpx6gCh030ty_Eg_759",
-    "testing": "https://assets-decodeurs.lemonde.fr/sheets/lcHZvwZYA1b7xKmbpx6gCh030ty_Eg_760",
-    "developpment": "https://assets-decodeurs.lemonde.fr/sheets/lcHZvwZYA1b7xKmbpx6gCh030ty_Eg_761"
+    "production": "https://assets-decodeurs.lemonde.fr/sheets/WUjfW_45LOjOwEW1fLHYUnFuT0IhMQ_1470",
+    "staging": "https://assets-decodeurs.lemonde.fr/sheets/WUjfW_45LOjOwEW1fLHYUnFuT0IhMQ_1471",
+    "testing": "https://assets-decodeurs.lemonde.fr/sheets/WUjfW_45LOjOwEW1fLHYUnFuT0IhMQ_1472",
+    "developpment": "https://assets-decodeurs.lemonde.fr/sheets/WUjfW_45LOjOwEW1fLHYUnFuT0IhMQ_1473"
   },
   "env": "developpment"
 }
