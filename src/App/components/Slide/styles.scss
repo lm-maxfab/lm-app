@@ -184,7 +184,7 @@
 }
 
 .body-aec {
-  .fraude-slide__inner {
+  .fraude-slide__inner:not(.fraude-slide__inner_background) {
     padding-top: 28px;
   }
 }
