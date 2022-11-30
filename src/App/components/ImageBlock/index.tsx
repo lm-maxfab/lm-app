@@ -69,7 +69,7 @@ class ImageBlock extends Component<Props, {}> {
       <Img
         src={src}
         srcSet={srcSet}
-        alt={strDescriptionContent}
+        alt={data.alt ?? strDescriptionContent}
         className={imageClasses.value} />
       <span className={bem(this.clss).elt('text').value}>
         <span className={bem(this.clss).elt('description').value}>{data.description}&nbsp;</span>

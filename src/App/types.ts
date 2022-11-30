@@ -15,9 +15,9 @@ export interface ImageBlockData {
   id: string
   image_url?: string
   image_ratio?: string
-  month?: MonthData
   description?: StrToHtml
   credits?: StrToHtml
+  alt?: string
 }
 
 export interface MonthData {
