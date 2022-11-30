@@ -94,10 +94,14 @@ class App extends Component<Props, State> {
     const data = props.sheetBase
     const homeImages = (data?.collection('home_images').value ?? []) as unknown as HomeImageData[]
     const introParagraphs = (data?.collection('intro_paragraphs').value ?? []) as unknown as IntroParagraphData[]
-    const imageBlocks = (data?.collection('image_blocks').value ?? []) as unknown as ImageBlockData[]
-    const months = (data?.collection('months').value ?? []) as unknown as MonthData[]
     const creditsContent = (data?.collection('credits_content').entry('1').value ?? { id: '1', content: <></> }) as unknown as CreditsContentData
+    const months = (data?.collection('months').value ?? []) as unknown as MonthData[]
+    const imageBlocks = [] as ImageBlockData[][]
 
+    for (const [index, month] of months.entries()) {
+      imageBlocks[index] = (data?.collection(`${month.id}_image_blocks`).value ?? []) as unknown as ImageBlockData[]
+    }
+    
     // Extract data
     const classes = bem('lm-app')
       .block(this.clss)

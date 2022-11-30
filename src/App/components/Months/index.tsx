@@ -9,7 +9,7 @@ interface Props {
   className?: string
   style?: JSX.CSSProperties
   months?: MonthData[]
-  blocks?: ImageBlockData[]
+  blocks?: ImageBlockData[][]
   dispatchMonthChange: (monthId?: string) => void
 }
 
@@ -59,13 +59,12 @@ class Months extends Component<Props, {}> {
         <Paginator
           triggerBound='top'
           onPageChange={props.dispatchMonthChange}>
-          {props.months?.map(month => {
-            const blocks = props.blocks?.filter(block => block.month?.id === month.id)
+          {props.months?.map((month, index) => {
             return <Page value={month.id}>
               <div className={bem(this.clss).elt('month').mod(`month-${month.id}`).value}>
                 <Month
                   month={month}
-                  blocks={blocks} />
+                  blocks={props.blocks![index]} />
               </div>
             </Page>
           })}
