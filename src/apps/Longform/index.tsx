@@ -39,8 +39,8 @@ class Longform extends Component<Props, State> {
   }
 
   handlePageChange (val: any) { this.setState({ currentPage: val }) }
-  handleChapterChange (val: any) { this.setState({ currentChapter: val }) }
-  handleChapterRowChange (val: any) { this.setState({ currentChapterRow: val }) }
+  handleChapterChange (val: any) { if (val !== undefined) this.setState({ currentChapter: val }) }
+  handleChapterRowChange (val: any) { if (val !== undefined) this.setState({ currentChapterRow: val }) }
 
   /* * * * * * * * * * * * * * *
    * RENDER
