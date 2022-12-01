@@ -37,20 +37,23 @@ class ImageBlock extends Component<Props, {}> {
     const isPortrait = /^po/.test(data.image_ratio?.toLowerCase() ?? '')
     const isStrip = /^s/.test(data.image_ratio?.toLowerCase() ?? '')
 
+    const dateRegex = /\d{4}\/\d{2}\/\d{2}/i
+    const imageDate = data.image_url.match(dateRegex) ? data.image_url.match(dateRegex)![0] : ''
+    const imageName = data.image_url.substring(data.image_url.lastIndexOf('/') + 1, data.image_url.lastIndexOf('.'))
+    const imageExt = data.image_url.substring(data.image_url.lastIndexOf('.') + 1)
+
     const widths = [2400, 1800, 1400, 1000, 800, 600]
-    const imageName = (data.image_url ?? '').split('.').slice(0, -1).join('.')
-    const imageExt = (data.image_url ?? '').replace(new RegExp(`^${imageName}.`, 'gm'), '')
     const srcSet = widths.map(width => {
       let ratio = 1
       if (isPano || isLandscape) ratio = 1
       if (isSquare) ratio = .66
       if (isPortrait) ratio = .5
       if (isStrip) ratio = .3
-      const targetFileName = `${imageName}.${width}.q80.comp.${imageExt}`
+      const targetFileName = `https://img.lemde.fr/${imageDate}/0/0/0/0/${width}/0/0/0/${imageName}.${imageExt}`
       const targetWidthName = `${Math.floor(width / ratio)}w`
       return `${targetFileName} ${targetWidthName}`
     }).join(', ')
-    const src = `${imageName}.${2200}.q80.comp.${imageExt}`
+    const src = `https://img.lemde.fr/${imageDate}/0/0/0/0/${2200}/0/0/0/${imageName}.${imageExt}`
 
     /* Classes and style */
     const classes = bem(props.className ?? '')

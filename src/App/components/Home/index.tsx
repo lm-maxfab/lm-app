@@ -40,15 +40,18 @@ class Home extends Component<Props, {}> {
           sequence={imagesSequence}
           renderer={({ step }) => {
             return imagesSequence.map((imageUrl, imagePos) => {
-              const imageName = (imageUrl ?? '').split('.').slice(0, -1).join('.')
-              const imageExt = (imageUrl ?? '').replace(new RegExp(`^${imageName}.`, 'gm'), '')
+
+              const dateRegex = /\d{4}\/\d{2}\/\d{2}/i
+              const imageDate = (imageUrl ?? '').match(dateRegex) ? imageUrl.match(dateRegex)![0] : ''
+              const imageName = (imageUrl ?? '').substring(imageUrl.lastIndexOf('/') + 1, imageUrl.lastIndexOf('.'))
+              const imageExt = (imageUrl ?? '').substring(imageUrl.lastIndexOf('.') + 1)
 
               const widths = [800, 1000, 1400, 2200]
               const srcSet = widths.map(width => {
-                const targetFileName = `${imageName}.${width}.q80.comp.${imageExt}`
-                const targetWidthName = `${Math.floor(width / 1.2)}w`
-                return `${targetFileName} ${targetWidthName}`
-              }).join(', ')
+                  const targetFileName = `https://img.lemde.fr/${imageDate}/0/0/0/0/${width}/0/0/0/${imageName}.${imageExt}`
+                  const targetWidthName = `${Math.floor(width / 1.2)}w`
+                  return `${targetFileName} ${targetWidthName}`
+                }).join(', ')
 
               const isPassed = imagePos < step
               const isCurrent = imagePos === step
