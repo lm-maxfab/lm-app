@@ -16,11 +16,11 @@ class GroupDelay {
     this.execute = this.execute.bind(this)
   }
 
-  get delayTillNextExecution () {
+  get delayTillNextExecution (): number {
     return this.lastExecTime + this.delay - Date.now()
   }
 
-  call () {
+  call (): void {
     const hasNewCallPlanned = this.execTimeout !== null
     if (hasNewCallPlanned) return
     const delayTillNext = this.delayTillNextExecution
@@ -29,7 +29,7 @@ class GroupDelay {
     else { this.execTimeout = window.setTimeout(this.execute, delayTillNext) }
   }
 
-  execute () {
+  execute (): void {
     this.lastExecTime = Date.now()
     if (this.execTimeout !== null) {
       window.clearTimeout(this.execTimeout)
@@ -39,4 +39,9 @@ class GroupDelay {
   }
 }
 
+function groupDelay (fn: FunctionParam, delay: DelayParam): () => void {
+  return new GroupDelay(fn, delay).call
+}
+
+export { groupDelay }
 export default GroupDelay

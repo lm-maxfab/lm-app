@@ -1,16 +1,16 @@
 import { Component, JSX, toChildArray, cloneElement } from 'preact'
 import bem from '../../utils/bem'
-import GroupDelay from '../../utils/group-delay'
+import { groupDelay } from '../../utils/group-delay'
 import Page, { Props as PageProps } from './Page'
 
 import './styles.scss'
 
-interface PagePositionAndValue {
+export interface PagePositionAndValue {
   position: number
   value?: any
 }
 
-interface Props {
+export interface Props {
   className?: string
   style?: JSX.CSSProperties
   root?: 'self'|'window'
@@ -18,18 +18,19 @@ interface Props {
   thresholdOffset?: string
   delay?: number
   intervalCheck?: boolean
-  onPageChange?: (value: State['value'], state?: State) => void
+  onPageChange?: (state: State) => void
 }
 
-interface State {
+export interface State {
   passed: PagePositionAndValue[]
   active: PagePositionAndValue[]
   coming: PagePositionAndValue[]
   direction: 'forwards'|'backwards'|null
   value: any
+  position: number|null
 }
 
-class Paginator extends Component<Props, State> {
+export default class Paginator extends Component<Props, State> {
   static Page = Page
   static clss = 'lm-paginator'
   clss = Paginator.clss
@@ -38,7 +39,8 @@ class Paginator extends Component<Props, State> {
     active: [],
     coming: [],
     direction: null,
-    value: undefined
+    value: undefined,
+    position: null
   }
   childrenRefs: Page[] = []
   $thresholdBar: HTMLDivElement|null = null
@@ -59,7 +61,7 @@ class Paginator extends Component<Props, State> {
 
   componentDidMount (): void {
     this.groupedCheckPages()
-    if (this.props.intervalCheck) this.activateIntervalChecker()
+    if (this.props.intervalCheck === true) this.activateIntervalChecker()
     window.addEventListener('scroll', this.groupedCheckPages)
     window.addEventListener('resize', this.groupedCheckPages)
     if (this.$scrollableArea !== null) this.$scrollableArea.addEventListener('scroll', this.groupedCheckPages)
@@ -70,7 +72,7 @@ class Paginator extends Component<Props, State> {
     const pIntervalCheck = prevProps.intervalCheck
     const intervalCheck = this.props.intervalCheck
     if (pIntervalCheck === intervalCheck) return
-    if (intervalCheck) this.activateIntervalChecker()
+    if (intervalCheck === true) this.activateIntervalChecker()
     else this.inactivateIntervalChecker()
   }
 
@@ -84,7 +86,7 @@ class Paginator extends Component<Props, State> {
   /* * * * * * * * * * * * * * *
    * METHODS
    * * * * * * * * * * * * * * */
-  getDelay () {
+  getDelay (): number {
     return this.props.delay ?? 100
   }
 
@@ -92,7 +94,7 @@ class Paginator extends Component<Props, State> {
     const { children } = this.props
     this.childrenRefs = []
     const clonedChildren = toChildArray(children).map((child, childPos) => {
-      const ref = (node: any) => { this.childrenRefs[childPos] = node }
+      const ref = (node: any): void => { this.childrenRefs[childPos] = node }
       if (typeof child === 'object' && child.type === Page) {
         return cloneElement(
           child, {
@@ -112,7 +114,7 @@ class Paginator extends Component<Props, State> {
     return clonedChildren
   }
 
-  checkPages () {
+  checkPages (): void {
     if (this.$thresholdBar === null) return
     const thresholdBarRect = this.$thresholdBar.getBoundingClientRect()
 
@@ -141,40 +143,73 @@ class Paginator extends Component<Props, State> {
     })
 
     this.setState(curr => {
-      const currPassedStr = curr.passed.sort(e => e.position).map(e => `${e.position}`).join(',')
-      const currActiveStr = curr.active.sort(e => e.position).map(e => `${e.position}`).join(',')
-      const currComingStr = curr.coming.sort(e => e.position).map(e => `${e.position}`).join(',')
-      
-      const passedStr = passedChildrenRefs.sort(ref => ref.props.position ?? 0).map(ref => `${ref.props.position ?? 0}`).join(',')
-      const activeStr = activeChildrenRefs.sort(ref => ref.props.position ?? 0).map(ref => `${ref.props.position ?? 0}`).join(',')
-      const comingStr = comingChildrenRefs.sort(ref => ref.props.position ?? 0).map(ref => `${ref.props.position ?? 0}`).join(',')
-      
+      const currPassedStr = curr.passed
+        .sort((a, b) => a.position - b.position)
+        .map(e => `${e.position}`)
+        .join(',')
+      const currActiveStr = curr.active
+        .sort((a, b) => a.position - b.position)
+        .map(e => `${e.position}`)
+        .join(',')
+      const currComingStr = curr.coming
+        .sort((a, b) => a.position - b.position)
+        .map(e => `${e.position}`)
+        .join(',')
+
+      const passedStr = passedChildrenRefs
+        .sort((aRef, bRef) => (aRef.props.position ?? 0) - (bRef.props.position ?? 0))
+        .map(ref => `${ref.props.position ?? 0}`)
+        .join(',')
+      const activeStr = activeChildrenRefs
+        .sort((aRef, bRef) => (aRef.props.position ?? 0) - (bRef.props.position ?? 0))
+        .map(ref => `${ref.props.position ?? 0}`)
+        .join(',')
+      const comingStr = comingChildrenRefs
+        .sort((aRef, bRef) => (aRef.props.position ?? 0) - (bRef.props.position ?? 0))
+        .map(ref => `${ref.props.position ?? 0}`)
+        .join(',')
+
       if (currPassedStr === passedStr
         && currActiveStr === activeStr
         && currComingStr === comingStr) return null
-      
+
       const passed = passedChildrenRefs.map(ref => ({ position: ref.props.position ?? 0, value: ref.props.value })).sort(e => e.position)
       const active = activeChildrenRefs.map(ref => ({ position: ref.props.position ?? 0, value: ref.props.value })).sort(e => e.position)
       const coming = comingChildrenRefs.map(ref => ({ position: ref.props.position ?? 0, value: ref.props.value })).sort(e => e.position)
       const value = active[0]?.value
-      
+      const position = (active[0]?.position ?? null) as any|null
+
       let direction: 'forwards'|'backwards'|null = null
+
       if (curr.passed.length < passed.length) { direction = 'forwards' }
       else if (curr.passed.length > passed.length) { direction = 'backwards' }
+      else if (curr.passed.length === passed.length) {
+        if (curr.coming.length > coming.length) { direction = 'forwards' }
+        else if (curr.coming.length < coming.length) { direction = 'backwards' }
+      }
 
-      const newState = { passed, active, coming, direction, value }
+      const newState: State = {
+        passed,
+        active,
+        coming,
+        direction,
+        value,
+        position
+      }
 
-      if (this.props.onPageChange) this.props.onPageChange(newState.value, newState)
+      if (this.props.onPageChange !== undefined) {
+        this.props.onPageChange(newState)
+      }
       return newState
     })
   }
 
-  groupedCheckPages = new GroupDelay(
+  groupedCheckPages = groupDelay(
     this.checkPages.bind(this),
     this.getDelay.bind(this)()
-  ).call
+  )
 
-  activateIntervalChecker () {
+  activateIntervalChecker (): void {
     this.inactivateIntervalChecker()
     this.intervalChecker = window.setInterval(
       this.groupedCheckPages,
@@ -182,8 +217,8 @@ class Paginator extends Component<Props, State> {
     )
   }
 
-  inactivateIntervalChecker () {
-    if (this.intervalChecker === null) return 
+  inactivateIntervalChecker (): void {
+    if (this.intervalChecker === null) return
     window.clearInterval(this.intervalChecker)
     this.intervalChecker = null
   }
@@ -191,8 +226,8 @@ class Paginator extends Component<Props, State> {
   /* * * * * * * * * * * * * * *
    * RENDER
    * * * * * * * * * * * * * * */
-  render (): JSX.Element|null {
-    const { props, state } = this
+  render (): JSX.Element {
+    const { props } = this
 
     /* Classes and style */
     const wrapperClasses = bem(props.className)
@@ -227,6 +262,3 @@ class Paginator extends Component<Props, State> {
     )
   }
 }
-
-export type { Props }
-export default Paginator

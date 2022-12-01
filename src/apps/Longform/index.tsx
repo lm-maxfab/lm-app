@@ -38,9 +38,9 @@ class Longform extends Component<Props, State> {
     this.handleChapterRowChange = this.handleChapterRowChange.bind(this)
   }
 
-  handlePageChange (val: any) { this.setState({ currentPage: val }) }
-  handleChapterChange (val: any) { if (val !== undefined) this.setState({ currentChapter: val }) }
-  handleChapterRowChange (val: any) { if (val !== undefined) this.setState({ currentChapterRow: val }) }
+  handlePageChange (val: any) { this.setState({ currentPage: val.value }) }
+  handleChapterChange (val: any) { this.setState({ currentChapter: val.value }) }
+  handleChapterRowChange (val: any) { this.setState({ currentChapterRow: val.value }) }
 
   /* * * * * * * * * * * * * * *
    * RENDER
@@ -140,7 +140,7 @@ class Longform extends Component<Props, State> {
                   
                   {/* CHAPTER */}
                   {cChaptersData.map((chapter, chapterPos) => {
-                    return <Paginator.Page value={chapterPos}>
+                    return <Paginator.Page value={chapterPos} key={chapterPos}>
                       <div className={bem(this.clss).elt('chapter').value}>
 
                         {/* CHAPTER HEAD */}
@@ -165,7 +165,7 @@ class Longform extends Component<Props, State> {
                               && state.currentChapterRow !== undefined
                               && chapterPos === state.currentChapter
                               && rowPos === state.currentChapterRow
-                            return <Paginator.Page value={rowPos}>
+                            return <Paginator.Page value={rowPos} key={rowPos}>
                               <div className={bem(this.clss).elt('chapter-row').mod({ 'in-screen': shouldShowFixedStuff }).value}>
                                 <ChapterRow
                                   loadImages={shouldShowFixedStuff}

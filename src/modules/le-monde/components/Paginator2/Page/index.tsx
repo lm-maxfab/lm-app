@@ -24,7 +24,7 @@ class Page extends Component<Props, {}> {
   /* * * * * * * * * * * * * * *
    * METHODS
    * * * * * * * * * * * * * * */
-  getRect () {
+  getRect (): DOMRect|null {
     if (this.$root === null) return null
     return this.$root.getBoundingClientRect()
   }
