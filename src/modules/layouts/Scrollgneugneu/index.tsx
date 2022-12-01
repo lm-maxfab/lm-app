@@ -530,6 +530,7 @@ export default class Scrollgneugneu extends Component<Props, State> {
      * - give page context
      * - give scroll context
      * - load modules css
+     * - load modules libs
      */
 
     const { topVisible, cntVisible, btmVisible } = state

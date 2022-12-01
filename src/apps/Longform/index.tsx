@@ -30,14 +30,17 @@ const pagesData: PageData[] = [{
   }, {
     id: 'rightblock',
     depth: 'front',
-    type: 'module',
     layout: 'right-half',
     mobileLayout: 'left-half',
     transitions: [
-      ['whirl', 600],
+      // ['whirl', 600],
       ['grow', 600],
-      ['fade', 600],
+      ['whirl', 600]
     ],
+    mobileTransitions: [
+      ['grow', 2000]
+    ],
+    type: 'module',
     content: 'http://localhost:3003/index.js'
   }/*, {
     id: 'leftblock',
