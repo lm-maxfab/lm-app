@@ -14,7 +14,8 @@ export interface IntroParagraphData {
 export interface ImageBlockData {
   id: string
   image_url?: string
-  image_ratio?: string
+  image_format?: string
+  image_ratio?: number
   description?: StrToHtml
   credits?: StrToHtml
   alt?: string

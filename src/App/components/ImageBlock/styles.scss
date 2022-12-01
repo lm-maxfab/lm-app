@@ -1,5 +1,4 @@
-.photos22-image-block {
-  --block-padding: 16px;
+.photos22-image-block__wrapper {
   position: relative;
   margin: 0 auto;
   flex-shrink: 0;
@@ -8,50 +7,53 @@
   align-items: center;
   flex-wrap: wrap;
   margin-bottom: var(--len-photo-block-margin-bottom);
-  padding: 0 var(--block-padding);
 
-  &:last-child { margin-bottom: 0; }
+  .photos22-image-block {
+    position: relative;
+    width: 100%;
+  }
 
   .lm-img {
     display: block;
     margin-bottom: 16px;
     width: 100%;
+    position: absolute;
+    top: 0;
   }
 
-  &.photos22-image-block_ratio-pano {
+  &.photos22-image-block__wrapper_ratio-pano {
     width: 100%;
     max-width: 1440px;
   }
 
-  &.photos22-image-block_ratio-landscape {
+  &.photos22-image-block__wrapper_ratio-landscape {
     width: 100%;
     max-width: 1440px;
   }
 
-  &.photos22-image-block_ratio-square {
+  &.photos22-image-block__wrapper_ratio-square {
     width: 66%;
     max-width: 980px;
   }
 
-  &.photos22-image-block_ratio-portrait {
+  &.photos22-image-block__wrapper_ratio-portrait {
     width: 50%;
   }
 
-  &.photos22-image-block_ratio-strip {
+  &.photos22-image-block__wrapper_ratio-strip {
     width: 40%;
   }
 
   @media screen and (max-width: 800px) {
-    padding: 0;
 
-    &.photos22-image-block_ratio-pano,
-    &.photos22-image-block_ratio-landscape,
-    &.photos22-image-block_ratio-square,
-    &.photos22-image-block_ratio-portrait,
-    &.photos22-image-block_ratio-strip {
+    &.photos22-image-block__wrapper_ratio-pano,
+    &.photos22-image-block__wrapper_ratio-landscape,
+    &.photos22-image-block__wrapper_ratio-square,
+    &.photos22-image-block__wrapper_ratio-portrait,
+    &.photos22-image-block__wrapper_ratio-strip {
       width: 100%;
     }
-    
+
     // .photos22-image-block__image_ratio-pano,
     // .photos22-image-block__image_ratio-landscape,
     // .photos22-image-block__image_ratio-square,
@@ -71,6 +73,7 @@
     font-size: var(--fs-descriptions-text);
     line-height: 1.45;
     align-self: flex-start;
+    display: inline-block;
 
     @media screen and (max-width: 800px) {
       padding: 0 var(--len-content-main-side-padding);
@@ -85,6 +88,11 @@
   }
 }
 
+.photos22-image-block__wrapper:last-child {
+  .photos22-image-block {
+    margin-bottom: 0;
+  }
+}
 
 
 
@@ -105,7 +113,7 @@
 // .photos22-image-block__inner {
 //   position: relative;
 //   padding: 0 16px;
-  
+
 //   @media screen and (max-width: 800px) {
 //     padding: 0;
 //   }
