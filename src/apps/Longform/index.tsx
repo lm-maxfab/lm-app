@@ -39,7 +39,12 @@ const pagesData: PageData[] = [{
       ['fade', 600],
     ],
     content: 'http://localhost:3003/index.js'
-  }]
+  }/*, {
+    id: 'leftblock',
+    depth: 'front',
+    type: 'html',
+    content: '<div><h1>I AM LEFT BLOCK</h1></div>'
+  }*/]
 }, {
   bgColor: 'deeppink',
   blocks: [{

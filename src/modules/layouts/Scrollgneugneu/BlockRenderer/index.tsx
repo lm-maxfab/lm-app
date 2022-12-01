@@ -41,6 +41,7 @@ export default class BlockRenderer extends Component<Props, State> {
   }
 
   componentDidMount (): void {
+    // console.log('blkrdr - mount')
     const { props, loadInitModule, attachModuleTarget } = this
     const { type } = props
     if (type !== 'module') return;
@@ -49,6 +50,7 @@ export default class BlockRenderer extends Component<Props, State> {
   }
 
   componentDidUpdate(pProps: Readonly<Props>): void {
+    // console.log('blkrdr - update')
     const { props, loadInitModule, updateModule, attachModuleTarget } = this
     const { type, content } = props
     const { type: pType, content: pContent } = pProps
