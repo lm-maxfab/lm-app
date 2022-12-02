@@ -75,11 +75,16 @@
 }
 
 .fraude-slide__intro-text {
+  margin: 0 auto;
   margin-top: 18px;
   margin-bottom: 28px;
   text-align: left;
   font-family: var(--ff-the-antiqua-b);
   line-height: 2;
+
+  @media screen and (max-width: 800px) {
+    max-width: 500px;
+  }
 
   @media screen and (max-width: 400px) {
     line-height: 1.5;
