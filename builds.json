@@ -175,6 +175,17 @@
       },
       "description": "d'autres fix pour l'aec",
       "time": "2022-11-30T16:57:24.189Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 1,
+        "patch": 2,
+        "status": "stable",
+        "build": 14
+      },
+      "description": "",
+      "time": "2022-12-02T09:06:31.475Z"
     }
   ]
 }
