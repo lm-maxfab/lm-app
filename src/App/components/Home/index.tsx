@@ -73,7 +73,7 @@ class Home extends Component<Props, {}> {
           }} />
 
           <h1 className={bem(this.clss).elt('title').value}>
-            <span className={bem(this.clss).elt('title-line-1').value}>2021</span>
+            <span className={bem(this.clss).elt('title-line-1').value}>2022</span>
             <span className={bem(this.clss).elt('title-line-2').value}>Une année en photo</span>
             <span className={bem(this.clss).elt('title-line-3').value}>#PourLeMonde</span>
             <span className={bem(this.clss).elt('chevron').value}><Svg src={chevronUrl} /></span>
