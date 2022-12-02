@@ -9,6 +9,7 @@ export interface SlideData {
   para_2?: VNode
   illus_url?: string
   illus_alt?: string
+  illus_src?: VNode
   illus_background?: boolean
   illus_mask?: string
   illus_bottom?: boolean

@@ -197,6 +197,17 @@
       },
       "description": "",
       "time": "2022-12-02T09:14:18.450Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 1,
+        "patch": 2,
+        "status": "stable",
+        "build": 16
+      },
+      "description": "ajout ligne source calée en bas",
+      "time": "2022-12-02T14:43:25.839Z"
     }
   ]
 }

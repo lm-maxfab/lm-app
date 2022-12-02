@@ -62,6 +62,10 @@ class Slide extends Component<Props, {}> {
             loading={props.imageLoading ?? 'lazy'}
             className={bem(this.clss).elt('illus').mod({ bottom: data.illus_bottom !== undefined }).value} />}
 
+          {data.illus_src !== undefined && <p className={bem(this.clss).elt('source').value}>
+            {data.illus_src}
+          </p>}
+
           {data.title_bottom !== undefined && <p className={bem(this.clss).elt('title').mod('bottom').value}>
             <StrToHtml wrapperTag='span' content={data.title_bottom} />
           </p>}
