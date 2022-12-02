@@ -31,11 +31,23 @@ class ImageBlock extends Component<Props, {}> {
     fakeDiv.innerHTML = descriptionContent ?? ''
     const strDescriptionContent = fakeDiv.innerText.split('&nbsp;').join(' ')
 
-    const isPano = /^pan/.test(data.image_format?.toLowerCase() ?? '')
-    const isLandscape = /^pay/.test(data.image_format?.toLowerCase() ?? '')
-    const isSquare = /^c/.test(data.image_format?.toLowerCase() ?? '')
-    const isPortrait = /^po/.test(data.image_format?.toLowerCase() ?? '')
-    const isStrip = /^s/.test(data.image_format?.toLowerCase() ?? '')
+    let isPano = false
+    let isLandscape = false
+    let isSquare = false
+    let isPortrait = false
+    let isStrip = false
+
+    if (data.image_ratio! < 0.65) {
+      isPano = true
+    } else if (data.image_ratio! < 0.95) {
+      isLandscape = true
+    } else if (data.image_ratio! < 1.05) {
+      isSquare = true
+    } else if (data.image_ratio! < 1.35) {
+      isPortrait = true
+    } else {
+      isStrip = true
+    }
 
     const baseUrl = 'https://img.lemde.fr'
 
