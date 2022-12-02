@@ -187,5 +187,9 @@
 .body-aec {
   .fraude-slide__inner:not(.fraude-slide__inner_background) {
     padding-top: 28px;
+
+    @media screen and (max-width: 400px) {
+      padding-top: 18px;
+    }
   }
 }

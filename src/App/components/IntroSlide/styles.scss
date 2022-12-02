@@ -10,6 +10,15 @@
     padding-top: 0;
     padding: 28px;
   }
+
+
+  @media screen and (max-width: 800px) {
+    font-size: 16px;
+
+    .fraude-slide__inner {
+      padding: 24px;
+    }
+  }
 }
 
 .fraude-slide__date {
@@ -71,6 +80,10 @@
   text-align: left;
   font-family: var(--ff-the-antiqua-b);
   line-height: 2;
+
+  @media screen and (max-width: 400px) {
+    line-height: 1.5;
+  }
 }
 
 .fraude-slide__illus-cover {
