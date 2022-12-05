@@ -33,7 +33,6 @@ const pagesData: PageData[] = [{
     layout: 'right-half',
     mobileLayout: 'left-half',
     transitions: [
-      // ['whirl', 600],
       ['grow', 600],
       ['whirl', 600]
     ],
@@ -41,13 +40,23 @@ const pagesData: PageData[] = [{
       ['grow', 2000]
     ],
     type: 'module',
-    content: 'http://localhost:3003/index.js'
-  }/*, {
+    content: 'http://localhost:3003/index.js',
+    trackScroll: true
+  }, {
     id: 'leftblock',
     depth: 'front',
+    type: 'module',
+    layout: 'left-half',
+    transitions: [
+      ['fade', 400]
+    ],
+    content: 'http://localhost:3003/index.js'
+  }, {
+    id: 'otherblock',
+    depth: 'front',
     type: 'html',
-    content: '<div><h1>I AM LEFT BLOCK</h1></div>'
-  }*/]
+    content: '<div style="margin-top: 70vh; color: blue;"><h2>I AM OTHER BLOCK</h2></div>'
+  }]
 }, {
   bgColor: 'deeppink',
   blocks: [{
@@ -76,15 +85,19 @@ const pagesData: PageData[] = [{
     depth: 'scroll',
     type: 'html',
     content: '<div style="height: 100vw;">I am the third page</div>'
+  }, {
+    id: 'otherblock'
   }]
 }, {
   bgColor: 'violet',
   blocks: [{
     depth: 'scroll',
     type: 'html',
-    content: '<div style="height: 100vw; color: white">I am the fourth page</div>'
+    content: '<div style="height: 200vw; color: white">I am the fourth page</div>'
   }, {
     id: 'rightblock'
+  }, {
+    id: 'leftblock'
   }]
 }]
 

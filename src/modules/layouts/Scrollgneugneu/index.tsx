@@ -6,24 +6,71 @@ import BlockRenderer from './BlockRenderer/index'
 import styles from './styles.module.scss'
 import TransitionsWrapper, { TransitionDescriptor } from './TransitionsWrapper'
 
-type BlockLayoutName = 'left-half'|'right-half'
+/* Block Data Types */
+type BlockDataLayoutName = 'left-half'|'right-half'
 
+type BlockDataScrollingDepth = 'scroll'
+type BlockDataFrontDepth = 'front'
+type BlockDataBackDepth = 'back'
+
+type BlockDataScrollingDepthPartial = { depth?: BlockDataScrollingDepth }
+type BlockDataFrontDepthPartial = { depth: BlockDataFrontDepth }
+type BlockDataBackDepthPartial = { depth: BlockDataBackDepth }
+type BlockDataFixedDepthPartial = (BlockDataFrontDepthPartial|BlockDataBackDepthPartial) & {
+  id?: string
+  zIndex?: number
+  transitions?: TransitionDescriptor[]
+  mobileTransitions?: TransitionDescriptor[]
+}
+
+type BlockDataHTMLType = 'html'
+type BlockDataModuleType = 'module'
+
+type BlockDataHTMLTypePartial = { type?: BlockDataHTMLType }
+type BlockDataModuleTypePartial = { type: BlockDataModuleType }
+
+type BlockDataScrollingHTMLPartial = BlockDataScrollingDepthPartial & BlockDataHTMLTypePartial
+// Scrolling module does not exist yet
+type BlockDataFixedHTMLPartial = BlockDataFixedDepthPartial & BlockDataHTMLTypePartial
+type BlockDataFixedModulePartial = BlockDataFixedDepthPartial & BlockDataModuleTypePartial & { trackScroll?: boolean }
+
+type BlockDataCommonProperties = {
+  content?: string
+  layout?: BlockDataLayoutName
+  mobileLayout?: BlockDataLayoutName
+}
+
+type BlockDataFixed = (
+  BlockDataFixedHTMLPartial
+  |BlockDataFixedModulePartial
+) & BlockDataCommonProperties
+type BlockDataScrolling = BlockDataScrollingHTMLPartial & BlockDataCommonProperties
+
+type BlockDataReference = { id?: string }
+
+type BlockData = BlockDataFixed|BlockDataScrolling|BlockDataReference
+
+/* Block Context Types */
 export type BlockContext = {
   width: number|null
   height: number|null
-  progression: number|null
   page: number|null
+  progression: number|null
+  pageProgression: number|null
 }
+
+type PartialBlockContext = Partial<BlockContext>
 
 const nullContext: BlockContext = {
   width: null,
   height: null,
+  page: null,
   progression: null,
-  page: null
+  pageProgression: null
 }
 
 export const createBlockContext = (
-  partialContext: Partial<BlockContext>
+  partialContext: PartialBlockContext
 ): BlockContext => ({
   ...nullContext,
   ...partialContext
@@ -42,33 +89,15 @@ export const contextsAreEqual = (
   })
 )
 
-type BlockContextsDryUpdation = null|{
-  previous: State['fixedBlocksPContextMap']
-  current: State['fixedBlocksContextMap']
+/* Inner Component Types */
+type BlockKey = string|BlockDataFixed
+
+type FixedBlockDryContextUpdationQuery = {
+  key: BlockKey
+  updation: PartialBlockContext
 }
 
-type CommonBlockData = {
-  type?: 'module'|'html'
-  content?: string
-  layout?: BlockLayoutName
-  mobileLayout?: BlockLayoutName
-}
-
-type ScrollingBlockData = CommonBlockData & {
-  depth?: 'scroll'
-}
-
-type FixedBlockData = CommonBlockData & {
-  depth: 'back'|'front'
-  id?: string
-  zIndex?: number
-  transitions?: TransitionDescriptor[]
-  mobileTransitions?: TransitionDescriptor[]
-}
-
-type ReferenceBlockData = { id?: string }
-type BlockData = ScrollingBlockData|FixedBlockData|ReferenceBlockData
-type ExploitableBlockData = ScrollingBlockData|FixedBlockData
+type ExploitableBlockData = BlockDataScrolling|BlockDataFixed
 type ExploitableBlockDataWithZIndex = {
   blockData: ExploitableBlockData,
   zIndex: number
@@ -97,17 +126,21 @@ type State = {
   cntVisible?: boolean
   btmVisible?: boolean
   scrollingPanelHeight?: number
-  fixedBlocksContextMap?: Map<any, BlockContext>
-  fixedBlocksPContextMap?: Map<any, BlockContext>
+  fixedBlocksContextMap?: Map<BlockKey, BlockContext>
+  fixedBlocksPContextMap?: Map<BlockKey, BlockContext>
 }
 
+/* Actual Component */
 export default class Scrollgneugneu extends Component<Props, State> {
   state: State = {}
+  fixedBlocksResizeObserver = new ResizeObserver(e => this.handleFixedBlocksResize(e))
+  fixedBlocksKeysToRefsMap: Map<BlockKey, HTMLDivElement| null> = new Map()
   constructor (props: Props) {
     super(props)
     this.topDetection = this.topDetection.bind(this)
     this.cntDetection = this.cntDetection.bind(this)
     this.btmDetection = this.btmDetection.bind(this)
+    this.handleWindowScroll = this.handleWindowScroll.bind(this)
     this.handlePageChange = this.handlePageChange.bind(this)
     this.handlePaginatorResize = this.handlePaginatorResize.bind(this)
     this.getBgColorTransitionDuration = this.getBgColorTransitionDuration.bind(this)
@@ -116,14 +149,43 @@ export default class Scrollgneugneu extends Component<Props, State> {
     this.getAllFixedBlocks = this.getAllFixedBlocks.bind(this)
     this.getDedupedFixedBlocks = this.getDedupedFixedBlocks.bind(this)
     this.getZSortedFixedBlocks = this.getZSortedFixedBlocks.bind(this)
-    this.handleFixedBlockResize = this.handleFixedBlockResize.bind(this)
+    this.handleFixedBlocksResize = this.handleFixedBlocksResize.bind(this)
+    this.dryUpdateFixedBlocksContexts = this.dryUpdateFixedBlocksContexts.bind(this)
     this.dryUpdateFixedBlockContext = this.dryUpdateFixedBlockContext.bind(this)
-    this.dryUpdateFixedBlocksCurrentPageContext = this.dryUpdateFixedBlocksCurrentPageContext.bind(this)
-    this.updateFixedBlockContext = this.updateFixedBlockContext.bind(this)
+    this.updateFixedBlocksContexts = this.updateFixedBlocksContexts.bind(this)
     this.getFixedBlockKey = this.getFixedBlockKey.bind(this)
     this.getFixedBlockPages = this.getFixedBlockPages.bind(this)
     this.FixedBlocks = this.FixedBlocks.bind(this)
     this.ScrollBlocks = this.ScrollBlocks.bind(this)
+  }
+
+  componentDidMount(): void {
+    this.observeFixedBlocks()
+    window.addEventListener('scroll', this.handleWindowScroll)
+  }
+
+  componentDidUpdate(): void {
+    this.unobserveFixedBlocks()
+    this.observeFixedBlocks()
+  }
+
+  componentWillUnmount(): void {
+    this.unobserveFixedBlocks()
+    window.removeEventListener('scroll', this.handleWindowScroll)
+  }
+
+  observeFixedBlocks () {
+    const { fixedBlocksKeysToRefsMap, fixedBlocksResizeObserver } = this
+    const fixedBlocksRefs = Array.from(fixedBlocksKeysToRefsMap.values())
+    fixedBlocksRefs.forEach(ref => {
+      if (ref === null) return
+      fixedBlocksResizeObserver.observe(ref)
+    })
+  }
+
+  unobserveFixedBlocks () {
+    const { fixedBlocksResizeObserver } = this
+    fixedBlocksResizeObserver.disconnect()
   }
 
   /* * * * * * * * * * * * * * * * * * * * * *
@@ -134,10 +196,24 @@ export default class Scrollgneugneu extends Component<Props, State> {
   btmDetection ({ isIntersecting }: IntersectionObserverEntry) { this.setState({ btmVisible: isIntersecting }) }
 
   /* * * * * * * * * * * * * * * * * * * * * *
+   * HANDLE WINDOW SCROLL
+   * * * * * * * * * * * * * * * * * * * * * */
+  handleWindowScroll () {
+    console.log('scroll')
+  }
+
+  /* * * * * * * * * * * * * * * * * * * * * *
    * HANDLE PAGE CHANGE
    * * * * * * * * * * * * * * * * * * * * * */
   handlePageChange (paginatorState: PaginatorState) {
     const { coming, active, passed } = paginatorState
+    const {
+      getDedupedFixedBlocks,
+      getFixedBlockPages,
+      getFixedBlockKey,
+      dryUpdateFixedBlocksContexts,
+      state
+    } = this
     const pagesLength = active.length + coming.length + passed.length
     const hasPages = pagesLength > 0
     const noneComing = coming.length === 0
@@ -149,12 +225,44 @@ export default class Scrollgneugneu extends Component<Props, State> {
     let newCurrentPagePos: State['currentPagePos'] = paginatorState.value as number|undefined
     if (isBeforeFirst) newCurrentPagePos = pages !== undefined ? 0 : undefined
     if (isAfterLast) newCurrentPagePos = pages !== undefined ? pages.length - 1 : undefined
-    const contextsDryUpdation = this.dryUpdateFixedBlocksCurrentPageContext(newCurrentPagePos)
+    const dryUpdationQueries: FixedBlockDryContextUpdationQuery[] = []
+    const fixedBlocks = getDedupedFixedBlocks()
+    fixedBlocks.forEach(fixedBlockData => {
+      const blockKey = getFixedBlockKey(fixedBlockData)
+      if (newCurrentPagePos === undefined) return dryUpdationQueries.push({
+        key: blockKey,
+        updation: {
+          page: null,
+          pageProgression: null,
+          progression: null
+        }
+      })
+      const thisBlockPages = getFixedBlockPages(fixedBlockData)
+      const thisBlockCurrentPage = thisBlockPages.indexOf(newCurrentPagePos)
+      if (thisBlockCurrentPage === - 1) return dryUpdationQueries.push({
+        key: blockKey,
+        updation: {
+          page: null,
+          pageProgression: null,
+          progression: null
+        }
+      })
+      return dryUpdationQueries.push({
+        key: blockKey,
+        updation: { page: thisBlockCurrentPage }
+      })
+    })
+    const newFixedBlocksContextMap = dryUpdateFixedBlocksContexts(
+      dryUpdationQueries,
+      state.fixedBlocksContextMap
+    )
     this.setState(curr => {
       return {
         ...curr,
         currentPagePos: newCurrentPagePos,
-        previousPagePos: curr.currentPagePos
+        previousPagePos: curr.currentPagePos,
+        fixedBlocksContextMap: new Map(newFixedBlocksContextMap),
+        fixedBlocksPContextMap: new Map(curr.fixedBlocksContextMap)
       }
     })
   }
@@ -246,10 +354,10 @@ export default class Scrollgneugneu extends Component<Props, State> {
   /* * * * * * * * * * * * * * * * * * * * * *
    * GET ALL FIXED BLOCKS
    * * * * * * * * * * * * * * * * * * * * * */
-  getAllFixedBlocks (): FixedBlockData[] {
+  getAllFixedBlocks (): BlockDataFixed[] {
     const { getExploitablePages } = this
     const exploitablePages = getExploitablePages()
-    const allFixedBlocks: FixedBlockData[] = []
+    const allFixedBlocks: BlockDataFixed[] = []
     exploitablePages?.forEach(pageData => {
       pageData.blocks?.forEach(blockData => {
         const isBack = blockData.depth === 'back'
@@ -264,10 +372,10 @@ export default class Scrollgneugneu extends Component<Props, State> {
   /* * * * * * * * * * * * * * * * * * * * * *
    * GET DEDUPED FIXED BLOCKS
    * * * * * * * * * * * * * * * * * * * * * */
-  getDedupedFixedBlocks (): FixedBlockData[] {
+  getDedupedFixedBlocks (): BlockDataFixed[] {
     const { getAllFixedBlocks } = this
     const allFixedBlocks = getAllFixedBlocks()
-    const dedupedFixedBlocks: FixedBlockData[] = []
+    const dedupedFixedBlocks: BlockDataFixed[] = []
     const idsSet = new Set<string>()
     allFixedBlocks.forEach(blockData => {
       const idInBlockData = 'id' in blockData
@@ -310,91 +418,86 @@ export default class Scrollgneugneu extends Component<Props, State> {
   /* * * * * * * * * * * * * * * * * * * * * *
    * HANDLE FIXED BLOCK RESIZE
    * * * * * * * * * * * * * * * * * * * * * */
-  handleFixedBlockResize (entries: ResizeObserverEntry[], blockKey: any) {
-    const [entry] = entries
-    if (entry === undefined) return;
-    const { width, height } = entry.contentRect
-    this.updateFixedBlockContext(blockKey, { width, height })
-  }
-
-  /* * * * * * * * * * * * * * * * * * * * * *
-   * DRY UPDATE FIXED BLOCK CONTEXT
-   * * * * * * * * * * * * * * * * * * * * * */
-  dryUpdateFixedBlockContext (
-    blockKey: any,
-    newPartialContext: Partial<BlockContext>,
-    currentState: State
-  ): BlockContextsDryUpdation {
-    const currContexts = currentState.fixedBlocksContextMap
-    // Contexts have not been initialized yet
-    if (currContexts === undefined) {
-      const fixedBlocksContextMap = new Map<any, BlockContext>()
-      fixedBlocksContextMap.set(blockKey, createBlockContext(newPartialContext))
-      return {
-        previous: currentState.fixedBlocksPContextMap,
-        current: fixedBlocksContextMap
-      }
-    }
-    const currContext = currContexts.get(blockKey)
-    // Contexts have been created but not the context of this block
-    if (currContext === undefined) {
-      const fixedBlocksContextMap = new Map<any, BlockContext>(currContext)
-      fixedBlocksContextMap.set(blockKey, createBlockContext(newPartialContext))
-      return {
-        previous: currentState.fixedBlocksPContextMap,
-        current: fixedBlocksContextMap
-      }
-    }
-    // This block already had a context
-    const newContext = createBlockContext({ ...currContext, ...newPartialContext })
-    const contextsHaventChanged = contextsAreEqual(currContext, newContext)
-    if (contextsHaventChanged) return null
-    const fixedBlocksContextMap = new Map<any, BlockContext>(currContexts)
-    fixedBlocksContextMap.set(blockKey, newContext)
-    const fixedBlocksPContextMap = new Map<any, BlockContext>(currentState.fixedBlocksPContextMap)
-    fixedBlocksPContextMap.set(blockKey, currContext)
-    return {
-      previous: fixedBlocksPContextMap,
-      current: fixedBlocksContextMap,
-    }
-  }
-
-  dryUpdateFixedBlocksCurrentPageContext (pagePos?: number): BlockContextsDryUpdation {
+  handleFixedBlocksResize (entries: ResizeObserverEntry[]) {
     const {
-      getDedupedFixedBlocks,
-      getFixedBlockPages,
-      getFixedBlockKey
+      fixedBlocksKeysToRefsMap,
+      dryUpdateFixedBlocksContexts,
+      updateFixedBlocksContexts,
+      state
     } = this
-    console.log('I DRY UPDATE FIXED BLOCKS CURRENT PAGE CONTEXT', pagePos)
-    const dedupedFixedBlocks = getDedupedFixedBlocks()
-    const blocksKeyToPageMap = new Map<any, number|null>()
-    dedupedFixedBlocks.forEach(fixedBlockData => {
-      const blockKey = getFixedBlockKey(fixedBlockData)
-      const fixedBlockPagesPos = getFixedBlockPages(fixedBlockData)
-      if (pagePos === undefined) return blocksKeyToPageMap.set(blockKey, null)
-      const rawCurrentPagePosInBlockPages = fixedBlockPagesPos.indexOf(pagePos)
-      const currentPagePosInBlockPages = rawCurrentPagePosInBlockPages !== -1
-        ? rawCurrentPagePosInBlockPages
-        : null
-      return blocksKeyToPageMap.set(blockKey, currentPagePosInBlockPages)
+    const keysToRefsArr = [...fixedBlocksKeysToRefsMap.entries()];
+    const dryUpdationQueries: FixedBlockDryContextUpdationQuery[] = []
+    entries.forEach(entry => {
+      const { target } = entry
+      const keyToRef = keysToRefsArr.find(([_key, ref]) => ref === target)
+      if (keyToRef === undefined) return null
+      const [blockKey] = keyToRef
+      const { width, height } = entry.contentRect
+      dryUpdationQueries.push({
+        key: blockKey,
+        updation: { width, height }
+      })
     })
-    console.log(blocksKeyToPageMap)
-    return null
+    const newFixedBlocksContextMap = dryUpdateFixedBlocksContexts(
+      dryUpdationQueries,
+      state.fixedBlocksContextMap
+    )
+    updateFixedBlocksContexts(newFixedBlocksContextMap)
   }
 
   /* * * * * * * * * * * * * * * * * * * * * *
-   * UPDATE FIXED BLOCK CONTEXT
+   * DRY UPDATE FIXED BLOCKS CONTEXTS
    * * * * * * * * * * * * * * * * * * * * * */
-  updateFixedBlockContext (blockKey: any, newPartialContext: Partial<BlockContext>) {
-    if (blockKey === 'leftblock') console.log(blockKey, newPartialContext)
+  dryUpdateFixedBlocksContexts (
+    queries: FixedBlockDryContextUpdationQuery[],
+    currentContextsMap: State['fixedBlocksContextMap']
+  ): State['fixedBlocksContextMap'] {
+    const { dryUpdateFixedBlockContext } = this
+    const newContextsMap = queries.reduce((acc, curr) => {
+      const newMap = dryUpdateFixedBlockContext(curr, acc)
+      return newMap
+    }, currentContextsMap)
+    return newContextsMap
+  }
+
+  dryUpdateFixedBlockContext (
+    query: FixedBlockDryContextUpdationQuery,
+    currentContextsMap: State['fixedBlocksContextMap']
+  ): State['fixedBlocksContextMap'] {
+    const { key: blockKey, updation } = query
+    const newContexts: State['fixedBlocksContextMap'] = new Map(currentContextsMap)
+    const currentBlockContext = currentContextsMap?.get(blockKey)
+    if (currentBlockContext === undefined) newContexts.set(blockKey, createBlockContext(updation))
+    else newContexts.set(blockKey, {
+      ...currentBlockContext,
+      ...updation
+    })
+    return newContexts
+  }
+
+  /* * * * * * * * * * * * * * * * * * * * * *
+   * UPDATE FIXED BLOCKS CONTEXTS
+   * * * * * * * * * * * * * * * * * * * * * */
+  updateFixedBlocksContexts (newContext: State['fixedBlocksContextMap']) {
     this.setState(curr => {
-      const dryUpdated = this.dryUpdateFixedBlockContext(blockKey, newPartialContext, curr)
-      if (blockKey === 'leftblock') console.log(dryUpdated)
-      if (dryUpdated === null) return null
+      const currContext = curr.fixedBlocksContextMap
+      if (newContext === undefined) return {
+        ...curr,
+        fixedBlocksContextMap: undefined,
+        fixedBlocksPContextMap: new Map(currContext)
+      }
+      const allContextsAreEqual = [...newContext.entries()].every(([blockKey, blockNewContext]) => {
+        const blockCurrContext = currContext?.get(blockKey)
+        if (blockNewContext === undefined && blockCurrContext === undefined) return true
+        if (blockNewContext === undefined) return false
+        if (blockCurrContext === undefined) return false
+        return contextsAreEqual(blockCurrContext, blockNewContext)
+      })
+      if (allContextsAreEqual) return null
       return {
         ...curr,
-        fixedBlocksPContextMap: dryUpdated.previous,
-        fixedBlocksContextMap: dryUpdated.current
+        fixedBlocksContextMap: new Map(newContext),
+        fixedBlocksPContextMap: new Map(currContext)
       }
     })
   }
@@ -402,7 +505,7 @@ export default class Scrollgneugneu extends Component<Props, State> {
   /* * * * * * * * * * * * * * * * * * * * * *
    * GET FIXED BLOCK KEY
    * * * * * * * * * * * * * * * * * * * * * */
-  getFixedBlockKey (fixedBlockData: FixedBlockData) {
+  getFixedBlockKey (fixedBlockData: BlockDataFixed): BlockKey {
     const idInBlockData = 'id' in fixedBlockData
     if (!idInBlockData) return fixedBlockData
     const { id } = fixedBlockData
@@ -413,7 +516,7 @@ export default class Scrollgneugneu extends Component<Props, State> {
   /* * * * * * * * * * * * * * * * * * * * * *
    * GET FIXED BLOCK PAGES
    * * * * * * * * * * * * * * * * * * * * * */
-  getFixedBlockPages (fixedBlockData: FixedBlockData) {
+  getFixedBlockPages (fixedBlockData: BlockDataFixed) {
     const { getExploitablePages } = this
     const exploitablePages = getExploitablePages()
     const pagesPos: number[] = []
@@ -430,14 +533,13 @@ export default class Scrollgneugneu extends Component<Props, State> {
   FixedBlocks () {
     const {
       state,
-      handleFixedBlockResize: onResize,
       getZSortedFixedBlocks,
       getBlockCurrentStatus
     } = this
     const zSortedFixedBlocks = getZSortedFixedBlocks()
     const fixedBlocks = zSortedFixedBlocks.map(blockWithZ => {
       const { blockData: _blockData, zIndex } = blockWithZ
-      const blockData = _blockData as FixedBlockData
+      const blockData = _blockData as BlockDataFixed
       const stickyBlockClasses = [styles['sticky-block']]
       // Status classes
       const blockStatus = getBlockCurrentStatus(blockData)
@@ -451,23 +553,21 @@ export default class Scrollgneugneu extends Component<Props, State> {
       const key = this.getFixedBlockKey(blockData)
       // Context
       const blockContext = state.fixedBlocksContextMap?.get(key)
-      return <ResizeObserverComponent
-        onResize={e => onResize(e, key)}>
-        <div
-          key={key}
-          className={stickyBlockClasses.join(' ')}
-          style={{ ['--z-index']: zIndex }}>
-          <TransitionsWrapper
-            isActive={blockStatus === 'current'}
-            transitions={blockData.transitions}
-            mobileTransitions={blockData.mobileTransitions}>
-            <BlockRenderer
-              type={blockData.type}
-              content={blockData.content}
-              context={blockContext} />
-          </TransitionsWrapper>
-        </div>
-      </ResizeObserverComponent>
+      return <div
+        key={key}
+        ref={n => { this.fixedBlocksKeysToRefsMap.set(key, n) }}
+        className={stickyBlockClasses.join(' ')}
+        style={{ ['--z-index']: zIndex }}>
+        <TransitionsWrapper
+          isActive={blockStatus === 'current'}
+          transitions={blockData.transitions}
+          mobileTransitions={blockData.mobileTransitions}>
+          <BlockRenderer
+            type={blockData.type}
+            content={blockData.content}
+            context={blockContext} />
+        </TransitionsWrapper>
+      </div>
     })
     return <>{fixedBlocks}</>
   }
@@ -482,7 +582,8 @@ export default class Scrollgneugneu extends Component<Props, State> {
       thresholdOffset={props.thresholdOffset}
       onPageChange={this.handlePageChange}>
       {exploitablePages?.map((pageData, pagePos) => (
-        <Paginator.Page value={pagePos}>{
+        <Paginator.Page
+          value={pagePos}>{
           pageData.blocks
             ?.filter(blockData => blockData.depth === 'scroll')
             .map(blockData => {
@@ -490,7 +591,8 @@ export default class Scrollgneugneu extends Component<Props, State> {
               if (blockData.layout !== undefined) classes.push(styles[`layout-${blockData.layout}`])
               if (blockData.mobileLayout === undefined) classes.push(styles[`layout-mobile-${blockData.layout}`])
               if (blockData.mobileLayout !== undefined) classes.push(styles[`layout-mobile-${blockData.mobileLayout}`])
-              return <div className={classes.join(' ')}>
+              return <div
+                className={classes.join(' ')}>
                 <BlockRenderer
                   type={blockData.type}
                   content={blockData.content} />
@@ -522,15 +624,18 @@ export default class Scrollgneugneu extends Component<Props, State> {
       .filter(blockWithZ => blockWithZ.blockData.depth === 'back')
       .length
 
-    /* [WIP]
+    /*
+     * [WIP]
      * - OK load modules
      * - OK layout
      * - OK transitions
      * - OK give context props to modules
-     * - give page context
+     * - OK give page context
      * - give scroll context
      * - load modules css
      * - load modules libs
+     * - modules can scroll
+     * - take transition types back here
      */
 
     const { topVisible, cntVisible, btmVisible } = state
