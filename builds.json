@@ -285,6 +285,17 @@
       },
       "description": "",
       "time": "2022-12-06T15:07:38.935Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 1,
+        "patch": 2,
+        "status": "stable",
+        "build": 24
+      },
+      "description": "styles pour éviter de voir le footer pendant le chargement",
+      "time": "2022-12-06T15:22:58.646Z"
     }
   ]
 }
