@@ -50,9 +50,9 @@ class Slide extends Component<Props, {}> {
 
           <div className={bem(this.clss).elt('text').value}>
             {data.label !== undefined && <p className={bem(this.clss).elt('label').value}>{data.label}</p>}
-            {data.title !== undefined && <p className={bem(this.clss).elt('title').value}>
+            {data.title !== undefined && <h4 className={bem(this.clss).elt('title').value}>
               <StrToHtml wrapperTag='span' content={data.title} />
-            </p>}
+            </h4>}
             {data.para_1 !== undefined && <p className={bem(this.clss).elt('para-1').value}>{data.para_1}</p>}
           </div>
 

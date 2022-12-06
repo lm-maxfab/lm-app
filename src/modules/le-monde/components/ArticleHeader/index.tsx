@@ -20,7 +20,7 @@ class ArticleHeader extends Component<Props, {}> {
   /* * * * * * * * * * * * * * *
    * RENDER
    * * * * * * * * * * * * * * */
-  render (): JSX.Element|null {
+  render(): JSX.Element | null {
     const { props } = this
 
     /* Classes and style */
@@ -35,8 +35,9 @@ class ArticleHeader extends Component<Props, {}> {
     /* Display */
     return (
       <div className={wrapperClasses.value} style={wrapperStyle}>
-        <a href='https://lemonde.fr'>
+        <a aria-label='Le Monde' href='https://lemonde.fr'>
           <Svg
+            aria-hidden='true'
             src={logoUrl}
             className={bem(this.clss).elt('logo').value} />
         </a>

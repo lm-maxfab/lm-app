@@ -185,11 +185,13 @@ class Slider extends Component<Props, State> {
 
         {/* Actions */}
         {currSlidePos !== 0 && <button
+          aria-label='Précédent'
           onClick={this.handlePrevClick}
           className={prevButtonClass}>
           <Arrow direction="left" />
         </button>}
         {(currSlidePos + 1) !== slides?.length && <button
+          aria-label='Suivant'
           onClick={this.handleNextClick}
           className={nextButtonClass}>
           <div>

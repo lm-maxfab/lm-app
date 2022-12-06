@@ -38,7 +38,7 @@ class Slide extends Component<Props, {}> {
           {data.date !== undefined && <p className={bem(this.clss).elt('date').value}>{data.date}</p>}
 
           <div className={bem(this.clss).elt('header').value}>
-            {data.title !== undefined && <p className={bem(this.clss).elt('main-title').value}>{data.title}</p>}
+            {data.title !== undefined && <h1 className={bem(this.clss).elt('main-title').value}>{data.title}</h1>}
             {data.credits !== undefined && <p className={bem(this.clss).elt('credits').value}>{data.credits}</p>}
           </div>
 
@@ -47,6 +47,7 @@ class Slide extends Component<Props, {}> {
           <div onClick={props.onStart} className={bem(this.clss).elt('cta-block').value}>
             {data.illus_cover !== undefined && <Img
               src={data.illus_cover}
+              alt=''
               loading={props.imageLoading ?? 'lazy'}
               className={bem(this.clss).elt('illus-cover').value} />}
             {data.cta !== undefined && <p className={bem(this.clss).elt('cta').value}>{data.cta}</p>}
