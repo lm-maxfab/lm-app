@@ -27,12 +27,15 @@ class Slider extends Component<Props, State> {
   state: State = {
     currentSlidePos: 0
   }
+  url: URL
 
   /* * * * * * * * * * * * * * *
    * CONSTRUCTOR
    * * * * * * * * * * * * * * */
   constructor(props: Props) {
     super(props)
+
+    this.url = new URL(window.location.href)
     this.handleKeyDown = this.handleKeyDown.bind(this)
     this.handlePrevClick = this.handlePrevClick.bind(this)
     this.handleNextClick = this.handleNextClick.bind(this)
@@ -40,9 +43,8 @@ class Slider extends Component<Props, State> {
   }
 
   componentDidMount(): void {
-    const url = new URL(window.location.href)
-    if (url.searchParams.get('slide')) {
-      const targetIndex = Number(url.searchParams.get('slide'))
+    if (this.url.searchParams.get('slide')) {
+      const targetIndex = Number(this.url.searchParams.get('slide'))
       this.goToSlide(targetIndex)
     }
 
@@ -102,9 +104,8 @@ class Slider extends Component<Props, State> {
   }
 
   updateURL(index: number) {
-    const url = new URL(window.location.href)
-    url.searchParams.set('slide', index.toString());
-    window.history.replaceState({}, '', url)
+    this.url.searchParams.set('slide', index.toString());
+    window.history.replaceState({}, '', this.url)
   }
 
   /* * * * * * * * * * * * * * *
