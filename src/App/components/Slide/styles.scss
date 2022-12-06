@@ -106,14 +106,10 @@
 
 .fraude-slide__title {
   font-weight: 600;
-  font-size: 38px;
+  font-size: 32px;
   line-height: 1.55;
   margin-bottom: 42px;
   text-align: center;
-
-  @media screen and (max-width: 1400px) {
-    font-size: 32px;
-  }
 
   @media screen and (max-width: 800px) {
     font-size: 18px;
