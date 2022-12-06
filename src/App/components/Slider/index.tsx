@@ -33,6 +33,7 @@ class Slider extends Component<Props, State> {
    * * * * * * * * * * * * * * */
   constructor(props: Props) {
     super(props)
+    this.handleKeyDown = this.handleKeyDown.bind(this)
     this.handlePrevClick = this.handlePrevClick.bind(this)
     this.handleNextClick = this.handleNextClick.bind(this)
     this.asyncSetState = this.asyncSetState.bind(this)
@@ -44,13 +45,33 @@ class Slider extends Component<Props, State> {
       const targetIndex = Number(url.searchParams.get('slide'))
       this.goToSlide(targetIndex)
     }
+
+    document.addEventListener('keydown', this.handleKeyDown)
+  }
+
+  componentWillUnmount(): void {
+    document.removeEventListener('keydown', this.handleKeyDown)
   }
 
   /* * * * * * * * * * * * * * *
    * HANDLERS
    * * * * * * * * * * * * * * */
-  async handlePrevClick(e: JSX.TargetedMouseEvent<HTMLButtonElement>): Promise<void> {
-    e.preventDefault()
+  handleKeyDown(e: JSX.TargetedKeyboardEvent<any>): void {
+    // arrow left
+    if (e.keyCode === 37) {
+      this.handlePrevClick()
+      return
+    }
+
+    // arrow right
+    if (e.keyCode === 39) {
+      this.handleNextClick()
+      return
+    }
+  }
+
+  async handlePrevClick(e?: JSX.TargetedMouseEvent<HTMLButtonElement>): Promise<void> {
+    e?.preventDefault()
     await this.asyncSetState((curr: State) => {
       if (this.props.data === undefined) return
       const currPos = curr.currentSlidePos
@@ -60,8 +81,8 @@ class Slider extends Component<Props, State> {
     })
   }
 
-  async handleNextClick(e: JSX.TargetedMouseEvent<HTMLButtonElement>): Promise<void> {
-    e.preventDefault()
+  async handleNextClick(e?: JSX.TargetedMouseEvent<HTMLButtonElement>): Promise<void> {
+    e?.preventDefault()
     await this.asyncSetState((curr: State) => {
       if (this.props.data === undefined) return
       const currPos = curr.currentSlidePos

@@ -208,6 +208,17 @@
       },
       "description": "ajout ligne source calée en bas",
       "time": "2022-12-02T14:43:25.839Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 1,
+        "patch": 2,
+        "status": "stable",
+        "build": 17
+      },
+      "description": "",
+      "time": "2022-12-06T11:45:21.500Z"
     }
   ]
 }
