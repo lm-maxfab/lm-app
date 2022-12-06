@@ -55,6 +55,7 @@ export default class Paginator extends Component<Props, State> {
     this.getDelay = this.getDelay.bind(this)
     this.checkPages = this.checkPages.bind(this)
     this.wrapChildrenInPages = this.wrapChildrenInPages.bind(this)
+    this.getThresholdBarBoundingClientRect = this.getThresholdBarBoundingClientRect.bind(this)
     this.activateIntervalChecker = this.activateIntervalChecker.bind(this)
     this.inactivateIntervalChecker = this.inactivateIntervalChecker.bind(this)
   }
@@ -114,9 +115,15 @@ export default class Paginator extends Component<Props, State> {
     return clonedChildren
   }
 
+  getThresholdBarBoundingClientRect () {
+    const { $thresholdBar } = this
+    if ($thresholdBar === null) return
+    return $thresholdBar.getBoundingClientRect()
+  }
+
   checkPages (): void {
-    if (this.$thresholdBar === null) return
-    const thresholdBarRect = this.$thresholdBar.getBoundingClientRect()
+    const thresholdBarRect = this.getThresholdBarBoundingClientRect()
+    if (thresholdBarRect === undefined) return
 
     const passedChildrenRefs = this.childrenRefs.filter(childRef => {
       const childRect = childRef.getRect()

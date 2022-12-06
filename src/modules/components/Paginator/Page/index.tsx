@@ -6,6 +6,7 @@ interface Props {
   style?: JSX.CSSProperties
   value?: any
   position?: number
+  pageRef?: (node: HTMLDivElement|null) => void
 }
 
 class Page extends Component<Props, {}> {
@@ -34,6 +35,7 @@ class Page extends Component<Props, {}> {
    * * * * * * * * * * * * * * */
   render (): JSX.Element|null {
     const { props } = this
+    const { pageRef } = props
 
     /* Classes and style */
     const wrapperClasses = bem(props.className).block(this.clss)
@@ -42,7 +44,10 @@ class Page extends Component<Props, {}> {
     /* Display */
     return (
       <div
-        ref={n => { this.$root = n }}
+        ref={n => {
+          this.$root = n
+          if (pageRef !== undefined) pageRef(n)
+        }}
         style={wrapperStyle}
         className={wrapperClasses.value}>
         {props.children}

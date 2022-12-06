@@ -3,13 +3,14 @@ import { BlockContext, createBlockContext } from '..'
 
 type ModuleData = {
   init: (props: BlockContext) => HTMLElement
-  update: (wrapper: HTMLElement, props: BlockContext) => HTMLElement
+  update: (wrapper: HTMLElement, context: BlockContext, prevContext: BlockContext) => void
 }
 
 type Props = {
   type?: 'module'|'html'
   content?: string
   context?: BlockContext
+  prevContext?: BlockContext
 }
 
 type State = {
@@ -41,8 +42,11 @@ export default class BlockRenderer extends Component<Props, State> {
   }
 
   componentDidMount (): void {
-    // console.log('blkrdr - mount')
-    const { props, loadInitModule, attachModuleTarget } = this
+    const {
+      props,
+      loadInitModule,
+      attachModuleTarget
+    } = this
     const { type } = props
     if (type !== 'module') return;
     loadInitModule()
@@ -50,8 +54,12 @@ export default class BlockRenderer extends Component<Props, State> {
   }
 
   componentDidUpdate(pProps: Readonly<Props>): void {
-    // console.log('blkrdr - update')
-    const { props, loadInitModule, updateModule, attachModuleTarget } = this
+    const {
+      props,
+      loadInitModule,
+      updateModule,
+      attachModuleTarget
+    } = this
     const { type, content } = props
     const { type: pType, content: pContent } = pProps
     if (type !== pType || content !== pContent) loadInitModule()
@@ -114,10 +122,14 @@ export default class BlockRenderer extends Component<Props, State> {
 
   async updateModule () {
     const { props, state } = this
-    const { context } = props
+    const { context, prevContext } = props
     const { moduleData, moduleTarget } = state
     if (moduleData === null || moduleTarget === null) return;
-    moduleData.update(moduleTarget, context ?? createBlockContext({}))
+    moduleData.update(
+      moduleTarget,
+      context ?? createBlockContext({}),
+      prevContext ?? createBlockContext({})
+    )
   }
 
   attachModuleTarget () {

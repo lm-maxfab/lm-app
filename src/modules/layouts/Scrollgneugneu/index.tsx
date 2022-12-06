@@ -40,14 +40,9 @@ type BlockDataCommonProperties = {
   mobileLayout?: BlockDataLayoutName
 }
 
-type BlockDataFixed = (
-  BlockDataFixedHTMLPartial
-  |BlockDataFixedModulePartial
-) & BlockDataCommonProperties
+type BlockDataFixed = (BlockDataFixedHTMLPartial|BlockDataFixedModulePartial) & BlockDataCommonProperties
 type BlockDataScrolling = BlockDataScrollingHTMLPartial & BlockDataCommonProperties
-
 type BlockDataReference = { id?: string }
-
 type BlockData = BlockDataFixed|BlockDataScrolling|BlockDataReference
 
 /* Block Context Types */
@@ -135,12 +130,15 @@ export default class Scrollgneugneu extends Component<Props, State> {
   state: State = {}
   fixedBlocksResizeObserver = new ResizeObserver(e => this.handleFixedBlocksResize(e))
   fixedBlocksKeysToRefsMap: Map<BlockKey, HTMLDivElement| null> = new Map()
+  scrollingBlocksPosToRefsMap: Map<number, HTMLDivElement|null> = new Map()
+  paginatorRef: Paginator|null = null
   constructor (props: Props) {
     super(props)
     this.topDetection = this.topDetection.bind(this)
     this.cntDetection = this.cntDetection.bind(this)
     this.btmDetection = this.btmDetection.bind(this)
     this.handleWindowScroll = this.handleWindowScroll.bind(this)
+    this.doesPageNeedsScrollTracking = this.doesPageNeedsScrollTracking.bind(this)
     this.handlePageChange = this.handlePageChange.bind(this)
     this.handlePaginatorResize = this.handlePaginatorResize.bind(this)
     this.getBgColorTransitionDuration = this.getBgColorTransitionDuration.bind(this)
@@ -199,13 +197,128 @@ export default class Scrollgneugneu extends Component<Props, State> {
    * HANDLE WINDOW SCROLL
    * * * * * * * * * * * * * * * * * * * * * */
   handleWindowScroll () {
-    console.log('scroll')
+    // [WIP] divide this into smaller chunks
+    // [WIP] make this work on did mount and did update
+    // [WIP] cron detect threshold bar for performance ?
+    const {
+      state,
+      getExploitablePages,
+      getDedupedFixedBlocks,
+      getFixedBlockPages,
+      paginatorRef,
+      scrollingBlocksPosToRefsMap,
+      doesPageNeedsScrollTracking,
+      dryUpdateFixedBlocksContexts,
+      getFixedBlockKey
+    } = this
+    if (paginatorRef === null) return
+    // Undefined page pos
+    const { currentPagePos } = state
+    if (currentPagePos === undefined) return
+    // Undefined exploitable pages
+    const exploitablePages = getExploitablePages()
+    if (exploitablePages === undefined) return
+    // No need for scroll tracking on current page
+    const currentPageData = exploitablePages[currentPagePos]
+    const pageNeedsScrollTracking = doesPageNeedsScrollTracking(currentPageData)
+    if (!pageNeedsScrollTracking) return
+    // Threshold not found
+    const thresholdBarRect = paginatorRef.getThresholdBarBoundingClientRect()
+    if (thresholdBarRect === undefined) return
+    // Select progression update eligible blocks
+    const fixedBlocks = getDedupedFixedBlocks()
+    if (fixedBlocks.length === 0) return // Not possible since we know currentPageData needs scroll tracking
+    const fixedBlocksWithDisplayZone = fixedBlocks.map(blockData => {
+      const blockKey = getFixedBlockKey(blockData)
+      const hasNoTrackScroll = !('trackScroll' in blockData) || blockData.trackScroll === undefined
+      if (hasNoTrackScroll) return { key: blockKey, displayZone: [] }
+      const blockPages = getFixedBlockPages(blockData)
+      const currentPageInBlockPages = blockPages.includes(currentPagePos)
+      if (!currentPageInBlockPages) return { key: blockKey, displayZone: [] }
+      const pagesBefore = blockPages.filter(pos => pos < currentPagePos).sort((a, b) => b - a)
+      const pagesAfter = blockPages.filter(pos => pos > currentPagePos).sort((a, b) => a - b)
+      const displayZone: number[] = [currentPagePos]
+      pagesBefore.forEach(pagePos => {
+        const firstPos = displayZone[0]
+        if (firstPos - pagePos === 1) displayZone.unshift(pagePos)
+      })
+      pagesAfter.forEach(pagePos => {
+        const lastPos = displayZone.at(-1)
+        if (lastPos === undefined) return // Not really possible either but heh
+        if (pagePos - lastPos === 1) displayZone.push(pagePos)
+      })
+      return { key: blockKey, displayZone }
+    }).filter(blockData => blockData.displayZone.length > 0)
+    // Pages progression data
+    const { top: thresholdBarTop, height: thresholdBarHeight } = thresholdBarRect
+    const scrollingBlocksPosToRefsArr = [...scrollingBlocksPosToRefsMap.entries()]
+    const pagesScrollDataMap: Map<number, {
+      ref: HTMLDivElement|null,
+      height?: number
+      progression?: number
+      scrolled?: number
+    }> = new Map()
+    scrollingBlocksPosToRefsArr.forEach(([pos, ref]) => {
+      if (ref === null) return pagesScrollDataMap.set(pos, { ref })
+      const { top, height } = ref.getBoundingClientRect()
+      const scrolled = thresholdBarTop - top
+      const progression = scrolled / height
+      return pagesScrollDataMap.set(pos, { ref, height, progression, scrolled })
+    })
+    const currentPageProgressionData = pagesScrollDataMap.get(currentPagePos)
+    const currentPageProgression = currentPageProgressionData?.progression ?? 0
+    // Fixed blocks context updation
+    const fixedBlocksUpdateQueries: FixedBlockDryContextUpdationQuery[] = []
+    fixedBlocksWithDisplayZone.forEach(({ key: blockKey, displayZone }) => {
+      const displayZoneScrolledData = displayZone.reduce((acc, pagePos) => {
+        const pageProgressionData = pagesScrollDataMap.get(pagePos)
+        if (pageProgressionData === undefined) return acc
+        let scrolled = 0
+        if (pagePos < currentPagePos) scrolled = pageProgressionData.height ?? 0
+        else if (pagePos === currentPagePos) scrolled = pageProgressionData.scrolled ?? 0 
+        else scrolled = 0
+        return {
+          scrolled: acc.scrolled + scrolled,
+          height: acc.height + (pageProgressionData.height ?? 0)
+        }
+      }, { scrolled: 0, height: 0 })
+      let progression = displayZoneScrolledData.scrolled / displayZoneScrolledData.height
+      if (progression < 0) progression = 0
+      if (progression > 1) progression = 1
+      let pageProgression = currentPageProgression
+      if (pageProgression < 0) pageProgression = 0
+      if (pageProgression > 1) pageProgression = 1
+      fixedBlocksUpdateQueries.push({
+        key: blockKey,
+        updation: {
+          progression,
+          pageProgression
+        }
+      } as FixedBlockDryContextUpdationQuery)
+    })
+    const dryUpdationResult = dryUpdateFixedBlocksContexts(
+      fixedBlocksUpdateQueries,
+      state.fixedBlocksContextMap
+    )
+    this.updateFixedBlocksContexts(dryUpdationResult)
+  }
+
+  doesPageNeedsScrollTracking (pageData: ExploitablePageData) {
+    return pageData.blocks?.some(blockData => {
+      const { depth, type } = blockData
+      const isFixed = depth === 'front' || depth === 'back'
+      const isModule = type === 'module'
+      if (!isFixed || !isModule) return false
+      if (blockData.trackScroll) return true
+      return false
+    })
   }
 
   /* * * * * * * * * * * * * * * * * * * * * *
    * HANDLE PAGE CHANGE
    * * * * * * * * * * * * * * * * * * * * * */
   handlePageChange (paginatorState: PaginatorState) {
+    // [WIP] maybe divide this into smaller chunks
     const { coming, active, passed } = paginatorState
     const {
       getDedupedFixedBlocks,
@@ -479,6 +592,7 @@ export default class Scrollgneugneu extends Component<Props, State> {
    * UPDATE FIXED BLOCKS CONTEXTS
    * * * * * * * * * * * * * * * * * * * * * */
   updateFixedBlocksContexts (newContext: State['fixedBlocksContextMap']) {
+    // [WIP] individual check contextsAreEqual ?
     this.setState(curr => {
       const currContext = curr.fixedBlocksContextMap
       if (newContext === undefined) return {
@@ -553,6 +667,7 @@ export default class Scrollgneugneu extends Component<Props, State> {
       const key = this.getFixedBlockKey(blockData)
       // Context
       const blockContext = state.fixedBlocksContextMap?.get(key)
+      const blockPrevContext = state.fixedBlocksPContextMap?.get(key)
       return <div
         key={key}
         ref={n => { this.fixedBlocksKeysToRefsMap.set(key, n) }}
@@ -565,7 +680,8 @@ export default class Scrollgneugneu extends Component<Props, State> {
           <BlockRenderer
             type={blockData.type}
             content={blockData.content}
-            context={blockContext} />
+            context={blockContext}
+            prevContext={blockPrevContext} />
         </TransitionsWrapper>
       </div>
     })
@@ -580,9 +696,11 @@ export default class Scrollgneugneu extends Component<Props, State> {
     const exploitablePages = getExploitablePages()
     return <Paginator
       thresholdOffset={props.thresholdOffset}
-      onPageChange={this.handlePageChange}>
+      onPageChange={this.handlePageChange}
+      ref={(n: Paginator) => { this.paginatorRef = n }}>
       {exploitablePages?.map((pageData, pagePos) => (
         <Paginator.Page
+          pageRef={n => { this.scrollingBlocksPosToRefsMap.set(pagePos, n) }}
           value={pagePos}>{
           pageData.blocks
             ?.filter(blockData => blockData.depth === 'scroll')

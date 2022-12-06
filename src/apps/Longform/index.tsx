@@ -47,6 +47,7 @@ const pagesData: PageData[] = [{
     depth: 'front',
     type: 'module',
     layout: 'left-half',
+    trackScroll: true,
     transitions: [
       ['fade', 400]
     ],
@@ -108,6 +109,10 @@ class Longform extends Component<Props, State> {
   /* * * * * * * * * * * * * * *
    * RENDER
    * * * * * * * * * * * * * * */
+  /**
+   * Renders the Longform
+   * @returns {string}
+   */
   render (): JSX.Element {
     const { props } = this
 
@@ -121,6 +126,7 @@ class Longform extends Component<Props, State> {
       className={wrapperClasses.value}>
       <div style={{ height: '600px' }}>BEFORE SCRLGNGN</div>
       <Scrollgneugneu
+        thresholdOffset='0%'
         fixedBlocksHeight='100vh'
         pages={pagesData} />
       <div style={{ height: '600px' }}>AFTER SCRLGNGN</div>
