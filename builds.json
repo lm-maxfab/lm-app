@@ -252,6 +252,17 @@
       },
       "description": "on n'affiche pas les slides passées",
       "time": "2022-12-06T12:20:19.223Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 1,
+        "patch": 2,
+        "status": "stable",
+        "build": 21
+      },
+      "description": "",
+      "time": "2022-12-06T12:24:33.716Z"
     }
   ]
 }
