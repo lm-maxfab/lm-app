@@ -73,7 +73,8 @@ class Slider extends Component<Props, State> {
   }
 
   async handlePrevClick(e?: JSX.TargetedMouseEvent<HTMLButtonElement>): Promise<void> {
-    e?.preventDefault()
+    e?.preventDefault();
+    ((document.activeElement) as HTMLElement|null)?.blur()
     await this.asyncSetState((curr: State) => {
       if (this.props.data === undefined) return
       const currPos = curr.currentSlidePos
@@ -84,7 +85,8 @@ class Slider extends Component<Props, State> {
   }
 
   async handleNextClick(e?: JSX.TargetedMouseEvent<HTMLButtonElement>): Promise<void> {
-    e?.preventDefault()
+    e?.preventDefault();
+    ((document.activeElement) as HTMLElement|null)?.blur()
     await this.asyncSetState((curr: State) => {
       if (this.props.data === undefined) return
       const currPos = curr.currentSlidePos
