@@ -97,7 +97,10 @@
   background-color: #FFFFFF;
 }
 
-.fraude-slider__slide_passed,
+.fraude-slider__slide_passed {
+  display: none;
+}
+
 .fraude-slider__slide_current {
   display: block;
   z-index: 1;

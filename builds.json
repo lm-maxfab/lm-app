@@ -241,6 +241,17 @@
       },
       "description": "ajout de this.url",
       "time": "2022-12-06T12:04:30.986Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 1,
+        "patch": 2,
+        "status": "stable",
+        "build": 20
+      },
+      "description": "on n'affiche pas les slides passées",
+      "time": "2022-12-06T12:20:19.223Z"
     }
   ]
 }
