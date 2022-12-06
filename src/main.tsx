@@ -11,5 +11,9 @@ function renderApp (sheetBaseTsv?: string): void {
   const sheetBase = sheetBaseTsv !== undefined ? tsvToSheetBase(sheetBaseTsv) : undefined
   const appRootNode: HTMLElement|null = document.getElementById('lm-app-name')
   if (appRootNode === null) silentLog('App root node not found.')
-  else render(<App sheetBase={sheetBase} />, appRootNode)
+  else {
+    appRootNode.style.backgroundColor = ''
+    appRootNode.style.minHeight = ''
+    render(<App sheetBase={sheetBase} />, appRootNode)
+  }
 }
