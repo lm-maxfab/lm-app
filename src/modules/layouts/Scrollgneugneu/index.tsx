@@ -1,3 +1,18 @@
+/*
+ * [WIP]
+ * - OK load modules
+ * - OK layout
+ * - OK transitions
+ * - OK give context props to modules
+ * - OK give page context
+ * - OK give scroll context
+ * - load modules css
+ * - load modules libs
+ * - modules can depth: 'scroll'
+ * - take transition types back here
+ * - modules lazy load?
+ */
+
 import { Component } from 'preact'
 import IntersectionObserverComponent from '../../components/IntersectionObserver'
 import Paginator, { State as PaginatorState } from '../../components/Paginator'
@@ -35,7 +50,7 @@ type BlockDataFixedHTMLPartial = BlockDataFixedDepthPartial & BlockDataHTMLTypeP
 type BlockDataFixedModulePartial = BlockDataFixedDepthPartial & BlockDataModuleTypePartial & { trackScroll?: boolean }
 
 type BlockDataCommonProperties = {
-  content?: string
+  content?: string // [WIP] change this to url for modules?
   layout?: BlockDataLayoutName
   mobileLayout?: BlockDataLayoutName
 }
@@ -109,7 +124,7 @@ type ExploitablePageData = Omit<PageData, 'blocks'> & {
 
 type Props = {
   thresholdOffset?: string
-  fixedBlocksHeight?: string
+  // fixedBlocksHeight?: string // [WIP] make this a prop again ?
   bgColorTransitionDuration?: string|number
   pages?: PageData[]
 }
@@ -123,6 +138,7 @@ type State = {
   scrollingPanelHeight?: number
   fixedBlocksContextMap?: Map<BlockKey, BlockContext>
   fixedBlocksPContextMap?: Map<BlockKey, BlockContext>
+  loadedCssFilesUrlToDataMap?: Map<string, string>
 }
 
 /* Actual Component */
@@ -134,6 +150,7 @@ export default class Scrollgneugneu extends Component<Props, State> {
   paginatorRef: Paginator|null = null
   constructor (props: Props) {
     super(props)
+    this.loadCss = this.loadCss.bind(this)
     this.topDetection = this.topDetection.bind(this)
     this.cntDetection = this.cntDetection.bind(this)
     this.btmDetection = this.btmDetection.bind(this)
@@ -170,6 +187,26 @@ export default class Scrollgneugneu extends Component<Props, State> {
   componentWillUnmount(): void {
     this.unobserveFixedBlocks()
     window.removeEventListener('scroll', this.handleWindowScroll)
+  }
+
+  // [WIP] make a function that loads multiple css at once?
+  // [WIP] Can retry ?
+  // [WIP] let BlockRenderer do this?
+  async loadCss (url: string) {
+    try {
+      const requestResponse = await window.fetch(url)
+      const responseData = await requestResponse.text()
+      this.setState(curr => {
+        const newLoadedCssFilesUrlToDataMap = new Map(curr.loadedCssFilesUrlToDataMap)
+        newLoadedCssFilesUrlToDataMap.set(url, responseData)
+        return {
+          ...curr,
+          loadedCssFilesUrlToDataMap: newLoadedCssFilesUrlToDataMap
+        }
+      })
+    } catch (err) {
+      console.error(err)
+    }
   }
 
   observeFixedBlocks () {
@@ -648,7 +685,8 @@ export default class Scrollgneugneu extends Component<Props, State> {
     const {
       state,
       getZSortedFixedBlocks,
-      getBlockCurrentStatus
+      getBlockCurrentStatus,
+      loadCss
     } = this
     const zSortedFixedBlocks = getZSortedFixedBlocks()
     const fixedBlocks = zSortedFixedBlocks.map(blockWithZ => {
@@ -681,7 +719,8 @@ export default class Scrollgneugneu extends Component<Props, State> {
             type={blockData.type}
             content={blockData.content}
             context={blockContext}
-            prevContext={blockPrevContext} />
+            prevContext={blockPrevContext}
+            cssLoader={loadCss} />
         </TransitionsWrapper>
       </div>
     })
@@ -692,7 +731,11 @@ export default class Scrollgneugneu extends Component<Props, State> {
    * GENERATE DISPLAYED SCROLLING BLOCKS
    * * * * * * * * * * * * * * * * * * * * * */
   ScrollBlocks () {
-    const { props, getExploitablePages } = this
+    const {
+      props,
+      getExploitablePages,
+      loadCss
+    } = this
     const exploitablePages = getExploitablePages()
     return <Paginator
       thresholdOffset={props.thresholdOffset}
@@ -713,7 +756,8 @@ export default class Scrollgneugneu extends Component<Props, State> {
                 className={classes.join(' ')}>
                 <BlockRenderer
                   type={blockData.type}
-                  content={blockData.content} />
+                  content={blockData.content}
+                  cssLoader={loadCss} />
               </div>
             })
         }</Paginator.Page>)
@@ -726,68 +770,77 @@ export default class Scrollgneugneu extends Component<Props, State> {
    * * * * * * * * * * * * * * * * * * * * * */
   render () {
     const {
-      props,
       state,
+      getExploitablePages,
+      getZSortedFixedBlocks,
+      getBgColorTransitionDuration,
+      topDetection,
+      cntDetection,
+      handlePaginatorResize,
+      btmDetection,
       FixedBlocks,
       ScrollBlocks
     } = this
-    const exploitablePages = this.getExploitablePages()
+    // Exploitable pages and currend page data
+    const exploitablePages = getExploitablePages()
     const { currentPagePos } = state
     const currPageData = exploitablePages !== undefined && currentPagePos !== undefined
       ? exploitablePages[currentPagePos]
       : undefined
-
-    const zSortedFixedBlocks = this.getZSortedFixedBlocks()
+    // Get scroll panel zIndex [WIP] - make a method of it
+    const zSortedFixedBlocks = getZSortedFixedBlocks()
     const scrollPanelZIndex = zSortedFixedBlocks
       .filter(blockWithZ => blockWithZ.blockData.depth === 'back')
       .length
-
-    /*
-     * [WIP]
-     * - OK load modules
-     * - OK layout
-     * - OK transitions
-     * - OK give context props to modules
-     * - OK give page context
-     * - give scroll context
-     * - load modules css
-     * - load modules libs
-     * - modules can scroll
-     * - take transition types back here
-     */
-
+    // Detect if blocks are fixed or not
     const { topVisible, cntVisible, btmVisible } = state
     const blocksAreFixed = cntVisible === true && topVisible !== true && btmVisible !== true
     const offsetFixed = !blocksAreFixed && btmVisible
-
+    // Gather loaded css from modules
+    const loadedCssNoUndefMap = state.loadedCssFilesUrlToDataMap ?? new Map<string, string>()
+    const loadedCssUrlToDataArr = [...loadedCssNoUndefMap.entries()]
+    // Assign css classes to wrapper
     const wrapperClasses = [styles['wrapper']]
     if (blocksAreFixed) wrapperClasses.push(styles['wrapper_fix-blocks'])
     if (offsetFixed) wrapperClasses.push(styles['wrapper_offset-fixed-blocks'])
+    // Return virtual DOM
     return <div
       className={wrapperClasses.join(' ')}
       style={{
         backgroundColor: currPageData?.bgColor,
-        ['--fixed-blocks-height']: props.fixedBlocksHeight ?? '100vh',
+        ['--fixed-blocks-height']: '100vh',
         ['--scrolling-block-height']: `${state.scrollingPanelHeight}px`,
-        ['--bg-color-transition-duration']: this.getBgColorTransitionDuration(),
+        ['--bg-color-transition-duration']: getBgColorTransitionDuration(),
         ['--scroll-panel-z-index']: scrollPanelZIndex
-      }}>      
+      }}>
+      {/* MODULES STYLES */}
+      {loadedCssUrlToDataArr.map(([url, data]) => {
+        const oneLineData = data
+          .trim()
+          .replace(/\s+/igm, ' ')
+          .replace(/\n/igm, ' ')
+        return <style key={url} data-url={url}>
+          {oneLineData}
+        </style>
+      })}
+      {/* FIXED BLOCKS */}
       <FixedBlocks />
+      {/* SCROLLING CONTENT */}
       <div className={styles['scroll-panel']}>
         {/* TOP BOUND DETECTION */}
         <IntersectionObserverComponent
           render={<div />}
-          callback={this.topDetection} />
+          callback={topDetection} />
         {/* CONTENT */}
-        <IntersectionObserverComponent callback={this.cntDetection}>
-          <ResizeObserverComponent onResize={this.handlePaginatorResize}>
+        <IntersectionObserverComponent callback={cntDetection}>
+          <ResizeObserverComponent onResize={handlePaginatorResize}>
             <ScrollBlocks />
           </ResizeObserverComponent>
         </IntersectionObserverComponent>
         {/* BOTTOM BOUND DETECTION */}
         <IntersectionObserverComponent
           render={<div />}
-          callback={this.btmDetection} />
+          callback={btmDetection} />
       </div>
     </div>
   }

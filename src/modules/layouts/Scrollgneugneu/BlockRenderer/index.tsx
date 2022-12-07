@@ -4,6 +4,8 @@ import { BlockContext, createBlockContext } from '..'
 type ModuleData = {
   init: (props: BlockContext) => HTMLElement
   update: (wrapper: HTMLElement, context: BlockContext, prevContext: BlockContext) => void
+  styles?: string[]
+  // [WIP] libs
 }
 
 type Props = {
@@ -11,6 +13,7 @@ type Props = {
   content?: string
   context?: BlockContext
   prevContext?: BlockContext
+  cssLoader?: (url: string) => Promise<void>
 }
 
 type State = {
@@ -76,7 +79,7 @@ export default class BlockRenderer extends Component<Props, State> {
 
   async loadModule () {
     const { props, state } = this
-    const { type, content } = props
+    const { type, content, cssLoader } = props
     const { moduleLoading } = state
     if (type !== 'module' || content === undefined) return;
     if (moduleLoading) return;
@@ -89,9 +92,17 @@ export default class BlockRenderer extends Component<Props, State> {
       if (importedIsNotObject || importedIsNullish) throw new Error('Imported module is not an object')      
       const importedHasInitFunc = 'init' in importedData && typeof importedData.init === 'function'
       const importedHasUpdateFunc = 'update' in importedData && typeof importedData.update === 'function'
+      const importedHasStyles = 'styles' in importedData
+        && Array.isArray(importedData.styles)
+        && importedData.styles.every(url => typeof url === 'string')
       if (!importedHasInitFunc) throw new Error('Imported module must export a function named init')
       if (!importedHasUpdateFunc) throw new Error('Imported module must export a function named update')
       const moduleData = importedData as ModuleData
+      if (cssLoader !== undefined && importedHasStyles) {
+        // [WIP] do better than cast? 
+        // [WIP] try multiple times if load fails?
+        (importedData.styles as string[]).forEach(url => cssLoader(url))
+      }
       await this.aSetState(curr => ({ ...curr, moduleLoading: false, moduleLoadErrors: null, moduleData }))
     } catch (err: unknown) {
       let moduleLoadErrors: Error = new Error('Unknown error')
