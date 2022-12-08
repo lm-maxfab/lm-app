@@ -1,7 +1,7 @@
 export default async function applyPageTemplate (template: string): Promise<void> {
   if (window.location.hostname !== 'localhost') return console.warn('Using this utility is only allowed from localhost.')
   try {
-    const templateResponse = await window.fetch(`http://localhost:3001/utils/le-monde-page-templates/${template}/index.html`)
+    const templateResponse = await window.fetch(`http://localhost:50001/utils/le-monde-page-templates/${template}/index.html`)
     if (!templateResponse.ok) throw new Error(`Page template '${template}' was not found.`)
     const templateHTMLString = await templateResponse.text()
 

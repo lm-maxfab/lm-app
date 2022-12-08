@@ -80,47 +80,48 @@ interface State {}
 /* SCROLLGNGN SETTINGS */
 const thresholdOffset = '20%'
 const bgColorTransitionDuration = '600ms'
-const pagesData: PageData[] = [{
-  bgColor: generateNiceColor(),
-  blocks: [{
-    depth: 'scroll',
-    type: 'html',
-    content: generateContentPage(4),
-    layout: 'left-half',
-    mobileLayout: 'right-half'
-  }, {
-    id: 'mon-module',
-    depth: 'back',
-    type: 'module',
-    layout: 'right-half',
-    content: 'http://localhost:3003/index.js',
-    transitions: [
-      ['slide-up', 600],
-      ['fade', 300]
-    ],
-    trackScroll: true
-  }]
-}, {
-  bgColor: generateNiceColor(),
-  blocks: [{
-    depth: 'scroll',
-    type: 'html',
-    content: generateContentPage(4),
-    layout: 'left-half',
-    mobileLayout: 'right-half'
-  }, {
-    id: 'mon-module'
-  }]
-}, {
-  bgColor: generateNiceColor(),
-  blocks: [{
-    depth: 'scroll',
-    type: 'html',
-    content: generateContentPage(4),
-    layout: 'left-half',
-    mobileLayout: 'right-half'
-  }]
-}]
+const pagesData: PageData[] = []
+// const pagesData: PageData[] = [{
+//   bgColor: generateNiceColor(),
+//   blocks: [{
+//     depth: 'scroll',
+//     type: 'html',
+//     content: generateContentPage(4),
+//     layout: 'left-half',
+//     mobileLayout: 'right-half'
+//   }, {
+//     id: 'mon-module',
+//     depth: 'back',
+//     type: 'module',
+//     layout: 'right-half',
+//     content: 'http://localhost:3003/index.js',
+//     transitions: [
+//       ['slide-up', 600],
+//       ['fade', 300]
+//     ],
+//     trackScroll: true
+//   }]
+// }, {
+//   bgColor: generateNiceColor(),
+//   blocks: [{
+//     depth: 'scroll',
+//     type: 'html',
+//     content: generateContentPage(4),
+//     layout: 'left-half',
+//     mobileLayout: 'right-half'
+//   }, {
+//     id: 'mon-module'
+//   }]
+// }, {
+//   bgColor: generateNiceColor(),
+//   blocks: [{
+//     depth: 'scroll',
+//     type: 'html',
+//     content: generateContentPage(4),
+//     layout: 'left-half',
+//     mobileLayout: 'right-half'
+//   }]
+// }]
 // const pagesData: PageData[] = [{
 //   bgColor: generateNiceColor(),
 //   blocks: [{
