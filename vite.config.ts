@@ -12,6 +12,6 @@ export default defineConfig(({ mode }) => ({
     assetsDir: '{{ASSETS_ROOT_URL}}' /* 'lm-assets-for-vite-build' */
   },
   server: {
-    port: 3002
+    port: 50002
   }
 }))
