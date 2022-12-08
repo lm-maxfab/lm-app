@@ -76,7 +76,12 @@
   opacity: .5;
 }
 
-.photos22-nav__month:hover,
 .photos22-nav__month.photos22-nav__month_current {
   opacity: 1;
+}
+
+@media (hover: hover) {
+  .photos22-nav__month:hover {
+    opacity: 1;
+  }
 }

@@ -8,6 +8,14 @@
   flex-wrap: wrap;
   margin-bottom: var(--len-photo-block-margin-bottom);
 
+  &::before {
+    content: 'loader placeholder';
+    color: white;
+    position: absolute;
+    top: 45%;
+    transform: translateY(-50%);
+  }
+
   .photos22-image-block {
     position: relative;
     width: 100%;

@@ -45,13 +45,15 @@ class Nav extends Component<Props, {}> {
     if (this.$root === null) return
     const currentMonth = this.props.current
     if (currentMonth === undefined) return
+    const scrollableNav = this.$root.querySelector('.photos22-nav__months')
+    if (scrollableNav === null) return
     const toScrollIntoView = this.$root.querySelector(`button[data-month-id="${currentMonth}"]`)
     if (toScrollIntoView === null) return
     const { left, right } = toScrollIntoView.getBoundingClientRect()
-    const { left: navLeft, right: navRight } = this.$root.getBoundingClientRect()
+    const { left: navLeft, right: navRight } = scrollableNav.getBoundingClientRect()
     const scrollMargin = 56
-    if (left - (navLeft + scrollMargin) <= 0) this.$root.scrollBy({ left: left - (navLeft + scrollMargin), behavior: 'smooth' })
-    else if (right - (navRight - scrollMargin) > 0) this.$root.scrollBy({ left: right - (navRight - scrollMargin), behavior: 'smooth' })
+    if (left - (navLeft + scrollMargin) <= 0) scrollableNav.scrollBy({ left: left - (navLeft + scrollMargin), behavior: 'smooth' })
+    else if (right - (navRight - scrollMargin) > 0) scrollableNav.scrollBy({ left: right - (navRight - scrollMargin), behavior: 'smooth' })
   }
 
   /* * * * * * * * * * * * * * *
