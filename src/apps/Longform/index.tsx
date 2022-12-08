@@ -80,7 +80,7 @@ interface State {}
 /* SCROLLGNGN SETTINGS */
 const thresholdOffset = '20%'
 const bgColorTransitionDuration = '600ms'
-const pagesData: PageData[] = [/*{
+const pagesData: PageData[] = [{
   bgColor: generateNiceColor(),
   blocks: [{
     depth: 'scroll',
@@ -89,58 +89,15 @@ const pagesData: PageData[] = [/*{
     layout: 'left-half',
     mobileLayout: 'right-half'
   }, {
+    id: 'mon-module',
     depth: 'back',
-    type: 'html',
-    content: generateSimpleHTMLModule(),
+    type: 'module',
     layout: 'right-half',
-    mobileLayout: 'left-half',
+    content: 'http://localhost:3003/index.js',
     transitions: [
       ['slide-up', 600],
-      ['fade', 200],
-    ]
-  }]
-}, {
-  bgColor: generateNiceColor(),
-  blocks: [{
-    depth: 'scroll',
-    type: 'html',
-    content: generateContentPage(4),
-    layout: 'right-half'
-  }, {
-    depth: 'front',
-    type: 'html',
-    content: generateSimpleHTMLModule(),
-    layout: 'left-half'
-  }]
-},*/ {
-  bgColor: generateNiceColor(),
-  blocks: [{
-    depth: 'scroll',
-    type: 'html',
-    content: generateContentPage(4),
-    layout: 'left-half'
-  }, {
-    id: 'ma-petite-vidéo',
-    depth: 'front',
-    type: 'html',
-    content: generateAutoplayVideoModule(),
-    layout: 'right-half'
-  }]
-}, {
-  bgColor: generateNiceColor(),
-  blocks: [{
-    depth: 'scroll',
-    type: 'html',
-    content: generateContentPage(4),
-    layout: 'left-half'
-  }, {
-    id: 'ma-petite-vidéo'
-  }, {
-    id: 'my-module',
-    depth: 'front',
-    layout: 'right-half',
-    type: 'module',
-    content: 'http://localhost:3003/index.js',
+      ['fade', 300]
+    ],
     trackScroll: true
   }]
 }, {
@@ -149,11 +106,10 @@ const pagesData: PageData[] = [/*{
     depth: 'scroll',
     type: 'html',
     content: generateContentPage(4),
-    layout: 'left-half'
+    layout: 'left-half',
+    mobileLayout: 'right-half'
   }, {
-    id: 'ma-petite-vidéo'
-  }, {
-    id: 'my-module'
+    id: 'mon-module'
   }]
 }, {
   bgColor: generateNiceColor(),
@@ -161,11 +117,97 @@ const pagesData: PageData[] = [/*{
     depth: 'scroll',
     type: 'html',
     content: generateContentPage(4),
-    layout: 'left-half'
-  }, {
-    id: 'ma-petite-vidéo'
+    layout: 'left-half',
+    mobileLayout: 'right-half'
   }]
 }]
+// const pagesData: PageData[] = [{
+//   bgColor: generateNiceColor(),
+//   blocks: [{
+//     depth: 'scroll',
+//     type: 'html',
+//     content: generateContentPage(4),
+//     layout: 'left-half',
+//     mobileLayout: 'right-half'
+//   }, {
+//     depth: 'front',
+//     zIndex: 1000,
+//     type: 'html',
+//     content: `<div style="width: 100%; height: 100vh;">${generateAutoplayVideoModule()}</div>`,
+//     transitions: [
+//       ['fade', 600],
+//       ['slide-up', 2000]
+//     ], 
+//     mobileTransitions: [
+//       ['grow', 600]
+//     ]
+//   }, {
+//     depth: 'front',
+//     type: 'html',
+//     content: `<div style="width: 100%; height: 100vh;">${generateAutoplayVideoModule()}</div>`,
+//     layout: 'right-half',
+//     transitions: [
+//       ['fade', 600],
+//       ['whirl', 2000]
+//     ], 
+//     mobileTransitions: [
+//       ['grow', 600]
+//     ]
+//   }]
+// }, {
+//   bgColor: generateNiceColor(),
+//   blocks: [{
+//     depth: 'scroll',
+//     type: 'html',
+//     content: generateContentPage(4),
+//     layout: 'left-half',
+//     mobileLayout: 'right-half'
+//   }, {
+//     id: 'ma-video',
+//     depth: 'front',
+//     type: 'html',
+//     layout: 'right-half',
+//     content: generateAutoplayVideoModule()
+//   }]
+// }, {
+//   bgColor: generateNiceColor(),
+//   blocks: [{
+//     depth: 'scroll',
+//     type: 'html',
+//     content: generateContentPage(4),
+//     layout: 'left-half',
+//     mobileLayout: 'right-half'
+//   }, {
+//     id: 'ma-video'
+//   }]
+// }, {
+//   bgColor: generateNiceColor(),
+//   blocks: [{
+//     depth: 'scroll',
+//     type: 'html',
+//     content: generateContentPage(4),
+//     layout: 'left-half',
+//     mobileLayout: 'right-half'
+//   }, {
+//     id: 'module',
+//     depth: 'front',
+//     type: 'module',
+//     content: 'http://localhost:3003/index.js',
+//     layout: 'right-half',
+//     trackScroll: true
+//   }]
+// }, {
+//   bgColor: generateNiceColor(),
+//   blocks: [{
+//     depth: 'scroll',
+//     type: 'html',
+//     content: generateContentPage(4),
+//     layout: 'left-half',
+//     mobileLayout: 'right-half'
+//   }, {
+//     id: 'module'
+//   }]
+// }]
 
 class Longform extends Component<Props, State> {
   static clss: string = 'sable-longform'

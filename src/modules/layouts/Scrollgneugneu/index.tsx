@@ -6,11 +6,11 @@
  * - OK give context props to modules
  * - OK give page context
  * - OK give scroll context
- * - load modules css
- * - load modules libs
+ * - OK load modules css
  * - modules can depth: 'scroll'
  * - take transition types back here
  * - modules lazy load?
+ * - make this work in smaller frames than the full window ?
  */
 
 import { Component } from 'preact'
