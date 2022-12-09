@@ -86,22 +86,23 @@ export default class BlockRenderer extends Component<Props, State> {
     await this.aSetState(curr => ({ ...curr, moduleLoading: true }))
     const moduleUrl = content
     try {
+      // [WIP] sketchy casts to any below
       const importedData = (await import(/* @vite-ignore */moduleUrl)) as unknown
       const importedIsNotObject = typeof importedData !== 'object'
       const importedIsNullish = importedData === null || importedData === undefined
       if (importedIsNotObject || importedIsNullish) throw new Error('Imported module is not an object')      
-      const importedHasInitFunc = 'init' in importedData && typeof importedData.init === 'function'
-      const importedHasUpdateFunc = 'update' in importedData && typeof importedData.update === 'function'
+      const importedHasInitFunc = 'init' in importedData && typeof (importedData as any).init === 'function'
+      const importedHasUpdateFunc = 'update' in importedData && typeof (importedData as any).update === 'function'
       const importedHasStyles = 'styles' in importedData
-        && Array.isArray(importedData.styles)
-        && importedData.styles.every(url => typeof url === 'string')
+        && Array.isArray((importedData as any).styles)
+        && ((importedData as any)?.styles as unknown[]|undefined)?.every(url => typeof url === 'string')
       if (!importedHasInitFunc) throw new Error('Imported module must export a function named init')
       if (!importedHasUpdateFunc) throw new Error('Imported module must export a function named update')
       const moduleData = importedData as ModuleData
       if (cssLoader !== undefined && importedHasStyles) {
         // [WIP] do better than cast? 
         // [WIP] try multiple times if load fails?
-        (importedData.styles as string[]).forEach(url => cssLoader(url))
+        ((importedData as any).styles as string[]).forEach(url => cssLoader(url))
       }
       await this.aSetState(curr => ({ ...curr, moduleLoading: false, moduleLoadErrors: null, moduleData }))
     } catch (err: unknown) {
