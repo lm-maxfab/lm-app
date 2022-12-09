@@ -199,7 +199,8 @@ export default class Scrollgneugneu extends Component<Props, State> {
       const requestResponse = await window.fetch(url)
       const responseData = await requestResponse.text()
       this.setState(curr => {
-        const newLoadedCssFilesUrlToDataMap = new Map(curr.loadedCssFilesUrlToDataMap)
+        // [WIP] dirty type cast in order to build quick before holidays
+        const newLoadedCssFilesUrlToDataMap = new Map(curr.loadedCssFilesUrlToDataMap as Map<string, string>)
         newLoadedCssFilesUrlToDataMap.set(url, responseData)
         return {
           ...curr,
@@ -413,8 +414,9 @@ export default class Scrollgneugneu extends Component<Props, State> {
         ...curr,
         currentPagePos: newCurrentPagePos,
         previousPagePos: curr.currentPagePos,
-        fixedBlocksContextMap: new Map(newFixedBlocksContextMap),
-        fixedBlocksPContextMap: new Map(curr.fixedBlocksContextMap)
+        // [WIP] dirty type casts in order to build quick before holidays
+        fixedBlocksContextMap: new Map(newFixedBlocksContextMap as Map<BlockKey, BlockContext>),
+        fixedBlocksPContextMap: new Map(curr.fixedBlocksContextMap as Map<BlockKey, BlockContext>)
       }
     })
   }
@@ -617,7 +619,8 @@ export default class Scrollgneugneu extends Component<Props, State> {
     currentContextsMap: State['fixedBlocksContextMap']
   ): State['fixedBlocksContextMap'] {
     const { key: blockKey, updation } = query
-    const newContexts: State['fixedBlocksContextMap'] = new Map(currentContextsMap)
+    // [WIP] dirty type cast in order to build quick before holidays
+    const newContexts: State['fixedBlocksContextMap'] = new Map(currentContextsMap as Map<BlockKey, BlockContext>)
     const currentBlockContext = currentContextsMap?.get(blockKey)
     if (currentBlockContext === undefined) newContexts.set(blockKey, createBlockContext(updation))
     else newContexts.set(blockKey, {
@@ -637,7 +640,8 @@ export default class Scrollgneugneu extends Component<Props, State> {
       if (newContext === undefined) return {
         ...curr,
         fixedBlocksContextMap: undefined,
-        fixedBlocksPContextMap: new Map(currContext)
+        // [WIP] dirty type cast in order to build quick before holidays
+        fixedBlocksPContextMap: new Map(currContext as Map<BlockKey, BlockContext>)
       }
       const allContextsAreEqual = [...newContext.entries()].every(([blockKey, blockNewContext]) => {
         const blockCurrContext = currContext?.get(blockKey)
@@ -649,8 +653,9 @@ export default class Scrollgneugneu extends Component<Props, State> {
       if (allContextsAreEqual) return null
       return {
         ...curr,
-        fixedBlocksContextMap: new Map(newContext),
-        fixedBlocksPContextMap: new Map(currContext)
+        // [WIP] dirty type casts in order to build quick before holidays
+        fixedBlocksContextMap: new Map(newContext as Map<BlockKey, BlockContext>),
+        fixedBlocksPContextMap: new Map(currContext as Map<BlockKey, BlockContext>)
       }
     })
   }
