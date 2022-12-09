@@ -1,6 +1,12 @@
 import { VNode } from 'preact'
 import StrToHtml from '../modules/le-monde/components/StrToHtml';
 
+export interface TitleData {
+  title_1?: StrToHtml
+  title_2?: StrToHtml
+  title_3?: StrToHtml
+}
+
 export interface HomeImageData {
   id: string
   url?: string

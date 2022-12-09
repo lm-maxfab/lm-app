@@ -3,7 +3,7 @@ import Img from '../../../modules/le-monde/components/Img'
 import Sequencer from '../../../modules/le-monde/components/Sequencer'
 import Svg from '../../../modules/le-monde/components/Svg'
 import bem from '../../../modules/le-monde/utils/bem'
-import { HomeImageData } from '../../types'
+import { HomeImageData, TitleData } from '../../types'
 import chevronUrl from './assets/chevron.svg'
 import './styles.scss'
 
@@ -11,6 +11,7 @@ interface Props {
   className?: string
   style?: JSX.CSSProperties
   images?: HomeImageData[]
+  title?: TitleData
 }
 
 class Home extends Component<Props, {}> {
@@ -73,9 +74,9 @@ class Home extends Component<Props, {}> {
           }} />
 
           <h1 className={bem(this.clss).elt('title').value}>
-            <span className={bem(this.clss).elt('title-line-1').value}>2022</span>
-            <span className={bem(this.clss).elt('title-line-2').value}>Une année en photo</span>
-            <span className={bem(this.clss).elt('title-line-3').value}>#PourLeMonde</span>
+            <span className={bem(this.clss).elt('title-line-1').value}>{props.title?.title_1}</span>
+            <span className={bem(this.clss).elt('title-line-2').value}>{props.title?.title_2}</span>
+            <span className={bem(this.clss).elt('title-line-3').value}>{props.title?.title_3}</span>
             <span className={bem(this.clss).elt('chevron').value}><Svg src={chevronUrl} /></span>
           </h1>
       </div>

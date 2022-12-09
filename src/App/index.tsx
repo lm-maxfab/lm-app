@@ -13,7 +13,8 @@ import {
   HomeImageData,
   ImageBlockData,
   IntroParagraphData,
-  MonthData
+  MonthData,
+  TitleData
 } from './types'
 import Paginator, { Page } from '../modules/le-monde/components/Paginator'
 
@@ -92,6 +93,7 @@ class App extends Component<Props, State> {
 
     // Logic
     const data = props.sheetBase
+    const titleData = (data?.collection('home_title').value ?? [])[0] as unknown as TitleData
     const homeImages = (data?.collection('home_images').value ?? []) as unknown as HomeImageData[]
     const introParagraphs = (data?.collection('intro_paragraphs').value ?? []) as unknown as IntroParagraphData[]
     const creditsContent = (data?.collection('credits_content').entry('1').value ?? { id: '1', content: <></> }) as unknown as CreditsContentData
@@ -130,6 +132,7 @@ class App extends Component<Props, State> {
           <Page value={['hide-nav']}>
             <Home
               className={bem(this.clss).elt('home').value}
+              title={titleData}
               images={homeImages} />
           </Page>
           <Page value={['hide-nav']}>
