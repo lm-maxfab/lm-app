@@ -86,7 +86,7 @@ export default class BlockRenderer extends Component<Props, State> {
     await this.aSetState(curr => ({ ...curr, moduleLoading: true }))
     const moduleUrl = content
     try {
-      const importedData = (await import(moduleUrl)) as unknown
+      const importedData = (await import(/* @vite-ignore */moduleUrl)) as unknown
       const importedIsNotObject = typeof importedData !== 'object'
       const importedIsNullish = importedData === null || importedData === undefined
       if (importedIsNotObject || importedIsNullish) throw new Error('Imported module is not an object')      
