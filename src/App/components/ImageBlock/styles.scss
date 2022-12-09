@@ -9,10 +9,14 @@
   margin-bottom: var(--len-photo-block-margin-bottom);
 
   &::before {
-    content: 'loader placeholder';
+    content: '';
+    height: 20px;
+    width: 20px;
+    background-image: url(https://assets-decodeurs.lemonde.fr/redacweb/30-2212-photos22-assets/loader.gif);
+    background-size: contain;
     color: white;
     position: absolute;
-    top: 45%;
+    top: 30%;
     transform: translateY(-50%);
   }
 
