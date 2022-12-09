@@ -168,6 +168,17 @@
       },
       "description": "",
       "time": "2022-12-08T16:45:43.205Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 5
+      },
+      "description": "",
+      "time": "2022-12-09T09:56:29.265Z"
     }
   ]
 }
