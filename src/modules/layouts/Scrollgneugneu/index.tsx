@@ -47,7 +47,7 @@ export type BlockDataHTMLTypePartial = { type?: BlockDataHTMLType }
 export type BlockDataModuleTypePartial = { type: BlockDataModuleType }
 
 export type BlockDataScrollingHTMLPartial = BlockDataScrollingDepthPartial & BlockDataHTMLTypePartial
-// Scrolling module does not exist yet
+// [WIP] Scrolling module does not exist yet
 export type BlockDataFixedHTMLPartial = BlockDataFixedDepthPartial & BlockDataHTMLTypePartial
 export type BlockDataFixedModulePartial = BlockDataFixedDepthPartial & BlockDataModuleTypePartial & { trackScroll?: boolean }
 
@@ -125,8 +125,8 @@ type ExploitablePageData = Omit<PageData, 'blocks'> & {
 }
 
 type Props = {
+  // [WIP] fixedBlockHeight?: string ?
   thresholdOffset?: string
-  // fixedBlocksHeight?: string // [WIP] make this a prop again ?
   bgColorTransitionDuration?: string|number
   pages?: PageData[]
 }
@@ -157,7 +157,7 @@ export default class Scrollgneugneu extends Component<Props, State> {
     this.cntDetection = this.cntDetection.bind(this)
     this.btmDetection = this.btmDetection.bind(this)
     this.handleWindowScroll = this.handleWindowScroll.bind(this)
-    this.doesPageNeedsScrollTracking = this.doesPageNeedsScrollTracking.bind(this)
+    this.doesPageNeedScrollTracking = this.doesPageNeedScrollTracking.bind(this)
     this.handlePageChange = this.handlePageChange.bind(this)
     this.handlePaginatorResize = this.handlePaginatorResize.bind(this)
     this.getBgColorTransitionDuration = this.getBgColorTransitionDuration.bind(this)
@@ -192,8 +192,8 @@ export default class Scrollgneugneu extends Component<Props, State> {
   }
 
   // [WIP] make a function that loads multiple css at once?
-  // [WIP] Can retry ?
-  // [WIP] let BlockRenderer do this?
+  //       Can retry ?
+  //       let BlockRenderer do this?
   async loadCss (url: string) {
     try {
       const requestResponse = await window.fetch(url)
@@ -239,7 +239,6 @@ export default class Scrollgneugneu extends Component<Props, State> {
   handleWindowScroll () {
     // [WIP] divide this into smaller chunks
     // [WIP] make this work on did mount and did update
-    // [WIP] cron detect threshold bar for performance ?
     const {
       state,
       getExploitablePages,
@@ -247,7 +246,7 @@ export default class Scrollgneugneu extends Component<Props, State> {
       getFixedBlockPages,
       paginatorRef,
       scrollingBlocksPosToRefsMap,
-      doesPageNeedsScrollTracking,
+      doesPageNeedScrollTracking,
       dryUpdateFixedBlocksContexts,
       getFixedBlockKey
     } = this
@@ -260,44 +259,47 @@ export default class Scrollgneugneu extends Component<Props, State> {
     if (exploitablePages === undefined) return
     // No need for scroll tracking on current page
     const currentPageData = exploitablePages[currentPagePos]
-    const pageNeedsScrollTracking = doesPageNeedsScrollTracking(currentPageData)
+    const pageNeedsScrollTracking = doesPageNeedScrollTracking(currentPageData)
     if (!pageNeedsScrollTracking) return
     // Threshold not found
+    // [WIP] throttle/cache threshold bar detection for performance
     const thresholdBarRect = paginatorRef.getThresholdBarBoundingClientRect()
     if (thresholdBarRect === undefined) return
-    // Select progression update eligible blocks
-    const fixedBlocks = getDedupedFixedBlocks()
-    if (fixedBlocks.length === 0) return // Not possible since we know currentPageData needs scroll tracking
-    const fixedBlocksWithDisplayZone = fixedBlocks.map(blockData => {
-      const blockKey = getFixedBlockKey(blockData)
-      const hasNoTrackScroll = !('trackScroll' in blockData) || blockData.trackScroll === undefined
-      if (hasNoTrackScroll) return { key: blockKey, displayZone: [] }
-      const blockPages = getFixedBlockPages(blockData)
-      const currentPageInBlockPages = blockPages.includes(currentPagePos)
-      if (!currentPageInBlockPages) return { key: blockKey, displayZone: [] }
-      const pagesBefore = blockPages.filter(pos => pos < currentPagePos).sort((a, b) => b - a)
-      const pagesAfter = blockPages.filter(pos => pos > currentPagePos).sort((a, b) => a - b)
-      const displayZone: number[] = [currentPagePos]
-      pagesBefore.forEach(pagePos => {
-        const firstPos = displayZone[0]
-        if (firstPos - pagePos === 1) displayZone.unshift(pagePos)
-      })
-      pagesAfter.forEach(pagePos => {
-        const lastPos = displayZone.at(-1)
-        if (lastPos === undefined) return // Not really possible either but heh
-        if (pagePos - lastPos === 1) displayZone.push(pagePos)
-      })
-      return { key: blockKey, displayZone }
-    }).filter(blockData => blockData.displayZone.length > 0)
+    // [WIP] can be heavy throttled/cached (via prop ?) since result never really changes
+    const fixedBlocksWithDisplayZone = getDedupedFixedBlocks().map(
+      // [WIP] make this a this.method
+      blockData => {
+        const blockKey = getFixedBlockKey(blockData)
+        const hasNoTrackScroll = !('trackScroll' in blockData) || blockData.trackScroll === undefined
+        if (hasNoTrackScroll) return { key: blockKey, displayZone: [] }
+        const blockPages = getFixedBlockPages(blockData)
+        const currentPageInBlockPages = blockPages.includes(currentPagePos)
+        if (!currentPageInBlockPages) return { key: blockKey, displayZone: [] }
+        const pagesBefore = blockPages.filter(pos => pos < currentPagePos).sort((a, b) => b - a)
+        const pagesAfter = blockPages.filter(pos => pos > currentPagePos).sort((a, b) => a - b)
+        const displayZone: number[] = [currentPagePos]
+        pagesBefore.forEach(pagePos => {
+          const firstPos = displayZone[0]
+          if (firstPos - pagePos === 1) displayZone.unshift(pagePos)
+        })
+        pagesAfter.forEach(pagePos => {
+          const lastPos = displayZone.at(-1)
+          if (lastPos === undefined) return // Not really possible either but heh
+          if (pagePos - lastPos === 1) displayZone.push(pagePos)
+        })
+        return { key: blockKey, displayZone }
+      }
+    ).filter(blockData => blockData.displayZone.length > 0)
+    if (fixedBlocksWithDisplayZone.length === 0) return // Not possible since we know currentPageData needs scroll tracking
     // Pages progression data
-    const { top: thresholdBarTop, height: thresholdBarHeight } = thresholdBarRect
+    const { top: thresholdBarTop } = thresholdBarRect
     const scrollingBlocksPosToRefsArr = [...scrollingBlocksPosToRefsMap.entries()]
     const pagesScrollDataMap: Map<number, {
-      ref: HTMLDivElement|null,
+      ref: HTMLDivElement|null
       height?: number
       progression?: number
       scrolled?: number
-    }> = new Map()
+    }> = new Map() // [WIP] fill via scrollingBlocksPosToRefsArr.map as a param ?
     scrollingBlocksPosToRefsArr.forEach(([pos, ref]) => {
       if (ref === null) return pagesScrollDataMap.set(pos, { ref })
       const { top, height } = ref.getBoundingClientRect()
@@ -343,7 +345,7 @@ export default class Scrollgneugneu extends Component<Props, State> {
     this.updateFixedBlocksContexts(dryUpdationResult)
   }
 
-  doesPageNeedsScrollTracking (pageData: ExploitablePageData) {
+  doesPageNeedScrollTracking (pageData: ExploitablePageData) {
     return pageData.blocks?.some(blockData => {
       const { depth, type } = blockData
       const isFixed = depth === 'front' || depth === 'back'
@@ -794,7 +796,7 @@ export default class Scrollgneugneu extends Component<Props, State> {
     const currPageData = exploitablePages !== undefined && currentPagePos !== undefined
       ? exploitablePages[currentPagePos]
       : undefined
-    // Get scroll panel zIndex [WIP] - make a method of it
+    // Get scroll panel zIndex [WIP] - make a method of it ?
     const zSortedFixedBlocks = getZSortedFixedBlocks()
     const scrollPanelZIndex = zSortedFixedBlocks
       .filter(blockWithZ => blockWithZ.blockData.depth === 'back')

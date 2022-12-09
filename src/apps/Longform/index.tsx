@@ -1,9 +1,19 @@
 import { Component, JSX } from 'preact'
-import Scrollgneugneu, { BlockDataCommonProperties, BlockDataDepth, BlockDataFixed, BlockDataFixedDepthPartial, BlockDataLayoutName, BlockDataType, PageData } from '../../modules/layouts/Scrollgneugneu'
+import Scrollgneugneu, {
+  BlockDataCommonProperties,
+  BlockDataFixed,
+  BlockDataLayoutName,
+  BlockDataType,
+  PageData
+} from '../../modules/layouts/Scrollgneugneu'
 import { TransitionDescriptor } from '../../modules/layouts/Scrollgneugneu/TransitionsWrapper'
 import appWrapper, { InjectedProps } from '../../modules/utils/app-wrapper-HOC'
 import bem from '../../modules/utils/bem'
-import { GeneralSettings, BlockData as BlockDataFromSheet, PageData as PageDataFromSheet } from '../types'
+import {
+  GeneralSettings,
+  BlockData as BlockDataFromSheet,
+  PageData as PageDataFromSheet
+} from '../types'
 import './styles.scss'
 
 interface Props extends InjectedProps {}

@@ -163,6 +163,7 @@ export default class BlockRenderer extends Component<Props, State> {
           ? <div dangerouslySetInnerHTML={{ __html: content }} />
           : null
       case 'module':
+        // [WIP] better loading/error display
         if (moduleLoading) return <div>Loading...</div>
         else if (moduleLoadErrors !== null) return <div>
           <strong>Module load errors:</strong>
