@@ -134,7 +134,7 @@ async function postbuild () {
   // Create .<version>, .latest and .live js and css files
   console.log(chalk.bold(`\n👭 Creating .${versionNameForFileNames}, .latest and .live js and css files...\n`))
   const BUILD_VERSIONNED_JS = buildAssetsFiles.find(file => file.name === `index.${versionNameForFileNames}.js`)
-  await BUILD_VERSIONNED_JS.editQuiet(content => `/* Version: ${versionName}, date: ${buildTime.toISOString()} built index.js: ${BUILD_INDEX_JS.name}, built vendor.js: ${BUILD_VENDOR_JS.name} */\n${content}`)
+  await BUILD_VERSIONNED_JS.editQuiet(content => `/* Version: ${versionName}, date: ${buildTime.toISOString()} built index.js: ${BUILD_INDEX_JS.name}, built vendor.js: ${BUILD_VENDOR_JS?.name} */\n${content}`)
   await BUILD_VERSIONNED_JS.copyTo(`index.latest.js`)
   if (linkToLive) await BUILD_VERSIONNED_JS.copyTo(`index.live.js`)
   const BUILD_INDEX_CSS = buildAssetsFiles.find(file => file.name.match(/^index.[a-f0-9]{8}.css$/gm))
@@ -148,8 +148,8 @@ async function postbuild () {
   await BUILD_INDEX.editHTMLQuiet(jsdom => {
     const document = jsdom.window.document
     const documentElement = document.documentElement
-    const vendorTag = documentElement.querySelector(`link[href*="${BUILD_VENDOR_JS.name}"]`)
-    vendorTag.remove()
+    const vendorTag = documentElement.querySelector(`link[href*="${BUILD_VENDOR_JS?.name}"]`)
+    vendorTag?.remove()
     const indexJsTag = documentElement.querySelector(`script[src*="${BUILD_INDEX_JS.name}"]`)
     indexJsTag.outerHTML = `<script async type="text/javascript" src="${config.assets_root_url}/index.live.js"></script>`
     const indexCssTag = documentElement.querySelector(`link[href*="${BUILD_INDEX_CSS.name}"]`)
