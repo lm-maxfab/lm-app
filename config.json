@@ -1,11 +1,11 @@
 {
-  "assets_root_url": "https://assets-decodeurs.lemonde.fr/redacweb/NOT-PUBLISHED",
+  "assets_root_url": "https://assets-decodeurs.lemonde.fr/redacweb/31-2212-premier-scrllgngn-decodeurs",
   "statics_root_url": "https://assets-decodeurs.lemonde.fr/redacweb/statics-v2",
   "spreadsheets_urls": {
-    "production": "https://assets-decodeurs.lemonde.fr/sheets/ye4vwPDhPAo45PyxSASdfhjklA0f0w_1493",
-    "staging": "https://assets-decodeurs.lemonde.fr/sheets/ye4vwPDhPAo45PyxSASdfhjklA0f0w_1494",
-    "testing": "https://assets-decodeurs.lemonde.fr/sheets/ye4vwPDhPAo45PyxSASdfhjklA0f0w_1495",
-    "developpment": "https://assets-decodeurs.lemonde.fr/sheets/ye4vwPDhPAo45PyxSASdfhjklA0f0w_1496"
+    "production": "https://assets-decodeurs.lemonde.fr/sheets/2czF80H4vCJMr0_40CpdW4npF-4SNw_1498",
+    "staging": "https://assets-decodeurs.lemonde.fr/sheets/2czF80H4vCJMr0_40CpdW4npF-4SNw_1499",
+    "testing": "https://assets-decodeurs.lemonde.fr/sheets/2czF80H4vCJMr0_40CpdW4npF-4SNw_1500",
+    "developpment": "https://assets-decodeurs.lemonde.fr/sheets/2czF80H4vCJMr0_40CpdW4npF-4SNw_1501"
   },
   "layouts": [{
     "name": "longform",
