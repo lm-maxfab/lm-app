@@ -318,6 +318,17 @@
       },
       "description": "fond derrière les flèches pour l'accessibilité",
       "time": "2022-12-06T17:18:50.640Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 1,
+        "patch": 2,
+        "status": "stable",
+        "build": 27
+      },
+      "description": "fix box shadow sur les em",
+      "time": "2022-12-09T14:52:30.891Z"
     }
   ]
 }

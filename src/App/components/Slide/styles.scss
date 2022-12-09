@@ -71,6 +71,8 @@
     padding: .175em 0;
     font-style: normal;
     font-weight: 600;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
   }
 }
 
@@ -89,6 +91,8 @@
     padding: .175em 0;
     font-style: normal;
     font-weight: 600;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
   }
 
   em {
