@@ -105,7 +105,7 @@ async function postbuild () {
     return jsdom
   })
 
-  // Replace {{ASSETS_ROOT_URL}} and http://localhost:3001 everywhere
+  // Replace {{ASSETS_ROOT_URL}} and http://localhost:50001 everywhere
   console.log(chalk.bold(`\n🔗 Relinking assets...\n`))
   const CONFIG = new File(path.join(__dirname, 'config.json'))
   const config = JSON.parse(await CONFIG.read())
@@ -114,7 +114,7 @@ async function postbuild () {
   await batchFileEdit(pathsToBatchEdit, BUILD.path, fileData => {
     const newContent = fileData.content
       .replace(/[\/\.]*{{ASSETS_ROOT_URL}}/gm, config.assets_root_url)
-      .replace(/http:\/\/localhost:3001/gm, config.statics_root_url)
+      .replace(/http:\/\/localhost:50001/gm, config.statics_root_url)
     return newContent
   })
   console.log(chalk.grey('relinked.'))

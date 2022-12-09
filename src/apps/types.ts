@@ -4,36 +4,27 @@ export interface SheetBaseCollectionData {
   id: string
 }
 
-export interface SideNoteData {
+export interface GeneralSettings extends SheetBaseCollectionData {
+  threshold_offset?: string
+  bg_color_transition_duration?: string
+}
+
+export interface BlockData extends SheetBaseCollectionData {
+  depth?: string
+  type?: string
+  content?: string
+  layout?: string
+  mobileLayout?: string
+  transitions?: string
+  mobileTransitions?: string
+  zIndex?: number
+  trackScroll?: boolean
+}
+
+export interface PageData extends SheetBaseCollectionData {
   bg_color?: string
-  title?: VNode|string
-  content?: VNode|string
-}
-
-export interface FooterContentData {
-  marqueur_url?: string
-  marqueur_substitute_text?: string
-  paragraph?: VNode|string
-}
-
-export interface ArticlesData {
-  episode_number?: string
-  target_article_id?: string
-  title?: VNode|string
-  kicker?: VNode|string
-  published?: boolean
-  url?: string
-  bg_image_url?: string
-  bg_video_url?: string
-  bg_video_1080_url?: string
-  bg_video_720_url?: string
-  bg_video_540_url?: string
-  bg_video_360_url?: string
-  bg_video_240_url?: string
-  displayed_publication_date?: string
-  read_button_text?: string
-}
-
-export interface CreditsData extends SheetBaseCollectionData {
-  content?: VNode|string
+  content?: string
+  layout?: string
+  mobileLayout?: string
+  blocks_ids?: string
 }

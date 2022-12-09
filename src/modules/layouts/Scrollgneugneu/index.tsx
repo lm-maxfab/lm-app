@@ -22,43 +22,45 @@ import styles from './styles.module.scss'
 import TransitionsWrapper, { TransitionDescriptor } from './TransitionsWrapper'
 
 /* Block Data Types */
-type BlockDataLayoutName = 'left-half'|'right-half'
+export type BlockDataLayoutName = 'left-half'|'right-half'
 
-type BlockDataScrollingDepth = 'scroll'
-type BlockDataFrontDepth = 'front'
-type BlockDataBackDepth = 'back'
+export type BlockDataScrollingDepth = 'scroll'
+export type BlockDataFrontDepth = 'front'
+export type BlockDataBackDepth = 'back'
+export type BlockDataDepth = BlockDataScrollingDepth|BlockDataFrontDepth|BlockDataBackDepth
 
-type BlockDataScrollingDepthPartial = { depth?: BlockDataScrollingDepth }
-type BlockDataFrontDepthPartial = { depth: BlockDataFrontDepth }
-type BlockDataBackDepthPartial = { depth: BlockDataBackDepth }
-type BlockDataFixedDepthPartial = (BlockDataFrontDepthPartial|BlockDataBackDepthPartial) & {
+export type BlockDataScrollingDepthPartial = { depth?: BlockDataScrollingDepth }
+export type BlockDataFrontDepthPartial = { depth: BlockDataFrontDepth }
+export type BlockDataBackDepthPartial = { depth: BlockDataBackDepth }
+export type BlockDataFixedDepthPartial = (BlockDataFrontDepthPartial|BlockDataBackDepthPartial) & {
   id?: string
   zIndex?: number
   transitions?: TransitionDescriptor[]
   mobileTransitions?: TransitionDescriptor[]
 }
 
-type BlockDataHTMLType = 'html'
-type BlockDataModuleType = 'module'
+export type BlockDataHTMLType = 'html'
+export type BlockDataModuleType = 'module'
+export type BlockDataType = BlockDataHTMLType|BlockDataModuleType
 
-type BlockDataHTMLTypePartial = { type?: BlockDataHTMLType }
-type BlockDataModuleTypePartial = { type: BlockDataModuleType }
+export type BlockDataHTMLTypePartial = { type?: BlockDataHTMLType }
+export type BlockDataModuleTypePartial = { type: BlockDataModuleType }
 
-type BlockDataScrollingHTMLPartial = BlockDataScrollingDepthPartial & BlockDataHTMLTypePartial
+export type BlockDataScrollingHTMLPartial = BlockDataScrollingDepthPartial & BlockDataHTMLTypePartial
 // Scrolling module does not exist yet
-type BlockDataFixedHTMLPartial = BlockDataFixedDepthPartial & BlockDataHTMLTypePartial
-type BlockDataFixedModulePartial = BlockDataFixedDepthPartial & BlockDataModuleTypePartial & { trackScroll?: boolean }
+export type BlockDataFixedHTMLPartial = BlockDataFixedDepthPartial & BlockDataHTMLTypePartial
+export type BlockDataFixedModulePartial = BlockDataFixedDepthPartial & BlockDataModuleTypePartial & { trackScroll?: boolean }
 
-type BlockDataCommonProperties = {
+export type BlockDataCommonProperties = {
   content?: string // [WIP] change this to url for modules?
   layout?: BlockDataLayoutName
   mobileLayout?: BlockDataLayoutName
 }
 
-type BlockDataFixed = (BlockDataFixedHTMLPartial|BlockDataFixedModulePartial) & BlockDataCommonProperties
-type BlockDataScrolling = BlockDataScrollingHTMLPartial & BlockDataCommonProperties
-type BlockDataReference = { id?: string }
-type BlockData = BlockDataFixed|BlockDataScrolling|BlockDataReference
+export type BlockDataFixed = (BlockDataFixedHTMLPartial|BlockDataFixedModulePartial) & BlockDataCommonProperties
+export type BlockDataScrolling = BlockDataScrollingHTMLPartial & BlockDataCommonProperties
+export type BlockDataReference = { id?: string }
+export type BlockData = BlockDataFixed|BlockDataScrolling|BlockDataReference
 
 /* Block Context Types */
 export type BlockContext = {
@@ -69,7 +71,7 @@ export type BlockContext = {
   pageProgression: number|null
 }
 
-type PartialBlockContext = Partial<BlockContext>
+export type PartialBlockContext = Partial<BlockContext>
 
 const nullContext: BlockContext = {
   width: null,
