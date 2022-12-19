@@ -179,6 +179,17 @@
       },
       "description": "",
       "time": "2022-12-09T09:56:29.265Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 6
+      },
+      "description": "ajout pre-render",
+      "time": "2022-12-19T10:34:28.384Z"
     }
   ]
 }
