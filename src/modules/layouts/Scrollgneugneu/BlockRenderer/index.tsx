@@ -5,7 +5,6 @@ type ModuleData = {
   init: (props: BlockContext) => HTMLElement
   update: (wrapper: HTMLElement, context: BlockContext, prevContext: BlockContext) => void
   styles?: string[]
-  // [WIP] libs
 }
 
 type Props = {

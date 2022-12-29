@@ -1,3 +1,11 @@
+import { Component } from 'preact'
+import IntersectionObserverComponent from '../../components/IntersectionObserver'
+import Paginator, { State as PaginatorState } from '../../components/Paginator'
+import ResizeObserverComponent from '../../components/ResizeObserver'
+import BlockRenderer from './BlockRenderer/index'
+import styles from './styles.module.scss'
+import TransitionsWrapper, { TransitionDescriptor } from './TransitionsWrapper'
+
 /*
  * [WIP]
  * - OK load modules
@@ -12,14 +20,6 @@
  * - modules lazy load?
  * - make this work in smaller frames than the full window ?
  */
-
-import { Component } from 'preact'
-import IntersectionObserverComponent from '../../components/IntersectionObserver'
-import Paginator, { State as PaginatorState } from '../../components/Paginator'
-import ResizeObserverComponent from '../../components/ResizeObserver'
-import BlockRenderer from './BlockRenderer/index'
-import styles from './styles.module.scss'
-import TransitionsWrapper, { TransitionDescriptor } from './TransitionsWrapper'
 
 /* Block Data Types */
 export type BlockDataLayoutName = 'left-half'|'right-half'
@@ -47,12 +47,11 @@ export type BlockDataHTMLTypePartial = { type?: BlockDataHTMLType }
 export type BlockDataModuleTypePartial = { type: BlockDataModuleType }
 
 export type BlockDataScrollingHTMLPartial = BlockDataScrollingDepthPartial & BlockDataHTMLTypePartial
-// [WIP] Scrolling module does not exist yet
 export type BlockDataFixedHTMLPartial = BlockDataFixedDepthPartial & BlockDataHTMLTypePartial
 export type BlockDataFixedModulePartial = BlockDataFixedDepthPartial & BlockDataModuleTypePartial & { trackScroll?: boolean }
 
 export type BlockDataCommonProperties = {
-  content?: string // [WIP] change this to url for modules?
+  content?: string
   layout?: BlockDataLayoutName
   mobileLayout?: BlockDataLayoutName
 }
@@ -140,14 +139,12 @@ type State = {
   scrollingPanelHeight?: number
   fixedBlocksContextMap?: Map<BlockKey, BlockContext>
   fixedBlocksPContextMap?: Map<BlockKey, BlockContext>
-  loadedCssFilesUrlToDataMap?: Map<string, string>
+  cssFilesUrlDataMap?: Map<string, string>
 }
 
 /* Actual Component */
 export default class Scrollgneugneu extends Component<Props, State> {
   state: State = {}
-  fixedBlocksResizeObserver = new ResizeObserver(e => this.handleFixedBlocksResize(e))
-  fixedBlocksKeysToRefsMap: Map<BlockKey, HTMLDivElement| null> = new Map()
   scrollingBlocksPosToRefsMap: Map<number, HTMLDivElement|null> = new Map()
   paginatorRef: Paginator|null = null
   constructor (props: Props) {
@@ -191,27 +188,64 @@ export default class Scrollgneugneu extends Component<Props, State> {
     window.removeEventListener('scroll', this.handleWindowScroll)
   }
 
-  // [WIP] make a function that loads multiple css at once?
-  //       Can retry ?
-  //       let BlockRenderer do this?
-  async loadCss (url: string) {
+  /* * * * * * * * * * * * * * * * * * * * * *
+   * SCRLGNGN POSITION DETECTION IN WINDOW
+   * * * * * * * * * * * * * * * * * * * * * */
+
+  /** Saves in state if the top of the scrllgngn wrapper is in screen */
+  topDetection ({ isIntersecting }: IntersectionObserverEntry) { this.setState({ topVisible: isIntersecting }) }
+  /** Saves in state if the content of the scrllgngn wrapper is in screen */
+  cntDetection ({ isIntersecting }: IntersectionObserverEntry) { this.setState({ cntVisible: isIntersecting }) }
+  /** Saves in state if the bottom of the scrllgngn wrapper is in screen */
+  btmDetection ({ isIntersecting }: IntersectionObserverEntry) { this.setState({ btmVisible: isIntersecting }) }
+
+  /* * * * * * * * * * * * * * * * * * * * * *
+   * LOAD CSS
+   * * * * * * * * * * * * * * * * * * * * * */
+
+  /**
+   * Loads a CSS file from url and stores data in state,
+   * if something goes wrong, the loading is retried
+   * up to three times (500ms delay) before giving up
+   * [WIP] load attempts should be stored in the map
+   */
+  async loadCss (url: string, attemptCnt: number = 1): Promise<void> {
+    const alreadyLoadedData = this.state.cssFilesUrlDataMap?.get(url)
+    if (alreadyLoadedData !== undefined) return
     try {
       const requestResponse = await window.fetch(url)
       const responseData = await requestResponse.text()
       this.setState(curr => {
-        // [WIP] dirty type cast in order to build quick before holidays
-        const newLoadedCssFilesUrlToDataMap = new Map(curr.loadedCssFilesUrlToDataMap as Map<string, string>)
-        newLoadedCssFilesUrlToDataMap.set(url, responseData)
-        return {
-          ...curr,
-          loadedCssFilesUrlToDataMap: newLoadedCssFilesUrlToDataMap
-        }
+        const currCssFilesMap = curr.cssFilesUrlDataMap
+        const newCssFilesMap = new Map(currCssFilesMap ?? [])
+        newCssFilesMap.set(url, responseData)
+        return { ...curr, cssFilesUrlDataMap: newCssFilesMap }
       })
     } catch (err) {
       console.error(err)
+      if (attemptCnt < 3) {
+        console.warn(`Failed attempt (${attemptCnt}) to load ${url}, trying again...`)
+        const newAttemptCnt = attemptCnt + 1
+        window.setTimeout(() => {
+          this.loadCss(url, newAttemptCnt)
+        }, 500)
+      } else {
+        console.error(`Too many failed attempts to load ${url}, no more tries.`)
+      }
     }
   }
 
+  /* * * * * * * * * * * * * * * * * * * * * *
+   * FIXED BLOCKS RESIZE OBSERVATION
+   * * * * * * * * * * * * * * * * * * * * * */
+
+  /** The store for fixed blocks refs after they are rendered */
+  fixedBlocksKeysToRefsMap: Map<BlockKey, HTMLDivElement| null> = new Map()
+
+  /** The resize observer that handles fixed blocks resize events  */
+  fixedBlocksResizeObserver = new ResizeObserver(e => this.handleFixedBlocksResize(e))
+
+  /** Takes all fixed blocks refs currently stored, and attach them to the resize observer */
   observeFixedBlocks () {
     const { fixedBlocksKeysToRefsMap, fixedBlocksResizeObserver } = this
     const fixedBlocksRefs = Array.from(fixedBlocksKeysToRefsMap.values())
@@ -221,17 +255,45 @@ export default class Scrollgneugneu extends Component<Props, State> {
     })
   }
 
+  /** Disconnects the fixed blocks resize observer */
   unobserveFixedBlocks () {
     const { fixedBlocksResizeObserver } = this
     fixedBlocksResizeObserver.disconnect()
   }
 
-  /* * * * * * * * * * * * * * * * * * * * * *
-   * SCRLGNGN POSITION DETECTION IN PAGE
-   * * * * * * * * * * * * * * * * * * * * * */
-  topDetection ({ isIntersecting }: IntersectionObserverEntry) { this.setState({ topVisible: isIntersecting }) }
-  cntDetection ({ isIntersecting }: IntersectionObserverEntry) { this.setState({ cntVisible: isIntersecting }) }
-  btmDetection ({ isIntersecting }: IntersectionObserverEntry) { this.setState({ btmVisible: isIntersecting }) }
+  /**
+   * For each resized entry (fixed block wrapper node), find the
+   * associated fixed block unique key via Scrollgngn.fixedBlocksKeysToRefsMap
+   * (see Scrllgngn.getFixedBlockKey), get the wrapper node's width and height
+   * from ResizeObserverEntry.contentRect, and update accordingly the fixed blocks
+   * contexts properties of Scrllgngn.state
+   */
+  handleFixedBlocksResize (entries: ResizeObserverEntry[]) {
+    const {
+      fixedBlocksKeysToRefsMap,
+      dryUpdateFixedBlocksContexts,
+      updateFixedBlocksContexts,
+      state
+    } = this
+    const keysToRefsArr = [...fixedBlocksKeysToRefsMap.entries()]
+    const dryUpdationQueries: FixedBlockDryContextUpdationQuery[] = []
+    entries.forEach(entry => {
+      const { target } = entry
+      const keyToRef = keysToRefsArr.find(([_key, ref]) => ref === target)
+      if (keyToRef === undefined) return null
+      const [blockKey] = keyToRef
+      const { width, height } = entry.contentRect
+      dryUpdationQueries.push({
+        key: blockKey,
+        updation: { width, height }
+      })
+    })
+    const newFixedBlocksContextMap = dryUpdateFixedBlocksContexts(
+      dryUpdationQueries,
+      state.fixedBlocksContextMap
+    )
+    updateFixedBlocksContexts(newFixedBlocksContextMap)
+  }
 
   /* * * * * * * * * * * * * * * * * * * * * *
    * HANDLE WINDOW SCROLL
@@ -572,36 +634,6 @@ export default class Scrollgneugneu extends Component<Props, State> {
   }
 
   /* * * * * * * * * * * * * * * * * * * * * *
-   * HANDLE FIXED BLOCK RESIZE
-   * * * * * * * * * * * * * * * * * * * * * */
-  handleFixedBlocksResize (entries: ResizeObserverEntry[]) {
-    const {
-      fixedBlocksKeysToRefsMap,
-      dryUpdateFixedBlocksContexts,
-      updateFixedBlocksContexts,
-      state
-    } = this
-    const keysToRefsArr = [...fixedBlocksKeysToRefsMap.entries()];
-    const dryUpdationQueries: FixedBlockDryContextUpdationQuery[] = []
-    entries.forEach(entry => {
-      const { target } = entry
-      const keyToRef = keysToRefsArr.find(([_key, ref]) => ref === target)
-      if (keyToRef === undefined) return null
-      const [blockKey] = keyToRef
-      const { width, height } = entry.contentRect
-      dryUpdationQueries.push({
-        key: blockKey,
-        updation: { width, height }
-      })
-    })
-    const newFixedBlocksContextMap = dryUpdateFixedBlocksContexts(
-      dryUpdationQueries,
-      state.fixedBlocksContextMap
-    )
-    updateFixedBlocksContexts(newFixedBlocksContextMap)
-  }
-
-  /* * * * * * * * * * * * * * * * * * * * * *
    * DRY UPDATE FIXED BLOCKS CONTEXTS
    * * * * * * * * * * * * * * * * * * * * * */
   dryUpdateFixedBlocksContexts (
@@ -806,7 +838,7 @@ export default class Scrollgneugneu extends Component<Props, State> {
     const blocksAreFixed = cntVisible === true && topVisible !== true && btmVisible !== true
     const offsetFixed = !blocksAreFixed && btmVisible
     // Gather loaded css from modules
-    const loadedCssNoUndefMap = state.loadedCssFilesUrlToDataMap ?? new Map<string, string>()
+    const loadedCssNoUndefMap = state.cssFilesUrlDataMap ?? new Map<string, string>()
     const loadedCssUrlToDataArr = [...loadedCssNoUndefMap.entries()]
     // Assign css classes to wrapper
     const wrapperClasses = [styles['wrapper']]
