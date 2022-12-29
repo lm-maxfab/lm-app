@@ -105,6 +105,14 @@ async function postbuild () {
     return jsdom
   })
 
+  // Add a script tag pointing to {{ASSETS_ROOT_URL}}/plugin.js
+  await BUILD_INDEX.editHTMLQuiet(jsdom => {
+    const { document } = jsdom.window
+    const { body } = document
+    body.innerHTML += `<script type="module" defer="" src="{{ASSETS_ROOT_URL}}/plugin.live.js"></script>`
+    return jsdom
+  })
+
   // Replace {{ASSETS_ROOT_URL}} and http://localhost:50001 everywhere
   console.log(chalk.bold(`\n🔗 Relinking assets...\n`))
   const CONFIG = new File(path.join(__dirname, 'config.json'))
