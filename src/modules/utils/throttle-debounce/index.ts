@@ -4,6 +4,7 @@
  * @param delayMs - The throttle delay in ms
  */
 export function throttle (toThrottleFunc: Function, delayMs: number) {
+  // [WIP] possible to fire immediatly and then wait ? For debounce too ?
   let timeout: number|undefined = undefined
   let lastArgs: any[] = []
   return function throttled (...args: any[]) {
