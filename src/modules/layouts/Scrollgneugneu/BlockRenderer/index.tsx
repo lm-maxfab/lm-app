@@ -100,7 +100,6 @@ export default class BlockRenderer extends Component<Props, State> {
       const moduleData = importedData as ModuleData
       if (cssLoader !== undefined && importedHasStyles) {
         // [WIP] do better than cast? 
-        // [WIP] try multiple times if load fails?
         ((importedData as any).styles as string[]).forEach(url => cssLoader(url))
       }
       await this.aSetState(curr => ({ ...curr, moduleLoading: false, moduleLoadErrors: null, moduleData }))
