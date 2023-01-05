@@ -68,12 +68,7 @@ class Longform extends Component<Props, State> {
         content: `<div style="height: 2000px"></div>`,
         layout: 'left-half'
       }, {
-        depth: 'front',
-        type: 'module',
-        content: 'http://localhost:50003/module-example/index.js',
-        layout: 'right-half',
-        trackScroll: true,
-        id: 'mon-module-invisible'
+        id: 'mon-autre-petit-module'
       }]
     }]
     // const rawPagesData = sheetBase?.collection('pages_data').value as PageDataFromSheet[]|undefined

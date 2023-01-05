@@ -1,42 +1,118 @@
+/*
+ * Defined in index.tsx:
+ *
+ * --fixed-blocks-height
+ * --scrolling-block-height
+ * --bg-color-transition-duration
+ * --scroll-panel-z-index
+ */
+
 .wrapper {
   position: relative;
-  // --fixed-blocks-height is defined in index.tsx
+  transition: background-color var(--bg-color-transition-duration);
+  overflow: hidden;
 }
 
-.bg-fixed,
-.fg-fixed {
-  position: sticky;
-  top: 0;
-  height: var(--fixed-blocks-height);
-}
-
-.bg-fixed {
-  z-index: 1;
-}
-
-.fg-fixed {
-  z-index: 3;
-  margin-top: calc(-1 * var(--fixed-blocks-height));
-}
-
-.scrolling {
-  z-index: 2;
-  position: relative;
-  margin-top: calc(-1 * var(--fixed-blocks-height));
-}
-
-.bg-fixed-inner,
-.fg-fixed-inner {
+.sticky-block {
+  /* --z-index is defined in index.tsx */
   position: absolute;
   top: 0;
+  display: inline-block;
+  height: var(--fixed-blocks-height);
+  z-index: var(--z-index);
 }
 
-.bg-fixed-blocks,
-.fg-fixed-blocks {
-  display: none;
+.wrapper.wrapper_fix-blocks {
+  .sticky-block {
+    position: fixed;
+  }
 }
 
-.bg-fixed-blocks_current,
-.fg-fixed-blocks_current {
-  display: block;
+.wrapper.wrapper_offset-fixed-blocks {
+  .sticky-block {
+    position: absolute;
+    top: calc(var(--scrolling-block-height) - var(--fixed-blocks-height));
+  }
 }
+
+.scroll-panel {
+  position: relative;
+  z-index: var(--scroll-panel-z-index);
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * *
+ *
+ * STATUS
+ *
+ * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+.sticky-block.status-current {
+  pointer-events: auto;
+}
+.sticky-block.status-previous,
+.sticky-block.status-inactive {
+  pointer-events: none;
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * *
+ *
+ * LAYOUTS
+ *
+ * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+$minWidth: 801px;
+$maxWidth: 800px;
+
+/* left-half */
+.scrolling-block {
+  &.layout-left-half { @media (min-width: $minWidth) { width: 50%; } }
+  &.layout-mobile-left-half { @media (max-width: $maxWidth) { width: 50%; } }
+}
+
+.sticky-block {
+  &.layout-left-half {
+    @media (min-width: $minWidth) {
+      width: 50%;
+      margin-right: -50%;
+    }
+  }
+  &.layout-mobile-left-half {
+    @media (max-width: $maxWidth) {
+      width: 50%;
+      margin-right: -50%;
+    }
+  }
+}
+
+/* right-half */
+.scrolling-block {
+  &.layout-right-half {
+    @media (min-width: $minWidth) {
+      margin-left: 50%;
+      width: 50%;
+    }
+  }
+  &.layout-mobile-right-half {
+    @media (max-width: $maxWidth) {
+      margin-left: 50%;
+      width: 50%;
+    }
+  }
+}
+
+.sticky-block {
+  &.layout-right-half {
+    @media (min-width: $minWidth) {
+      width: 50%;
+      margin-right: -50%;
+      left: 50%;
+    }
+  }
+  &.layout-mobile-right-half {
+    @media (max-width: $maxWidth) {
+      width: 50%;
+      margin-right: -50%;
+      left: 50%;
+    }
+  }
+} 
