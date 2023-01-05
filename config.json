@@ -2,15 +2,15 @@
   "assets_root_url": "https://assets-decodeurs.lemonde.fr/redacweb/31-2212-essai-scrllgngn-decodeurs",
   "statics_root_url": "https://assets-decodeurs.lemonde.fr/redacweb/statics-v2",
   "spreadsheets_urls": {
-    "production": "https://assets-decodeurs.lemonde.fr/sheets/2czF80H4vCJMr0_40CpdW4npF-4SNw_1498",
-    "staging": "https://assets-decodeurs.lemonde.fr/sheets/2czF80H4vCJMr0_40CpdW4npF-4SNw_1499",
-    "testing": "https://assets-decodeurs.lemonde.fr/sheets/2czF80H4vCJMr0_40CpdW4npF-4SNw_1500",
-    "developpment": "https://assets-decodeurs.lemonde.fr/sheets/2czF80H4vCJMr0_40CpdW4npF-4SNw_1501"
+    "production": "https://assets-decodeurs.lemonde.fr/sheets/CC6mseQrVjGVsNvOisDOf_h3DKsIIw_1632",
+    "staging": "https://assets-decodeurs.lemonde.fr/sheets/CC6mseQrVjGVsNvOisDOf_h3DKsIIw_1633",
+    "testing": "https://assets-decodeurs.lemonde.fr/sheets/CC6mseQrVjGVsNvOisDOf_h3DKsIIw_1634",
+    "developpment": "https://assets-decodeurs.lemonde.fr/sheets/CC6mseQrVjGVsNvOisDOf_h3DKsIIw_1635"
   },
   "layouts": [{
-    "name": "longform",
+    "name": "article",
     "nodes": [
-      { "class": "demo-page-root", "type": "longform" }
+      { "class": "crim-footer-root", "type": "snippet" }
     ]
   }],
   "env": null

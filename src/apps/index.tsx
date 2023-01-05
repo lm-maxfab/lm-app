@@ -1,8 +1,8 @@
 import { AppNodeMap } from '../modules/utils/render-app'
-import Longform from './Longform'
+import Footer from './Footer'
 
 const appsNodes: AppNodeMap[] = [
-  { app: Longform, selector: '.demo-page-root' }
+  { app: Footer, selector: '.crim-footer-root' }
 ]
 
 export default appsNodes
