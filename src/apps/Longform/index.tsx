@@ -1,19 +1,7 @@
 import { Component, JSX } from 'preact'
-import Scrollgneugneu, {
-  BlockDataCommonProperties,
-  BlockDataFixed,
-  BlockDataLayoutName,
-  BlockDataType,
-  PageData
-} from '../../modules/layouts/Scrollgneugneu'
-import { TransitionDescriptor } from '../../modules/layouts/Scrollgneugneu/TransitionsWrapper'
+import Scrollgneugneu, { PropsPageData } from '../../modules/layouts/Scrollgneugneu'
 import appWrapper, { InjectedProps } from '../../modules/utils/app-wrapper-HOC'
 import bem from '../../modules/utils/bem'
-import {
-  GeneralSettings,
-  BlockData as BlockDataFromSheet,
-  PageData as PageDataFromSheet
-} from '../types'
 import './styles.scss'
 
 interface Props extends InjectedProps {}
@@ -28,106 +16,42 @@ class Longform extends Component<Props, State> {
    * * * * * * * * * * * * * * */
   render (): JSX.Element {
     const { props } = this
-    const { sheetBase } = props
-    const generalSettings = sheetBase?.collection('general_settings').entries[0].value as GeneralSettings|undefined
-    const blocksData = sheetBase?.collection('blocks_data').value as BlockDataFromSheet[]|undefined
-    const pagesData: PageData[] = [{
+    const pagesData: PropsPageData[] = [{
       bgColor: 'blue',
       blocks: [{
+        id: 'first-scroll-block',
         depth: 'scroll',
+        zIndex: 3,
         type: 'html',
-        content: `<div style="height: 2000px"></div>`,
-        layout: 'left-half'
+        content: '<div>I am the first scroll content</div>',
+        layout: 'left-half',
+        mobileLayout: 'right-half',
+        transitions: [['whirl', 600]],
+        mobileTransitions: [['grow', 600]],
       }, {
-        depth: 'front',
-        type: 'html',
-        content: `<div>I am a front module</div>`,
-        layout: 'right-half',
-        id: 'mon-petit-module'
-      }]
-    }, {
-      bgColor: 'orange',
-      blocks: [{
-        depth: 'scroll',
-        type: 'html',
-        content: `<div style="height: 2000px"></div>`,
-        layout: 'left-half'
-      }, {
-        depth: 'front',
+        id: 'first-back-block',
+        depth: 'back',
+        zIndex: 0,
         type: 'module',
-        content: 'http://localhost:50003/module-1/index.js',
+        content: 'http://localhost:3003/module-1/index.js',
         layout: 'right-half',
-        trackScroll: true,
-        id: 'mon-autre-petit-module'
+        mobileLayout: 'left-half'
       }]
     }, {
-      bgColor: 'green',
+      bgColor: 'red',
       blocks: [{
         depth: 'scroll',
+        zIndex: 3,
         type: 'html',
-        content: `<div style="height: 2000px"></div>`,
-        layout: 'left-half'
+        content: '<div>I am the second scroll content</div>',
+        layout: 'left-half',
+        mobileLayout: 'right-half',
+        transitions: [['whirl', 600]],
+        mobileTransitions: [['grow', 600]],
       }, {
-        id: 'mon-autre-petit-module'
+        id: 'first-back-block'
       }]
     }]
-    // const rawPagesData = sheetBase?.collection('pages_data').value as PageDataFromSheet[]|undefined
-    // const pagesData: PageData[]|undefined = rawPagesData?.map(rawPageData => {
-    //   const fixedBlocksData: BlockDataFixed[] = []
-    //   rawPageData.blocks_ids?.split(',').map(name => {
-    //     const blockId = name.trim()
-    //     const theActualBlock = blocksData?.find(blockData => blockData.id === blockId)
-    //     if (theActualBlock !== undefined) {
-    //       const extractedBlockData: BlockDataFixed = {
-    //         id: theActualBlock.id as string|undefined,
-    //         depth: (theActualBlock.depth ?? 'back') as 'front'|'back',
-    //         type: theActualBlock.type as BlockDataType|undefined,
-    //         content: theActualBlock.content as BlockDataCommonProperties['content']|undefined,
-    //         layout: theActualBlock.layout as BlockDataLayoutName|undefined,
-    //         mobileLayout: theActualBlock.mobileLayout as BlockDataLayoutName|undefined,
-    //         transitions: theActualBlock.transitions
-    //           ?.split(';')
-    //           .map(str => str
-    //             .trim()
-    //             .split(',')
-    //             .map(str => str.trim())
-    //             .map((val, pos) => {
-    //               if (pos === 0) return val
-    //               if (pos === 1 && val === undefined) return '600ms'
-    //               if (val.match(/[0-9]$/gm)) return `${val}ms`
-    //               return val
-    //             })
-    //           ) as TransitionDescriptor[]|undefined,
-    //         mobileTransitions: theActualBlock.mobileTransitions
-    //           ?.split(';')
-    //           .map(str => str
-    //             .trim()
-    //             .split(',')
-    //             .map(str => str.trim())
-    //             .map((val, pos) => {
-    //               if (pos === 0) return val
-    //               if (pos === 1 && val === undefined) return '600ms'
-    //               if (val.match(/[0-9]$/gm)) return `${val}ms`
-    //               return val
-    //             })
-    //           ) as TransitionDescriptor[]|undefined,
-    //         zIndex: theActualBlock.zIndex,
-    //         trackScroll: theActualBlock.trackScroll
-    //       }
-    //       fixedBlocksData.push(extractedBlockData)
-    //     }
-    //   })
-    //   return {
-    //     bgColor: rawPageData.bg_color,
-    //     blocks: [{
-    //       depth: 'scroll',
-    //       type: 'html',
-    //       content: rawPageData.content,
-    //       layout: rawPageData.layout as BlockDataLayoutName|undefined,
-    //       mobileLayout: rawPageData.mobileLayout as BlockDataLayoutName|undefined
-    //     }, ...fixedBlocksData]
-    //   }
-    // })
 
     // Assign classes and styles
     const wrapperClasses = bem(props.className).block(this.clss)
@@ -139,8 +63,8 @@ class Longform extends Component<Props, State> {
       className={wrapperClasses.value}>
       <Scrollgneugneu
         pages={pagesData}
-        thresholdOffset={generalSettings?.threshold_offset}
-        bgColorTransitionDuration={generalSettings?.bg_color_transition_duration} />
+        thresholdOffset='80%'
+        bgColorTransitionDuration='600ms' />
     </div>
   }
 }
