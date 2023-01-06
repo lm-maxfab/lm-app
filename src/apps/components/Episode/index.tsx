@@ -13,7 +13,7 @@ type State = {
 
 export const className = bem('crim-footer__episode')
 
-export default class GroupBlock extends Component<Props, State> {
+export default class Episode extends Component<Props, State> {
   render() {
 
     const { episode } = this.props

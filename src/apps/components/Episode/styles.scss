@@ -32,7 +32,7 @@
   }
 
   &_surtitle {
-    font-family: var(--ff-marr-sans-condensed, "Marr Sans Cond");
+    font-family: var(--ff-marr-sans-condensed, "Marr-Sans-Condensed");
     font-weight: 500;
     margin-bottom: 4px;
   }
@@ -63,7 +63,7 @@
       bottom: 0;
       left: 0;
       opacity: 0.9;
-      box-shadow: 0 -200px 100px -100px var(--crim-footer-c-background) inset;
+      box-shadow: 0 -100px 100px 0 var(--crim-footer-c-background) inset;
       transition: box-shadow 200ms;
     }
 
@@ -73,7 +73,7 @@
     .crim-footer__episode_card:hover {
 
       .crim-footer__episode_cover::after {
-        box-shadow: 0 -220px 100px -100px var(--crim-footer-c-background) inset;
+        box-shadow: 0 -120px 100px 0 var(--crim-footer-c-background) inset;
       }
 
       .crim-footer__episode_title {

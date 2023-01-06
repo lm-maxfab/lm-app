@@ -1,7 +1,7 @@
 .crim-footer {
-  --crim-footer-margin: 80px;
+  --crim-footer-margin: 0px;
   background-color: var(--crim-footer-c-background);
-  font-family: var(--ff-marr-sans, "Marr Sans");
+  font-family: var(--ff-marr-sans, "Marr-Sans");
   color: #fff;
   padding: 50px 0;
 
@@ -79,11 +79,11 @@
     }
 
     &--left {
-      left: 24px;
+      left: 12px;
     }
 
     &--right {
-      right: 24px;
+      right: 12px;
       grid-column: 2/2;
       text-align: right;
     }
@@ -109,10 +109,27 @@
 
 @media screen and (max-width: 800px) {
   .crim-footer {
-    --crim-footer-margin: 48px;
-
     &__episodes_grid {
       grid-gap: 20px;
     }
   }
 }
+
+// à partir du moment où le carousel ne tient pas en entier, on remet les marges
+.crim-footer {
+  @media screen and (max-width: calc(5 * 240px + 20px)) {
+    --crim-footer-margin: 40px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .crim-footer {
+    --crim-footer-margin: 20px;
+  }
+}
+
+// @media screen and (max-width: calc(var(--crim-footer-episodes-nb) * 240px + var(--crim-footer-margin) * 2)) {
+//   .crim-footer {
+//     background-color: red;
+//   }
+// }

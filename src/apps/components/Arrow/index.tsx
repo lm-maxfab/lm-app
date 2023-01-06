@@ -5,7 +5,7 @@ interface Props {
   pointing: string
 }
 
-export class Arrow extends Component<Props> {
+export default class Arrow extends Component<Props> {
   render(props: Props): JSX.Element {
     const rotate = props.pointing === 'left' ? 180 : 0
 

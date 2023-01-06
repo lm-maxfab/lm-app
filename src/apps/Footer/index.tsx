@@ -4,11 +4,8 @@ import bem from '../../modules/utils/bem'
 import { GeneralData, EpisodeData } from '../types'
 import './styles.scss'
 
-import getConfig from '../../modules/utils/get-config'
 import Episode from '../components/Episode'
-import { Arrow } from '../components/Arrow'
-
-const config = getConfig()
+import Arrow from '../components/Arrow'
 
 interface Props extends InjectedProps { }
 interface State {
@@ -143,10 +140,12 @@ class Footer extends Component<Props, State> {
 
     console.log(this.maxTranslateValue + this.carouselTranslateValue)
 
-    if (this.maxTranslateValue + this.carouselTranslateValue < 60) {
-      console.log('on rallonge pour éviter une étape awkward....')
-      console.log(this.maxTranslateValue + this.carouselTranslateValue)
-      this.carouselTranslateValue -= (this.maxTranslateValue + this.carouselTranslateValue)
+    if (direction === "next") {
+      if (this.maxTranslateValue + this.carouselTranslateValue < 60) {
+        console.log('on rallonge pour éviter une étape awkward....')
+        console.log(this.maxTranslateValue + this.carouselTranslateValue)
+        this.carouselTranslateValue -= (this.maxTranslateValue + this.carouselTranslateValue)
+      }
     }
 
     console.log(this.carouselTranslateValue)
@@ -172,13 +171,13 @@ class Footer extends Component<Props, State> {
       ...props.style,
       ['--crim-footer-c-background']: '#181A1E',
       ['--crim-footer-episodes-nb']: episodesData.length,
+      ['--crim-footer-wrapper-width']: episodesData.length * this.carouselImageWidth + 'px',
     }
 
     this.carouselTranslateSnapValues = []
     for (let i = 0; i < episodesData.length + 1; i++) {
       this.carouselTranslateSnapValues.push(- i * this.carouselImageWidth)
     }
-
 
     // Display
 
