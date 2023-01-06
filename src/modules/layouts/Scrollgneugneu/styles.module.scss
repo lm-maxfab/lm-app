@@ -4,7 +4,7 @@
  * --fixed-blocks-height
  * --scrolling-block-height
  * --bg-color-transition-duration
- * --scroll-panel-z-index
+ * --scroll-panel-z-index // [WIP] I think we dont need this anymore
  */
 
 .wrapper {
@@ -37,7 +37,7 @@
 
 .scroll-panel {
   position: relative;
-  z-index: var(--scroll-panel-z-index);
+  z-index: var(--scroll-panel-z-index); // [WIP] I think we dont need this anymore
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * *

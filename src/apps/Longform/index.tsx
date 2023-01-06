@@ -50,8 +50,22 @@ class Longform extends Component<Props, State> {
         mobileTransitions: [['grow', 600]],
       }, {
         id: 'first-back-block'
+      }, {
+        id: 'second-back-block',
+        type: 'html',
+        depth: 'back',
+        content: '<div>I am the second back block</div>'
       }]
-    }]
+    },
+    {},
+    { blocks: [{id: 'first-back-block' }, {id: 'second-back-block' }] },
+    { blocks: [{id: 'first-back-block' }] },
+    { blocks: [{id: 'first-back-block' }, {id: 'second-back-block' }] },
+    {},
+    {},
+    { blocks: [{id: 'first-back-block' }, {id: 'second-back-block' }] },
+    { blocks: [{id: 'first-back-block' }, {id: 'second-back-block' }] }
+  ]
 
     // Assign classes and styles
     const wrapperClasses = bem(props.className).block(this.clss)
