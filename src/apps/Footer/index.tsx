@@ -202,10 +202,10 @@ class Footer extends Component<Props, State> {
         </div>
         <div class="crim-footer__episodes_arrows">
           {this.state.displayPrevArrow && <div class="crim-footer__episodes_arrow crim-footer__episodes_arrow--left" onClick={() => this.translateCarousel('prev')}>
-            <Arrow pointing={'left' as string}></Arrow>
+            <Arrow pointing='left'></Arrow>
           </div>}
           {this.state.displayNextArrow && <div class="crim-footer__episodes_arrow crim-footer__episodes_arrow--right" onClick={() => this.translateCarousel('next')}>
-            <Arrow pointing={'right' as string}></Arrow>
+            <Arrow pointing='right'></Arrow>
           </div>}
         </div>
       </div>

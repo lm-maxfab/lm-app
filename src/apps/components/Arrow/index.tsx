@@ -6,8 +6,8 @@ interface Props extends InjectedProps {
 }
 
 export class Arrow extends Component<Props> {
-  render({ pointing }): JSX.Element {
-    const rotate = pointing === 'left' ? 180 : 0
+  render(props: Props): JSX.Element {
+    const rotate = props.pointing === 'left' ? 180 : 0
 
     const inlineStyle = `transform: rotate(${rotate}deg);`
 
