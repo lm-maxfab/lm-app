@@ -1,0 +1,118 @@
+.crim-footer {
+  --crim-footer-margin: 80px;
+  background-color: var(--crim-footer-c-background);
+  font-family: var(--ff-marr-sans, "Marr Sans");
+  color: #fff;
+  padding: 50px 0;
+
+  &__header {
+    text-align: center;
+    max-width: 660px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  &__title {
+    font-family: var(--ff-the-antiqua-b, "The-Antiqua-B");
+    font-weight: 800;
+    font-size: 48px;
+    line-height: 112.5%;
+    margin-bottom: 30px;
+  }
+
+  &__chapo {
+    font-size: 18px;
+    line-height: 140%;
+  }
+
+  &__episodes_wrapper {
+    width: 100%;
+    margin-top: 60px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  &__episodes {
+    margin: 0 auto;
+    padding: 0 var(--crim-footer-margin);
+    width: calc(var(--crim-footer-episodes-nb) * 240px + var(--crim-footer-margin) * 2);
+    transition: transform 600ms;
+    // scroll-snap-type: x mandatory;
+    // overscroll-behavior-x: contain;
+
+    // > div {
+    //   scroll-snap-align: center;
+    // }
+  }
+
+  &__episodes_grid {
+    width: 100%;
+    display: grid;
+    grid-gap: 40px;
+    grid-template-columns: repeat(var(--crim-footer-episodes-nb), 1fr);
+    margin: 0 auto;
+  }
+
+  // &__episodes_arrows {
+  //   display: flex;
+  //   align-items: center;
+  // }
+
+  &__episodes_arrow {
+    cursor: pointer;
+    background-color: #EBEBEB;
+    height: 42px;
+    width: 42px;
+    border-radius: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: background-color 400ms;
+
+    @media (hover: hover) {
+      &:hover {
+        background-color: #c4c4c4;
+      }
+    }
+
+    &--left {
+      left: 24px;
+    }
+
+    &--right {
+      right: 24px;
+      grid-column: 2/2;
+      text-align: right;
+    }
+  }
+
+  @media screen and (max-width: 800px) {
+    &__title {
+      font-size: 24px;
+      line-height: 150%;
+      margin-bottom: 20px;
+    }
+
+    &__chapo {
+      font-size: 16px;
+      line-height: 125%;
+    }
+
+    &__episodes_wrapper {
+      margin-top: 40px;
+    }
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .crim-footer {
+    --crim-footer-margin: 48px;
+
+    &__episodes_grid {
+      grid-gap: 20px;
+    }
+  }
+}

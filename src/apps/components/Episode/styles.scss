@@ -1,0 +1,113 @@
+.crim-footer__episode {
+  &_card {
+    display: grid;
+    position: relative;
+
+    >* {
+      grid-area: 1 / -1;
+    }
+
+    a {
+      border-bottom: 0 !important;
+    }
+  }
+
+  &_cover {
+    position: relative;
+
+    img {
+      max-width: 100%;
+    }
+  }
+
+  &_title {
+    font-family: var(--ff-the-antiqua-b, "The-Antiqua-B");
+    font-weight: 800;
+    font-size: 18px;
+    line-height: 140%;
+    position: absolute;
+    bottom: 0;
+    padding: 15px 12px;
+    transition: transform 200ms;
+  }
+
+  &_surtitle {
+    font-family: var(--ff-marr-sans-condensed, "Marr Sans Cond");
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+
+  &_surtitle span:first-child {
+    text-transform: uppercase;
+    font-size: 14px;
+    line-height: 125%;
+    letter-spacing: 10%;
+  }
+
+  &_publication_infos {
+    padding-left: 4px;
+    font-size: 16px;
+    line-height: 112.5%;
+  }
+}
+
+.crim-footer__episode--published {
+  .crim-footer__episode {
+
+    &_cover::after {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      opacity: 0.9;
+      box-shadow: 0 -200px 100px -100px var(--crim-footer-c-background) inset;
+      transition: box-shadow 200ms;
+    }
+
+  }
+
+  @media (hover: hover) {
+    .crim-footer__episode_card:hover {
+
+      .crim-footer__episode_cover::after {
+        box-shadow: 0 -220px 100px -100px var(--crim-footer-c-background) inset;
+      }
+
+      .crim-footer__episode_title {
+        transform: translateY(-8px);
+      }
+    }
+  }
+}
+
+.crim-footer__episode:not(.crim-footer__episode--published) {
+  .crim-footer__episode {
+    &_title {
+      opacity: 0.4;
+    }
+
+    &_card {
+      pointer-events: none;
+    }
+
+    &_cover::after {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background: var(--crim-footer-c-background);
+      opacity: 0.9;
+    }
+
+    &_surtitle span:first-child {
+      opacity: 0.4;
+    }
+
+  }
+}

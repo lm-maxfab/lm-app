@@ -5,27 +5,36 @@ import { SheetBaseEntryValue } from '../../../modules/utils/sheet-base'
 import './styles.scss'
 
 type Props = {
-  episode?: EpisodeData | SheetBaseEntryValue,
+  episode?: EpisodeData,
 }
 
 type State = {
 }
 
-export const className = bem('crim-footer-episode')
+export const className = bem('crim-footer__episode')
 
 export default class GroupBlock extends Component<Props, State> {
   render() {
 
     const { episode } = this.props
 
-    return <div>
-      <p>
+    const isPublishedClass = episode?.published ? 'crim-footer__episode--published' : 'crim-footer__episode'
+
+    const classList = `crim-footer__episode ${isPublishedClass}`
+
+    return <div class={classList}>
+      <p class="crim-footer__episode_surtitle">
         <span>Épisode {episode?.id}</span>
-        {!episode?.published && <span>À paraître le {episode?.date}</span>}
+        {!episode?.published && <span class="crim-footer__episode_publication_infos">À paraître le {episode?.date}</span>}
       </p>
 
-      <div>
-        <p>{episode?.title}</p>
+      <div class="crim-footer__episode_card">
+        <a href={episode?.url}>
+          <div class="crim-footer__episode_cover">
+            <img src={episode?.cover} alt="" />
+          </div>
+          <p class="crim-footer__episode_title">{episode?.title}</p>
+        </a>
       </div>
 
     </div>
