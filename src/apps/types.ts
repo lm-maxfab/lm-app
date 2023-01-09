@@ -6,7 +6,9 @@ export interface SheetBaseCollectionData {
 
 export interface GeneralData extends SheetBaseCollectionData {
   title?: VNode | string,
-  chapo?: string,
+  chapo?: VNode | string,
+  cta_text?: VNode | string,
+  cta_url?: string,
 }
 
 export interface EpisodeData extends SheetBaseCollectionData {

@@ -6,6 +6,7 @@ import './styles.scss'
 
 import Episode from '../components/Episode'
 import Arrow from '../components/Arrow'
+import Button from '../components/Button'
 
 interface Props extends InjectedProps { }
 interface State {
@@ -160,6 +161,9 @@ class Footer extends Component<Props, State> {
     const wrapperStyle: JSX.CSSProperties = {
       ...props.style,
       ['--crim-footer-c-background']: '#181A1E',
+      ['--crim-footer-c-cta-text']: '#1A1E25',
+      ['--crim-footer-c-light']: '#C4C4C4',
+      ['--crim-footer-c-lightest']: '#EBEBEB',
       ['--crim-footer-episodes-nb']: episodesData.length,
       ['--crim-footer-wrapper-width']: episodesData.length * this.carouselImageWidth + 'px',
     }
@@ -178,6 +182,9 @@ class Footer extends Component<Props, State> {
       <div class="crim-footer__header">
         <h3 class="crim-footer__title">{generalData.title}</h3>
         <p class="crim-footer__chapo">{generalData.chapo}</p>
+        {generalData.cta_url ?
+          <Button text={generalData.cta_text} url={generalData.cta_url} />
+          : ''}
       </div>
 
       <div class="crim-footer__episodes_wrapper">

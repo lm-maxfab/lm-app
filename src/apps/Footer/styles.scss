@@ -57,7 +57,7 @@
 
   &__episodes_arrow {
     cursor: pointer;
-    background-color: #EBEBEB;
+    background-color: var(--crim-footer-c-lightest);
     height: 42px;
     width: 42px;
     border-radius: 42px;
@@ -71,7 +71,7 @@
 
     @media (hover: hover) {
       &:hover {
-        background-color: #c4c4c4;
+        background-color: var(--crim-footer-c-light);
       }
     }
 
