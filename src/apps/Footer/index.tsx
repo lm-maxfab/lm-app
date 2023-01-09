@@ -29,7 +29,7 @@ class Footer extends Component<Props, State> {
 
     this.episodesCarouselRef = createRef();
     this.episodesScrollContainerRef = createRef();
-    this.carouselImageWidth = 244; // largeur de l'image (224) + grid gap (20)
+    this.carouselImageWidth = 244; // largeur de l'image + grid gap/nb d'images
     this.carouselScrollValue = 0;
     this.carouselTranslateSnapValues = []
     this.containerWidth = 0
