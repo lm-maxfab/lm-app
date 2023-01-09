@@ -14,26 +14,26 @@ interface State {
 }
 
 class Footer extends Component<Props, State> {
-  episodesWrapperRef: any
   episodesCarouselRef: any
+  episodesScrollContainerRef: any
   carouselImageWidth: number
-  carouselTranslateValue: number
+  carouselScrollValue: number
   carouselTranslateSnapValues: number[]
-  wrapperWidth: number
+  containerWidth: number
   carouselWidth: number
-  maxTranslateValue: number
+  maxScrollValue: number
 
   constructor() {
     super()
 
-    this.episodesWrapperRef = createRef();
     this.episodesCarouselRef = createRef();
+    this.episodesScrollContainerRef = createRef();
     this.carouselImageWidth = 244; // largeur de l'image (224) + grid gap (20)
-    this.carouselTranslateValue = 0;
+    this.carouselScrollValue = 0;
     this.carouselTranslateSnapValues = []
-    this.wrapperWidth = 0
+    this.containerWidth = 0
     this.carouselWidth = 0
-    this.maxTranslateValue = 0
+    this.maxScrollValue = 0
 
     this.handleResize = this.handleResize.bind(this);
   }
@@ -54,25 +54,30 @@ class Footer extends Component<Props, State> {
     this.updateArrows()
   }
 
+  handleScroll() {
+    this.carouselScrollValue = this.episodesScrollContainerRef.current.scrollLeft
+    this.updateArrows()
+  }
+
   calculateDimensions() {
-    const wrapper = this.episodesWrapperRef.current
+    const scrollContainer = this.episodesScrollContainerRef.current
     const carousel = this.episodesCarouselRef.current
 
-    this.wrapperWidth = wrapper.getBoundingClientRect().width
+    this.containerWidth = scrollContainer.getBoundingClientRect().width
     this.carouselWidth = carousel.getBoundingClientRect().width
-    this.maxTranslateValue = this.carouselWidth - this.wrapperWidth
+    this.maxScrollValue = this.carouselWidth - this.containerWidth
   }
 
   updateArrows() {
     let displayPrevArrow = true
     let displayNextArrow = true
 
-    if (this.wrapperWidth > this.carouselWidth) {
+    if (this.containerWidth > this.carouselWidth) {
       displayPrevArrow = false
       displayNextArrow = false
     } else {
-      displayPrevArrow = this.carouselTranslateValue >= 0 ? false : true
-      displayNextArrow = Math.abs(this.carouselTranslateValue) >= this.maxTranslateValue ? false : true
+      displayPrevArrow = this.carouselScrollValue <= 0 ? false : true
+      displayNextArrow = this.carouselScrollValue >= this.maxScrollValue ? false : true
     }
 
     this.setState(curr => ({
@@ -83,17 +88,14 @@ class Footer extends Component<Props, State> {
   }
 
   handleResize() {
-    console.log(this.episodesCarouselRef)
-    const carousel = this.episodesCarouselRef.current
+    const scrollContainer = this.episodesScrollContainerRef.current
     this.calculateDimensions()
 
-    console.log(this.handleResize)
-
-    if (this.wrapperWidth > this.carouselWidth) {
-      carousel.style.transform = `translateX(0px)`
-    } else if (Math.abs(this.carouselTranslateValue) > this.maxTranslateValue) {
-      this.carouselTranslateValue = -this.maxTranslateValue;
-      carousel.style.transform = `translateX(${this.carouselTranslateValue}px)`
+    if (this.containerWidth > this.carouselWidth) {
+      scrollContainer.scrollLeft = 0
+    } else if (this.carouselScrollValue > this.maxScrollValue) {
+      this.carouselScrollValue = this.maxScrollValue;
+      scrollContainer.scrollLeft = this.carouselScrollValue
     }
 
     this.updateArrows()
@@ -101,56 +103,46 @@ class Footer extends Component<Props, State> {
 
 
   translateCarousel(direction: string) {
-    console.log('on translate!')
-    console.log(direction)
+    if (this.containerWidth > this.carouselWidth) return
 
-    if (this.wrapperWidth > this.carouselWidth) return
-
-    const carousel = this.episodesCarouselRef.current
-    const scrollValue = this.wrapperWidth < this.carouselImageWidth ? this.carouselImageWidth : this.wrapperWidth
+    const scrollValue = this.containerWidth < this.carouselImageWidth ? this.carouselImageWidth : this.containerWidth
 
     if (direction === 'next') {
-      this.carouselTranslateValue -= scrollValue
+      this.carouselScrollValue += scrollValue
     } else {
-      this.carouselTranslateValue += scrollValue
+      this.carouselScrollValue -= scrollValue
     }
 
-    if (this.carouselTranslateValue > this.carouselTranslateSnapValues[1] && this.carouselTranslateValue < 0) {
-      this.carouselTranslateValue = this.carouselTranslateSnapValues[1]
+    if (this.carouselScrollValue < this.carouselTranslateSnapValues[1] && this.carouselScrollValue > 0) {
+      this.carouselScrollValue = this.carouselTranslateSnapValues[1]
     }
 
-    if (this.carouselTranslateValue > 0) this.carouselTranslateValue = 0
+    if (this.carouselScrollValue < 0) this.carouselScrollValue = 0
 
     let filteredValues = [...this.carouselTranslateSnapValues]
 
-    console.log('max', this.maxTranslateValue)
-    console.log('snap values', filteredValues)
-
     if (direction === 'next') {
-      filteredValues = filteredValues.filter(val => val >= this.carouselTranslateValue);
-      this.carouselTranslateValue = Math.min(...filteredValues);
+      filteredValues = filteredValues.filter(val => val <= this.carouselScrollValue);
+      this.carouselScrollValue = Math.max(...filteredValues);
     } else {
-      filteredValues = filteredValues.filter(val => val <= this.carouselTranslateValue);
-      this.carouselTranslateValue = Math.max(...filteredValues);
+      filteredValues = filteredValues.filter(val => val >= this.carouselScrollValue);
+      this.carouselScrollValue = Math.min(...filteredValues);
     }
 
-    if (Math.abs(this.carouselTranslateValue) > this.maxTranslateValue) {
-      this.carouselTranslateValue = -this.maxTranslateValue;
+    if (this.carouselScrollValue > this.maxScrollValue) {
+      this.carouselScrollValue = this.maxScrollValue;
     }
-
-    console.log(this.maxTranslateValue + this.carouselTranslateValue)
 
     if (direction === "next") {
-      if (this.maxTranslateValue + this.carouselTranslateValue < 60) {
-        console.log('on rallonge pour éviter une étape awkward....')
-        console.log(this.maxTranslateValue + this.carouselTranslateValue)
-        this.carouselTranslateValue -= (this.maxTranslateValue + this.carouselTranslateValue)
+      if (this.maxScrollValue - this.carouselScrollValue < 60) {
+        this.carouselScrollValue += (this.maxScrollValue - this.carouselScrollValue)
       }
     }
 
-    console.log(this.carouselTranslateValue)
-
-    carousel.style.transform = `translateX(${this.carouselTranslateValue}px)`
+    this.episodesScrollContainerRef.current.scroll({
+      left: this.carouselScrollValue,
+      behavior: 'smooth'
+    });
 
     this.updateArrows()
   }
@@ -165,8 +157,6 @@ class Footer extends Component<Props, State> {
     const generalData = props.sheetBase?.collection('general').value[0] as unknown as GeneralData;
     const episodesData = props.sheetBase?.collection('episodes').value ?? [] as unknown as EpisodeData[];
 
-    // Assign classes and styles
-    const wrapperClasses = bem(props.className).block(this.clss)
     const wrapperStyle: JSX.CSSProperties = {
       ...props.style,
       ['--crim-footer-c-background']: '#181A1E',
@@ -176,7 +166,7 @@ class Footer extends Component<Props, State> {
 
     this.carouselTranslateSnapValues = []
     for (let i = 0; i < episodesData.length + 1; i++) {
-      this.carouselTranslateSnapValues.push(- i * this.carouselImageWidth)
+      this.carouselTranslateSnapValues.push(i * this.carouselImageWidth)
     }
 
     // Display
@@ -190,13 +180,15 @@ class Footer extends Component<Props, State> {
         <p class="crim-footer__chapo">{generalData.chapo}</p>
       </div>
 
-      <div ref={this.episodesWrapperRef} class="crim-footer__episodes_wrapper">
-        <div ref={this.episodesCarouselRef} class="crim-footer__episodes">
-          <div class="crim-footer__episodes_grid">
-            {episodesData.map((episode) => {
-              return <>
-                <Episode episode={episode as EpisodeData} /></>
-            })}
+      <div class="crim-footer__episodes_wrapper">
+        <div ref={this.episodesScrollContainerRef} onScroll={() => this.handleScroll()} class="crim-footer__episodes_scrollable">
+          <div ref={this.episodesCarouselRef} class="crim-footer__episodes">
+            <div class="crim-footer__episodes_grid">
+              {episodesData.map((episode) => {
+                return <>
+                  <Episode episode={episode as EpisodeData} /></>
+              })}
+            </div>
           </div>
         </div>
         <div class="crim-footer__episodes_arrows">

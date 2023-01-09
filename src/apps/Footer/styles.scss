@@ -32,17 +32,19 @@
     position: relative;
   }
 
+  &__episodes_scrollable {
+    overflow-x: scroll;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
   &__episodes {
     margin: 0 auto;
     padding: 0 var(--crim-footer-margin);
     width: calc(var(--crim-footer-episodes-nb) * 240px + var(--crim-footer-margin) * 2);
     transition: transform 600ms;
-    // scroll-snap-type: x mandatory;
-    // overscroll-behavior-x: contain;
-
-    // > div {
-    //   scroll-snap-align: center;
-    // }
   }
 
   &__episodes_grid {
@@ -52,11 +54,6 @@
     grid-template-columns: repeat(var(--crim-footer-episodes-nb), 1fr);
     margin: 0 auto;
   }
-
-  // &__episodes_arrows {
-  //   display: flex;
-  //   align-items: center;
-  // }
 
   &__episodes_arrow {
     cursor: pointer;
