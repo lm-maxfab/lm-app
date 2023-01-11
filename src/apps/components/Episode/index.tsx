@@ -12,8 +12,12 @@ export default class Episode extends Component<Props, State> {
   render() {
     const { episode } = this.props
 
-    const episodeClasses = [styles['episode']]
-    if (episode?.published) episodeClasses.push(styles['episode-published'])
+    const episodeClasses = [styles['episode'], 'lm-footer__episode']
+
+    if (episode?.published) {
+      episodeClasses.push(styles['episode-published'])
+      episodeClasses.push('lm-footer__episode--published')
+    }
 
     return <div className={episodeClasses.join(' ')}>
 
