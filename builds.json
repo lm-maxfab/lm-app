@@ -1353,6 +1353,17 @@
       },
       "description": "",
       "time": "2023-01-09T14:30:13.467Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 5
+      },
+      "description": "",
+      "time": "2023-01-11T16:52:01.732Z"
     }
   ]
 }
