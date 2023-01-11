@@ -23,7 +23,7 @@ class Longform extends Component<Props, State> {
         depth: 'scroll',
         zIndex: 3,
         type: 'html',
-        content: '<div>I am the first scroll content</div>',
+        content: '<div style="height: 2000px; background-color: violet;">I am the first scroll content</div>',
         layout: 'left-half',
         mobileLayout: 'right-half',
         transitions: [['whirl', 600]],
@@ -33,7 +33,7 @@ class Longform extends Component<Props, State> {
         depth: 'back',
         zIndex: 0,
         type: 'module',
-        content: 'http://localhost:3003/module-1/index.js',
+        content: 'http://localhost:50003/module-1/index.js',
         layout: 'right-half',
         mobileLayout: 'left-half'
       }]
@@ -43,7 +43,7 @@ class Longform extends Component<Props, State> {
         depth: 'scroll',
         zIndex: 3,
         type: 'html',
-        content: '<div>I am the second scroll content</div>',
+        content: '<div style="height: 2000px; background-color: chocolate;">I am the second scroll content</div>',
         layout: 'left-half',
         mobileLayout: 'right-half',
         transitions: [['whirl', 600]],
@@ -54,6 +54,7 @@ class Longform extends Component<Props, State> {
         id: 'second-back-block',
         type: 'html',
         depth: 'back',
+        layout: 'right-half',
         content: '<div>I am the second back block</div>'
       }]
     },
@@ -78,7 +79,7 @@ class Longform extends Component<Props, State> {
       <Scrollgneugneu
         pages={pagesData}
         thresholdOffset='80%'
-        bgColorTransitionDuration='600ms' />
+        bgColorTransitionDuration='1s' />
     </div>
   }
 }
