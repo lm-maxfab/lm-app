@@ -3,8 +3,8 @@ import { Component, createRef } from 'preact'
 import { EpisodeData } from '../../types'
 import ResizeObserverComponent from '../../../modules/components/ResizeObserver'
 import Arrow from '../Arrow'
-import styles from './styles.module.scss'
 import Episode from '../Episode'
+import styles from './styles.module.scss'
 
 type Props = {
   episodes: EpisodeData[]
@@ -23,14 +23,13 @@ export default class Carousel extends Component<Props, State> {
     displayRightArrow: false,
   }
 
-  cardWidth = 240
-  cardGap = 20
+  cardWidth: number = 240
+  cardGap: number = 20
 
   snapValues: number[] = []
   scrollValue: number = 0
   maxScrollValue: number = 0
 
-  cardsWidth: number = 0
   containerWidth: number = 0
 
   scrollContainer: any
@@ -75,14 +74,11 @@ export default class Carousel extends Component<Props, State> {
 
   calculateDimensions() {
     this.containerWidth = this.scrollContainer.current.getBoundingClientRect().width
-    this.cardsWidth = this.props.episodes.length * (this.cardGap + this.cardWidth)
-    const shouldOverflow = this.cardsWidth > this.containerWidth
+    const cardsWidth = this.props.episodes.length * (this.cardGap + this.cardWidth)
+    const shouldOverflow = cardsWidth > this.containerWidth
 
-    console.log("scroll container", this.scrollContainer)
-    console.log("cards container", this.cardsContainer)
     const cardsActualWidth = this.cardsContainer?.current.getBoundingClientRect().width
     this.maxScrollValue = cardsActualWidth - this.containerWidth
-    console.log(this.maxScrollValue)
 
     this.snapValues = []
     for (let i = 0; i < this.props.episodes.length + 1; i++) {
@@ -174,7 +170,7 @@ export default class Carousel extends Component<Props, State> {
       <div onClick={() => this.translateCarousel('next')} className={arrowRightClasses.join(' ')}>
         <Arrow pointing='right' />
       </div>
-      
+
     </div>
   }
 }

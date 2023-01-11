@@ -40,6 +40,7 @@
   transform: translateY(-50%);
   transition: background-color 400ms, opacity 200ms 100ms;
   opacity: 0;
+  pointer-events: none;
   display: none;
 
   &-left {
@@ -51,6 +52,7 @@
   }
 
   &-visible {
+    pointer-events: initial;
     opacity: 1;
   }
 

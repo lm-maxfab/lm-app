@@ -1,4 +1,4 @@
-import { Component, JSX, createRef } from 'preact'
+import { Component, JSX } from 'preact'
 import appWrapper, { InjectedProps } from '../../modules/utils/app-wrapper-HOC'
 import { GeneralData, EpisodeData } from '../types'
 import Carousel from '../components/Carousel'
