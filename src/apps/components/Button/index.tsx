@@ -1,6 +1,6 @@
 import { Component, VNode } from 'preact'
 import SmallArrow from '../SmallArrow'
-import './styles.scss'
+import styles from './styles.module.scss'
 
 type Props = {
   text?: VNode | string,
@@ -14,7 +14,7 @@ export default class Episode extends Component<Props, State> {
   render() {
     const { url, text } = this.props
 
-    return <div class='crim-footer__cta'>
+    return <div className={styles['cta']}>
       <a href={url}>
         <span>{text}<SmallArrow /></span>
       </a>

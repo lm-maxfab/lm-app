@@ -1,5 +1,4 @@
 import { Component } from 'preact'
-import { InjectedProps } from '../../../modules/utils/app-wrapper-HOC'
 
 interface Props {
   pointing: string

@@ -1,41 +1,35 @@
 import { Component } from 'preact'
-import bem from '../../../modules/utils/bem'
 import { EpisodeData } from '../../types'
-import { SheetBaseEntryValue } from '../../../modules/utils/sheet-base'
-import './styles.scss'
+import styles from './styles.module.scss'
 
 type Props = {
   episode?: EpisodeData,
 }
 
-type State = {
-}
-
-export const className = bem('crim-footer__episode')
+type State = { }
 
 export default class Episode extends Component<Props, State> {
   render() {
-
     const { episode } = this.props
 
-    const isPublishedClass = episode?.published ? 'crim-footer__episode--published' : 'crim-footer__episode'
+    const episodeClasses = [styles['episode']]
+    if (episode?.published) episodeClasses.push(styles['episode-published'])
 
-    const classList = `crim-footer__episode ${isPublishedClass}`
+    return <div className={episodeClasses.join(' ')}>
 
-    return <div class={classList}>
-      <p class="crim-footer__episode_surtitle">
-        <span>Épisode {episode?.id}</span>
-        {!episode?.published && <span class="crim-footer__episode_publication_infos">À paraître le {episode?.date}</span>}
-      </p>
+      {episode?.text_top && <p className={styles["episode_text-top"]}>{episode?.text_top}</p>}
 
-      <div class="crim-footer__episode_card">
-        <a href={episode?.url}>
-          <div class="crim-footer__episode_cover">
+      <div className={styles["episode_card"]}>
+        <a href={episode?.url ?? ''}>
+          <div className={styles["episode_cover"]}>
             <img src={episode?.cover} alt="" />
           </div>
-          <p class="crim-footer__episode_title">{episode?.title}</p>
+
+          {episode?.text_card && <p className={styles["episode_text-card"]}>{episode?.text_card}</p>}
         </a>
       </div>
+
+      {episode?.text_bottom && <p className={styles["episode_text-bottom"]}>{episode?.text_bottom}</p>}
 
     </div>
   }

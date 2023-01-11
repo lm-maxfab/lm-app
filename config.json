@@ -10,7 +10,7 @@
   "layouts": [{
     "name": "article",
     "nodes": [
-      { "class": "crim-footer-root", "type": "snippet" }
+      { "class": "footer-root", "type": "snippet" }
     ]
   }],
   "env": null
