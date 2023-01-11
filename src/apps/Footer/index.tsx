@@ -24,19 +24,28 @@ class Footer extends Component<Props, State> {
   carouselWidth: number
   maxScrollValue: number
 
-  constructor() {
-    super()
+  constructor(props: Props) {
+    super(props)
 
-    this.episodesCarouselRef = createRef();
-    this.episodesScrollContainerRef = createRef();
-    this.carouselImageWidth = 244; // largeur de l'image + grid gap/nb d'images
-    this.carouselScrollValue = 0;
+    this.episodesCarouselRef = createRef()
+    this.episodesScrollContainerRef = createRef()
+
+    // ???
+    // à déplacer pour le calculer à partir du nb d'épisodes en props
+    // ou récupérer les données du spreadsheet ici ?
+    // const episodesData = props.sheetBase?.collection('episodes').value ?? [] as unknown as EpisodeData[];
+    // this.carouselImageWidth = 240 + (20 / episodesData.length); 
+    this.carouselImageWidth = 244 // =(largeur de l'image + (grid gap/nb de blocs)) 
+
+    this.carouselScrollValue = 0
     this.carouselTranslateSnapValues = []
     this.containerWidth = 0
     this.carouselWidth = 0
     this.maxScrollValue = 0
 
-    this.handleResize = this.handleResize.bind(this);
+    this.handleResize = this.handleResize.bind(this)
+    this.handleScroll = this.handleScroll.bind(this)
+    this.calculateDimensions = this.calculateDimensions.bind(this)
   }
 
   static clss: string = 'crim-footer'
@@ -47,11 +56,12 @@ class Footer extends Component<Props, State> {
     displayNextArrow: false,
   }
 
-
   componentDidMount() {
     window.addEventListener('resize', this.handleResize)
 
     this.calculateDimensions()
+    setTimeout(this.calculateDimensions, 1000)
+
     this.updateArrows()
   }
 
@@ -66,6 +76,7 @@ class Footer extends Component<Props, State> {
 
     this.containerWidth = scrollContainer.getBoundingClientRect().width
     this.carouselWidth = carousel.getBoundingClientRect().width
+
     this.maxScrollValue = this.carouselWidth - this.containerWidth
   }
 
@@ -77,8 +88,8 @@ class Footer extends Component<Props, State> {
       displayPrevArrow = false
       displayNextArrow = false
     } else {
-      displayPrevArrow = this.carouselScrollValue <= 0 ? false : true
-      displayNextArrow = this.carouselScrollValue >= this.maxScrollValue ? false : true
+      displayPrevArrow = this.carouselScrollValue > 0
+      displayNextArrow = this.carouselScrollValue < this.maxScrollValue
     }
 
     this.setState(curr => ({
@@ -106,16 +117,13 @@ class Footer extends Component<Props, State> {
   translateCarousel(direction: string) {
     if (this.containerWidth > this.carouselWidth) return
 
+    // soit on vise un décalage d'une largeur d'écran, soit d'une card (si largeur d'écran trop petite)
     const scrollValue = this.containerWidth < this.carouselImageWidth ? this.carouselImageWidth : this.containerWidth
 
     if (direction === 'next') {
       this.carouselScrollValue += scrollValue
     } else {
       this.carouselScrollValue -= scrollValue
-    }
-
-    if (this.carouselScrollValue < this.carouselTranslateSnapValues[1] && this.carouselScrollValue > 0) {
-      this.carouselScrollValue = this.carouselTranslateSnapValues[1]
     }
 
     if (this.carouselScrollValue < 0) this.carouselScrollValue = 0
@@ -134,17 +142,14 @@ class Footer extends Component<Props, State> {
       this.carouselScrollValue = this.maxScrollValue;
     }
 
+    // on évite les étapes minuscules (si on est à moins de 60px de la fin, on va direct à la fin)
     if (direction === "next") {
       if (this.maxScrollValue - this.carouselScrollValue < 60) {
         this.carouselScrollValue += (this.maxScrollValue - this.carouselScrollValue)
       }
     }
 
-    this.episodesScrollContainerRef.current.scroll({
-      left: this.carouselScrollValue,
-      behavior: 'smooth'
-    });
-
+    this.episodesScrollContainerRef.current.scrollLeft = this.carouselScrollValue
     this.updateArrows()
   }
 
@@ -164,14 +169,28 @@ class Footer extends Component<Props, State> {
       ['--crim-footer-c-cta-text']: '#1A1E25',
       ['--crim-footer-c-light']: '#C4C4C4',
       ['--crim-footer-c-lightest']: '#EBEBEB',
+      ['--crim-footer-card-width']: '240px',
       ['--crim-footer-episodes-nb']: episodesData.length,
-      ['--crim-footer-wrapper-width']: episodesData.length * this.carouselImageWidth + 'px',
     }
 
+    // ???
+    // à déplacer 
     this.carouselTranslateSnapValues = []
     for (let i = 0; i < episodesData.length + 1; i++) {
       this.carouselTranslateSnapValues.push(i * this.carouselImageWidth)
     }
+
+    const arrowLeftClassList = `
+      crim-footer__episodes_arrow 
+      crim-footer__episodes_arrow--left
+      ${this.state.displayPrevArrow ? '' : 'crim-footer__episodes_arrow--hidden'}
+    `
+
+    const arrowRightClassList = `
+      crim-footer__episodes_arrow 
+      crim-footer__episodes_arrow--right
+      ${this.state.displayNextArrow ? '' : 'crim-footer__episodes_arrow--hidden'}
+    `
 
     // Display
 
@@ -188,7 +207,7 @@ class Footer extends Component<Props, State> {
       </div>
 
       <div class="crim-footer__episodes_wrapper">
-        <div ref={this.episodesScrollContainerRef} onScroll={() => this.handleScroll()} class="crim-footer__episodes_scrollable">
+        <div ref={this.episodesScrollContainerRef} onScroll={this.handleScroll} class="crim-footer__episodes_scrollable">
           <div ref={this.episodesCarouselRef} class="crim-footer__episodes">
             <div class="crim-footer__episodes_grid">
               {episodesData.map((episode) => {
@@ -199,12 +218,12 @@ class Footer extends Component<Props, State> {
           </div>
         </div>
         <div class="crim-footer__episodes_arrows">
-          {this.state.displayPrevArrow && <div class="crim-footer__episodes_arrow crim-footer__episodes_arrow--left" onClick={() => this.translateCarousel('prev')}>
+          <div class={arrowLeftClassList} onClick={() => this.translateCarousel('prev')}>
             <Arrow pointing='left'></Arrow>
-          </div>}
-          {this.state.displayNextArrow && <div class="crim-footer__episodes_arrow crim-footer__episodes_arrow--right" onClick={() => this.translateCarousel('next')}>
+          </div>
+          <div class={arrowRightClassList} onClick={() => this.translateCarousel('next')}>
             <Arrow pointing='right'></Arrow>
-          </div>}
+          </div>
         </div>
       </div>
 
