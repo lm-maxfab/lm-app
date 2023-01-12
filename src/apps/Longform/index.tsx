@@ -35,7 +35,8 @@ class Longform extends Component<Props, State> {
         type: 'module',
         content: 'http://localhost:50003/module-1/index.js',
         layout: 'right-half',
-        mobileLayout: 'left-half'
+        mobileLayout: 'left-half',
+        trackScroll: true
       }]
     }, {
       bgColor: 'red',
@@ -48,6 +49,7 @@ class Longform extends Component<Props, State> {
         mobileLayout: 'right-half',
         transitions: [['whirl', 600]],
         mobileTransitions: [['grow', 600]],
+        trackScroll: true
       }, {
         id: 'first-back-block'
       }, {

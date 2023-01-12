@@ -1,5 +1,5 @@
 import { Component } from 'preact'
-import { BlockContext, createBlockContext } from '..'
+import { BlockContext, createBlockContext, contextsAreEqual } from '..'
 
 type ModuleData = {
   init: (props: BlockContext) => HTMLElement|Promise<HTMLElement>
@@ -51,8 +51,7 @@ export default class BlockRenderer extends Component<Props, State> {
   componentDidMount (): void {
     const { props, loadInitAttachModule } = this
     const { type } = props
-    if (type !== 'module') return;
-    loadInitAttachModule()
+    if (type === 'module') loadInitAttachModule()
   }
 
   componentDidUpdate (pProps: Readonly<Props>): void {
@@ -66,7 +65,15 @@ export default class BlockRenderer extends Component<Props, State> {
     if (type !== 'module') return detachModuleTarget()
     const { type: pType, content: pContent } = pProps
     if (type !== pType || content !== pContent) loadInitAttachModule()
-    else updateAttachModule()
+    else {
+      const newContext = props.context ?? createBlockContext({})
+      const newPrevContext = props.prevContext ?? createBlockContext({})
+      const oldContext = pProps.context ?? createBlockContext({})
+      const oldPrevContext = pProps.prevContext ?? createBlockContext({})
+      if (!contextsAreEqual(newContext, oldContext)
+        || !contextsAreEqual(newPrevContext, oldPrevContext)
+      ) updateAttachModule()
+    }
   }
 
   async aSetState (stateSetter: StateSetter): Promise<StateSetter> {
