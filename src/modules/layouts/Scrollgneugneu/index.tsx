@@ -6,6 +6,7 @@ import IntersectionObserverComponent from '../../components/IntersectionObserver
 import ResizeObserverComponent from '../../components/ResizeObserver'
 import Paginator, { State as PaginatorState } from '../../components/Paginator'
 import { throttle } from '../../utils/throttle-debounce'
+import clamp from '../../utils/clamp'
 
 export type LayoutName = 'left-half'|'right-half'
 export type TransitionName = 'fade'|'grow'|'whirl'|'slide-up'|'right-open'|'left-open'
@@ -13,7 +14,7 @@ export type TransitionDuration = string|number
 export type TransitionDescriptor = [TransitionName]|[TransitionName, TransitionDuration]
 
 /* Props stuff */
-type PropsBlockData = {
+export type PropsBlockData = {
   id?: string
   depth?: 'scroll'|'back'|'front'
   zIndex?: number
@@ -121,7 +122,7 @@ function getIntNeighboursInNumbersSet (
 /* State stuff */
 type StateBlockData = PropsBlockData & {
   _zIndex: number,
-  _displayZones: BlockDisplayZone[],
+  _displayZones: BlockDisplayZone[]
   _context: BlockContext
   _pContext: BlockContext
 }
@@ -221,7 +222,8 @@ export default class Scrollgneugneu extends Component<Props, State> {
     return newStateBlocks
   }
 
-  static getBlockIdentifier (blockData: PropsBlockData) {
+  static getBlockIdentifier (blockData: PropsBlockData|StateBlockData) {
+    // [WIP] THIS IS BUGGY
     return blockData.id ?? blockData
   }
 
@@ -318,17 +320,20 @@ export default class Scrollgneugneu extends Component<Props, State> {
     this.getThresholdRect = this.getThresholdRect.bind(this)
     this.throttledGetThresholdRect = this.throttledGetThresholdRect.bind(this)
     this.getPagesRects = this.getPagesRects.bind(this)
-    this.throttledGetPagesRects = this.throttledGetPagesRects.bind(this)
     this.handlePaginatorResize = this.handlePaginatorResize.bind(this)
     this.handlePageChange = this.handlePageChange.bind(this)
     this.handleWindowScroll = this.handleWindowScroll.bind(this)
+    this.handleBlockResize = this.handleBlockResize.bind(this)
+    this.throttledHandleBlockResize = this.throttledHandleBlockResize.bind(this)
     this.Styles = this.Styles.bind(this)
     this.FixedBlocks = this.FixedBlocks.bind(this)
     this.ScrollingBlocks = this.ScrollingBlocks.bind(this)
   }
 
   componentDidMount(): void {
+    const { handleWindowScroll } = this
     window.addEventListener('scroll', this.handleWindowScroll)
+    handleWindowScroll()
   }
 
   componentWillUnmount(): void {
@@ -420,18 +425,13 @@ export default class Scrollgneugneu extends Component<Props, State> {
   getPagesRects () {
     const { state, pagesRefsMap } = this
     const { pages } = state
-    return new Map([...pages].map(([pagePos, pageData]) => {
+    return new Map([...pages].map(([pagePos]) => {
       const pageRef = pagesRefsMap.get(pagePos) ?? undefined
       if (pageRef === undefined) return [pagePos, undefined]
       const pageRect = pageRef.getBoundingClientRect()
       return [pagePos, pageRect]
     }))
   }
-
-  throttledGetPagesRects = throttle(
-    this.getPagesRects.bind(this),
-    1000
-  ).throttled
 
   /* * * * * * * * * * * * * * * * * * * * * *
    * HANDLE PAGINATOR RESIZE
@@ -463,10 +463,8 @@ export default class Scrollgneugneu extends Component<Props, State> {
     if (isBeforeFirst) newCurrentPagePos = hasPages ? 0 : undefined
     if (isAfterLast) newCurrentPagePos = hasPages ? pagesLength - 1 : undefined
     return this.setState(curr => {
-      if (newCurrentPagePos === curr.currPagePos) return null
       const currBlocks = curr.blocks
       const newBlocks = new Map(currBlocks)
-      let blocksContextsHasChanged = false
       for (let [blockId, blockData] of currBlocks) {
         const currBlockContextPage = blockData._context.page
         const blockPages = blockData._displayZones.flat()
@@ -480,14 +478,13 @@ export default class Scrollgneugneu extends Component<Props, State> {
         if (currBlockContextPage === newBlockContextPage) {
           newBlocks.set(blockId, blockData)
         } else {
-          blocksContextsHasChanged = true
           newBlocks.set(blockId, {
             ...blockData,
             _context: {
               ...blockData._context,
               page: newBlockContextPage
             },
-            _pContext: { ...blockData._context }
+            _pContext: blockData._context
           })
         }
       }
@@ -495,24 +492,121 @@ export default class Scrollgneugneu extends Component<Props, State> {
         ...curr,
         currPagePos: newCurrentPagePos,
         prevPagePos: curr.currPagePos,
-        blocks: blocksContextsHasChanged ? newBlocks : curr.blocks
+        blocks: newBlocks
       }
     })
   }
 
   handleWindowScroll () {
-    const { state, getPagesRects, throttledGetPagesRects } = this
+    const {
+      getPagesRects,
+      throttledGetThresholdRect
+    } = this
     this.setState(curr => {
       const { blocks, pages, currPagePos } = curr
-      const scrollTrackingBlocks = new Map([...blocks].filter(([_, blockData]) => blockData.trackScroll))
-      if (scrollTrackingBlocks.size === 0) return
-      const currPageData = currPagePos !== undefined ? pages.get(currPagePos) : undefined
+      const displayedScrollTrackingBlocks = new Map([...blocks].filter(([_, blockData]) => {
+        const displayZones = blockData._displayZones
+        const currentDisplayZone = displayZones.find(dz => currPagePos !== undefined
+          ? dz.includes(currPagePos)
+          : false
+        )
+        return blockData.trackScroll
+          && currentDisplayZone !== undefined
+      }))
+      if (displayedScrollTrackingBlocks.size === 0) return null
       const newBlocks = new Map(blocks)
-      if (currPageData === undefined || currPageData._trackScroll !== true) {
-        
+      const currPageData = currPagePos !== undefined ? pages.get(currPagePos) : undefined
+      const thresholdRect = throttledGetThresholdRect().returnValue
+      // Not possible to calculate progressions
+      if (currPagePos === undefined
+        || currPageData === undefined
+        || currPageData._trackScroll !== true
+        || thresholdRect === undefined) return null
+      // Progressions calculation
+      const pagesRects = getPagesRects()
+      const pagesScrollData = new Map([...pagesRects].map(([pos, domRect]) => {
+        if (domRect === undefined) return [pos, undefined]
+        const rawScrolled = thresholdRect.top - domRect.top
+        const rawProgression = rawScrolled / domRect.height
+        const progression = clamp(rawProgression, 0, 1)
+        const scrolled = clamp(rawScrolled, 0, domRect.height)
+        const { height } = domRect
+        return [pos, { height, scrolled, progression }]
+      }))
+      displayedScrollTrackingBlocks.forEach((blockData, blockId) => {
+        const currDz = blockData._displayZones.find(dz => dz.includes(currPagePos))
+        if (currDz === undefined) return
+        const dzProgression = currDz.reduce(
+          (acc, curr) => {
+            const pageScrollData = pagesScrollData.get(curr)
+            if (pageScrollData === undefined) return acc
+            const height = acc.height + pageScrollData.height
+            const scrolled = acc.scrolled + pageScrollData.scrolled
+            const progression = scrolled / height
+            return { height, scrolled, progression }
+          },
+          { height: 0, scrolled: 0, progression: 0 }
+        ).progression
+        const pageProgression = pagesScrollData.get(currPagePos)?.progression
+        newBlocks.set(blockId, {
+          ...blockData,
+          _context: {
+            ...blockData._context,
+            progression: dzProgression,
+            pageProgression: pageProgression ?? blockData._context.pageProgression
+          },
+          _pContext: blockData._context
+        })
+      })
+      return { ...curr, blocks: newBlocks }
+    })
+  }
+
+  handleBlockResize (_: ResizeObserverEntry[]) {
+    const { blocksRefsMap } = this
+    this.setState(curr => {
+      const currBlocks = curr.blocks
+      const newBlocks = new Map(currBlocks)
+      console.log('=====')
+      console.log(blocksRefsMap)
+      blocksRefsMap.forEach((blockRef, blockId) => {
+        const currBlockData = currBlocks.get(blockId)
+        // console.log(blockId)
+        // console.log(blockRef)
+        // console.log(currBlockData)
+        // console.log('-')
+        if (currBlockData === undefined) return
+        if (blockRef === null) return newBlocks.set(blockId, {
+          ...currBlockData,
+          _context: {
+            ...currBlockData._context,
+            width: null,
+            height: null
+          },
+          _pContext: currBlockData._context
+        })
+        const { width, height } = blockRef.getBoundingClientRect()
+        newBlocks.set(blockId, {
+          ...currBlockData,
+          _context: {
+            ...currBlockData._context,
+            width,
+            height
+          },
+          _pContext: currBlockData._context
+        })
+      })
+      return {
+        ...curr,
+        blocks: newBlocks
       }
     })
   }
+
+  throttledHandleBlockResize = throttle(
+    this.handleBlockResize.bind(this),
+    500
+  ).throttled
 
   paginatorRef: Paginator|null = null
   pagesRefsMap: Map<number, HTMLDivElement|null> = new Map()
@@ -537,7 +631,8 @@ export default class Scrollgneugneu extends Component<Props, State> {
       isBlockSticky,
       getBlockStatus,
       blocksRefsMap,
-      loadCss
+      loadCss,
+      throttledHandleBlockResize
     } = this
     const { blocks } = state
     return <>
@@ -556,22 +651,24 @@ export default class Scrollgneugneu extends Component<Props, State> {
           ...getLayoutClasses(layout, mobileLayout)
         ]
         return <div
-          key={blockIdentifier}
-          ref={n => { blocksRefsMap.set(blockIdentifier, n) }}
-          className={blockClasses.join(' ')}
-          style={{ ['--z-index']: _zIndex }}>
-          <TransitionsWrapper
-            isActive={blockStatus === 'current'}
-            transitions={transitions}
-            mobileTransitions={mobileTransitions}>
-            <BlockRenderer
-              type={type}
-              content={content}
-              context={_context}
-              prevContext={_pContext}
-              cssLoader={loadCss} />
-          </TransitionsWrapper>
-        </div>
+            key={blockIdentifier}
+            ref={n => { blocksRefsMap.set(blockIdentifier, n) }}
+            className={blockClasses.join(' ')}
+            style={{ ['--z-index']: _zIndex }}>
+            <ResizeObserverComponent onResize={throttledHandleBlockResize}>
+              <TransitionsWrapper
+                isActive={blockStatus === 'current'}
+                transitions={transitions}
+                mobileTransitions={mobileTransitions}>
+                <BlockRenderer
+                  type={type}
+                  content={content}
+                  context={_context}
+                  prevContext={_pContext}
+                  cssLoader={loadCss} />
+              </TransitionsWrapper>
+            </ResizeObserverComponent>
+          </div>
       })}
     </>
   }
@@ -584,11 +681,13 @@ export default class Scrollgneugneu extends Component<Props, State> {
     const {
       props,
       state,
+      blocksRefsMap,
       pagesRefsMap,
       loadCss,
       isBlockSticky,
       getBlockStatus,
       handlePageChange,
+      throttledHandleBlockResize
     } = this
     const { pages, blocks } = state
     const sortedPagesArr = [...pages].sort(([aPos], [bPos]) => aPos - bPos)
@@ -613,11 +712,16 @@ export default class Scrollgneugneu extends Component<Props, State> {
                 styles[`status-${blockStatus}`],
                 ...getLayoutClasses(layout, mobileLayout)
               ]
-              return <div className={blockClasses.join(' ')}>
-                <BlockRenderer
-                  type={type}
-                  content={content}
-                  cssLoader={loadCss} />
+              return <div
+                className={blockClasses.join(' ')}
+                ref={node => blocksRefsMap.set(blockIdentifier, node)}
+                style={{ ['--z-index']: blockData._zIndex }}>
+                <ResizeObserverComponent onResize={throttledHandleBlockResize}>
+                  <BlockRenderer
+                    type={type}
+                    content={content}
+                    cssLoader={loadCss} />
+                </ResizeObserverComponent>
               </div>
             })
           }</Paginator.Page>

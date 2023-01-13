@@ -41,10 +41,12 @@ export default class ResizeObserverComponent extends Component<Props> {
   render () {
     const { children } = this.props
     const childrenArr = toChildArray(children)
+    // [WIP] not sure why single child is expected
     if (childrenArr.length !== 1) {
       console.error('ResizeObserverComponent expects a single child.')
       return <div />
     }
+    // [WIP] not sure why wrapper is needed
     return <div ref={n => { this.$root = n }}>
       {children}
     </div>

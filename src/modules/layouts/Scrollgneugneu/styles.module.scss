@@ -21,6 +21,12 @@
   z-index: var(--z-index);
 }
 
+.scrolling-block {
+  /* --z-index is defined in index.tsx */
+  position: relative;
+  z-index: var(--z-index);
+}
+
 .wrapper.wrapper_fix-blocks {
   .sticky-block {
     position: fixed;
