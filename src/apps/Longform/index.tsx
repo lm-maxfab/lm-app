@@ -82,77 +82,77 @@ class Longform extends Component<Props, State> {
 
     const generalSettings = sheetBase?.collection('general_settings').entries[0].value as GeneralSettings|undefined
     const blocksData = sheetBase?.collection('blocks_data').value as BlockDataFromSheet[]|undefined
-    // const rawPagesData = sheetBase?.collection('pages_data').value as PageDataFromSheet[]|undefined
-    // const pagesData: PropsPageData[]|undefined = rawPagesData?.map(rawPageData => {
-    //   const fixedBlocksData: PropsBlockData[] = []
-    //   rawPageData.blocks_ids?.split(',').map(name => {
-    //     const blockId = name.trim()
-    //     const theActualBlock = blocksData?.find(blockData => blockData.id === blockId)
-    //     if (theActualBlock !== undefined) {
-    //       const extractedBlockData: PropsBlockData = {
-    //         id: theActualBlock.id as PropsBlockData['id'],
-    //         depth: (theActualBlock.depth ?? 'back') as PropsBlockData['depth'],
-    //         type: theActualBlock.type as PropsBlockData['type'],
-    //         content: theActualBlock.content as PropsBlockData['content'],
-    //         layout: theActualBlock.layout as PropsBlockData['layout'],
-    //         mobileLayout: theActualBlock.mobileLayout as PropsBlockData['mobileLayout'],
-    //         transitions: theActualBlock.transitions
-    //           ?.split(';')
-    //           .map(str => str
-    //             .trim()
-    //             .split(',')
-    //             .map(str => str.trim())
-    //             .map((val, pos) => {
-    //               if (pos === 0) return val
-    //               if (pos === 1 && val === undefined) return '600ms'
-    //               if (val.match(/[0-9]$/gm)) return `${val}ms`
-    //               return val
-    //             })
-    //           ) as PropsBlockData['transitions'],
-    //         mobileTransitions: theActualBlock.mobileTransitions
-    //           ?.split(';')
-    //           .map(str => str
-    //             .trim()
-    //             .split(',')
-    //             .map(str => str.trim())
-    //             .map((val, pos) => {
-    //               if (pos === 0) return val
-    //               if (pos === 1 && val === undefined) return '600ms'
-    //               if (val.match(/[0-9]$/gm)) return `${val}ms`
-    //               return val
-    //             })
-    //           ) as PropsBlockData['mobileTransitions'],
-    //         zIndex: theActualBlock.zIndex,
-    //         trackScroll: theActualBlock.trackScroll
-    //       }
-    //       fixedBlocksData.push(extractedBlockData)
-    //     }
-    //   })
-    //   return {
-    //     bgColor: rawPageData.bg_color,
-    //     blocks: [{
-    //       depth: 'scroll',
-    //       type: 'html',
-    //       content: rawPageData.content,
-    //       layout: rawPageData.layout as PropsBlockData['layout'],
-    //       mobileLayout: rawPageData.mobileLayout as PropsBlockData['mobileLayout']
-    //     }, ...fixedBlocksData]
-    //   }
-    // })
+    const rawPagesData = sheetBase?.collection('pages_data').value as PageDataFromSheet[]|undefined
+    const pagesData: PropsPageData[]|undefined = rawPagesData?.map(rawPageData => {
+      const fixedBlocksData: PropsBlockData[] = []
+      rawPageData.blocks_ids?.split(',').map(name => {
+        const blockId = name.trim()
+        const theActualBlock = blocksData?.find(blockData => blockData.id === blockId)
+        if (theActualBlock !== undefined) {
+          const extractedBlockData: PropsBlockData = {
+            id: theActualBlock.id as PropsBlockData['id'],
+            depth: (theActualBlock.depth ?? 'back') as PropsBlockData['depth'],
+            type: theActualBlock.type as PropsBlockData['type'],
+            content: theActualBlock.content as PropsBlockData['content'],
+            layout: theActualBlock.layout as PropsBlockData['layout'],
+            mobileLayout: theActualBlock.mobileLayout as PropsBlockData['mobileLayout'],
+            transitions: theActualBlock.transitions
+              ?.split(';')
+              .map(str => str
+                .trim()
+                .split(',')
+                .map(str => str.trim())
+                .map((val, pos) => {
+                  if (pos === 0) return val
+                  if (pos === 1 && val === undefined) return '600ms'
+                  if (val.match(/[0-9]$/gm)) return `${val}ms`
+                  return val
+                })
+              ) as PropsBlockData['transitions'],
+            mobileTransitions: theActualBlock.mobileTransitions
+              ?.split(';')
+              .map(str => str
+                .trim()
+                .split(',')
+                .map(str => str.trim())
+                .map((val, pos) => {
+                  if (pos === 0) return val
+                  if (pos === 1 && val === undefined) return '600ms'
+                  if (val.match(/[0-9]$/gm)) return `${val}ms`
+                  return val
+                })
+              ) as PropsBlockData['mobileTransitions'],
+            zIndex: theActualBlock.zIndex,
+            trackScroll: theActualBlock.trackScroll
+          }
+          fixedBlocksData.push(extractedBlockData)
+        }
+      })
+      return {
+        bgColor: rawPageData.bg_color,
+        blocks: [{
+          depth: 'scroll',
+          type: 'html',
+          content: rawPageData.content,
+          layout: rawPageData.layout as PropsBlockData['layout'],
+          mobileLayout: rawPageData.mobileLayout as PropsBlockData['mobileLayout']
+        }, ...fixedBlocksData]
+      }
+    })
 
-    const pagesData: PropsPageData[] = [{
-      blocks: [{
-        depth: 'front',
-        type: 'html',
-        content: '<div style="width: unset; background-color: blue; height: unset;">BACK</div>',
-        layout: 'right-half-bottom'
-      }, {
-        depth: 'scroll',
-        type: 'html',
-        content: '<div style="height: 3000px; background-color: rgb(255, 127, 80, .2);">SCROLL</div>',
-        layout: 'left-half'
-      }]
-    }]
+    // const pagesData: PropsPageData[] = [{
+    //   blocks: [{
+    //     depth: 'front',
+    //     type: 'html',
+    //     content: '<div style="width: unset; background-color: blue; height: unset;">BACK</div>',
+    //     layout: 'right-half-bottom'
+    //   }, {
+    //     depth: 'scroll',
+    //     type: 'html',
+    //     content: '<div style="height: 3000px; background-color: rgb(255, 127, 80, .2);">SCROLL</div>',
+    //     layout: 'left-half'
+    //   }]
+    // }]
 
     // Assign classes and styles
     const wrapperClasses = bem(props.className).block(this.clss)
