@@ -1308,5 +1308,18 @@
       "description": "",
       "time": "2022-12-09T16:26:11.997Z"
     }
+  ],
+  "scrllgngn": [
+    {
+      "version": {
+        "major": 1,
+        "minor": 0,
+        "patch": 0,
+        "status": "alpha",
+        "build": 0
+      },
+      "description": "",
+      "time": "2023-01-18T09:56:01.024Z"
+    }
   ]
 }

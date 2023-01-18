@@ -1,3 +1,3 @@
-console.log('I am the mlugin mamène')
+console.log('I am the plugin')
 
 export {}
