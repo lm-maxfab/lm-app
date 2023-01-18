@@ -75,8 +75,16 @@ $maxWidth: 800px;
 
 /* left-half */
 .scrolling-block {
-  &.layout-left-half { @media (min-width: $minWidth) { width: 50%; } }
-  &.layout-mobile-left-half { @media (max-width: $maxWidth) { width: 50%; } }
+  &.layout-left-half {
+    @media (min-width: $minWidth) {
+      width: 50%;
+    }
+  }
+  &.layout-mobile-left-half {
+    @media (max-width: $maxWidth) {
+      width: 50%;
+    }
+  }
 }
 
 .sticky-block {
@@ -92,6 +100,34 @@ $maxWidth: 800px;
       margin-right: -50%;
     }
   }
+}
+
+/* left-half-middle */
+.layout-left-half-middle {
+  @extend .layout-left-half;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.layout-mobile-left-half-middle {
+  @extend .layout-mobile-left-half;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* left-half-bottom */
+.layout-left-half-bottom {
+  @extend .layout-left-half;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+.layout-mobile-left-half-bottom {
+  @extend .layout-mobile-left-half;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 }
 
 /* right-half */
@@ -125,4 +161,59 @@ $maxWidth: 800px;
       left: 50%;
     }
   }
-} 
+}
+
+/* right-half-middle */
+.layout-right-half-middle {
+  @extend .layout-right-half;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.layout-mobile-right-half-middle {
+  @extend .layout-mobile-right-half;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* right-half-bottom */
+.layout-right-half-bottom {
+  @extend .layout-right-half;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+.layout-mobile-right-half-bottom {
+  @extend .layout-mobile-right-half;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+/* full-screen */
+.scrolling-block {
+  &.layout-full-screen {
+    @media (min-width: $minWidth) {
+      width: 100%;
+    }
+  }
+  &.layout-mobile-full-screen {
+    @media (max-width: $maxWidth) {
+      width: 100%;
+    }
+  }
+}
+
+.sticky-block {
+  &.layout-full-screen {
+    @media (min-width: $minWidth) {
+      width: 100%;
+    }
+  }
+  &.layout-mobile-full-screen {
+    @media (max-width: $maxWidth) {
+      width: 100%;
+    }
+  }
+}

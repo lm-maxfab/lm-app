@@ -8,7 +8,10 @@ import Paginator, { State as PaginatorState } from '../../components/Paginator'
 import { throttle } from '../../utils/throttle-debounce'
 import clamp from '../../utils/clamp'
 
-export type LayoutName = 'left-half'|'right-half'
+// [WIP] - left-half-bottom, -middle, right-, ... need a fix
+export type LayoutName = 'full-screen'
+  |'left-half'|'left-half-middle'|'left-half-bottom'
+  |'right-half'|'right-half-middle'|'right-half-bottom'
 export type TransitionName = 'fade'|'grow'|'whirl'|'slide-up'|'right-open'|'left-open'
 export type TransitionDuration = string|number
 export type TransitionDescriptor = [TransitionName]|[TransitionName, TransitionDuration]
@@ -633,7 +636,8 @@ export default class Scrollgneugneu extends Component<Props, State> {
         const blockClasses = [
           styles['sticky-block'],
           styles[`status-${blockStatus}`],
-          ...getLayoutClasses(layout, mobileLayout)
+          ...getLayoutClasses(layout, mobileLayout),
+          `lm-scrllgngn__fixed-block-${blockStatus}`
         ]
         return <div
             key={blockIdentifier}
@@ -699,7 +703,8 @@ export default class Scrollgneugneu extends Component<Props, State> {
               const blockClasses = [
                 styles['scrolling-block'],
                 styles[`status-${blockStatus}`],
-                ...getLayoutClasses(layout, mobileLayout)
+                ...getLayoutClasses(layout, mobileLayout),
+                `lm-scrllgngn__scroll-block-${blockStatus}`
               ]
               return <div
                 className={blockClasses.join(' ')}
