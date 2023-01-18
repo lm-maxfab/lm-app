@@ -139,6 +139,22 @@ class Longform extends Component<Props, State> {
         }, ...fixedBlocksData]
       }
     })
+    // const pagesData: PropsPageData[] = [{
+    //   blocks: [{
+    //     depth: 'back',
+    //     type: 'html',
+    //     content: '<div style="width: 90vw; background-color: blue; height: 50vh;">BACK</div>'
+    //   }, {
+    //     depth: 'scroll',
+    //     type: 'html',
+    //     content: '<div style="height: 3000px; background-color: coral;">SCROLL</div>',
+    //     layout: 'left-half'
+    //   }, {
+    //     depth: 'front',
+    //     type: 'html',
+    //     content: '<div style="width: 70vw; background-color: yellow; height: 50vh;">FRONT</div>'
+    //   }]
+    // }]
 
     // Assign classes and styles
     const wrapperClasses = bem(props.className).block(this.clss)

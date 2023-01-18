@@ -83,7 +83,7 @@ export function contextsAreEqual (
 /* Inner component stuff */
 
 type BlockDisplayZone = number[]
-type BlockIdentifier = string|PropsBlockData
+type BlockIdentifier = string
 
 function getNeighbourIntegersSeries (_array: number[]|Set<number>): number[][] {
   const result: number[][] = []
@@ -121,7 +121,8 @@ function getIntNeighboursInNumbersSet (
 
 /* State stuff */
 type StateBlockData = PropsBlockData & {
-  _zIndex: number,
+  _id: string
+  _zIndex: number
   _displayZones: BlockDisplayZone[]
   _context: BlockContext
   _pContext: BlockContext
@@ -158,25 +159,45 @@ export default class Scrollgneugneu extends Component<Props, State> {
     props: Props,
     state: State
   ): State|null {
+    const {
+      getBlockDisplayZones,
+      getBlocksZIndexes,
+    } = Scrollgneugneu
     const { prevPropsPages } = state
     if (props.pages === prevPropsPages) return null
-    const { getStateBlocksFromProps } = Scrollgneugneu
-    const blocks = getStateBlocksFromProps(props.pages ?? [], state)
+    const { blocks: currentStateBlocks } = state
+    const blocks = new Map<BlockIdentifier, StateBlockData>()
+    const zIndexes = getBlocksZIndexes(props.pages ?? [])
+    props.pages?.forEach((pageData, pagePos) => {
+      pageData.blocks?.forEach((blockData, blockPos) => {
+        const blockIdentifier = blockData.id ?? `${pagePos}-${blockPos}`
+        const alreadyInMap = blocks.has(blockIdentifier)
+        if (alreadyInMap) return
+        const _zIndex = zIndexes.get(blockIdentifier) ?? 0
+        const _displayZones = getBlockDisplayZones(blockIdentifier, props.pages ?? [])
+        const currentStateBlock = currentStateBlocks.get(blockIdentifier)
+        const _context = currentStateBlock?._context ?? createBlockContext({})
+        const _pContext = currentStateBlock?._pContext ?? createBlockContext({})
+        const stateBlockData: StateBlockData = {
+          ...blockData,
+          _id: blockIdentifier,
+          _zIndex,
+          _displayZones,
+          _context,
+          _pContext
+        }
+        blocks.set(blockIdentifier, stateBlockData)
+      })
+    })
     const pages = new Map<number, StatePageData>()
     props.pages?.forEach((pageData, pagePos) => {
       const _blocksIds = new Set<BlockIdentifier>()
-      pageData.blocks?.forEach(propsBlockData => {
-        const blockIdentifier = this.getBlockIdentifier(propsBlockData)
+      pageData.blocks?.forEach((blockData, blockPos) => {
+        const blockIdentifier = blockData.id ?? `${pagePos}-${blockPos}`
         _blocksIds.add(blockIdentifier)
       })
-      const _trackScroll = [..._blocksIds].some(blockId => {
-        return blocks.get(blockId)?.trackScroll === true
-      })
-      pages.set(pagePos, {
-        ...pageData,
-        _blocksIds,
-        _trackScroll
-      })
+      const _trackScroll = [..._blocksIds].some(id => blocks.get(id)?.trackScroll === true)
+      pages.set(pagePos, { ...pageData, _blocksIds, _trackScroll })
     })
     const newState = {
       ...state,
@@ -187,55 +208,15 @@ export default class Scrollgneugneu extends Component<Props, State> {
     return newState
   }
 
-  static getStateBlocksFromProps (
-    pagesData: PropsPageData[],
-    state: State
-  ): State['blocks'] {
-    const {
-      getBlockIdentifier,
-      getBlockDisplayZones,
-      getBlocksZIndexes,
-    } = Scrollgneugneu
-    const { blocks: currentStateBlocks } = state
-    const newStateBlocks = new Map<BlockIdentifier, StateBlockData>()
-    const zIndexes = getBlocksZIndexes(pagesData)
-    pagesData.forEach(pageData => {
-      pageData.blocks?.forEach(blockData => {
-        const blockIdentifier = getBlockIdentifier(blockData)
-        const alreadyInMap = newStateBlocks.has(blockIdentifier)
-        if (alreadyInMap) return
-        const _zIndex = zIndexes.get(blockIdentifier) ?? 0
-        const _displayZones = getBlockDisplayZones(blockIdentifier, pagesData)
-        const currentStateBlock = currentStateBlocks.get(blockIdentifier)
-        const _context = currentStateBlock?._context ?? createBlockContext({})
-        const _pContext = currentStateBlock?._pContext ?? createBlockContext({})
-        const stateBlockData: StateBlockData = {
-          ...blockData,
-          _zIndex,
-          _displayZones,
-          _context,
-          _pContext
-        }
-        newStateBlocks.set(blockIdentifier, stateBlockData)
-      })
-    })
-    return newStateBlocks
-  }
-
-  static getBlockIdentifier (blockData: PropsBlockData|StateBlockData) {
-    // [WIP] THIS IS BUGGY
-    return blockData.id ?? blockData
-  }
-
   static getBlockPages (
     blockIdentifier: BlockIdentifier,
     pagesData: PropsPageData[]
   ): number[] {
-    const { getBlockIdentifier } = Scrollgneugneu
     const result: number[] = []
     pagesData.forEach((pageData, pagePos) => {
-      const pageIncludesBlock = pageData.blocks?.some(blockData => {
-        return getBlockIdentifier(blockData) === blockIdentifier
+      const pageIncludesBlock = pageData.blocks?.some((blockData, blockPos) => {
+        const thisBlockId = blockData.id ?? `${pagePos}-${blockPos}`
+        return thisBlockId === blockIdentifier
       })
       if (pageIncludesBlock) result.push(pagePos)
     })
@@ -255,43 +236,53 @@ export default class Scrollgneugneu extends Component<Props, State> {
   static getBlocksZIndexes (
     pagesData: PropsPageData[]
   ): Map<BlockIdentifier, number> {
-    const { getBlockIdentifier } = Scrollgneugneu
     const blocksIdentifierToDataMap = new Map<BlockIdentifier, PropsBlockData>()
-    pagesData.forEach(pageData => {
+    pagesData.forEach((pageData, pagePos) => {
       const blocks = pageData.blocks
-      blocks?.forEach(blockData => {
-        const blockIdentifier = getBlockIdentifier(blockData)
+      blocks?.forEach((blockData, blockPos) => {
+        const blockIdentifier = blockData.id ?? `${pagePos}-${blockPos}`
         if (blocksIdentifierToDataMap.has(blockIdentifier)) return
         blocksIdentifierToDataMap.set(blockIdentifier, blockData)
       })
     })
-    const dedupedBlocksDataArr = [...blocksIdentifierToDataMap.values()]
-    const backBlocks = dedupedBlocksDataArr
-      .filter(blk => blk.depth === 'back')
-      .sort((a, b) => (a.zIndex ?? 0) - (b.zIndex ?? 0))
-    const frontBlocks = dedupedBlocksDataArr
-      .filter(blk => blk.depth === 'front')
-      .sort((a, b) => (a.zIndex ?? 0) - (b.zIndex ?? 0))
-    const scrollBlocks = dedupedBlocksDataArr
-      .filter(blk => ['scroll', undefined].includes(blk.depth))
-      .sort((a, b) => (a.zIndex ?? 0) - (b.zIndex ?? 0))
+    const backBlocksDataToIdMap = new Map<PropsBlockData, BlockIdentifier>()
+    const scrollBlocksDataToIdMap = new Map<PropsBlockData, BlockIdentifier>()
+    const frontBlocksDataToIdMap = new Map<PropsBlockData, BlockIdentifier>()
+    blocksIdentifierToDataMap.forEach((blockData, blockId) => {
+      if (blockData.depth === 'back') backBlocksDataToIdMap.set(blockData, blockId)
+      else if (blockData.depth === 'front') frontBlocksDataToIdMap.set(blockData, blockId)
+      else scrollBlocksDataToIdMap.set(blockData, blockId)
+    })
     const zIndexes = new Map<BlockIdentifier, number>()
     let currentZIndex = 0
-    backBlocks.forEach(blockData => {
-      const blockIdentifier = getBlockIdentifier(blockData)
-      zIndexes.set(blockIdentifier, currentZIndex)
+    const blocksSorter = (
+      a: [PropsBlockData, BlockIdentifier],
+      b: [PropsBlockData, BlockIdentifier]
+    ) => {
+      const aDepth = (a[0].zIndex ?? 0)
+      const bDepth = (b[0].zIndex ?? 0)
+      return aDepth - bDepth
+    }
+    const zIndexesFiller = ([_, blockId]: [PropsBlockData, BlockIdentifier]) => {
+      zIndexes.set(blockId, currentZIndex)
       currentZIndex ++
-    })
-    scrollBlocks.forEach(blockData => {
-      const blockIdentifier = getBlockIdentifier(blockData)
-      zIndexes.set(blockIdentifier, currentZIndex)
-      currentZIndex ++
-    })
-    frontBlocks.forEach(blockData => {
-      const blockIdentifier = getBlockIdentifier(blockData)
-      zIndexes.set(blockIdentifier, currentZIndex)
-      currentZIndex ++
-    })
+    }
+    // Back blocks
+    Array
+      .from(backBlocksDataToIdMap.entries())
+      .sort(blocksSorter)
+      .forEach(zIndexesFiller)
+    // Scroll blocks
+    Array
+      .from(scrollBlocksDataToIdMap.entries())
+      .sort(blocksSorter)
+      .forEach(zIndexesFiller)
+    // Front blocks
+    Array
+      .from(frontBlocksDataToIdMap.entries())
+      .sort(blocksSorter)
+      .forEach(zIndexesFiller)
+
     return zIndexes
   }
 
@@ -567,14 +558,8 @@ export default class Scrollgneugneu extends Component<Props, State> {
     this.setState(curr => {
       const currBlocks = curr.blocks
       const newBlocks = new Map(currBlocks)
-      console.log('=====')
-      console.log(blocksRefsMap)
       blocksRefsMap.forEach((blockRef, blockId) => {
         const currBlockData = currBlocks.get(blockId)
-        // console.log(blockId)
-        // console.log(blockRef)
-        // console.log(currBlockData)
-        // console.log('-')
         if (currBlockData === undefined) return
         if (blockRef === null) return newBlocks.set(blockId, {
           ...currBlockData,
@@ -674,10 +659,7 @@ export default class Scrollgneugneu extends Component<Props, State> {
   }
 
   ScrollingBlocks () {
-    const {
-      getBlockIdentifier,
-      getLayoutClasses
-    } = Scrollgneugneu
+    const { getLayoutClasses } = Scrollgneugneu
     const {
       props,
       state,
@@ -691,9 +673,17 @@ export default class Scrollgneugneu extends Component<Props, State> {
     } = this
     const { pages, blocks } = state
     const sortedPagesArr = [...pages].sort(([aPos], [bPos]) => aPos - bPos)
+    const lowestScrollingBlockZIndex = [...blocks.entries()]
+      .filter(([blockId]) => !isBlockSticky(blockId))
+      .reduce((acc, [_, blockData]) => {
+        if (blockData._zIndex <= acc) return blockData._zIndex
+        return acc
+      }, Infinity)
     return <Paginator
       thresholdOffset={props.thresholdOffset}
       onPageChange={handlePageChange}
+      className={styles['paginator']}
+      style={{ ['--z-index']: lowestScrollingBlockZIndex }}
       ref={(n: Paginator) => { this.paginatorRef = n }}>
       {sortedPagesArr.map(([pagePos, pageData]) => {
         const pageBlocksData = [...pageData._blocksIds]
@@ -705,8 +695,7 @@ export default class Scrollgneugneu extends Component<Props, State> {
           pageRef={n => { pagesRefsMap.set(pagePos, n) }}>{
             pageBlocksData.map(blockData => {
               const { type, content, layout, mobileLayout } = blockData
-              const blockIdentifier = getBlockIdentifier(blockData)
-              const blockStatus = getBlockStatus(blockIdentifier)
+              const blockStatus = getBlockStatus(blockData._id)
               const blockClasses = [
                 styles['scrolling-block'],
                 styles[`status-${blockStatus}`],
@@ -714,7 +703,7 @@ export default class Scrollgneugneu extends Component<Props, State> {
               ]
               return <div
                 className={blockClasses.join(' ')}
-                ref={node => blocksRefsMap.set(blockIdentifier, node)}
+                ref={node => blocksRefsMap.set(blockData._id, node)}
                 style={{ ['--z-index']: blockData._zIndex }}>
                 <ResizeObserverComponent onResize={throttledHandleBlockResize}>
                   <BlockRenderer

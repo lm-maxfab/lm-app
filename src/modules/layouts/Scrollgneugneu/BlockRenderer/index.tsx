@@ -166,6 +166,8 @@ export default class BlockRenderer extends Component<Props, State> {
     const { context, prevContext } = props
     const { moduleData, moduleTarget } = state
     if (moduleData === null || moduleTarget === null) return;
+    console.log('update:', props.content)
+    console.log(context)
     moduleData.update(
       moduleTarget,
       context ?? createBlockContext({}),

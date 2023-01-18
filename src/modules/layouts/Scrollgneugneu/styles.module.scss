@@ -21,6 +21,16 @@
   z-index: var(--z-index);
 }
 
+.scroll-panel {
+  position: relative;
+}
+
+.paginator {
+  /* --z-index is defined in index.tsx */
+  position: relative;
+  z-index: var(--z-index);
+}
+
 .scrolling-block {
   /* --z-index is defined in index.tsx */
   position: relative;
@@ -38,10 +48,6 @@
     position: absolute;
     top: calc(var(--scrolling-block-height) - var(--fixed-blocks-height));
   }
-}
-
-.scroll-panel {
-  position: relative;
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * *
