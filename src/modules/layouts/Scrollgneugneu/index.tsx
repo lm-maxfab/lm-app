@@ -637,7 +637,7 @@ export default class Scrollgneugneu extends Component<Props, State> {
           styles['sticky-block'],
           styles[`status-${blockStatus}`],
           ...getLayoutClasses(layout, mobileLayout),
-          `lm-scrllgngn__fixed-block-${blockStatus}`
+          `lm-scrllgngn__fixed-block_${blockStatus}`
         ]
         return <div
             key={blockIdentifier}
@@ -704,7 +704,7 @@ export default class Scrollgneugneu extends Component<Props, State> {
                 styles['scrolling-block'],
                 styles[`status-${blockStatus}`],
                 ...getLayoutClasses(layout, mobileLayout),
-                `lm-scrllgngn__scroll-block-${blockStatus}`
+                `lm-scrllgngn__scroll-block_${blockStatus}`
               ]
               return <div
                 className={blockClasses.join(' ')}
