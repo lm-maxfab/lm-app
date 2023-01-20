@@ -9,6 +9,7 @@ import {
   BlockData as BlockDataFromSheet,
   PageData as PageDataFromSheet
 } from '../types'
+import ArticleHeader from '../../modules/components/ArticleHeader'
 
 interface Props extends InjectedProps {}
 interface State {}
@@ -199,10 +200,15 @@ class Longform extends Component<Props, State> {
     return <div
       style={wrapperStyle}
       className={wrapperClasses.value}>
-      <Scrollgneugneu
-        pages={pagesData}
-        thresholdOffset={generalSettings?.threshold_offset}
-        bgColorTransitionDuration={generalSettings?.bg_color_transition_duration} />
+      <div style={{ position: 'fixed', top: 0, zIndex: 1 }}>
+        <ArticleHeader />
+      </div>
+      <div style={{ position: 'relative', zIndex: 0 }}>
+        <Scrollgneugneu
+          pages={pagesData}
+          thresholdOffset={generalSettings?.threshold_offset}
+          bgColorTransitionDuration={generalSettings?.bg_color_transition_duration} />
+      </div>
     </div>
   }
 }

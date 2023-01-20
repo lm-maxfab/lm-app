@@ -1,11 +1,11 @@
 {
-  "assets_root_url": "https://assets-decodeurs.lemonde.fr/redacweb/31-2212-essai-scrllgngn-decodeurs",
+  "assets_root_url": "https://assets-decodeurs.lemonde.fr/redacweb/33-2301-ia",
   "statics_root_url": "https://assets-decodeurs.lemonde.fr/redacweb/statics-v2",
   "spreadsheets_urls": {
-    "production": "https://assets-decodeurs.lemonde.fr/sheets/48lzT4GaajzCvpQ0sBa_iJJhJbs-0g_1507",
-    "staging": "https://assets-decodeurs.lemonde.fr/sheets/48lzT4GaajzCvpQ0sBa_iJJhJbs-0g_1508",
-    "testing": "https://assets-decodeurs.lemonde.fr/sheets/48lzT4GaajzCvpQ0sBa_iJJhJbs-0g_1509",
-    "developpment": "https://assets-decodeurs.lemonde.fr/sheets/48lzT4GaajzCvpQ0sBa_iJJhJbs-0g_1510"
+    "production": "https://assets-decodeurs.lemonde.fr/sheets/Tn2jzQDS9TN4kaBXnMC4_k2NjGawzw_1671",
+    "staging": "https://assets-decodeurs.lemonde.fr/sheets/Tn2jzQDS9TN4kaBXnMC4_k2NjGawzw_1672",
+    "testing": "https://assets-decodeurs.lemonde.fr/sheets/Tn2jzQDS9TN4kaBXnMC4_k2NjGawzw_1674",
+    "developpment": "https://assets-decodeurs.lemonde.fr/sheets/Tn2jzQDS9TN4kaBXnMC4_k2NjGawzw_1675"
   },
   "layouts": [{
     "name": "longform",
