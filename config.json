@@ -10,7 +10,12 @@
   "layouts": [{
     "name": "longform",
     "nodes": [
-      { "class": "demo-page-root", "type": "longform" }
+      { "class": "ia-longform-root", "type": "longform" }
+    ]
+  }, {
+    "name": "footer",
+    "nodes": [
+      { "class": "ia-footer-root", "type": "snippet" }
     ]
   }],
   "env": null

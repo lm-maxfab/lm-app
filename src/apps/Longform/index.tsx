@@ -15,7 +15,7 @@ interface Props extends InjectedProps {}
 interface State {}
 
 class Longform extends Component<Props, State> {
-  static clss: string = 'sable-longform'
+  static clss: string = 'ia-longform'
   clss = Longform.clss
 
   /* * * * * * * * * * * * * * *
@@ -24,62 +24,6 @@ class Longform extends Component<Props, State> {
   render (): JSX.Element {
     const { props } = this
     const { sheetBase } = props
-
-    //   const pagesData: PropsPageData[] = [{
-    //     bgColor: 'blue',
-    //     blocks: [{
-    //       id: 'first-scroll-block',
-    //       depth: 'scroll',
-    //       zIndex: 3,
-    //       type: 'html',
-    //       content: '<div style="height: 2000px; background-color: violet;">I am the first scroll content</div>',
-    //       layout: 'left-half',
-    //       mobileLayout: 'right-half',
-    //       transitions: [['whirl', 600]],
-    //       mobileTransitions: [['grow', 600]]
-    //     }, {
-    //       id: 'first-back-block',
-    //       depth: 'back',
-    //       zIndex: 0,
-    //       type: 'module',
-    //       content: 'http://localhost:50003/module-1/index.js',
-    //       layout: 'right-half',
-    //       mobileLayout: 'left-half',
-    //       trackScroll: true
-    //     }]
-    //   }, {
-    //     bgColor: 'red',
-    //     blocks: [{
-    //       // id: 'second-scroll-block',
-    //       depth: 'scroll',
-    //       zIndex: 3,
-    //       type: 'html',
-    //       content: '<div style="height: 2000px; background-color: chocolate;">I am the second scroll content</div>',
-    //       layout: 'left-half',
-    //       mobileLayout: 'right-half',
-    //       transitions: [['whirl', 600]],
-    //       mobileTransitions: [['grow', 600]],
-    //       trackScroll: false
-    //     }, {
-    //       id: 'first-back-block'
-    //     }, {
-    //       id: 'second-back-block',
-    //       type: 'html',
-    //       depth: 'back',
-    //       layout: 'right-half',
-    //       content: '<div>I am the second back block</div>',
-    //       trackScroll: true
-    //     }]
-    //   },
-    //   {},
-    //   { blocks: [{id: 'first-scroll-block' }, {id: 'first-back-block' }, {id: 'second-back-block' }] },
-    //   { blocks: [{id: 'first-scroll-block' }, {id: 'first-back-block' }] },
-    //   { blocks: [{id: 'first-scroll-block' }, {id: 'first-back-block' }, {id: 'second-back-block' }] },
-    //   {},
-    //   {},
-    //   { blocks: [{id: 'first-scroll-block' }, {id: 'first-back-block' }, {id: 'second-back-block' }] },
-    //   { blocks: [{id: 'first-scroll-block' }, {id: 'first-back-block' }, {id: 'second-back-block' }] }
-    // ]
 
     const generalSettings = sheetBase?.collection('general_settings').entries[0].value as GeneralSettings|undefined
     const blocksData = sheetBase?.collection('blocks_data').value as BlockDataFromSheet[]|undefined
@@ -140,57 +84,6 @@ class Longform extends Component<Props, State> {
         }, ...fixedBlocksData]
       }
     })
-
-    // const pagesData : PropsPageData[] = [{
-    //   bgColor: 'coral',
-    //   blocks: [{
-    //     id: 'page',
-    //     depth: 'scroll',
-    //     type: 'html',
-    //     content: `<div
-    //       style="
-    //         height: 1000px;
-    //         display: flex;
-    //         flex-direction: column;
-    //         justify-content: space-around
-    //       ">
-    //       <p>Scroll</p>
-    //       <p>Scroll</p>
-    //       <p>Scroll</p>
-    //       <p>Scroll</p>
-    //     </div>`
-    //   }]
-    // }, {
-    //   bgColor: 'aliceblue',
-    //   blocks: [{ id: 'page' }]
-    // }, {
-    //   bgColor: 'violet',
-    //   blocks: [{ id: 'page' }]
-    // }, {
-    //   bgColor: 'chocolate',
-    //   blocks: [{
-    //     id: 'page'
-    //   }, {
-    //     depth: 'front',
-    //     type: 'module',
-    //     content: 'http://localhost:50003/module-1/index.js',
-    //     trackScroll: true
-    //   }]
-    // }]
-
-    // const pagesData: PropsPageData[] = [{
-    //   blocks: [{
-    //     depth: 'front',
-    //     type: 'html',
-    //     content: '<div style="width: unset; background-color: blue; height: unset;">BACK</div>',
-    //     layout: 'right-half-bottom'
-    //   }, {
-    //     depth: 'scroll',
-    //     type: 'html',
-    //     content: '<div style="height: 3000px; background-color: rgb(255, 127, 80, .2);">SCROLL</div>',
-    //     layout: 'left-half'
-    //   }]
-    // }]
 
     // Assign classes and styles
     const wrapperClasses = bem(props.className).block(this.clss)

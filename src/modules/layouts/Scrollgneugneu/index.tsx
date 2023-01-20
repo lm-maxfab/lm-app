@@ -8,6 +8,7 @@ import Paginator, { State as PaginatorState } from '../../components/Paginator'
 import { throttle } from '../../utils/throttle-debounce'
 import clamp from '../../utils/clamp'
 import bem from '../../utils/bem'
+import { truncate } from 'fs'
 
 // [WIP] - left-half-bottom, -middle, right-, ... need a fix
 export type LayoutName = 'full-screen'
@@ -754,6 +755,8 @@ export default class Scrollgneugneu extends Component<Props, State> {
       }, Infinity)
     
     return <Paginator
+      intervalCheck={true}
+      delay={500}
       thresholdOffset={props.thresholdOffset}
       onPageChange={handlePageChange}
       className={styles['paginator']}

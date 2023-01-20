@@ -1,3 +1,5 @@
+import { VNode } from 'preact'
+
 export interface SheetBaseCollectionData {
   id: string
 }
@@ -25,4 +27,18 @@ export interface PageData extends SheetBaseCollectionData {
   layout?: string
   mobileLayout?: string
   blocks_ids?: string
+}
+
+export interface FooterData extends SheetBaseCollectionData {
+  top_content?: VNode|string
+  styles?: string
+}
+
+export interface EpisodeData extends SheetBaseCollectionData {
+  text_top?: VNode|string
+  text_bottom?: VNode|string
+  text_card?: VNode|string
+  url?: string
+  cover?: string
+  published?: boolean
 }
