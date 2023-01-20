@@ -705,7 +705,7 @@ export default class Scrollgneugneu extends Component<Props, State> {
             key={blockIdentifier}
             ref={n => { blocksRefsMap.set(blockIdentifier, n) }}
             className={blockClasses.join(' ')}
-            style={{ ['--z-index']: _zIndex }}>
+            style={{ '--z-index': _zIndex }}>
             <ResizeObserverComponent
               onResize={throttledHandleBlockResize}>
               <TransitionsWrapper
@@ -757,7 +757,7 @@ export default class Scrollgneugneu extends Component<Props, State> {
       thresholdOffset={props.thresholdOffset}
       onPageChange={handlePageChange}
       className={styles['paginator']}
-      style={{ ['--z-index']: lowestScrollingBlockZIndex }}
+      style={{ '--z-index': lowestScrollingBlockZIndex }}
       ref={(n: Paginator) => { this.paginatorRef = n }}>
       {sortedPagesArr.map(([pagePos, pageData]) => {
         const pageBlocksData = [...pageData._blocksIds]
@@ -794,7 +794,7 @@ export default class Scrollgneugneu extends Component<Props, State> {
               return <div
                 className={blockClasses.join(' ')}
                 ref={node => blocksRefsMap.set(blockData._id, node)}
-                style={{ ['--z-index']: blockData._zIndex }}>
+                style={{ '--z-index': blockData._zIndex }}>
                 <ResizeObserverComponent
                   onResize={throttledHandleBlockResize}>
                   <BlockRenderer
@@ -871,9 +871,9 @@ export default class Scrollgneugneu extends Component<Props, State> {
       className={wrapperClasses.join(' ')}
       style={{
         backgroundColor: currPageData?.bgColor,
-        ['--fixed-blocks-viewport-height']: fixedBlocksViewportHeight ?? '100vh',
-        ['--scrolling-block-height']: `${scrollingPanelHeight}px`,
-        ['--bg-color-transition-duration']: getBgColorTransitionDuration()
+        '--fixed-blocks-viewport-height': fixedBlocksViewportHeight ?? '100vh',
+        '--scrolling-block-height': `${scrollingPanelHeight}px`,
+        '--bg-color-transition-duration': getBgColorTransitionDuration()
       }}>
 
       {/* MODULES STYLES */}
