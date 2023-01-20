@@ -7,6 +7,7 @@ import ResizeObserverComponent from '../../components/ResizeObserver'
 import Paginator, { State as PaginatorState } from '../../components/Paginator'
 import { throttle } from '../../utils/throttle-debounce'
 import clamp from '../../utils/clamp'
+import bem from '../../utils/bem'
 
 // [WIP] - left-half-bottom, -middle, right-, ... need a fix
 export type LayoutName = 'full-screen'
@@ -35,7 +36,10 @@ export type PropsPageData = {
   blocks?: PropsBlockData[]
 }
 
+// [WIP] - rename fixed to sticky
 type Props = {
+  fixedBlocksLazyLoadDistance?: number
+  fixedBlocksViewportHeight?: string
   thresholdOffset?: string
   bgColorTransitionDuration?: string|number
   pages?: PropsPageData[]
@@ -62,12 +66,22 @@ const nullContext: BlockContext = {
 }
 
 export function createBlockContext (
-  partialContext: PartialBlockContext
+  partialContext?: PartialBlockContext
 ): BlockContext {
-  return {
-    ...nullContext,
-    ...partialContext
-  }
+  if (partialContext === undefined) return { ...nullContext }
+  return { ...nullContext, ...partialContext }
+}
+
+export const diffContexts = (
+  initialContext: BlockContext,
+  newContext: BlockContext) => {
+  const returned: Partial<BlockContext> = {}
+  Object.entries(newContext).map(([key, val]) => {
+    const valFromInitial = (initialContext as any)[key]
+    const valFromNew = val
+    if (valFromNew !== valFromInitial) (returned as any)[key] = valFromNew
+  })
+  return returned
 }
 
 export function contextsAreEqual (
@@ -115,7 +129,7 @@ function getIntNeighboursInNumbersSet (
     if (firstPos - num === 1) result.unshift(num)
   })
   higher.forEach(num => {
-    const lastPos = result.at(-1)
+    const lastPos = result[result.length - 1] as number|undefined
     if (lastPos === undefined) return
     if (num - lastPos === 1) result.push(num)
   })
@@ -128,7 +142,7 @@ type StateBlockData = PropsBlockData & {
   _zIndex: number
   _displayZones: BlockDisplayZone[]
   _context: BlockContext
-  _pContext: BlockContext
+  _pContext: BlockContext // [WIP] remove pContext managment from here, ModuleBlockRenderer handles this
 }
 
 type StatePageData = PropsPageData & {
@@ -151,13 +165,6 @@ type State = {
 
 /* Actual Component */
 export default class Scrollgneugneu extends Component<Props, State> {
-  state: State = {
-    pages: new Map(),
-    blocks: new Map(),
-    cssUrlDataMap: new Map(),
-    currPagePos: 0
-  }
-  
   static getDerivedStateFromProps (
     props: Props,
     state: State
@@ -179,8 +186,8 @@ export default class Scrollgneugneu extends Component<Props, State> {
         const _zIndex = zIndexes.get(blockIdentifier) ?? 0
         const _displayZones = getBlockDisplayZones(blockIdentifier, props.pages ?? [])
         const currentStateBlock = currentStateBlocks.get(blockIdentifier)
-        const _context = currentStateBlock?._context ?? createBlockContext({})
-        const _pContext = currentStateBlock?._pContext ?? createBlockContext({})
+        const _context = currentStateBlock?._context ?? createBlockContext()
+        const _pContext = currentStateBlock?._pContext ?? createBlockContext()
         const stateBlockData: StateBlockData = {
           ...blockData,
           _id: blockIdentifier,
@@ -306,28 +313,43 @@ export default class Scrollgneugneu extends Component<Props, State> {
     super(props)
     this.getBgColorTransitionDuration = this.getBgColorTransitionDuration.bind(this)
     this.loadCss = this.loadCss.bind(this)
-    this.isBlockSticky = this.isBlockSticky.bind(this)
-    this.getBlockStatus = this.getBlockStatus.bind(this)
     this.topDetection = this.topDetection.bind(this)
     this.cntDetection = this.cntDetection.bind(this)
     this.btmDetection = this.btmDetection.bind(this)
     this.getThresholdRect = this.getThresholdRect.bind(this)
     this.throttledGetThresholdRect = this.throttledGetThresholdRect.bind(this)
+    this.isBlockSticky = this.isBlockSticky.bind(this)
+    this.getBlockStatus = this.getBlockStatus.bind(this)
+    this.getBlockDistanceFromDisplay = this.getBlockDistanceFromDisplay.bind(this)
     this.getPagesRects = this.getPagesRects.bind(this)
     this.handlePaginatorResize = this.handlePaginatorResize.bind(this)
     this.handlePageChange = this.handlePageChange.bind(this)
     this.handleWindowScroll = this.handleWindowScroll.bind(this)
     this.handleBlockResize = this.handleBlockResize.bind(this)
     this.throttledHandleBlockResize = this.throttledHandleBlockResize.bind(this)
+    this.cleanRefsMaps = this.cleanRefsMaps.bind(this)
     this.Styles = this.Styles.bind(this)
     this.FixedBlocks = this.FixedBlocks.bind(this)
     this.ScrollingBlocks = this.ScrollingBlocks.bind(this)
   }
 
+  state: State = {
+    pages: new Map(),
+    blocks: new Map(),
+    cssUrlDataMap: new Map(),
+    currPagePos: 0
+  }
+
   componentDidMount(): void {
-    const { handleWindowScroll } = this
+    const { handleWindowScroll, cleanRefsMaps } = this
+    cleanRefsMaps()
     window.addEventListener('scroll', this.handleWindowScroll)
     handleWindowScroll()
+  }
+
+  componentDidUpdate(): void {
+    const { cleanRefsMaps } = this
+    cleanRefsMaps()
   }
 
   componentWillUnmount(): void {
@@ -375,25 +397,6 @@ export default class Scrollgneugneu extends Component<Props, State> {
     return '200ms'
   }
 
-  isBlockSticky (blockIdentifier: BlockIdentifier) {
-    const { state } = this
-    const { blocks } = state
-    const blockData = blocks.get(blockIdentifier)
-    if (blockData === undefined) return undefined
-    return blockData.depth === 'front'
-      || blockData.depth === 'back'
-  }
-
-  getBlockStatus (blockIdentifier: BlockIdentifier) {
-    const { state } = this
-    const { currPagePos, prevPagePos } = state
-    const currPageData = currPagePos !== undefined ? state.pages.get(currPagePos) : undefined
-    const prevPageData = prevPagePos !== undefined ? state.pages.get(prevPagePos) : undefined
-    if (currPageData?._blocksIds.has(blockIdentifier)) return 'current'
-    else if (prevPageData?._blocksIds.has(blockIdentifier)) return 'previous'
-    else return 'inactive'
-  }
-
   /* * * * * * * * * * * * * * * * * * * * * *
    * SCRLGNGN POSITION DETECTION IN WINDOW
    * * * * * * * * * * * * * * * * * * * * * */
@@ -415,6 +418,39 @@ export default class Scrollgneugneu extends Component<Props, State> {
     this.getThresholdRect.bind(this),
     1000
   ).throttled
+
+  isBlockSticky (blockIdentifier: BlockIdentifier) {
+    const { state } = this
+    const { blocks } = state
+    const blockData = blocks.get(blockIdentifier)
+    if (blockData === undefined) return undefined
+    return blockData.depth === 'front'
+      || blockData.depth === 'back'
+  }
+
+  getBlockStatus (blockIdentifier: BlockIdentifier) {
+    const { state } = this
+    const { currPagePos, prevPagePos } = state
+    const currPageData = currPagePos !== undefined ? state.pages.get(currPagePos) : undefined
+    const prevPageData = prevPagePos !== undefined ? state.pages.get(prevPagePos) : undefined
+    if (currPageData?._blocksIds.has(blockIdentifier)) return 'current'
+    else if (prevPageData?._blocksIds.has(blockIdentifier)) return 'previous'
+    else return 'inactive'
+  }
+
+  getBlockDistanceFromDisplay (blockIdentifier: BlockIdentifier) {
+    const { state } = this
+    const { blocks, currPagePos } = state
+    if (currPagePos === undefined) return;
+    const blockData = blocks.get(blockIdentifier)
+    if (blockData === undefined) return;
+    const blockPages = blockData._displayZones.flat()
+    const pagesDistances = blockPages
+      .map(pagePos => Math.abs((pagePos - currPagePos)))
+      .sort((a, b) => a - b)
+    const nearestPageDistance = pagesDistances[0] as number|undefined
+    return nearestPageDistance
+  }
 
   getPagesRects () {
     const { state, pagesRefsMap } = this
@@ -599,6 +635,18 @@ export default class Scrollgneugneu extends Component<Props, State> {
   paginatorRef: Paginator|null = null
   pagesRefsMap: Map<number, HTMLDivElement|null> = new Map()
   blocksRefsMap: Map<BlockIdentifier, HTMLDivElement|null> = new Map()
+  
+  cleanRefsMaps () {
+    const { pagesRefsMap, blocksRefsMap } = this
+    new Map(pagesRefsMap).forEach((pageRef, pagePos) => {
+      if (pageRef !== null) return;
+      pagesRefsMap.delete(pagePos)
+    })
+    new Map(blocksRefsMap).forEach((blockRef, blockId) => {
+      if (blockRef !== null) return;
+      blocksRefsMap.delete(blockId)
+    })
+  }
 
   Styles () {
     const { state } = this
@@ -612,19 +660,29 @@ export default class Scrollgneugneu extends Component<Props, State> {
     })}</>
   }
 
+  wrapperBemClass = bem('lm-scrllgngn')  
+
   FixedBlocks () {
     const { getLayoutClasses } = Scrollgneugneu
     const {
+      props,
       state,
+      blocksRefsMap,
+      wrapperBemClass,
       isBlockSticky,
       getBlockStatus,
-      blocksRefsMap,
+      getBlockDistanceFromDisplay,
       loadCss,
       throttledHandleBlockResize
     } = this
+    const { fixedBlocksLazyLoadDistance } = props
+    const lazyLoadDistance = fixedBlocksLazyLoadDistance ?? 3
     const { blocks } = state
     return <>
       {[...blocks].map(([blockIdentifier, blockData]) => {
+        const blockDistance = getBlockDistanceFromDisplay(blockIdentifier)
+        if (blockDistance === undefined) return null
+        if (blockDistance > lazyLoadDistance) return null
         const blockIsSticky = isBlockSticky(blockIdentifier)
         if (!blockIsSticky) return null
         const {
@@ -633,18 +691,23 @@ export default class Scrollgneugneu extends Component<Props, State> {
           _zIndex,      _context,    _pContext
         } = blockData
         const blockStatus = getBlockStatus(blockIdentifier)
+        const blockBemClass = wrapperBemClass
+          .elt('block')
+          .mod('sticky')
+          .mod(blockStatus)
         const blockClasses = [
+          blockBemClass.value,
           styles['sticky-block'],
           styles[`status-${blockStatus}`],
-          ...getLayoutClasses(layout, mobileLayout),
-          `lm-scrllgngn__fixed-block_${blockStatus}`
+          ...getLayoutClasses(layout, mobileLayout)
         ]
         return <div
             key={blockIdentifier}
             ref={n => { blocksRefsMap.set(blockIdentifier, n) }}
             className={blockClasses.join(' ')}
             style={{ ['--z-index']: _zIndex }}>
-            <ResizeObserverComponent onResize={throttledHandleBlockResize}>
+            <ResizeObserverComponent
+              onResize={throttledHandleBlockResize}>
               <TransitionsWrapper
                 isActive={blockStatus === 'current'}
                 transitions={transitions}
@@ -669,13 +732,19 @@ export default class Scrollgneugneu extends Component<Props, State> {
       state,
       blocksRefsMap,
       pagesRefsMap,
+      wrapperBemClass,
       loadCss,
       isBlockSticky,
       getBlockStatus,
       handlePageChange,
       throttledHandleBlockResize
     } = this
-    const { pages, blocks } = state
+    const {
+      pages,
+      blocks,
+      currPagePos,
+      prevPagePos
+    } = state
     const sortedPagesArr = [...pages].sort(([aPos], [bPos]) => aPos - bPos)
     const lowestScrollingBlockZIndex = [...blocks.entries()]
       .filter(([blockId]) => !isBlockSticky(blockId))
@@ -683,6 +752,7 @@ export default class Scrollgneugneu extends Component<Props, State> {
         if (blockData._zIndex <= acc) return blockData._zIndex
         return acc
       }, Infinity)
+    
     return <Paginator
       thresholdOffset={props.thresholdOffset}
       onPageChange={handlePageChange}
@@ -694,23 +764,39 @@ export default class Scrollgneugneu extends Component<Props, State> {
           .filter(id => !isBlockSticky(id))
           .map(id => blocks.get(id))
           .filter((b): b is StateBlockData => b !== undefined)
+        const isCurrent = pagePos === currPagePos
+        const isPrevious = pagePos === prevPagePos
+        const isInactive = !isCurrent && !isPrevious
+        const pageBemClass = wrapperBemClass
+          .elt('page')
+          .mod({
+            current: isCurrent,
+            previous: isPrevious,
+            inactive: isInactive
+          })
         return <Paginator.Page
           value={pagePos}
+          className={pageBemClass.value}
           pageRef={n => { pagesRefsMap.set(pagePos, n) }}>{
             pageBlocksData.map(blockData => {
               const { type, content, layout, mobileLayout } = blockData
               const blockStatus = getBlockStatus(blockData._id)
+              const blockBemClass = wrapperBemClass
+                .elt('block')
+                .mod('scrolling')
+                .mod(blockStatus)
               const blockClasses = [
+                blockBemClass.value,
                 styles['scrolling-block'],
                 styles[`status-${blockStatus}`],
-                ...getLayoutClasses(layout, mobileLayout),
-                `lm-scrllgngn__scroll-block_${blockStatus}`
+                ...getLayoutClasses(layout, mobileLayout)
               ]
               return <div
                 className={blockClasses.join(' ')}
                 ref={node => blocksRefsMap.set(blockData._id, node)}
                 style={{ ['--z-index']: blockData._zIndex }}>
-                <ResizeObserverComponent onResize={throttledHandleBlockResize}>
+                <ResizeObserverComponent
+                  onResize={throttledHandleBlockResize}>
                   <BlockRenderer
                     type={type}
                     content={content}
@@ -727,8 +813,11 @@ export default class Scrollgneugneu extends Component<Props, State> {
    * RENDER
    * * * * * * * * * * * * * * * * * * * * * */
   render () {
+    // [WIP] TOO MANY RENDERS IT SEEMS
     const {
+      props,
       state,
+      wrapperBemClass,
       topDetection,
       cntDetection,
       btmDetection,
@@ -738,6 +827,7 @@ export default class Scrollgneugneu extends Component<Props, State> {
       FixedBlocks,
       ScrollingBlocks
     } = this
+    const { fixedBlocksViewportHeight } = props
     const {
       currPagePos,
       scrollingPanelHeight,
@@ -755,17 +845,33 @@ export default class Scrollgneugneu extends Component<Props, State> {
       && !(btmVisible ?? false)
     const offsetFixed = !blocksAreFixed && btmVisible
 
-    // Assign css classes to wrapper
-    const wrapperClasses = [styles['wrapper']]
-    if (blocksAreFixed) wrapperClasses.push(styles['wrapper_fix-blocks'])
-    if (offsetFixed) wrapperClasses.push(styles['wrapper_offset-fixed-blocks'])
+    // Wrapper CSS classes
+    const wrapperClasses = [
+      wrapperBemClass.value,
+      styles['wrapper']
+    ]
+    if (blocksAreFixed) wrapperClasses.push(
+      styles['wrapper_fix-blocks'],
+      wrapperBemClass.mod('fix-blocks').value
+    )
+    if (offsetFixed) wrapperClasses.push(
+      styles['wrapper_offset-blocks'],
+      wrapperBemClass.mod('offset-blocks').value
+    )
+
+    // Scroll panel CSS classes
+    const scrollPanelBemClass = wrapperBemClass.element('scroll-panel')
+    const scrollPanelClasses = [
+      scrollPanelBemClass.value,
+      styles['scroll-panel']
+    ]
     
     // Return virtual DOM
     return <div
       className={wrapperClasses.join(' ')}
       style={{
         backgroundColor: currPageData?.bgColor,
-        ['--fixed-blocks-height']: '100vh', // [WIP] make this a prop for non fullscreen scrllgngn usage
+        ['--fixed-blocks-viewport-height']: fixedBlocksViewportHeight ?? '100vh',
         ['--scrolling-block-height']: `${scrollingPanelHeight}px`,
         ['--bg-color-transition-duration']: getBgColorTransitionDuration()
       }}>
@@ -777,14 +883,16 @@ export default class Scrollgneugneu extends Component<Props, State> {
       <FixedBlocks />
 
       {/* SCROLLING CONTENT */}
-      <div className={styles['scroll-panel']}>
+      <div className={scrollPanelClasses.join(' ')}>
         {/* TOP BOUND DETECTION */}
         <IntersectionObserverComponent
           render={<div />}
           callback={topDetection} />
         {/* CONTENT */}
-        <IntersectionObserverComponent callback={cntDetection}>
-          <ResizeObserverComponent onResize={handlePaginatorResize}>
+        <IntersectionObserverComponent
+          callback={cntDetection}>
+          <ResizeObserverComponent
+            onResize={handlePaginatorResize}>
             <ScrollingBlocks />
           </ResizeObserverComponent>
         </IntersectionObserverComponent>

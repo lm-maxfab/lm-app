@@ -1,7 +1,7 @@
 /*
  * Defined in index.tsx:
  *
- * --fixed-blocks-height
+ * --fixed-blocks-viewport-height
  * --scrolling-block-height
  * --bg-color-transition-duration
  */
@@ -17,7 +17,7 @@
   position: absolute;
   top: 0;
   display: inline-block;
-  height: var(--fixed-blocks-height);
+  height: var(--fixed-blocks-viewport-height);
   z-index: var(--z-index);
 }
 
@@ -43,10 +43,10 @@
   }
 }
 
-.wrapper.wrapper_offset-fixed-blocks {
+.wrapper.wrapper_offset-blocks {
   .sticky-block {
     position: absolute;
-    top: calc(var(--scrolling-block-height) - var(--fixed-blocks-height));
+    top: calc(var(--scrolling-block-height) - var(--fixed-blocks-viewport-height));
   }
 }
 

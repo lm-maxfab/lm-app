@@ -140,6 +140,43 @@ class Longform extends Component<Props, State> {
       }
     })
 
+    // const pagesData : PropsPageData[] = [{
+    //   bgColor: 'coral',
+    //   blocks: [{
+    //     id: 'page',
+    //     depth: 'scroll',
+    //     type: 'html',
+    //     content: `<div
+    //       style="
+    //         height: 1000px;
+    //         display: flex;
+    //         flex-direction: column;
+    //         justify-content: space-around
+    //       ">
+    //       <p>Scroll</p>
+    //       <p>Scroll</p>
+    //       <p>Scroll</p>
+    //       <p>Scroll</p>
+    //     </div>`
+    //   }]
+    // }, {
+    //   bgColor: 'aliceblue',
+    //   blocks: [{ id: 'page' }]
+    // }, {
+    //   bgColor: 'violet',
+    //   blocks: [{ id: 'page' }]
+    // }, {
+    //   bgColor: 'chocolate',
+    //   blocks: [{
+    //     id: 'page'
+    //   }, {
+    //     depth: 'front',
+    //     type: 'module',
+    //     content: 'http://localhost:50003/module-1/index.js',
+    //     trackScroll: true
+    //   }]
+    // }]
+
     // const pagesData: PropsPageData[] = [{
     //   blocks: [{
     //     depth: 'front',
