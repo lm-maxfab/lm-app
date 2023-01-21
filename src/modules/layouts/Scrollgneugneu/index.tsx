@@ -401,13 +401,30 @@ export default class Scrollgneugneu extends Component<Props, State> {
   /* * * * * * * * * * * * * * * * * * * * * *
    * SCRLGNGN POSITION DETECTION IN WINDOW
    * * * * * * * * * * * * * * * * * * * * * */
-
   /** Saves in state if the top of the scrllgngn wrapper is in screen */
-  topDetection ({ isIntersecting }: IntersectionObserverEntry) { this.setState({ topVisible: isIntersecting }) }
+  topDetection (target: Element) {
+    const { y, height } = target.getBoundingClientRect()
+    const { innerHeight } = window
+    console.log('topDetection', { y, height })
+    const isIntersecting = y <= innerHeight && y + height >= 0
+    this.setState({ topVisible: isIntersecting })
+  }
   /** Saves in state if the content of the scrllgngn wrapper is in screen */
-  cntDetection ({ isIntersecting }: IntersectionObserverEntry) { this.setState({ cntVisible: isIntersecting }) }
+  cntDetection (target: Element) {
+    const { y, height } = target.getBoundingClientRect()
+    const { innerHeight } = window
+    console.log('cntDetection', { y, height })
+    const isIntersecting = y <= innerHeight && y + height >= 0
+    this.setState({ cntVisible: isIntersecting })
+  }
   /** Saves in state if the bottom of the scrllgngn wrapper is in screen */
-  btmDetection ({ isIntersecting }: IntersectionObserverEntry) { this.setState({ btmVisible: isIntersecting }) }
+  btmDetection (target: Element) {
+    const { y, height } = target.getBoundingClientRect()
+    const { innerHeight } = window
+    console.log('btmDetection', { y, height })
+    const isIntersecting = y <= innerHeight && y + height >= 0
+    this.setState({ btmVisible: isIntersecting })
+  }
 
   getThresholdRect () {
     const { paginatorRef } = this
@@ -676,14 +693,14 @@ export default class Scrollgneugneu extends Component<Props, State> {
       loadCss,
       throttledHandleBlockResize
     } = this
-    const { fixedBlocksLazyLoadDistance } = props
-    const lazyLoadDistance = fixedBlocksLazyLoadDistance ?? 3
+    // const { fixedBlocksLazyLoadDistance } = props
+    // const lazyLoadDistance = fixedBlocksLazyLoadDistance ?? 3
     const { blocks } = state
     return <>
       {[...blocks].map(([blockIdentifier, blockData]) => {
         const blockDistance = getBlockDistanceFromDisplay(blockIdentifier)
         if (blockDistance === undefined) return null
-        if (blockDistance > lazyLoadDistance) return null
+        // if (blockDistance > lazyLoadDistance) return null
         const blockIsSticky = isBlockSticky(blockIdentifier)
         if (!blockIsSticky) return null
         const {
@@ -890,10 +907,10 @@ export default class Scrollgneugneu extends Component<Props, State> {
         {/* TOP BOUND DETECTION */}
         <IntersectionObserverComponent
           render={<div />}
-          callback={topDetection} />
+          callback={e => topDetection(e.target)} />
         {/* CONTENT */}
         <IntersectionObserverComponent
-          callback={cntDetection}>
+          callback={e => cntDetection(e.target)}>
           <ResizeObserverComponent
             onResize={handlePaginatorResize}>
             <ScrollingBlocks />
@@ -902,7 +919,7 @@ export default class Scrollgneugneu extends Component<Props, State> {
         {/* BOTTOM BOUND DETECTION */}
         <IntersectionObserverComponent
           render={<div />}
-          callback={btmDetection} />
+          callback={e => btmDetection(e.target)} />
       </div>
     </div>
   }
