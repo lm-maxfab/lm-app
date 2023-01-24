@@ -1,4 +1,5 @@
 import { Component, ComponentClass } from 'preact'
+import canAutoplay from 'can-autoplay'
 import { SheetBase } from '../sheet-base'
 import getViewportDimensions, { ViewportDimensions } from '../../utils/get-viewport-dimensions'
 import { groupDelay } from '../group-delay'
@@ -18,6 +19,7 @@ interface InjectedProps {
 
 interface State {
   viewportDimensions?: ViewportDimensions
+  canAutoplayVideo?: boolean
 }
 
 function wrapper (Wrapped: ComponentClass<InjectedProps>): any {
@@ -35,11 +37,13 @@ function wrapper (Wrapped: ComponentClass<InjectedProps>): any {
     constructor (props: Props) {
       super(props)
       this.setViewportDimensions = this.setViewportDimensions.bind(this)
+      this.canAutoplayCheck = this.canAutoplayCheck.bind(this)
       this.groupDelayedSetViewportDimensions()
       this.timeouts.push(window.setTimeout(this.groupDelayedSetViewportDimensions, 100))
       this.timeouts.push(window.setTimeout(this.groupDelayedSetViewportDimensions, 200))
       this.timeouts.push(window.setTimeout(this.groupDelayedSetViewportDimensions, 400))
       this.intervals.push(window.setInterval(this.groupDelayedSetViewportDimensions, 2000))
+      this.intervals.push(window.setInterval(this.canAutoplayCheck, 1000))
       window.addEventListener('resize', this.groupDelayedSetViewportDimensions)
       document.addEventListener('scroll', this.groupDelayedSetViewportDimensions)
     }
@@ -76,6 +80,18 @@ function wrapper (Wrapped: ComponentClass<InjectedProps>): any {
 
     groupDelayedSetViewportDimensions = groupDelay(this.setViewportDimensions.bind(this), 100)
 
+    async canAutoplayCheck () {
+      const response = await canAutoplay.video({ inline: true, muted: true })
+      if (response.result === true) return this.setState(curr => {
+        if (curr.canAutoplayVideo === true) return null
+        return { ...curr, canAutoplayVideo: true }
+      })
+      this.setState(curr => {
+        if (curr.canAutoplayVideo !== true) return null
+        return { ...curr, canAutoplayVideo: false }
+      })
+    }
+
     /* * * * * * * * * * * * * * *
      * RENDER
      * * * * * * * * * * * * * * */
@@ -83,10 +99,13 @@ function wrapper (Wrapped: ComponentClass<InjectedProps>): any {
       const { props, state } = this
       const wrapperClasses = bem(this.clss).mod({
         'env-dev': process.env.NODE_ENV === 'development',
-        'env-prod': process.env.NODE_ENV === 'production'
+        'env-prod': process.env.NODE_ENV === 'production',
+        'can-autoplay': state.canAutoplayVideo === true
       })
       const wrapperNavHeightVar = `${state.viewportDimensions?.navHeight ?? 0}px`
-      const wrapperStyle: JSX.CSSProperties = { '--nav-height': wrapperNavHeightVar }
+      const wrapperStyle: JSX.CSSProperties = {
+        '--nav-height': wrapperNavHeightVar
+      }
       return <Wrapped
         className={wrapperClasses.value}
         style={wrapperStyle}

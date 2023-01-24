@@ -402,11 +402,26 @@ export default class Scrollgneugneu extends Component<Props, State> {
    * * * * * * * * * * * * * * * * * * * * * */
 
   /** Saves in state if the top of the scrllgngn wrapper is in screen */
-  topDetection ({ isIntersecting }: IntersectionObserverEntry) { this.setState({ topVisible: isIntersecting }) }
+  topDetection (target: Element) {
+    const { y, height } = target.getBoundingClientRect()
+    const { innerHeight } = window
+    const isIntersecting = y <= innerHeight && y + height >= 0
+    this.setState({ topVisible: isIntersecting })
+  }
   /** Saves in state if the content of the scrllgngn wrapper is in screen */
-  cntDetection ({ isIntersecting }: IntersectionObserverEntry) { this.setState({ cntVisible: isIntersecting }) }
+  cntDetection (target: Element) {
+    const { y, height } = target.getBoundingClientRect()
+    const { innerHeight } = window
+    const isIntersecting = y <= innerHeight && y + height >= 0
+    this.setState({ cntVisible: isIntersecting })
+  }
   /** Saves in state if the bottom of the scrllgngn wrapper is in screen */
-  btmDetection ({ isIntersecting }: IntersectionObserverEntry) { this.setState({ btmVisible: isIntersecting }) }
+  btmDetection (target: Element) {
+    const { y, height } = target.getBoundingClientRect()
+    const { innerHeight } = window
+    const isIntersecting = y <= innerHeight && y + height >= 0
+    this.setState({ btmVisible: isIntersecting })
+  }
 
   getThresholdRect () {
     const { paginatorRef } = this
@@ -676,7 +691,7 @@ export default class Scrollgneugneu extends Component<Props, State> {
       throttledHandleBlockResize
     } = this
     const { fixedBlocksLazyLoadDistance } = props
-    const lazyLoadDistance = fixedBlocksLazyLoadDistance ?? 3
+    const lazyLoadDistance = fixedBlocksLazyLoadDistance ?? 2
     const { blocks } = state
     return <>
       {[...blocks].map(([blockIdentifier, blockData]) => {
@@ -705,7 +720,7 @@ export default class Scrollgneugneu extends Component<Props, State> {
             key={blockIdentifier}
             ref={n => { blocksRefsMap.set(blockIdentifier, n) }}
             className={blockClasses.join(' ')}
-            style={{ ['--z-index']: _zIndex }}>
+            style={{ '--z-index': _zIndex }}>
             <ResizeObserverComponent
               onResize={throttledHandleBlockResize}>
               <TransitionsWrapper
@@ -757,7 +772,7 @@ export default class Scrollgneugneu extends Component<Props, State> {
       thresholdOffset={props.thresholdOffset}
       onPageChange={handlePageChange}
       className={styles['paginator']}
-      style={{ ['--z-index']: lowestScrollingBlockZIndex }}
+      style={{ '--z-index': lowestScrollingBlockZIndex }}
       ref={(n: Paginator) => { this.paginatorRef = n }}>
       {sortedPagesArr.map(([pagePos, pageData]) => {
         const pageBlocksData = [...pageData._blocksIds]
@@ -794,7 +809,7 @@ export default class Scrollgneugneu extends Component<Props, State> {
               return <div
                 className={blockClasses.join(' ')}
                 ref={node => blocksRefsMap.set(blockData._id, node)}
-                style={{ ['--z-index']: blockData._zIndex }}>
+                style={{ '--z-index': blockData._zIndex }}>
                 <ResizeObserverComponent
                   onResize={throttledHandleBlockResize}>
                   <BlockRenderer
@@ -871,9 +886,9 @@ export default class Scrollgneugneu extends Component<Props, State> {
       className={wrapperClasses.join(' ')}
       style={{
         backgroundColor: currPageData?.bgColor,
-        ['--fixed-blocks-viewport-height']: fixedBlocksViewportHeight ?? '100vh',
-        ['--scrolling-block-height']: `${scrollingPanelHeight}px`,
-        ['--bg-color-transition-duration']: getBgColorTransitionDuration()
+        '--fixed-blocks-viewport-height': fixedBlocksViewportHeight ?? '100vh',
+        '--scrolling-block-height': `${scrollingPanelHeight}px`,
+        '--bg-color-transition-duration': getBgColorTransitionDuration()
       }}>
 
       {/* MODULES STYLES */}
@@ -887,10 +902,10 @@ export default class Scrollgneugneu extends Component<Props, State> {
         {/* TOP BOUND DETECTION */}
         <IntersectionObserverComponent
           render={<div />}
-          callback={topDetection} />
+          callback={e => topDetection(e.target)} />
         {/* CONTENT */}
         <IntersectionObserverComponent
-          callback={cntDetection}>
+          callback={e => cntDetection(e.target)}>
           <ResizeObserverComponent
             onResize={handlePaginatorResize}>
             <ScrollingBlocks />
@@ -899,7 +914,7 @@ export default class Scrollgneugneu extends Component<Props, State> {
         {/* BOTTOM BOUND DETECTION */}
         <IntersectionObserverComponent
           render={<div />}
-          callback={btmDetection} />
+          callback={e => btmDetection(e.target)} />
       </div>
     </div>
   }
