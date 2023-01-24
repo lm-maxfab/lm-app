@@ -1354,5 +1354,18 @@
       "description": "",
       "time": "2023-01-24T10:42:37.200Z"
     }
+  ],
+  "34-2301-iran": [
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 1
+      },
+      "description": "",
+      "time": "2023-01-24T17:19:58.936Z"
+    }
   ]
 }
