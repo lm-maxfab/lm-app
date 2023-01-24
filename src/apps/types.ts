@@ -20,6 +20,7 @@ export interface BlockData extends SheetBaseCollectionData {
 }
 
 export interface PageData extends SheetBaseCollectionData {
+  page_destination?: string
   bg_color?: string
   content?: string
   layout?: string

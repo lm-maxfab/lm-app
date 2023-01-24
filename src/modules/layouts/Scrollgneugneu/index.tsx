@@ -40,6 +40,7 @@ export type PropsPageData = {
 type Props = {
   fixedBlocksLazyLoadDistance?: number
   fixedBlocksViewportHeight?: string
+  fixedBlocksOffsetTop?: number
   thresholdOffset?: string
   bgColorTransitionDuration?: string|number
   pages?: PropsPageData[]
@@ -161,6 +162,7 @@ type State = {
   cntVisible?: boolean
   btmVisible?: boolean
   scrollingPanelHeight?: number
+  scrollingPanelWidth?: number
 }
 
 /* Actual Component */
@@ -313,9 +315,7 @@ export default class Scrollgneugneu extends Component<Props, State> {
     super(props)
     this.getBgColorTransitionDuration = this.getBgColorTransitionDuration.bind(this)
     this.loadCss = this.loadCss.bind(this)
-    this.topDetection = this.topDetection.bind(this)
-    this.cntDetection = this.cntDetection.bind(this)
-    this.btmDetection = this.btmDetection.bind(this)
+    this.boundsDetection = this.boundsDetection.bind(this)
     this.getThresholdRect = this.getThresholdRect.bind(this)
     this.throttledGetThresholdRect = this.throttledGetThresholdRect.bind(this)
     this.isBlockSticky = this.isBlockSticky.bind(this)
@@ -340,10 +340,17 @@ export default class Scrollgneugneu extends Component<Props, State> {
     currPagePos: 0
   }
 
+  boundsDetectionInterval: number|null = null
+
   componentDidMount(): void {
-    const { handleWindowScroll, cleanRefsMaps } = this
+    const {
+      handleWindowScroll,
+      cleanRefsMaps,
+      throttledBoundsDetection
+    } = this
     cleanRefsMaps()
-    window.addEventListener('scroll', this.handleWindowScroll)
+    window.addEventListener('scroll', handleWindowScroll)
+    this.boundsDetectionInterval = window.setInterval(throttledBoundsDetection, 2000)
     handleWindowScroll()
   }
 
@@ -353,7 +360,12 @@ export default class Scrollgneugneu extends Component<Props, State> {
   }
 
   componentWillUnmount(): void {
-    window.removeEventListener('scroll', this.handleWindowScroll)
+    const {
+      handleWindowScroll,
+      boundsDetectionInterval
+    } = this
+    if (boundsDetectionInterval !== null) window.clearInterval(boundsDetectionInterval)
+    window.removeEventListener('scroll', handleWindowScroll)
   }
 
   /**
@@ -400,28 +412,47 @@ export default class Scrollgneugneu extends Component<Props, State> {
   /* * * * * * * * * * * * * * * * * * * * * *
    * SCRLGNGN POSITION DETECTION IN WINDOW
    * * * * * * * * * * * * * * * * * * * * * */
+  boundsDetection () {
+    const {
+      paginatorRef,
+      topBoundRef,
+      btmBoundRef,
+      props
+    } = this
+    const { fixedBlocksOffsetTop } = props
+    const refToStateKeyMap = new Map<
+      'topVisible'|'cntVisible'|'btmVisible',
+      HTMLDivElement|null>([
+      ['topVisible', topBoundRef],
+      ['cntVisible', paginatorRef?.$scrollableArea ?? null],
+      ['btmVisible', btmBoundRef]
+    ])
+    const partialState: Partial<State> = {}
+    refToStateKeyMap.forEach((ref, stateKey) => {
+      if (ref === null) return
+      const { y, height } = ref.getBoundingClientRect()
+      const { innerHeight } = window
+      const isIntersecting = y <= innerHeight && y + height >= (fixedBlocksOffsetTop ?? 0);
+      partialState[stateKey] = isIntersecting
+    })
+    return this.setState(curr => {
+      const partialStateEntries = Object.keys(partialState) as (keyof State)[]
+      const hasChanges = partialStateEntries.some(key => {
+        const val = partialState[key]
+        return curr[key] !== val
+      })
+      if (!hasChanges) return null
+      return {
+        ...curr,
+        ...partialState
+      }
+    })
+  }
 
-  /** Saves in state if the top of the scrllgngn wrapper is in screen */
-  topDetection (target: Element) {
-    const { y, height } = target.getBoundingClientRect()
-    const { innerHeight } = window
-    const isIntersecting = y <= innerHeight && y + height >= 0
-    this.setState({ topVisible: isIntersecting })
-  }
-  /** Saves in state if the content of the scrllgngn wrapper is in screen */
-  cntDetection (target: Element) {
-    const { y, height } = target.getBoundingClientRect()
-    const { innerHeight } = window
-    const isIntersecting = y <= innerHeight && y + height >= 0
-    this.setState({ cntVisible: isIntersecting })
-  }
-  /** Saves in state if the bottom of the scrllgngn wrapper is in screen */
-  btmDetection (target: Element) {
-    const { y, height } = target.getBoundingClientRect()
-    const { innerHeight } = window
-    const isIntersecting = y <= innerHeight && y + height >= 0
-    this.setState({ btmVisible: isIntersecting })
-  }
+  throttledBoundsDetection = throttle(
+    this.boundsDetection.bind(this),
+    50
+  ).throttled
 
   getThresholdRect () {
     const { paginatorRef } = this
@@ -485,12 +516,14 @@ export default class Scrollgneugneu extends Component<Props, State> {
     const $paginator = entries[0]
     if ($paginator === undefined) return
     const { contentRect } = $paginator
-    const { height } = contentRect
+    const { height, width } = contentRect
     this.setState(curr => {
-      if (curr.scrollingPanelHeight === height) return null
+      if (curr.scrollingPanelHeight === height
+        && curr.scrollingPanelWidth === width) return null
       return {
         ...curr,
-        scrollingPanelHeight: height
+        scrollingPanelHeight: height,
+        scrollingPanelWidth: width
       }
     })
   }
@@ -545,8 +578,10 @@ export default class Scrollgneugneu extends Component<Props, State> {
   handleWindowScroll () {
     const {
       getPagesRects,
-      throttledGetThresholdRect
+      throttledGetThresholdRect,
+      throttledBoundsDetection
     } = this
+    throttledBoundsDetection()
     this.setState(curr => {
       const { blocks, pages, currPagePos } = curr
       const displayedScrollTrackingBlocks = new Map([...blocks].filter(([_, blockData]) => {
@@ -648,6 +683,8 @@ export default class Scrollgneugneu extends Component<Props, State> {
   ).throttled
 
   paginatorRef: Paginator|null = null
+  topBoundRef: HTMLDivElement|null = null
+  btmBoundRef: HTMLDivElement|null = null
   pagesRefsMap: Map<number, HTMLDivElement|null> = new Map()
   blocksRefsMap: Map<BlockIdentifier, HTMLDivElement|null> = new Map()
   
@@ -833,19 +870,21 @@ export default class Scrollgneugneu extends Component<Props, State> {
       props,
       state,
       wrapperBemClass,
-      topDetection,
-      cntDetection,
-      btmDetection,
+      throttledBoundsDetection,
       getBgColorTransitionDuration,
       handlePaginatorResize,
       Styles,
       FixedBlocks,
       ScrollingBlocks
     } = this
-    const { fixedBlocksViewportHeight } = props
+    const {
+      fixedBlocksViewportHeight,
+      fixedBlocksOffsetTop
+    } = props
     const {
       currPagePos,
       scrollingPanelHeight,
+      scrollingPanelWidth,
       pages
     } = state
     
@@ -887,7 +926,9 @@ export default class Scrollgneugneu extends Component<Props, State> {
       style={{
         backgroundColor: currPageData?.bgColor,
         '--fixed-blocks-viewport-height': fixedBlocksViewportHeight ?? '100vh',
+        '--fixed-blocks-offset-top': `${fixedBlocksOffsetTop ?? 0}px`,
         '--scrolling-block-height': `${scrollingPanelHeight}px`,
+        '--scrolling-block-width': `${scrollingPanelWidth}px`,
         '--bg-color-transition-duration': getBgColorTransitionDuration()
       }}>
 
@@ -901,11 +942,11 @@ export default class Scrollgneugneu extends Component<Props, State> {
       <div className={scrollPanelClasses.join(' ')}>
         {/* TOP BOUND DETECTION */}
         <IntersectionObserverComponent
-          render={<div />}
-          callback={e => topDetection(e.target)} />
+          render={<div ref={n => { this.topBoundRef = n }} />}
+          callback={throttledBoundsDetection} />
         {/* CONTENT */}
         <IntersectionObserverComponent
-          callback={e => cntDetection(e.target)}>
+          callback={throttledBoundsDetection}>
           <ResizeObserverComponent
             onResize={handlePaginatorResize}>
             <ScrollingBlocks />
@@ -913,8 +954,8 @@ export default class Scrollgneugneu extends Component<Props, State> {
         </IntersectionObserverComponent>
         {/* BOTTOM BOUND DETECTION */}
         <IntersectionObserverComponent
-          render={<div />}
-          callback={e => btmDetection(e.target)} />
+          render={<div ref={n => { this.btmBoundRef = n }} />}
+          callback={throttledBoundsDetection} />
       </div>
     </div>
   }

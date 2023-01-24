@@ -1,16 +1,21 @@
 {
-  "assets_root_url": "https://assets-decodeurs.lemonde.fr/redacweb/31-2212-essai-scrllgngn-decodeurs",
+  "assets_root_url": "https://assets-decodeurs.lemonde.fr/redacweb/34-2301-iran",
   "statics_root_url": "https://assets-decodeurs.lemonde.fr/redacweb/statics-v2",
   "spreadsheets_urls": {
-    "production": "https://assets-decodeurs.lemonde.fr/sheets/48lzT4GaajzCvpQ0sBa_iJJhJbs-0g_1507",
-    "staging": "https://assets-decodeurs.lemonde.fr/sheets/48lzT4GaajzCvpQ0sBa_iJJhJbs-0g_1508",
-    "testing": "https://assets-decodeurs.lemonde.fr/sheets/48lzT4GaajzCvpQ0sBa_iJJhJbs-0g_1509",
-    "developpment": "https://assets-decodeurs.lemonde.fr/sheets/48lzT4GaajzCvpQ0sBa_iJJhJbs-0g_1510"
+    "production": "https://assets-decodeurs.lemonde.fr/sheets/L3kk_VzNxiwWVRs9mXDIfHiClpapeQ_1684",
+    "staging": "https://assets-decodeurs.lemonde.fr/sheets/L3kk_VzNxiwWVRs9mXDIfHiClpapeQ_1685",
+    "testing": "https://assets-decodeurs.lemonde.fr/sheets/L3kk_VzNxiwWVRs9mXDIfHiClpapeQ_1686",
+    "developpment": "https://assets-decodeurs.lemonde.fr/sheets/L3kk_VzNxiwWVRs9mXDIfHiClpapeQ_1687"
   },
   "layouts": [{
     "name": "longform",
     "nodes": [
-      { "class": "demo-page-root", "type": "longform" }
+      { "class": "iran-cover-slot", "type": "cover" },
+      { "class": "iran-article-slot-1", "type": "snippet" },
+      { "class": "iran-article-slot-2", "type": "snippet" },
+      { "class": "iran-article-slot-3", "type": "snippet" },
+      { "class": "iran-article-slot-4", "type": "snippet" },
+      { "class": "iran-article-slot-5", "type": "snippet" }
     ]
   }],
   "env": null
