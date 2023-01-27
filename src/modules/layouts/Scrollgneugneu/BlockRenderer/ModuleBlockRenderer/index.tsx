@@ -14,7 +14,7 @@ type ModuleData = {
 }
 
 type State = {
-  status: null|'loading'|'loaded'|'initializing'|'initialized'
+  status: null|'loading'|'loaded'|'load-error'|'initializing'|'initialized'
   moduleData: ModuleData|null
   moduleLoadError: Error|null
   moduleInitError: Error|null
@@ -92,6 +92,7 @@ export default class ModuleBlockRenderer extends Component<Props, State> {
       if (status === null) loadInitAttachUpdateModule()
       else if (status === 'loading') { this.updateIsPending = true }
       else if (status === 'loaded') { this.updateIsPending = true }
+      else if (status === 'load-error') return
       else if (status === 'initializing') { this.updateIsPending = true }
       else updateAttachModule()
     }
@@ -107,7 +108,11 @@ export default class ModuleBlockRenderer extends Component<Props, State> {
   async loadModule () {
     const { props, aSetState } = this
     const { url, cssLoader } = props
-    if (url === undefined) return await aSetState({
+    const _url = url?.replace(
+      'https://assets-decodeurs.lemonde.fr/decodeurs/assets/comprendre_climat_1_1_ipcc_temperature_historic/index.js',
+      'http://localhost:50003/raph-graph/index.js'
+    )
+    if (_url === undefined) return await aSetState({
       status: null,
       moduleData: null,
       moduleLoadError: null
@@ -118,7 +123,7 @@ export default class ModuleBlockRenderer extends Component<Props, State> {
       moduleLoadError: null
     })
     try {
-      const importedData = (await import(/* vite-ignore */ url)) as unknown
+      const importedData = (await import(/* vite-ignore */ _url)) as unknown
       const importedIsNotObject = typeof importedData !== 'object'
       const importedIsNullish = importedData === null || importedData === undefined
       if (importedIsNotObject || importedIsNullish) throw new Error('Imported module is not an object')
@@ -147,7 +152,7 @@ export default class ModuleBlockRenderer extends Component<Props, State> {
       if (err instanceof Error) moduleLoadError = err
       else if (typeof err === 'string') moduleLoadError = new Error(err)
       await aSetState({
-        status: null,
+        status: 'load-error',
         moduleData: null,
         moduleLoadError
       })

@@ -2,14 +2,18 @@
  * Defined in index.tsx:
  *
  * --fixed-blocks-viewport-height
+ * --fixed-blocks-offset-top
  * --scrolling-block-height
+ * --scrolling-block-width
  * --bg-color-transition-duration
+ * --bg-color
  */
 
 .wrapper {
   position: relative;
-  transition: background-color var(--bg-color-transition-duration);
   overflow: hidden;
+  background-color: var(--bg-color);
+  transition: background-color var(--bg-color-transition-duration);
 }
 
 .sticky-block {
@@ -40,13 +44,18 @@
 .wrapper.wrapper_fix-blocks {
   .sticky-block {
     position: fixed;
+    top: var(--fixed-blocks-offset-top);
   }
 }
 
 .wrapper.wrapper_offset-blocks {
   .sticky-block {
     position: absolute;
-    top: calc(var(--scrolling-block-height) - var(--fixed-blocks-viewport-height));
+    top: calc(
+      var(--scrolling-block-height)
+      + var(--fixed-blocks-offset-top)
+      - var(--fixed-blocks-viewport-height)
+    );
   }
 }
 
@@ -88,16 +97,18 @@ $maxWidth: 800px;
 }
 
 .sticky-block {
+  --width: var(--scrolling-block-width);
+
   &.layout-left-half {
     @media (min-width: $minWidth) {
-      width: 50%;
-      margin-right: -50%;
+      width: calc(var(--width) / 2);
+      margin-right: calc(var(--width) / -2);
     }
   }
   &.layout-mobile-left-half {
     @media (max-width: $maxWidth) {
-      width: 50%;
-      margin-right: -50%;
+      width: calc(var(--width) / 2);
+      margin-right: calc(var(--width) / -2);
     }
   }
 }
@@ -147,18 +158,20 @@ $maxWidth: 800px;
 }
 
 .sticky-block {
+  --width: var(--scrolling-block-width);
+
   &.layout-right-half {
     @media (min-width: $minWidth) {
-      width: 50%;
-      margin-right: -50%;
-      left: 50%;
+      width: calc(var(--width, 100%) / 2);
+      margin-right: calc(var(--width, 100%) / -2);
+      left: calc(var(--width, 100%) / 2);
     }
   }
   &.layout-mobile-right-half {
     @media (max-width: $maxWidth) {
-      width: 50%;
-      margin-right: -50%;
-      left: 50%;
+      width: calc(var(--width, 100%) / 2);
+      margin-right: calc(var(--width, 100%) / -2);
+      left: calc(var(--width, 100%) / 2);
     }
   }
 }
@@ -206,14 +219,16 @@ $maxWidth: 800px;
 }
 
 .sticky-block {
+  --width: var(--scrolling-block-width);
+
   &.layout-full-screen {
     @media (min-width: $minWidth) {
-      width: 100%;
+      width: var(--width, 100%);
     }
   }
   &.layout-mobile-full-screen {
     @media (max-width: $maxWidth) {
-      width: 100%;
+      width: var(--width, 100%);
     }
   }
 }
