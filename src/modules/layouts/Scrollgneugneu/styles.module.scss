@@ -16,6 +16,24 @@
   transition: background-color var(--bg-color-transition-duration);
 }
 
+.header {
+  /* --z-index is defined in index.tsx */
+  z-index: var(--z-index);
+  position: fixed;
+  top: var(--fixed-blocks-offset-top);
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 600ms 5ms, visibility 0ms;
+}
+
+.wrapper.wrapper_hide-header {
+  .header {
+    opacity: 0;
+    visibility: collapse;
+    transition: opacity 600ms, visibility 0ms 600ms;
+  }
+}
+
 .sticky-block {
   /* --z-index is defined in index.tsx */
   position: absolute;

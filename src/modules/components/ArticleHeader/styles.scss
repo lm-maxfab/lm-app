@@ -1,22 +1,9 @@
-.lm-article-header {
-  position: relative;
-  padding: 8px;
+.fill-1 {
+  fill: var(--fill-1);
+  transition: fill var(--fill-transition-time);
+}
 
-  .lm-article-header__logo {
-    height: 32px;
-
-    @media screen and (max-width: 1200px) {
-      height: 28px;
-    }
-
-    .fill-1 {
-      fill: var(--fill-1);
-      transition: fill var(--fill-transition-time);
-    }
-
-    .fill-2 {
-      fill: var(--fill-2);
-      transition: fill var(--fill-transition-time);
-    }
-  }
+.fill-2 {
+  fill: var(--fill-2);
+  transition: fill var(--fill-transition-time);
 }

@@ -8,6 +8,8 @@ import Paginator, { State as PaginatorState } from '../../components/Paginator'
 import { throttle } from '../../utils/throttle-debounce'
 import clamp from '../../utils/clamp'
 import bem from '../../utils/bem'
+import ArticleHeader from '../../components/ArticleHeader'
+import isFalsy from '../../utils/is-falsy'
 
 // [WIP] - left-half-bottom, -middle, right-, ... need a fix
 export type LayoutName = 'full-screen'
@@ -32,8 +34,11 @@ export type PropsBlockData = {
 }
 
 export type PropsPageData = {
+  id?: string
   showHeader?: boolean
   showNav?: boolean
+  headerLogoFill1?: string
+  headerLogoFill2?: string
   chapterName?: string
   bgColor?: JSX.CSSProperties['backgroundColor']
   blocks?: PropsBlockData[]
@@ -331,6 +336,8 @@ export default class Scrollgneugneu extends Component<Props, State> {
     this.handleBlockResize = this.handleBlockResize.bind(this)
     this.throttledHandleBlockResize = this.throttledHandleBlockResize.bind(this)
     this.cleanRefsMaps = this.cleanRefsMaps.bind(this)
+    this.getCurrentPageData = this.getCurrentPageData.bind(this)
+    this.getPreviousPageData = this.getPreviousPageData.bind(this)
     this.Styles = this.Styles.bind(this)
     this.FixedBlocks = this.FixedBlocks.bind(this)
     this.ScrollingBlocks = this.ScrollingBlocks.bind(this)
@@ -478,10 +485,9 @@ export default class Scrollgneugneu extends Component<Props, State> {
   }
 
   getBlockStatus (blockIdentifier: BlockIdentifier) {
-    const { state } = this
-    const { currPagePos, prevPagePos } = state
-    const currPageData = currPagePos !== undefined ? state.pages.get(currPagePos) : undefined
-    const prevPageData = prevPagePos !== undefined ? state.pages.get(prevPagePos) : undefined
+    const { getCurrentPageData, getPreviousPageData } = this
+    const currPageData = getCurrentPageData()
+    const prevPageData = getPreviousPageData()
     if (currPageData?._blocksIds.has(blockIdentifier)) return 'current'
     else if (prevPageData?._blocksIds.has(blockIdentifier)) return 'previous'
     else return 'inactive'
@@ -582,7 +588,8 @@ export default class Scrollgneugneu extends Component<Props, State> {
     const {
       getPagesRects,
       throttledGetThresholdRect,
-      throttledBoundsDetection
+      throttledBoundsDetection,
+      getCurrentPageData
     } = this
     throttledBoundsDetection()
     this.setState(curr => {
@@ -598,7 +605,7 @@ export default class Scrollgneugneu extends Component<Props, State> {
       }))
       if (displayedScrollTrackingBlocks.size === 0) return null
       const newBlocks = new Map(blocks)
-      const currPageData = currPagePos !== undefined ? pages.get(currPagePos) : undefined
+      const currPageData = getCurrentPageData()
       const thresholdRect = throttledGetThresholdRect().returnValue
       // Not possible to calculate progressions
       if (currPagePos === undefined
@@ -703,6 +710,22 @@ export default class Scrollgneugneu extends Component<Props, State> {
     })
   }
 
+  getCurrentPageData () {
+    const { state } = this
+    const { currPagePos, pages } = state
+    return currPagePos !== undefined
+      ? pages.get(currPagePos)
+      : undefined
+  }
+
+  getPreviousPageData () {
+    const { state } = this
+    const { prevPagePos, pages } = state
+    return prevPagePos !== undefined
+      ? pages.get(prevPagePos)
+      : undefined
+  }
+
   // [WIP] Take back the styles load and display to BlockRenderer 
   Styles () {
     const { state } = this
@@ -731,12 +754,37 @@ export default class Scrollgneugneu extends Component<Props, State> {
       getBlockStatus,
       getBlockDistanceFromDisplay,
       loadCss,
-      throttledHandleBlockResize
+      throttledHandleBlockResize,
+      getCurrentPageData
     } = this
     const { fixedBlocksLazyLoadDistance } = props
     const lazyLoadDistance = fixedBlocksLazyLoadDistance ?? 2
     const { blocks } = state
+    const headerZIndex = [...blocks.values()].reduce((acc, curr) => {
+      if (curr._zIndex > acc) return curr._zIndex
+      return acc
+    }, 0)
+    const headerBlockClasses = [
+      styles['header'],
+      wrapperBemClass.elt('header').value
+    ]
+    const currentPageData = getCurrentPageData()
+    const headerStyle = { '--z-index': headerZIndex }
     return <>
+      <div
+        style={headerStyle}
+        className={headerBlockClasses.join(' ')}>
+        <ArticleHeader
+          fill1={currentPageData?.headerLogoFill1}
+          fill2={currentPageData?.headerLogoFill2}
+          navItems={[{
+            value: 'test',
+            status: 'active'
+          }, {
+            value: 'test-2',
+            status: 'inactive'
+          }]} />
+      </div>
       {[...blocks].map(([blockIdentifier, blockData]) => {
         const blockDistance = getBlockDistanceFromDisplay(blockIdentifier)
         if (blockDistance === undefined) return null
@@ -882,6 +930,7 @@ export default class Scrollgneugneu extends Component<Props, State> {
       throttledBoundsDetection,
       getBgColorTransitionDuration,
       handlePaginatorResize,
+      getCurrentPageData,
       Styles,
       FixedBlocks,
       ScrollingBlocks
@@ -897,9 +946,7 @@ export default class Scrollgneugneu extends Component<Props, State> {
       pages
     } = state
     
-    const currPageData = currPagePos !== undefined
-      ? pages.get(currPagePos)
-      : undefined
+    const currPageData = getCurrentPageData()
 
     // Detect if blocks must be fixed or offset
     const { topVisible, cntVisible, btmVisible } = state
@@ -910,7 +957,9 @@ export default class Scrollgneugneu extends Component<Props, State> {
 
     // Wrapper CSS classes
     const wrapperClasses = [
-      wrapperBemClass.value,
+      wrapperBemClass
+        .mod(`page-${currPageData?.id}`)
+        .value,
       styles['wrapper']
     ]
     if (blocksAreFixed) wrapperClasses.push(
@@ -920,6 +969,10 @@ export default class Scrollgneugneu extends Component<Props, State> {
     if (blocksAreOffset) wrapperClasses.push(
       styles['wrapper_offset-blocks'],
       wrapperBemClass.mod('offset-blocks').value
+    )
+    if (currPageData?.showHeader !== true) wrapperClasses.push(
+      styles['wrapper_hide-header'],
+      wrapperBemClass.mod('hide-header').value
     )
 
     // Scroll panel CSS classes

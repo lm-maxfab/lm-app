@@ -129,8 +129,11 @@ class Longform extends Component<Props, State> {
         }
       })
       return {
+        id: rawPageData.id,
         showHeader: rawPageData.show_header,
         showNav: rawPageData.show_nav,
+        headerLogoFill1: rawPageData.header_logo_fill_1,
+        headerLogoFill2: rawPageData.header_logo_fill_2,
         chapterName: rawPageData.chapter_name,
         bgColor: rawPageData.bg_color,
         blocks: [{

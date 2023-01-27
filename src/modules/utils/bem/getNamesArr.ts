@@ -1,5 +1,5 @@
 import isValidClassName from '../is-valid-css-class-name'
-import isNullish from '../is-nullish'
+import isFalsy from '../is-falsy'
 
 function getNamesArr (arg: any): string[] {
   const returned: string[] = []
@@ -9,7 +9,7 @@ function getNamesArr (arg: any): string[] {
     arg.forEach(elt => returned.push(...getNamesArr(elt)))
   } else if (typeof arg === 'object' && arg !== null) {
     Object.entries(arg).forEach(([key, val]) => {
-      if (!isNullish(val)) returned.push(...getNamesArr(key))
+      if (!isFalsy(val)) returned.push(...getNamesArr(key))
     })
   }
   return returned

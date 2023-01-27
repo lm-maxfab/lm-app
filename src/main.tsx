@@ -34,6 +34,8 @@ async function init (): Promise<void> {
     if ($header !== null) $header.remove()
   }
   window.setTimeout(removeHeader, 100)
+  window.setTimeout(removeHeader, 500)
+  window.setTimeout(removeHeader, 2000)
 
   // Get settings from window.location.search
   const settings = getPageSettings()

@@ -22,6 +22,8 @@ export interface BlockData extends SheetBaseCollectionData {
 export interface PageData extends SheetBaseCollectionData {
   show_header?: boolean
   show_nav?: boolean
+  header_logo_fill_1?: string
+  header_logo_fill_2?: string
   chapter_name?: string
   bg_color?: string
   content?: string

@@ -1,0 +1,38 @@
+.wrapper {
+  position: relative;
+  display: grid;
+  padding: 8px 0;
+  grid-template-columns: auto 1fr;
+}
+
+.logo,
+.nav-items {
+  height: 32px;
+  @media screen and (max-width: 1200px) {
+    height: 28px;
+  }
+}
+
+.logo {
+  display: block;
+  margin-left: 8px;
+  margin-right: 8px;
+}
+
+.nav-items {
+  width: 100%;
+  background-color: coral;
+  display: flex;
+  align-items: center;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.nav-items-inner {
+  display: flex;
+  flex-wrap: nowrap;
+}
