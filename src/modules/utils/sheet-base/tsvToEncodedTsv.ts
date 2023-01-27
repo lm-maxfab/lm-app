@@ -1,8 +1,11 @@
+import { toCharcodes36 } from "../charcode-string"
+
 function tsvToEncodedTsv (tsv: string): string {
   let returned = tsv
   const tsvComplexCellOpeningRegex = /(\t|\n)"/gm
   const tsvComplexCellOpeningTag = '<<<CELL>>>'
   const tsvComplexCellOpeningTransform = (match: string): string => `${match[0]}${tsvComplexCellOpeningTag}`
+  // [WIP] This prevents from ending a line with " ?
   const tsvComplexCellClosingRegex = /"(\t|\n)/gm
   const tsvComplexCellClosingTag = '<<</CELL>>>'
   const tsvComplexCellClosingTransform = (match: string): string => `${tsvComplexCellClosingTag}${match[match.length - 1]}`
@@ -19,8 +22,9 @@ function tsvToEncodedTsv (tsv: string): string {
         const returned: string = new Array(length).fill('"').join('')
         return returned
       })
-    const { btoa, unescape, encodeURIComponent: encode } = window
-    const encInside = btoa(unescape(encode(inside)))
+    const { btoa } = window
+    let charCoded = toCharcodes36(inside)
+    const encInside = btoa(charCoded)
     return tsvComplexCellOpeningTag + encInside + tsvComplexCellClosingTag
   }
   returned = returned.replace(tsvComplexCellRegex, tsvComplexNonencCellEncoder)

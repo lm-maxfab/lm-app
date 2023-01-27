@@ -1,3 +1,5 @@
+import { toString } from "../charcode-string"
+
 function encodedTsvArrayToTsvArray (encodedTsvArray: string[][]): string[][] {
   return encodedTsvArray.map(line => line.map(cell => {
     let returned = cell
@@ -9,8 +11,8 @@ function encodedTsvArrayToTsvArray (encodedTsvArray: string[][]): string[][] {
       const inside = match
         .replace(tsvComplexCellOpeningTag, '')
         .replace(tsvComplexCellClosingTag, '')
-      const { atob, escape, decodeURIComponent: decode } = window
-      const decInside = decode(escape(atob(inside)))
+      const { atob } = window
+      const decInside = toString(atob(inside))
       return decInside
     }
     returned = returned.replace(tsvComplexCellRegex, tsvComplexCellDecoder)
