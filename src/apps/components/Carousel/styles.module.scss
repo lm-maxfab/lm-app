@@ -17,7 +17,7 @@
   margin: 0 auto;
   display: grid;
   grid-gap: var(--card-gap);
-  grid-template-columns: repeat(5, var(--card-width));
+  grid-template-columns: repeat(var(--cards-nb), var(--card-width));
 }
 
 .card {

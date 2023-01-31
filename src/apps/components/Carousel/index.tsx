@@ -139,6 +139,7 @@ export default class Carousel extends Component<Props, State> {
 
     const wrapperClasses = [styles['wrapper']]
     const wrapperStyles = {
+      ['--cards-nb']: `${props.episodes.length}`,
       ['--card-width']: `${cardWidth}px`,
       ['--card-gap']: `${cardGap}px`
     }
