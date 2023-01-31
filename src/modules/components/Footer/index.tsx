@@ -1,6 +1,6 @@
 import { Component, VNode } from 'preact'
 import ArticleThumbV2 from '../ArticleThumbV2'
-import './styles.scss'
+import styles from './styles.module.scss'
 
 interface ArticleThumbsProps {
   customClass?: string
@@ -53,14 +53,12 @@ interface Props {
 }
 
 class Footer extends Component<Props, {}> {
-  static clss: string = 'lm-article-footer'
-  clss = Footer.clss
 
   render() {
     const { props } = this
 
     // Assign classes and styles
-    const wrapperClasses = [this.clss, props.customClass]
+    const wrapperClasses = [styles['wrapper'], props.customClass]
     const wrapperStyle = `
       background: linear-gradient(
         ${props.shadeFromColor ?? 'transparent'} 
@@ -72,8 +70,8 @@ class Footer extends Component<Props, {}> {
       background-size: cover;
       `
 
-    const backgroundClass = `${this.clss}__background`
-    const thumbnailsClass = `${this.clss}__thumbnails`
+    const backgroundClass = styles['background']
+    const thumbnailsClass = styles['thumbnails']
 
     return <div
       className={wrapperClasses.join(' ')}

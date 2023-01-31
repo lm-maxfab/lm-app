@@ -1,7 +1,7 @@
 import { Component, VNode } from 'preact'
 import Svg from '../Svg'
 import Img from '../Img'
-import './styles.scss'
+import styles from './styles.module.scss'
 
 interface Props {
   customClass?: string
@@ -37,9 +37,6 @@ interface Props {
 }
 
 class ArticleThumbV2 extends Component<Props, {}> {
-  static clss: string = 'lm-article-thumb'
-  clss = ArticleThumbV2.clss
-
   render() {
     const { props } = this
 
@@ -51,16 +48,16 @@ class ArticleThumbV2 extends Component<Props, {}> {
     }
 
     // Assign classes and styles
-    const wrapperClasses = [this.clss, data.customClass]
+    const wrapperClasses = [styles['wrapper'], data.customClass]
 
-    const aboveClass = `${this.clss}__above`
-    const belowClass = `${this.clss}__below`
-    const beforeClass = `${this.clss}__before`
-    const afterClass = `${this.clss}__after`
-    const topClass = `${this.clss}__top`
-    const centerClass = `${this.clss}__center`
-    const bottomClass = `${this.clss}__bottom`
-    const imgWrapperClass = `${this.clss}__image-wrapper`
+    const aboveClass = styles['above']
+    const belowClass = styles['below']
+    const beforeClass = styles['before']
+    const afterClass = styles['after']
+    const topClass = styles['top']
+    const centerClass = styles['center']
+    const bottomClass = styles['bottom']
+    const imgWrapperClass = styles['image-wrapper']
 
     const shadeStyle = `background: linear-gradient(
       ${data.shadeFromColor ?? 'transparent'} 
@@ -74,11 +71,11 @@ class ArticleThumbV2 extends Component<Props, {}> {
     const displayAfter = data.textAfterTop || data.textAfterCenter || data.textAfterBottom
 
     if (!displayAfter && !displayBefore) {
-      wrapperClasses.push(`${this.clss}--single-col`)
+      wrapperClasses.push(styles['single-col'])
     } else if ((displayBefore && displayAfter)) {
-      wrapperClasses.push(`${this.clss}--three-cols`)
+      wrapperClasses.push(styles['three-cols'])
     } else {
-      wrapperClasses.push(`${this.clss}--two-cols`)
+      wrapperClasses.push(styles['two-cols'])
     }
 
     return <div className={wrapperClasses.join(' ')}>
@@ -103,7 +100,7 @@ class ArticleThumbV2 extends Component<Props, {}> {
         {data.imageUrl && <div>
           {imageIsSvg
             ? <Svg src={data.imageUrl} desc={data.imageAlt}></Svg>
-            : <Img src={data.imageUrl} alt={data.imageAlt} ></Img>}
+            : <Img src={data.imageUrl} alt={data.imageAlt}></Img>}
         </div>}
 
         {/* shade */}

@@ -1,0 +1,18 @@
+.wrapper {
+  position: relative;
+}
+
+.frame {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  visibility: hidden;
+}
+
+.frame:first-child {
+  position: relative;
+}
+
+.frame--active {
+  visibility: visible;
+}

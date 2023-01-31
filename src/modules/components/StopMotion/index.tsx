@@ -3,7 +3,7 @@ import { Component, JSX } from 'preact'
 import clamp from '../../utils/clamp'
 import interpolate from '../../utils/interpolate'
 
-import './styles.scss'
+import styles from './styles.module.scss'
 
 interface State {
   progression: number | null | undefined
@@ -18,9 +18,6 @@ interface Props extends JSX.HTMLAttributes<HTMLDivElement> {
 }
 
 class StopMotion extends Component<Props, {}> {
-  static clss = 'lm-stop-motion'
-  clss = StopMotion.clss
-
   state: State = {
     progression: 0,
     images: this.props.images,
@@ -48,23 +45,21 @@ class StopMotion extends Component<Props, {}> {
   render(): (JSX.Element | null) {
     const { images, progression, ...props } = this.props
 
-    if (images.length === 0) return null
-    if (!progression) return null
+    if (images.length === 0) return <></>
+    if (!progression) return <></>
 
     const clampedProgression = clamp(progression, 0, 1)
     const interpolatedProgression = Math.round(interpolate(clampedProgression, 0, images.length - 1))
 
-    const imgClassName = `${this.clss}__frame`
-
     return (
       <div
         {...props}
-        className={this.clss}
+        className={styles['wrapper']}
       >
         {images.map((_el, i) => {
           const classList = [
-            imgClassName,
-            i === interpolatedProgression ? ` ${imgClassName}--active` : ''
+            styles['frame'],
+            i === interpolatedProgression ? styles['frame--active'] : ''
           ]
 
           return <img src={images[i]} class={classList.join(' ')}></img>
