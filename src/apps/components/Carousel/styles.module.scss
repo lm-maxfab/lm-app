@@ -20,13 +20,6 @@
   grid-template-columns: repeat(var(--cards-nb), var(--card-width));
 }
 
-.card {
-  height: 400px;
-  width: var(--card-width);
-  flex-shrink: 0;
-  flex-grow: 0;
-}
-
 .arrow {
   cursor: pointer;
   background-color: var(--footer-c-lightest);
