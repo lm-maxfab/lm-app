@@ -24,7 +24,7 @@ export type PropsBlockData = {
   id?: string
   depth?: 'scroll'|'back'|'front'
   zIndex?: number
-  type?: 'html'|'module'
+  type?: 'html'|'module'|'motion'
   content?: string
   layout?: LayoutName
   mobileLayout?: LayoutName
@@ -190,6 +190,7 @@ export default class Scrollgneugneu extends Component<Props, State> {
     const zIndexes = getBlocksZIndexes(props.pages ?? [])
     props.pages?.forEach((pageData, pagePos) => {
       pageData.blocks?.forEach((blockData, blockPos) => {
+        if (blockData.type === 'motion') blockData.trackScroll = true
         const blockIdentifier = blockData.id ?? `${pagePos}-${blockPos}`
         const alreadyInMap = blocks.has(blockIdentifier)
         if (alreadyInMap) return

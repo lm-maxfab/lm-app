@@ -2,9 +2,10 @@ import { Component } from 'preact'
 import { BlockContext } from '..'
 import HtmlBlockRenderer from './HtmlBlockRenderer'
 import ModuleBlockRenderer from './ModuleBlockRenderer'
+import MotionBlockRenderer from './MotionBlockRenderer'
 
 type Props = {
-  type?: 'module'|'html'
+  type?: 'module'|'html'|'motion'
   content?: string
   context?: BlockContext
   prevContext?: BlockContext // [WIP] remove this
@@ -22,6 +23,9 @@ export default class BlockRenderer extends Component<Props> {
         url={content}
         context={context}
         cssLoader={cssLoader} />
+      case 'motion': return <MotionBlockRenderer
+        imagesList={content}
+        context={context} />
       default: return <div>Block type {type} is unknown</div>
     }
   }

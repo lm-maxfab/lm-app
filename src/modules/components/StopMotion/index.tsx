@@ -6,14 +6,14 @@ import interpolate from '../../utils/interpolate'
 import './styles.scss'
 
 interface State {
-  progression: number
+  progression: number | null | undefined
   images: string[]
   pProgression: number | null
   pImages: string[] | null
 }
 
 interface Props extends JSX.HTMLAttributes<HTMLDivElement> {
-  progression: number
+  progression: number | null | undefined
   images: string[]
 }
 
@@ -49,6 +49,7 @@ class StopMotion extends Component<Props, {}> {
     const { images, progression, ...props } = this.props
 
     if (images.length === 0) return null
+    if (!progression) return null
 
     const clampedProgression = clamp(progression, 0, 1)
     const interpolatedProgression = Math.round(interpolate(clampedProgression, 0, images.length - 1))

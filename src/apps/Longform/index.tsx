@@ -63,7 +63,8 @@ class Longform extends Component<Props, State> {
         layout: 'right-half',
         mobileLayout: 'left-half',
         trackScroll: true
-      }]
+      },
+    ]
     }, {
       bgColor: 'red',
       blocks: [{
@@ -77,6 +78,54 @@ class Longform extends Component<Props, State> {
         transitions: [['whirl', 600]],
         mobileTransitions: [['grow', 600]],
         trackScroll: false
+      }, 
+      {
+        transitions: [['fade', 600]],
+        id: 'motion-block',
+        depth: 'back',
+        zIndex: 0,
+        type: 'motion',
+        layout: 'right-half',
+        content: `https://assets-decodeurs.lemonde.fr/redacweb/2301-stop-motion-module/1.png,
+          https://assets-decodeurs.lemonde.fr/redacweb/2301-stop-motion-module/2.png,
+          https://assets-decodeurs.lemonde.fr/redacweb/2301-stop-motion-module/3.png,
+          https://assets-decodeurs.lemonde.fr/redacweb/2301-stop-motion-module/4.png,
+          https://assets-decodeurs.lemonde.fr/redacweb/2301-stop-motion-module/5.png,
+          https://assets-decodeurs.lemonde.fr/redacweb/2301-stop-motion-module/6.png,
+          https://assets-decodeurs.lemonde.fr/redacweb/2301-stop-motion-module/7.png,
+          https://assets-decodeurs.lemonde.fr/redacweb/2301-stop-motion-module/8.png,
+          https://assets-decodeurs.lemonde.fr/redacweb/2301-stop-motion-module/9.png,
+          https://assets-decodeurs.lemonde.fr/redacweb/2301-stop-motion-module/10.png,
+          https://assets-decodeurs.lemonde.fr/redacweb/2301-stop-motion-module/11.png,
+          https://assets-decodeurs.lemonde.fr/redacweb/2301-stop-motion-module/12.png,
+          https://assets-decodeurs.lemonde.fr/redacweb/2301-stop-motion-module/13.png,
+          https://assets-decodeurs.lemonde.fr/redacweb/2301-stop-motion-module/14.png,
+          https://assets-decodeurs.lemonde.fr/redacweb/2301-stop-motion-module/15.png,
+          https://assets-decodeurs.lemonde.fr/redacweb/2301-stop-motion-module/16.png,
+          https://assets-decodeurs.lemonde.fr/redacweb/2301-stop-motion-module/17.png,
+          https://assets-decodeurs.lemonde.fr/redacweb/2301-stop-motion-module/18.png,
+          https://assets-decodeurs.lemonde.fr/redacweb/2301-stop-motion-module/19.png,
+          https://assets-decodeurs.lemonde.fr/redacweb/2301-stop-motion-module/20.png,
+          https://assets-decodeurs.lemonde.fr/redacweb/2301-stop-motion-module/21.png,
+          https://assets-decodeurs.lemonde.fr/redacweb/2301-stop-motion-module/22.png,
+          https://assets-decodeurs.lemonde.fr/redacweb/2301-stop-motion-module/23.png,
+          https://assets-decodeurs.lemonde.fr/redacweb/2301-stop-motion-module/24.png,
+          https://assets-decodeurs.lemonde.fr/redacweb/2301-stop-motion-module/25.png,
+          https://assets-decodeurs.lemonde.fr/redacweb/2301-stop-motion-module/26.png,
+          https://assets-decodeurs.lemonde.fr/redacweb/2301-stop-motion-module/27.png,
+          https://assets-decodeurs.lemonde.fr/redacweb/2301-stop-motion-module/28.png,
+          https://assets-decodeurs.lemonde.fr/redacweb/2301-stop-motion-module/29.png,
+          https://assets-decodeurs.lemonde.fr/redacweb/2301-stop-motion-module/30.png,
+          https://assets-decodeurs.lemonde.fr/redacweb/2301-stop-motion-module/31.png,
+          https://assets-decodeurs.lemonde.fr/redacweb/2301-stop-motion-module/32.png,
+          https://assets-decodeurs.lemonde.fr/redacweb/2301-stop-motion-module/33.png,
+          https://assets-decodeurs.lemonde.fr/redacweb/2301-stop-motion-module/34.png,
+          https://assets-decodeurs.lemonde.fr/redacweb/2301-stop-motion-module/35.png,
+          https://assets-decodeurs.lemonde.fr/redacweb/2301-stop-motion-module/36.png,
+          https://assets-decodeurs.lemonde.fr/redacweb/2301-stop-motion-module/37.png,
+          https://assets-decodeurs.lemonde.fr/redacweb/2301-stop-motion-module/38.png,
+          https://assets-decodeurs.lemonde.fr/redacweb/2301-stop-motion-module/39.png,
+          https://assets-decodeurs.lemonde.fr/redacweb/2301-stop-motion-module/40.png`,
       }, {
         id: 'first-back-block'
       }, {
@@ -88,8 +137,7 @@ class Longform extends Component<Props, State> {
         trackScroll: true
       }]
     },
-    {},
-    { blocks: [{ id: 'first-scroll-block' }, { id: 'first-back-block' }, { id: 'second-back-block' }] },
+    { blocks: [{ id: 'first-scroll-block' }, { id: 'first-back-block' }, { id: 'second-back-block' }, { id: 'motion-block' }] },
     { blocks: [{ id: 'first-scroll-block' }, { id: 'first-back-block' }] },
     { blocks: [{ id: 'first-scroll-block' }, { id: 'first-back-block' }, { id: 'second-back-block' }] },
     { blocks: [{ id: 'first-scroll-block' }, { id: 'first-back-block' }, { id: 'second-back-block' }] },
@@ -261,7 +309,7 @@ class Longform extends Component<Props, State> {
           }
         }
       ></ArticleThumbV2> */}
-
+{/* 
       <Footer
         customClass={'custom-class'}
         customCss={'.lm-article-footer { border: 1px solid red; }'}
@@ -293,12 +341,12 @@ class Longform extends Component<Props, State> {
             imageUrl: "https://assets-decodeurs.lemonde.fr/redacweb/32-2301-footer-crim/cover.png",
           },
         ]}
-      ></Footer>
+      ></Footer> */}
 
-      {/* <Scrollgneugneu
+      <Scrollgneugneu
         pages={pagesData}
         thresholdOffset={generalSettings?.threshold_offset}
-        bgColorTransitionDuration={generalSettings?.bg_color_transition_duration} /> */}
+        bgColorTransitionDuration={generalSettings?.bg_color_transition_duration} />
     </div >
   }
 }
