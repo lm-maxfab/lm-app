@@ -9,142 +9,158 @@ import {
   BlockData as BlockDataFromSheet,
   PageData as PageDataFromSheet
 } from '../types'
+import StopMotion from '../../modules/components/StopMotion'
+import ArticleThumbV2 from '../../modules/components/ArticleThumbV2'
+import Footer from '../../modules/components/Footer'
 
-interface Props extends InjectedProps {}
-interface State {}
+interface Props extends InjectedProps { }
+interface State {
+  scrollValue: 0
+}
 
 class Longform extends Component<Props, State> {
   static clss: string = 'sable-longform'
   clss = Longform.clss
 
+  state: State = {
+    scrollValue: 0
+  }
+
+  constructor(props: Props) {
+    super(props)
+    this.updateScrollValue = this.updateScrollValue.bind(this)
+  }
+
+  updateScrollValue(e: any) {
+    this.setState({ scrollValue: e.target?.value })
+  }
+
   /* * * * * * * * * * * * * * *
    * RENDER
    * * * * * * * * * * * * * * */
-  render (): JSX.Element {
+  render(): JSX.Element {
     const { props } = this
     const { sheetBase } = props
 
-    //   const pagesData: PropsPageData[] = [{
-    //     bgColor: 'blue',
-    //     blocks: [{
-    //       id: 'first-scroll-block',
-    //       depth: 'scroll',
-    //       zIndex: 3,
-    //       type: 'html',
-    //       content: '<div style="height: 2000px; background-color: violet;">I am the first scroll content</div>',
-    //       layout: 'left-half',
-    //       mobileLayout: 'right-half',
-    //       transitions: [['whirl', 600]],
-    //       mobileTransitions: [['grow', 600]]
-    //     }, {
-    //       id: 'first-back-block',
-    //       depth: 'back',
-    //       zIndex: 0,
-    //       type: 'module',
-    //       content: 'http://localhost:50003/module-1/index.js',
-    //       layout: 'right-half',
-    //       mobileLayout: 'left-half',
-    //       trackScroll: true
-    //     }]
-    //   }, {
-    //     bgColor: 'red',
-    //     blocks: [{
-    //       // id: 'second-scroll-block',
-    //       depth: 'scroll',
-    //       zIndex: 3,
-    //       type: 'html',
-    //       content: '<div style="height: 2000px; background-color: chocolate;">I am the second scroll content</div>',
-    //       layout: 'left-half',
-    //       mobileLayout: 'right-half',
-    //       transitions: [['whirl', 600]],
-    //       mobileTransitions: [['grow', 600]],
-    //       trackScroll: false
-    //     }, {
-    //       id: 'first-back-block'
-    //     }, {
-    //       id: 'second-back-block',
-    //       type: 'html',
-    //       depth: 'back',
-    //       layout: 'right-half',
-    //       content: '<div>I am the second back block</div>',
-    //       trackScroll: true
-    //     }]
-    //   },
-    //   {},
-    //   { blocks: [{id: 'first-scroll-block' }, {id: 'first-back-block' }, {id: 'second-back-block' }] },
-    //   { blocks: [{id: 'first-scroll-block' }, {id: 'first-back-block' }] },
-    //   { blocks: [{id: 'first-scroll-block' }, {id: 'first-back-block' }, {id: 'second-back-block' }] },
-    //   {},
-    //   {},
-    //   { blocks: [{id: 'first-scroll-block' }, {id: 'first-back-block' }, {id: 'second-back-block' }] },
-    //   { blocks: [{id: 'first-scroll-block' }, {id: 'first-back-block' }, {id: 'second-back-block' }] }
-    // ]
+    const pagesData: PropsPageData[] = [{
+      bgColor: 'blue',
+      blocks: [{
+        id: 'first-scroll-block',
+        depth: 'scroll',
+        zIndex: 3,
+        type: 'html',
+        content: '<div style="height: 2000px; background-color: violet;">I am the first scroll content</div>',
+        layout: 'left-half',
+        mobileLayout: 'right-half',
+        transitions: [['whirl', 600]],
+        mobileTransitions: [['grow', 600]]
+      }, {
+        id: 'first-back-block',
+        depth: 'back',
+        zIndex: 0,
+        type: 'module',
+        content: 'http://localhost:50003/module-1/index.js',
+        layout: 'right-half',
+        mobileLayout: 'left-half',
+        trackScroll: true
+      }]
+    }, {
+      bgColor: 'red',
+      blocks: [{
+        // id: 'second-scroll-block',
+        depth: 'scroll',
+        zIndex: 3,
+        type: 'html',
+        content: '<div style="height: 2000px; background-color: chocolate;">I am the second scroll content</div>',
+        layout: 'left-half',
+        mobileLayout: 'right-half',
+        transitions: [['whirl', 600]],
+        mobileTransitions: [['grow', 600]],
+        trackScroll: false
+      }, {
+        id: 'first-back-block'
+      }, {
+        id: 'second-back-block',
+        type: 'html',
+        depth: 'back',
+        layout: 'right-half',
+        content: '<div>I am the second back block</div>',
+        trackScroll: true
+      }]
+    },
+    {},
+    { blocks: [{ id: 'first-scroll-block' }, { id: 'first-back-block' }, { id: 'second-back-block' }] },
+    { blocks: [{ id: 'first-scroll-block' }, { id: 'first-back-block' }] },
+    { blocks: [{ id: 'first-scroll-block' }, { id: 'first-back-block' }, { id: 'second-back-block' }] },
+    { blocks: [{ id: 'first-scroll-block' }, { id: 'first-back-block' }, { id: 'second-back-block' }] },
+    { blocks: [{ id: 'first-scroll-block' }, { id: 'first-back-block' }, { id: 'second-back-block' }] }
+    ]
 
-    const generalSettings = sheetBase?.collection('general_settings').entries[0].value as GeneralSettings|undefined
-    const blocksData = sheetBase?.collection('blocks_data').value as BlockDataFromSheet[]|undefined
-    const rawPagesData = sheetBase?.collection('pages_data').value as PageDataFromSheet[]|undefined
-    const pagesData: PropsPageData[]|undefined = rawPagesData?.map(rawPageData => {
-      const fixedBlocksData: PropsBlockData[] = []
-      rawPageData.blocks_ids?.split(',').map(name => {
-        const blockId = name.trim()
-        const theActualBlock = blocksData?.find(blockData => blockData.id === blockId)
-        if (theActualBlock !== undefined) {
-          const extractedBlockData: PropsBlockData = {
-            id: theActualBlock.id as PropsBlockData['id'],
-            depth: (theActualBlock.depth ?? 'back') as PropsBlockData['depth'],
-            type: theActualBlock.type as PropsBlockData['type'],
-            content: theActualBlock.content as PropsBlockData['content'],
-            layout: theActualBlock.layout as PropsBlockData['layout'],
-            mobileLayout: theActualBlock.mobileLayout as PropsBlockData['mobileLayout'],
-            transitions: theActualBlock.transitions
-              ?.split(';')
-              .map(str => str
-                .trim()
-                .split(',')
-                .map(str => str.trim())
-                .map((val, pos) => {
-                  if (pos === 0) return val
-                  if (pos === 1 && val === undefined) return '600ms'
-                  if (val.match(/[0-9]$/gm)) return `${val}ms`
-                  return val
-                })
-              ) as PropsBlockData['transitions'],
-            mobileTransitions: theActualBlock.mobileTransitions
-              ?.split(';')
-              .map(str => str
-                .trim()
-                .split(',')
-                .map(str => str.trim())
-                .map((val, pos) => {
-                  if (pos === 0) return val
-                  if (pos === 1 && val === undefined) return '600ms'
-                  if (val.match(/[0-9]$/gm)) return `${val}ms`
-                  return val
-                })
-              ) as PropsBlockData['mobileTransitions'],
-            zIndex: theActualBlock.zIndex,
-            trackScroll: theActualBlock.trackScroll
-          }
-          fixedBlocksData.push(extractedBlockData)
-        }
-      })
-      return {
-        id: rawPageData.id,
-        showHeader: rawPageData.show_header,
-        showNav: rawPageData.show_nav,
-        headerLogoFill1: rawPageData.header_logo_fill_1,
-        headerLogoFill2: rawPageData.header_logo_fill_2,
-        chapterName: rawPageData.chapter_name,
-        bgColor: rawPageData.bg_color,
-        blocks: [{
-          depth: 'scroll',
-          type: 'html',
-          content: rawPageData.content,
-          layout: rawPageData.layout as PropsBlockData['layout'],
-          mobileLayout: rawPageData.mobileLayout as PropsBlockData['mobileLayout']
-        }, ...fixedBlocksData]
-      }
-    })
+    const generalSettings = sheetBase?.collection('general_settings').entries[0].value as GeneralSettings | undefined
+    const blocksData = sheetBase?.collection('blocks_data').value as BlockDataFromSheet[] | undefined
+    const rawPagesData = sheetBase?.collection('pages_data').value as PageDataFromSheet[] | undefined
+    // const pagesData: PropsPageData[]|undefined = rawPagesData?.map(rawPageData => {
+    //   const fixedBlocksData: PropsBlockData[] = []
+    //   rawPageData.blocks_ids?.split(',').map(name => {
+    //     const blockId = name.trim()
+    //     const theActualBlock = blocksData?.find(blockData => blockData.id === blockId)
+    //     if (theActualBlock !== undefined) {
+    //       const extractedBlockData: PropsBlockData = {
+    //         id: theActualBlock.id as PropsBlockData['id'],
+    //         depth: (theActualBlock.depth ?? 'back') as PropsBlockData['depth'],
+    //         type: theActualBlock.type as PropsBlockData['type'],
+    //         content: theActualBlock.content as PropsBlockData['content'],
+    //         layout: theActualBlock.layout as PropsBlockData['layout'],
+    //         mobileLayout: theActualBlock.mobileLayout as PropsBlockData['mobileLayout'],
+    //         transitions: theActualBlock.transitions
+    //           ?.split(';')
+    //           .map(str => str
+    //             .trim()
+    //             .split(',')
+    //             .map(str => str.trim())
+    //             .map((val, pos) => {
+    //               if (pos === 0) return val
+    //               if (pos === 1 && val === undefined) return '600ms'
+    //               if (val.match(/[0-9]$/gm)) return `${val}ms`
+    //               return val
+    //             })
+    //           ) as PropsBlockData['transitions'],
+    //         mobileTransitions: theActualBlock.mobileTransitions
+    //           ?.split(';')
+    //           .map(str => str
+    //             .trim()
+    //             .split(',')
+    //             .map(str => str.trim())
+    //             .map((val, pos) => {
+    //               if (pos === 0) return val
+    //               if (pos === 1 && val === undefined) return '600ms'
+    //               if (val.match(/[0-9]$/gm)) return `${val}ms`
+    //               return val
+    //             })
+    //           ) as PropsBlockData['mobileTransitions'],
+    //         zIndex: theActualBlock.zIndex,
+    //         trackScroll: theActualBlock.trackScroll
+    //       }
+    //       fixedBlocksData.push(extractedBlockData)
+    //     }
+    //   })
+    //   return {
+    //     id: rawPageData.id,
+    //     showHeader: rawPageData.show_header,
+    //     showNav: rawPageData.show_nav,
+    //     headerLogoFill1: rawPageData.header_logo_fill_1,
+    //     headerLogoFill2: rawPageData.header_logo_fill_2,
+    //     chapterName: rawPageData.chapter_name,
+    //     bgColor: rawPageData.bg_color,
+    //     blocks: [{
+    //       depth: 'scroll',
+    //       type: 'html',
+    //       content: rawPageData.content,
+    //       layout: rawPageData.layout as PropsBlockData['layout'],
+    //       mobileLayout: rawPageData.mobileLayout as PropsBlockData['mobileLayout']
+    //     }, ...fixedBlocksData]
+    //   }
+    // })
 
     // const pagesData : PropsPageData[] = [{
     //   bgColor: 'coral',
@@ -201,15 +217,89 @@ class Longform extends Component<Props, State> {
     const wrapperClasses = bem(props.className).block(this.clss)
     const wrapperStyle: JSX.CSSProperties = { ...props.style }
 
+    const imagesArray = []
+    for (let i = 1; i <= 40; i++) {
+      let imageUrl = 'https://assets-decodeurs.lemonde.fr/redacweb/2301-stop-motion-module/'
+      imageUrl += i
+      imageUrl += '.png'
+      imagesArray.push(imageUrl)
+    }
+
     // Display
     return <div
       style={wrapperStyle}
       className={wrapperClasses.value}>
-      <Scrollgneugneu
+      {/* <input type="range" onInput={this.updateScrollValue} min="0" max="1" step="0.01" /> */}
+      {/* <StopMotion images={imagesArray} progression={this.state.scrollValue} /> */}
+
+      {/* <ArticleThumbV2
+        customClass={'custom-class'}
+        customCss={'.lm-article-thumb { border: 1px solid red; }'}
+        imageUrl={"https://assets-decodeurs.lemonde.fr/redacweb/32-2301-footer-crim/cover.png"}
+        imageAlt={"alt de l'image"}
+        textAbove={"text above"}
+        textBelow={"text below"}
+        textBeforeTop={"text before top"}
+        textBeforeCenter={"text before center"}
+        textBeforeBottom={"text before bottom"}
+        textAfterTop={"text after top"}
+        textAfterCenter={"text after center"}
+        textAfterBottom={"text after bottom"}
+        textInsideTop={"text inside top"}
+        textInsideCenter={"text inside center"}
+        textInsideBottom={"text inside bottom"}
+        shadeToColor={'pink'}
+        shadeFromColor={'transparent'}
+        shadeFromPos={'0%'}
+        shadeToPos={'80%'}
+        status={'unpublished'}
+        statusOverrides={
+          {
+            'unpublished': {
+              textAbove: "text above -- unpublished!",
+            }
+          }
+        }
+      ></ArticleThumbV2> */}
+
+      <Footer
+        customClass={'custom-class'}
+        customCss={'.lm-article-footer { border: 1px solid red; }'}
+
+        bgColor={'pink'}
+        // bgImageUrl={'https://img.freepik.com/vecteurs-libre/fond-demi-teinte-vague-noire_1199-279.jpg'}
+
+        shadeToColor={'coral'}
+        shadeFromColor={'transparent'}
+        shadeFromPos={'0%'}
+        shadeToPos={'80%'}
+
+        textAbove={'text above footer'}
+        textBelow={'text below footer'}
+
+        articleThumbsData={[
+          {
+            textAfterBottom: "text after bottom",
+            imageUrl: "https://assets-decodeurs.lemonde.fr/redacweb/32-2301-footer-crim/cover.png",
+            textBelow: "text below",
+          },
+          {
+            textBeforeTop: "text before top",
+            textAbove: "text above",
+            imageUrl: "https://assets-decodeurs.lemonde.fr/redacweb/32-2301-footer-crim/cover.png",
+          },
+          {
+            textAbove: "text above",
+            imageUrl: "https://assets-decodeurs.lemonde.fr/redacweb/32-2301-footer-crim/cover.png",
+          },
+        ]}
+      ></Footer>
+
+      {/* <Scrollgneugneu
         pages={pagesData}
         thresholdOffset={generalSettings?.threshold_offset}
-        bgColorTransitionDuration={generalSettings?.bg_color_transition_duration} />
-    </div>
+        bgColorTransitionDuration={generalSettings?.bg_color_transition_duration} /> */}
+    </div >
   }
 }
 

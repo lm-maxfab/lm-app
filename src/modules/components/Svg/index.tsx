@@ -7,6 +7,7 @@ interface Props {
   loader?: JSX.Element
   fallback?: JSX.Element
   src: string
+  desc?: string
 }
 
 interface State {
@@ -75,6 +76,11 @@ class Svg extends Component<Props, State> {
     const attributes = state.attributes ?? {}
     const contents = state.contents ?? ''
 
+    const innerHtml = `
+      ${props.desc ? `<desc>${props.desc}</desc>` : ''} 
+      ${contents}
+    `
+
     /* Assign classes */
     const classes = bem(attributes.class ?? '')
       .block(props.className)
@@ -86,7 +92,7 @@ class Svg extends Component<Props, State> {
       {...attributes as any}
       className={classes.value}
       style={inlineStyle}
-      dangerouslySetInnerHTML={{ __html: contents }} />
+      dangerouslySetInnerHTML={{ __html: innerHtml }} />
   }
 }
 
