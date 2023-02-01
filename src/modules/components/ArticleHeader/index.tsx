@@ -14,7 +14,7 @@ type Props = {
   fill1?: string
   fill2?: string
   fillTransitionTime?: string
-  navItems: NavItem[]
+  navItems?: NavItem[]
   ctaContent?: string|VNode
   hideLogo?: boolean
   hideNav?: boolean
@@ -71,8 +71,8 @@ class ArticleHeader extends Component<Props> {
             style={logoStyle}
             className={logoClasses.join(' ')} />
         </a>
-        {props.navItems.length > 0 && <div className={navClasses.join(' ')}>
-          {props.navItems.map(navItem => {
+        {props.navItems !== undefined && props.navItems.length > 0 && <div className={navClasses.join(' ')}>
+          {props.navItems?.map(navItem => {
             const { isActive } = navItem
             const navItemBemClss = bemClss.elt('nav-item').mod({ 'active': isActive })
             const navItemClasses = [navItemBemClss.value, styles['nav-item']]
