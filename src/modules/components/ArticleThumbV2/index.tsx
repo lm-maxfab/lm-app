@@ -69,14 +69,7 @@ class ArticleThumbV2 extends Component<Props, {}> {
 
     const displayBefore = data.textBeforeTop || data.textBeforeCenter || data.textBeforeBottom
     const displayAfter = data.textAfterTop || data.textAfterCenter || data.textAfterBottom
-
-    if (!displayAfter && !displayBefore) {
-      wrapperClasses.push(styles['single-col'])
-    } else if ((displayBefore && displayAfter)) {
-      wrapperClasses.push(styles['three-cols'])
-    } else {
-      wrapperClasses.push(styles['two-cols'])
-    }
+    const displayShade = data.shadeFromColor || data.shadeFromPos || data.shadeToColor || data.shadeToPos
 
     return <div className={wrapperClasses.join(' ')}>
 
@@ -104,7 +97,7 @@ class ArticleThumbV2 extends Component<Props, {}> {
         </div>}
 
         {/* shade */}
-        <div style={shadeStyle}></div>
+        {displayShade && <div style={shadeStyle}></div>}
 
         {/* inside */}
         {data.textInsideTop && <div className={topClass}>{data.textInsideTop}</div>}

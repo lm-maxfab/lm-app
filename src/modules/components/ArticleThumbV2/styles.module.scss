@@ -3,28 +3,14 @@
   grid-auto-columns: max-content;
 }
 
-.single-col {
-  grid-auto-columns: max-content;
-}
-
-.two-cols {
-  grid-template-columns: max-content max-content;
-}
-
-.three-cols {
-  grid-template-columns: max-content max-content max-content;
-}
-
-.wrapper:not(.single-col) {
-  .above,
-  .below,
-  .image-wrapper {
-    grid-column: 2/3;
-  }
-}
-
 .before {
   grid-column: 1/2;
+}
+
+.above,
+.below,
+.image-wrapper {
+  grid-column: 2/3;
 }
 
 .after {
