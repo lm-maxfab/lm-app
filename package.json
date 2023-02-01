@@ -12,7 +12,9 @@
     "postbuild": "node ./scripts/postbuild.mjs"
   },
   "dependencies": {
+    "@types/ogl": "npm:ogl-types@^0.0.102",
     "can-autoplay": "^3.0.2",
+    "ogl": "^0.0.104",
     "p5": "^1.5.0",
     "preact": "^10.11.3",
     "react-slick": "^0.29.0",

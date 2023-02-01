@@ -24,7 +24,7 @@ export type PropsBlockData = {
   id?: string
   depth?: 'scroll'|'back'|'front'
   zIndex?: number
-  type?: 'html'|'module'|'motion'
+  type?: 'html'|'module'|'motion'|'shader'
   content?: string
   layout?: LayoutName
   mobileLayout?: LayoutName
