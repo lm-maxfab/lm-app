@@ -59,32 +59,34 @@ class Footer extends Component<Props, {}> {
 
     // Assign classes and styles
     const wrapperClasses = [styles['wrapper'], props.customClass]
-    const wrapperStyle = `
+
+    const wrapperStyle = `background-color: ${props.bgColor ?? 'transparent'};`
+
+    const displayShade = props.shadeFromColor || props.shadeFromPos || props.shadeToColor || props.shadeToPos
+
+    const shadeStyle = `
       background: linear-gradient(
         ${props.shadeFromColor ?? 'transparent'} 
         ${props.shadeFromPos ?? '50%'}, 
-        ${props.shadeToColor ?? 'rgba(0, 0, 0, 0.3)'} 
+        ${props.shadeToColor ?? 'transparent'} 
         ${props.shadeToPos ?? '100%'});
-      background-color: ${props.bgColor ?? 'transparent'};
-      background-image: ${props.bgImageUrl ? `url(${props.bgImageUrl})` : ''};
-      background-size: cover;
-      `
+    `
+    const backgroundImageStyle = props.bgImageUrl ? `background-image: url(${props.bgImageUrl})` : ''
 
-    const backgroundClass = styles['background']
+    const shadeClass = styles['shade']
+    const backgroundImageClass = styles['background-image']
     const thumbnailsClass = styles['thumbnails']
 
     return <div
       className={wrapperClasses.join(' ')}
       style={wrapperStyle}>
-      Footer
 
       {/* styles */}
       {props.customCss && <style>{props.customCss}</style>}
 
-      <div className={backgroundClass}></div>
-
       {/* bg-image ? */}
-      {/* shade ? */}
+      {props.bgImageUrl && <div className={backgroundImageClass} style={backgroundImageStyle}></div>}
+      {displayShade && <div className={shadeClass} style={shadeStyle}></div>}
 
       {/* above */}
       {props.textAbove && <div>{props.textAbove}</div>}

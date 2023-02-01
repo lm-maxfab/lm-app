@@ -7,14 +7,14 @@ import styles from './styles.module.scss'
 
 interface State {
   progression: number | null | undefined
-  images: string[]
+  images: string[] | null
   pProgression: number | null
   pImages: string[] | null
 }
 
-interface Props extends JSX.HTMLAttributes<HTMLDivElement> {
+interface Props {
   progression: number | null | undefined
-  images: string[]
+  images: string[] | null
 }
 
 class StopMotion extends Component<Props, {}> {
@@ -43,26 +43,23 @@ class StopMotion extends Component<Props, {}> {
    * RENDER
    * * * * * * * * * * * * * * */
   render(): (JSX.Element | null) {
-    const { images, progression, ...props } = this.props
+    const { images, progression } = this.props
 
-    if (images.length === 0) return <></>
-    if (!progression) return <></>
+    if (images?.length === 0) return <></>
+    if (progression === null || typeof progression === 'undefined') return <></>
 
     const clampedProgression = clamp(progression, 0, 1)
-    const interpolatedProgression = Math.round(interpolate(clampedProgression, 0, images.length - 1))
+    const interpolatedProgression = Math.round(interpolate(clampedProgression, 0, (images?.length ?? 0) - 1))
 
     return (
-      <div
-        {...props}
-        className={styles['wrapper']}
-      >
-        {images.map((_el, i) => {
+      <div className={styles['wrapper']}>
+        {images?.map((imageUrl, i) => {
           const classList = [
             styles['frame'],
             i === interpolatedProgression ? styles['frame--active'] : ''
           ]
 
-          return <img src={images[i]} class={classList.join(' ')}></img>
+          return <img src={imageUrl} class={classList.join(' ')}></img>
         }
         )}
       </div>

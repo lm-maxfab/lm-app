@@ -1,18 +1,6 @@
 .wrapper {
   display: grid;
-
-  // &--single-col {
-  //   grid-template-columns: fit-content(100%);
-  // }
-
-  // &--two-cols {
-  //   grid-template-columns: fit-content(50%) fit-content(50%);
-  // }
-
-  // &--three-cols {
-  //   grid-template-columns: fit-content(33%) fit-content(33%) fit-content(33%);
-  // }
-
+  grid-auto-columns: max-content;
 }
 
 .single-col {
@@ -27,8 +15,7 @@
   grid-template-columns: max-content max-content max-content;
 }
 
-.single-col {
-
+.wrapper:not(.single-col) {
   .above,
   .below,
   .image-wrapper {

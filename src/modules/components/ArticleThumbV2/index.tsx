@@ -40,7 +40,7 @@ class ArticleThumbV2 extends Component<Props, {}> {
   render() {
     const { props } = this
 
-    const statusProps = props.status ? props.statusOverrides?.[props.status] : props
+    const statusProps = props.status ? props.statusOverrides?.[props.status] : {}
 
     const data = {
       ...props,
