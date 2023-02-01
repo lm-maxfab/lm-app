@@ -6,7 +6,7 @@ import MotionBlockRenderer from './MotionBlockRenderer'
 import ShaderBlockRenderer from './ShaderBlockRenderer'
 
 type Props = {
-  type?: 'module'|'html'|'motion'|'shader'
+  type?: 'module' | 'html' | 'motion' | 'shader'
   content?: string
   context?: BlockContext
   prevContext?: BlockContext // [WIP] remove this
@@ -28,7 +28,7 @@ export default class BlockRenderer extends Component<Props> {
         imagesList={content}
         context={context} />
       case 'shader': return <ShaderBlockRenderer
-        shader={content}
+        shaderUrl={content}
         context={context} />
       default: return <div>Block type {type} is unknown</div>
     }

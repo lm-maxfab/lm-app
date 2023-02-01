@@ -1,8 +1,6 @@
 import { Component, JSX } from 'preact'
 import { Renderer, Geometry, Program, Mesh } from 'ogl'
 
-import bem from '../../utils/bem'
-
 const vertexShader = `
   attribute vec2 uv;
   attribute vec2 position;
@@ -15,9 +13,9 @@ const vertexShader = `
   }
 `
 
-interface Props extends JSX.HTMLAttributes<HTMLImageElement> {
-  width?: number
-  height?: number
+interface Props {
+  width?: number | null
+  height?: number | null
   shader?: string
   progression?: number
 }
@@ -45,10 +43,17 @@ class CanvasGL extends Component<Props, {}> {
     this.createCanvas()
   }
 
+  componentDidUpdate(): void {
+    if (!this.renderer) this.createCanvas()
+    // check si shader a changé ?? et update
+    // getDerivedStateFromProps() ?
+  }
+
   /* * * * * * * * * * * * * * *
    * METHODS
    * * * * * * * * * * * * * * */
   createCanvas(): void {
+    if (!this.props.width || !this.props.height) return
 
     this.renderer = new Renderer({
       width: this.props.width,
@@ -86,6 +91,7 @@ class CanvasGL extends Component<Props, {}> {
 
     this.program.uniforms.uProg.value = this.props.progression ?? 0.
     this.program.uniforms.uTime.value = t * 0.001;
+
     this.renderer.render({ scene: this.mesh });
   }
 
