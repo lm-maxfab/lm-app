@@ -8,8 +8,7 @@ import Paginator, { State as PaginatorState } from '../../components/Paginator'
 import { throttle } from '../../utils/throttle-debounce'
 import clamp from '../../utils/clamp'
 import bem from '../../utils/bem'
-import ArticleHeader from '../../components/ArticleHeader'
-import isFalsy from '../../utils/is-falsy'
+import ArticleHeader, { NavItem as ArticleHeaderNavItem } from '../../components/ArticleHeader'
 
 // [WIP] - left-half-bottom, -middle, right-, ... need a fix
 export type LayoutName = 'full-screen'
@@ -44,14 +43,14 @@ export type PropsPageData = {
   blocks?: PropsBlockData[]
 }
 
-// [WIP] - rename fixed to sticky
 type Props = {
-  fixedBlocksLazyLoadDistance?: number
-  fixedBlocksViewportHeight?: string
-  fixedBlocksOffsetTop?: number
+  stickyBlocksLazyLoadDistance?: number
+  stickyBlocksViewportHeight?: string
+  stickyBlocksOffsetTop?: number
   thresholdOffset?: string
   bgColorTransitionDuration?: string|number
   pages?: PropsPageData[]
+  withHeader?: boolean
 }
 
 /* Context stuff */
@@ -151,7 +150,6 @@ type StateBlockData = PropsBlockData & {
   _zIndex: number
   _displayZones: BlockDisplayZone[]
   _context: BlockContext
-  _pContext: BlockContext // [WIP] remove pContext managment from here, ModuleBlockRenderer handles this
 }
 
 type StatePageData = PropsPageData & {
@@ -197,14 +195,12 @@ export default class Scrollgneugneu extends Component<Props, State> {
         const _displayZones = getBlockDisplayZones(blockIdentifier, props.pages ?? [])
         const currentStateBlock = currentStateBlocks.get(blockIdentifier)
         const _context = currentStateBlock?._context ?? createBlockContext()
-        const _pContext = currentStateBlock?._pContext ?? createBlockContext()
         const stateBlockData: StateBlockData = {
           ...blockData,
           _id: blockIdentifier,
           _zIndex,
           _displayZones,
-          _context,
-          _pContext
+          _context
         }
         blocks.set(blockIdentifier, stateBlockData)
       })
@@ -339,7 +335,8 @@ export default class Scrollgneugneu extends Component<Props, State> {
     this.getCurrentPageData = this.getCurrentPageData.bind(this)
     this.getPreviousPageData = this.getPreviousPageData.bind(this)
     this.Styles = this.Styles.bind(this)
-    this.FixedBlocks = this.FixedBlocks.bind(this)
+    this.Header = this.Header.bind(this)
+    this.StickyBlocks = this.StickyBlocks.bind(this)
     this.ScrollingBlocks = this.ScrollingBlocks.bind(this)
   }
 
@@ -429,7 +426,7 @@ export default class Scrollgneugneu extends Component<Props, State> {
       btmBoundRef,
       props
     } = this
-    const { fixedBlocksOffsetTop } = props
+    const { stickyBlocksOffsetTop } = props
     const refToStateKeyMap = new Map<
       'topVisible'|'cntVisible'|'btmVisible',
       HTMLDivElement|null>([
@@ -442,7 +439,7 @@ export default class Scrollgneugneu extends Component<Props, State> {
       if (ref === null) return
       const { y, height } = ref.getBoundingClientRect()
       const { innerHeight } = window
-      const isIntersecting = y <= innerHeight && y + height >= (fixedBlocksOffsetTop ?? 0);
+      const isIntersecting = y <= innerHeight && y + height >= (stickyBlocksOffsetTop ?? 0);
       partialState[stateKey] = isIntersecting
     })
     return this.setState(curr => {
@@ -570,8 +567,7 @@ export default class Scrollgneugneu extends Component<Props, State> {
             _context: {
               ...blockData._context,
               page: newBlockContextPage
-            },
-            _pContext: blockData._context
+            }
           })
         }
       }
@@ -644,8 +640,7 @@ export default class Scrollgneugneu extends Component<Props, State> {
             ...blockData._context,
             progression: dzProgression,
             pageProgression: pageProgression ?? blockData._context.pageProgression
-          },
-          _pContext: blockData._context
+          }
         })
       })
       return { ...curr, blocks: newBlocks }
@@ -666,8 +661,7 @@ export default class Scrollgneugneu extends Component<Props, State> {
             ...currBlockData._context,
             width: null,
             height: null
-          },
-          _pContext: currBlockData._context
+          }
         })
         const { width, height } = blockRef.getBoundingClientRect()
         newBlocks.set(blockId, {
@@ -676,8 +670,7 @@ export default class Scrollgneugneu extends Component<Props, State> {
             ...currBlockData._context,
             width,
             height
-          },
-          _pContext: currBlockData._context
+          }
         })
       })
       return {
@@ -743,7 +736,35 @@ export default class Scrollgneugneu extends Component<Props, State> {
 
   wrapperBemClass = bem('lm-scrllgngn')  
 
-  FixedBlocks () {
+  Header () {
+    const { state, getCurrentPageData } = this
+    const { pages } = state
+    const currentPageData = getCurrentPageData()
+    const {
+      headerLogoFill1,
+      headerLogoFill2,
+      showHeader,
+      showNav
+    } = (currentPageData ?? {})
+    return <ArticleHeader
+      fill1={headerLogoFill1}
+      fill2={headerLogoFill2}
+      navItems={[...pages].reduce((acc, pagePosAndData) => {
+        const [_, pageData] = pagePosAndData
+        const pageChapterName = pageData.chapterName
+        const alreadyInNav = acc.find(navItem => navItem.value === pageChapterName)
+        if (alreadyInNav) return acc;
+        return [...acc, {
+          value: pageChapterName,
+          isActive: currentPageData?.chapterName === pageChapterName
+        }]
+      }, [] as ArticleHeaderNavItem[])}
+      hideLogo={showHeader !== true}
+      hideNav={showHeader !== true && showNav !== true}
+      hideCta={true} />
+  }
+
+  StickyBlocks () {
     const { getLayoutClasses } = Scrollgneugneu
     const {
       props,
@@ -755,36 +776,29 @@ export default class Scrollgneugneu extends Component<Props, State> {
       getBlockDistanceFromDisplay,
       loadCss,
       throttledHandleBlockResize,
-      getCurrentPageData
+      Header
     } = this
-    const { fixedBlocksLazyLoadDistance } = props
-    const lazyLoadDistance = fixedBlocksLazyLoadDistance ?? 2
+    const { stickyBlocksLazyLoadDistance } = props
+    const lazyLoadDistance = stickyBlocksLazyLoadDistance ?? 2
     const { blocks } = state
     const headerZIndex = [...blocks.values()].reduce((acc, curr) => {
       if (curr._zIndex > acc) return curr._zIndex
       return acc
     }, 0)
     const headerBlockClasses = [
+      styles['sticky-block'],
       styles['header'],
       wrapperBemClass.elt('header').value
     ]
-    const currentPageData = getCurrentPageData()
-    const headerStyle = { '--z-index': headerZIndex }
+    const headerBlockStyle = { '--z-index': headerZIndex }
     return <>
-      <div
-        style={headerStyle}
+      {/* HEADER */}
+      {props.withHeader === true && <div
+        style={headerBlockStyle}
         className={headerBlockClasses.join(' ')}>
-        <ArticleHeader
-          fill1={currentPageData?.headerLogoFill1}
-          fill2={currentPageData?.headerLogoFill2}
-          navItems={[{
-            value: 'test',
-            status: 'active'
-          }, {
-            value: 'test-2',
-            status: 'inactive'
-          }]} />
-      </div>
+        <Header />
+      </div>}
+      {/* STICKY BLOCKS */}
       {[...blocks].map(([blockIdentifier, blockData]) => {
         const blockDistance = getBlockDistanceFromDisplay(blockIdentifier)
         if (blockDistance === undefined) return null
@@ -794,7 +808,7 @@ export default class Scrollgneugneu extends Component<Props, State> {
         const {
           type,         content,     layout,
           mobileLayout, transitions, mobileTransitions,
-          _zIndex,      _context,    _pContext
+          _zIndex,      _context
         } = blockData
         const blockStatus = getBlockStatus(blockIdentifier)
         const blockBemClass = wrapperBemClass
@@ -823,7 +837,6 @@ export default class Scrollgneugneu extends Component<Props, State> {
                   type={type}
                   content={content}
                   context={_context}
-                  prevContext={_pContext}
                   cssLoader={loadCss} />
               </TransitionsWrapper>
             </ResizeObserverComponent>
@@ -932,28 +945,27 @@ export default class Scrollgneugneu extends Component<Props, State> {
       handlePaginatorResize,
       getCurrentPageData,
       Styles,
-      FixedBlocks,
+      StickyBlocks,
       ScrollingBlocks
     } = this
+    console.log(props)
     const {
-      fixedBlocksViewportHeight,
-      fixedBlocksOffsetTop
+      stickyBlocksViewportHeight,
+      stickyBlocksOffsetTop
     } = props
     const {
-      currPagePos,
       scrollingPanelHeight,
       scrollingPanelWidth,
-      pages
     } = state
     
     const currPageData = getCurrentPageData()
 
     // Detect if blocks must be fixed or offset
     const { topVisible, cntVisible, btmVisible } = state
-    const blocksAreFixed = cntVisible
+    const blocksShouldStick = cntVisible
       && !(topVisible ?? false)
       && !(btmVisible ?? false)
-    const blocksAreOffset = !blocksAreFixed && btmVisible
+    const blocksAreOffset = !blocksShouldStick && btmVisible
 
     // Wrapper CSS classes
     const wrapperClasses = [
@@ -962,9 +974,9 @@ export default class Scrollgneugneu extends Component<Props, State> {
         .value,
       styles['wrapper']
     ]
-    if (blocksAreFixed) wrapperClasses.push(
-      styles['wrapper_fix-blocks'],
-      wrapperBemClass.mod('fix-blocks').value
+    if (blocksShouldStick) wrapperClasses.push(
+      styles['wrapper_stick-blocks'],
+      wrapperBemClass.mod('stick-blocks').value
     )
     if (blocksAreOffset) wrapperClasses.push(
       styles['wrapper_offset-blocks'],
@@ -986,8 +998,8 @@ export default class Scrollgneugneu extends Component<Props, State> {
     return <div
       className={wrapperClasses.join(' ')}
       style={{
-        '--fixed-blocks-viewport-height': fixedBlocksViewportHeight ?? '100vh',
-        '--fixed-blocks-offset-top': `${fixedBlocksOffsetTop ?? 0}px`,
+        '--sticky-blocks-viewport-height': stickyBlocksViewportHeight ?? '100vh',
+        '--sticky-blocks-offset-top': `${stickyBlocksOffsetTop ?? 0}px`,
         '--scrolling-block-height': `${scrollingPanelHeight}px`,
         '--scrolling-block-width': `${scrollingPanelWidth}px`,
         '--bg-color-transition-duration': getBgColorTransitionDuration(),
@@ -998,7 +1010,7 @@ export default class Scrollgneugneu extends Component<Props, State> {
       <Styles />
 
       {/* STICKY BLOCKS */}
-      <FixedBlocks />
+      <StickyBlocks />
 
       {/* SCROLLING CONTENT */}
       <div className={scrollPanelClasses.join(' ')}>

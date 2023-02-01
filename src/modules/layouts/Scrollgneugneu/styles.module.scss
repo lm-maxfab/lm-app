@@ -1,8 +1,8 @@
 /*
  * Defined in index.tsx:
  *
- * --fixed-blocks-viewport-height
- * --fixed-blocks-offset-top
+ * --sticky-blocks-viewport-height
+ * --sticky-blocks-offset-top
  * --scrolling-block-height
  * --scrolling-block-width
  * --bg-color-transition-duration
@@ -17,10 +17,7 @@
 }
 
 .header {
-  /* --z-index is defined in index.tsx */
-  z-index: var(--z-index);
-  position: fixed;
-  top: var(--fixed-blocks-offset-top);
+  width: var(--scrolling-block-width);
   opacity: 1;
   visibility: visible;
   transition: opacity 600ms 5ms, visibility 0ms;
@@ -39,7 +36,7 @@
   position: absolute;
   top: 0;
   display: inline-block;
-  height: var(--fixed-blocks-viewport-height);
+  height: var(--sticky-blocks-viewport-height);
   z-index: var(--z-index);
 }
 
@@ -59,10 +56,10 @@
   z-index: var(--z-index);
 }
 
-.wrapper.wrapper_fix-blocks {
+.wrapper.wrapper_stick-blocks {
   .sticky-block {
     position: fixed;
-    top: var(--fixed-blocks-offset-top);
+    top: var(--sticky-blocks-offset-top);
   }
 }
 
@@ -71,8 +68,8 @@
     position: absolute;
     top: calc(
       var(--scrolling-block-height)
-      + var(--fixed-blocks-offset-top)
-      - var(--fixed-blocks-viewport-height)
+      + var(--sticky-blocks-offset-top)
+      - var(--sticky-blocks-viewport-height)
     );
   }
 }

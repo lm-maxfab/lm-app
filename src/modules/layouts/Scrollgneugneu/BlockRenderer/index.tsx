@@ -7,7 +7,6 @@ type Props = {
   type?: 'module'|'html'
   content?: string
   context?: BlockContext
-  prevContext?: BlockContext // [WIP] remove this
   cssLoader?: (url: string) => Promise<void>
 }
 

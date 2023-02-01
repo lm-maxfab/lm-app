@@ -5,7 +5,6 @@ import getPageSettings from './modules/utils/get-page-settings'
 import applyPageTemplate from './modules/utils/apply-page-template'
 import applyPageLayout from './modules/utils/apply-page-layout'
 import renderLMApp from './modules/utils/render-app'
-import getHeaderElement from './modules/utils/get-header-element'
 import { CustomCssData } from './sheet-base-entries'
 
 /* Init */

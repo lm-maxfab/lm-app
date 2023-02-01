@@ -6,8 +6,8 @@ import styles from './styles.module.scss'
 import './styles.scss'
 
 type NavItem = {
-  value?: string|VNode
-  status?: 'active'|'inactive'
+  value?: string
+  isActive?: boolean
 }
 
 type Props = {
@@ -15,9 +15,13 @@ type Props = {
   fill2?: string
   fillTransitionTime?: string
   navItems: NavItem[]
+  ctaContent?: string|VNode
+  hideLogo?: boolean
+  hideNav?: boolean
+  hideCta?: boolean
 }
 
-class ArticleHeader extends Component<Props, {}> {
+class ArticleHeader extends Component<Props> {
   bemClss = bem('lm-article-header')
 
   /* * * * * * * * * * * * * * *
@@ -28,20 +32,27 @@ class ArticleHeader extends Component<Props, {}> {
 
     /* Classes and style */
     const wrapperClasses = [
-      bemClss.value,
+      bemClss.mod({
+        'hide-logo': props.hideLogo === true,
+        'hide-nav': props.hideNav === true,
+        'hide-cta': props.hideCta === true
+      }).value,
       styles['wrapper']
     ]
+    if (props.hideLogo === true) wrapperClasses.push(styles['wrapper_hide-logo'])
+    if (props.hideNav === true) wrapperClasses.push(styles['wrapper_hide-nav'])
+    if (props.hideCta === true) wrapperClasses.push(styles['wrapper_hide-cta'])
     const logoClasses = [
       bemClss.elt('logo').value,
       styles['logo']
     ]
-    const navItemsClasses = [
-      bemClss.elt('nav-items').value,
-      styles['nav-items']
+    const navClasses = [
+      bemClss.elt('nav').value,
+      styles['nav']
     ]
-    const navItemsInnerClasses = [
-      bemClss.elt('nav-items-inner').value,
-      styles['nav-items-inner']
+    const ctaWrapperClasses = [
+      bemClss.elt('cta-wrapper').value,
+      styles['cta-wrapper']
     ]
     // [WIP] Make a standalone Logo component, fill-1 and fill-2
     // dont belong here
@@ -60,30 +71,26 @@ class ArticleHeader extends Component<Props, {}> {
             style={logoStyle}
             className={logoClasses.join(' ')} />
         </a>
-        <div className={navItemsClasses.join(' ')}>
-          <div className={navItemsInnerClasses.join(' ')}>
-            {props.navItems.map(navItem => {
-              const { status } = navItem
-              const navItemClasses = [
-                bemClss
-                  .elt('nav-item')
-                  .mod({
-                    'active': status === 'active',
-                    'inactive': status === undefined || status === 'inactive'
-                  })
-                  .value,
-                styles['nav-item']
-              ]
-              return <div className={navItemClasses.join(' ')}>
-                {navItem.value}
-              </div>
-            })}
-          </div>
-        </div>
+        {props.navItems.length > 0 && <div className={navClasses.join(' ')}>
+          {props.navItems.map(navItem => {
+            const { isActive } = navItem
+            const navItemBemClss = bemClss.elt('nav-item').mod({ 'active': isActive })
+            const navItemClasses = [navItemBemClss.value, styles['nav-item']]
+            if (isActive) navItemClasses.push(styles['nav-item_active'])
+            return <div
+              className={navItemClasses.join(' ')}>
+              {navItem.value}
+            </div>
+          })}
+        </div>}
+        {props.ctaContent !== undefined && <div
+          className={ctaWrapperClasses.join(' ')}>
+          {props.ctaContent}
+        </div>}
       </div>
     )
   }
 }
 
-export type { Props }
+export type { Props, NavItem }
 export default ArticleHeader

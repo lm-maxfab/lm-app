@@ -205,10 +205,15 @@ class Longform extends Component<Props, State> {
     return <div
       style={wrapperStyle}
       className={wrapperClasses.value}>
+      {/* <div style={{ height: '1000px' }}>...</div> */}
       <Scrollgneugneu
+        withHeader={true}
         pages={pagesData}
         thresholdOffset={generalSettings?.threshold_offset}
-        bgColorTransitionDuration={generalSettings?.bg_color_transition_duration} />
+        bgColorTransitionDuration={generalSettings?.bg_color_transition_duration}
+        stickyBlocksLazyLoadDistance={generalSettings?.lazyLoadDistance}
+        stickyBlocksViewportHeight={generalSettings?.viewportHeight}
+        stickyBlocksOffsetTop={generalSettings?.topOffset} />
     </div>
   }
 }
