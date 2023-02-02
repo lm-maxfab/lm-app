@@ -135,6 +135,7 @@ class Longform extends Component<Props, State> {
         headerLogoFill1: rawPageData.header_logo_fill_1,
         headerLogoFill2: rawPageData.header_logo_fill_2,
         chapterName: rawPageData.chapter_name,
+        isChapterHead: rawPageData.isChapterHead,
         bgColor: rawPageData.bg_color,
         blocks: [{
           depth: 'scroll',

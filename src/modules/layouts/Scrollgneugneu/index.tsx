@@ -9,6 +9,7 @@ import { throttle } from '../../utils/throttle-debounce'
 import clamp from '../../utils/clamp'
 import bem from '../../utils/bem'
 import ArticleHeader, { NavItem as ArticleHeaderNavItem } from '../../components/ArticleHeader'
+import isFalsy from '../../utils/is-falsy'
 
 // [WIP] - left-half-bottom, -middle, right-, ... need a fix
 export type LayoutName = 'full-screen'
@@ -39,6 +40,7 @@ export type PropsPageData = {
   headerLogoFill1?: string
   headerLogoFill2?: string
   chapterName?: string
+  isChapterHead?: boolean
   bgColor?: JSX.CSSProperties['backgroundColor']
   blocks?: PropsBlockData[]
 }
@@ -334,6 +336,7 @@ export default class Scrollgneugneu extends Component<Props, State> {
     this.cleanRefsMaps = this.cleanRefsMaps.bind(this)
     this.getCurrentPageData = this.getCurrentPageData.bind(this)
     this.getPreviousPageData = this.getPreviousPageData.bind(this)
+    this.navigateToChapter = this.navigateToChapter.bind(this)
     this.Styles = this.Styles.bind(this)
     this.Header = this.Header.bind(this)
     this.StickyBlocks = this.StickyBlocks.bind(this)
@@ -719,6 +722,8 @@ export default class Scrollgneugneu extends Component<Props, State> {
       : undefined
   }
 
+  wrapperBemClass = bem('lm-scrllgngn')
+
   // [WIP] Take back the styles load and display to BlockRenderer 
   Styles () {
     const { state } = this
@@ -734,7 +739,21 @@ export default class Scrollgneugneu extends Component<Props, State> {
     return <style>{fullCssStr}</style>
   }
 
-  wrapperBemClass = bem('lm-scrllgngn')  
+  navigateToChapter (chapterName: string) {
+    const { state, pagesRefsMap } = this
+    const { pages } = state
+    const [targetPagePos] = [...pages].find(([_, pageData]) => {
+      return pageData.chapterName === chapterName
+        && pageData.isChapterHead === true
+    }) ?? []
+    const targetPageRef = targetPagePos !== undefined
+      ? pagesRefsMap.get(targetPagePos)
+      : undefined
+    if (targetPageRef === null || targetPageRef === undefined) return;
+    targetPageRef.scrollIntoView({ behavior: 'smooth' })
+    // console.log('you want to navigate to chapter', chapterName)
+    // console.log('page ref is', targetPageRef)
+  }
 
   Header () {
     const { state, getCurrentPageData } = this
@@ -749,14 +768,21 @@ export default class Scrollgneugneu extends Component<Props, State> {
     return <ArticleHeader
       fill1={headerLogoFill1}
       fill2={headerLogoFill2}
-      navItems={[...pages].reduce((acc, pagePosAndData) => {
+      navItems={[...pages]
+        .filter(pagePosAndData => {
+          const [_, pageData] = pagePosAndData
+          const { chapterName } = pageData
+          const chapterNameIsEmpty = isFalsy(chapterName)
+          return !chapterNameIsEmpty
+        }).reduce((acc, pagePosAndData) => {
         const [_, pageData] = pagePosAndData
         const pageChapterName = pageData.chapterName
         const alreadyInNav = acc.find(navItem => navItem.value === pageChapterName)
         if (alreadyInNav) return acc;
         return [...acc, {
           value: pageChapterName,
-          isActive: currentPageData?.chapterName === pageChapterName
+          isActive: currentPageData?.chapterName === pageChapterName,
+          onClick: _e => this.navigateToChapter(pageChapterName)
         }]
       }, [] as ArticleHeaderNavItem[])}
       hideLogo={showHeader !== true}

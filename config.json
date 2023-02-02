@@ -1,11 +1,11 @@
 {
-  "assets_root_url": "https://assets-decodeurs.lemonde.fr/redacweb/31-2212-essai-scrllgngn-decodeurs",
+  "assets_root_url": "https://assets-decodeurs.lemonde.fr/redacweb/35-2302-rechauffement",
   "statics_root_url": "https://assets-decodeurs.lemonde.fr/redacweb/statics-v2",
   "spreadsheets_urls": {
-    "production": "https://assets-decodeurs.lemonde.fr/sheets/48lzT4GaajzCvpQ0sBa_iJJhJbs-0g_1507",
-    "staging": "https://assets-decodeurs.lemonde.fr/sheets/48lzT4GaajzCvpQ0sBa_iJJhJbs-0g_1508",
-    "testing": "https://assets-decodeurs.lemonde.fr/sheets/48lzT4GaajzCvpQ0sBa_iJJhJbs-0g_1509",
-    "developpment": "https://assets-decodeurs.lemonde.fr/sheets/48lzT4GaajzCvpQ0sBa_iJJhJbs-0g_1510"
+    "production": "https://assets-decodeurs.lemonde.fr/sheets/-a0gkeeqN224dkg8fx4kXZP21aVJig_1701",
+    "staging": "https://assets-decodeurs.lemonde.fr/sheets/-a0gkeeqN224dkg8fx4kXZP21aVJig_1702",
+    "testing": "https://assets-decodeurs.lemonde.fr/sheets/-a0gkeeqN224dkg8fx4kXZP21aVJig_1703",
+    "developpment": "https://assets-decodeurs.lemonde.fr/sheets/-a0gkeeqN224dkg8fx4kXZP21aVJig_1704"
   },
   "layouts": [{
     "name": "longform",

@@ -30,6 +30,7 @@ export interface PageData extends SheetBaseCollectionData {
   header_logo_fill_1?: string
   header_logo_fill_2?: string
   chapter_name?: string
+  isChapterHead?: boolean
   bg_color?: string
   content?: string
   layout?: string

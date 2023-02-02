@@ -8,6 +8,7 @@ import './styles.scss'
 type NavItem = {
   value?: string
   isActive?: boolean
+  onClick?: (event: JSX.TargetedMouseEvent<HTMLButtonElement>) => void
 }
 
 type Props = {
@@ -77,10 +78,11 @@ class ArticleHeader extends Component<Props> {
             const navItemBemClss = bemClss.elt('nav-item').mod({ 'active': isActive })
             const navItemClasses = [navItemBemClss.value, styles['nav-item']]
             if (isActive) navItemClasses.push(styles['nav-item_active'])
-            return <div
-              className={navItemClasses.join(' ')}>
+            return <button
+              className={navItemClasses.join(' ')}
+              onClick={navItem.onClick}>
               {navItem.value}
-            </div>
+            </button>
           })}
         </div>}
         {props.ctaContent !== undefined && <div
