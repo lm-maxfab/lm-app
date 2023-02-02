@@ -3,6 +3,13 @@ import { Component, JSX } from 'preact'
 import clamp from '../../utils/clamp'
 import interpolate from '../../utils/interpolate'
 
+interface State {
+  width: number | null | undefined
+  height: number | null | undefined
+  pWidth: number | null | undefined
+  pHeight: number | null | undefined
+}
+
 interface Props {
   images: string[]
   progression: number | null | undefined
@@ -10,7 +17,7 @@ interface Props {
   height: number | null | undefined
 }
 
-class StopMotionV2 extends Component<Props, {}> {
+class StopMotionV2 extends Component<Props, State> {
   context: CanvasRenderingContext2D | null = null
   canvas: HTMLCanvasElement | null = null
   imagesElements: HTMLImageElement[] = []
@@ -19,9 +26,20 @@ class StopMotionV2 extends Component<Props, {}> {
     super(props)
 
     this.initialize = this.initialize.bind(this)
+    this.setCanvasDimensions = this.setCanvasDimensions.bind(this)
     this.preloadImages = this.preloadImages.bind(this)
     this.drawImageOnCanvas = this.drawImageOnCanvas.bind(this)
     this.getFrameBasedOnProgression = this.getFrameBasedOnProgression.bind(this)
+  }
+
+  static getDerivedStateFromProps(props: Props, state: State) {
+    return {
+      ...state,
+      pWidth: state.width,
+      pHeight: state.height,
+      width: props.width,
+      height: props.height,
+    }
   }
 
   componentDidMount(): void {
@@ -39,9 +57,9 @@ class StopMotionV2 extends Component<Props, {}> {
     if (images?.length === 0) return
     if (progression === null || typeof progression === 'undefined') return
 
-    // re-set height/width si jamais elle a changé
-    if (this.props.height && (this.props.height != this.canvas.height)) this.canvas.height = this.props.height
-    if (this.props.width && (this.props.width != this.canvas.width)) this.canvas.width = this.props.width
+    // re-set dimensions si jamais elles ont changé
+    if (this.props.width && (this.props.width != this.state.pWidth)) this.setCanvasDimensions()
+    if (this.props.height && (this.props.height != this.state.pHeight)) this.setCanvasDimensions()
 
     // update image
     const currentFrame = this.getFrameBasedOnProgression() ?? 0
@@ -64,8 +82,22 @@ class StopMotionV2 extends Component<Props, {}> {
     const firstFrame = this.props.progression ? this.getFrameBasedOnProgression() : this.imagesElements[0]
 
     firstFrame.onload = () => {
-      this.drawImageOnCanvas(firstFrame);
+      this.setCanvasDimensions()
+      this.drawImageOnCanvas(firstFrame)
     }
+  }
+
+  setCanvasDimensions(): void {
+    if (!this.canvas) return
+
+    const imgWidth = this.imagesElements[0].width
+    const imgHeight = this.imagesElements[0].height
+
+    const maxWidth = this.props.width
+    const maxHeight = this.props.height
+
+    this.canvas.width = maxWidth ? Math.min(imgWidth, maxWidth) : imgWidth
+    this.canvas.height = maxHeight ? Math.min(imgHeight, maxHeight) : imgHeight
   }
 
   drawImageOnCanvas(image: HTMLImageElement): void {
@@ -75,8 +107,8 @@ class StopMotionV2 extends Component<Props, {}> {
     const imgWidth = Math.min(this.canvas.width, image.width)
     const imgHeight = (imgWidth * image.height) / image.width
 
-    const posX = this.canvas.width / 2 - imgWidth / 2;
-    const posY = this.canvas.height / 2 - imgHeight / 2;
+    const posX = this.canvas.width / 2 - imgWidth / 2
+    const posY = this.canvas.height / 2 - imgHeight / 2
 
     this.canvas?.getContext('2d')?.drawImage(
       // ce qu'on dessine
@@ -89,7 +121,8 @@ class StopMotionV2 extends Component<Props, {}> {
       posX,
       posY,
       imgWidth,
-      imgHeight);
+      imgHeight
+    )
   }
 
   initialize(): void {
@@ -98,9 +131,6 @@ class StopMotionV2 extends Component<Props, {}> {
 
     this.canvas = document.createElement('canvas')
     this.context = this.canvas?.getContext('2d')
-
-    this.canvas.width = this.props.width
-    this.canvas.height = this.props.height
 
     this.$canvasWrapper?.appendChild(this.canvas)
 
