@@ -136,6 +136,7 @@ class Longform extends Component<Props, State> {
         headerLogoFill2: rawPageData.header_logo_fill_2,
         headerCustomClass: rawPageData.headerCustomClass,
         headerCustomCss: rawPageData.headerCustomCss,
+        headerNavItemsAlign: rawPageData.headerNavItemsAlign,
         chapterName: rawPageData.chapter_name,
         isChapterHead: rawPageData.isChapterHead,
         bgColor: rawPageData.bg_color,
@@ -208,7 +209,6 @@ class Longform extends Component<Props, State> {
     return <div
       style={wrapperStyle}
       className={wrapperClasses.value}>
-      {/* <div style={{ height: '1000px' }}>...</div> */}
       <Scrollgneugneu
         withHeader={true}
         pages={pagesData}
@@ -218,7 +218,8 @@ class Longform extends Component<Props, State> {
         stickyBlocksViewportHeight={generalSettings?.viewportHeight}
         stickyBlocksOffsetTop={generalSettings?.topOffset}
         headerCustomClass={generalSettings?.headerCustomClass}
-        headerCustomCss={generalSettings?.headerCustomCss} />
+        headerCustomCss={generalSettings?.headerCustomCss}
+        headerNavItemsAlign={generalSettings?.headerNavItemsAlign} />
     </div>
   }
 }

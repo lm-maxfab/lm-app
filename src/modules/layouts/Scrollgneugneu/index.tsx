@@ -41,6 +41,7 @@ export type PropsPageData = {
   headerLogoFill2?: string
   headerCustomClass?: string
   headerCustomCss?: string
+  headerNavItemsAlign?: string
   chapterName?: string
   isChapterHead?: boolean
   bgColor?: JSX.CSSProperties['backgroundColor']
@@ -57,6 +58,7 @@ type Props = {
   withHeader?: boolean // [WIP] useless, defined in pages
   headerCustomClass?: string
   headerCustomCss?: string
+  headerNavItemsAlign?: string
 }
 
 /* Context stuff */
@@ -542,6 +544,7 @@ export default class Scrollgneugneu extends Component<Props, State> {
   }
 
   handlePageChange (paginatorState: PaginatorState) {
+    // [WIP] auto scroll in header nav if needed
     const { coming, active, passed } = paginatorState
     const pagesLength = active.length + coming.length + passed.length
     const hasPages = pagesLength > 0
@@ -596,7 +599,7 @@ export default class Scrollgneugneu extends Component<Props, State> {
     } = this
     throttledBoundsDetection()
     this.setState(curr => {
-      const { blocks, pages, currPagePos } = curr
+      const { blocks, currPagePos } = curr
       const displayedScrollTrackingBlocks = new Map([...blocks].filter(([_, blockData]) => {
         const displayZones = blockData._displayZones
         const currentDisplayZone = displayZones.find(dz => currPagePos !== undefined
@@ -773,6 +776,7 @@ export default class Scrollgneugneu extends Component<Props, State> {
     const customCss = []
     if (!isFalsy(props.headerCustomCss)) customCss.push(props.headerCustomCss)
     if (!isFalsy(currentPageData?.headerCustomCss)) customCss.push(currentPageData?.headerCustomCss)
+    const navItemsAlign = currentPageData?.headerNavItemsAlign ?? props.headerNavItemsAlign
     return <ArticleHeader
       fill1={headerLogoFill1}
       fill2={headerLogoFill2}
@@ -795,11 +799,12 @@ export default class Scrollgneugneu extends Component<Props, State> {
             : undefined
         }]
       }, [] as ArticleHeaderNavItem[])}
+      navItemsAlign={navItemsAlign}
       hideLogo={showHeader !== true}
       hideNav={showHeader !== true && showNav !== true}
       hideCta={true} // [WIP] CTA not supported yet
       ctaContent={undefined} // [WIP] CTA not supported yet
-      ctaOnClick={e => {}} // [WIP] CTA not supported yet
+      ctaOnClick={undefined} // [WIP] CTA not supported yet
       customClass={customClasses.join(' ')}
       customCss={customCss.join('\n\n')} />
   }
@@ -820,15 +825,15 @@ export default class Scrollgneugneu extends Component<Props, State> {
     } = this
     const { stickyBlocksLazyLoadDistance } = props
     const lazyLoadDistance = stickyBlocksLazyLoadDistance ?? 2
-    const { blocks } = state
+    const { blocks, currPagePos } = state
     const headerZIndex = [...blocks.values()].reduce((acc, curr) => {
       if (curr._zIndex > acc) return curr._zIndex
       return acc
     }, 0)
     const headerBlockClasses = [
+      wrapperBemClass.elt('header').value,
       styles['sticky-block'],
-      styles['header'],
-      wrapperBemClass.elt('header').value
+      styles['header']
     ]
     const headerBlockStyle = { '--z-index': headerZIndex }
     return <>
@@ -851,21 +856,36 @@ export default class Scrollgneugneu extends Component<Props, State> {
           _zIndex,      _context
         } = blockData
         const blockStatus = getBlockStatus(blockIdentifier)
+        const blockPages = blockData._displayZones.flat()
+        const currPagePosIsDefined = currPagePos !== undefined
+        const blockIsAllOnPagesAbove = blockPages.every(pos => currPagePosIsDefined && pos < currPagePos)
+        const blockIsAllOnPagesBelow = blockPages.every(pos => currPagePosIsDefined && pos > currPagePos)
+        const blockIsOnSomePagesAbove = !blockIsAllOnPagesAbove && blockPages.some(pos => currPagePosIsDefined && pos < currPagePos)
+        const blockIsOnSomePagesBelow = !blockIsAllOnPagesBelow && blockPages.some(pos => currPagePosIsDefined && pos > currPagePos)
         const blockBemClass = wrapperBemClass
           .elt('block')
           .mod('sticky')
-          .mod(blockStatus)
+          .mod({
+            [blockStatus]: true,
+            'all-above': blockIsAllOnPagesAbove,
+            'all-below': blockIsAllOnPagesBelow,
+            'some-above': blockIsOnSomePagesAbove,
+            'some-below': blockIsOnSomePagesBelow
+          })
         const blockClasses = [
           blockBemClass.value,
           styles['sticky-block'],
           styles[`status-${blockStatus}`],
-          ...getLayoutClasses(layout, mobileLayout)
+          ...getLayoutClasses(
+            layout,
+            mobileLayout
+          )
         ]
         return <div
             key={blockIdentifier}
-            data-id={blockIdentifier}
             ref={n => { blocksRefsMap.set(blockIdentifier, n) }}
             className={blockClasses.join(' ')}
+            data-id={blockIdentifier}
             style={{ '--z-index': _zIndex }}>
             <ResizeObserverComponent
               onResize={throttledHandleBlockResize}>
@@ -927,12 +947,16 @@ export default class Scrollgneugneu extends Component<Props, State> {
         const isCurrent = pagePos === currPagePos
         const isPrevious = pagePos === prevPagePos
         const isInactive = !isCurrent && !isPrevious
+        const isAbove = currPagePos !== undefined && pagePos < currPagePos
+        const isBelow = currPagePos !== undefined && pagePos > currPagePos
         const pageBemClass = wrapperBemClass
           .elt('page')
           .mod({
             current: isCurrent,
             previous: isPrevious,
-            inactive: isInactive
+            inactive: isInactive,
+            above: isAbove,
+            below: isBelow
           })
         return <Paginator.Page
           value={pagePos}
@@ -943,8 +967,12 @@ export default class Scrollgneugneu extends Component<Props, State> {
               const blockStatus = getBlockStatus(blockData._id)
               const blockBemClass = wrapperBemClass
                 .elt('block')
-                .mod('scrolling')
-                .mod(blockStatus)
+                .mod({
+                  scrolling: true,
+                  [blockStatus]: true,
+                  above: isAbove,
+                  below: isBelow
+                })
               const blockClasses = [
                 blockBemClass.value,
                 styles['scrolling-block'],
@@ -953,8 +981,8 @@ export default class Scrollgneugneu extends Component<Props, State> {
               ]
               return <div
                 key={blockData._id}
-                data-id={blockData._id}
                 className={blockClasses.join(' ')}
+                data-id={blockData._id}
                 ref={node => blocksRefsMap.set(blockData._id, node)}
                 style={{ '--z-index': blockData._zIndex }}>
                 <ResizeObserverComponent

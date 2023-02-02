@@ -18,6 +18,7 @@ type Props = {
   fill2?: string
   fillTransitionTime?: string
   navItems?: NavItem[]
+  navItemsAlign?: string
   ctaContent?: string|VNode
   ctaOnClick?: (event: JSX.TargetedMouseEvent<HTMLButtonElement>) => void
   // [WIP] add ctaActionType (toggle-panel, href, scroll-top, etc...)
@@ -37,18 +38,30 @@ class ArticleHeader extends Component<Props> {
     const { props, bemClss } = this
 
     /* Classes and style */
+    const hideLogo = props.hideLogo === true
+    const hideNav = props.hideNav === true
+    const hideCta = props.hideCta === true
+    const leftAlignItems = props.navItemsAlign === 'left' || props.navItemsAlign === undefined
+    const centerAlignItems = props.navItemsAlign === 'center'
+    const rightAlignItems = props.navItemsAlign === 'right'
     const wrapperClasses = [
       bemClss.mod({
-        'hide-logo': props.hideLogo === true,
-        'hide-nav': props.hideNav === true,
-        'hide-cta': props.hideCta === true
+        'hide-logo': hideLogo,
+        'hide-nav': hideNav,
+        'hide-cta': hideCta,
+        'nav-items-left-align': leftAlignItems,
+        'nav-items-center-align': centerAlignItems,
+        'nav-items-right-align': rightAlignItems
       }).value,
       styles['wrapper'],
     ]
     if (props.customClass !== undefined) wrapperClasses.push(props.customClass)
-    if (props.hideLogo === true) wrapperClasses.push(styles['wrapper_hide-logo'])
-    if (props.hideNav === true) wrapperClasses.push(styles['wrapper_hide-nav'])
-    if (props.hideCta === true) wrapperClasses.push(styles['wrapper_hide-cta'])
+    if (hideLogo) wrapperClasses.push(styles['wrapper_hide-logo'])
+    if (hideNav) wrapperClasses.push(styles['wrapper_hide-nav'])
+    if (hideCta) wrapperClasses.push(styles['wrapper_hide-cta'])
+    if (leftAlignItems) wrapperClasses.push(styles['wrapper_left-align-items'])
+    if (centerAlignItems) wrapperClasses.push(styles['wrapper_center-align-items'])
+    if (rightAlignItems) wrapperClasses.push(styles['wrapper_right-align-items'])
     const logoClasses = [
       bemClss.elt('logo').value,
       styles['logo']
@@ -83,6 +96,7 @@ class ArticleHeader extends Component<Props> {
           className={logoClasses.join(' ')} />
       </a>
       {props.navItems !== undefined && props.navItems.length > 0 && <div className={navClasses.join(' ')}>
+        <div className={`${styles['nav-spacer']} ${styles['nav-left-spacer']}`} />
         {props.navItems?.map(navItem => {
           const { isActive } = navItem
           const navItemBemClss = bemClss.elt('nav-item').mod({ 'active': isActive })
@@ -90,10 +104,12 @@ class ArticleHeader extends Component<Props> {
           if (isActive) navItemClasses.push(styles['nav-item_active'])
           return <button
             className={navItemClasses.join(' ')}
+            data-id={navItem.value}
             onClick={navItem.onClick}>
             {navItem.value}
           </button>
         })}
+        <div className={`${styles['nav-spacer']} ${styles['nav-right-spacer']}`} />
       </div>}
       {props.ctaContent !== undefined && <button
         className={ctaWrapperClasses.join(' ')}

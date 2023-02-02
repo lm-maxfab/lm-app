@@ -11,6 +11,7 @@ export interface GeneralSettings extends SheetBaseCollectionData {
   topOffset?: number
   headerCustomClass?: string
   headerCustomCss?: string
+  headerNavItemsAlign?: string
 }
 
 export interface BlockData extends SheetBaseCollectionData {
@@ -33,6 +34,7 @@ export interface PageData extends SheetBaseCollectionData {
   header_logo_fill_2?: string
   headerCustomClass?: string
   headerCustomCss?: string
+  headerNavItemsAlign?: string
   chapter_name?: string
   isChapterHead?: boolean
   bg_color?: string
