@@ -28,6 +28,7 @@ export interface BlockData extends SheetBaseCollectionData {
 
 // [WIP] no snake_case please
 export interface PageData extends SheetBaseCollectionData {
+  page_destination?: string
   show_header?: boolean
   show_nav?: boolean
   header_logo_fill_1?: string
