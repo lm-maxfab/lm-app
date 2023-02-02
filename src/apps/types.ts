@@ -9,6 +9,8 @@ export interface GeneralSettings extends SheetBaseCollectionData {
   lazyLoadDistance?: number
   viewportHeight?: string
   topOffset?: number
+  headerCustomClass?: string
+  headerCustomCss?: string
 }
 
 export interface BlockData extends SheetBaseCollectionData {
@@ -29,6 +31,8 @@ export interface PageData extends SheetBaseCollectionData {
   show_nav?: boolean
   header_logo_fill_1?: string
   header_logo_fill_2?: string
+  headerCustomClass?: string
+  headerCustomCss?: string
   chapter_name?: string
   isChapterHead?: boolean
   bg_color?: string

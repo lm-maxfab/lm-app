@@ -39,6 +39,8 @@ export type PropsPageData = {
   showNav?: boolean
   headerLogoFill1?: string
   headerLogoFill2?: string
+  headerCustomClass?: string
+  headerCustomCss?: string
   chapterName?: string
   isChapterHead?: boolean
   bgColor?: JSX.CSSProperties['backgroundColor']
@@ -52,7 +54,9 @@ type Props = {
   thresholdOffset?: string
   bgColorTransitionDuration?: string|number
   pages?: PropsPageData[]
-  withHeader?: boolean
+  withHeader?: boolean // [WIP] useless, defined in pages
+  headerCustomClass?: string
+  headerCustomCss?: string
 }
 
 /* Context stuff */
@@ -751,12 +755,10 @@ export default class Scrollgneugneu extends Component<Props, State> {
       : undefined
     if (targetPageRef === null || targetPageRef === undefined) return;
     targetPageRef.scrollIntoView({ behavior: 'smooth' })
-    // console.log('you want to navigate to chapter', chapterName)
-    // console.log('page ref is', targetPageRef)
   }
 
   Header () {
-    const { state, getCurrentPageData } = this
+    const { props, state, getCurrentPageData } = this
     const { pages } = state
     const currentPageData = getCurrentPageData()
     const {
@@ -765,6 +767,12 @@ export default class Scrollgneugneu extends Component<Props, State> {
       showHeader,
       showNav
     } = (currentPageData ?? {})
+    const customClasses = []
+    if (!isFalsy(props.headerCustomClass)) customClasses.push(props.headerCustomClass)
+    if (!isFalsy(currentPageData?.headerCustomClass)) customClasses.push(currentPageData?.headerCustomClass)
+    const customCss = []
+    if (!isFalsy(props.headerCustomCss)) customCss.push(props.headerCustomCss)
+    if (!isFalsy(currentPageData?.headerCustomCss)) customCss.push(currentPageData?.headerCustomCss)
     return <ArticleHeader
       fill1={headerLogoFill1}
       fill2={headerLogoFill2}
@@ -789,7 +797,11 @@ export default class Scrollgneugneu extends Component<Props, State> {
       }, [] as ArticleHeaderNavItem[])}
       hideLogo={showHeader !== true}
       hideNav={showHeader !== true && showNav !== true}
-      hideCta={true} />
+      hideCta={true} // [WIP] CTA not supported yet
+      ctaContent={undefined} // [WIP] CTA not supported yet
+      ctaOnClick={e => {}} // [WIP] CTA not supported yet
+      customClass={customClasses.join(' ')}
+      customCss={customCss.join('\n\n')} />
   }
 
   StickyBlocks () {
@@ -976,7 +988,6 @@ export default class Scrollgneugneu extends Component<Props, State> {
       StickyBlocks,
       ScrollingBlocks
     } = this
-    console.log(props)
     const {
       stickyBlocksViewportHeight,
       stickyBlocksOffsetTop

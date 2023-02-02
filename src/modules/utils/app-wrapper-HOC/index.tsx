@@ -1,4 +1,5 @@
 import { Component, ComponentClass } from 'preact'
+// [WIP] check how much it weights, and find a workaround?
 import canAutoplay from 'can-autoplay'
 import { SheetBase } from '../sheet-base'
 import getViewportDimensions, { ViewportDimensions } from '../../utils/get-viewport-dimensions'

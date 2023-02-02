@@ -55,12 +55,6 @@ export default class ModuleBlockRenderer extends Component<Props, State> {
     const stateContext = state.context
     const diff = diffContexts(stateContext, propsContext)
     const contextHasChanged = Object.keys(diff).length > 0
-    // console.log('================')
-    // console.log('BLOCK RENDERER')
-    // console.log('status:', state.status)
-    // console.log('propsContext:', propsContext)
-    // console.log('stateContext:', stateContext)
-    // console.log('contextHasChanged:', contextHasChanged)
     if (!contextHasChanged) return null
     return {
       ...state,

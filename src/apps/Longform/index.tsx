@@ -134,6 +134,8 @@ class Longform extends Component<Props, State> {
         showNav: rawPageData.show_nav,
         headerLogoFill1: rawPageData.header_logo_fill_1,
         headerLogoFill2: rawPageData.header_logo_fill_2,
+        headerCustomClass: rawPageData.headerCustomClass,
+        headerCustomCss: rawPageData.headerCustomCss,
         chapterName: rawPageData.chapter_name,
         isChapterHead: rawPageData.isChapterHead,
         bgColor: rawPageData.bg_color,
@@ -214,7 +216,9 @@ class Longform extends Component<Props, State> {
         bgColorTransitionDuration={generalSettings?.bg_color_transition_duration}
         stickyBlocksLazyLoadDistance={generalSettings?.lazyLoadDistance}
         stickyBlocksViewportHeight={generalSettings?.viewportHeight}
-        stickyBlocksOffsetTop={generalSettings?.topOffset} />
+        stickyBlocksOffsetTop={generalSettings?.topOffset}
+        headerCustomClass={generalSettings?.headerCustomClass}
+        headerCustomCss={generalSettings?.headerCustomCss} />
     </div>
   }
 }
