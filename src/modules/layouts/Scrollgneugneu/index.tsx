@@ -782,7 +782,9 @@ export default class Scrollgneugneu extends Component<Props, State> {
         return [...acc, {
           value: pageChapterName,
           isActive: currentPageData?.chapterName === pageChapterName,
-          onClick: _e => this.navigateToChapter(pageChapterName)
+          onClick: pageChapterName !== undefined
+            ? _e => this.navigateToChapter(pageChapterName)
+            : undefined
         }]
       }, [] as ArticleHeaderNavItem[])}
       hideLogo={showHeader !== true}
