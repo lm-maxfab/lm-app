@@ -21,6 +21,7 @@ class StopMotionV2 extends Component<Props, {}> {
     this.initialize = this.initialize.bind(this)
     this.preloadImages = this.preloadImages.bind(this)
     this.drawImageOnCanvas = this.drawImageOnCanvas.bind(this)
+    this.getIndexBasedOnProgression = this.getIndexBasedOnProgression.bind(this)
     this.getFrameBasedOnProgression = this.getFrameBasedOnProgression.bind(this)
   }
 
@@ -39,16 +40,21 @@ class StopMotionV2 extends Component<Props, {}> {
     if (this.props.height && (this.props.height != this.canvas.height)) this.canvas.height = this.props.height
 
     // update image
-    const currentFrame = this.getFrameBasedOnProgression() ?? 0
+    const currentFrame = this.getFrameBasedOnProgression() ?? this.imagesElements?.[0]
     requestAnimationFrame(() => this.drawImageOnCanvas(currentFrame))
   }
 
-  getFrameBasedOnProgression(): HTMLImageElement {
+  getIndexBasedOnProgression(): number | undefined {
     const clampedProgression = clamp(this.props.progression ?? 0, 0, 1)
-    const interpolatedProgression = Math.round(interpolate(clampedProgression, 0, (this.props.images?.length ?? 0) - 1))
-    return this.imagesElements?.[interpolatedProgression]
+    const interpolatedProgression = Math.floor(interpolate(clampedProgression, 0, (this.props.images?.length ?? 0) - 1))
+    return interpolatedProgression
   }
 
+  getFrameBasedOnProgression(): HTMLImageElement | undefined | void {
+    const index = this.getIndexBasedOnProgression()
+    if (!index) return
+    return this.imagesElements?.[index]
+  }
 
   initialize(): void {
     if (!this.$canvasWrapper) return
@@ -64,24 +70,58 @@ class StopMotionV2 extends Component<Props, {}> {
     this.preloadImages()
   }
 
-  preloadImages(): void {
-    for (const url of this.props.images) {
+  async preloadImages() {
+    const currentIndex = this.getIndexBasedOnProgression() ?? 0
+    console.log(currentIndex)
+
+    const imagesBefore = this.props.images.slice(0, currentIndex).reverse()
+    const imagesAfter = this.props.images.slice(currentIndex, -1)
+    const imagesInOrder = []
+
+    let indexAfter = currentIndex
+    let indexBefore = currentIndex - 1
+
+    while (imagesBefore.length || imagesAfter.length) {
+      if (imagesAfter.length) {
+        imagesInOrder.push(
+          {
+            index: indexAfter,
+            url: imagesAfter.shift()
+          });
+        indexAfter++
+      }
+
+      if (imagesBefore.length) {
+        imagesInOrder.push(
+          {
+            index: indexBefore,
+            url: imagesBefore.shift()
+          });
+        indexBefore--
+      }
+    }
+
+    for (const { index, url } of imagesInOrder) {
       const img = new Image()
+      await this.loadImage(img, url)
+      this.imagesElements[index] = img
+      if (index === currentIndex) this.drawImageOnCanvas(this.imagesElements[index])
+    }
+  }
+
+  loadImage(img: HTMLImageElement, url?: string) {
+    if (!url) return
+
+    return new Promise((resolve, reject) => {
       img.src = url
-      this.imagesElements.push(img)
-    }
-
-    const firstFrame = this.props.progression ? this.getFrameBasedOnProgression() : this.imagesElements[0]
-
-    firstFrame.onload = () => {
-      this.drawImageOnCanvas(firstFrame)
-    }
+      img.onload = (event) => resolve(event)
+    })
   }
 
   drawImageOnCanvas(image: HTMLImageElement): void {
     if (!image) return
     if (!this.canvas) return
-    
+
     const { fullscreen } = this.props
     const imgRatio = image.height / image.width
     const canvasRatio = this.canvas.height / this.canvas.width
