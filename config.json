@@ -1,11 +1,11 @@
 {
-  "assets_root_url": "https://assets-decodeurs.lemonde.fr/redacweb/35-2302-rechauffement",
+  "assets_root_url": "https://assets-decodeurs.lemonde.fr/redacweb/34-2301-iran",
   "statics_root_url": "https://assets-decodeurs.lemonde.fr/redacweb/statics-v2",
   "spreadsheets_urls": {
-    "production": "https://assets-decodeurs.lemonde.fr/sheets/-a0gkeeqN224dkg8fx4kXZP21aVJig_1701",
-    "staging": "https://assets-decodeurs.lemonde.fr/sheets/-a0gkeeqN224dkg8fx4kXZP21aVJig_1702",
-    "testing": "https://assets-decodeurs.lemonde.fr/sheets/-a0gkeeqN224dkg8fx4kXZP21aVJig_1703",
-    "developpment": "https://assets-decodeurs.lemonde.fr/sheets/-a0gkeeqN224dkg8fx4kXZP21aVJig_1704"
+    "production": "https://assets-decodeurs.lemonde.fr/sheets/L3kk_VzNxiwWVRs9mXDIfHiClpapeQ_1684",
+    "staging": "https://assets-decodeurs.lemonde.fr/sheets/L3kk_VzNxiwWVRs9mXDIfHiClpapeQ_1685",
+    "testing": "https://assets-decodeurs.lemonde.fr/sheets/L3kk_VzNxiwWVRs9mXDIfHiClpapeQ_1686",
+    "developpment": "https://assets-decodeurs.lemonde.fr/sheets/L3kk_VzNxiwWVRs9mXDIfHiClpapeQ_1687"
   },
   "layouts": [{
     "name": "longform",
