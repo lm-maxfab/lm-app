@@ -34,6 +34,7 @@ class CanvasGL extends Component<Props, {}> {
 
     this.createCanvas = this.createCanvas.bind(this)
     this.updateCanvas = this.updateCanvas.bind(this)
+    this.resizeCanvas = this.resizeCanvas.bind(this)
   }
 
   /* * * * * * * * * * * * * * *
@@ -44,9 +45,15 @@ class CanvasGL extends Component<Props, {}> {
   }
 
   componentDidUpdate(): void {
-    if (!this.renderer) this.createCanvas()
+    if (!this.renderer) {
+      this.createCanvas()
+      return
+    }
     // check si shader a changé ?? et update
     // getDerivedStateFromProps() ?
+
+    if (this.renderer?.gl.canvas.width != this.props.width) this.resizeCanvas()
+    if (this.renderer?.gl.canvas.height != this.props.height) this.resizeCanvas()
   }
 
   /* * * * * * * * * * * * * * *
@@ -54,13 +61,16 @@ class CanvasGL extends Component<Props, {}> {
    * * * * * * * * * * * * * * */
   createCanvas(): void {
     if (!this.props.width || !this.props.height) return
+    if (!this.$canvasWrapper) return
 
     this.renderer = new Renderer({
       width: this.props.width,
       height: this.props.height,
     });
-    const gl = this.renderer.gl;
-    this.$canvasWrapper?.appendChild(gl.canvas);
+    const gl = this.renderer.gl
+
+    this.$canvasWrapper.innerHTML = ''
+    this.$canvasWrapper.appendChild(gl.canvas)
 
     const geometry = new Geometry(gl, {
       position: { size: 2, data: new Float32Array([-1, -1, 3, -1, -1, 3]) },
@@ -93,6 +103,15 @@ class CanvasGL extends Component<Props, {}> {
     this.program.uniforms.uTime.value = t * 0.001;
 
     this.renderer.render({ scene: this.mesh });
+  }
+
+  resizeCanvas(): void {
+    if (!this.renderer) return
+
+    const newWidth = this.props.width ?? this.renderer?.gl.canvas.width
+    const newHeight = this.props.height ?? this.renderer?.gl.canvas.height
+
+    this.renderer.setSize(newWidth, newHeight)
   }
 
   $canvasWrapper: HTMLDivElement | null = null
