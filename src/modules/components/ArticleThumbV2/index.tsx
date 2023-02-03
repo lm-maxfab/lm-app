@@ -2,6 +2,7 @@ import { Component, VNode } from 'preact'
 import Svg from '../Svg'
 import Img from '../Img'
 import styles from './styles.module.scss'
+import bem from '../../utils/bem'
 
 interface Props {
   customClass?: string
@@ -37,8 +38,10 @@ interface Props {
 }
 
 class ArticleThumbV2 extends Component<Props, {}> {
+  bemClss = bem('lm-article-thumbnail')
+
   render() {
-    const { props } = this
+    const { props, bemClss } = this
 
     const statusProps = props.status ? props.statusOverrides?.[props.status] : {}
 
@@ -48,16 +51,51 @@ class ArticleThumbV2 extends Component<Props, {}> {
     }
 
     // Assign classes and styles
-    const wrapperClasses = [styles['wrapper'], data.customClass]
-
-    const aboveClass = styles['above']
-    const belowClass = styles['below']
-    const beforeClass = styles['before']
-    const afterClass = styles['after']
-    const topClass = styles['top']
-    const centerClass = styles['center']
-    const bottomClass = styles['bottom']
-    const imgWrapperClass = styles['image-wrapper']
+    const wrapperClasses = [
+      data.customClass,
+      bemClss.value,
+      styles['wrapper']
+    ]
+    const aboveClasses = [
+      bemClss.elt('above').value,
+      styles['above']
+    ]
+    const belowClasses = [
+      bemClss.elt('below').value,
+      styles['below']
+    ]
+    const beforeClasses = [
+      bemClss.elt('before').value,
+      styles['before']
+    ]
+    const afterClasses = [
+      bemClss.elt('after').value,
+      styles['after']
+    ]
+    const topClasses = [
+      bemClss.elt('top').value,
+      styles['top']
+    ]
+    const centerClasses = [
+      bemClss.elt('center').value,
+      styles['center']
+    ]
+    const bottomClasses = [
+      bemClss.elt('bottom').value,
+      styles['bottom']
+    ]
+    const imgWrapperClasses = [
+      bemClss.elt('image-wrapper').value,
+      styles['image-wrapper']
+    ]
+    const imgClasses = [
+      bemClss.elt('image').value,
+      styles['image']
+    ]
+    const shadeClasses = [
+      bemClss.elt('shade').value,
+      styles['shade']
+    ]
 
     const shadeStyle = `background: linear-gradient(
       ${data.shadeFromColor ?? 'transparent'} 
@@ -77,43 +115,43 @@ class ArticleThumbV2 extends Component<Props, {}> {
       {data.customCss && <style>{data.customCss}</style>}
 
       {/* above */}
-      {data.textAbove && <div className={aboveClass}>{data.textAbove}</div>}
+      {data.textAbove && <div className={aboveClasses.join(' ')}>{data.textAbove}</div>}
 
       {/* before */}
-      {displayBefore && <div className={beforeClass}>
-        {data.textBeforeTop && <div className={topClass}>{data.textBeforeTop}</div>}
-        {data.textBeforeCenter && <div className={centerClass}>{data.textBeforeCenter}</div>}
-        {data.textBeforeBottom && <div className={bottomClass}>{data.textBeforeBottom}</div>}
+      {displayBefore && <div className={beforeClasses.join(' ')}>
+        {data.textBeforeTop && <div className={topClasses.join(' ')}>{data.textBeforeTop}</div>}
+        {data.textBeforeCenter && <div className={centerClasses.join(' ')}>{data.textBeforeCenter}</div>}
+        {data.textBeforeBottom && <div className={bottomClasses.join(' ')}>{data.textBeforeBottom}</div>}
       </div>}
 
       {/* image-wrapper */}
-      <div className={imgWrapperClass}>
+      <div className={imgWrapperClasses.join(' ')}>
 
         {/* image */}
-        {data.imageUrl && <div>
+        {data.imageUrl && <div className={imgClasses.join(' ')}>
           {imageIsSvg
             ? <Svg src={data.imageUrl} desc={data.imageAlt}></Svg>
             : <Img src={data.imageUrl} alt={data.imageAlt}></Img>}
         </div>}
 
         {/* shade */}
-        {displayShade && <div style={shadeStyle}></div>}
+        {displayShade && <div className={shadeClasses.join(' ')} style={shadeStyle}></div>}
 
         {/* inside */}
-        {data.textInsideTop && <div className={topClass}>{data.textInsideTop}</div>}
-        {data.textInsideCenter && <div className={centerClass}>{data.textInsideCenter}</div>}
-        {data.textInsideBottom && <div className={bottomClass}>{data.textInsideBottom}</div>}
+        {data.textInsideTop && <div className={topClasses.join(' ')}>{data.textInsideTop}</div>}
+        {data.textInsideCenter && <div className={centerClasses.join(' ')}>{data.textInsideCenter}</div>}
+        {data.textInsideBottom && <div className={bottomClasses.join(' ')}>{data.textInsideBottom}</div>}
       </div>
 
       {/* after */}
-      {displayAfter && <div className={afterClass}>
-        {data.textAfterTop && <div className={topClass}>{data.textAfterTop}</div>}
-        {data.textAfterCenter && <div className={centerClass}>{data.textAfterCenter}</div>}
-        {data.textAfterBottom && <div className={bottomClass}>{data.textAfterBottom}</div>}
+      {displayAfter && <div className={afterClasses.join(' ')}>
+        {data.textAfterTop && <div className={topClasses.join(' ')}>{data.textAfterTop}</div>}
+        {data.textAfterCenter && <div className={centerClasses.join(' ')}>{data.textAfterCenter}</div>}
+        {data.textAfterBottom && <div className={bottomClasses.join(' ')}>{data.textAfterBottom}</div>}
       </div>}
 
       {/* below */}
-      {data.textBelow && <div className={belowClass}>{data.textBelow}</div>}
+      {data.textBelow && <div className={belowClasses.join(' ')}>{data.textBelow}</div>}
     </div>
   }
 }
