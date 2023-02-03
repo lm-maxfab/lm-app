@@ -10,12 +10,27 @@
   "layouts": [{
     "name": "longform",
     "nodes": [
-      { "class": "iran-cover-slot", "type": "cover" },
-      { "class": "iran-article-slot-1", "type": "snippet" },
-      { "class": "iran-article-slot-2", "type": "snippet" },
-      { "class": "iran-article-slot-3", "type": "snippet" },
-      { "class": "iran-article-slot-4", "type": "snippet" },
-      { "class": "iran-article-slot-5", "type": "snippet" }
+      { "class": "scrllgngn-cover-slot", "type": "cover" },
+      { "class": "scrllgngn-article-slot-1", "type": "snippet" },
+      { "class": "scrllgngn-article-slot-2", "type": "snippet" },
+      { "class": "scrllgngn-article-slot-3", "type": "snippet" },
+      { "class": "scrllgngn-article-slot-4", "type": "snippet" },
+      { "class": "scrllgngn-article-slot-5", "type": "snippet" },
+      { "class": "scrllgngn-article-slot-6", "type": "snippet" },
+      { "class": "scrllgngn-article-slot-7", "type": "snippet" },
+      { "class": "scrllgngn-article-slot-8", "type": "snippet" },
+      { "class": "scrllgngn-article-slot-9", "type": "snippet" },
+      { "class": "scrllgngn-article-slot-10", "type": "snippet" },
+      { "class": "scrllgngn-article-slot-11", "type": "snippet" },
+      { "class": "scrllgngn-article-slot-12", "type": "snippet" },
+      { "class": "scrllgngn-article-slot-13", "type": "snippet" },
+      { "class": "scrllgngn-article-slot-14", "type": "snippet" },
+      { "class": "scrllgngn-article-slot-15", "type": "snippet" },
+      { "class": "scrllgngn-article-slot-16", "type": "snippet" },
+      { "class": "scrllgngn-article-slot-17", "type": "snippet" },
+      { "class": "scrllgngn-article-slot-18", "type": "snippet" },
+      { "class": "scrllgngn-article-slot-19", "type": "snippet" },
+      { "class": "scrllgngn-article-slot-20", "type": "snippet" }
     ]
   }],
   "env": null
