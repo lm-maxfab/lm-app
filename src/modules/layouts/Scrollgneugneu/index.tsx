@@ -55,7 +55,6 @@ type Props = {
   thresholdOffset?: string
   bgColorTransitionDuration?: string|number
   pages?: PropsPageData[]
-  withHeader?: boolean // [WIP] useless, defined in pages
   headerCustomClass?: string
   headerCustomCss?: string
   headerNavItemsAlign?: string
@@ -770,7 +769,6 @@ export default class Scrollgneugneu extends Component<Props, State> {
       showHeader,
       showNav
     } = (currentPageData ?? {})
-    console.log(showHeader, showNav)
     const customClasses = []
     if (!isFalsy(props.headerCustomClass)) customClasses.push(props.headerCustomClass)
     if (!isFalsy(currentPageData?.headerCustomClass)) customClasses.push(currentPageData?.headerCustomClass)
@@ -839,7 +837,7 @@ export default class Scrollgneugneu extends Component<Props, State> {
     const headerBlockStyle = { '--z-index': headerZIndex }
     return <>
       {/* HEADER */}
-      {props.withHeader === true && <div
+      {<div
         style={headerBlockStyle}
         className={headerBlockClasses.join(' ')}>
         <Header />

@@ -31,6 +31,32 @@ type Props = {
 class ArticleHeader extends Component<Props> {
   bemClss = bem('lm-article-header')
 
+  constructor (props: Props) {
+    super(props)
+    this.scrollActiveNavItemIntoView = this.scrollActiveNavItemIntoView.bind(this)
+  }
+
+  componentDidMount(): void {
+    this.scrollActiveNavItemIntoView()
+  }
+
+  componentDidUpdate(): void {
+    this.scrollActiveNavItemIntoView()
+  }
+
+  $wrapper: HTMLDivElement|null = null
+
+  scrollActiveNavItemIntoView () {
+    const { $wrapper } = this
+    if ($wrapper === null) return;
+    const $nav = $wrapper.querySelector(`.${styles['nav']}`)
+    if ($nav === null) return;
+    const $activeNavItem = $nav.querySelector(`.${styles['nav-item_active']}`)
+    if ($activeNavItem === null) return;
+    console.log($activeNavItem.getBoundingClientRect())
+    // [WIP] Elsa? finish this
+  }
+
   /* * * * * * * * * * * * * * *
    * RENDER
    * * * * * * * * * * * * * * */
@@ -74,7 +100,7 @@ class ArticleHeader extends Component<Props> {
       bemClss.elt('cta-wrapper').value,
       styles['cta-wrapper']
     ]
-    // [WIP] Make a standalone Logo component, fill-1 and fill-2
+    // [WIP] Elsa? Make a standalone Logo component, fill-1 and fill-2
     // dont belong here
     const logoStyle: JSX.CSSProperties = {
       '--fill-1': props.fill1 ?? '#FFFFFF',
@@ -83,13 +109,15 @@ class ArticleHeader extends Component<Props> {
     }
 
     /* Display */
-    return <div className={wrapperClasses.join(' ')}>
+    return <div
+      ref={n => { this.$wrapper = n }}
+      className={wrapperClasses.join(' ')}>
       {props.customCss !== undefined && <style>{
         props.customCss
           .trim()
           .replace(/\s+/igm, ' ')
       }</style>}
-      {/* [WIP] classes on the a, not svg */}
+      {/* [WIP] Elsa? classes on the a, not svg */}
       <a href='https://lemonde.fr'>
         <Svg
           src={logoUrl}

@@ -2,7 +2,6 @@ export interface SheetBaseCollectionData {
   id: string
 }
 
-// [WIP] no snake_case please
 export interface GeneralSettings extends SheetBaseCollectionData {
   thresholdOffset?: string
   bgColorTransitionDuration?: string
@@ -26,7 +25,6 @@ export interface BlockData extends SheetBaseCollectionData {
   trackScroll?: boolean
 }
 
-// [WIP] no snake_case please
 export interface PageData extends SheetBaseCollectionData {
   showHeader?: boolean
   showNav?: boolean
