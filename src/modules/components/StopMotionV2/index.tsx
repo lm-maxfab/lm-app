@@ -40,7 +40,8 @@ class StopMotionV2 extends Component<Props, {}> {
     if (this.props.height && (this.props.height != this.canvas.height)) this.canvas.height = this.props.height
 
     // update image
-    const currentFrame = this.getFrameBasedOnProgression() ?? this.imagesElements?.[0]
+    const currentFrame = this.getFrameBasedOnProgression()
+    if (!currentFrame) return
     requestAnimationFrame(() => this.drawImageOnCanvas(currentFrame))
   }
 
