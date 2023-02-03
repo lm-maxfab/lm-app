@@ -40,6 +40,10 @@
   z-index: var(--z-index);
 }
 
+.header.sticky-block {
+  height: unset;
+}
+
 .scroll-panel {
   position: relative;
 }

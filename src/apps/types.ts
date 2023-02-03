@@ -4,8 +4,8 @@ export interface SheetBaseCollectionData {
 
 // [WIP] no snake_case please
 export interface GeneralSettings extends SheetBaseCollectionData {
-  threshold_offset?: string
-  bg_color_transition_duration?: string
+  thresholdOffset?: string
+  bgColorTransitionDuration?: string
   lazyLoadDistance?: number
   viewportHeight?: string
   topOffset?: number
@@ -28,18 +28,18 @@ export interface BlockData extends SheetBaseCollectionData {
 
 // [WIP] no snake_case please
 export interface PageData extends SheetBaseCollectionData {
-  show_header?: boolean
-  show_nav?: boolean
-  header_logo_fill_1?: string
-  header_logo_fill_2?: string
+  showHeader?: boolean
+  showNav?: boolean
+  headerLogoFill1?: string
+  headerLogoFill2?: string
   headerCustomClass?: string
   headerCustomCss?: string
   headerNavItemsAlign?: string
-  chapter_name?: string
+  chapterName?: string
   isChapterHead?: boolean
-  bg_color?: string
+  bgColor?: string
   content?: string
   layout?: string
   mobileLayout?: string
-  blocks_ids?: string
+  blocksIds?: string
 }

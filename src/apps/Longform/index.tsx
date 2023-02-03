@@ -85,7 +85,7 @@ class Longform extends Component<Props, State> {
     const rawPagesData = sheetBase?.collection('pages_data').value as PageDataFromSheet[]|undefined
     const pagesData: PropsPageData[]|undefined = rawPagesData?.map(rawPageData => {
       const fixedBlocksData: PropsBlockData[] = []
-      rawPageData.blocks_ids?.split(',').map(name => {
+      rawPageData.blocksIds?.split(',').map(name => {
         const blockId = name.trim()
         const theActualBlock = blocksData?.find(blockData => blockData.id === blockId)
         if (theActualBlock !== undefined) {
@@ -130,16 +130,16 @@ class Longform extends Component<Props, State> {
       })
       return {
         id: rawPageData.id,
-        showHeader: rawPageData.show_header,
-        showNav: rawPageData.show_nav,
-        headerLogoFill1: rawPageData.header_logo_fill_1,
-        headerLogoFill2: rawPageData.header_logo_fill_2,
+        showHeader: rawPageData.showHeader,
+        showNav: rawPageData.showNav,
+        headerLogoFill1: rawPageData.headerLogoFill1,
+        headerLogoFill2: rawPageData.headerLogoFill2,
         headerCustomClass: rawPageData.headerCustomClass,
         headerCustomCss: rawPageData.headerCustomCss,
         headerNavItemsAlign: rawPageData.headerNavItemsAlign,
-        chapterName: rawPageData.chapter_name,
+        chapterName: rawPageData.chapterName,
         isChapterHead: rawPageData.isChapterHead,
-        bgColor: rawPageData.bg_color,
+        bgColor: rawPageData.bgColor,
         blocks: [{
           depth: 'scroll',
           type: 'html',
@@ -212,8 +212,8 @@ class Longform extends Component<Props, State> {
       <Scrollgneugneu
         withHeader={true}
         pages={pagesData}
-        thresholdOffset={generalSettings?.threshold_offset}
-        bgColorTransitionDuration={generalSettings?.bg_color_transition_duration}
+        thresholdOffset={generalSettings?.thresholdOffset}
+        bgColorTransitionDuration={generalSettings?.bgColorTransitionDuration}
         stickyBlocksLazyLoadDistance={generalSettings?.lazyLoadDistance}
         stickyBlocksViewportHeight={generalSettings?.viewportHeight}
         stickyBlocksOffsetTop={generalSettings?.topOffset}
