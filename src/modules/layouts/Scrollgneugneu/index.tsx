@@ -770,6 +770,7 @@ export default class Scrollgneugneu extends Component<Props, State> {
       showHeader,
       showNav
     } = (currentPageData ?? {})
+    console.log(showHeader, showNav)
     const customClasses = []
     if (!isFalsy(props.headerCustomClass)) customClasses.push(props.headerCustomClass)
     if (!isFalsy(currentPageData?.headerCustomClass)) customClasses.push(currentPageData?.headerCustomClass)
@@ -801,7 +802,7 @@ export default class Scrollgneugneu extends Component<Props, State> {
       }, [] as ArticleHeaderNavItem[])}
       navItemsAlign={navItemsAlign}
       hideLogo={showHeader !== true}
-      hideNav={showHeader !== true && showNav !== true}
+      hideNav={showHeader !== true || showNav !== true}
       hideCta={true} // [WIP] CTA not supported yet
       ctaContent={undefined} // [WIP] CTA not supported yet
       ctaOnClick={undefined} // [WIP] CTA not supported yet
