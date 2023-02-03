@@ -53,7 +53,7 @@ class ArticleHeader extends Component<Props> {
         'nav-items-center-align': centerAlignItems,
         'nav-items-right-align': rightAlignItems
       }).value,
-      styles['wrapper'],
+      styles['wrapper']
     ]
     if (props.customClass !== undefined) wrapperClasses.push(props.customClass)
     if (hideLogo) wrapperClasses.push(styles['wrapper_hide-logo'])
@@ -89,6 +89,7 @@ class ArticleHeader extends Component<Props> {
           .trim()
           .replace(/\s+/igm, ' ')
       }</style>}
+      {/* [WIP] classes on the a, not svg */}
       <a href='https://lemonde.fr'>
         <Svg
           src={logoUrl}
