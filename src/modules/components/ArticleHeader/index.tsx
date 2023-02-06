@@ -1,7 +1,6 @@
 import { Component, JSX, VNode } from 'preact'
 import bem from '../../utils/bem'
-import Svg from '../Svg'
-import logoUrl from './logo.svg'
+import Logo from '../Logo'
 import styles from './styles.module.scss'
 import './styles.scss'
 
@@ -112,13 +111,6 @@ class ArticleHeader extends Component<Props> {
       bemClss.elt('cta-wrapper').value,
       styles['cta-wrapper']
     ]
-    // [WIP] Elsa? Make a standalone Logo component, fill-1 and fill-2
-    // dont belong here
-    const logoStyle: JSX.CSSProperties = {
-      '--fill-1': props.fill1 ?? '#FFFFFF',
-      '--fill-2': props.fill2 ?? 'rgb(255, 255, 255, .6)',
-      '--fill-transition-time': props.fillTransitionTime ?? '600ms'
-    }
 
     /* Display */
     return <div
@@ -129,13 +121,13 @@ class ArticleHeader extends Component<Props> {
           .trim()
           .replace(/\s+/igm, ' ')
       }</style>}
-      {/* [WIP] Elsa? classes on the a, not svg */}
-      <a href='https://lemonde.fr'>
-        <Svg
-          src={logoUrl}
-          style={logoStyle}
-          className={logoClasses.join(' ')} />
-      </a>
+      <div className={logoClasses.join(' ')}>
+        <Logo 
+          fill1={props.fill1}
+          fill2={props.fill2}
+          fillTransitionTime={props.fillTransitionTime}
+        />
+      </div>
       {props.navItems !== undefined && props.navItems.length > 0 && <div className={navClasses.join(' ')}>
         <div className={`${styles['nav-spacer']} ${styles['nav-left-spacer']}`} />
         {props.navItems?.map(navItem => {
