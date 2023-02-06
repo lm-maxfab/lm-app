@@ -1,37 +1,28 @@
 {
-  "assets_root_url": "https://assets-decodeurs.lemonde.fr/redacweb/35-2302-rechauffement",
+  "assets_root_url": "https://assets-decodeurs.lemonde.fr/redacweb/38-2302-hydra",
   "statics_root_url": "https://assets-decodeurs.lemonde.fr/redacweb/statics-v2",
   "spreadsheets_urls": {
-    "production": "https://assets-decodeurs.lemonde.fr/sheets/-a0gkeeqN224dkg8fx4kXZP21aVJig_1701",
-    "staging": "https://assets-decodeurs.lemonde.fr/sheets/-a0gkeeqN224dkg8fx4kXZP21aVJig_1702",
-    "testing": "https://assets-decodeurs.lemonde.fr/sheets/-a0gkeeqN224dkg8fx4kXZP21aVJig_1703",
-    "developpment": "https://assets-decodeurs.lemonde.fr/sheets/-a0gkeeqN224dkg8fx4kXZP21aVJig_1704"
+    "production": "https://assets-decodeurs.lemonde.fr/sheets/NdfPg7nhByiaF63Pw0spDALdt5YF1A_1707",
+    "staging": "https://assets-decodeurs.lemonde.fr/sheets/NdfPg7nhByiaF63Pw0spDALdt5YF1A_1708",
+    "testing": "https://assets-decodeurs.lemonde.fr/sheets/NdfPg7nhByiaF63Pw0spDALdt5YF1A_1709",
+    "developpment": "https://assets-decodeurs.lemonde.fr/sheets/NdfPg7nhByiaF63Pw0spDALdt5YF1A_1710"
   },
   "layouts": [{
     "name": "longform",
     "nodes": [
-      { "class": "scrllgngn-cover-slot", "type": "cover" },
-      { "class": "scrllgngn-article-slot-1", "type": "snippet" },
-      { "class": "scrllgngn-article-slot-2", "type": "snippet" },
-      { "class": "scrllgngn-article-slot-3", "type": "snippet" },
-      { "class": "scrllgngn-article-slot-4", "type": "snippet" },
-      { "class": "scrllgngn-article-slot-5", "type": "snippet" },
-      { "class": "scrllgngn-article-slot-6", "type": "snippet" },
-      { "class": "scrllgngn-article-slot-7", "type": "snippet" },
-      { "class": "scrllgngn-article-slot-8", "type": "snippet" },
-      { "class": "scrllgngn-article-slot-9", "type": "snippet" },
-      { "class": "scrllgngn-article-slot-10", "type": "snippet" },
-      { "class": "scrllgngn-article-slot-11", "type": "snippet" },
-      { "class": "scrllgngn-article-slot-12", "type": "snippet" },
-      { "class": "scrllgngn-article-slot-13", "type": "snippet" },
-      { "class": "scrllgngn-article-slot-14", "type": "snippet" },
-      { "class": "scrllgngn-article-slot-15", "type": "snippet" },
-      { "class": "scrllgngn-article-slot-16", "type": "snippet" },
-      { "class": "scrllgngn-article-slot-17", "type": "snippet" },
-      { "class": "scrllgngn-article-slot-18", "type": "snippet" },
-      { "class": "scrllgngn-article-slot-19", "type": "snippet" },
-      { "class": "scrllgngn-article-slot-20", "type": "snippet" }
+      { "class": "hydra-visuel-interactif", "type": "snippet" },
+      { "class": "hydra-footer", "type": "snippet" },
+      { "class": "hydra-cover-article-1", "type": "cover" },
+      { "class": "hydra-cover-article-2", "type": "cover" },
+      { "class": "hydra-cover-article-3", "type": "cover" },
+      { "class": "hydra-cover-article-4", "type": "cover" },
+      { "class": "hydra-cover-article-5", "type": "cover" },
+      { "class": "hydra-cover-article-6", "type": "cover" },
+      { "class": "hydra-cover-article-7", "type": "cover" },
+      { "class": "hydra-cover-article-8", "type": "cover" },
+      { "class": "hydra-cover-article-9", "type": "cover" },
+      { "class": "hydra-cover-article-10", "type": "cover" }
     ]
-  }],
+    }],
   "env": null
 }

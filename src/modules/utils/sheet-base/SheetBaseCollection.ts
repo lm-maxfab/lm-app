@@ -56,7 +56,7 @@ class SheetBaseCollection {
       Object.defineProperty(
         returned,
         entryPos,
-        { get: () => entry.value }
+        { enumerable: true, get: () => entry.value }
       )
     })
     return returned

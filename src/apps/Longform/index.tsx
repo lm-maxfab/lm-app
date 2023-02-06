@@ -15,7 +15,7 @@ interface State {}
 
 export default function LongformOf (slotName: string) {
   return appWrapper(class Longform extends Component<Props, State> {
-    static clss: string = 'sable-longform'
+    static clss: string = 'hydra-longform'
     clss = Longform.clss
   
     /* * * * * * * * * * * * * * *

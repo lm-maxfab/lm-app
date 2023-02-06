@@ -48,7 +48,7 @@ class SheetBaseEntry {
   get value (): SheetBaseEntryValue {
     const returned: SheetBaseEntryValue = {}
     Object.defineProperty(returned, 'id', { get: () => this._id })
-    for (const fld of this._fields) Object.defineProperty(returned, fld.name, { get: () => fld.value })
+    for (const fld of this._fields) Object.defineProperty(returned, fld.name, { enumerable: true, get: () => fld.value })
     return returned
   }
 

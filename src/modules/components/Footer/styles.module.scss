@@ -1,0 +1,22 @@
+.wrapper {
+  position: relative;
+}
+
+.shade {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+
+.background-image {
+  position: absolute;
+  width: 100%;
+
+  img {
+    width: 100%;
+  }
+}
+
+.thumbnails {
+  position: relative;
+}
