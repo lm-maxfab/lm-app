@@ -40,21 +40,33 @@ class ArticleHeader extends Component<Props> {
     this.scrollActiveNavItemIntoView()
   }
 
-  componentDidUpdate(): void {
-    this.scrollActiveNavItemIntoView()
+  componentDidUpdate(prevProps: Props): void {
+    const prevActiveNavItem = prevProps.navItems?.find(el => el.isActive)?.value
+    const activeNavItem = this.props.navItems?.find(el => el.isActive)?.value
+
+    if (activeNavItem && activeNavItem != prevActiveNavItem) {
+      this.scrollActiveNavItemIntoView()
+    }
   }
 
   $wrapper: HTMLDivElement|null = null
 
-  scrollActiveNavItemIntoView () {
+  scrollActiveNavItemIntoView () {    
     const { $wrapper } = this
-    if ($wrapper === null) return;
+    if ($wrapper === null) return
+
     const $nav = $wrapper.querySelector(`.${styles['nav']}`)
-    if ($nav === null) return;
+    if ($nav === null) return
+
     const $activeNavItem = $nav.querySelector(`.${styles['nav-item_active']}`)
-    if ($activeNavItem === null) return;
-    console.log($activeNavItem.getBoundingClientRect())
-    // [WIP] Elsa? finish this
+    if ($activeNavItem === null) return
+    
+    const { left, right } = $activeNavItem.getBoundingClientRect()
+    const { left: navLeft, right: navRight } = $nav.getBoundingClientRect()
+    const scrollMargin = 24
+    
+    if (left - (navLeft + scrollMargin) <= 0) $nav.scrollBy({ left: left - (navLeft + scrollMargin), behavior: 'smooth' })
+    else if (right - (navRight - scrollMargin) > 0) $nav.scrollBy({ left: right - (navRight - scrollMargin), behavior: 'smooth' })
   }
 
   /* * * * * * * * * * * * * * *
