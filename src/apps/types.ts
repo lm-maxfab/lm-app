@@ -60,3 +60,9 @@ export interface EpisodeData extends SheetBaseCollectionData {
   cover?: string,
   published?: boolean,
 }
+
+export interface SidenoteData extends SheetBaseCollectionData {
+  customClass?: string
+  customCss?: string
+  content?: VNode | string,
+}
