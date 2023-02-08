@@ -1411,5 +1411,18 @@
       "description": "",
       "time": "2023-02-02T18:04:33.010Z"
     }
+  ],
+  "38-2302-hydra": [
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 1
+      },
+      "description": "",
+      "time": "2023-02-08T10:14:18.009Z"
+    }
   ]
 }
