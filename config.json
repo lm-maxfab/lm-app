@@ -10,19 +10,14 @@
   "layouts": [{
     "name": "longform",
     "nodes": [
-      { "class": "hydra-visuel-interactif", "type": "snippet" },
-      { "class": "hydra-footer", "type": "snippet" },
-      { "class": "hydra-cover-article-1", "type": "cover" },
-      { "class": "hydra-cover-article-2", "type": "cover" },
-      { "class": "hydra-cover-article-3", "type": "cover" },
-      { "class": "hydra-cover-article-4", "type": "cover" },
-      { "class": "hydra-cover-article-5", "type": "cover" },
-      { "class": "hydra-cover-article-6", "type": "cover" },
-      { "class": "hydra-cover-article-7", "type": "cover" },
-      { "class": "hydra-cover-article-8", "type": "cover" },
-      { "class": "hydra-cover-article-9", "type": "cover" },
-      { "class": "hydra-cover-article-10", "type": "cover" }
+      { "class": "hydra-visuel-interactif", "type": "longform" }      
     ]
-    }],
+    }, {
+      "name": "article",
+      "nodes": [
+        { "class": "hydra-cover-article-1", "type": "cover" },
+        { "class": "hydra-footer", "type": "snippet" }
+      ]
+      }],
   "env": null
 }

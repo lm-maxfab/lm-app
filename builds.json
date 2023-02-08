@@ -1423,6 +1423,17 @@
       },
       "description": "",
       "time": "2023-02-08T10:14:18.009Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 2
+      },
+      "description": "",
+      "time": "2023-02-08T10:18:46.837Z"
     }
   ]
 }
