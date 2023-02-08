@@ -48,7 +48,7 @@ export type PropsPageData = {
   blocks?: PropsBlockData[]
 }
 
-type Props = {
+export type Props = {
   stickyBlocksLazyLoadDistance?: number
   stickyBlocksViewportHeight?: string
   stickyBlocksOffsetTop?: number
@@ -121,10 +121,10 @@ function getNeighbourIntegersSeries (_array: number[]|Set<number>): number[][] {
   const result: number[][] = []
   const dedupedIntArray = [...new Set(_array)].filter(num => Number.isInteger(num))
   dedupedIntArray.forEach(num => {
-    const numHasAlreadyASerie = result.some(serie => serie.includes(num))
-    if (numHasAlreadyASerie) return
-    const numSerie = getIntNeighboursInNumbersSet(num, dedupedIntArray)
-    result.push(numSerie)
+    const numHasAlreadyASeries = result.some(series => series.includes(num))
+    if (numHasAlreadyASeries) return
+    const numSeries = getIntNeighboursInNumbersSet(num, dedupedIntArray)
+    result.push(numSeries)
   })
   return result
 }
@@ -543,7 +543,6 @@ export default class Scrollgneugneu extends Component<Props, State> {
   }
 
   handlePageChange (paginatorState: PaginatorState) {
-    // [WIP] auto scroll in header nav if needed
     const { coming, active, passed } = paginatorState
     const pagesLength = active.length + coming.length + passed.length
     const hasPages = pagesLength > 0

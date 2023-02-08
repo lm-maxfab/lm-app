@@ -1,6 +1,5 @@
 /*
  * Defined in index.tsx:
- *
  * --sticky-blocks-viewport-height
  * --sticky-blocks-offset-top
  * --scrolling-block-height
@@ -133,17 +132,19 @@ $maxWidth: 800px;
 }
 
 /* left-half-middle */
-.layout-left-half-middle {
-  @extend .layout-left-half;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-.layout-mobile-left-half-middle {
-  @extend .layout-mobile-left-half;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+.sticky-block {
+  &.layout-left-half-middle {
+    @extend .layout-left-half;
+    // display: flex;
+    // flex-direction: column;
+    // justify-content: center;
+  }
+  &.layout-mobile-left-half-middle {
+    @extend .layout-mobile-left-half;
+    // display: flex;
+    // flex-direction: column;
+    // justify-content: center;
+  }
 }
 
 /* left-half-bottom */

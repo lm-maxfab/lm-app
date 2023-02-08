@@ -50,7 +50,8 @@ class ArticleHeader extends Component<Props> {
 
   $wrapper: HTMLDivElement|null = null
 
-  scrollActiveNavItemIntoView () {    
+  scrollActiveNavItemIntoView () {  
+    // [WIP] prop to decide if autoscroll or not
     const { $wrapper } = this
     if ($wrapper === null) return
 
@@ -60,6 +61,7 @@ class ArticleHeader extends Component<Props> {
     const $activeNavItem = $nav.querySelector(`.${styles['nav-item_active']}`)
     if ($activeNavItem === null) return
     
+    // [WIP] review that
     const { left, right } = $activeNavItem.getBoundingClientRect()
     const { left: navLeft, right: navRight } = $nav.getBoundingClientRect()
     const scrollMargin = 24

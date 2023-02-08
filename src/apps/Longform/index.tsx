@@ -1,5 +1,5 @@
 import { Component, JSX } from 'preact'
-import Scrollgneugneu, { PropsPageData, PropsBlockData } from '../../modules/layouts/Scrollgneugneu'
+import Scrollgneugneu, { Props as ScrollgngnProps, PropsPageData, PropsBlockData } from '../../modules/layouts/Scrollgneugneu'
 import appWrapper, { InjectedProps } from '../../modules/utils/app-wrapper-HOC'
 import bem from '../../modules/utils/bem'
 import './styles.scss'
@@ -23,62 +23,6 @@ class Longform extends Component<Props, State> {
   render (): JSX.Element {
     const { props } = this
     const { sheetBase } = props
-
-    //   const pagesData: PropsPageData[] = [{
-    //     bgColor: 'blue',
-    //     blocks: [{
-    //       id: 'first-scroll-block',
-    //       depth: 'scroll',
-    //       zIndex: 3,
-    //       type: 'html',
-    //       content: '<div style="height: 2000px; background-color: violet;">I am the first scroll content</div>',
-    //       layout: 'left-half',
-    //       mobileLayout: 'right-half',
-    //       transitions: [['whirl', 600]],
-    //       mobileTransitions: [['grow', 600]]
-    //     }, {
-    //       id: 'first-back-block',
-    //       depth: 'back',
-    //       zIndex: 0,
-    //       type: 'module',
-    //       content: 'http://localhost:50003/module-1/index.js',
-    //       layout: 'right-half',
-    //       mobileLayout: 'left-half',
-    //       trackScroll: true
-    //     }]
-    //   }, {
-    //     bgColor: 'red',
-    //     blocks: [{
-    //       // id: 'second-scroll-block',
-    //       depth: 'scroll',
-    //       zIndex: 3,
-    //       type: 'html',
-    //       content: '<div style="height: 2000px; background-color: chocolate;">I am the second scroll content</div>',
-    //       layout: 'left-half',
-    //       mobileLayout: 'right-half',
-    //       transitions: [['whirl', 600]],
-    //       mobileTransitions: [['grow', 600]],
-    //       trackScroll: false
-    //     }, {
-    //       id: 'first-back-block'
-    //     }, {
-    //       id: 'second-back-block',
-    //       type: 'html',
-    //       depth: 'back',
-    //       layout: 'right-half',
-    //       content: '<div>I am the second back block</div>',
-    //       trackScroll: true
-    //     }]
-    //   },
-    //   {},
-    //   { blocks: [{id: 'first-scroll-block' }, {id: 'first-back-block' }, {id: 'second-back-block' }] },
-    //   { blocks: [{id: 'first-scroll-block' }, {id: 'first-back-block' }] },
-    //   { blocks: [{id: 'first-scroll-block' }, {id: 'first-back-block' }, {id: 'second-back-block' }] },
-    //   {},
-    //   {},
-    //   { blocks: [{id: 'first-scroll-block' }, {id: 'first-back-block' }, {id: 'second-back-block' }] },
-    //   { blocks: [{id: 'first-scroll-block' }, {id: 'first-back-block' }, {id: 'second-back-block' }] }
-    // ]
 
     const generalSettings = sheetBase?.collection('general_settings').entries[0].value as GeneralSettings|undefined
     const blocksData = sheetBase?.collection('blocks_data').value as BlockDataFromSheet[]|undefined
@@ -150,54 +94,97 @@ class Longform extends Component<Props, State> {
       }
     })
 
-    // const pagesData : PropsPageData[] = [{
-    //   bgColor: 'coral',
-    //   blocks: [{
-    //     id: 'page',
-    //     depth: 'scroll',
-    //     type: 'html',
-    //     content: `<div
-    //       style="
-    //         height: 1000px;
-    //         display: flex;
-    //         flex-direction: column;
-    //         justify-content: space-around
-    //       ">
-    //       <p>Scroll</p>
-    //       <p>Scroll</p>
-    //       <p>Scroll</p>
-    //       <p>Scroll</p>
-    //     </div>`
-    //   }]
-    // }, {
-    //   bgColor: 'aliceblue',
-    //   blocks: [{ id: 'page' }]
-    // }, {
-    //   bgColor: 'violet',
-    //   blocks: [{ id: 'page' }]
-    // }, {
-    //   bgColor: 'chocolate',
-    //   blocks: [{
-    //     id: 'page'
-    //   }, {
-    //     depth: 'front',
-    //     type: 'module',
-    //     content: 'http://localhost:50003/module-1/index.js',
-    //     trackScroll: true
-    //   }]
-    // }]
-
+    // const generalSettings: Partial<GeneralSettings> = {}
     // const pagesData: PropsPageData[] = [{
+    //   bgColor: 'blueviolet',
     //   blocks: [{
-    //     depth: 'front',
     //     type: 'html',
-    //     content: '<div style="width: unset; background-color: blue; height: unset;">BACK</div>',
-    //     layout: 'right-half-bottom'
-    //   }, {
     //     depth: 'scroll',
+    //     layout: 'left-half',
+    //     content: `<div style="
+    //       background-color: coral;
+    //       width: 100%;
+    //       height: 80vh;
+    //       padding: 16px;
+    //       border: 16px solid black;
+    //       box-sizing: border-box;
+    //       font-weight: 700;
+    //       font-family: var(--ff-marr-sans);">
+    //       Left half.
+    //     </div>`
+    //   }, {
     //     type: 'html',
-    //     content: '<div style="height: 3000px; background-color: rgb(255, 127, 80, .2);">SCROLL</div>',
-    //     layout: 'left-half'
+    //     depth: 'scroll',
+    //     layout: 'right-half',
+    //     content: `<div style="
+    //       background-color: coral;
+    //       width: 100%;
+    //       height: 80vh;
+    //       padding: 16px;
+    //       border: 16px solid black;
+    //       box-sizing: border-box;
+    //       font-weight: 700;
+    //       font-family: var(--ff-marr-sans);">
+    //       Right half.
+    //     </div>`
+    //   }, {
+    //     type: 'html',
+    //     depth: 'scroll',
+    //     layout: 'full-screen',
+    //     content: `<div style="
+    //       background-color: coral;
+    //       width: 100%;
+    //       height: 80vh;
+    //       padding: 16px;
+    //       border: 16px solid black;
+    //       box-sizing: border-box;
+    //       font-weight: 700;
+    //       font-family: var(--ff-marr-sans);">
+    //       Full screen
+    //     </div>`
+    //   }, /*{
+    //     type: 'html',
+    //     depth: 'back',
+    //     layout: 'right-half',
+    //     content: `<div style="
+    //       background-color: darkkhaki;
+    //       width: 100%;
+    //       padding: 16px;
+    //       border: 16px solid black;
+    //       box-sizing: border-box;
+    //       font-weight: 600; 
+    //       font-family: var(--ff-the-antiqua-b);">
+    //       Back / right half
+    //     </div>`
+    //   }, {
+    //     type: 'html',
+    //     depth: 'front',
+    //     layout: 'left-half',
+    //     content: `<div style="
+    //       background-color: darkkhaki;
+    //       width: 100%;
+    //       padding: 16px;
+    //       border: 16px solid black;
+    //       box-sizing: border-box;
+    //       font-weight: 600;
+    //       font-family: var(--ff-the-antiqua-b);">
+    //       Front / left half middle
+    //     </div>`
+    //   }, */{
+    //     type: 'html',
+    //     depth: 'front',
+    //     layout: 'full-screen',
+    //     content: `<div style="
+    //       background-color: darkkhaki;
+    //       /*margin-top: 80vh;*/
+    //       width: 100%;
+    //       padding: 16px;
+    //       border: 16px solid black;
+    //       box-sizing: border-box;
+    //       font-weight: 600;
+    //       font-family: var(--ff-the-antiqua-b);">
+    //       Front / full screen
+    //     </div>`
     //   }]
     // }]
 
@@ -210,7 +197,6 @@ class Longform extends Component<Props, State> {
       style={wrapperStyle}
       className={wrapperClasses.value}>
       <Scrollgneugneu
-        withHeader={true}
         pages={pagesData}
         thresholdOffset={generalSettings?.thresholdOffset}
         bgColorTransitionDuration={generalSettings?.bgColorTransitionDuration}
