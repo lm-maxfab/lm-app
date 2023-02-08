@@ -1,8 +1,8 @@
 import { Component, JSX } from 'preact'
 import appWrapper, { InjectedProps } from '../../modules/utils/app-wrapper-HOC'
-import FooterComponent from '../../modules/components/Footer'
-import { Props as FooterProps } from '../../modules/components/Footer'
-import { Props as ThumbnailProps } from '../../modules/components/ArticleThumbnail'
+import { FooterData, EpisodeData } from '../types'
+import Carousel from '../components/Carousel'
+import styles from './styles.module.scss'
 
 interface Props extends InjectedProps { }
 interface State { }
@@ -13,14 +13,25 @@ class Footer extends Component<Props, State> {
    * RENDER
    * * * * * * * * * * * * * * */
   render(): JSX.Element {
-    const { sheetBase } = this.props
+    const { props } = this
 
-    const footerData = sheetBase?.collection('footer_data').entries[0].value as FooterProps
-    const thumbnailsData = sheetBase?.collection('thumbnails_data').value as ThumbnailProps[]
+    const generalData = props.sheetBase?.collection('footer_data').value[0] as unknown as FooterData;
+    const episodesData = props.sheetBase?.collection('thumbnails_data').value ?? [] as unknown as EpisodeData[];
 
-    const footerProps = { articleThumbsData: thumbnailsData, ...footerData }
+    const customCss = generalData.styles?.trim()
+      .replace(/\s+/igm, ' ')
+      .replace(/\n/igm, ' ')
 
-    return <FooterComponent {...footerProps} />
+    return <div className={styles['footer']}>
+
+      <style>{customCss}</style>
+
+      <div className={styles['header']}>
+        {generalData.header}
+      </div>
+
+      <Carousel episodes={episodesData as EpisodeData[]} />
+    </div>
   }
 }
 
