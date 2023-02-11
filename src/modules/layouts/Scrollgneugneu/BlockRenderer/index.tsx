@@ -10,10 +10,13 @@ type Props = {
   cssLoader?: (url: string) => Promise<void>
 }
 
+const allowedTypes: Props['type'][] = ['html', 'module', undefined]
+
 export default class BlockRenderer extends Component<Props> {
   render () {
     const { props } = this
     const { type, content, context, cssLoader } = props
+    if (!allowedTypes.includes(type)) console.warn(`BlockRenderer: Unknown block type: ${type}`)
     switch (type) {
       case 'html':
       case undefined: return <HtmlBlockRenderer content={content} />
@@ -21,7 +24,7 @@ export default class BlockRenderer extends Component<Props> {
         url={content}
         context={context}
         cssLoader={cssLoader} />
-      default: return <div>Block type {type} is unknown</div>
+      default: return <></>
     }
   }
 }

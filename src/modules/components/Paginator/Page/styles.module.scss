@@ -1,0 +1,7 @@
+.wrapper {
+  pointer-events: none;
+}
+
+:where(.wrapper) * {
+  pointer-events: auto;
+}

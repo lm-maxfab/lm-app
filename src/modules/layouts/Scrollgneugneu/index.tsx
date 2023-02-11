@@ -11,27 +11,154 @@ import bem from '../../utils/bem'
 import ArticleHeader, { NavItem as ArticleHeaderNavItem } from '../../components/ArticleHeader'
 import isFalsy from '../../utils/is-falsy'
 
-// [WIP] - left-half-bottom, -middle, right-, ... need a fix
-export type LayoutName = 'full-screen'
-  |'left-half'|'left-half-middle'|'left-half-bottom'
-  |'right-half'|'right-half-middle'|'right-half-bottom'
-export type TransitionName = 'fade'|'grow'|'whirl'|'slide-up'|'right-open'|'left-open'
+/* Layouts types */
+type ScrollAndStickyLayoutName =
+  'full-screen'
+  |'full-screen-left'
+  |'full-screen-center'
+  |'full-screen-right'
+  |'full-width'
+  |'left-half'
+  |'center-half'
+  |'right-half'
+  |'left-third'
+  |'center-left-third'
+  |'center-third'
+  |'center-right-third'
+  |'right-third'
+  |'left-two-thirds'
+  |'center-two-thirds'
+  |'right-two-thirds'
+  |'left-quarter'
+  |'left-center-quarter'
+  |'center-left-quarter'
+  |'center-quarter'
+  |'center-right-quarter'
+  |'right-center-quarter'
+  |'right-quarter'
+  |'left-three-quarters'
+  |'center-three-quarters'
+  |'right-three-quarters'
+  |'xs-column'
+  |'s-column'
+  |'m-column'
+  |'l-column'
+  |'xl-column'
+// [WIP] some from above are missing below, like "center-quarter", or the "two-thirds-*", ...
+type StickyOnlyLayoutName =
+  |'full-screen-top-left'
+  |'full-screen-top-center'
+  |'full-screen-top-right'
+  |'full-screen-middle-left'
+  |'full-screen-middle-center'
+  |'full-screen-middle-right'
+  |'full-screen-bottom-left'
+  |'full-screen-bottom-center'
+  |'full-screen-bottom-right'
+  |'left-half-top'
+  |'left-half-middle'
+  |'left-half-bottom'
+  |'right-half-top'
+  |'right-half-middle'
+  |'right-half-bottom'
+  |'top-half-left'
+  |'top-half-center'
+  |'top-half-right'
+  |'bottom-half-left'
+  |'bottom-half-center'
+  |'bottom-half-right'
+  |'left-third-top'
+  |'left-third-middle'
+  |'left-third-bottom'
+  |'center-third-top'
+  |'center-third-middle'
+  |'center-third-bottom'
+  |'right-third-top'
+  |'right-third-middle'
+  |'right-third-bottom'
+  |'top-third-left'
+  |'top-third-center'
+  |'top-third-right'
+  |'middle-third-left'
+  |'middle-third-center'
+  |'middle-third-right'
+  |'bottom-third-left'
+  |'bottom-third-center'
+  |'bottom-third-right'
+  |'left-quarter-top'
+  |'left-quarter-middle'
+  |'left-quarter-bottom'
+  |'center-left-quarter-top'
+  |'center-left-quarter-middle'
+  |'center-left-quarter-bottom'
+  |'center-right-quarter-top'
+  |'center-right-quarter-middle'
+  |'center-right-quarter-bottom'
+  |'right-quarter-top'
+  |'right-quarter-middle'
+  |'right-quarter-bottom'
+  |'top-quarter-left'
+  |'top-quarter-center'
+  |'top-quarter-right'
+  |'middle-top-quarter-left'
+  |'middle-top-quarter-center'
+  |'middle-top-quarter-right'
+  |'middle-bottom-quarter-left'
+  |'middle-bottom-quarter-center'
+  |'middle-bottom-quarter-right'
+  |'bottom-quarter-left'
+  |'bottom-quarter-center'
+  |'bottom-quarter-right'
+  |'xs-column-left'
+  |'xs-column-center'
+  |'xs-column-right'
+  |'s-column-left'
+  |'s-column-center'
+  |'s-column-right'
+  |'m-column-left'
+  |'m-column-center'
+  |'m-column-right'
+  |'l-column-left'
+  |'l-column-center'
+  |'l-column-right'
+  |'xl-column-left'
+  |'xl-column-center'
+  |'xl-column-right'
+
+/*export*/ type LayoutName = ScrollAndStickyLayoutName|StickyOnlyLayoutName
+
+/* Transition types */
+export type TransitionName = 
+  'fade'
+  |'grow'
+  |'whirl'
+  |'slide-up'
+  |'right-open'
+  |'left-open'
 export type TransitionDuration = string|number
 export type TransitionDescriptor = [TransitionName]|[TransitionName, TransitionDuration]
 
 /* Props stuff */
-export type PropsBlockData = {
+type PropsCommonData = {
   id?: string
-  depth?: 'scroll'|'back'|'front'
   zIndex?: number
   type?: 'html'|'module'
   content?: string
-  layout?: LayoutName
-  mobileLayout?: LayoutName
-  transitions?: TransitionDescriptor[]
-  mobileTransitions?: TransitionDescriptor[]
   trackScroll?: boolean
 }
+type PropsScrollBlockData = PropsCommonData & {
+  depth?: 'scroll'
+  layout?: ScrollAndStickyLayoutName
+  mobileLayout?: ScrollAndStickyLayoutName
+}
+type PropsStickyBlockData = PropsCommonData & {
+  depth: 'back'|'front'
+  layout?: ScrollAndStickyLayoutName|StickyOnlyLayoutName
+  mobileLayout?: ScrollAndStickyLayoutName|StickyOnlyLayoutName
+  transitions?: TransitionDescriptor[]
+  mobileTransitions?: TransitionDescriptor[]
+}
+export type PropsBlockData = PropsScrollBlockData|PropsStickyBlockData
 
 export type PropsPageData = {
   id?: string
@@ -152,12 +279,15 @@ function getIntNeighboursInNumbersSet (
 }
 
 /* State stuff */
-type StateBlockData = PropsBlockData & {
+type StateCommonBlockData = {
   _id: string
   _zIndex: number
   _displayZones: BlockDisplayZone[]
   _context: BlockContext
 }
+type StateScrollBlockData = PropsScrollBlockData & StateCommonBlockData
+type StateStickyBlockData = PropsStickyBlockData & StateCommonBlockData
+type StateBlockData = StateScrollBlockData|StateStickyBlockData
 
 type StatePageData = PropsPageData & {
   _blocksIds: Set<BlockIdentifier>
@@ -830,7 +960,8 @@ export default class Scrollgneugneu extends Component<Props, State> {
     }, 0)
     const headerBlockClasses = [
       wrapperBemClass.elt('header').value,
-      styles['sticky-block'],
+      styles['block'],
+      styles['block_sticky'],
       styles['header']
     ]
     const headerBlockStyle = { '--z-index': headerZIndex }
@@ -842,12 +973,13 @@ export default class Scrollgneugneu extends Component<Props, State> {
         <Header />
       </div>}
       {/* STICKY BLOCKS */}
-      {[...blocks].map(([blockIdentifier, blockData]) => {
+      {[...blocks].map(([blockIdentifier, scrollOrStickyBlockData]) => {
         const blockDistance = getBlockDistanceFromDisplay(blockIdentifier)
         if (blockDistance === undefined) return null
         if (blockDistance > lazyLoadDistance) return null
         const blockIsSticky = isBlockSticky(blockIdentifier)
         if (!blockIsSticky) return null
+        const blockData = scrollOrStickyBlockData as StateStickyBlockData
         const {
           type,         content,     layout,
           mobileLayout, transitions, mobileTransitions,
@@ -872,33 +1004,31 @@ export default class Scrollgneugneu extends Component<Props, State> {
           })
         const blockClasses = [
           blockBemClass.value,
-          styles['sticky-block'],
+          styles['block'],
+          styles['block_sticky'],
           styles[`status-${blockStatus}`],
-          ...getLayoutClasses(
-            layout,
-            mobileLayout
-          )
+          ...getLayoutClasses(layout, mobileLayout)
         ]
-        return <div
-            key={blockIdentifier}
-            ref={n => { blocksRefsMap.set(blockIdentifier, n) }}
-            className={blockClasses.join(' ')}
-            data-id={blockIdentifier}
-            style={{ '--z-index': _zIndex }}>
-            <ResizeObserverComponent
-              onResize={throttledHandleBlockResize}>
-              <TransitionsWrapper
-                isActive={blockStatus === 'current'}
-                transitions={transitions}
-                mobileTransitions={mobileTransitions}>
-                <BlockRenderer
-                  type={type}
-                  content={content}
-                  context={_context}
-                  cssLoader={loadCss} />
-              </TransitionsWrapper>
-            </ResizeObserverComponent>
-          </div>
+        return <ResizeObserverComponent
+          onResize={throttledHandleBlockResize}>
+          <TransitionsWrapper
+            isActive={blockStatus === 'current'}
+            transitions={transitions}
+            mobileTransitions={mobileTransitions}>
+            <div
+              key={blockIdentifier}
+              ref={n => { blocksRefsMap.set(blockIdentifier, n) }}
+              className={blockClasses.join(' ')}
+              data-id={blockIdentifier}
+              style={{ '--z-index': _zIndex }}>
+              <BlockRenderer
+                type={type}
+                content={content}
+                context={_context}
+                cssLoader={loadCss} />
+            </div>
+          </TransitionsWrapper>
+        </ResizeObserverComponent>
       })}
     </>
   }
@@ -938,10 +1068,11 @@ export default class Scrollgneugneu extends Component<Props, State> {
       style={{ '--z-index': lowestScrollingBlockZIndex }}
       ref={(n: Paginator) => { this.paginatorRef = n }}>
       {sortedPagesArr.map(([pagePos, pageData]) => {
-        const pageBlocksData = [...pageData._blocksIds]
+        const scrollOrStickyPageBlocksData = [...pageData._blocksIds]
           .filter(id => !isBlockSticky(id))
           .map(id => blocks.get(id))
           .filter((b): b is StateBlockData => b !== undefined)
+        const pageBlocksData = scrollOrStickyPageBlocksData as StateScrollBlockData[]
         const isCurrent = pagePos === currPagePos
         const isPrevious = pagePos === prevPagePos
         const isInactive = !isCurrent && !isPrevious
@@ -958,7 +1089,7 @@ export default class Scrollgneugneu extends Component<Props, State> {
           })
         return <Paginator.Page
           value={pagePos}
-          className={pageBemClass.value}
+          className={`${pageBemClass.value} ${styles['page']}`}
           pageRef={n => { pagesRefsMap.set(pagePos, n) }}>{
             pageBlocksData.map(blockData => {
               const { type, content, layout, mobileLayout } = blockData
@@ -973,10 +1104,12 @@ export default class Scrollgneugneu extends Component<Props, State> {
                 })
               const blockClasses = [
                 blockBemClass.value,
-                styles['scrolling-block'],
+                styles['block'],
+                styles['block_scrolling'],
                 styles[`status-${blockStatus}`],
                 ...getLayoutClasses(layout, mobileLayout)
               ]
+              // [WIP] RSOComp adds complexity with its wrapper div, get rid of this
               return <div
                 key={blockData._id}
                 className={blockClasses.join(' ')}
@@ -1035,7 +1168,7 @@ export default class Scrollgneugneu extends Component<Props, State> {
     // Wrapper CSS classes
     const wrapperClasses = [
       wrapperBemClass
-        .mod(`page-${currPageData?.id}`)
+        .mod({ [`page-${currPageData?.id}`]: currPageData?.id !== undefined })
         .value,
       styles['wrapper']
     ]

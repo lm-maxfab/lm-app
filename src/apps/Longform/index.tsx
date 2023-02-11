@@ -10,6 +10,7 @@ import {
 } from '../types'
 import generateNiceColor from '../../modules/utils/generate-nice-color'
 import { generateContentPage } from '../../modules/utils/generate-html-placeholders'
+import Paginator from '../../modules/components/Paginator'
 
 interface Props extends InjectedProps {}
 interface State {}
@@ -24,14 +25,49 @@ const pagesData: PropsPageData[] = [{
     id: 'content-scroll-page',
     depth: 'scroll',
     type: 'html',
-    content: `<div style="background: white; font-family: var(--ff-marr-sans); padding: 64px; width: 400px;">${generateContentPage(4)}</div>`,
+    layout: 'right-three-quarters',
+    mobileLayout: 'right-half',
+    content: `<div style="
+      /*visibility: hidden;*/
+      /*margin: 100px 0;*/
+      background: white;
+      font-family: var(--ff-marr-sans);
+      padding: 64px;
+    ">${generateContentPage(4)}</div>`,
+  }, {
+    depth: 'back',
+    type: 'html',
+    layout: 'full-screen',
+    content: `<div style="
+      width: 100%;
+      height: 200px;
+      background-color: yellow;
+    ">supposed to be right-half</div>`
   }]
 }, {
   bgColor: generateNiceColor(),
   blocks: [{
-    id: 'content-scroll-page'
+    depth: 'scroll',
+    type: 'html',
+    layout: 'right-center-quarter',
+    mobileLayout: 'left-half',
+    content: `<div style="
+      /*visibility: hidden;*/
+      /*margin: 100px 0;*/
+      background: white;
+      font-family: var(--ff-marr-sans);
+      padding: 64px;
+    ">${generateContentPage(4)}</div>`,
+  }, {
+    depth: 'front',
+    type: 'module',
+    content: 'http://localhost:50003/test/index.js',
+    trackScroll: true
   }]
 }]
+
+const niceColors = new Array(100).fill(null).map(() => generateNiceColor())
+document.addEventListener('click', e => console.log(e.target))
 
 class Longform extends Component<Props, State> {
   static clss: string = 'scrllgngn-longform'
@@ -122,6 +158,62 @@ class Longform extends Component<Props, State> {
     return <div
       style={wrapperStyle}
       className={wrapperClasses.value}>
+      {/* <Paginator
+        thresholdOffset='60%'
+        root='window'
+        direction='vertical'
+        onPageChange={(state) => console.log('window-vertical', state)}>
+        <Paginator.Page value={'lol'}>
+          <div style={{
+            height: '80vh',
+            width: '100%',
+            backgroundColor: niceColors[0]
+          }}><span>Coucou petite page</span></div>
+        </Paginator.Page>  
+        <Paginator.Page value={'lèl'}>
+          <div style={{
+            height: '40vh',
+            width: '400px',
+            marginLeft: 'auto',
+            backgroundColor: niceColors[1]
+          }}>Coucou petite page</div>
+        </Paginator.Page>
+        <Paginator.Page value={'lul'}>
+          <div style={{
+            height: '55vh',
+            width: '40%',
+            backgroundColor: niceColors[2]
+          }}>Coucou petite page</div>
+        </Paginator.Page>  
+      </Paginator>
+
+      <div style={{ height: '100vh' }}>//</div>
+
+      <Paginator
+        thresholdOffset='60%'
+        root='window'
+        direction='horizontal'
+        onPageChange={(state) => console.log('window-horizontal', state)}>
+        <Paginator.Page value={'lol'}>
+          <div style={{
+            width: '80vw',
+            backgroundColor: niceColors[0]
+          }}>Coucou petite page</div>
+        </Paginator.Page>  
+        <Paginator.Page value={'lèl'}>
+          <div style={{
+            width: '40vw',
+            backgroundColor: niceColors[1]
+          }}>Coucou petite page</div>
+        </Paginator.Page>
+        <Paginator.Page value={'lul'}>
+          <div style={{
+            width: '55vw',
+            backgroundColor: niceColors[2]
+          }}>Coucou petite page</div>
+        </Paginator.Page>  
+      </Paginator> */}
+
       <Scrollgneugneu
         pages={pagesData}
         thresholdOffset={generalSettings?.thresholdOffset}

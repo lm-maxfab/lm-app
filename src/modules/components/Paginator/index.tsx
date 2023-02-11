@@ -2,8 +2,7 @@ import { Component, JSX, toChildArray, cloneElement } from 'preact'
 import bem from '../../utils/bem'
 import { groupDelay } from '../../utils/group-delay'
 import Page, { Props as PageProps } from './Page'
-
-import './styles.scss'
+import styles from './styles.module.scss'
 
 export interface PagePositionAndValue {
   position: number
@@ -16,6 +15,7 @@ export interface Props {
   root?: 'self'|'window'
   direction?: 'horizontal'|'vertical'
   thresholdOffset?: string
+  // [WIP] delay and intervalcheck should be a single prop
   delay?: number
   intervalCheck?: boolean
   onPageChange?: (state: State) => void
@@ -219,7 +219,7 @@ export default class Paginator extends Component<Props, State> {
     const { props } = this
 
     /* Classes and style */
-    const wrapperClasses = bem(props.className)
+    const wrapperBemClasses = bem(props.className)
       .block(this.clss)
       .mod({
         horizontal: props.direction === 'horizontal',
@@ -227,6 +227,26 @@ export default class Paginator extends Component<Props, State> {
         'self-rooted': props.root === 'self',
         'window-rooted': props.root !== 'self'
       })
+    const wrapperClasses = [
+      wrapperBemClasses.value,
+      styles['wrapper']
+    ]
+    if (props.direction === 'horizontal') wrapperClasses.push(styles['wrapper_horizontal'])
+    if (props.direction !== 'horizontal') wrapperClasses.push(styles['wrapper_vertical'])
+    if (props.root === 'self') wrapperClasses.push(styles['wrapper_self-rooted'])
+    if (props.root !== 'self') wrapperClasses.push(styles['wrapper_window-rooted'])
+    const thresholdAreaClasses = [
+      bem(this.clss).elt('threshold-area').value,
+      styles['threshold-area']
+    ]
+    const thresholdBarClasses = [
+      bem(this.clss).elt('threshold-bar').value,
+      styles['threshold-bar']
+    ]
+    const scrollableAreaClasses = [
+      bem(this.clss).elt('scrollable-area').value,
+      styles['scrollable-area']
+    ]
     const wrapperStyle: JSX.CSSProperties = {
       ...props.style,
       '--threshold-offset': props.thresholdOffset ?? 0
@@ -235,16 +255,16 @@ export default class Paginator extends Component<Props, State> {
     /* Display */
     return (
       <div
-        className={wrapperClasses.value}
+        className={wrapperClasses.join(' ')}
         style={wrapperStyle}>
-        <div className={bem(this.clss).elt('threshold-area').value}>
+        <div className={thresholdAreaClasses.join(' ')}>
           <div
             ref={n => { this.$thresholdBar = n }}
-            className={bem(this.clss).elt('threshold-bar').value} />
+            className={thresholdBarClasses.join(' ')} />
         </div>
         <div
           ref={n => { this.$scrollableArea = n }}
-          className={bem(this.clss).elt('scrollable-area').value}>
+          className={scrollableAreaClasses.join(' ')}>
           {this.wrapChildrenInPages()}
         </div>
       </div>
