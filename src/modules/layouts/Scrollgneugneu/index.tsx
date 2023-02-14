@@ -14,9 +14,6 @@ import isFalsy from '../../utils/is-falsy'
 /* Layouts types */
 type ScrollAndStickyLayoutName =
   'full-screen'
-  |'full-screen-left'
-  |'full-screen-center'
-  |'full-screen-right'
   |'full-width'
   |'left-half'
   |'center-half'
@@ -463,6 +460,11 @@ export default class Scrollgneugneu extends Component<Props, State> {
     this.getBlockStatus = this.getBlockStatus.bind(this)
     this.getBlockDistanceFromDisplay = this.getBlockDistanceFromDisplay.bind(this)
     this.getPagesRects = this.getPagesRects.bind(this)
+    this.getCurrPagePos = this.getCurrPagePos.bind(this)
+    this.getBlocksContextMap = this.getBlocksContextMap.bind(this)
+    this.getBlocksContextPage = this.getBlocksContextPage.bind(this)
+    this.getBlocksContextSize = this.getBlocksContextSize.bind(this)
+    this.mergeBlocksPartialContexts = this.mergeBlocksPartialContexts.bind(this)
     this.handlePaginatorResize = this.handlePaginatorResize.bind(this)
     this.handlePageChange = this.handlePageChange.bind(this)
     this.handleWindowScroll = this.handleWindowScroll.bind(this)
@@ -653,6 +655,83 @@ export default class Scrollgneugneu extends Component<Props, State> {
     }))
   }
 
+  getCurrPagePos (inputPaginatorState?: PaginatorState) {
+    const { state, paginatorRef } = this
+    const paginatorState = inputPaginatorState !== undefined
+      ? inputPaginatorState
+      : paginatorRef?.state
+    let currPagePos = state.currPagePos
+    if (paginatorState !== undefined) {
+      currPagePos = paginatorState.value
+      const { coming, active, passed } = paginatorState
+      const pagesLength = active.length + coming.length + passed.length
+      const hasPages = pagesLength > 0
+      const noneComing = coming.length === 0
+      const nonePassed = passed.length === 0
+      const noneActive = active.length === 0
+      const isBeforeFirst = hasPages && noneActive && nonePassed
+      const isAfterLast = hasPages && noneActive && noneComing
+      if (isBeforeFirst) currPagePos = hasPages ? 0 : undefined
+      if (isAfterLast) currPagePos = hasPages ? pagesLength - 1 : undefined
+    }
+    return currPagePos
+  }
+
+  getBlocksContextMap () {
+    const { blocks } = this.state
+    return new Map([...blocks.entries()].map(([id, data]) => [id, data._context]))
+  }
+
+  getBlocksContextPage (inputPaginatorState?: PaginatorState) {
+    const { state, getCurrPagePos } = this
+    const currPagePos = getCurrPagePos(inputPaginatorState)
+    const { blocks } = state
+    const blocksWithPage = new Map<string, Partial<BlockContext>>()
+    for (let [blockId, blockData] of blocks) {
+      const currBlockContextPage = blockData._context.page
+      const blockPages = blockData._displayZones.flat()
+      let blockContextPage: number|null = null
+      if (currPagePos === undefined) blockContextPage = null
+      else {
+        const currPagePosInDisplayZone = blockPages.indexOf(currPagePos)
+        if (currPagePosInDisplayZone === -1) blockContextPage = null
+        else blockContextPage = currPagePosInDisplayZone
+      }
+      if (currBlockContextPage === blockContextPage) blocksWithPage.set(blockId, { page: blockData._context.page })
+      else blocksWithPage.set(blockId, { page: blockContextPage })
+    }
+    return blocksWithPage
+  }
+
+  getBlocksContextSize () {
+    const { state, blocksRefsMap } = this
+    const { blocks } = state
+    const blocksWithSize = new Map<string, Partial<BlockContext>>()
+    blocksRefsMap.forEach((blockRef, blockId) => {
+      const blockData = blocks.get(blockId)
+      if (blockData === undefined) return
+      if (blockRef === null) return blocksWithSize.set(blockId, { width: null, height: null })
+      const { width, height } = blockRef.getBoundingClientRect()
+      blocksWithSize.set(blockId, { width, height })
+    })
+    return blocksWithSize
+  }
+
+  mergeBlocksPartialContexts (...blocksPartialContextsMaps: Map<string, Partial<BlockContext>>[]) {
+    const merged: Map<string, BlockContext> = new Map()
+    blocksPartialContextsMaps.forEach(blocksPartialContextMap => {
+      blocksPartialContextMap.forEach((partialContext, blockId) => {
+        const contextInMerged = merged.get(blockId) ?? createBlockContext()
+        const toPushInMerged = createBlockContext({
+          ...contextInMerged,
+          ...partialContext
+        })
+        merged.set(blockId, toPushInMerged)
+      })
+    })
+    return merged
+  }
+
   /* * * * * * * * * * * * * * * * * * * * * *
    * HANDLE PAGINATOR RESIZE
    * * * * * * * * * * * * * * * * * * * * * */
@@ -673,52 +752,40 @@ export default class Scrollgneugneu extends Component<Props, State> {
   }
 
   handlePageChange (paginatorState: PaginatorState) {
-    const { coming, active, passed } = paginatorState
-    const pagesLength = active.length + coming.length + passed.length
-    const hasPages = pagesLength > 0
-    const noneComing = coming.length === 0
-    const nonePassed = passed.length === 0
-    const noneActive = active.length === 0
-    const isBeforeFirst = hasPages && noneActive && nonePassed
-    const isAfterLast = hasPages && noneActive && noneComing
-    let newCurrentPagePos: State['currPagePos'] = paginatorState.value as number|undefined
-    if (isBeforeFirst) newCurrentPagePos = hasPages ? 0 : undefined
-    if (isAfterLast) newCurrentPagePos = hasPages ? pagesLength - 1 : undefined
-    return this.setState(curr => {
-      const currBlocks = curr.blocks
-      const newBlocks = new Map(currBlocks)
-      for (let [blockId, blockData] of currBlocks) {
-        const currBlockContextPage = blockData._context.page
-        const blockPages = blockData._displayZones.flat()
-        let newBlockContextPage: number|null = null
-        if (newCurrentPagePos === undefined) newBlockContextPage = null
-        else {
-          const currPagePosInDisplayZone = blockPages.indexOf(newCurrentPagePos)
-          if (currPagePosInDisplayZone === -1) newBlockContextPage = null
-          else newBlockContextPage = currPagePosInDisplayZone
-        }
-        if (currBlockContextPage === newBlockContextPage) {
-          newBlocks.set(blockId, blockData)
-        } else {
-          newBlocks.set(blockId, {
-            ...blockData,
-            _context: {
-              ...blockData._context,
-              page: newBlockContextPage
-            }
-          })
-        }
-      }
-      return {
-        ...curr,
-        currPagePos: newCurrentPagePos,
-        prevPagePos: curr.currPagePos,
-        blocks: newBlocks
-      }
+    const {
+      state,
+      getCurrPagePos,
+      getBlocksContextMap,
+      getBlocksContextPage,
+      mergeBlocksPartialContexts
+    } = this
+    const newCurrentPagePos = getCurrPagePos(paginatorState)
+    const blocksContextPage = getBlocksContextPage(paginatorState)
+    const { blocks } = state
+    const currBlocksContext = getBlocksContextMap()
+    const newBlocksContexts = mergeBlocksPartialContexts(
+      currBlocksContext,
+      blocksContextPage
+    )
+    const newBlocks = new Map(blocks)
+    newBlocksContexts.forEach((blockContext, blockId) => {
+      const blockData = newBlocks.get(blockId)
+      if (blockData === undefined) return;
+      newBlocks.set(blockId, {
+        ...blockData,
+        _context: blockContext
+      })
     })
+    return this.setState(curr => ({
+      ...curr,
+      currPagePos: newCurrentPagePos,
+      prevPagePos: curr.currPagePos,
+      blocks: newBlocks
+    }))
   }
 
   handleWindowScroll () {
+    // [WIP] externalize progressions calculation
     const {
       getPagesRects,
       throttledGetThresholdRect,
@@ -786,6 +853,10 @@ export default class Scrollgneugneu extends Component<Props, State> {
   }
 
   handleBlockResize (_: ResizeObserverEntry[]) {
+    const { getBlocksContextSize } = this
+    const blocksContextSize = getBlocksContextSize()
+    // [WIP] finish this
+
     const { blocksRefsMap } = this
     this.setState(curr => {
       const currBlocks = curr.blocks

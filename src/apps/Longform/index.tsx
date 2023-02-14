@@ -25,25 +25,21 @@ const pagesData: PropsPageData[] = [{
     id: 'content-scroll-page',
     depth: 'scroll',
     type: 'html',
-    layout: 'right-three-quarters',
+    layout: 'center-left-third',
     mobileLayout: 'right-half',
     content: `<div style="
-      /*visibility: hidden;*/
-      /*margin: 100px 0;*/
       background: white;
       font-family: var(--ff-marr-sans);
       padding: 64px;
     ">${generateContentPage(4)}</div>`,
-  }, {
-    depth: 'back',
+  }/*, {
+    depth: 'front',
     type: 'html',
-    layout: 'full-screen',
+    layout: 'right-half',
     content: `<div style="
-      width: 100%;
-      height: 200px;
       background-color: yellow;
-    ">supposed to be right-half</div>`
-  }]
+      ">supposed to be right-half</div>`
+  }*/]
 }, {
   bgColor: generateNiceColor(),
   blocks: [{
@@ -61,12 +57,12 @@ const pagesData: PropsPageData[] = [{
   }, {
     depth: 'front',
     type: 'module',
-    content: 'http://localhost:50003/test/index.js',
-    trackScroll: true
+    layout: 'left-half',
+    content: 'http://localhost:50003/test/index.js'
   }]
 }]
 
-const niceColors = new Array(100).fill(null).map(() => generateNiceColor())
+// const niceColors = new Array(100).fill(null).map(() => generateNiceColor())
 document.addEventListener('click', e => console.log(e.target))
 
 class Longform extends Component<Props, State> {

@@ -58,6 +58,7 @@
   top: 0;
   display: inline-block;
   height: var(--sticky-blocks-viewport-height);
+  width: 100%;
 }
 
 .header.block.block_sticky {
@@ -151,37 +152,14 @@ $maxWidth: 1024px;
   }
 }
 
-/* full-screen-center
- * full-width-center */
-.block.block_scrolling {
-  &.layout-full-screen-center,
-  &.layout-full-width-center {
-    @media (min-width: $minWidth) {
-      align-self: center;
-    }
+.block.block_sticky {
+  &.layout-full-screen,
+  &.layout-full-screen-left {
+    @media (min-width: $minWidth) {}
   }
-  &.layout-mobile-full-screen-center,
-  &.layout-mobile-full-width-center {
-    @media (max-width: $maxWidth) {
-      align-self: center;
-    }
-  }
-}
-
-/* full-screen-right
- * full-width-right */
-.block.block_scrolling {
-  &.layout-full-screen-right,
-  &.layout-full-width-right {
-    @media (min-width: $minWidth) {
-      align-self: flex-end;
-    }
-  }
-  &.layout-mobile-full-screen-right,
-  &.layout-mobile-full-width-right {
-    @media (max-width: $maxWidth) {
-      align-self: flex-end;
-    }
+  &.layout-mobile-full-screen,
+  &.layout-mobile-full-screen-left {
+    @media (max-width: $maxWidth) {}
   }
 }
 
@@ -205,6 +183,19 @@ $maxWidth: 1024px;
   }
 }
 
+.block.block_sticky {
+  &.layout-left-half {
+    @media (min-width: $minWidth) {
+      width: 50%;
+    }
+  }
+  &.layout-mobile-left-half {
+    @media (max-width: $maxWidth) {
+      width: 50%;
+    }
+  }
+}
+
 /* center-half */
 .block.block_scrolling {
   &.layout-center-half {
@@ -221,6 +212,21 @@ $maxWidth: 1024px;
   }
 }
 
+.block.block_sticky {
+  &.layout-center-half {
+    @media (min-width: $minWidth) {
+      left: 25%;
+      width: 50%;
+    }
+  }
+  &.layout-mobile-center-half {
+    @media (max-width: $maxWidth) {
+      left: 25%;
+      width: 50%;
+    }
+  }
+}
+
 /* right-half */
 .block.block_scrolling {
   &.layout-right-half {
@@ -232,6 +238,21 @@ $maxWidth: 1024px;
   &.layout-mobile-right-half {
     @media (max-width: $maxWidth) {
       align-self: flex-end;
+      width: 50%;
+    }
+  }
+}
+
+.block.block_sticky {
+  &.layout-right-half {
+    @media (min-width: $minWidth) {
+      left: 50%;
+      width: 50%;
+    }
+  }
+  &.layout-mobile-right-half {
+    @media (max-width: $maxWidth) {
+      left: 50%;
       width: 50%;
     }
   }
@@ -257,6 +278,7 @@ $maxWidth: 1024px;
   }
 }
 
+/* [WIP] center-left should be left-center */
 /* center-left-third */
 .block.block_scrolling {
   &.layout-center-left-third {
