@@ -304,7 +304,7 @@ export default class Video extends Component<Props, State> {
             preload={props.preload === true ? 'auto' : 'none'}
             playsInline
             loop={props.loop}
-            muted={props.sound !== true || state.isLoud !== true}
+            muted={props.sound !== true && state.isLoud !== true}
             poster={props.posterUrl}
             alt={altText}>
             <source
