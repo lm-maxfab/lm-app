@@ -22,9 +22,6 @@ export default function VideoOf (slotName: string) {
       const videosData = sheetBase?.collection('videos').value as VideoData[]|undefined
       const videoData = videosData?.find(elt => elt.destination === slotName)
 
-      console.log('i am VideoOf', slotName)
-      console.log('props', videoData)
-
       if (videoData === undefined) return <></>
   
       // Assign classes and styles

@@ -1,5 +1,5 @@
 .wrapper {
-  display: inline-block;
+  display: block;
   --overlays-opacity: 1;
   --overlays-opacity-transition-duration: 600ms;
   &.wrapper_playing {
@@ -13,7 +13,15 @@
 .video-slot {
   --overlays-padding: 12px;
   position: relative;
-  display: inline-block;
+  /* [WIP] check those below, quick addition before deploy */
+  display: block;
+  width: 100%;
+}
+
+.video {
+  /* [WIP] check those below, quick addition before deploy */
+  object-fit: contain;
+  background-color: black;
 }
 
 .fake-poster {
@@ -23,8 +31,10 @@
   left: 0;
   right: 0;
   bottom: 0;
-  object-fit: cover;
   display: none;
+  /* [WIP] check those below, quick addition before deploy */
+  object-fit: contain;
+  background-color: black;
 }
 
 .wrapper.wrapper_fake-poster .fake-poster {
