@@ -135,7 +135,10 @@ export default class Video extends Component<Props, State> {
       await $video.play()
       deadState.hasStartedPlayback = true
       this.setState({ isPlaying: true })
-    } catch (err) { stopPlayback() }
+    } catch (err) {
+      console.warn(err)
+      stopPlayback()
+    }
   }
 
   stopPlayback () {

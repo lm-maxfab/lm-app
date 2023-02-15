@@ -3,7 +3,7 @@
   --overlays-opacity: 1;
   --overlays-opacity-transition-duration: 600ms;
   &.wrapper_playing {
-    // [WIP]--overlays-opacity: 0;
+    --overlays-opacity: 0;
     &:hover {
       --overlays-opacity: 1;
     }
@@ -21,6 +21,7 @@
 .video {
   /* [WIP] check those below, quick addition before deploy */
   object-fit: contain;
+  object-position: center;
   background-color: black;
   width: 100%;
   height: var(--video-height);
@@ -36,6 +37,7 @@
   display: none;
   /* [WIP] check those below, quick addition before deploy */
   object-fit: contain;
+  object-position: center;
   background-color: black;
 }
 

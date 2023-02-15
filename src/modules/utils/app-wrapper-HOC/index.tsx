@@ -44,7 +44,9 @@ function wrapper (Wrapped: ComponentClass<InjectedProps>): any {
       this.timeouts.push(window.setTimeout(this.groupDelayedSetViewportDimensions, 200))
       this.timeouts.push(window.setTimeout(this.groupDelayedSetViewportDimensions, 400))
       this.intervals.push(window.setInterval(this.groupDelayedSetViewportDimensions, 2000))
-      this.intervals.push(window.setInterval(this.canAutoplayCheck, 1000))
+      this.timeouts.push(window.setTimeout(this.canAutoplayCheck, 500))
+      this.timeouts.push(window.setTimeout(this.canAutoplayCheck, 1000))
+      this.timeouts.push(window.setTimeout(this.canAutoplayCheck, 4000))
       window.addEventListener('resize', this.groupDelayedSetViewportDimensions)
       document.addEventListener('scroll', this.groupDelayedSetViewportDimensions)
     }
