@@ -1,5 +1,6 @@
 import { AppNodeMap } from '../modules/utils/render-app'
 import LongformOf from './Longform'
+import VideoOf from './Video'
 
 const appsNodes: AppNodeMap[] = [
   { app: LongformOf('cover'), selector: '.iran-cover-slot' },
@@ -7,7 +8,47 @@ const appsNodes: AppNodeMap[] = [
   { app: LongformOf('slot-2'), selector: '.iran-article-slot-2' },
   { app: LongformOf('slot-3'), selector: '.iran-article-slot-3' },
   { app: LongformOf('slot-4'), selector: '.iran-article-slot-4' },
-  { app: LongformOf('slot-5'), selector: '.iran-article-slot-5' }
+  { app: LongformOf('slot-5'), selector: '.iran-article-slot-5' },
+  { app: VideoOf('video-slot-1'), selector: '.iran-article-video-slot-1' },
+  { app: VideoOf('video-slot-2'), selector: '.iran-article-video-slot-2' },
+  { app: VideoOf('video-slot-3'), selector: '.iran-article-video-slot-3' },
+  { app: VideoOf('video-slot-4'), selector: '.iran-article-video-slot-4' },
+  { app: VideoOf('video-slot-5'), selector: '.iran-article-video-slot-5' },
+  { app: VideoOf('video-slot-6'), selector: '.iran-article-video-slot-6' },
+  { app: VideoOf('video-slot-7'), selector: '.iran-article-video-slot-7' },
+  { app: VideoOf('video-slot-8'), selector: '.iran-article-video-slot-8' },
+  { app: VideoOf('video-slot-9'), selector: '.iran-article-video-slot-9' },
+  { app: VideoOf('video-slot-10'), selector: '.iran-article-video-slot-10' },
+  { app: VideoOf('video-slot-11'), selector: '.iran-article-video-slot-11' },
+  { app: VideoOf('video-slot-12'), selector: '.iran-article-video-slot-12' },
+  { app: VideoOf('video-slot-13'), selector: '.iran-article-video-slot-13' },
+  { app: VideoOf('video-slot-14'), selector: '.iran-article-video-slot-14' },
+  { app: VideoOf('video-slot-15'), selector: '.iran-article-video-slot-15' },
+  { app: VideoOf('video-slot-16'), selector: '.iran-article-video-slot-16' },
+  { app: VideoOf('video-slot-17'), selector: '.iran-article-video-slot-17' },
+  { app: VideoOf('video-slot-18'), selector: '.iran-article-video-slot-18' },
+  { app: VideoOf('video-slot-19'), selector: '.iran-article-video-slot-19' },
+  { app: VideoOf('video-slot-20'), selector: '.iran-article-video-slot-20' },
+  { app: VideoOf('video-slot-21'), selector: '.iran-article-video-slot-21' },
+  { app: VideoOf('video-slot-22'), selector: '.iran-article-video-slot-22' },
+  { app: VideoOf('video-slot-23'), selector: '.iran-article-video-slot-23' },
+  { app: VideoOf('video-slot-24'), selector: '.iran-article-video-slot-24' },
+  { app: VideoOf('video-slot-25'), selector: '.iran-article-video-slot-25' },
+  { app: VideoOf('video-slot-26'), selector: '.iran-article-video-slot-26' },
+  { app: VideoOf('video-slot-27'), selector: '.iran-article-video-slot-27' },
+  { app: VideoOf('video-slot-28'), selector: '.iran-article-video-slot-28' },
+  { app: VideoOf('video-slot-29'), selector: '.iran-article-video-slot-29' },
+  { app: VideoOf('video-slot-30'), selector: '.iran-article-video-slot-30' },
+  { app: VideoOf('video-slot-31'), selector: '.iran-article-video-slot-31' },
+  { app: VideoOf('video-slot-32'), selector: '.iran-article-video-slot-32' },
+  { app: VideoOf('video-slot-33'), selector: '.iran-article-video-slot-33' },
+  { app: VideoOf('video-slot-34'), selector: '.iran-article-video-slot-34' },
+  { app: VideoOf('video-slot-35'), selector: '.iran-article-video-slot-35' },
+  { app: VideoOf('video-slot-36'), selector: '.iran-article-video-slot-36' },
+  { app: VideoOf('video-slot-37'), selector: '.iran-article-video-slot-37' },
+  { app: VideoOf('video-slot-38'), selector: '.iran-article-video-slot-38' },
+  { app: VideoOf('video-slot-39'), selector: '.iran-article-video-slot-39' },
+  { app: VideoOf('video-slot-40'), selector: '.iran-article-video-slot-40' }
 ]
 
 export default appsNodes

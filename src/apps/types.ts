@@ -1,9 +1,9 @@
-export interface SheetBaseCollectionData {
+export interface SheetBaseEntryData {
   id: string
 }
 
 // [WIP] no snake_case please
-export interface GeneralSettings extends SheetBaseCollectionData {
+export interface GeneralSettings extends SheetBaseEntryData {
   threshold_offset?: string
   bg_color_transition_duration?: string
   lazyLoadDistance?: number
@@ -14,7 +14,29 @@ export interface GeneralSettings extends SheetBaseCollectionData {
   headerNavItemsAlign?: string
 }
 
-export interface BlockData extends SheetBaseCollectionData {
+export interface VideoData extends SheetBaseEntryData {
+  destination?: string
+  source?: string
+  sourceType?: string
+  posterUrl?: string
+  title?: string
+  kicker?: string
+  description?: string
+  credits?: string
+  alt?: string
+  loop?: boolean
+  autoplay?: boolean
+  sound?: boolean
+  soundControls?: boolean
+  playControls?: boolean
+  timeControls?: boolean
+  preload?: boolean
+  disclaimer?: boolean
+  disclaimerText?: string
+  disclaimerButton?: string
+}
+
+export interface BlockData extends SheetBaseEntryData {
   depth?: string
   type?: string
   content?: string
@@ -27,7 +49,7 @@ export interface BlockData extends SheetBaseCollectionData {
 }
 
 // [WIP] no snake_case please
-export interface PageData extends SheetBaseCollectionData {
+export interface PageData extends SheetBaseEntryData {
   page_destination?: string
   show_header?: boolean
   show_nav?: boolean

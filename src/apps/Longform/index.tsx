@@ -3,7 +3,6 @@ import Scrollgneugneu, { PropsPageData, PropsBlockData } from '../../modules/lay
 import appWrapper, { InjectedProps } from '../../modules/utils/app-wrapper-HOC'
 import bem from '../../modules/utils/bem'
 import './styles.scss'
-
 import {
   GeneralSettings,
   BlockData as BlockDataFromSheet,
@@ -15,7 +14,7 @@ interface State {}
 
 export default function LongformOf (slotName: string) {
   return appWrapper(class Longform extends Component<Props, State> {
-    static clss: string = 'sable-longform'
+    static clss: string = 'iran-longform'
     clss = Longform.clss
   
     /* * * * * * * * * * * * * * *
@@ -24,7 +23,6 @@ export default function LongformOf (slotName: string) {
     render (): JSX.Element {
       const { props } = this
       const { sheetBase } = props
-  
       const generalSettings = sheetBase?.collection('general_settings').entries[0].value as GeneralSettings|undefined
       const blocksData = sheetBase?.collection('blocks_data').value as BlockDataFromSheet[]|undefined
       const rawPagesData = sheetBase?.collection('pages_data').value as PageDataFromSheet[]|undefined

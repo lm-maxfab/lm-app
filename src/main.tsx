@@ -28,10 +28,10 @@ async function init (): Promise<void> {
   if (config === undefined) throw new Error('Could not load config, app rendering stops.')
 
   // Remove header
-  function removeHeader () {
-    const $header = document.querySelector('header.multimediaNav')
-    if ($header !== null) $header.remove()
-  }
+  // function removeHeader () {
+  //   const $header = document.querySelector('header.multimediaNav')
+  //   if ($header !== null) $header.remove()
+  // }
   // window.setTimeout(removeHeader, 100)
   // window.setTimeout(removeHeader, 500)
   // window.setTimeout(removeHeader, 2000)
