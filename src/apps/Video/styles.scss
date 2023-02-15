@@ -1,3 +1,20 @@
-.lm-video__fake-poster {
+.lm-app .lm-video {
+  width: 100%;
+  display: block;
+}
+
+.lm-app .lm-video__video-slot {
+  width: 100%;
+  display: block;
+}
+
+.lm-app .lm-video__video {
+  width: 100%;
+  display: block;
+  object-fit: contain;
+  background-color: black;
+}
+
+.lm-app .lm-video__fake-poster {
   position: absolute !important;
 }
