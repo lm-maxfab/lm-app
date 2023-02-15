@@ -34,6 +34,7 @@ export interface VideoData extends SheetBaseEntryData {
   disclaimer?: boolean
   disclaimerText?: string
   disclaimerButton?: string
+  height?: string
 }
 
 export interface BlockData extends SheetBaseEntryData {

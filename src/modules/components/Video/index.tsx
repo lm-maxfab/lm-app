@@ -30,6 +30,8 @@ type Props = {
   disclaimer?: boolean
   disclaimerText?: string
   disclaimerButton?: string
+  // [WIP] review this, maybe not the cleanest
+  videoHeight?: string
 }
 
 type State = {
@@ -232,6 +234,7 @@ export default class Video extends Component<Props, State> {
     ]
     if (state.isPlaying) wrapperClasses.push(styles['wrapper_playing'])
     if (showFakePoster) wrapperClasses.push(styles['wrapper_fake-poster'])
+    const wrapperStyle = { '--video-height': props.videoHeight }
     const videoSlotClasses = [bemClss.elt('video-slot').value, styles['video-slot']]
     const videoClasses = [bemClss.elt('video').value, styles['video']]
     const fakePosterClasses = [bemClss.elt('fake-poster').value, styles['fake-poster']]
@@ -249,7 +252,9 @@ export default class Video extends Component<Props, State> {
     const disclaimerTextClasses = [bemClss.elt('disclaimer-text').value, styles['disclaimer-text']]
     const disclaimerButtonClasses = [bemClss.elt('disclaimer-button').value, styles['disclaimer-button']]
     const captionClasses = [bemClss.elt('caption').value]
-    return <div className={wrapperClasses.join(' ')}>
+    return <div
+      style={wrapperStyle}
+      className={wrapperClasses.join(' ')}>
       <IntersectionObserverComponent
         threshold={.6}
         callback={handleVideoIntersectionEvent}>

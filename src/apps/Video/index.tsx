@@ -50,7 +50,8 @@ export default function VideoOf (slotName: string) {
           preload={videoData?.preload}
           disclaimer={videoData?.disclaimer}
           disclaimerText={videoData?.disclaimerText}
-          disclaimerButton={videoData?.disclaimerButton} />
+          disclaimerButton={videoData?.disclaimerButton}
+          videoHeight={videoData?.height} />
       </div>
     }
   })

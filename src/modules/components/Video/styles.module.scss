@@ -22,6 +22,8 @@
   /* [WIP] check those below, quick addition before deploy */
   object-fit: contain;
   background-color: black;
+  width: 100%;
+  height: var(--video-height);
 }
 
 .fake-poster {
@@ -30,7 +32,7 @@
   top: 0;
   left: 0;
   right: 0;
-  bottom: 0;
+  height: var(--video-height);
   display: none;
   /* [WIP] check those below, quick addition before deploy */
   object-fit: contain;
