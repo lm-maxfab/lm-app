@@ -3,7 +3,7 @@
   --overlays-opacity: 1;
   --overlays-opacity-transition-duration: 600ms;
   &.wrapper_playing {
-    --overlays-opacity: 0;
+    // [WIP]--overlays-opacity: 0;
     &:hover {
       --overlays-opacity: 1;
     }
