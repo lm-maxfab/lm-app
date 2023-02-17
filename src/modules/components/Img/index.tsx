@@ -50,14 +50,12 @@ class Img extends Component<Props, {}> {
     const classes = bem(props.className ?? '').block(this.clss)
     const inlineStyle: JSX.CSSProperties = { ...props.style }
 
-    return (
-      <img
-        loading='lazy'
-        alt=''
-        {...props}
-        style={inlineStyle}
-        className={classes.value} />
-    )
+    return <img
+      loading='lazy'
+      alt=''
+      {...props}
+      style={inlineStyle}
+      className={classes.value} />
   }
 }
 

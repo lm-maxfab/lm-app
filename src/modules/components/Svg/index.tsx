@@ -4,9 +4,10 @@ import bem, { BEM } from '../../utils/bem'
 interface Props {
   className?: string
   style?: JSX.CSSProperties
+  src?: string
   loader?: JSX.Element
   fallback?: JSX.Element
-  src: string
+  desc?: string
 }
 
 interface State {
@@ -48,7 +49,13 @@ class Svg extends Component<Props, State> {
   /* * * * * * * * * * * * * * *
    * FETCH SVG
    * * * * * * * * * * * * * * */
-  async fetchSvg (src: string): Promise<void> {
+  async fetchSvg (src?: string): Promise<void> {
+    if (src === undefined) return this.setState({
+      loading: false,
+      error: null,
+      contents: null,
+      attributes: null
+    })
     this.setState({ loading: true, error: null })
     try {
       const response = await window.fetch(src)
@@ -78,6 +85,7 @@ class Svg extends Component<Props, State> {
     /* Logic */
     const attributes = state.attributes ?? {}
     const contents = state.contents ?? ''
+    const desc = props.desc !== undefined ? `<desc>${props.desc}</desc>` : ''
 
     /* Assign classes */
     const classes = bem(attributes.class ?? '')
@@ -90,7 +98,7 @@ class Svg extends Component<Props, State> {
       {...attributes as any}
       className={classes.value}
       style={inlineStyle}
-      dangerouslySetInnerHTML={{ __html: contents }} />
+      dangerouslySetInnerHTML={{ __html: `${desc}${contents}` }} />
   }
 }
 
