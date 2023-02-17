@@ -37,9 +37,13 @@ class Svg extends Component<Props, State> {
   /* * * * * * * * * * * * * * *
    * DID MOUNT
    * * * * * * * * * * * * * * */
-  async componentDidMount (): Promise<void> {
-    await this.fetchSvg(this.props.src)
+  componentDidMount (): void {
+    this.fetchSvg(this.props.src)
   }
+
+ componentDidUpdate(previousProps: Readonly<Props>): void {
+   if (this.props.src !== previousProps.src) this.fetchSvg(this.props.src)
+ }
 
   /* * * * * * * * * * * * * * *
    * FETCH SVG

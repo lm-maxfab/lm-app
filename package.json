@@ -16,6 +16,7 @@
     "p5": "^1.5.0",
     "preact": "^10.11.3",
     "react-slick": "^0.29.0",
+    "sanitize-html": "^2.9.0",
     "slick-carousel": "^1.8.1",
     "smoothscroll-polyfill": "^0.4.4",
     "whatwg-fetch": "^3.6.2"
@@ -29,6 +30,7 @@
     "@types/node": "^18.11.18",
     "@types/p5": "^1.4.3",
     "@types/prompts": "^2.4.2",
+    "@types/sanitize-html": "^2.8.0",
     "@types/smoothscroll-polyfill": "^0.3.1",
     "async-prompt": "^1.0.1",
     "chalk": "^5.2.0",

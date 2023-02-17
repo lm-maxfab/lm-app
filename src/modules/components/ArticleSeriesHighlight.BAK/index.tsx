@@ -1,6 +1,6 @@
 import { Component, VNode, JSX } from 'preact'
 import bem from '../../utils/bem'
-import ArticleThumb, { Props as ThumbProps } from '../ArticleThumb'
+import ArticleThumb, { Props as ThumbProps } from '../ArticleThumb.BAK'
 import './styles.scss'
 
 interface Props {
