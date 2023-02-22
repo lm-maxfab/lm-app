@@ -9,7 +9,7 @@ interface Props {
   images: string[]
 }
 
-class StopMotionV2 extends Component<Props, {}> {
+class StopMotion extends Component<Props, {}> {
   canvas: HTMLCanvasElement | null = null
   imageRatio: number = 1
   imagesElements: HTMLImageElement[] = []
@@ -155,4 +155,4 @@ class StopMotionV2 extends Component<Props, {}> {
 }
 
 export type { Props }
-export default StopMotionV2
+export default StopMotion

@@ -1,5 +1,7 @@
 import { Component, JSX } from 'preact'
 import bem, { BEM } from '../../utils/bem'
+import strToNodes from '../../utils/str-to-nodes'
+import StrToVNode from '../StrToVNodes'
 
 interface Props {
   className?: string
@@ -94,6 +96,7 @@ class Svg extends Component<Props, State> {
     const inlineStyle = { ...props.style }
 
     /* Display */
+    // [WIP] fix dangerouslySetInner with some StrToVNode or something ?
     return <svg
       {...attributes as any}
       className={classes.value}

@@ -2,7 +2,7 @@ import { createElement, VNode } from 'preact'
 import { SheetBaseValue } from './SheetBase'
 import { SheetBaseCollectionValue } from './SheetBaseCollection'
 import SheetBaseEntry, { SheetBaseEntryValue } from './SheetBaseEntry'
-import StrToHtml from '../../components/StrToHtml'
+import StrToVNodes from '../../components/StrToVNodes'
 
 type FieldType = 'string'|'text'|'number'|'bigint'|'boolean'|'null'|'undefined'|'html'|'ref'
 
@@ -64,7 +64,7 @@ class SheetBaseField {
         return
       case 'html':
         if (this.raw === '') return
-        return createElement(StrToHtml, { content: this.raw }, null)
+        return createElement(StrToVNodes, { content: this.raw }, null)
       case 'ref': {
         if (this.raw === '') return
         const [collection, entry, field] = this.raw.split('.')

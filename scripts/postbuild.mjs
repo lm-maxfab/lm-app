@@ -146,9 +146,11 @@ async function postbuild () {
   await BUILD_VERSIONNED_JS.copyTo(`index.latest.js`)
   if (linkToLive) await BUILD_VERSIONNED_JS.copyTo(`index.live.js`)
   const BUILD_INDEX_CSS = buildAssetsFiles.find(file => file.name.match(/^index.[a-f0-9]{8}.css$/gm))
-  await BUILD_INDEX_CSS.copyTo(`index.${versionNameForFileNames}.css`)
-  await BUILD_INDEX_CSS.copyTo(`index.latest.css`)
-  if (linkToLive) await BUILD_INDEX_CSS.copyTo(`index.live.css`)
+  if (BUILD_INDEX_CSS !== undefined) {
+    await BUILD_INDEX_CSS.copyTo(`index.${versionNameForFileNames}.css`)
+    await BUILD_INDEX_CSS.copyTo(`index.latest.css`)
+    if (linkToLive) await BUILD_INDEX_CSS.copyTo(`index.live.css`)
+  }
   console.log(chalk.grey('created.'))
 
   // Link index.html to live js and css
@@ -160,8 +162,10 @@ async function postbuild () {
     vendorTag?.remove()
     const indexJsTag = documentElement.querySelector(`script[src*="${BUILD_INDEX_JS.name}"]`)
     indexJsTag.outerHTML = `<script async type="text/javascript" src="${config.assets_root_url}/index.live.js"></script>`
-    const indexCssTag = documentElement.querySelector(`link[href*="${BUILD_INDEX_CSS.name}"]`)
-    indexCssTag.outerHTML = `<link rel="stylesheet" href="${config.assets_root_url}/index.live.css">`
+    if (BUILD_INDEX_CSS !== undefined) {
+      const indexCssTag = documentElement.querySelector(`link[href*="${BUILD_INDEX_CSS.name}"]`)
+      indexCssTag.outerHTML = `<link rel="stylesheet" href="${config.assets_root_url}/index.live.css">`
+    }
     return jsdom
   })
   await BUILD_INDEX.editQuiet(content => {
