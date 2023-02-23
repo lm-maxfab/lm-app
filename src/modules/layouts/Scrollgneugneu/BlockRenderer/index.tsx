@@ -2,6 +2,7 @@ import { Component } from 'preact'
 import { BlockContext } from '..'
 import HtmlBlockRenderer from './HtmlBlockRenderer'
 import ModuleBlockRenderer from './ModuleBlockRenderer'
+import StopMotion from '../../../components/StopMotion'
 
 type Props = {
   type?: 'module'|'html'
@@ -20,10 +21,41 @@ export default class BlockRenderer extends Component<Props> {
     switch (type) {
       case 'html':
       case undefined: return <HtmlBlockRenderer content={content} />
-      case 'module': return <ModuleBlockRenderer
-        url={content}
-        context={context}
-        cssLoader={cssLoader} />
+      case 'module':
+        // [WIP] remove this
+        const stopMotionDetectionRegexp = /^\[\[STOP-MOTION\]\]/
+        if (content?.match(stopMotionDetectionRegexp)) {
+          const stopMotionPropsStr = content
+            .replace(stopMotionDetectionRegexp, '')
+            .trim()
+          const stopMotionProps = {
+            length: 1,
+            startIndex: 0,
+            urlTemplate: 'https://lemonde.fr/img-{%}.jpg'
+          }
+          try {
+            const parsed = JSON.parse(stopMotionPropsStr)
+            if (parsed === null) break;
+            if (typeof parsed !== 'object') break;
+            if (Array.isArray(parsed)) break;
+            if (typeof parsed.length === 'number') stopMotionProps.length = parsed.length
+            if (typeof parsed.startIndex === 'number') stopMotionProps.startIndex = parsed.startIndex
+            if (typeof parsed.urlTemplate === 'string') stopMotionProps.urlTemplate = parsed.urlTemplate
+          } catch (err) {}
+          const progression = context?.progression
+          const images = new Array(stopMotionProps.length).fill(null).map((e, pos) => {
+            const { startIndex, urlTemplate } = stopMotionProps
+            return urlTemplate.replace('{%}', `${pos + startIndex}`)
+          })
+          console.log(progression, images)
+          return <StopMotion
+            images={images}
+            progression={progression} />
+        }
+        return <ModuleBlockRenderer
+          url={content}
+          context={context}
+          cssLoader={cssLoader} />
       default: return <></>
     }
   }
