@@ -1,6 +1,6 @@
 import { Component } from 'preact'
 import { BlockContext } from '../..'
-import StopMotion from '../../../../components/StopMotion'
+import StopMotionV2 from '../../../../components/StopMotionV2'
 
 type Props = {
   context?: BlockContext
@@ -13,6 +13,6 @@ export default class MotionBlockRenderer extends Component<Props> {
 
     const imagesArray = imagesList?.split(',') as string[]
 
-    return <StopMotion progression={context?.progression} images={imagesArray}></StopMotion>
+    return <StopMotionV2 progression={context?.progression} images={imagesArray}></StopMotionV2>
   }
 }

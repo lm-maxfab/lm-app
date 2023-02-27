@@ -4,85 +4,102 @@ import clamp from '../../utils/clamp'
 import interpolate from '../../utils/interpolate'
 
 interface Props {
-  progression: number | null | undefined
-  images: string[]
+  progression?: number | null
+  images?: string[]
+}
+
+interface imageInfos {
+  index: number
+  url?: string
 }
 
 class StopMotionV2 extends Component<Props, {}> {
-  canvas: HTMLCanvasElement | null = null
   imageRatio: number = 1
-  imagesElements: HTMLImageElement[] = []
+  imageElements: HTMLImageElement[] = []
   $canvasWrapper: HTMLDivElement | null = null
 
   constructor(props: Props) {
     super(props)
 
-    this.initialize = this.initialize.bind(this)
-    this.preloadImages = this.preloadImages.bind(this)
+    this.initCanvasAndPreloadImages = this.initCanvasAndPreloadImages.bind(this)
+
+    this.createCanvas = this.createCanvas.bind(this)
     this.setCanvasSize = this.setCanvasSize.bind(this)
+    this.preloadImages = this.preloadImages.bind(this)
+
     this.drawImageOnCanvas = this.drawImageOnCanvas.bind(this)
+    this.drawCurrentFrameOnCanvas = this.drawCurrentFrameOnCanvas.bind(this)
+
     this.getIndexBasedOnProgression = this.getIndexBasedOnProgression.bind(this)
     this.getFrameBasedOnProgression = this.getFrameBasedOnProgression.bind(this)
   }
 
   componentDidMount(): void {
-    this.initialize()
+    this.initCanvasAndPreloadImages()
   }
 
   componentDidUpdate(): void {
-    if (!this.canvas) {
-      this.initialize()
-      return
-    }
+    if (this.$canvasWrapper === null) return this.initCanvasAndPreloadImages()
 
+    // [to do] setSize uniquement on resize
     this.setCanvasSize()
-
-    // update image
-    const currentFrame = this.getFrameBasedOnProgression()
-    if (!currentFrame) return
-    requestAnimationFrame(() => this.drawImageOnCanvas(currentFrame))
+    this.drawCurrentFrameOnCanvas()
   }
 
-  getIndexBasedOnProgression(): number | undefined {
+  getIndexBasedOnProgression(): number {
+    if (this.props.images === null || this.props.images === undefined) return 0
+
     const clampedProgression = clamp(this.props.progression ?? 0, 0, 1)
-    const interpolatedProgression = Math.floor(interpolate(clampedProgression, 0, (this.props.images?.length ?? 0) - 1))
-    return interpolatedProgression
+    const lastIndex = this.props.images.length - 1
+
+    if (clampedProgression === 0) return 0
+    if (clampedProgression === 1) return lastIndex
+
+    const interpolatedProgression = interpolate(clampedProgression, 0, lastIndex)
+
+    return Math.round(interpolatedProgression)
   }
 
-  getFrameBasedOnProgression(): HTMLImageElement | undefined | void {
+  getFrameBasedOnProgression(): HTMLImageElement {
     const index = this.getIndexBasedOnProgression()
-    if (!index) return
-    return this.imagesElements?.[index]
+    return this.imageElements[index]
   }
 
-  initialize(): void {
-    if (!this.$canvasWrapper) return
+  createCanvas(): void {
+    if (this.$canvasWrapper === null) return
 
-    this.canvas = document.createElement('canvas')
-    this.$canvasWrapper?.appendChild(this.canvas)
+    const canvas = document.createElement('canvas')
+    this.$canvasWrapper.appendChild(canvas)
+  }
 
-    this.setCanvasSize()
+  initCanvasAndPreloadImages(): void {
+    this.createCanvas()
     this.preloadImages()
+      .then(this.setCanvasSize)
+      .then(this.drawCurrentFrameOnCanvas)
   }
 
   async preloadImages() {
-    const currentIndex = this.getIndexBasedOnProgression() ?? 0
+    const currentIndex = this.getIndexBasedOnProgression()
 
-    const imagesBefore = this.props.images.slice(0, currentIndex).reverse()
-    const imagesAfter = this.props.images.slice(currentIndex, -1)
-    const imagesInOrder = []
+    if (this.props.images === null || this.props.images === undefined) return
+
+    const imagesBefore = this.props.images?.slice(0, currentIndex).reverse()
+    const imagesAfter = this.props.images?.slice(currentIndex, -1)
+    const imagesInOrder: imageInfos[] = []
 
     let indexAfter = currentIndex
     let indexBefore = currentIndex - 1
 
-    while (imagesBefore.length || imagesAfter.length) {
+    while (imagesBefore.length > 0 || imagesAfter.length > 0) {
       if (imagesAfter.length) {
         imagesInOrder.push(
           {
             index: indexAfter,
             url: imagesAfter.shift()
-          });
+          })
         indexAfter++
+        continue
       }
 
       if (imagesBefore.length) {
@@ -90,47 +107,65 @@ class StopMotionV2 extends Component<Props, {}> {
           {
             index: indexBefore,
             url: imagesBefore.shift()
-          });
+          })
         indexBefore--
+        continue
       }
+
+      break
     }
 
     for (const { index, url } of imagesInOrder) {
       const img = new Image()
       await this.loadImage(img, url)
-      this.imagesElements[index] = img
+      this.imageElements[index] = img
       if (index === currentIndex) {
         this.imageRatio = img.height / img.width
-        this.setCanvasSize()
-        this.drawImageOnCanvas(this.imagesElements[index])
       }
     }
   }
 
   loadImage(img: HTMLImageElement, url?: string) {
-    if (!url) return
+    if (url === null || url === undefined || url === '') return
 
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       img.src = url
       img.onload = (event) => resolve(event)
     })
   }
 
   setCanvasSize(): void {
-    if (!this.canvas) return
+    if (this.$canvasWrapper === null) return
 
-    const wrapperWidth = this.$canvasWrapper?.getBoundingClientRect().width
-    if (wrapperWidth && wrapperWidth != this.canvas.width) {
-      this.canvas.width = wrapperWidth
-      this.canvas.height = wrapperWidth * this.imageRatio
+    const canvas = this.$canvasWrapper.querySelector('canvas')
+
+    if (canvas === null || canvas === undefined) return
+
+    const wrapperWidth = this.$canvasWrapper.getBoundingClientRect().width
+
+    const calculatedHeight = wrapperWidth * this.imageRatio
+    const dimensionsNeedUpdate = (wrapperWidth != canvas.width) || (calculatedHeight != canvas.height)
+
+    if (wrapperWidth && dimensionsNeedUpdate) {
+      canvas.width = wrapperWidth
+      canvas.height = calculatedHeight
     }
   }
 
-  drawImageOnCanvas(image: HTMLImageElement): void {
-    if (!image) return
-    if (!this.canvas) return
+  drawCurrentFrameOnCanvas(): void {
+    const currentFrame = this.getFrameBasedOnProgression()
+    if (currentFrame === null || currentFrame === undefined) return
+    requestAnimationFrame(() => this.drawImageOnCanvas(currentFrame))
+  }
 
-    this.canvas?.getContext('2d')?.drawImage(
+  drawImageOnCanvas(image: HTMLImageElement): void {
+    if (this.$canvasWrapper === null) return
+
+    const canvas = this.$canvasWrapper.querySelector('canvas')
+
+    if (canvas === null || canvas === undefined) return
+
+    canvas.getContext('2d')?.drawImage(
       // ce qu'on dessine
       image,
       0,
@@ -140,8 +175,8 @@ class StopMotionV2 extends Component<Props, {}> {
       // où on le dessine
       0,
       0,
-      this.canvas.width,
-      this.canvas.height
+      canvas.width,
+      canvas.height
     )
   }
 
