@@ -1092,6 +1092,8 @@ export default class Scrollgneugneu extends Component<Props, State> {
               className={blockClasses.join(' ')}
               data-id={blockIdentifier}
               style={{ '--z-index': _zIndex }}>
+              {/* [WIP] if block-renderer has height: 100% it seems to allow top: X%
+              on the wrapper returned from the module */}
               <BlockRenderer
                 type={type}
                 content={content}

@@ -22,9 +22,7 @@ interface State {
 
 class Sequencer extends Component<Props, State> {
   intervaller: number|null = null
-  state: State = {
-    step: 0
-  }
+  state: State = { step: 0 }
 
   /* * * * * * * * * * * * * * *
    * CONSTRUCTOR & LIFE CYCLE

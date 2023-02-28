@@ -4,17 +4,19 @@ import interpolate from '../../utils/interpolate'
 
 interface Props {
   /* [REVIEW]
-   * 1/ ci-dessous, progression attend qu'on lui passe
-   * explicitement undefined, mais pas qu'on ne lui donne rien
+   * 1/ progression attend qu'on puisse lui passer
+   * explicitement undefined, mais pas qu'on ne lui donne rien,
+   * donc si props = { images: [] }, typescript sera pas content,
+   * il voudra props = { progression: undefined, images: [] }
    *   => progression?: number|null c'est mieux
-   * 2/ sur images, ce qu'on dit avec typescript ici, c'est :
-   * "t'inquiètes, y'aura TOUJOURS un array pour images", et pas
-   * "c'est interdit de passer une prop images vide". OR:
+   * 2/ sur images, ce qu'on dit avec TYPEscript ici, c'est :
+   * "t'inquiètes, y'aura TOUJOURS un array pour images", mais on dit pas
+   * à JAVAscript "c'est interdit de passer une prop images vide". OR:
    * - si on a pas de vraie raison d'exiger que la prop soit pas undefined
    * vaut mieux se laisser la possibilité
    * - il est tout à fait possible de créer un fichier js et pas ts qqpart
    * qui appelle <StopMotion /> sans prop images et du coup y'aura pas d'alerte
-   * VScode ou de pb au moment de build, et là ton code va probablement
+   * fans VScode ou de pb au moment de build, et là ton code va probablement
    * break parce que lui il s'attend à trouver un array systématiquement
    *   => images?: string[]
    */
@@ -67,6 +69,7 @@ class StopMotion extends Component<Props, {}> {
     this.setCanvasSize()
 
     // update image
+    // [REVIEW] pinaillage: c'est plutôt un currentImageElement
     const currentFrame = this.getFrameBasedOnProgression()
     if (!currentFrame) return
     requestAnimationFrame(() => this.drawImageOnCanvas(currentFrame))
@@ -88,16 +91,31 @@ class StopMotion extends Component<Props, {}> {
     // if (ratio === 0) return bound1
     // if (ratio === 1) return bound2
     // => probablement mieux que Math.round, ça s'attaque au problème à la racine
-    const interpolatedProgression = Math.floor(interpolate(clampedProgression, 0, (this.props.images?.length ?? 0) - 1))
+    // [REVIEW] réflexion du lendemain : en fait this.props.progression sera jamais vraiment à 1,
+    // tout au mieux à 0.99 avant que le module soit désactivé, donc faut faire le fix dans interpolate
+    // ET passer sur Math.round
+    const interpolatedProgression = Math.round(interpolate(clampedProgression, 0, (this.props.images?.length ?? 0) - 1))
     return interpolatedProgression
   }
 
+  // [REVIEW] pas besoin de void ici, je crois. J'ai un peu de mal
+  // à capter void à vrai dire : https://www.typescriptlang.org/docs/handbook/2/functions.html#return-type-void
   getFrameBasedOnProgression(): HTMLImageElement | undefined | void {
     const index = this.getIndexBasedOnProgression()
     // [REVIEW] EH BAH ÇA ALORS ??? IL SE PASSE QUOI SI INDEX === 0 ??? HEIN ??????? 😈😈😈😈😈
+    // au cas où : https://medium.com/programming-essentials/what-are-the-differences-between-falsy-and-nullish-values-7d0c1d81a20e
     if (!index) return
     // [REVIEW] imagesElements peut pas être undefined donc pas besoin de ?
     // (et ici c'est pas grave parce que c'est pas un input externe donc c'est même top)
+    // PAR CONTRE, SUBTILITÉ que je ne m'explique pas : 
+    // const imgElts: number[] = [1, 2, 3]
+    // const someImage = imgElts[5]
+    // => TS va te dire que someImage est de type number alors qu'il est undefined
+    // dans ce cas précis, je comprends pas bien pourquoi c'est pas number|undefined
+    // Donc même si TS pense que tu return forcément un number, c'est
+    // bien de laisser undefined dans le return type de ta fonction
+    // Et plus généralement faut faire gaffe quand tu récupères un élément depuis un array,
+    // il peut toujours être undefined et typescript ne se méfie de rien
     return this.imagesElements?.[index]
   }
 
@@ -134,6 +152,7 @@ class StopMotion extends Component<Props, {}> {
     // ET retourne un truc, mais il modifie l'Array sur lequel il est appelé donc faut se méfier
     // (tu sais ptet déjà)
     const imagesBefore = this.props.images.slice(0, currentIndex).reverse()
+    // [REVIEW] Array.slice(num, -1), ça exclue le dernier élément de this.props.images
     const imagesAfter = this.props.images.slice(currentIndex, -1)
     const imagesInOrder = [] // [REVIEW] dis-y que ça prend que string, là il s'attend à du any
 
@@ -163,11 +182,11 @@ class StopMotion extends Component<Props, {}> {
           });
         indexBefore--
       }
-      // [REVIEW] pour s'assurer de pas faire de boucle infinie (même si ça doit le faire en l'état, on sait jamais),
+      // [REVIEW] pour s'assurer de pas faire de boucle infinie (même si ça devrait pas arriver en l'état, on sait jamais),
       // je pense qu'il faudrait :
       //   - mettre un petit 'continue' à la fin de chaque if (ça annule mon idée de one-liner du coup)
       //   - mettre un petit 'break' à la fin du while
-      // [REVIEW] mais sinon, bravo pour ce petit bijou, c'est concis et ça marche, c'est top !
+      // [REVIEW] mais sinon bravo pour ce petit bijou, c'est concis et ça marche, c'est top !
     }
 
     for (const { index, url } of imagesInOrder) {
@@ -187,7 +206,7 @@ class StopMotion extends Component<Props, {}> {
   loadImage (img: HTMLImageElement, url?: string) {
     // [REVIEW] è_____é
     if (!url) return
-    // [REVIEW] pas besoin de reject ici
+    // [REVIEW] pas besoin de récup reject ici
     return new Promise((resolve, reject) => {
       img.src = url
       img.onload = (event) => resolve(event)
@@ -207,7 +226,6 @@ class StopMotion extends Component<Props, {}> {
   drawImageOnCanvas(image: HTMLImageElement): void {
     if (!image) return
     if (!this.canvas) return
-
     this.canvas?.getContext('2d')?.drawImage(
       // ce qu'on dessine
       image,
@@ -230,6 +248,11 @@ class StopMotion extends Component<Props, {}> {
     return <div ref={n => { this.$canvasWrapper = n }} />
   }
 }
+
+// [REVIEW] tu connais https://standardjs.com/ ? Je m'en suis servi
+// à une époque, un peu moins maintenant par flemme mais c'est pas bien.
+// Je trouve que c'est une bonne aide pour toujours écrire les choses
+// de la même manière
 
 export type { Props }
 export default StopMotion

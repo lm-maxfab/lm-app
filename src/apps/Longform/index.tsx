@@ -19,65 +19,109 @@ const generalSettings: Partial<GeneralSettings> = {
   thresholdOffset: '60%',
   headerCustomCss: '.content-page > * { margin-bottom: 24px; } .content-page .title, .content-page .intertitle { font-weight: 600; }'
 }
+// const pagesData: PropsPageData[] = [{
+//   bgColor: generateNiceColor(),
+//   blocks: [{
+//     id: 'content-scroll-page',
+//     depth: 'scroll',
+//     type: 'html',
+//     layout: 'center-left-third',
+//     mobileLayout: 'right-half',
+//     content: `<div style="
+//       background: white;
+//       font-family: var(--ff-marr-sans);
+//       padding: 64px;
+//     ">${generateContentPage(4)}</div>`,
+//   }/*, {
+//     depth: 'front',
+//     type: 'html',
+//     layout: 'right-half',
+//     content: `<div style="
+//       background-color: yellow;
+//       ">supposed to be right-half</div>`
+//   }*/]
+// }, {
+//   bgColor: generateNiceColor(),
+//   blocks: [{
+//     depth: 'scroll',
+//     type: 'html',
+//     layout: 'right-center-quarter',
+//     mobileLayout: 'left-half',
+//     content: `<div style="
+//       /*visibility: hidden;*/
+//       /*margin: 100px 0;*/
+//       background: white;
+//       font-family: var(--ff-marr-sans);
+//       padding: 64px;
+//     ">${generateContentPage(4)}</div>`,
+//   }/*, {
+//     depth: 'front',
+//     type: 'module',
+//     layout: 'left-half',
+//     content: '[[STOP-MOTION]] { "length": 9, "startIndex": 1, "urlTemplate": "http://localhost:50003/images/Frame {%}.png" }',
+//     trackScroll: true
+//   }*/]
+// }, {
+//   bgColor: generateNiceColor(),
+//   blocks: [{
+//     id: 'content-scroll-page',
+//     depth: 'scroll',
+//     type: 'html',
+//     layout: 'center-left-third',
+//     mobileLayout: 'right-half',
+//     content: `<div style="
+//       background: white;
+//       font-family: var(--ff-marr-sans);
+//       padding: 64px;
+//     ">${generateContentPage(4)}</div>`,
+//   }]
+// }]
+
+const niceColors = new Array(100).fill(null).map(generateNiceColor)
 const pagesData: PropsPageData[] = [{
-  bgColor: generateNiceColor(),
+  bgColor: niceColors[0],
   blocks: [{
-    id: 'content-scroll-page',
     depth: 'scroll',
-    type: 'html',
-    layout: 'center-left-third',
-    mobileLayout: 'right-half',
+    layout: 'left-half',
     content: `<div style="
       background: white;
       font-family: var(--ff-marr-sans);
-      padding: 64px;
-    ">${generateContentPage(4)}</div>`,
-  }/*, {
-    depth: 'front',
-    type: 'html',
+      padding: 64px;">
+      ${generateContentPage(3)}
+    </div>`
+  }]
+}, {
+  bgColor: niceColors[1],
+  blocks: [{
+    depth: 'scroll',
     layout: 'right-half',
     content: `<div style="
-      background-color: yellow;
-      ">supposed to be right-half</div>`
-  }*/]
-}, {
-  bgColor: generateNiceColor(),
-  blocks: [{
-    depth: 'scroll',
-    type: 'html',
-    layout: 'right-center-quarter',
-    mobileLayout: 'left-half',
-    content: `<div style="
-      /*visibility: hidden;*/
-      /*margin: 100px 0;*/
       background: white;
       font-family: var(--ff-marr-sans);
-      padding: 64px;
-    ">${generateContentPage(4)}</div>`,
+      padding: 64px;">
+      ${generateContentPage(3)}
+    </div>`
   }, {
     depth: 'front',
-    type: 'module',
     layout: 'left-half',
-    content: '[[STOP-MOTION]] { "length": 9, "startIndex": 1, "urlTemplate": "http://localhost:50003/images/Frame {%}.png" }',
+    type: 'module',
+    content: 'http://localhost:50003/test/index.js',
     trackScroll: true
   }]
 }, {
-  bgColor: generateNiceColor(),
+  bgColor: niceColors[2],
   blocks: [{
-    id: 'content-scroll-page',
     depth: 'scroll',
-    type: 'html',
-    layout: 'center-left-third',
-    mobileLayout: 'right-half',
+    layout: 'left-half',
     content: `<div style="
       background: white;
       font-family: var(--ff-marr-sans);
-      padding: 64px;
-    ">${generateContentPage(4)}</div>`,
+      padding: 64px;">
+      ${generateContentPage(3)}
+    </div>`
   }]
 }]
 
-const niceColors = new Array(100).fill(null).map(() => generateNiceColor())
 document.addEventListener('click', e => console.log(e.target))
 
 class Longform extends Component<Props, State> {

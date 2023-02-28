@@ -47,7 +47,6 @@ export default class BlockRenderer extends Component<Props> {
             const { startIndex, urlTemplate } = stopMotionProps
             return urlTemplate.replace('{%}', `${pos + startIndex}`)
           })
-          console.log(progression, images)
           return <StopMotion
             images={images}
             progression={progression} />
