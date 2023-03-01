@@ -9,26 +9,29 @@ import {
   BlockData as BlockDataFromSheet,
   PageData as PageDataFromSheet
 } from '../types'
+import Sequencer from '../../modules/components/Sequencer'
+import TextSequencer from '../../modules/components/TextSequencer'
+import MessagesSequencer from '../../modules/components/MessagesSequencer'
 
-interface Props extends InjectedProps {}
-interface State {}
+interface Props extends InjectedProps { }
+interface State { }
 
-export default function LongformOf (slotName: string) {
+export default function LongformOf(slotName: string) {
   return appWrapper(class Longform extends Component<Props, State> {
     static clss: string = 'hydra-longform'
     clss = Longform.clss
-  
+
     /* * * * * * * * * * * * * * *
      * RENDER
      * * * * * * * * * * * * * * */
-    render (): JSX.Element {
+    render(): JSX.Element {
       const { props } = this
       const { sheetBase } = props
-  
-      const generalSettings = sheetBase?.collection('general_settings').entries[0].value as GeneralSettings|undefined
-      const blocksData = sheetBase?.collection('blocks_data').value as BlockDataFromSheet[]|undefined
-      const rawPagesData = sheetBase?.collection('pages_data').value as PageDataFromSheet[]|undefined
-      const pagesData: PropsPageData[]|undefined = rawPagesData
+
+      const generalSettings = sheetBase?.collection('general_settings').entries[0].value as GeneralSettings | undefined
+      const blocksData = sheetBase?.collection('blocks_data').value as BlockDataFromSheet[] | undefined
+      const rawPagesData = sheetBase?.collection('pages_data').value as PageDataFromSheet[] | undefined
+      const pagesData: PropsPageData[] | undefined = rawPagesData
         ?.filter(rawPageData => rawPageData.page_destination === slotName)
         .map(rawPageData => {
           const fixedBlocksData: PropsBlockData[] = []
@@ -88,15 +91,26 @@ export default function LongformOf (slotName: string) {
         })
 
       if (pagesData === undefined || pagesData.length === 0) return <></>
-  
+
       // Assign classes and styles
       const wrapperClasses = bem(props.className).block(this.clss)
       const wrapperStyle: JSX.CSSProperties = { ...props.style }
-  
+
       // Display
       return <div
         style={wrapperStyle}
         className={wrapperClasses.value}>
+
+        {/* <div style="height: 10vh"></div>
+
+        <TextSequencer />
+
+        <div style="height: 10vh"></div>
+
+        <MessagesSequencer />
+
+        <div style="height: 10vh"></div> */}
+
         <Scrollgneugneu
           pages={pagesData}
           thresholdOffset={generalSettings?.threshold_offset}
