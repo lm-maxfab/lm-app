@@ -82,28 +82,20 @@ const pagesData: PropsPageData[] = [{
   bgColor: niceColors[0],
   blocks: [{
     depth: 'scroll',
-    layout: 'left-half',
-    content: `<div style="
-      background: white;
-      font-family: var(--ff-marr-sans);
-      padding: 64px;">
-      ${generateContentPage(3)}
-    </div>`
+    layout: '3/5(1/5)',
+    mobileLayout: 'right-half',
+    content: `<div style="background: white; font-family: var(--ff-marr-sans); padding: 64px;">${generateContentPage(3)}</div>`
   }]
-}, {
+}/*, {
   bgColor: niceColors[1],
   blocks: [{
     depth: 'scroll',
     layout: 'right-half',
-    content: `<div style="
-      background: white;
-      font-family: var(--ff-marr-sans);
-      padding: 64px;">
-      ${generateContentPage(3)}
-    </div>`
+    content: `<div style="background: white; font-family: var(--ff-marr-sans); padding: 64px;">${generateContentPage(3)}</div>`
   }, {
     depth: 'front',
-    layout: 'left-half',
+    layout: '1(2/3)_middle',
+    mobileLayout: '1/5(2/5)_13/21(1/4)_bottom_center',
     type: 'module',
     content: 'http://localhost:50003/test/index.js',
     trackScroll: true
@@ -113,14 +105,9 @@ const pagesData: PropsPageData[] = [{
   blocks: [{
     depth: 'scroll',
     layout: 'left-half',
-    content: `<div style="
-      background: white;
-      font-family: var(--ff-marr-sans);
-      padding: 64px;">
-      ${generateContentPage(3)}
-    </div>`
+    content: `<div style="background: white; font-family: var(--ff-marr-sans); padding: 64px;">${generateContentPage(3)}</div>`
   }]
-}]
+}*/]
 
 document.addEventListener('click', e => console.log(e.target))
 

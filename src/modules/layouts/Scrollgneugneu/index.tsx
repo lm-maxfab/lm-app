@@ -10,119 +10,27 @@ import clamp from '../../utils/clamp'
 import bem from '../../utils/bem'
 import ArticleHeader, { NavItem as ArticleHeaderNavItem } from '../../components/ArticleHeader'
 import isFalsy from '../../utils/is-falsy'
+// [WIP] use injectCssRule everywhere
+import injectCssRule from '../../utils/dynamic-css'
 
-/* Layouts types */
-type ScrollAndStickyLayoutName =
-  'full-screen'
-  |'full-width'
+type LayoutSizeFormula = `${number}`|`${number}/${number}`
+type LayoutOffsetFormula = `${number}/${number}`
+const layoutJustificationFormulas = ['left', 'center', 'right'] as const
+type LayoutJustificationFormula = typeof layoutJustificationFormulas[number]
+const layoutAlignFormulas = ['top', 'middle', 'bottom'] as const
+type LayoutAlignFormula = typeof layoutAlignFormulas[number]
+type LayoutHPosFormula = LayoutSizeFormula|`${LayoutSizeFormula}(${LayoutOffsetFormula})`
+type LayoutVPosFormula = LayoutSizeFormula|`${LayoutSizeFormula}(${LayoutOffsetFormula})`
+type LayoutPosFormula = LayoutHPosFormula|`${LayoutHPosFormula}_${LayoutVPosFormula}`
+type LayoutContentPosFormula = LayoutJustificationFormula|LayoutAlignFormula|`${LayoutJustificationFormula}_${LayoutAlignFormula}`|`${LayoutAlignFormula}_${LayoutJustificationFormula}`
+type LayoutFormula = LayoutPosFormula|`${LayoutPosFormula}_${LayoutContentPosFormula}`
+
+type LayoutName = LayoutFormula
+  |'full-screen'
   |'left-half'
   |'center-half'
   |'right-half'
-  |'left-third'
-  |'center-left-third'
-  |'center-third'
-  |'center-right-third'
-  |'right-third'
-  |'left-two-thirds'
-  |'center-two-thirds'
-  |'right-two-thirds'
-  |'left-quarter'
-  |'left-center-quarter'
-  |'center-left-quarter'
-  |'center-quarter'
-  |'center-right-quarter'
-  |'right-center-quarter'
-  |'right-quarter'
-  |'left-three-quarters'
-  |'center-three-quarters'
-  |'right-three-quarters'
-  |'xs-column'
-  |'s-column'
-  |'m-column'
-  |'l-column'
-  |'xl-column'
-// [WIP] some from above are missing below, like "center-quarter", or the "two-thirds-*", ...
-type StickyOnlyLayoutName =
-  |'full-screen-top-left'
-  |'full-screen-top-center'
-  |'full-screen-top-right'
-  |'full-screen-middle-left'
-  |'full-screen-middle-center'
-  |'full-screen-middle-right'
-  |'full-screen-bottom-left'
-  |'full-screen-bottom-center'
-  |'full-screen-bottom-right'
-  |'left-half-top'
-  |'left-half-middle'
-  |'left-half-bottom'
-  |'right-half-top'
-  |'right-half-middle'
-  |'right-half-bottom'
-  |'top-half-left'
-  |'top-half-center'
-  |'top-half-right'
-  |'bottom-half-left'
-  |'bottom-half-center'
-  |'bottom-half-right'
-  |'left-third-top'
-  |'left-third-middle'
-  |'left-third-bottom'
-  |'center-third-top'
-  |'center-third-middle'
-  |'center-third-bottom'
-  |'right-third-top'
-  |'right-third-middle'
-  |'right-third-bottom'
-  |'top-third-left'
-  |'top-third-center'
-  |'top-third-right'
-  |'middle-third-left'
-  |'middle-third-center'
-  |'middle-third-right'
-  |'bottom-third-left'
-  |'bottom-third-center'
-  |'bottom-third-right'
-  |'left-quarter-top'
-  |'left-quarter-middle'
-  |'left-quarter-bottom'
-  |'center-left-quarter-top'
-  |'center-left-quarter-middle'
-  |'center-left-quarter-bottom'
-  |'center-right-quarter-top'
-  |'center-right-quarter-middle'
-  |'center-right-quarter-bottom'
-  |'right-quarter-top'
-  |'right-quarter-middle'
-  |'right-quarter-bottom'
-  |'top-quarter-left'
-  |'top-quarter-center'
-  |'top-quarter-right'
-  |'middle-top-quarter-left'
-  |'middle-top-quarter-center'
-  |'middle-top-quarter-right'
-  |'middle-bottom-quarter-left'
-  |'middle-bottom-quarter-center'
-  |'middle-bottom-quarter-right'
-  |'bottom-quarter-left'
-  |'bottom-quarter-center'
-  |'bottom-quarter-right'
-  |'xs-column-left'
-  |'xs-column-center'
-  |'xs-column-right'
-  |'s-column-left'
-  |'s-column-center'
-  |'s-column-right'
-  |'m-column-left'
-  |'m-column-center'
-  |'m-column-right'
-  |'l-column-left'
-  |'l-column-center'
-  |'l-column-right'
-  |'xl-column-left'
-  |'xl-column-center'
-  |'xl-column-right'
-
-/*export*/ type LayoutName = ScrollAndStickyLayoutName|StickyOnlyLayoutName
+  // [WIP] columns
 
 /* Transition types */
 export type TransitionName = 
@@ -145,13 +53,13 @@ type PropsCommonData = {
 }
 type PropsScrollBlockData = PropsCommonData & {
   depth?: 'scroll'
-  layout?: ScrollAndStickyLayoutName
-  mobileLayout?: ScrollAndStickyLayoutName
+  layout?: LayoutName
+  mobileLayout?: LayoutName
 }
 type PropsStickyBlockData = PropsCommonData & {
   depth: 'back'|'front'
-  layout?: ScrollAndStickyLayoutName|StickyOnlyLayoutName
-  mobileLayout?: ScrollAndStickyLayoutName|StickyOnlyLayoutName
+  layout?: LayoutName // [WIP] Don't bring that back in PropsCommonData before being sure there are not sticky blocks specific layout names
+  mobileLayout?: LayoutName // [WIP] Don't bring that back in PropsCommonData before being sure there are not sticky blocks specific layout names
   transitions?: TransitionDescriptor[]
   mobileTransitions?: TransitionDescriptor[]
 }
@@ -436,17 +344,104 @@ export default class Scrollgneugneu extends Component<Props, State> {
     return zIndexes
   }
 
-  static getLayoutClasses (
-    layout?: LayoutName,
-    mobileLayout?: LayoutName
+  static layoutNameToFormula (name: string): LayoutFormula|undefined {
+    if (name === 'full-screen') return '1_1_top_left'
+    if (name === 'left-half') return '1/2_1_top_left'
+    if (name === 'center-half') return '1/2(1/4)_1_top_left'
+    if (name === 'right-half') return '1/2(1/2)_1_top_left'
+  }
+
+  static generateLayoutClasses (
+    position: 'scrolling'|'sticky',
+    _layout?: LayoutName,
+    _mobileLayout?: LayoutName
   ): string[] {
-    const classes = []
+    const {
+      layoutNameToFormula: toFormula,
+      layoutPosAndFormulaToCssProps: toCss
+    } = Scrollgneugneu
+    const layout = (toFormula(_layout ?? '') ?? _layout) as LayoutFormula|undefined
+    const mobileLayout = (toFormula(_mobileLayout ?? '') ?? _mobileLayout) as LayoutFormula|undefined
+    const layoutCss = layout !== undefined ? toCss(position, layout) : undefined
+    const mobileLayoutCss = mobileLayout !== undefined ? toCss(position, mobileLayout) : undefined
     const hasLayout = layout !== undefined
     const hasMobileLayout = mobileLayout !== undefined
-    if (hasLayout) classes.push(styles[`layout-${layout}`])
-    if (hasLayout && !hasMobileLayout) classes.push(styles[`layout-mobile-${layout}`])
-    if (hasMobileLayout) classes.push(styles[`layout-mobile-${mobileLayout}`])
+    const layoutClassExt = hasLayout
+      ? layout
+        .replace(/\//igm, 'over')
+        .replace(/\(/igm, 'offset')
+        .replace(/\)/igm, '')
+      : undefined
+    const mobileLayoutClassExt = hasMobileLayout
+      ? mobileLayout
+        .replace(/\//igm, 'over')
+        .replace(/\(/igm, 'offset')
+        .replace(/\)/igm, '')
+      : undefined
+    const layoutClass = hasLayout
+      ? `lm-scrllgngn__layout_${layoutClassExt}`
+      : undefined
+    const mobileLayoutClass = hasMobileLayout
+      ? `lm-scrllgngn__mobile-layout_${mobileLayoutClassExt}`
+      : (hasLayout
+        ? `lm-scrllgngn__mobile-layout_${layoutClassExt}`
+        : undefined)
+    const classes: string[] = []
+    if (layoutClass !== undefined) {
+      classes.push(layoutClass)
+      const selectors = [
+        `.${styles['block']}`,
+        `.${styles[`block_${position}`]}`,
+        `.${layoutClass}`
+      ].join('')
+      const mediaQuery = '@media (min-width: 1025px)'
+      const cssBlock = `${mediaQuery} { ${selectors} { ${layoutCss} } }`
+      injectCssRule(cssBlock)
+    }
+    if (mobileLayoutClass !== undefined) {
+      classes.push(mobileLayoutClass)
+      const selectors = [
+        `.${styles['block']}`,
+        `.${styles[`block_${position}`]}`,
+        `.${mobileLayoutClass}`
+      ].join('')
+      const mediaQuery = '@media (max-width: 1024px)'
+      const cssBlock = `${mediaQuery} { ${selectors} { ${mobileLayoutCss} } }`
+      injectCssRule(cssBlock)
+    }
     return classes
+  }
+
+  static layoutPosAndFormulaToCssProps (
+    position: 'scrolling'|'sticky',
+    formula: LayoutFormula): string {
+    const chunks = formula.split('_')
+    // Get position chunks
+    const posChunkRegex = /^[0-9]+(\/[0-9]+)?(\([0-9]+(\/[0-9]+)?\))?$/igm
+    const hPosChunk = chunks.find((chunk, pos) => pos === 0 && chunk.match(posChunkRegex))
+    const vPosChunk = chunks.find((chunk, pos) => pos !== 0 && chunk.match(posChunkRegex))
+    // Get width, height, hOffset and vOffset
+    const [widthChunk, hOffsetChunk] = hPosChunk?.split(/\(|\)/) ?? [undefined, undefined]
+    const [widthNum, widthDenum] = widthChunk?.split('/') ?? [undefined, undefined]
+    const [hOffsetNum, hOffsetDenum] = hOffsetChunk?.split('/') ?? [undefined, undefined]
+    const [heightChunk, vOffsetChunk] = vPosChunk?.split(/\(|\)/) ?? [undefined, undefined]
+    const [heightNum, heightDenum] = heightChunk?.split('/') ?? [undefined, undefined]
+    const [vOffsetNum, vOffsetDenum] = vOffsetChunk?.split('/') ?? [undefined, undefined]
+    // Get justification and align
+    const justificationFormulas = layoutJustificationFormulas as unknown as string[]
+    const alignFormulas = layoutAlignFormulas as unknown as string[]
+    const justifyChunk = chunks.find(chunk => justificationFormulas.includes(chunk))
+    const alignChunk = chunks.find(chunk => alignFormulas.includes(chunk))
+    // Create
+    const cssProps: string[] = []
+    cssProps.push(`width: calc(${widthNum ?? 1} * 100% / ${widthDenum ?? 1});`)
+    cssProps.push(`margin-left: calc(${hOffsetNum ?? 0} * 100% / ${hOffsetDenum ?? 1});`)
+    if (position === 'sticky') {
+      cssProps.push(`height: calc(${heightNum ?? 1} * 100% / ${heightDenum ?? 1});`)
+      cssProps.push(`margin-top: calc(${vOffsetNum ?? 0} * 100% / ${vOffsetDenum ?? 1});`)
+    }
+
+    return cssProps.join('')
   }
 
   constructor (props: Props) {
@@ -940,9 +935,10 @@ export default class Scrollgneugneu extends Component<Props, State> {
         const cssStr = data
           .trim()
           .replace(/\s+/igm, ' ')
-        return `/*${url}*/${cssStr}`
+        return `/*${url}*/\n${cssStr}`
       })
-    return <style>{fullCssStr}</style>
+    fullCssStr
+      .forEach(cssBlock => injectCssRule(cssBlock))
   }
 
   navigateToChapter (chapterName: string) {
@@ -1009,7 +1005,7 @@ export default class Scrollgneugneu extends Component<Props, State> {
   }
 
   StickyBlocks () {
-    const { getLayoutClasses } = Scrollgneugneu
+    const { generateLayoutClasses } = Scrollgneugneu
     const {
       props,
       state,
@@ -1078,7 +1074,7 @@ export default class Scrollgneugneu extends Component<Props, State> {
           styles['block'],
           styles['block_sticky'],
           styles[`status-${blockStatus}`],
-          ...getLayoutClasses(layout, mobileLayout)
+          ...generateLayoutClasses('sticky', layout, mobileLayout)
         ]
         return <ResizeObserverComponent
           onResize={throttledHandleBlockResize}>
@@ -1107,7 +1103,7 @@ export default class Scrollgneugneu extends Component<Props, State> {
   }
 
   ScrollingBlocks () {
-    const { getLayoutClasses } = Scrollgneugneu
+    const { generateLayoutClasses } = Scrollgneugneu
     const {
       props,
       state,
@@ -1180,7 +1176,7 @@ export default class Scrollgneugneu extends Component<Props, State> {
                 styles['block'],
                 styles['block_scrolling'],
                 styles[`status-${blockStatus}`],
-                ...getLayoutClasses(layout, mobileLayout)
+                ...generateLayoutClasses('scrolling', layout, mobileLayout)
               ]
               // [WIP] RSOComp adds complexity with its wrapper div, get rid of this
               return <div
