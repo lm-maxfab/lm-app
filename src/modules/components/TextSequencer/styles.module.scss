@@ -1,0 +1,24 @@
+.wrapper {
+  width: 100%;
+  max-width: 520px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff;
+  font-family: var(--ff-the-antiqua-b);
+  font-size: 22px;
+  line-height: 30px;
+  padding: 28px;
+}
+
+.word {
+  opacity: 0;
+  filter: blur(2px);
+  transition: opacity 2000ms, filter 2000ms;
+}
+
+.word--visible {
+  opacity: 1;
+  filter: blur(0);
+}
