@@ -1,9 +1,11 @@
 .wrapper {
   height: 100vh;
-  padding: 20vh 24px 0 24px;
+  padding: 10vh 24px 0 24px;
   display: flex;
   align-items: center;
   justify-content: right;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
 .messages {
