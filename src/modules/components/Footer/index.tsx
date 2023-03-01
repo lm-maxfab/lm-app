@@ -29,9 +29,6 @@ class Footer extends Component<Props, {}> {
   render() {
     const { props, bemClss } = this
 
-    console.log('footer props')
-    console.log(props.articleThumbsData)
-
     props.articleThumbsData?.map((data) => console.log({...data}))
 
     // Assign classes and styles

@@ -25,8 +25,6 @@ class MessagesSequencer extends Component<Props, State> {
   render(): JSX.Element {
     const { props } = this
 
-    console.log(props)
-
     const wrapperClasses = [
       styles['wrapper']
     ]
