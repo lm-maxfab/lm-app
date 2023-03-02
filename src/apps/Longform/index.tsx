@@ -101,7 +101,7 @@ export default function LongformOf(slotName: string) {
         style={wrapperStyle}
         className={wrapperClasses.value}>
         <Scrollgneugneu
-          stickyBlocksViewportHeight='calc(100vh-60px)'
+          stickyBlocksViewportHeight='calc(100vh - 60px)'
           stickyBlocksOffsetTop={60}
           pages={pagesData}
           thresholdOffset={generalSettings?.threshold_offset}
