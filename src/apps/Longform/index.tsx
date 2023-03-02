@@ -100,18 +100,9 @@ export default function LongformOf(slotName: string) {
       return <div
         style={wrapperStyle}
         className={wrapperClasses.value}>
-
-        {/* <div style="height: 10vh"></div>
-
-        <TextSequencer />
-
-        <div style="height: 10vh"></div>
-
-        <MessagesSequencer />
-
-        <div style="height: 10vh"></div> */}
-
         <Scrollgneugneu
+          stickyBlocksViewportHeight='calc(100vh-60px)'
+          stickyBlocksOffsetTop={60}
           pages={pagesData}
           thresholdOffset={generalSettings?.threshold_offset}
           bgColorTransitionDuration={generalSettings?.bg_color_transition_duration} />
