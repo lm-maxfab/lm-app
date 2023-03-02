@@ -22,11 +22,21 @@ class Footer extends Component<Props, State> {
       .replace(/\s+/igm, ' ')
       .replace(/\n/igm, ' ')
 
-    return <div className={styles['footer']}>
+    const wrapperClasses = [
+      'lm-footer',
+      styles['footer']
+    ]
+
+    const headerClasses = [
+      'lm-footer__header',
+      styles['header']
+    ]
+
+    return <div className={wrapperClasses.join(' ')}>
 
       <style>{customCss}</style>
 
-      <div className={styles['header']}>
+      <div className={headerClasses.join(' ')}>
         {generalData.header}
       </div>
 

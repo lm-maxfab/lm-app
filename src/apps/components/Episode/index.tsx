@@ -6,13 +6,41 @@ type Props = {
   episode?: EpisodeData,
 }
 
-type State = { }
+type State = {}
 
 export default class Episode extends Component<Props, State> {
   render() {
     const { episode } = this.props
 
-    const episodeClasses = [styles['episode'], 'lm-footer__episode']
+    const episodeClasses = [
+      'lm-footer__episode',
+      styles['episode']
+    ]
+
+    const episodeCardClasses = [
+      'lm-footer__episode_card',
+      styles['episode_card']
+    ]
+
+    const episodeCoverClasses = [
+      'lm-footer__episode_cover',
+      styles['episode_cover']
+    ]
+
+    const episodeTextTopClasses = [
+      'lm-footer__episode_text-top',
+      styles['episode_text-top']
+    ]
+
+    const episodeTextCardClasses = [
+      'lm-footer__episode_text-card',
+      styles['episode_text-card']
+    ]
+
+    const episodeTextBottomClasses = [
+      'lm-footer__episode_text-bottom',
+      styles['episode_text-bottom']
+    ]
 
     if (episode?.published) {
       episodeClasses.push(styles['episode-published'])
@@ -21,19 +49,19 @@ export default class Episode extends Component<Props, State> {
 
     return <div className={episodeClasses.join(' ')}>
 
-      {episode?.text_top && <p className={styles["episode_text-top"]}>{episode?.text_top}</p>}
+      {episode?.text_top && <p className={episodeTextTopClasses.join(' ')}>{episode?.text_top}</p>}
 
-      <div className={styles["episode_card"]}>
+      <div className={episodeCardClasses.join(' ')}>
         <a href={episode?.url ?? ''}>
-          <div className={styles["episode_cover"]}>
+          <div className={episodeCoverClasses.join(' ')}>
             <img src={episode?.cover} alt="" />
           </div>
 
-          {episode?.text_card && <p className={styles["episode_text-card"]}>{episode?.text_card}</p>}
+          {episode?.text_card && <p className={episodeTextCardClasses.join(' ')}>{episode?.text_card}</p>}
         </a>
       </div>
 
-      {episode?.text_bottom && <p className={styles["episode_text-bottom"]}>{episode?.text_bottom}</p>}
+      {episode?.text_bottom && <p className={episodeTextBottomClasses.join(' ')}>{episode?.text_bottom}</p>}
 
     </div>
   }

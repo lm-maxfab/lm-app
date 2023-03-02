@@ -136,15 +136,35 @@ export default class Carousel extends Component<Props, State> {
   render() {
     const { props, state, cardWidth, cardGap } = this
 
-    const wrapperClasses = [styles['wrapper']]
+    const wrapperClasses = [
+      'lm-footer__carousel',
+      styles['wrapper']
+    ]
+
     const wrapperStyles = {
       ['--cards-nb']: `${props.episodes.length}`,
       ['--card-width']: `${cardWidth}px`,
       ['--card-gap']: `${cardGap}px`
     }
 
-    const arrowLeftClasses = [styles['arrow'], styles['arrow-left']]
-    const arrowRightClasses = [styles['arrow'], styles['arrow-right']]
+    const cardsClasses = [
+      'lm-footer__carousel_cards',
+      styles['cards']
+    ]
+
+    const arrowLeftClasses = [
+      'lm-footer__carousel_arrow',
+      'lm-footer__carousel_arrow--left',
+      styles['arrow'],
+      styles['arrow-left']
+    ]
+
+    const arrowRightClasses = [
+      'lm-footer__carousel_arrow',
+      'lm-footer__carousel_arrow--right',
+      styles['arrow'],
+      styles['arrow-right']
+    ]
 
     if (state.displayLeftArrow) arrowLeftClasses.push(styles['arrow-visible'])
     if (state.displayRightArrow) arrowRightClasses.push(styles['arrow-visible'])
@@ -156,7 +176,7 @@ export default class Carousel extends Component<Props, State> {
 
       <ResizeObserverComponent onResize={this.calculateDimensions}>
         <div ref={this.scrollContainer} onScroll={this.handleScroll} className={styles['scrollable']}>
-          <div ref={this.cardsContainer} className={styles['cards']}>
+          <div ref={this.cardsContainer} className={cardsClasses.join(' ')}>
             {props.episodes.map((episode) => {
               return <Episode episode={episode as EpisodeData} />
             })}
