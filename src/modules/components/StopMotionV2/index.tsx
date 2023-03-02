@@ -1,5 +1,7 @@
 import { Component, JSX } from 'preact'
 
+import ResizeObserver from '../../components/ResizeObserver'
+
 import clamp from '../../utils/clamp'
 import interpolate from '../../utils/interpolate'
 
@@ -41,8 +43,6 @@ class StopMotionV2 extends Component<Props, {}> {
   componentDidUpdate(): void {
     if (this.$canvasWrapper === null) return this.initCanvasAndPreloadImages()
 
-    // [to do] setSize uniquement on resize
-    this.setCanvasSize()
     this.drawCurrentFrameOnCanvas()
   }
 
@@ -85,7 +85,7 @@ class StopMotionV2 extends Component<Props, {}> {
     if (this.props.images === null || this.props.images === undefined) return
 
     const imagesBefore = this.props.images?.slice(0, currentIndex).reverse()
-    const imagesAfter = this.props.images?.slice(currentIndex, -1)
+    const imagesAfter = this.props.images?.slice(currentIndex)
     const imagesInOrder: imageInfos[] = []
 
     let indexAfter = currentIndex
@@ -184,7 +184,9 @@ class StopMotionV2 extends Component<Props, {}> {
    * RENDER
    * * * * * * * * * * * * * * */
   render(): (JSX.Element | null) {
-    return <div ref={n => { this.$canvasWrapper = n }}></div>
+    return <ResizeObserver onResize={this.setCanvasSize}>
+      <div ref={n => { this.$canvasWrapper = n }}></div>
+    </ResizeObserver>
   }
 }
 
