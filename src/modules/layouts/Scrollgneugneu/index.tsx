@@ -82,7 +82,7 @@ export type PropsPageData = {
 
 export type Props = {
   stickyBlocksLazyLoadDistance?: number
-  stickyBlocksViewportHeight?: string
+  stickyBlocksViewportHeight?: string // [WIP] No relative units, maybe some regex checks here?
   stickyBlocksOffsetTop?: number
   thresholdOffset?: string
   bgColorTransitionDuration?: string|number
@@ -119,6 +119,7 @@ export function createBlockContext (
   return { ...nullContext, ...partialContext }
 }
 
+// [WIP] add all return types
 export const diffContexts = (
   initialContext: BlockContext,
   newContext: BlockContext) => {
@@ -370,13 +371,17 @@ export default class Scrollgneugneu extends Component<Props, State> {
       ? layout
         .replace(/\//igm, 'over')
         .replace(/\(/igm, 'offset')
+        .replace(/\./igm, 'dot')
         .replace(/\)/igm, '')
+        .replace(/[^a-z0-9\-\_]/igm, '')
       : undefined
     const mobileLayoutClassExt = hasMobileLayout
       ? mobileLayout
         .replace(/\//igm, 'over')
         .replace(/\(/igm, 'offset')
+        .replace(/\./igm, 'dot')
         .replace(/\)/igm, '')
+        .replace(/[^a-z0-9\-\_]/igm, '')
       : undefined
     const layoutClass = hasLayout
       ? `lm-scrllgngn__layout_${layoutClassExt}`
@@ -417,7 +422,9 @@ export default class Scrollgneugneu extends Component<Props, State> {
     formula: LayoutFormula): string {
     const chunks = formula.split('_')
     // Get position chunks
-    const posChunkRegex = /^[0-9]+(\/[0-9]+)?(\([0-9]+(\/[0-9]+)?\))?$/igm
+    const numRegex = '[0-9]+([0-9]+)?(\\.[0-9]+)?'
+    const fractionRegex = `${numRegex}(\\/${numRegex})?`
+    const posChunkRegex = new RegExp(`^${fractionRegex}(\\(${fractionRegex}\\))?$`, 'igm')
     const hPosChunk = chunks.find((chunk, pos) => pos === 0 && chunk.match(posChunkRegex))
     const vPosChunk = chunks.find((chunk, pos) => pos !== 0 && chunk.match(posChunkRegex))
     // Get width, height, hOffset and vOffset
@@ -434,12 +441,24 @@ export default class Scrollgneugneu extends Component<Props, State> {
     const alignChunk = chunks.find(chunk => alignFormulas.includes(chunk))
     // Create
     const cssProps: string[] = []
+    // Position properties
     cssProps.push(`width: calc(${widthNum ?? 1} * 100% / ${widthDenum ?? 1});`)
-    cssProps.push(`margin-left: calc(${hOffsetNum ?? 0} * 100% / ${hOffsetDenum ?? 1});`)
-    if (position === 'sticky') {
-      cssProps.push(`height: calc(${heightNum ?? 1} * 100% / ${heightDenum ?? 1});`)
-      cssProps.push(`margin-top: calc(${vOffsetNum ?? 0} * 100% / ${vOffsetDenum ?? 1});`)
+    if (position === 'scrolling') cssProps.push(`margin-left: calc(${hOffsetNum ?? 0} * 100% / ${hOffsetDenum ?? 1});`)
+    else if (position === 'sticky') {
+      cssProps.push(`height: calc(${heightNum ?? 1} * var(--sticky-blocks-viewport-height) / ${heightDenum ?? 1});`)
+      cssProps.push(`transform: translate(
+        calc(${hOffsetNum ?? 0} * var(--scrolling-block-width) / ${hOffsetDenum ?? 1}),
+        calc(${vOffsetNum ?? 0} * var(--sticky-blocks-viewport-height) / ${vOffsetDenum ?? 1})
+      );`)
     }
+    // Content justification properties
+    if (justifyChunk === 'left') cssProps.push(`justify-content: flex-start;`)
+    else if (justifyChunk === 'center') cssProps.push(`justify-content: center;`)
+    else if (justifyChunk === 'right') cssProps.push(`justify-content: flex-end;`)
+    // Content alignment properties
+    if (alignChunk === 'top') cssProps.push(`align-items: flex-start;`)
+    else if (alignChunk === 'middle') cssProps.push(`align-items: center;`)
+    else if (alignChunk === 'bottom') cssProps.push(`align-items: flex-end;`)
 
     return cssProps.join('')
   }
@@ -459,6 +478,7 @@ export default class Scrollgneugneu extends Component<Props, State> {
     this.getBlocksContextMap = this.getBlocksContextMap.bind(this)
     this.getBlocksContextPage = this.getBlocksContextPage.bind(this)
     this.getBlocksContextSize = this.getBlocksContextSize.bind(this)
+    this.getBlocksContextProgression = this.getBlocksContextProgression.bind(this)
     this.mergeBlocksPartialContexts = this.mergeBlocksPartialContexts.bind(this)
     this.handlePaginatorResize = this.handlePaginatorResize.bind(this)
     this.handlePageChange = this.handlePageChange.bind(this)
@@ -469,7 +489,7 @@ export default class Scrollgneugneu extends Component<Props, State> {
     this.getCurrentPageData = this.getCurrentPageData.bind(this)
     this.getPreviousPageData = this.getPreviousPageData.bind(this)
     this.navigateToChapter = this.navigateToChapter.bind(this)
-    this.Styles = this.Styles.bind(this)
+    this.injectModulesStyles = this.injectModulesStyles.bind(this)
     this.Header = this.Header.bind(this)
     this.StickyBlocks = this.StickyBlocks.bind(this)
     this.ScrollingBlocks = this.ScrollingBlocks.bind(this)
@@ -677,12 +697,12 @@ export default class Scrollgneugneu extends Component<Props, State> {
     return new Map([...blocks.entries()].map(([id, data]) => [id, data._context]))
   }
 
-  getBlocksContextPage (inputPaginatorState?: PaginatorState) {
+  getBlocksContextPage (inputPaginatorState?: PaginatorState): Map<string, Partial<BlockContext>> {
     const { state, getCurrPagePos } = this
     const currPagePos = getCurrPagePos(inputPaginatorState)
     const { blocks } = state
     const blocksWithPage = new Map<string, Partial<BlockContext>>()
-    for (let [blockId, blockData] of blocks) {
+    for (const [blockId, blockData] of blocks) {
       const currBlockContextPage = blockData._context.page
       const blockPages = blockData._displayZones.flat()
       let blockContextPage: number|null = null
@@ -698,7 +718,7 @@ export default class Scrollgneugneu extends Component<Props, State> {
     return blocksWithPage
   }
 
-  getBlocksContextSize () {
+  getBlocksContextSize (): Map<string, Partial<BlockContext>> {
     const { state, blocksRefsMap } = this
     const { blocks } = state
     const blocksWithSize = new Map<string, Partial<BlockContext>>()
@@ -710,6 +730,89 @@ export default class Scrollgneugneu extends Component<Props, State> {
       blocksWithSize.set(blockId, { width, height })
     })
     return blocksWithSize
+  }
+
+  getBlocksContextProgression (inputPaginatorState?: PaginatorState): Map<string, Partial<BlockContext>> {
+    const {
+      state,
+      getCurrPagePos,
+      getCurrentPageData,
+      throttledGetThresholdRect,
+      getPagesRects
+    } = this
+    const currPagePos = getCurrPagePos(inputPaginatorState)
+    const { blocks } = state
+    const blocksWithProgression = new Map<string, Partial<BlockContext>>()
+    const currPageData = getCurrentPageData()
+    const thresholdRect = throttledGetThresholdRect().returnValue
+    // Not possible to calculate progressions
+    if (currPagePos === undefined
+      || currPageData === undefined
+      || currPageData._trackScroll !== true
+      || thresholdRect === undefined) {
+      for (const [blockId, blockData] of blocks) {
+        const currBlockContext = blockData._context
+        blocksWithProgression.set(blockId, {
+          progression: currBlockContext.progression,
+          pageProgression: currBlockContext.pageProgression
+        })
+      }
+      return blocksWithProgression
+    }
+    const pagesRects = getPagesRects()
+    const pagesScrollData = new Map([...pagesRects].map(([pos, domRect]) => {
+      if (domRect === undefined) return [pos, undefined]
+      const rawScrolled = thresholdRect.top - domRect.top
+      const rawProgression = rawScrolled / domRect.height
+      const progression = clamp(rawProgression, 0, 1)
+      const scrolled = clamp(rawScrolled, 0, domRect.height)
+      const { height } = domRect
+      return [pos, { height, scrolled, progression }]
+    }))
+    for (const [blockId, blockData] of blocks) {
+      const currBlockContext = blockData._context
+      const currBlockPartialContext: Partial<BlockContext> = {
+        progression: currBlockContext?.progression ?? null,
+        pageProgression: currBlockContext?.pageProgression ?? null
+      }
+      // Block doesnt need trackScroll
+      if (blockData.trackScroll !== true) {
+        blocksWithProgression.set(blockId, { progression: null, pageProgression: null })
+        continue
+      }
+      const displayZones = blockData._displayZones
+      const currDisplayZone = displayZones.find(dz => currPagePos !== undefined
+        ? dz.includes(currPagePos)
+        : false)
+      // Block is not currently displayed
+      if (currDisplayZone === undefined) {
+        blocksWithProgression.set(blockId, currBlockPartialContext)
+        continue
+      }
+      // Progressions calculation
+      const currDz = blockData._displayZones.find(dz => dz.includes(currPagePos))
+      if (currDz === undefined) {
+        blocksWithProgression.set(blockId, currBlockPartialContext)
+        continue
+      }
+      const dzProgression = currDz.reduce(
+        (acc, curr) => {
+          const pageScrollData = pagesScrollData.get(curr)
+          if (pageScrollData === undefined) return acc
+          const height = acc.height + pageScrollData.height
+          const scrolled = acc.scrolled + pageScrollData.scrolled
+          const progression = scrolled / height
+          return { height, scrolled, progression }
+        },
+        { height: 0, scrolled: 0, progression: 0 }
+      ).progression
+      const pageProgression = pagesScrollData.get(currPagePos)?.progression
+      blocksWithProgression.set(blockId, {
+        progression: dzProgression,
+        pageProgression: pageProgression ?? currBlockContext.pageProgression
+      }) 
+    }
+    return blocksWithProgression
   }
 
   mergeBlocksPartialContexts (...blocksPartialContextsMaps: Map<string, Partial<BlockContext>>[]) {
@@ -751,17 +854,19 @@ export default class Scrollgneugneu extends Component<Props, State> {
       state,
       getCurrPagePos,
       getBlocksContextMap,
+      getBlocksContextSize,
       getBlocksContextPage,
       mergeBlocksPartialContexts
     } = this
     const newCurrentPagePos = getCurrPagePos(paginatorState)
     const blocksContextPage = getBlocksContextPage(paginatorState)
-    const { blocks } = state
+    const blocksContextSize = getBlocksContextSize()
     const currBlocksContext = getBlocksContextMap()
     const newBlocksContexts = mergeBlocksPartialContexts(
       currBlocksContext,
-      blocksContextPage
-    )
+      blocksContextPage,
+      blocksContextSize)
+    const { blocks } = state
     const newBlocks = new Map(blocks)
     newBlocksContexts.forEach((blockContext, blockId) => {
       const blockData = newBlocks.get(blockId)
@@ -780,108 +885,67 @@ export default class Scrollgneugneu extends Component<Props, State> {
   }
 
   handleWindowScroll () {
-    // [WIP] externalize progressions calculation
     const {
-      getPagesRects,
-      throttledGetThresholdRect,
-      throttledBoundsDetection,
-      getCurrentPageData
+      state,
+      getBlocksContextProgression,
+      getBlocksContextMap,
+      mergeBlocksPartialContexts
     } = this
-    throttledBoundsDetection()
-    this.setState(curr => {
-      const { blocks, currPagePos } = curr
-      const displayedScrollTrackingBlocks = new Map([...blocks].filter(([_, blockData]) => {
-        const displayZones = blockData._displayZones
-        const currentDisplayZone = displayZones.find(dz => currPagePos !== undefined
-          ? dz.includes(currPagePos)
-          : false
-        )
-        return blockData.trackScroll
-          && currentDisplayZone !== undefined
-      }))
-      if (displayedScrollTrackingBlocks.size === 0) return null
-      const newBlocks = new Map(blocks)
-      const currPageData = getCurrentPageData()
-      const thresholdRect = throttledGetThresholdRect().returnValue
-      // Not possible to calculate progressions
-      if (currPagePos === undefined
-        || currPageData === undefined
-        || currPageData._trackScroll !== true
-        || thresholdRect === undefined) return null
-      // Progressions calculation
-      const pagesRects = getPagesRects()
-      const pagesScrollData = new Map([...pagesRects].map(([pos, domRect]) => {
-        if (domRect === undefined) return [pos, undefined]
-        const rawScrolled = thresholdRect.top - domRect.top
-        const rawProgression = rawScrolled / domRect.height
-        const progression = clamp(rawProgression, 0, 1)
-        const scrolled = clamp(rawScrolled, 0, domRect.height)
-        const { height } = domRect
-        return [pos, { height, scrolled, progression }]
-      }))
-      displayedScrollTrackingBlocks.forEach((blockData, blockId) => {
-        const currDz = blockData._displayZones.find(dz => dz.includes(currPagePos))
-        if (currDz === undefined) return
-        const dzProgression = currDz.reduce(
-          (acc, curr) => {
-            const pageScrollData = pagesScrollData.get(curr)
-            if (pageScrollData === undefined) return acc
-            const height = acc.height + pageScrollData.height
-            const scrolled = acc.scrolled + pageScrollData.scrolled
-            const progression = scrolled / height
-            return { height, scrolled, progression }
-          },
-          { height: 0, scrolled: 0, progression: 0 }
-        ).progression
-        const pageProgression = pagesScrollData.get(currPagePos)?.progression
-        newBlocks.set(blockId, {
-          ...blockData,
-          _context: {
-            ...blockData._context,
-            progression: dzProgression,
-            pageProgression: pageProgression ?? blockData._context.pageProgression
-          }
-        })
+    const blocksContextProgression = getBlocksContextProgression()
+    const currBlocksContext = getBlocksContextMap()
+    const newBlocksContexts = mergeBlocksPartialContexts(
+      currBlocksContext,
+      blocksContextProgression)
+    const { blocks } = state
+    const newBlocks = new Map(blocks)
+    newBlocksContexts.forEach((blockContext, blockId) => {
+      const blockData = newBlocks.get(blockId)
+      if (blockData === undefined) return;
+      newBlocks.set(blockId, {
+        ...blockData,
+        _context: blockContext
       })
-      return { ...curr, blocks: newBlocks }
     })
+    const shouldUpdate = Array.from(newBlocks).some(([blockId, blockData]) => {
+      const newContext = blockData._context
+      const currContext = blocks.get(blockId)?._context
+      if (currContext === undefined) return true
+      return !contextsAreEqual(currContext, newContext)
+    })
+    if (!shouldUpdate) return
+    return this.setState(curr => ({
+      ...curr,
+      blocks: newBlocks
+    }))
   }
 
   handleBlockResize (_: ResizeObserverEntry[]) {
-    const { getBlocksContextSize } = this
+    console.log('handle')
+    const {
+      state,
+      getBlocksContextMap,
+      getBlocksContextSize,
+      mergeBlocksPartialContexts
+    } = this
     const blocksContextSize = getBlocksContextSize()
-    // [WIP] finish this
-
-    const { blocksRefsMap } = this
-    this.setState(curr => {
-      const currBlocks = curr.blocks
-      const newBlocks = new Map(currBlocks)
-      blocksRefsMap.forEach((blockRef, blockId) => {
-        const currBlockData = currBlocks.get(blockId)
-        if (currBlockData === undefined) return
-        if (blockRef === null) return newBlocks.set(blockId, {
-          ...currBlockData,
-          _context: {
-            ...currBlockData._context,
-            width: null,
-            height: null
-          }
-        })
-        const { width, height } = blockRef.getBoundingClientRect()
-        newBlocks.set(blockId, {
-          ...currBlockData,
-          _context: {
-            ...currBlockData._context,
-            width,
-            height
-          }
-        })
+    const currBlocksContext = getBlocksContextMap()
+    const newBlocksContexts = mergeBlocksPartialContexts(
+      currBlocksContext,
+      blocksContextSize)
+    const { blocks } = state
+    const newBlocks = new Map(blocks)
+    newBlocksContexts.forEach((blockContext, blockId) => {
+      const blockData = newBlocks.get(blockId)
+      if (blockData === undefined) return;
+      newBlocks.set(blockId, {
+        ...blockData,
+        _context: blockContext
       })
-      return {
-        ...curr,
-        blocks: newBlocks
-      }
     })
+    return this.setState(curr => ({
+      ...curr,
+      blocks: newBlocks
+    }))
   }
 
   throttledHandleBlockResize = throttle(
@@ -926,7 +990,7 @@ export default class Scrollgneugneu extends Component<Props, State> {
   wrapperBemClass = bem('lm-scrllgngn')
 
   // [WIP] Take back the styles load and display to BlockRenderer 
-  Styles () {
+  injectModulesStyles () {
     const { state } = this
     const { cssUrlDataMap } = state
     const fullCssStr = Array
@@ -1077,7 +1141,11 @@ export default class Scrollgneugneu extends Component<Props, State> {
           ...generateLayoutClasses('sticky', layout, mobileLayout)
         ]
         return <ResizeObserverComponent
-          onResize={throttledHandleBlockResize}>
+          onResize={(...args) => {
+            // console.log('cc')
+            // [WIP] something i dont understand here
+            throttledHandleBlockResize(args[0])
+          }}>
           <TransitionsWrapper
             isActive={blockStatus === 'current'}
             transitions={transitions}
@@ -1212,7 +1280,7 @@ export default class Scrollgneugneu extends Component<Props, State> {
       getBgColorTransitionDuration,
       handlePaginatorResize,
       getCurrentPageData,
-      Styles,
+      injectModulesStyles,
       StickyBlocks,
       ScrollingBlocks
     } = this
@@ -1260,6 +1328,9 @@ export default class Scrollgneugneu extends Component<Props, State> {
       scrollPanelBemClass.value,
       styles['scroll-panel']
     ]
+
+    // Modules css
+    injectModulesStyles()
     
     // Return virtual DOM
     return <div
@@ -1272,9 +1343,6 @@ export default class Scrollgneugneu extends Component<Props, State> {
         '--bg-color-transition-duration': getBgColorTransitionDuration(),
         '--bg-color': currPageData?.bgColor
       }}>
-
-      {/* MODULES STYLES */}
-      <Styles />
 
       {/* STICKY BLOCKS */}
       <StickyBlocks />

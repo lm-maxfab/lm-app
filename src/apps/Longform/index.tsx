@@ -82,11 +82,15 @@ const pagesData: PropsPageData[] = [{
   bgColor: niceColors[0],
   blocks: [{
     depth: 'scroll',
-    layout: '3/5(1/5)',
-    mobileLayout: 'right-half',
+    layout: '0.5(1/8)',
+    // mobileLayout: 'right-half',
     content: `<div style="background: white; font-family: var(--ff-marr-sans); padding: 64px;">${generateContentPage(3)}</div>`
+  }, {
+    depth: 'front',
+    layout: '1/5(4/5)_1/3(1/3)_center_middle',
+    content: `<div style="background: white; font-family: var(--ff-marr-sans); padding: 0px; height: 400px">coucou</div>`
   }]
-}/*, {
+}, {
   bgColor: niceColors[1],
   blocks: [{
     depth: 'scroll',
@@ -107,7 +111,7 @@ const pagesData: PropsPageData[] = [{
     layout: 'left-half',
     content: `<div style="background: white; font-family: var(--ff-marr-sans); padding: 64px;">${generateContentPage(3)}</div>`
   }]
-}*/]
+}]
 
 document.addEventListener('click', e => console.log(e.target))
 

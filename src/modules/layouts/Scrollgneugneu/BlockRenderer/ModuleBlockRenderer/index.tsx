@@ -1,6 +1,5 @@
 import { Component } from 'preact'
 import { BlockContext, createBlockContext, diffContexts } from '../..'
-import styles from './styles.module.scss'
 
 type Props = {
   url?: string
@@ -246,7 +245,7 @@ export default class ModuleBlockRenderer extends Component<Props, State> {
     const { status } = state
     if (status !== 'initialized') return null
     return <div
-      className={`lm-module-block-renderer ${styles['wrapper']}`}
+      className={`lm-module-block-renderer`}
       ref={n => { this.$moduleWrapper = n }} />
   }
 }

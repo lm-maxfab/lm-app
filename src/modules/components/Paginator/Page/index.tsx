@@ -1,6 +1,5 @@
 import { Component, JSX } from 'preact'
 import bem from '../../../utils/bem'
-import styles from './styles.module.scss'
 
 interface Props {
   className?: string
@@ -39,10 +38,7 @@ class Page extends Component<Props, {}> {
     const { pageRef } = props
 
     /* Classes and style */
-    const wrapperClasses = [
-      bem(props.className).block(this.clss).value,
-      styles['wrapper']
-    ]
+    const wrapperClasses = [bem(props.className).block(this.clss).value]
     const wrapperStyle: JSX.CSSProperties = { ...props.style }
 
     /* Display */

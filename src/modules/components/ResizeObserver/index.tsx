@@ -1,5 +1,4 @@
 import { Component, toChildArray } from 'preact'
-import styles from './styles.module.scss'
 
 type Props = {
   onResize?: (entries: ResizeObserverEntry[]) => void
@@ -49,7 +48,7 @@ export default class ResizeObserverComponent extends Component<Props> {
     }
     // [WIP] not sure why wrapper is needed
     return <div
-      className={`lm-resize-observer ${styles['wrapper']}`}
+      className={`lm-resize-observer`}
       ref={n => { this.$root = n }}>
       {children}
     </div>

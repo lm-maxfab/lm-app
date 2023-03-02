@@ -1,7 +1,6 @@
 import { Component, JSX } from 'preact'
 // [WIP] get rid of classnames
 import clss from 'classnames'
-import styles from './styles.module.scss'
 
 type IO = IntersectionObserver
 type IOE = IntersectionObserverEntry
@@ -102,8 +101,7 @@ class IntersectionObserverComponent extends Component<Props, State> {
     // Classes
     const classes: string = clss(
       this.mainClass,
-      props.className,
-      styles['wrapper']
+      props.className
     )
     const inlineStyle = { ...props.style }
 
