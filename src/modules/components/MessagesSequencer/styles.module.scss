@@ -24,6 +24,10 @@
   max-height: 1000px;
 }
 
+.message-container.message--visible + .message-container.message--visible {
+  margin-top: 16px;
+}
+
 .message {
   max-width: 260px;
   border-radius: 8px;
@@ -37,10 +41,6 @@
   position: relative;
   box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.05);
   margin: 0;
-}
-
-.message + .message {
-  margin-top: 16px;
 }
 
 .message::after {
