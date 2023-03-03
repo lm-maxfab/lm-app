@@ -4,12 +4,13 @@ import styles from './styles.module.scss'
 import Sequencer from '../Sequencer'
 import { RendererArgs } from '../Sequencer'
 
-interface MessageData { 
+interface MessageData {
   text: string
   startStep?: number
+  type?: string
 }
 
-interface Props { 
+interface Props {
   tempo: number
   content: MessageData[]
   play: boolean
@@ -25,11 +26,16 @@ class MessagesSequencer extends Component<Props, State> {
   render(): JSX.Element {
     const { props } = this
 
+    const messagesClass = 'lm-cover__messages'
+    const messageClass = 'lm-cover__message'
+
     const wrapperClasses = [
+      `${messagesClass}_wrapper`,
       styles['wrapper']
     ]
 
     const messagesClasses = [
+      messagesClass,
       styles['messages']
     ]
 
@@ -39,14 +45,25 @@ class MessagesSequencer extends Component<Props, State> {
           {props.content.map((message, index) => {
             const start = message.startStep ?? index
 
-            const containerClasses = [styles['message-container']]
-            const classes = [styles['message']]
+            const containerClasses = [
+              `${messagesClass}_container`,
+              styles['message-container']
+            ]
 
-            if (start < step) containerClasses.push(styles['message--visible'])
+            const textClasses = [
+              messageClass,
+              styles['message']
+            ]
+
+            if (start < step) containerClasses.push(styles['message-container--visible'])
+
+            if (message.type != '' && message.type != undefined) {
+              containerClasses.push(`${messagesClass}_container--${message.type}`)
+            }
 
             return (
               <div class={containerClasses.join(' ')}>
-                <p class={classes.join(' ')}>{message.text}</p>
+                <p class={textClasses.join(' ')}>{message.text}</p>
               </div>
             )
           })}

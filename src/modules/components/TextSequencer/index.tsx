@@ -20,9 +20,12 @@ class TextSequencer extends Component<Props, State> {
   render(): JSX.Element {
     const { props } = this
 
+    const textClass = 'lm-cover__text'
+
     const textArray = props.content.split(' ')
 
     const wrapperClasses = [
+      `${textClass}_wrapper`,
       styles['wrapper']
     ]
 
@@ -30,9 +33,17 @@ class TextSequencer extends Component<Props, State> {
       return (
         <p>
           {textArray.map((word, index) => {
-            const classes = [styles['word']]
-            if (index < step) classes.push(styles['word--visible'])
-            return <span class={classes.join(' ')}>{word} </span>
+            const wordClasses = [
+              `${textClass}_word`,
+              styles['word']
+            ]
+
+            if (index < step) {
+              wordClasses.push(`${textClass}_word`)
+              wordClasses.push(styles['word--visible'])
+            }
+
+            return <span class={wordClasses.join(' ')}>{word} </span>
           })}
         </p>
       )

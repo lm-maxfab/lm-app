@@ -20,11 +20,11 @@
   transition: max-height 1200ms ease-in-out;
 }
 
-.message-container.message--visible {
+.message-container.message-container--visible {
   max-height: 1000px;
 }
 
-.message-container.message--visible + .message-container.message--visible {
+.message-container.message-container--visible + .message-container.message-container--visible {
   margin-top: 16px;
 }
 
@@ -36,7 +36,6 @@
   display: inline-block;
   padding: 8px 24px 8px 12px;
   opacity: 0;
-  filter: blur(2px);
   transition: opacity 800ms;
   position: relative;
   box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.05);
@@ -55,7 +54,6 @@
   bottom: 6px;
 }
 
-.message--visible .message {
+.message-container--visible .message {
   opacity: 1;
-  filter: blur(0);
 }

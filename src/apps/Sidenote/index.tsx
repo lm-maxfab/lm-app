@@ -12,11 +12,14 @@ class Sidenote extends Component<Props, State> {
    * RENDER
    * * * * * * * * * * * * * * */
   render(): JSX.Element {
+
     const { props } = this
 
+    const sidenoteClass = 'lm-pedocrim__sidenote'
     const sidenoteData = props.sheetBase?.collection('sidenote_data').value[0] as unknown as SidenoteData;
 
     const wrapperClasses = [
+      sidenoteClass,
       sidenoteData.customClass,
       styles['wrapper']
     ]

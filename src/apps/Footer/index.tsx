@@ -15,6 +15,8 @@ class Footer extends Component<Props, State> {
   render(): JSX.Element {
     const { props } = this
 
+    const footerClass = 'lm-pedocrim__footer'
+
     const generalData = props.sheetBase?.collection('footer_data').value[0] as unknown as FooterData;
     const episodesData = props.sheetBase?.collection('thumbnails_data').value ?? [] as unknown as EpisodeData[];
 
@@ -23,12 +25,12 @@ class Footer extends Component<Props, State> {
       .replace(/\n/igm, ' ')
 
     const wrapperClasses = [
-      'lm-footer',
+      footerClass,
       styles['footer']
     ]
 
     const headerClasses = [
-      'lm-footer__header',
+      `${footerClass}_header`,
       styles['header']
     ]
 
