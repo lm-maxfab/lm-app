@@ -4,6 +4,8 @@ import HtmlBlockRenderer from './HtmlBlockRenderer'
 import ModuleBlockRenderer from './ModuleBlockRenderer'
 
 import TextSequencer from '../../../components/TextSequencer'
+import { ContentData } from '../../../components/TextSequencer'
+
 import MessagesSequencer from '../../../components/MessagesSequencer'
 import { MessageData } from '../../../components/MessagesSequencer'
 
@@ -41,20 +43,22 @@ export default class BlockRenderer extends Component<Props> {
           let sequencerType = "text"
 
           try {
+            console.log(sequencerPropsStr)
             const parsed = JSON.parse(sequencerPropsStr)
+            console.log(parsed)
             if (parsed === null) break;
             if (typeof parsed !== 'object') break;
             if (Array.isArray(parsed)) break;
             if (typeof parsed.tempo === 'number') sequencerProps.tempo = parsed.tempo
             if (parsed.content != '') sequencerProps.content = parsed.content
             if (parsed.type === 'messages') sequencerType = 'messages'
-          } catch (err) { }
+          } catch (err) { console.log(err) }
 
           if (sequencerType === "text") {
             return <TextSequencer
-              content={sequencerProps.content}
+              content={sequencerProps.content as unknown as ContentData}
               tempo={sequencerProps.tempo}
-              play={context?.page === 0}
+              active={context?.page === 0}
             />
           }
 

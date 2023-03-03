@@ -4,30 +4,50 @@ import styles from './styles.module.scss'
 import Sequencer from '../Sequencer'
 import { RendererArgs } from '../Sequencer'
 
+interface ContentData {
+  text: string
+  name?: string
+}
+
 interface Props {
   tempo: number
-  content: string
+  content: ContentData
+  active: boolean
+}
+
+interface State {
   play: boolean
 }
 
-interface State { }
-
 class TextSequencer extends Component<Props, State> {
+  state: State = {
+    play: false,
+  }
+
+  componentDidUpdate(previousProps: Readonly<Props>, previousState: Readonly<State>, snapshot: any): void {
+    if (!previousProps.active && this.props.active) {
+      this.setState({ play: true })
+    }
+  }
 
   /* * * * * * * * * * * * * * *
    * RENDER
    * * * * * * * * * * * * * * */
   render(): JSX.Element {
-    const { props } = this
+    const { props, state } = this
+
+    console.log(props)
 
     const textClass = 'lm-cover__text'
 
-    const textArray = props.content.split(' ')
+    const textArray = props.content.text.split(' ')
 
     const wrapperClasses = [
       `${textClass}_wrapper`,
       styles['wrapper']
     ]
+
+    const length = textArray.length + 1
 
     const textRenderer = ({ step }: RendererArgs) => {
       return (
@@ -49,15 +69,37 @@ class TextSequencer extends Component<Props, State> {
       )
     }
 
+    const handleFirstStep = () => {
+      console.log('first step!!')
+      console.log(this)
+    }
+
+    const handleLastStep = () => {
+      console.log('last step!!')
+      console.log(this)
+
+      this.setState({
+        play: false
+      })
+    }
+
+    const handleStepChange = () => {
+      console.log('step change!!')
+    }
+
     return <div className={wrapperClasses.join(' ')}>
       <Sequencer
-        play={props.play}
+        play={state.play}
         tempo={props.tempo}
+        length={length}
         renderer={textRenderer}
+        onFirstStep={handleFirstStep}
+        onLastStep={handleLastStep}
+        onStepChange={handleStepChange}
       />
     </div>
   }
 }
 
-export type { Props, TextSequencer }
+export type { Props, ContentData, TextSequencer }
 export default TextSequencer
