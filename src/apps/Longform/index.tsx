@@ -96,13 +96,18 @@ export default function LongformOf(slotName: string) {
       const wrapperClasses = bem(props.className).block(this.clss)
       const wrapperStyle: JSX.CSSProperties = { ...props.style }
 
+      const isInApp = window.location.href.match(/apps.([a-z]+\-)?lemonde.(fr|io)/)
+
+      const stickyBlocksOffsetTop = isInApp ? 0 : 60
+      const stickyBlocksViewportHeight = `calc(100vh - ${stickyBlocksOffsetTop}px)`
+
       // Display
       return <div
         style={wrapperStyle}
         className={wrapperClasses.value}>
         <Scrollgneugneu
-          stickyBlocksViewportHeight='calc(100vh - 60px)'
-          stickyBlocksOffsetTop={60}
+          stickyBlocksViewportHeight={stickyBlocksViewportHeight}
+          stickyBlocksOffsetTop={stickyBlocksOffsetTop}
           pages={pagesData}
           thresholdOffset={generalSettings?.threshold_offset}
           bgColorTransitionDuration={generalSettings?.bg_color_transition_duration} />
