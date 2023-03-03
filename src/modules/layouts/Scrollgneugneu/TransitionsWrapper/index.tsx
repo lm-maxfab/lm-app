@@ -69,12 +69,14 @@ export default class TransitionsWrapper extends Component<Props> {
     )
     return unifiedTransitionsData.reduce((acc, curr) => {
       const { className, duration } = curr
-      const style = { '--duration': duration }
-      return <span
+      const style = duration !== undefined
+        ? { '--duration': duration }
+        : undefined
+      return <div
         className={className}
         style={style}>
         {acc}
-      </span>
+      </div>
     }, children)
   }
   
@@ -96,8 +98,8 @@ export default class TransitionsWrapper extends Component<Props> {
     if (isActive) wrapperClasses.push(styles['wrapper_active'])
     else wrapperClasses.push(styles['wrapper_inactive'])
     
-    return <span className={wrapperClasses.join(' ')}>
+    return <div className={wrapperClasses.join(' ')}>
       {transitionsWrappers}
-    </span>
+    </div>
   }
 }

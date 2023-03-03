@@ -79,27 +79,49 @@ const generalSettings: Partial<GeneralSettings> = {
 
 const niceColors = new Array(100).fill(null).map(generateNiceColor)
 const pagesData: PropsPageData[] = [{
+  bgColor: niceColors[6],
+  blocks: [{
+    id: 'page-1',
+    depth: 'scroll',
+    layout: '0.5(1/8)',
+    // mobileLayout: 'right-half',
+    content: `<div style="background: white; font-family: var(--ff-marr-sans); padding: 64px;">${generateContentPage(3)}</div>`
+  }]
+}, {
+  bgColor: niceColors[7],
+  blocks: [{
+    id: 'page-2',
+    depth: 'scroll',
+    layout: '0.5(1/8)',
+    // mobileLayout: 'right-half',
+    content: `<div style="background: white; font-family: var(--ff-marr-sans); padding: 64px;">${generateContentPage(3)}</div>`
+  }]
+}, {
   bgColor: niceColors[0],
   blocks: [{
+    id: 'page-3',
     depth: 'scroll',
     layout: '0.5(1/8)',
     // mobileLayout: 'right-half',
     content: `<div style="background: white; font-family: var(--ff-marr-sans); padding: 64px;">${generateContentPage(3)}</div>`
   }, {
+    id: "page-3__bloc-coucou",
     depth: 'front',
-    layout: '1/5(4/5)_1/3(1/3)_center_middle',
-    content: `<div style="background: white; font-family: var(--ff-marr-sans); padding: 0px; height: 400px">coucou</div>`
+    layout: '1/5',
+    content: `<div style="background: white; font-family: var(--ff-marr-sans); padding: 0px; height: 400px" class="lolilol">coucou</div>`
   }]
 }, {
   bgColor: niceColors[1],
   blocks: [{
+    id: 'page-4',
     depth: 'scroll',
     layout: 'right-half',
     content: `<div style="background: white; font-family: var(--ff-marr-sans); padding: 64px;">${generateContentPage(3)}</div>`
   }, {
+    id: 'page-4__bloc-module',
     depth: 'front',
-    layout: '1(2/3)_middle',
-    mobileLayout: '1/5(2/5)_13/21(1/4)_bottom_center',
+    layout: '1/2_1/2',
+    transitions: [['grow', 1000]],
     type: 'module',
     content: 'http://localhost:50003/test/index.js',
     trackScroll: true
@@ -107,6 +129,7 @@ const pagesData: PropsPageData[] = [{
 }, {
   bgColor: niceColors[2],
   blocks: [{
+    id: 'page-5',
     depth: 'scroll',
     layout: 'left-half',
     content: `<div style="background: white; font-family: var(--ff-marr-sans); padding: 64px;">${generateContentPage(3)}</div>`

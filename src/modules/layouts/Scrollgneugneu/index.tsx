@@ -15,15 +15,18 @@ import injectCssRule from '../../utils/dynamic-css'
 
 type LayoutSizeFormula = `${number}`|`${number}/${number}`
 type LayoutOffsetFormula = `${number}/${number}`
-const layoutJustificationFormulas = ['left', 'center', 'right'] as const
-type LayoutJustificationFormula = typeof layoutJustificationFormulas[number]
-const layoutAlignFormulas = ['top', 'middle', 'bottom'] as const
-type LayoutAlignFormula = typeof layoutAlignFormulas[number]
+// [WIP] got rid of justif and align formulas
+// const layoutJustificationFormulas = ['left', 'center', 'right'] as const
+// type LayoutJustificationFormula = typeof layoutJustificationFormulas[number]
+// const layoutAlignFormulas = ['top', 'middle', 'bottom'] as const
+// type LayoutAlignFormula = typeof layoutAlignFormulas[number]
 type LayoutHPosFormula = LayoutSizeFormula|`${LayoutSizeFormula}(${LayoutOffsetFormula})`
 type LayoutVPosFormula = LayoutSizeFormula|`${LayoutSizeFormula}(${LayoutOffsetFormula})`
 type LayoutPosFormula = LayoutHPosFormula|`${LayoutHPosFormula}_${LayoutVPosFormula}`
-type LayoutContentPosFormula = LayoutJustificationFormula|LayoutAlignFormula|`${LayoutJustificationFormula}_${LayoutAlignFormula}`|`${LayoutAlignFormula}_${LayoutJustificationFormula}`
-type LayoutFormula = LayoutPosFormula|`${LayoutPosFormula}_${LayoutContentPosFormula}`
+// [WIP] got rid of justif and align formulas
+// type LayoutContentPosFormula = LayoutJustificationFormula|LayoutAlignFormula|`${LayoutJustificationFormula}_${LayoutAlignFormula}`|`${LayoutAlignFormula}_${LayoutJustificationFormula}`
+// type LayoutFormula = LayoutPosFormula|`${LayoutPosFormula}_${LayoutContentPosFormula}`
+type LayoutFormula = LayoutPosFormula
 
 type LayoutName = LayoutFormula
   |'full-screen'
@@ -364,7 +367,7 @@ export default class Scrollgneugneu extends Component<Props, State> {
     const layout = (toFormula(_layout ?? '') ?? _layout) as LayoutFormula|undefined
     const mobileLayout = (toFormula(_mobileLayout ?? '') ?? _mobileLayout) as LayoutFormula|undefined
     const layoutCss = layout !== undefined ? toCss(position, layout) : undefined
-    const mobileLayoutCss = mobileLayout !== undefined ? toCss(position, mobileLayout) : undefined
+    const mobileLayoutCss = mobileLayout !== undefined ? toCss(position, mobileLayout) : layoutCss
     const hasLayout = layout !== undefined
     const hasMobileLayout = mobileLayout !== undefined
     const layoutClassExt = hasLayout
@@ -434,11 +437,11 @@ export default class Scrollgneugneu extends Component<Props, State> {
     const [heightChunk, vOffsetChunk] = vPosChunk?.split(/\(|\)/) ?? [undefined, undefined]
     const [heightNum, heightDenum] = heightChunk?.split('/') ?? [undefined, undefined]
     const [vOffsetNum, vOffsetDenum] = vOffsetChunk?.split('/') ?? [undefined, undefined]
-    // Get justification and align
-    const justificationFormulas = layoutJustificationFormulas as unknown as string[]
-    const alignFormulas = layoutAlignFormulas as unknown as string[]
-    const justifyChunk = chunks.find(chunk => justificationFormulas.includes(chunk))
-    const alignChunk = chunks.find(chunk => alignFormulas.includes(chunk))
+    // [WIP] got rid of this // Get justification and align
+    // const justificationFormulas = layoutJustificationFormulas as unknown as string[]
+    // const alignFormulas = layoutAlignFormulas as unknown as string[]
+    // const justifyChunk = chunks.find(chunk => justificationFormulas.includes(chunk))
+    // const alignChunk = chunks.find(chunk => alignFormulas.includes(chunk))
     // Create
     const cssProps: string[] = []
     // Position properties
@@ -451,14 +454,14 @@ export default class Scrollgneugneu extends Component<Props, State> {
         calc(${vOffsetNum ?? 0} * var(--sticky-blocks-viewport-height) / ${vOffsetDenum ?? 1})
       );`)
     }
-    // Content justification properties
-    if (justifyChunk === 'left') cssProps.push(`justify-content: flex-start;`)
-    else if (justifyChunk === 'center') cssProps.push(`justify-content: center;`)
-    else if (justifyChunk === 'right') cssProps.push(`justify-content: flex-end;`)
-    // Content alignment properties
-    if (alignChunk === 'top') cssProps.push(`align-items: flex-start;`)
-    else if (alignChunk === 'middle') cssProps.push(`align-items: center;`)
-    else if (alignChunk === 'bottom') cssProps.push(`align-items: flex-end;`)
+    // [WIP] got rid of this // Content justification properties
+    // if (justifyChunk === 'left') cssProps.push(`justify-content: flex-start;`)
+    // else if (justifyChunk === 'center') cssProps.push(`justify-content: center;`)
+    // else if (justifyChunk === 'right') cssProps.push(`justify-content: flex-end;`)
+    // [WIP] got rid of this // Content alignment properties
+    // if (alignChunk === 'top') cssProps.push(`align-items: flex-start;`)
+    // else if (alignChunk === 'middle') cssProps.push(`align-items: center;`)
+    // else if (alignChunk === 'bottom') cssProps.push(`align-items: flex-end;`)
 
     return cssProps.join('')
   }
@@ -514,11 +517,15 @@ export default class Scrollgneugneu extends Component<Props, State> {
     window.addEventListener('scroll', handleWindowScroll)
     this.boundsDetectionInterval = window.setInterval(throttledBoundsDetection, 2000)
     handleWindowScroll()
+    // [WIP] remove this
+    // window.setTimeout(() => this.handleBlockResize(), 500)
   }
 
   componentDidUpdate(): void {
     const { cleanRefsMaps } = this
     cleanRefsMaps()
+    // [WIP] remove this
+    // window.setTimeout(() => this.handleBlockResize(), 500)
   }
 
   componentWillUnmount(): void {
@@ -722,10 +729,9 @@ export default class Scrollgneugneu extends Component<Props, State> {
     const { state, blocksRefsMap } = this
     const { blocks } = state
     const blocksWithSize = new Map<string, Partial<BlockContext>>()
-    blocksRefsMap.forEach((blockRef, blockId) => {
-      const blockData = blocks.get(blockId)
-      if (blockData === undefined) return
-      if (blockRef === null) return blocksWithSize.set(blockId, { width: null, height: null })
+    Array.from(blocks).forEach(([blockId]) => {
+      const blockRef = blocksRefsMap.get(blockId)
+      if (blockRef === null || blockRef === undefined) return blocksWithSize.set(blockId, { width: null, height: null })
       const { width, height } = blockRef.getBoundingClientRect()
       blocksWithSize.set(blockId, { width, height })
     })
@@ -906,10 +912,10 @@ export default class Scrollgneugneu extends Component<Props, State> {
         _context: blockContext
       })
     })
-    const shouldUpdate = Array.from(newBlocks).some(([blockId, blockData]) => {
-      const newContext = blockData._context
-      const currContext = blocks.get(blockId)?._context
-      if (currContext === undefined) return true
+    const shouldUpdate = Array.from(blocks).some(([blockId, blockData]) => {
+      const newContext = newBlocksContexts.get(blockId)
+      const currContext = blockData._context
+      if (newContext === undefined) return true
       return !contextsAreEqual(currContext, newContext)
     })
     if (!shouldUpdate) return
@@ -919,8 +925,7 @@ export default class Scrollgneugneu extends Component<Props, State> {
     }))
   }
 
-  handleBlockResize (_: ResizeObserverEntry[]) {
-    console.log('handle')
+  handleBlockResize () {
     const {
       state,
       getBlocksContextMap,
@@ -931,9 +936,17 @@ export default class Scrollgneugneu extends Component<Props, State> {
     const currBlocksContext = getBlocksContextMap()
     const newBlocksContexts = mergeBlocksPartialContexts(
       currBlocksContext,
-      blocksContextSize)
+      blocksContextSize
+    )
     const { blocks } = state
     const newBlocks = new Map(blocks)
+    const shouldUpdate = Array.from(newBlocks).some(([blockId, blockData]) => {
+      const newContext = newBlocksContexts.get(blockId)
+      const currContext = blockData._context
+      if (newContext === undefined) return true
+      return !contextsAreEqual(currContext, newContext)
+    })
+    if (!shouldUpdate) return
     newBlocksContexts.forEach((blockContext, blockId) => {
       const blockData = newBlocks.get(blockId)
       if (blockData === undefined) return;
@@ -1140,31 +1153,29 @@ export default class Scrollgneugneu extends Component<Props, State> {
           styles[`status-${blockStatus}`],
           ...generateLayoutClasses('sticky', layout, mobileLayout)
         ]
-        return <ResizeObserverComponent
-          onResize={(...args) => {
-            // console.log('cc')
-            // [WIP] something i dont understand here
-            throttledHandleBlockResize(args[0])
-          }}>
-          <TransitionsWrapper
-            isActive={blockStatus === 'current'}
-            transitions={transitions}
-            mobileTransitions={mobileTransitions}>
-            <div
-              key={blockIdentifier}
-              ref={n => { blocksRefsMap.set(blockIdentifier, n) }}
-              className={blockClasses.join(' ')}
-              data-id={blockIdentifier}
-              style={{ '--z-index': _zIndex }}>
-              {/* [WIP] if block-renderer has height: 100% it seems to allow top: X%
-              on the wrapper returned from the module */}
-              <BlockRenderer
-                type={type}
-                content={content}
-                context={_context}
-                cssLoader={loadCss} />
-            </div>
-          </TransitionsWrapper>
+        return <ResizeObserverComponent onResize={() => throttledHandleBlockResize()}>
+          <div
+            key={blockIdentifier}
+            ref={n => { blocksRefsMap.set(blockIdentifier, n) }}
+            className={blockClasses.join(' ')}
+            data-id={blockIdentifier}
+            style={{ '--z-index': _zIndex }}>
+            <TransitionsWrapper
+              isActive={blockStatus === 'current'}
+              transitions={transitions}
+              mobileTransitions={mobileTransitions}>
+              {(() => {
+                const blockRef = blocksRefsMap.get(blockIdentifier)
+                if (blockRef === null) return null
+                if (blockRef === undefined) return null
+                return <BlockRenderer
+                  type={type}
+                  content={content}
+                  context={_context}
+                  cssLoader={loadCss} />
+              })()}
+            </TransitionsWrapper>
+          </div>
         </ResizeObserverComponent>
       })}
     </>
@@ -1247,20 +1258,20 @@ export default class Scrollgneugneu extends Component<Props, State> {
                 ...generateLayoutClasses('scrolling', layout, mobileLayout)
               ]
               // [WIP] RSOComp adds complexity with its wrapper div, get rid of this
-              return <div
-                key={blockData._id}
-                className={blockClasses.join(' ')}
-                data-id={blockData._id}
-                ref={node => blocksRefsMap.set(blockData._id, node)}
-                style={{ '--z-index': blockData._zIndex }}>
-                <ResizeObserverComponent
-                  onResize={throttledHandleBlockResize}>
+              return <ResizeObserverComponent
+                onResize={throttledHandleBlockResize}>
+                <div
+                  key={blockData._id}
+                  className={blockClasses.join(' ')}
+                  data-id={blockData._id}
+                  ref={node => blocksRefsMap.set(blockData._id, node)}
+                  style={{ '--z-index': blockData._zIndex }}>
                   <BlockRenderer
                     type={type}
                     content={content}
                     cssLoader={loadCss} />
-                </ResizeObserverComponent>
-              </div>
+                </div>
+              </ResizeObserverComponent>
             })
           }</Paginator.Page>
       })}
@@ -1305,7 +1316,7 @@ export default class Scrollgneugneu extends Component<Props, State> {
     // Wrapper CSS classes
     const wrapperClasses = [
       wrapperBemClass
-        .mod({ [`page-${currPageData?.id}`]: currPageData?.id !== undefined })
+        .mod({ [`page-${currPageData?.id}`]: currPageData?.id ?? false })
         .value,
       styles['wrapper']
     ]

@@ -42,10 +42,6 @@
   z-index: var(--z-index);
 }
 
-:where(.block) * {
-  pointer-events: auto;
-}
-
 /* * * * * * * * * * * * * * * * * * * * * * * * * *
  *
  * STICKY ELEMENTS
@@ -58,6 +54,11 @@
   display: inline-flex;
   height: var(--sticky-blocks-viewport-height);
   width: 100%;
+}
+
+:where(.block.block_sticky > *) {
+  flex-shrink: 0;
+  flex-grow: 1;
 }
 
 .header.block.block_sticky {
@@ -111,7 +112,15 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-.block.block_sticky.status-previous,
-.block.block_sticky.status-inactive {
+:where(.block.block_scrolling > *) {
+  pointer-events: auto;
+}
+
+:where(.block.block_sticky.status-current > *) {
+  pointer-events: auto;
+}
+
+:where(.block.block_sticky.status-previous > *),
+:where(.block.block_sticky.status-inactive > *) {
   pointer-events: none;
 }
