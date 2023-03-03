@@ -68,7 +68,6 @@
     position: absolute;
     top: calc(
       var(--scrolling-block-height)
-      - var(--sticky-blocks-offset-top)
       - var(--sticky-blocks-viewport-height)
     );
   }
