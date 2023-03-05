@@ -1428,10 +1428,21 @@
         "minor": 0,
         "patch": 0,
         "status": "stable",
-        "build": ""
+        "build": "0"
       },
       "description": "",
       "time": "2023-03-05T20:57:30.683Z"
+    },
+    {
+      "version": {
+        "major": 2,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 2
+      },
+      "description": "",
+      "time": "2023-03-05T21:10:29.326Z"
     }
   ]
 }
