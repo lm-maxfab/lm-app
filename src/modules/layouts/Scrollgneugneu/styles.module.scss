@@ -63,6 +63,7 @@
 
 .header.block.block_sticky {
   height: unset;
+  pointer-events: auto;
 }
 
 .wrapper.wrapper_stick-blocks .block.block_sticky {
@@ -112,7 +113,7 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-:where(.block.block_scrolling > *) {
+ :where(.block.block_scrolling > *) {
   pointer-events: auto;
 }
 
@@ -120,7 +121,9 @@
   pointer-events: auto;
 }
 
-:where(.block.block_sticky.status-previous > *),
-:where(.block.block_sticky.status-inactive > *) {
-  pointer-events: none;
+.block.block_sticky.status-previous,
+.block.block_sticky.status-inactive,
+.block.block_sticky.status-previous *,
+.block.block_sticky.status-inactive * {
+  pointer-events: none !important; /* [WIP] !important in case children have some pointer-events: auto for some reason... Maybe something better to do? */
 }

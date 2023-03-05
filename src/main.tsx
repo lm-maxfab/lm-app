@@ -35,6 +35,8 @@ async function init (): Promise<void> {
   window.setTimeout(removeHeader, 100)
   window.setTimeout(removeHeader, 500)
   window.setTimeout(removeHeader, 2000)
+  window.setTimeout(removeHeader, 5000)
+  window.setTimeout(removeHeader, 10000)
 
   // Get settings from window.location.search
   const settings = getPageSettings()

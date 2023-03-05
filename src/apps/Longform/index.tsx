@@ -1,5 +1,5 @@
 import { Component, JSX } from 'preact'
-import Scrollgneugneu, { Props as ScrollgngnProps, PropsPageData, PropsBlockData } from '../../modules/layouts/Scrollgneugneu'
+import Scrollgneugneu, { PropsPageData, PropsBlockData } from '../../modules/layouts/Scrollgneugneu'
 import appWrapper, { InjectedProps } from '../../modules/utils/app-wrapper-HOC'
 import bem from '../../modules/utils/bem'
 import './styles.scss'
@@ -8,135 +8,11 @@ import {
   BlockData as BlockDataFromSheet,
   PageData as PageDataFromSheet
 } from '../types'
-import generateNiceColor from '../../modules/utils/generate-nice-color'
-import { generateContentPage } from '../../modules/utils/generate-html-placeholders'
-import Paginator from '../../modules/components/Paginator'
+
+document.addEventListener('click', e => console.log(e.target))
 
 interface Props extends InjectedProps {}
 interface State {}
-
-const generalSettings: Partial<GeneralSettings> = {
-  thresholdOffset: '60%',
-  headerCustomCss: '.content-page > * { margin-bottom: 24px; } .content-page .title, .content-page .intertitle { font-weight: 600; }'
-}
-// const pagesData: PropsPageData[] = [{
-//   bgColor: generateNiceColor(),
-//   blocks: [{
-//     id: 'content-scroll-page',
-//     depth: 'scroll',
-//     type: 'html',
-//     layout: 'center-left-third',
-//     mobileLayout: 'right-half',
-//     content: `<div style="
-//       background: white;
-//       font-family: var(--ff-marr-sans);
-//       padding: 64px;
-//     ">${generateContentPage(4)}</div>`,
-//   }/*, {
-//     depth: 'front',
-//     type: 'html',
-//     layout: 'right-half',
-//     content: `<div style="
-//       background-color: yellow;
-//       ">supposed to be right-half</div>`
-//   }*/]
-// }, {
-//   bgColor: generateNiceColor(),
-//   blocks: [{
-//     depth: 'scroll',
-//     type: 'html',
-//     layout: 'right-center-quarter',
-//     mobileLayout: 'left-half',
-//     content: `<div style="
-//       /*visibility: hidden;*/
-//       /*margin: 100px 0;*/
-//       background: white;
-//       font-family: var(--ff-marr-sans);
-//       padding: 64px;
-//     ">${generateContentPage(4)}</div>`,
-//   }/*, {
-//     depth: 'front',
-//     type: 'module',
-//     layout: 'left-half',
-//     content: '[[STOP-MOTION]] { "length": 9, "startIndex": 1, "urlTemplate": "http://localhost:50003/images/Frame {%}.png" }',
-//     trackScroll: true
-//   }*/]
-// }, {
-//   bgColor: generateNiceColor(),
-//   blocks: [{
-//     id: 'content-scroll-page',
-//     depth: 'scroll',
-//     type: 'html',
-//     layout: 'center-left-third',
-//     mobileLayout: 'right-half',
-//     content: `<div style="
-//       background: white;
-//       font-family: var(--ff-marr-sans);
-//       padding: 64px;
-//     ">${generateContentPage(4)}</div>`,
-//   }]
-// }]
-
-const niceColors = new Array(100).fill(null).map(generateNiceColor)
-const pagesData: PropsPageData[] = [{
-  bgColor: niceColors[6],
-  blocks: [{
-    id: 'page-1',
-    depth: 'scroll',
-    layout: '0.5(1/8)',
-    // mobileLayout: 'right-half',
-    content: `<div style="background: white; font-family: var(--ff-marr-sans); padding: 64px;">${generateContentPage(3)}</div>`
-  }]
-}, {
-  bgColor: niceColors[7],
-  blocks: [{
-    id: 'page-2',
-    depth: 'scroll',
-    layout: '0.5(1/8)',
-    // mobileLayout: 'right-half',
-    content: `<div style="background: white; font-family: var(--ff-marr-sans); padding: 64px;">${generateContentPage(3)}</div>`
-  }]
-}, {
-  bgColor: niceColors[0],
-  blocks: [{
-    id: 'page-3',
-    depth: 'scroll',
-    layout: '0.5(1/8)',
-    // mobileLayout: 'right-half',
-    content: `<div style="background: white; font-family: var(--ff-marr-sans); padding: 64px;">${generateContentPage(3)}</div>`
-  }, {
-    id: "page-3__bloc-coucou",
-    depth: 'front',
-    layout: '1/5',
-    content: `<div style="background: white; font-family: var(--ff-marr-sans); padding: 0px; height: 400px" class="lolilol">coucou</div>`
-  }]
-}, {
-  bgColor: niceColors[1],
-  blocks: [{
-    id: 'page-4',
-    depth: 'scroll',
-    layout: 'right-half',
-    content: `<div style="background: white; font-family: var(--ff-marr-sans); padding: 64px;">${generateContentPage(3)}</div>`
-  }, {
-    id: 'page-4__bloc-module',
-    depth: 'front',
-    layout: '1/2_1/2',
-    transitions: [['grow', 1000]],
-    type: 'module',
-    content: 'http://localhost:50003/test/index.js',
-    trackScroll: true
-  }]
-}, {
-  bgColor: niceColors[2],
-  blocks: [{
-    id: 'page-5',
-    depth: 'scroll',
-    layout: 'left-half',
-    content: `<div style="background: white; font-family: var(--ff-marr-sans); padding: 64px;">${generateContentPage(3)}</div>`
-  }]
-}]
-
-document.addEventListener('click', e => console.log(e.target))
 
 class Longform extends Component<Props, State> {
   static clss: string = 'scrllgngn-longform'
@@ -149,75 +25,75 @@ class Longform extends Component<Props, State> {
     const { props } = this
     const { sheetBase } = props
 
-    // const generalSettings = sheetBase?.collection('general_settings').entries[0].value as GeneralSettings|undefined
-    // const blocksData = sheetBase?.collection('blocks_data').value as BlockDataFromSheet[]|undefined
-    // const rawPagesData = sheetBase?.collection('pages_data').value as PageDataFromSheet[]|undefined
-    // const pagesData: PropsPageData[]|undefined = rawPagesData?.map(rawPageData => {
-    //   const fixedBlocksData: PropsBlockData[] = []
-    //   rawPageData.blocksIds?.split(',').map(name => {
-    //     const blockId = name.trim()
-    //     const theActualBlock = blocksData?.find(blockData => blockData.id === blockId)
-    //     if (theActualBlock !== undefined) {
-    //       const extractedBlockData: PropsBlockData = {
-    //         id: theActualBlock.id as PropsBlockData['id'],
-    //         depth: (theActualBlock.depth ?? 'back') as PropsBlockData['depth'],
-    //         type: theActualBlock.type as PropsBlockData['type'],
-    //         content: theActualBlock.content as PropsBlockData['content'],
-    //         layout: theActualBlock.layout as PropsBlockData['layout'],
-    //         mobileLayout: theActualBlock.mobileLayout as PropsBlockData['mobileLayout'],
-    //         transitions: theActualBlock.transitions
-    //           ?.split(';')
-    //           .map(str => str
-    //             .trim()
-    //             .split(',')
-    //             .map(str => str.trim())
-    //             .map((val, pos) => {
-    //               if (pos === 0) return val
-    //               if (pos === 1 && val === undefined) return '600ms'
-    //               if (val.match(/[0-9]$/gm)) return `${val}ms`
-    //               return val
-    //             })
-    //           ) as PropsBlockData['transitions'],
-    //         mobileTransitions: theActualBlock.mobileTransitions
-    //           ?.split(';')
-    //           .map(str => str
-    //             .trim()
-    //             .split(',')
-    //             .map(str => str.trim())
-    //             .map((val, pos) => {
-    //               if (pos === 0) return val
-    //               if (pos === 1 && val === undefined) return '600ms'
-    //               if (val.match(/[0-9]$/gm)) return `${val}ms`
-    //               return val
-    //             })
-    //           ) as PropsBlockData['mobileTransitions'],
-    //         zIndex: theActualBlock.zIndex,
-    //         trackScroll: theActualBlock.trackScroll
-    //       }
-    //       fixedBlocksData.push(extractedBlockData)
-    //     }
-    //   })
-    //   return {
-    //     id: rawPageData.id,
-    //     showHeader: rawPageData.showHeader,
-    //     showNav: rawPageData.showNav,
-    //     headerLogoFill1: rawPageData.headerLogoFill1,
-    //     headerLogoFill2: rawPageData.headerLogoFill2,
-    //     headerCustomClass: rawPageData.headerCustomClass,
-    //     headerCustomCss: rawPageData.headerCustomCss,
-    //     headerNavItemsAlign: rawPageData.headerNavItemsAlign,
-    //     chapterName: rawPageData.chapterName,
-    //     isChapterHead: rawPageData.isChapterHead,
-    //     bgColor: rawPageData.bgColor,
-    //     blocks: [{
-    //       depth: 'scroll',
-    //       type: 'html',
-    //       content: rawPageData.content,
-    //       layout: rawPageData.layout as PropsBlockData['layout'],
-    //       mobileLayout: rawPageData.mobileLayout as PropsBlockData['mobileLayout']
-    //     }, ...fixedBlocksData]
-    //   }
-    // })
+    const generalSettings = sheetBase?.collection('general_settings').entries[0].value as GeneralSettings|undefined
+    const blocksData = sheetBase?.collection('blocks_data').value as BlockDataFromSheet[]|undefined
+    const rawPagesData = sheetBase?.collection('pages_data').value as PageDataFromSheet[]|undefined
+    const pagesData: PropsPageData[]|undefined = rawPagesData?.map(rawPageData => {
+      const fixedBlocksData: PropsBlockData[] = []
+      rawPageData.blocksIds?.split(',').map(name => {
+        const blockId = name.trim()
+        const theActualBlock = blocksData?.find(blockData => blockData.id === blockId)
+        if (theActualBlock !== undefined) {
+          const extractedBlockData: PropsBlockData = {
+            id: theActualBlock.id as PropsBlockData['id'],
+            depth: (theActualBlock.depth ?? 'back') as PropsBlockData['depth'],
+            type: theActualBlock.type as PropsBlockData['type'],
+            content: theActualBlock.content as PropsBlockData['content'],
+            layout: theActualBlock.layout as PropsBlockData['layout'],
+            mobileLayout: theActualBlock.mobileLayout as PropsBlockData['mobileLayout'],
+            transitions: theActualBlock.transitions
+              ?.split(';')
+              .map(str => str
+                .trim()
+                .split(',')
+                .map(str => str.trim())
+                .map((val, pos) => {
+                  if (pos === 0) return val
+                  if (pos === 1 && val === undefined) return '600ms'
+                  if (val.match(/[0-9]$/gm)) return `${val}ms`
+                  return val
+                })
+              ) as PropsBlockData['transitions'],
+            mobileTransitions: theActualBlock.mobileTransitions
+              ?.split(';')
+              .map(str => str
+                .trim()
+                .split(',')
+                .map(str => str.trim())
+                .map((val, pos) => {
+                  if (pos === 0) return val
+                  if (pos === 1 && val === undefined) return '600ms'
+                  if (val.match(/[0-9]$/gm)) return `${val}ms`
+                  return val
+                })
+              ) as PropsBlockData['mobileTransitions'],
+            zIndex: theActualBlock.zIndex,
+            trackScroll: theActualBlock.trackScroll
+          }
+          fixedBlocksData.push(extractedBlockData)
+        }
+      })
+      return {
+        id: rawPageData.id,
+        showHeader: rawPageData.showHeader,
+        showNav: rawPageData.showNav,
+        headerLogoFill1: rawPageData.headerLogoFill1,
+        headerLogoFill2: rawPageData.headerLogoFill2,
+        headerCustomClass: rawPageData.headerCustomClass,
+        headerCustomCss: rawPageData.headerCustomCss,
+        headerNavItemsAlign: rawPageData.headerNavItemsAlign,
+        chapterName: rawPageData.chapterName,
+        isChapterHead: rawPageData.isChapterHead,
+        bgColor: rawPageData.bgColor,
+        blocks: [{
+          depth: 'scroll',
+          type: 'html',
+          content: rawPageData.content,
+          layout: rawPageData.layout as PropsBlockData['layout'],
+          mobileLayout: rawPageData.mobileLayout as PropsBlockData['mobileLayout']
+        }, ...fixedBlocksData]
+      }
+    })
 
     // Assign classes and styles
     const wrapperClasses = bem(props.className).block(this.clss)
@@ -227,62 +103,6 @@ class Longform extends Component<Props, State> {
     return <div
       style={wrapperStyle}
       className={wrapperClasses.value}>
-      {/* <Paginator
-        thresholdOffset='60%'
-        root='window'
-        direction='vertical'
-        onPageChange={(state) => console.log('window-vertical', state)}>
-        <Paginator.Page value={'lol'}>
-          <div style={{
-            height: '80vh',
-            width: '100%',
-            backgroundColor: niceColors[0]
-          }}><span>Coucou petite page</span></div>
-        </Paginator.Page>  
-        <Paginator.Page value={'lèl'}>
-          <div style={{
-            height: '40vh',
-            width: '400px',
-            marginLeft: 'auto',
-            backgroundColor: niceColors[1]
-          }}>Coucou petite page</div>
-        </Paginator.Page>
-        <Paginator.Page value={'lul'}>
-          <div style={{
-            height: '55vh',
-            width: '40%',
-            backgroundColor: niceColors[2]
-          }}>Coucou petite page</div>
-        </Paginator.Page>  
-      </Paginator>
-
-      <div style={{ height: '100vh' }}>//</div>
-
-      <Paginator
-        thresholdOffset='60%'
-        root='window'
-        direction='horizontal'
-        onPageChange={(state) => console.log('window-horizontal', state)}>
-        <Paginator.Page value={'lol'}>
-          <div style={{
-            width: '80vw',
-            backgroundColor: niceColors[0]
-          }}>Coucou petite page</div>
-        </Paginator.Page>  
-        <Paginator.Page value={'lèl'}>
-          <div style={{
-            width: '40vw',
-            backgroundColor: niceColors[1]
-          }}>Coucou petite page</div>
-        </Paginator.Page>
-        <Paginator.Page value={'lul'}>
-          <div style={{
-            width: '55vw',
-            backgroundColor: niceColors[2]
-          }}>Coucou petite page</div>
-        </Paginator.Page>  
-      </Paginator> */}
-
       <Scrollgneugneu
         pages={pagesData}
         thresholdOffset={generalSettings?.thresholdOffset}

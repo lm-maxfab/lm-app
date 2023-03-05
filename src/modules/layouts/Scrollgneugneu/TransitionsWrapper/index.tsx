@@ -73,7 +73,7 @@ export default class TransitionsWrapper extends Component<Props> {
         ? { '--duration': duration }
         : undefined
       return <div
-        className={className}
+        className={`${className} ${styles['t-wrapper']}`}
         style={style}>
         {acc}
       </div>

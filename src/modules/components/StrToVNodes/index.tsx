@@ -21,7 +21,6 @@ const defaultSanitizeOptions: SanitizeOptions = {
     if (looksLikeUrlMatches === null) return input
     let returned = input
     looksLikeUrlMatches.forEach(match => {
-      console.log(match)
       const matchProtocol = match.match(new RegExp(`${uriAllowedCharacters}*:\/\/`, 'igm'))
       if (matchProtocol === null) {
         if (verboseSanitize) console.warn('Stripped non-https URL pattern:', match)
@@ -47,7 +46,7 @@ const defaultSanitizeOptions: SanitizeOptions = {
     })
     return returned
   },
-  allowedTags: ['a', 'article', 'aside', 'audio', 'blockquote', 'br', 'button', 'canvas', 'caption', 'cite', 'code', 'col', 'colgroup', 'data', 'datalist', 'div', 'em', 'embed', 'figcaption', 'figure', 'footer', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'header', 'img', 'label', 'legend', 'li', 'main', 'nav', 'ol', 'p', 'picture', 'pre', 'section', 'source', 'span', 'strong', 'style', 'sub', 'sup', 'svg', 'ul', 'video', 'wbr'],
+  allowedTags: ['a', 'article', 'aside', 'audio', 'blockquote', 'br', 'button', 'canvas', 'caption', 'cite', 'code', 'col', 'colgroup', 'data', 'datalist', 'div', 'em', 'embed', 'figcaption', 'figure', 'footer', 'g', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'header', 'img', 'label', 'legend', 'li', 'main', 'nav', 'ol', 'p', 'path', 'picture', 'pre', 'section', 'source', 'span', 'strong', 'style', 'sub', 'sup', 'svg', 'ul', 'video', 'wbr'],
   allowedAttributes: {
     '*': [
       ...['alt', /^aria/, 'autoplay', 'cite', 'class', 'code', 'codebase', 'contenteditable', 'contextmenu', 'controls', 'coords', 'data', /^data/, 'datetime', 'decoding', 'default', 'dir', 'disabled', 'draggable', 'for', 'headers', 'hidden', 'high', 'importance', 'intrinsicsize', 'ismap', /^item/, 'kind', 'label', 'lang', 'loading', 'loop', 'low', 'max', 'media', 'min', 'multiple', 'muted', 'name', 'open', 'optimum', 'playsinline', 'preload', 'reversed', 'role', 'rowspan', 'scope', 'shape', 'sizes', 'slot', 'span', 'spellcheck', 'start', 'style', 'summary', 'tabindex', 'target', 'title', 'translate', 'type', 'usemap', 'value']
@@ -59,10 +58,14 @@ const defaultSanitizeOptions: SanitizeOptions = {
           /^https:\/\/www\.lemonde\.fr/,
           /^https:\/\/assets-decodeurs\.lemonde\.fr/,
           /^https:\/\/img\.lemde\.fr/,
-          /^https:\/\/player\.vimeo\.com/
+          /^https:\/\/player\.vimeo\.com/,
+          /^\s*$/
         ]
       }]
-    ]
+    ],
+    // [WIP] do better for svg tags and attributes
+    'svg': [{ attributeName: /^(view(b|B)ox|fill|fill\-rule|clip\-rule)$/ }],
+    'path': [{ attributeName: /^(stroke|stroke\-width|fill|d|fill\-rule|clip\-rule|stroke\-dasharray)$/ }]
   },
   forbiddenTags: ['doctype', 'html', 'head', 'meta', 'body', 'script', 'link', 'iframe', 'object', 'applet', 'embed', 'form'],
   forbiddenAttributes: { '*': [{ attributeName: /^on/ } ] },
