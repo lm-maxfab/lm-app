@@ -13,22 +13,22 @@ import isFalsy from '../../utils/is-falsy'
 // [WIP] use injectCssRule everywhere
 import injectCssRule from '../../utils/dynamic-css'
 
-type LayoutSizeFormula = `${number}`|`${number}/${number}`
-type LayoutOffsetFormula = `${number}/${number}`
+export type LayoutSizeFormula = `${number}`|`${number}/${number}`
+export type LayoutOffsetFormula = `${number}/${number}`
 // [WIP] got rid of justif and align formulas
 // const layoutJustificationFormulas = ['left', 'center', 'right'] as const
 // type LayoutJustificationFormula = typeof layoutJustificationFormulas[number]
 // const layoutAlignFormulas = ['top', 'middle', 'bottom'] as const
 // type LayoutAlignFormula = typeof layoutAlignFormulas[number]
-type LayoutHPosFormula = LayoutSizeFormula|`${LayoutSizeFormula}(${LayoutOffsetFormula})`
-type LayoutVPosFormula = LayoutSizeFormula|`${LayoutSizeFormula}(${LayoutOffsetFormula})`
-type LayoutPosFormula = LayoutHPosFormula|`${LayoutHPosFormula}_${LayoutVPosFormula}`
+export type LayoutHPosFormula = LayoutSizeFormula|`${LayoutSizeFormula}(${LayoutOffsetFormula})`
+export type LayoutVPosFormula = LayoutSizeFormula|`${LayoutSizeFormula}(${LayoutOffsetFormula})`
+export type LayoutPosFormula = LayoutHPosFormula|`${LayoutHPosFormula}_${LayoutVPosFormula}`
 // [WIP] got rid of justif and align formulas
 // type LayoutContentPosFormula = LayoutJustificationFormula|LayoutAlignFormula|`${LayoutJustificationFormula}_${LayoutAlignFormula}`|`${LayoutAlignFormula}_${LayoutJustificationFormula}`
 // type LayoutFormula = LayoutPosFormula|`${LayoutPosFormula}_${LayoutContentPosFormula}`
-type LayoutFormula = LayoutPosFormula
+export type LayoutFormula = LayoutPosFormula
 
-type LayoutName = LayoutFormula
+export type LayoutName = LayoutFormula
   |'full-screen'
   |'left-half'
   |'center-half'
@@ -47,19 +47,19 @@ export type TransitionDuration = string|number
 export type TransitionDescriptor = [TransitionName]|[TransitionName, TransitionDuration]
 
 /* Props stuff */
-type PropsCommonData = {
+export type PropsCommonData = {
   id?: string
   zIndex?: number
   type?: 'html'|'module'
   content?: string
   trackScroll?: boolean
 }
-type PropsScrollBlockData = PropsCommonData & {
+export type PropsScrollBlockData = PropsCommonData & {
   depth?: 'scroll'
   layout?: LayoutName
   mobileLayout?: LayoutName
 }
-type PropsStickyBlockData = PropsCommonData & {
+export type PropsStickyBlockData = PropsCommonData & {
   depth: 'back'|'front'
   layout?: LayoutName // [WIP] Don't bring that back in PropsCommonData before being sure there are not sticky blocks specific layout names
   mobileLayout?: LayoutName // [WIP] Don't bring that back in PropsCommonData before being sure there are not sticky blocks specific layout names
@@ -349,10 +349,10 @@ export default class Scrollgneugneu extends Component<Props, State> {
   }
 
   static layoutNameToFormula (name: string): LayoutFormula|undefined {
-    if (name === 'full-screen') return '1_1_top_left'
-    if (name === 'left-half') return '1/2_1_top_left'
-    if (name === 'center-half') return '1/2(1/4)_1_top_left'
-    if (name === 'right-half') return '1/2(1/2)_1_top_left'
+    if (name === 'full-screen') return '1_1'
+    if (name === 'left-half') return '1/2_1'
+    if (name === 'center-half') return '1/2(1/4)_1'
+    if (name === 'right-half') return '1/2(1/2)_1'
   }
 
   static generateLayoutClasses (

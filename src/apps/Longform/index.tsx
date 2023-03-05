@@ -1,5 +1,5 @@
 import { Component, JSX } from 'preact'
-import Scrollgneugneu, { PropsPageData, PropsBlockData } from '../../modules/layouts/Scrollgneugneu'
+import Scrollgneugneu, { PropsPageData, PropsBlockData, PropsStickyBlockData } from '../../modules/layouts/Scrollgneugneu'
 import appWrapper, { InjectedProps } from '../../modules/utils/app-wrapper-HOC'
 import bem from '../../modules/utils/bem'
 import './styles.scss'
@@ -29,18 +29,19 @@ class Longform extends Component<Props, State> {
     const blocksData = sheetBase?.collection('blocks_data').value as BlockDataFromSheet[]|undefined
     const rawPagesData = sheetBase?.collection('pages_data').value as PageDataFromSheet[]|undefined
     const pagesData: PropsPageData[]|undefined = rawPagesData?.map(rawPageData => {
-      const fixedBlocksData: PropsBlockData[] = []
+      // [WIP] there could be some scroll blocks in there too...
+      const fixedBlocksData: PropsStickyBlockData[] = []
       rawPageData.blocksIds?.split(',').map(name => {
         const blockId = name.trim()
         const theActualBlock = blocksData?.find(blockData => blockData.id === blockId)
         if (theActualBlock !== undefined) {
-          const extractedBlockData: PropsBlockData = {
-            id: theActualBlock.id as PropsBlockData['id'],
-            depth: (theActualBlock.depth ?? 'back') as PropsBlockData['depth'],
-            type: theActualBlock.type as PropsBlockData['type'],
-            content: theActualBlock.content as PropsBlockData['content'],
-            layout: theActualBlock.layout as PropsBlockData['layout'],
-            mobileLayout: theActualBlock.mobileLayout as PropsBlockData['mobileLayout'],
+          const extractedBlockData: PropsStickyBlockData = {
+            id: theActualBlock.id as PropsStickyBlockData['id'],
+            depth: (theActualBlock.depth ?? 'back') as PropsStickyBlockData['depth'],
+            type: theActualBlock.type as PropsStickyBlockData['type'],
+            content: theActualBlock.content as PropsStickyBlockData['content'],
+            layout: theActualBlock.layout as PropsStickyBlockData['layout'],
+            mobileLayout: theActualBlock.mobileLayout as PropsStickyBlockData['mobileLayout'],
             transitions: theActualBlock.transitions
               ?.split(';')
               .map(str => str
@@ -53,7 +54,7 @@ class Longform extends Component<Props, State> {
                   if (val.match(/[0-9]$/gm)) return `${val}ms`
                   return val
                 })
-              ) as PropsBlockData['transitions'],
+              ) as PropsStickyBlockData['transitions'],
             mobileTransitions: theActualBlock.mobileTransitions
               ?.split(';')
               .map(str => str
@@ -66,7 +67,7 @@ class Longform extends Component<Props, State> {
                   if (val.match(/[0-9]$/gm)) return `${val}ms`
                   return val
                 })
-              ) as PropsBlockData['mobileTransitions'],
+              ) as PropsStickyBlockData['mobileTransitions'],
             zIndex: theActualBlock.zIndex,
             trackScroll: theActualBlock.trackScroll
           }
