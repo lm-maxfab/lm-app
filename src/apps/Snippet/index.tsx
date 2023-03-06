@@ -28,7 +28,7 @@ class Snippet extends Component<Props, State> {
     const parentClassList = parent.classList.value.split(' ')
     const snippetClass = parentClassList.find((el: string) => el.startsWith('lm-snippet'))
 
-    this.id = snippetClass.slice(-1)
+    this.id = snippetClass.split('-').slice(-1)[0]
   }
 
   /* * * * * * * * * * * * * * *
