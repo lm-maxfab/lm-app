@@ -10,18 +10,22 @@ interface SnippetData {
 }
 
 interface Props extends InjectedProps { }
-interface State { }
+interface State {
+  id: number | undefined
+}
 
 class Snippet extends Component<Props, State> {
   container: any
-  id: number | undefined
   idCheck: any
+
+  state: State = {
+    id: undefined
+  }
 
   constructor() {
     super()
 
     this.container = createRef()
-    this.id = undefined
     this.idCheck = undefined
     this.setSnippetId = this.setSnippetId.bind(this)
   }
@@ -29,13 +33,13 @@ class Snippet extends Component<Props, State> {
   componentDidMount(): void {
     this.setSnippetId()
 
-    if (this.id === undefined) {
+    if (this.state.id === undefined) {
       this.idCheck = window.setInterval(this.setSnippetId, 500)
     }
   }
 
   setSnippetId(): void {
-    if (this.id === undefined) this.id = this.getSnippetId()
+    if (this.state.id === undefined) this.setState({ id: this.getSnippetId() })
   }
 
   getSnippetId(): number | undefined {
@@ -58,9 +62,9 @@ class Snippet extends Component<Props, State> {
    * RENDER
    * * * * * * * * * * * * * * */
   render(): JSX.Element {
-    const { props } = this
+    const { props, state } = this
 
-    const dataIndex = this.id ? this.id - 1 : 0
+    const dataIndex = state.id ? state.id - 1 : 0
     const data = props.sheetBase?.collection('data').value[dataIndex] as unknown as SnippetData;
 
     const wrapperClasses = [
@@ -87,10 +91,10 @@ class Snippet extends Component<Props, State> {
       styles['portrait']
     ]
 
-    const portraitUrl = `https://assets-decodeurs.lemonde.fr/redacweb/42-2303-feministes-medias/portrait-${this.id ?? 0}.png`
+    const portraitUrl = `https://assets-decodeurs.lemonde.fr/redacweb/42-2303-feministes-medias/portrait-${state.id ?? 0}.png`
 
     return <div ref={this.container} className={wrapperClasses.join(' ')}>
-      {this.id && <>
+      {state.id && <>
         <p className={quoteClasses.join(' ')}>« {data.quote} »</p>
 
         <div className={authorClasses.join(' ')}>
