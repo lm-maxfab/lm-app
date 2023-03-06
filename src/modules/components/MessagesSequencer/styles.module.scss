@@ -1,31 +1,17 @@
 .wrapper {
-  height: 100vh;
-  padding: 10vh 24px 0 24px;
-  display: flex;
-  align-items: center;
-  justify-content: right;
-  max-width: 600px;
-  margin: 0 auto;
-}
-
-.messages {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  margin-right: 10px;
+  height: 100%;
+  width: 100%;
+  position: relative;
 }
 
 .message-container {
+  position: absolute;
   max-height: 0;
   transition: max-height 1200ms ease-in-out;
 }
 
 .message-container.message-container--visible {
   max-height: 1000px;
-}
-
-.message-container.message-container--visible + .message-container.message-container--visible {
-  margin-top: 16px;
 }
 
 .message {

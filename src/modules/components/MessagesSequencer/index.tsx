@@ -62,7 +62,7 @@ class MessagesSequencer extends Component<Props, State> {
             const start = message.startStep ?? index
 
             const containerClasses = [
-              `${messagesClass}_container`,
+              `${messageClass}_container`,
               styles['message-container']
             ]
 
@@ -71,10 +71,12 @@ class MessagesSequencer extends Component<Props, State> {
               styles['message']
             ]
 
+            containerClasses.push(`message-container--${index}`)
+
             if (start < step) containerClasses.push(styles['message-container--visible'])
 
             if (message.type != '' && message.type != undefined) {
-              containerClasses.push(`${messagesClass}_container--${message.type}`)
+              containerClasses.push(`${messageClass}_container--${message.type}`)
             }
 
             return (
