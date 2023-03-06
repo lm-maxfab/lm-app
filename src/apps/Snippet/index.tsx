@@ -24,11 +24,18 @@ class Snippet extends Component<Props, State> {
   }
 
   componentDidMount(): void {
+    
     const parent = this.container.current.closest('.lm-app-root')
+    console.log(parent)
+
     const parentClassList = parent.classList.value.split(' ')
+    console.log(parentClassList)
+
     const snippetClass = parentClassList.find((el: string) => el.startsWith('lm-snippet'))
+    console.log(snippetClass)
 
     this.id = snippetClass.split('-').slice(-1)[0]
+    console.log(this.id)
   }
 
   /* * * * * * * * * * * * * * *
