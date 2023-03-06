@@ -42,7 +42,7 @@ class TextSequencer extends Component<Props, State> {
 
     console.log(props)
 
-    const rootClass = 'lm-cover__text'
+    const rootClass = 'lm-cover__sequencer'
 
     const quoteArray = props.content.text.split(' ')
     const nameArray = props.content.name?.split(' ')
@@ -68,7 +68,7 @@ class TextSequencer extends Component<Props, State> {
       `${rootClass}_name`,
       styles['name']
     ]
-    
+
     const quoteLength = quoteArray.length + 1
     const nameLength = nameArray ? nameArray.length + 1 : 0
 
