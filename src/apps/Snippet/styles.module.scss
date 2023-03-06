@@ -2,6 +2,10 @@
   --lm-c-feminists: #2B006F;
 }
 
+[data-color-mode=dark] .wrapper {
+  --lm-c-feminists: #A791E8;
+}
+
 .quote {
   font-family: var(--ff-the-antiqua-b, "The-Antiqua-B");
   font-weight: 900;
