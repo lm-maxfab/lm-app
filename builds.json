@@ -1725,5 +1725,18 @@
       "description": "",
       "time": "2023-03-06T14:03:31.874Z"
     }
+  ],
+  "42-2303-feministes": [
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 1
+      },
+      "description": "",
+      "time": "2023-03-06T15:22:18.278Z"
+    }
   ]
 }
