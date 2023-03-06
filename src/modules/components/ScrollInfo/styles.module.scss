@@ -5,7 +5,7 @@
   transform: translateX(-50%);
   font-family: var(--ff-marr-sans);
   color: #8B92A1;
-  opacity: 0;
+  opacity: 0.8;
   animation-name: appear;
   animation-duration: 1000ms;
   animation-fill-mode: forwards;
@@ -36,9 +36,5 @@
 @keyframes appear {
   from {
     opacity: 0;
-  }
-
-  to {
-    opacity: 1;
   }
 }
