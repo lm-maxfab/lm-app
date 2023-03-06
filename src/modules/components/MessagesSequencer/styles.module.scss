@@ -6,14 +6,8 @@
 
 .message-container {
   position: absolute;
-  max-height: 0;
-  transition: max-height 1200ms ease-in-out;
   border-radius: 8px;
   box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.05);
-}
-
-.message-container.message-container--visible {
-  max-height: 1000px;
 }
 
 .message {
