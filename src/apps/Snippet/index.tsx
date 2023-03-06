@@ -95,7 +95,7 @@ class Snippet extends Component<Props, State> {
 
     return <div ref={this.container} className={wrapperClasses.join(' ')}>
       {state.id && <>
-        <p className={quoteClasses.join(' ')}>« {data.quote} »</p>
+        <p className={quoteClasses.join(' ')}>« {data.quote} »</p>
 
         <div className={authorClasses.join(' ')}>
           <img
