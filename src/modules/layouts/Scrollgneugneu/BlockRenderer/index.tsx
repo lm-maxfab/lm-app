@@ -38,7 +38,8 @@ export default class BlockRenderer extends Component<Props> {
             .trim()
           const sequencerProps = {
             tempo: 60,
-            content: "Lorem ipsum dolor sit amet."
+            content: "Lorem ipsum dolor sit amet.",
+            scrollInfo: "Défilez pour continuer"
           }
           let sequencerType = "text"
 
@@ -50,6 +51,7 @@ export default class BlockRenderer extends Component<Props> {
             if (typeof parsed !== 'object') break;
             if (Array.isArray(parsed)) break;
             if (typeof parsed.tempo === 'number') sequencerProps.tempo = parsed.tempo
+            if (typeof parsed.scrollInfo === 'string') sequencerProps.scrollInfo = parsed.scrollInfo
             if (parsed.content != '') sequencerProps.content = parsed.content
             if (parsed.type === 'messages') sequencerType = 'messages'
           } catch (err) { console.log(err) }
@@ -57,6 +59,7 @@ export default class BlockRenderer extends Component<Props> {
           if (sequencerType === "text") {
             return <TextSequencer
               content={sequencerProps.content as unknown as ContentData}
+              scrollInfo={sequencerProps.scrollInfo}
               tempo={sequencerProps.tempo}
               active={context?.page === 0}
             />
@@ -65,8 +68,9 @@ export default class BlockRenderer extends Component<Props> {
           if (sequencerType === "messages") {
             return <MessagesSequencer
               content={sequencerProps.content as unknown as MessageData[]}
+              scrollInfo={sequencerProps.scrollInfo}
               tempo={sequencerProps.tempo}
-              play={context?.page === 0}
+              active={context?.page === 0}
             />
           }
         }

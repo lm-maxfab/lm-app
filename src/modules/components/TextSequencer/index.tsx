@@ -1,6 +1,7 @@
 import { Component, JSX } from 'preact'
 import styles from './styles.module.scss'
 
+import ScrollInfo from '../ScrollInfo'
 import Sequencer from '../Sequencer'
 import { RendererArgs } from '../Sequencer'
 
@@ -11,21 +12,24 @@ interface ContentData {
 
 interface Props {
   tempo: number
+  scrollInfo: string
   content: ContentData
   active: boolean
 }
 
 interface State {
   play: boolean
+  finished: boolean
 }
 
 class TextSequencer extends Component<Props, State> {
   state: State = {
     play: false,
+    finished: false,
   }
 
   componentDidUpdate(previousProps: Readonly<Props>, previousState: Readonly<State>, snapshot: any): void {
-    if (!previousProps.active && this.props.active) {
+    if (!previousProps.active && this.props.active && !this.state.finished) {
       this.setState({ play: true })
     }
   }
@@ -38,66 +42,93 @@ class TextSequencer extends Component<Props, State> {
 
     console.log(props)
 
-    const textClass = 'lm-cover__text'
+    const rootClass = 'lm-cover__text'
 
-    const textArray = props.content.text.split(' ')
+    const quoteArray = props.content.text.split(' ')
+    const nameArray = props.content.name?.split(' ')
 
     const wrapperClasses = [
-      `${textClass}_wrapper`,
+      `${rootClass}_wrapper`,
       styles['wrapper']
     ]
 
-    const length = textArray.length + 1
+    if (state.finished) wrapperClasses.push(`${rootClass}_wrapper--finished`)
 
-    const textRenderer = ({ step }: RendererArgs) => {
-      return (
-        <p>
-          {textArray.map((word, index) => {
-            const wordClasses = [
-              `${textClass}_word`,
-              styles['word']
-            ]
+    const textClasses = [
+      `${rootClass}`,
+      styles['text']
+    ]
 
-            if (index < step) {
-              wordClasses.push(`${textClass}_word`)
-              wordClasses.push(styles['word--visible'])
-            }
+    const quoteClasses = [
+      `${rootClass}_quote`,
+      styles['quote']
+    ]
 
-            return <span class={wordClasses.join(' ')}>{word} </span>
-          })}
-        </p>
-      )
-    }
+    const nameClasses = [
+      `${rootClass}_name`,
+      styles['name']
+    ]
+    
+    const quoteLength = quoteArray.length + 1
+    const nameLength = nameArray ? nameArray.length + 1 : 0
 
-    const handleFirstStep = () => {
-      console.log('first step!!')
-      console.log(this)
-    }
+    const sequencerLength = quoteLength + nameLength
 
-    const handleLastStep = () => {
-      console.log('last step!!')
-      console.log(this)
+    const mapWords = (props: { array: string[], start?: number, step: number }) => {
+      const { array, start, step } = props
 
-      this.setState({
-        play: false
+      if (array === undefined) return <></>
+      if (array.length === 0) return <></>
+
+      return array.map((word, index) => {
+        const wordClasses = [
+          `${rootClass}_word`,
+          styles['word']
+        ]
+
+        if ((index + (start ?? 0)) < step) {
+          wordClasses.push(`${rootClass}_word--visible`)
+          wordClasses.push(styles['word--visible'])
+        }
+
+        return <span class={wordClasses.join(' ')}>{word} </span>
       })
     }
 
-    const handleStepChange = () => {
-      console.log('step change!!')
+    const textRenderer = ({ step }: RendererArgs) => {
+      return (
+        <>
+          <p class={quoteClasses.join(' ')}>
+            {mapWords({ array: quoteArray, step })}
+          </p>
+
+          {nameArray && <p class={nameClasses.join(' ')}>
+            {mapWords({ array: nameArray, start: quoteLength, step })}
+          </p>}
+
+        </ >
+      )
+    }
+
+    const handleLastStep = () => {
+      this.setState({
+        play: false,
+        finished: true
+      })
     }
 
     return <div className={wrapperClasses.join(' ')}>
-      <Sequencer
-        play={state.play}
-        tempo={props.tempo}
-        length={length}
-        renderer={textRenderer}
-        onFirstStep={handleFirstStep}
-        onLastStep={handleLastStep}
-        onStepChange={handleStepChange}
-      />
-    </div>
+      <div className={textClasses.join(' ')}>
+        <Sequencer
+          play={state.play}
+          tempo={1000}
+          length={sequencerLength}
+          renderer={textRenderer}
+          onLastStep={handleLastStep}
+        />
+      </div>
+      {state.finished && <ScrollInfo text={props.scrollInfo} />}
+    </div >
   }
 }
 

@@ -12,19 +12,33 @@ interface MessageData {
 
 interface Props {
   tempo: number
+  scrollInfo: string
   content: MessageData[]
-  play: boolean
+  active: boolean
 }
 
-interface State { }
+interface State {
+  play: boolean
+  finished: boolean
+}
 
 class MessagesSequencer extends Component<Props, State> {
+  state: State = {
+    play: false,
+    finished: false,
+  }
+
+  componentDidUpdate(previousProps: Readonly<Props>, previousState: Readonly<State>, snapshot: any): void {
+    if (!previousProps.active && this.props.active) {
+      this.setState({ play: true })
+    }
+  }
 
   /* * * * * * * * * * * * * * *
    * RENDER
    * * * * * * * * * * * * * * */
   render(): JSX.Element {
-    const { props } = this
+    const { props, state } = this
 
     const messagesClass = 'lm-cover__messages'
     const messageClass = 'lm-cover__message'
@@ -33,6 +47,8 @@ class MessagesSequencer extends Component<Props, State> {
       `${messagesClass}_wrapper`,
       styles['wrapper']
     ]
+
+    if (state.finished) wrapperClasses.push(`${messagesClass}_wrapper--finished`)
 
     const messagesClasses = [
       messagesClass,
@@ -71,10 +87,18 @@ class MessagesSequencer extends Component<Props, State> {
       )
     }
 
+    const handleLastStep = () => {
+      this.setState({
+        play: false,
+        finished: true
+      })
+    }
+
     return <div className={wrapperClasses.join(' ')}>
       <Sequencer
-        play={props.play}
+        play={state.play}
         tempo={props.tempo}
+        onLastStep={handleLastStep}
         renderer={messagesRenderer}
       />
     </div>
