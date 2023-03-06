@@ -1,0 +1,54 @@
+.wrapper {
+  --lm-c-feminists: #2B006F;
+}
+
+.quote {
+  font-family: var(--ff-the-antiqua-b, "The-Antiqua-B");
+  font-weight: 900;
+  font-size: 4.2rem;
+  line-height: 4.6rem;
+  color: #fff;
+  text-stroke: 1px var(--lm-c-feminists);
+  -webkit-text-stroke: 1px var(--lm-c-feminists);
+  padding-bottom: 18px;
+
+  em {
+    color: var(--lm-c-feminists);
+    font-style: normal;
+  }
+}
+
+.author {
+  display: flex;
+  align-items: center;
+  padding-top: 18px;
+  border-top: 1px solid var(--lm-c-feminists);
+
+  > div {
+    padding-left: 16px;
+  }
+}
+
+.portrait {
+  flex-shrink: 0;
+  height: 56px;
+  width: 56px;
+  border-radius: 56px;
+  border: 1px solid var(--lm-c-feminists);
+}
+
+.name {
+  font-family: var(--ff-the-antiqua-b, "The-Antiqua-B");
+  color: var(--lm-c-feminists);
+  font-size: 1.8rem;
+  line-height: 2.5rem;
+  font-weight: 800;
+}
+
+.bio {
+  font-family: var(--ff-marr-sans, 'Marr Sans');
+  font-size: 1.4rem;
+  line-height: 2rem;
+  font-weight: 400;
+  color: #717B8E;
+}
