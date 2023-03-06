@@ -14,40 +14,54 @@ interface State { }
 
 class Snippet extends Component<Props, State> {
   container: any
-  id: number
+  id: number | undefined
+  idCheck: any
 
   constructor() {
     super()
 
     this.container = createRef()
-    this.id = 1
+    this.id = undefined
+    this.idCheck = undefined
+    this.setSnippetId = this.setSnippetId.bind(this)
   }
 
   componentDidMount(): void {
-    
+    this.setSnippetId()
+
+    if (this.id === undefined) {
+      this.idCheck = window.setInterval(this.setSnippetId, 500)
+    }
+  }
+
+  setSnippetId(): void {
+    if (this.id === undefined) this.id = this.getSnippetId()
+  }
+
+  getSnippetId(): number | undefined {
+    if (this.container.current === null || this.container.current === undefined) return undefined
+
     const parent = this.container.current.closest('.lm-app-root')
-    console.log(parent)
+
+    if (parent === null || parent === undefined) return undefined
 
     const parentClassList = parent.classList.value.split(' ')
-    console.log(parentClassList)
-
     const snippetClass = parentClassList.find((el: string) => el.startsWith('lm-snippet'))
-    console.log(snippetClass)
+    const snippetId = snippetClass.split('-').slice(-1)[0]
 
-    this.id = snippetClass.split('-').slice(-1)[0]
-    console.log(this.id)
+    window.clearInterval(this.idCheck)
+
+    return snippetId
   }
 
   /* * * * * * * * * * * * * * *
    * RENDER
    * * * * * * * * * * * * * * */
   render(): JSX.Element {
-
-
     const { props } = this
 
-
-    const data = props.sheetBase?.collection('data').value[this.id - 1] as unknown as SnippetData;
+    const dataIndex = this.id ? this.id - 1 : 0
+    const data = props.sheetBase?.collection('data').value[dataIndex] as unknown as SnippetData;
 
     const wrapperClasses = [
       styles['wrapper']
@@ -73,23 +87,25 @@ class Snippet extends Component<Props, State> {
       styles['portrait']
     ]
 
-    const portraitUrl = `https://assets-decodeurs.lemonde.fr/redacweb/42-2303-feministes-medias/portrait-${this.id}.png`
+    const portraitUrl = `https://assets-decodeurs.lemonde.fr/redacweb/42-2303-feministes-medias/portrait-${this.id ?? 0}.png`
 
     return <div ref={this.container} className={wrapperClasses.join(' ')}>
-      <p className={quoteClasses.join(' ')}>« {data.quote} »</p>
+      {this.id && <>
+        <p className={quoteClasses.join(' ')}>« {data.quote} »</p>
 
-      <div className={authorClasses.join(' ')}>
-        <img
-          src={portraitUrl}
-          alt={data.name as string}
-          className={portraitClasses.join(' ')}
-        />
+        <div className={authorClasses.join(' ')}>
+          <img
+            src={portraitUrl}
+            alt={data.name as string}
+            className={portraitClasses.join(' ')}
+          />
 
-        <div>
-          <p className={nameClasses.join(' ')}>{data.name}</p>
-          <p className={bioClasses.join(' ')}>{data.bio}</p>
+          <div>
+            <p className={nameClasses.join(' ')}>{data.name}</p>
+            <p className={bioClasses.join(' ')}>{data.bio}</p>
+          </div>
         </div>
-      </div>
+      </>}
     </div>
   }
 }
