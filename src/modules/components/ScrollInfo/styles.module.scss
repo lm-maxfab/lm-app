@@ -16,20 +16,21 @@
   letter-spacing: 1px;
   padding-bottom: 24px;
   display: flex;
-  align-items: flex-end;
-}
+  align-items: center;
 
-.scroll-info::before {
-  content: '';
-  display: inline-block;
-  background-image: url('./arrow.svg');
-  background-repeat: no-repeat;
-  height: 14px;
-  width: 14px;
-}
+  svg {
+    height: 14px;
+    width: 14px;
 
-.lm-cover-ux p {
-  margin: 0;
+    path {
+      fill: #8B92A1;
+    }
+  }
+
+  p {
+    margin: 0;
+    padding-left: 0.6em;
+  }
 }
 
 @keyframes appear {

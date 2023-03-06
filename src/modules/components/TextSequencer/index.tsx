@@ -121,7 +121,7 @@ class TextSequencer extends Component<Props, State> {
       <div className={textClasses.join(' ')}>
         <Sequencer
           play={state.play}
-          tempo={1000}
+          tempo={props.tempo}
           length={sequencerLength}
           renderer={textRenderer}
           onLastStep={handleLastStep}

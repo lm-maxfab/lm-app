@@ -1,6 +1,8 @@
 import { Component, JSX } from 'preact'
 import styles from './styles.module.scss'
 
+import SmallArrow from '../SmallArrow'
+
 interface Props {
   text: string
 }
@@ -20,9 +22,10 @@ class scrollInfo extends Component<Props, State> {
       styles['scroll-info']
     ]
 
-    return <p className={scrollInfoClasses.join(' ')}>
-      {props.text}
-    </p>
+    return <div className={scrollInfoClasses.join(' ')}>
+      <SmallArrow />
+      <p>{props.text}</p>
+    </div>
   }
 }
 
