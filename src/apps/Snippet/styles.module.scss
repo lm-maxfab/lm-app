@@ -37,7 +37,7 @@
 .portrait {
   flex-shrink: 0;
   height: 56px;
-  width: 56px;
+  width:  56px !important;
   border-radius: 56px;
   border: 1px solid var(--lm-c-feminists);
 }
