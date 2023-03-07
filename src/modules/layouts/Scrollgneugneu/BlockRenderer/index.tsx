@@ -39,7 +39,8 @@ export default class BlockRenderer extends Component<Props> {
           const sequencerProps = {
             tempo: 60,
             content: "Lorem ipsum dolor sit amet.",
-            scrollInfo: "Défilez pour continuer"
+            scrollInfo: "Défilez pour continuer",
+            customClass: ""
           }
           let sequencerType = "text"
 
@@ -53,11 +54,9 @@ export default class BlockRenderer extends Component<Props> {
             if (typeof parsed.tempo === 'number') sequencerProps.tempo = parsed.tempo
             if (typeof parsed.scrollInfo === 'string') sequencerProps.scrollInfo = parsed.scrollInfo
             if (parsed.content != '') sequencerProps.content = parsed.content
+            if (typeof parsed.customClass === 'string') sequencerProps.customClass = parsed.customClass
             if (parsed.type === 'messages') sequencerType = 'messages'
           } catch (err) { console.log(err) }
-
-          if (sequencerType === 'text') console.log('text: ', context?.page)
-          if (sequencerType === 'messages') console.log('messages: ', context?.page)
 
           if (sequencerType === "text") {
             return <TextSequencer
@@ -74,6 +73,7 @@ export default class BlockRenderer extends Component<Props> {
               scrollInfo={sequencerProps.scrollInfo}
               tempo={sequencerProps.tempo}
               active={context?.page === 0}
+              customClass={sequencerProps.customClass != '' ? sequencerProps.customClass : null}
             />
           }
         }

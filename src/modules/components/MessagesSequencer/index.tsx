@@ -15,6 +15,7 @@ interface Props {
   scrollInfo: string
   content: MessageData[]
   active: boolean
+  customClass: string | null
 }
 
 interface State {
@@ -35,6 +36,8 @@ class MessagesSequencer extends Component<Props, State> {
       `${messagesClass}_wrapper`,
       styles['wrapper']
     ]
+
+    if (props.customClass != null) wrapperClasses.push(props.customClass)
 
     const messagesClasses = [
       messagesClass,
