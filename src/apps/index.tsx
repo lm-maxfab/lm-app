@@ -6,6 +6,7 @@ import Footer from './Footer'
 const appsNodes: AppNodeMap[] = [
   { app: Footer, selector: '.pedocrim-footer' },
   { app: Sidenote, selector: '.pedocrim-sidenote' },
+  { app: LongformOf('messages-snippet'), selector: '.pedocrim-messages' },
   { app: LongformOf('cover-article-1'), selector: '.pedocrim-cover-article-1' },
   { app: LongformOf('cover-article-2'), selector: '.pedocrim-cover-article-2' },
   { app: LongformOf('cover-article-3'), selector: '.pedocrim-cover-article-3' },

@@ -1724,6 +1724,17 @@
       },
       "description": "",
       "time": "2023-03-06T14:03:31.874Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 25
+      },
+      "description": "test snippet sequencer",
+      "time": "2023-03-07T09:29:31.458Z"
     }
   ]
 }

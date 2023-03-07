@@ -40,8 +40,6 @@ class TextSequencer extends Component<Props, State> {
   render(): JSX.Element {
     const { props, state } = this
 
-    console.log(props)
-
     const rootClass = 'lm-cover__sequencer'
 
     const quoteArray = props.content.text.split(' ')

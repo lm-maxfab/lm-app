@@ -12,8 +12,8 @@
       "nodes": [
         { "class": "pedocrim-cover-article-1", "type": "cover" },
         { "class": "pedocrim-footer", "type": "snippet" },
-        { "class": "pedocrim-sidenote", "type": "snippet" }
-      ]
-      }],
+        { "class": "pedocrim-sidenote", "type": "snippet" },
+        { "class": "pedocrim-messages", "type": "snippet" }
+      ]}],
   "env": null
 }

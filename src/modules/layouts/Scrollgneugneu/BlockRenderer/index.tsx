@@ -44,9 +44,9 @@ export default class BlockRenderer extends Component<Props> {
           let sequencerType = "text"
 
           try {
-            console.log(sequencerPropsStr)
+            // console.log(sequencerPropsStr)
             const parsed = JSON.parse(sequencerPropsStr)
-            console.log(parsed)
+            // console.log(parsed)
             if (parsed === null) break;
             if (typeof parsed !== 'object') break;
             if (Array.isArray(parsed)) break;
@@ -55,6 +55,9 @@ export default class BlockRenderer extends Component<Props> {
             if (parsed.content != '') sequencerProps.content = parsed.content
             if (parsed.type === 'messages') sequencerType = 'messages'
           } catch (err) { console.log(err) }
+
+          if (sequencerType === 'text') console.log('text: ', context?.page)
+          if (sequencerType === 'messages') console.log('messages: ', context?.page)
 
           if (sequencerType === "text") {
             return <TextSequencer
