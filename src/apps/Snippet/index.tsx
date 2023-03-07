@@ -91,7 +91,7 @@ class Snippet extends Component<Props, State> {
       styles['portrait']
     ]
 
-    const portraitUrl = `https://assets-decodeurs.lemonde.fr/redacweb/42-2303-feministes-medias/portrait-${state.id ?? 0}.png`
+    const portraitUrl = `https://assets-decodeurs.lemonde.fr/redacweb/42-2303-feministes-medias/portrait-${state.id ?? 0}.jpg`
 
     return <div ref={this.container} className={wrapperClasses.join(' ')}>
       {state.id && <>
