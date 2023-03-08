@@ -43,12 +43,14 @@ export default class BlockRenderer extends Component<Props> {
             if (typeof parsed.urlTemplate === 'string') stopMotionProps.urlTemplate = parsed.urlTemplate
           } catch (err) {}
           const progression = context?.progression
+          const width = context?.width
           const images = new Array(stopMotionProps.length).fill(null).map((e, pos) => {
             const { startIndex, urlTemplate } = stopMotionProps
             return urlTemplate.replace('{%}', `${pos + startIndex}`)
           })
           return <StopMotion
             images={images}
+            width={width}
             progression={progression} />
         }
         return <ModuleBlockRenderer

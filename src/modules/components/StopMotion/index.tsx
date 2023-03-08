@@ -8,6 +8,7 @@ import interpolate from '../../utils/interpolate'
 interface Props {
   progression?: number | null
   images?: string[]
+  width?: number | null
 }
 
 interface imageInfos {
@@ -40,8 +41,14 @@ class StopMotion extends Component<Props, {}> {
     this.initCanvasAndPreloadImages()
   }
 
-  componentDidUpdate(): void {
+  componentDidUpdate(prevProps: Props): void {
     if (this.$canvasWrapper === null) return this.initCanvasAndPreloadImages()
+
+    if (prevProps.width != null && this.props.width != null) {
+      if (prevProps.width != this.props.width) {
+        this.setCanvasSize()
+      }
+    }
 
     this.drawCurrentFrameOnCanvas()
   }
@@ -141,7 +148,7 @@ class StopMotion extends Component<Props, {}> {
 
     if (canvas === null || canvas === undefined) return
 
-    const wrapperWidth = this.$canvasWrapper.getBoundingClientRect().width
+    const wrapperWidth = this.props.width ?? this.$canvasWrapper.getBoundingClientRect().width
 
     const calculatedHeight = wrapperWidth * this.imageRatio
     const dimensionsNeedUpdate = (wrapperWidth != canvas.width) || (calculatedHeight != canvas.height)
