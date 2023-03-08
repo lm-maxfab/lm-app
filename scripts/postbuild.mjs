@@ -250,8 +250,8 @@ async function postbuild () {
       if (pushResult.stdout !== '') console.log(`${chalk.grey(pushResult.stdout.trim())}`)
       if (pushResult.stderr !== '') console.log(`${chalk.grey(pushResult.stderr.trim())}`)
     } catch (err) {
-      console.log('ERRRRRRR')
-      console.log(err)
+      console.log(chalk.red(err))
+      process.exit(1)
     }
   }
 
