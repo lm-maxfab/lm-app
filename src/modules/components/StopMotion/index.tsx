@@ -156,6 +156,7 @@ class StopMotion extends Component<Props, {}> {
     if (wrapperWidth && dimensionsNeedUpdate) {
       canvas.width = wrapperWidth
       canvas.height = calculatedHeight
+      this.drawCurrentFrameOnCanvas()
     }
   }
 
