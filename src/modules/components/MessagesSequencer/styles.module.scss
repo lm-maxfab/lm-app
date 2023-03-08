@@ -6,30 +6,14 @@
 
 .message-container {
   position: absolute;
-  border-radius: 8px;
-  box-shadow: 2px 2px 4px 0px rgba(0, 0, 0, 0.05);
   opacity: 0;
   transition: opacity 800ms;
 }
 
 .message {
-  max-width: 260px;
-  border-radius: 0.8rem;
-  background-color: #CFD7C8;
-  font-family: var(--ff-marr-sans);
   display: inline-block;
   position: relative;
   margin: 0;
-}
-
-.message-container svg {
-  position: absolute;
-  right: -9px;
-  bottom: 14px;
-
-  path {
-    fill: #CFD7C8;
-  }
 }
 
 .message-container--visible {
