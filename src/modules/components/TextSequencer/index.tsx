@@ -96,14 +96,13 @@ class TextSequencer extends Component<Props, State> {
     const textRenderer = ({ step }: RendererArgs) => {
       return (
         <>
-          <p class={quoteClasses.join(' ')}>
-            {mapWords({ array: quoteArray, step })}
-          </p>
-
           {nameArray && <p class={nameClasses.join(' ')}>
-            {mapWords({ array: nameArray, start: quoteLength, step })}
+            {mapWords({ array: nameArray, step })}
           </p>}
 
+          <p class={quoteClasses.join(' ')}>
+            {mapWords({ array: quoteArray, start: nameLength, step })}
+          </p>
         </ >
       )
     }
