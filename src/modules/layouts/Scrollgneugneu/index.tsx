@@ -1153,9 +1153,10 @@ export default class Scrollgneugneu extends Component<Props, State> {
           styles[`status-${blockStatus}`],
           ...generateLayoutClasses('sticky', layout, mobileLayout)
         ]
-        return <ResizeObserverComponent onResize={() => throttledHandleBlockResize()}>
+        return <ResizeObserverComponent
+          key={blockIdentifier}
+          onResize={() => throttledHandleBlockResize()}>
           <div
-            key={blockIdentifier}
             ref={n => { blocksRefsMap.set(blockIdentifier, n) }}
             className={blockClasses.join(' ')}
             data-id={blockIdentifier}
@@ -1236,6 +1237,7 @@ export default class Scrollgneugneu extends Component<Props, State> {
             below: isBelow
           })
         return <Paginator.Page
+          key={pageData.id ?? pagePos}
           value={pagePos}
           className={`${pageBemClass.value} ${styles['page']}`}
           pageRef={n => { pagesRefsMap.set(pagePos, n) }}>{
