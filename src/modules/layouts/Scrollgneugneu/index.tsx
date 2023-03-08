@@ -1153,31 +1153,32 @@ export default class Scrollgneugneu extends Component<Props, State> {
           styles[`status-${blockStatus}`],
           ...generateLayoutClasses('sticky', layout, mobileLayout)
         ]
-        return <ResizeObserverComponent
-          key={blockIdentifier}
-          onResize={() => throttledHandleBlockResize()}>
-          <div
-            ref={n => { blocksRefsMap.set(blockIdentifier, n) }}
-            className={blockClasses.join(' ')}
-            data-id={blockIdentifier}
-            style={{ '--z-index': _zIndex }}>
-            <TransitionsWrapper
-              isActive={blockStatus === 'current'}
-              transitions={transitions}
-              mobileTransitions={mobileTransitions}>
-              {(() => {
-                const blockRef = blocksRefsMap.get(blockIdentifier)
-                if (blockRef === null) return null
-                if (blockRef === undefined) return null
-                return <BlockRenderer
-                  type={type}
-                  content={content}
-                  context={_context}
-                  cssLoader={loadCss} />
-              })()}
-            </TransitionsWrapper>
-          </div>
-        </ResizeObserverComponent>
+        return <div key={blockIdentifier}>
+          <ResizeObserverComponent
+            onResize={() => throttledHandleBlockResize()}>
+            <div
+              ref={n => { blocksRefsMap.set(blockIdentifier, n) }}
+              className={blockClasses.join(' ')}
+              data-id={blockIdentifier}
+              style={{ '--z-index': _zIndex }}>
+              <TransitionsWrapper
+                isActive={blockStatus === 'current'}
+                transitions={transitions}
+                mobileTransitions={mobileTransitions}>
+                {(() => {
+                  const blockRef = blocksRefsMap.get(blockIdentifier)
+                  if (blockRef === null) return null
+                  if (blockRef === undefined) return null
+                  return <BlockRenderer
+                    type={type}
+                    content={content}
+                    context={_context}
+                    cssLoader={loadCss} />
+                })()}
+              </TransitionsWrapper>
+            </div>
+          </ResizeObserverComponent>
+        </div>
       })}
     </>
   }
