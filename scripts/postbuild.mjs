@@ -242,12 +242,17 @@ async function postbuild () {
   // Commit and push to Github
   if (doVersionAndCommit) {
     console.log(chalk.bold('\n📣 Commiting and pushing to Github...'))
-    await execPromise('git add -u')
-    await execPromise(`git commit -m "BUILD - ${currentBranch} - ${buildVersionNameWithDesc}"`)
-    const pushResult = await execPromise(`git push origin ${currentBranch}`)
-    console.log(chalk.grey(`\nPushed: BUILD - ${buildVersionNameWithDesc}`))
-    if (pushResult.stdout !== '') console.log(`${chalk.grey(pushResult.stdout.trim())}`)
-    if (pushResult.stderr !== '') console.log(`${chalk.grey(pushResult.stderr.trim())}`)
+    try {
+      await execPromise('git add -u')
+      await execPromise(`git commit -m "BUILD - ${currentBranch} - ${buildVersionNameWithDesc}"`)
+      const pushResult = await execPromise(`git push origin ${currentBranch}`)
+      console.log(chalk.grey(`\nPushed: BUILD - ${buildVersionNameWithDesc}`))
+      if (pushResult.stdout !== '') console.log(`${chalk.grey(pushResult.stdout.trim())}`)
+      if (pushResult.stderr !== '') console.log(`${chalk.grey(pushResult.stderr.trim())}`)
+    } catch (err) {
+      console.log('ERRRRRRR')
+      console.log(err)
+    }
   }
 
   // The end.
