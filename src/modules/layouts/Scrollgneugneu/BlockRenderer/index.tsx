@@ -39,7 +39,7 @@ export default class BlockRenderer extends Component<Props> {
           const sequencerProps = {
             tempo: 60,
             content: "Lorem ipsum dolor sit amet.",
-            scrollInfo: "Défilez pour continuer",
+            scrollInfo: "Défilez pour continuer",
             customClass: ""
           }
           let sequencerType = "text"
