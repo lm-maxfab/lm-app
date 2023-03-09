@@ -1153,7 +1153,9 @@ export default class Scrollgneugneu extends Component<Props, State> {
           styles[`status-${blockStatus}`],
           ...generateLayoutClasses('sticky', layout, mobileLayout)
         ]
-        return <div key={blockIdentifier}>
+        return <div
+          key={blockIdentifier}
+          data-id={blockIdentifier}>
           <ResizeObserverComponent
             onResize={() => throttledHandleBlockResize()}>
             <div

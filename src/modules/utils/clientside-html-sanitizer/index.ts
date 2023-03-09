@@ -62,7 +62,7 @@ export function sanitizeElement (
   const returnedElement = document.createElement(tagName)
   
   // Element's attributes checkup
-  const returnedAttributes = [...attributes].filter(({ name: attributeName, value: attributeValues }) => {
+  const returnedAttributes = [...attributes].filter(({ name: attributeName, value: attributeValue }) => {
     const allTagsForbiddenAttributes = forbiddenAttributes['*'] ?? [] as AttributeNameValPair[]
     const thisTagForbiddenAttributes = forbiddenAttributes[normalizedTagName] ?? [] as AttributeNameValPair[]
     const mergedForbiddenAttributes: AttributeNameValPair[] = [...allTagsForbiddenAttributes, ...thisTagForbiddenAttributes]
@@ -80,12 +80,12 @@ export function sanitizeElement (
         return true // attribute name matches, and all values are EXPLICITLY forbidden
       }
       return valTesters.some(valTester => {
-        if (typeof valTester === 'string' && attributeValues === valTester) {
-          if (verbose === true) console.warn(attributeValues, 'value for', attributeName, 'attribute on', tagName, 'tag is forbidden. Rule:', valTester)
+        if (typeof valTester === 'string' && attributeValue === valTester) {
+          if (verbose === true) console.warn(attributeValue, 'value for', attributeName, 'attribute on', tagName, 'tag is forbidden. Rule:', valTester)
           return true // attribute value strictly matches
         }
-        if (typeof valTester !== 'string' && valTester.test(attributeValues)) {
-          if (verbose === true) console.warn(attributeValues, 'value for', attributeName, 'attribute on', tagName, 'tag is forbidden. Rule:', valTester)
+        if (typeof valTester !== 'string' && valTester.test(attributeValue)) {
+          if (verbose === true) console.warn(attributeValue, 'value for', attributeName, 'attribute on', tagName, 'tag is forbidden. Rule:', valTester)
           return true // attribute value partially matches
         }
         return false
@@ -110,9 +110,9 @@ export function sanitizeElement (
       if (valTesters === undefined) return true // attribute name matches, and all values are allowed
       if (valTesters.includes('*')) return true // attribute name matches, and all values are EXPLICITLY allowed
       return valTesters.some(valTester => {
-        if (typeof valTester === 'string' && attributeValues === valTester) return true // attribute value strictly matches
-        if (typeof valTester !== 'string' && valTester.test(attributeValues)) return true // attribute value partially matches
-        latestNotAllowedReason = [attributeValues, 'value for', attributeName, 'attribute on', tagName, 'tag is not allowed']
+        if (typeof valTester === 'string' && attributeValue === valTester) return true // attribute value strictly matches
+        if (typeof valTester !== 'string' && valTester.test(attributeValue)) return true // attribute value partially matches
+        latestNotAllowedReason = [attributeValue, 'value for', attributeName, 'attribute on', tagName, 'tag is not allowed']
         return false
       })
     })

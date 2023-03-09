@@ -9,8 +9,6 @@ import {
   PageData as PageDataFromSheet
 } from '../types'
 
-document.addEventListener('click', e => console.log(e.target))
-
 interface Props extends InjectedProps {}
 interface State {}
 
