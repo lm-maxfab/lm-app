@@ -1,6 +1,7 @@
 import { Component, JSX } from 'preact'
 import styles from './styles.module.scss'
 
+import StrToHtml from '../StrToHtml'
 import Sequencer from '../Sequencer'
 import { RendererArgs } from '../Sequencer'
 
@@ -63,9 +64,9 @@ class MessagesSequencer extends Component<Props, State> {
 
             containerClasses.push(`${messageClass}_container--${index}`)
 
-            if (start < step) { 
-              containerClasses.push(styles['message-container--visible']) 
-              containerClasses.push(`${messageClass}_container--visible`) 
+            if (start < step) {
+              containerClasses.push(styles['message-container--visible'])
+              containerClasses.push(`${messageClass}_container--visible`)
             }
 
             if (message.type != '' && message.type != undefined) {
@@ -74,7 +75,9 @@ class MessagesSequencer extends Component<Props, State> {
 
             return (
               <div class={containerClasses.join(' ')}>
-                <p class={textClasses.join(' ')}>{message.text}</p>
+                <p class={textClasses.join(' ')}>
+                  <StrToHtml content={message.text}></StrToHtml>
+                </p>
               </div>
             )
           })}

@@ -1856,6 +1856,17 @@
       },
       "description": "",
       "time": "2023-03-09T11:00:41.956Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 37
+      },
+      "description": "msgSequencer: on passe le texte dans un strToHtml",
+      "time": "2023-03-09T15:51:43.090Z"
     }
   ]
 }
