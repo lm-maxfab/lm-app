@@ -517,15 +517,11 @@ export default class Scrollgneugneu extends Component<Props, State> {
     window.addEventListener('scroll', handleWindowScroll)
     this.boundsDetectionInterval = window.setInterval(throttledBoundsDetection, 2000)
     handleWindowScroll()
-    // [WIP] remove this
-    // window.setTimeout(() => this.handleBlockResize(), 500)
   }
 
   componentDidUpdate(): void {
     const { cleanRefsMaps } = this
     cleanRefsMaps()
-    // [WIP] remove this
-    // window.setTimeout(() => this.handleBlockResize(), 500)
   }
 
   componentWillUnmount(): void {
@@ -930,13 +926,19 @@ export default class Scrollgneugneu extends Component<Props, State> {
       state,
       getBlocksContextMap,
       getBlocksContextSize,
+      getBlocksContextPage,
+      getBlocksContextProgression,
       mergeBlocksPartialContexts
     } = this
     const blocksContextSize = getBlocksContextSize()
+    const blocksContextPage = getBlocksContextPage()
+    const blocksContextProgression = getBlocksContextProgression()
     const currBlocksContext = getBlocksContextMap()
     const newBlocksContexts = mergeBlocksPartialContexts(
       currBlocksContext,
-      blocksContextSize
+      blocksContextSize,
+      blocksContextPage,
+      blocksContextProgression
     )
     const { blocks } = state
     const newBlocks = new Map(blocks)
