@@ -92,7 +92,11 @@ export type Props = {
   pages?: PropsPageData[]
   headerCustomClass?: string
   headerCustomCss?: string
-  headerNavItemsAlign?: string
+  headerNavItemsAlign?: string // [WIP] more specific ? map to ArticleHeader Props?
+  onHalfVisible?: () => void
+  onHalfHidden?: () => void
+  onEndVisible?: () => void
+  onEndHidden?: () => void
 }
 
 /* Context stuff */
@@ -218,6 +222,7 @@ type State = {
 }
 
 /* Actual Component */
+// [WIP] PureComponent one day??? PureComponents everywhere ???
 export default class Scrollgneugneu extends Component<Props, State> {
   static getDerivedStateFromProps (
     props: Props,
@@ -587,7 +592,8 @@ export default class Scrollgneugneu extends Component<Props, State> {
     const { stickyBlocksOffsetTop } = props
     const refToStateKeyMap = new Map<
       'topVisible'|'cntVisible'|'btmVisible',
-      HTMLDivElement|null>([
+      HTMLDivElement|null
+    >([
       ['topVisible', topBoundRef],
       ['cntVisible', paginatorRef?.$scrollableArea ?? null],
       ['btmVisible', btmBoundRef]
@@ -1379,10 +1385,24 @@ export default class Scrollgneugneu extends Component<Props, State> {
             <ScrollingBlocks />
           </ResizeObserverComponent>
         </IntersectionObserverComponent>
+        {/* HALF LENGTH DETECTION */}
+        <IntersectionObserverComponent
+          style={{ position: 'absolute', top: `${(scrollingPanelHeight ?? 0) / 2}px` }}
+          render={<div />}
+          callback={ioEntry => {
+            const { onHalfVisible, onHalfHidden } = props
+            if (ioEntry.isIntersecting && onHalfVisible !== undefined) return onHalfVisible()
+            if (!ioEntry.isIntersecting && onHalfHidden !== undefined) return onHalfHidden()
+          }} />
         {/* BOTTOM BOUND DETECTION */}
         <IntersectionObserverComponent
           render={<div ref={n => { this.btmBoundRef = n }} />}
-          callback={throttledBoundsDetection} />
+          callback={ioEntry => {
+            throttledBoundsDetection(ioEntry)
+            const { onEndVisible, onEndHidden } = props
+            if (ioEntry.isIntersecting && onEndVisible !== undefined) return onEndVisible()
+            if (!ioEntry.isIntersecting && onEndHidden !== undefined) return onEndHidden()
+          }} />
       </div>
     </div>
   }

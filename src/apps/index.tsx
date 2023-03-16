@@ -3,7 +3,7 @@ import Longform from './Longform'
 
 const appsNodes: AppNodeMap[] = [{
   app: Longform,
-  selector: '.demo-page-root'
+  selector: '.analytics-demo-longform-root'
 }]
 
 export default appsNodes

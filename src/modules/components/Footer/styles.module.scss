@@ -11,12 +11,22 @@
 .background-image {
   position: absolute;
   width: 100%;
+  height: 100%;
 
   img {
     width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 }
 
-.thumbnails {
+.above,
+.thumbnails,
+.below {
   position: relative;
+}
+
+.thumbnails {
+  display: flex;
+  justify-content: space-evenly;
 }

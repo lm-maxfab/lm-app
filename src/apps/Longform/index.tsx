@@ -3,96 +3,287 @@ import Scrollgneugneu, { PropsPageData, PropsBlockData, PropsStickyBlockData } f
 import appWrapper, { InjectedProps } from '../../modules/utils/app-wrapper-HOC'
 import bem from '../../modules/utils/bem'
 import './styles.scss'
-import {
-  GeneralSettings,
-  BlockData as BlockDataFromSheet,
-  PageData as PageDataFromSheet
-} from '../types'
+import { GeneralSettings } from '../types'
+import generateNiceColor from '../../modules/utils/generate-nice-color'
+import { generateContentPage, generateParagraph, generateSentences } from '../../modules/utils/generate-html-placeholders'
+import Footer, { Props as FooterProps } from '../../modules/components/Footer'
+import StrToVNode from '../../modules/components/StrToVNodes'
+import { logEvent, EventNames } from '../../modules/utils/lm-analytics'
 
 interface Props extends InjectedProps {}
-interface State {}
+interface State {
+  scrollStartedLogged: boolean
+  longformHalfLogged: boolean
+  longformEndLogged: boolean
+  footerVisibleLogged: boolean
+}
+
+const generalSettings: GeneralSettings = {
+  id: 'general-settings',
+  thresholdOffset: '80vh',
+  bgColorTransitionDuration: '600ms',
+  lazyLoadDistance: 2,
+  viewportHeight: '100vh',
+  topOffset: 0,
+  headerCustomClass: 'analytics-demo-header',
+  headerCustomCss: `
+    /* Header */
+    .analytics-demo-header .lm-article-header__nav-item {
+      padding: 4px 12px;
+      margin-right: 4px;
+      border: none;
+      border-radius: 1000px;
+      background: black;
+      color: white;
+      font-family: var(--ff-marr-sans);
+      font-weight: 700;
+      font-size: 12px;
+      opacity: .7;
+      transition: opacity 600ms;
+    }
+
+    .analytics-demo-header .lm-article-header__nav-item.lm-article-header__nav-item_active {
+      opacity: 1;
+    }
+
+    .analytics-demo-header .lm-article-header__nav-item:hover {
+      opacity: .95;
+    }
+
+    .analytics-demo-header .lm-article-header__nav-item:nth-last-child(2) {
+      margin-right: 118px;
+    }
+
+    /* Pages */
+    .analytics-demo-longform-page {
+      background: white;
+      padding: 64px;
+    }
+    .analytics-demo-longform-page > .content-page > * {
+      margin-bottom: 16px;
+    }
+    .analytics-demo-longform-page .title,
+    .analytics-demo-longform-page .intertitle {
+      font-family: var(--ff-marr-sans-condensed);
+      font-weight: 700;
+    }
+    .analytics-demo-longform-page .paragraph {
+      font-family: var(--ff-the-antiqua-b);
+    }
+    @media (max-width: 1024px) {
+      .analytics-demo-longform-page {
+        padding: 24px;
+      }
+    }
+    .lm-paginator-page:first-child .analytics-demo-longform-page {
+      margin-top: 40vh;
+    }
+    .lm-paginator-page:last-child .analytics-demo-longform-page {
+      margin-bottom: 40vh;
+    }`,
+  headerNavItemsAlign: 'center'
+}
+const pagesData: PropsPageData[] = [{
+  bgColor: generateNiceColor(),
+  showHeader: true,
+  showNav: true,
+  headerLogoFill1: 'black',
+  headerLogoFill2: 'rgb(0, 0, 0, .3)',
+  chapterName: 'Chapitre 1',
+  isChapterHead: true,
+  blocks: [{
+    depth: 'scroll',
+    content: `<div class="analytics-demo-longform-page">${generateContentPage(6)}</div>`,
+    layout: 'left-half',
+    mobileLayout: '4/5'
+  }]
+}, {
+  bgColor: generateNiceColor(),
+  showHeader: true,
+  showNav: true,
+  headerLogoFill1: 'black',
+  headerLogoFill2: 'rgb(0, 0, 0, .3)',
+  chapterName: 'Chapitre 2',
+  isChapterHead: true,
+  blocks: [{
+    depth: 'scroll',
+    content: `<div class="analytics-demo-longform-page">${generateContentPage(6)}</div>`,
+    layout: 'right-half',
+    mobileLayout: '4/5(1/5)'
+  }]
+}, {
+  bgColor: generateNiceColor(),
+  showHeader: true,
+  showNav: true,
+  headerLogoFill1: 'black',
+  headerLogoFill2: 'rgb(0, 0, 0, .3)',
+  chapterName: 'Chapitre 3',
+  isChapterHead: true,
+  blocks: [{
+    depth: 'scroll',
+    content: `<div class="analytics-demo-longform-page">${generateContentPage(6)}</div>`,
+    layout: 'left-half',
+    mobileLayout: '4/5'
+  }]
+}]
+
+const footerProps: FooterProps = {
+  customClass: 'analytics-demo-footer',
+  customCss: `
+    .analytics-demo-footer {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .analytics-demo-footer .lm-article-footer__shade {
+      opacity: .1;
+    }
+
+    .analytics-demo-footer .lm-article-footer__above,
+    .analytics-demo-footer .lm-article-footer__below {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .analytics-demo-footer .lm-article-footer__thumbnails {
+      max-width: 1024px;
+    }
+
+    .analytics-demo-footer__title,
+    .analytics-demo-footer__intro-paragraph,
+    .analytics-demo-footer__cta,
+    .analytics-demo-footer__outro-paragraph {
+      text-align: center;
+      display: block;
+    }
+
+    .analytics-demo-footer__title,
+    .analytics-demo-footer__intro-paragraph,
+    .analytics-demo-footer__outro-paragraph {
+      color: white;
+    }
+
+    .analytics-demo-footer__title {
+      font-family: var(--ff-the-antiqua-b);
+      font-weight: 400;
+      text-transform: uppercase;
+      font-size: 36px;
+      margin-top: 64px;
+      margin-bottom: 32px;
+    }
+
+    .analytics-demo-footer__intro-paragraph,
+    .analytics-demo-footer__outro-paragraph {
+      font-family: var(--ff-marr-sans);
+      max-width: 800px;
+      padding: 0 16px;
+    }
+
+    .analytics-demo-footer__intro-paragraph {
+      margin-bottom: 32px;
+    }
+
+    .analytics-demo-footer__cta {
+      background: white;
+      color: black;
+      font-family: var(--ff-marr-sans);
+      font-weight: 600;
+      font-size: 16px;
+      border: none;
+      border-radius: 100px;
+      padding: 12px 16px;
+      cursor: pointer;
+      margin-bottom: 32px;
+    }
+
+    .analytics-demo-footer__outro-paragraph {
+      font-size: 14px;
+      opacity: .7;
+      margin-top: 32px;
+      margin-bottom: 64px;
+    }
+  `,
+  bgColor: 'black',
+  shadeFromPos: '30%',
+  shadeFromColor: 'transparent',
+  shadeToPos: '100%',
+  shadeToColor: generateNiceColor(),
+  textBelow: <StrToVNode content={`
+    <span class="analytics-demo-footer__outro-paragraph">
+      ${generateSentences(2).join('.<br />')}.
+    </span>
+  `} />,
+  visibilityThreshold: .2
+}
 
 class Longform extends Component<Props, State> {
-  static clss: string = 'scrllgngn-longform'
+  static clss: string = 'analytics-demo-longform'
   clss = Longform.clss
+  state: State = {
+    scrollStartedLogged: false,
+    longformHalfLogged: false,
+    longformEndLogged: false,
+    footerVisibleLogged: false
+  }
+
+  constructor (props: Props) {
+    super(props)
+    this.logScrollStarted = this.logScrollStarted.bind(this)
+    this.logLongformHalf = this.logLongformHalf.bind(this)
+    this.logLongformEnd = this.logLongformEnd.bind(this)
+    this.logFooterVisible = this.logFooterVisible.bind(this)
+    this.logFooterClick = this.logFooterClick.bind(this)
+  }
+
+  componentDidMount(): void {
+    window.addEventListener('scroll', this.logScrollStarted)
+  }
+
+  componentWillUnmount(): void {
+    window.removeEventListener('scroll', this.logScrollStarted)
+  }
+
+  logScrollStarted () {
+    if (this.state.scrollStartedLogged) return
+    logEvent(EventNames.SCROLL_STARTED)
+    this.setState({ scrollStartedLogged: true })
+    window.removeEventListener('scroll', this.logScrollStarted)
+  }
+
+  logLongformHalf () {
+    if (this.state.longformHalfLogged) return
+    logEvent(EventNames.SCRLLGNGN_HALF_REACHED)
+    this.setState({ longformHalfLogged: true })
+  }
+
+  logLongformEnd () {
+    if (this.state.longformEndLogged) return
+    logEvent(EventNames.SCRLLGNGN_END_REACHED)
+    this.setState({ longformEndLogged: true })
+  }
+
+  logFooterVisible () {
+    if (this.state.footerVisibleLogged) return
+    logEvent(EventNames.FOOTER_VISIBLE)
+    this.setState({ footerVisibleLogged: true })
+  }
+
+  logFooterClick () {
+    logEvent(EventNames.FOOTER_ITEM_CLICK)
+  }
 
   /* * * * * * * * * * * * * * *
    * RENDER
    * * * * * * * * * * * * * * */
   render (): JSX.Element {
-    const { props } = this
-    const { sheetBase } = props
-
-    const generalSettings = sheetBase?.collection('general_settings').entries[0].value as GeneralSettings|undefined
-    const blocksData = sheetBase?.collection('blocks_data').value as BlockDataFromSheet[]|undefined
-    const rawPagesData = sheetBase?.collection('pages_data').value as PageDataFromSheet[]|undefined
-    const pagesData: PropsPageData[]|undefined = rawPagesData?.map(rawPageData => {
-      // [WIP] there could be some scroll blocks in there too...
-      const fixedBlocksData: PropsStickyBlockData[] = []
-      rawPageData.blocksIds?.split(',').map(name => {
-        const blockId = name.trim()
-        const theActualBlock = blocksData?.find(blockData => blockData.id === blockId)
-        if (theActualBlock !== undefined) {
-          const extractedBlockData: PropsStickyBlockData = {
-            id: theActualBlock.id as PropsStickyBlockData['id'],
-            depth: (theActualBlock.depth ?? 'back') as PropsStickyBlockData['depth'],
-            type: theActualBlock.type as PropsStickyBlockData['type'],
-            content: theActualBlock.content as PropsStickyBlockData['content'],
-            layout: theActualBlock.layout as PropsStickyBlockData['layout'],
-            mobileLayout: theActualBlock.mobileLayout as PropsStickyBlockData['mobileLayout'],
-            transitions: theActualBlock.transitions
-              ?.split(';')
-              .map(str => str
-                .trim()
-                .split(',')
-                .map(str => str.trim())
-                .map((val, pos) => {
-                  if (pos === 0) return val
-                  if (pos === 1 && val === undefined) return '600ms'
-                  if (val.match(/[0-9]$/gm)) return `${val}ms`
-                  return val
-                })
-              ) as PropsStickyBlockData['transitions'],
-            mobileTransitions: theActualBlock.mobileTransitions
-              ?.split(';')
-              .map(str => str
-                .trim()
-                .split(',')
-                .map(str => str.trim())
-                .map((val, pos) => {
-                  if (pos === 0) return val
-                  if (pos === 1 && val === undefined) return '600ms'
-                  if (val.match(/[0-9]$/gm)) return `${val}ms`
-                  return val
-                })
-              ) as PropsStickyBlockData['mobileTransitions'],
-            zIndex: theActualBlock.zIndex,
-            trackScroll: theActualBlock.trackScroll
-          }
-          fixedBlocksData.push(extractedBlockData)
-        }
-      })
-      return {
-        id: rawPageData.id,
-        showHeader: rawPageData.showHeader,
-        showNav: rawPageData.showNav,
-        headerLogoFill1: rawPageData.headerLogoFill1,
-        headerLogoFill2: rawPageData.headerLogoFill2,
-        headerCustomClass: rawPageData.headerCustomClass,
-        headerCustomCss: rawPageData.headerCustomCss,
-        headerNavItemsAlign: rawPageData.headerNavItemsAlign,
-        chapterName: rawPageData.chapterName,
-        isChapterHead: rawPageData.isChapterHead,
-        bgColor: rawPageData.bgColor,
-        blocks: [{
-          depth: 'scroll',
-          type: 'html',
-          content: rawPageData.content,
-          layout: rawPageData.layout as PropsBlockData['layout'],
-          mobileLayout: rawPageData.mobileLayout as PropsBlockData['mobileLayout']
-        }, ...fixedBlocksData]
-      }
-    })
+    const {
+      props,
+      logLongformHalf,
+      logLongformEnd,
+      logFooterVisible
+    } = this
 
     // Assign classes and styles
     const wrapperClasses = bem(props.className).block(this.clss)
@@ -111,7 +302,45 @@ class Longform extends Component<Props, State> {
         stickyBlocksOffsetTop={generalSettings?.topOffset}
         headerCustomClass={generalSettings?.headerCustomClass}
         headerCustomCss={generalSettings?.headerCustomCss}
-        headerNavItemsAlign={generalSettings?.headerNavItemsAlign} />
+        headerNavItemsAlign={generalSettings?.headerNavItemsAlign}
+        onHalfVisible={logLongformHalf}
+        onEndVisible={logLongformEnd} />
+      <Footer
+        {...footerProps}
+        onVisible={logFooterVisible}
+        textAbove={<>
+          <h3 class="analytics-demo-footer__title">
+            Un nom de série
+          </h3>
+          <button 
+            class="analytics-demo-footer__cta"
+            onClick={this.logFooterClick}>
+            Découvrir la série
+          </button>
+          <span class="analytics-demo-footer__intro-paragraph">
+            <StrToVNode content={generateParagraph()} />
+          </span>
+        </>}
+        articleThumbsData={[...Array(4).fill(null).map(_e => ({
+          customClass: 'analytics-demo-article-thumb',
+          customCss: `.analytics-demo-article-thumb {
+            width: calc(25% - 64px);
+            /*margin: 0 32px;*/
+            grid-auto-columns: unset;
+          }`,
+          imageUrl: 'https://assets-decodeurs.lemonde.fr/redacweb/5-2110-fragments-icono/collier-bal_grid_hd.jpg',
+          textInsideBottom: <a
+            style={{ cursor: 'pointer' }}
+            onClick={this.logFooterClick}>
+            <StrToVNode content={`<div style="
+              color: white;
+              font-family: var(--ff-marr-sans);
+              font-weight: 700;
+              padding: 8px;">
+              Un super article
+            </div>`} />
+          </a>
+        }))]} />
     </div>
   }
 }

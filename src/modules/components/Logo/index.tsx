@@ -28,16 +28,12 @@ export default class Logo extends Component<Props, {}> {
       '--fill-transition-time': props.fillTransitionTime ?? '600ms'
     }
 
-    return (
-      <a 
-        className={logoClasses.join(' ')} 
-        href='https://lemonde.fr'
-      >
-        <Svg
-          src={logoUrl}
-          style={logoStyle}
-        />
-      </a>
-    )
+    return <a
+      className={logoClasses.join(' ')}
+      href='https://lemonde.fr'>
+      <Svg
+        src={logoUrl}
+        style={logoStyle} />
+    </a>
   }
 }

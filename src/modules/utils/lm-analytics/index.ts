@@ -10,14 +10,14 @@ type AmplitudeSdk = {
     payload?: { [key: string]: any }
   ) => void
 }
-type AtInternetPayloadUnnamed = {
+type AtInternetPayload = {
+  name: string
   type: string
   level2: number
   chapter1: string
   chapter2: string
   chapter3: string
 }
-type AtInternetPayload = AtInternetPayloadUnnamed & { name: string }
 type AtInternetSdk = {
   Utils?: {}
   Tracker?: {
@@ -84,7 +84,7 @@ function logToAmplitude (eventName: EventNames) {
   if (amplitudeSdk === null) return
   const { logEvent } = amplitudeSdk
   switch (eventName) {
-    case EventNames.SCROLL_STARTED: return logEvent('bloc: longform scroll start')
+    case EventNames.SCROLL_STARTED: return logEvent('scroll: element autre', { scroll_position: 'any' })
     case EventNames.FOOTER_VISIBLE: return logEvent('bloc: nav footer visuel')
     case EventNames.FOOTER_ITEM_CLICK: return logEvent('clic: nav footer visuel')
     case EventNames.SCRLLGNGN_HALF_REACHED: return logEvent('bloc: longform half')
@@ -100,7 +100,7 @@ function logToAtInternet (eventName: EventNames) {
     atInternetInstance.click?.send?.(payload)
   }
   switch (eventName) {
-    case EventNames.SCROLL_STARTED: return logClick({ name: 'bloc: longform scroll start' })
+    case EventNames.SCROLL_STARTED: return logClick({ name: 'scroll: element autre' })
     case EventNames.FOOTER_VISIBLE: return logClick({ name: 'bloc: nav footer visuel' })
     case EventNames.FOOTER_ITEM_CLICK: return logClick({ name: 'clic: nav footer visuel' })
     case EventNames.SCRLLGNGN_HALF_REACHED: return logClick({ name: 'bloc: longform half' })
@@ -115,6 +115,7 @@ function logToAtInternet (eventName: EventNames) {
  * * * * * * * * * * * * * * * * * * * * * * */
 
 export function logEvent (eventName: EventNames) {
+  console.log('I log event', eventName)
   logToAmplitude(eventName)
   logToAtInternet(eventName)
 }

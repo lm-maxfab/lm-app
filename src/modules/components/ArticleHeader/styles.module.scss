@@ -98,6 +98,7 @@
 .nav-item {
   flex-shrink: 0;
   flex-grow: 0;
+  cursor: pointer;
 }
 
 // [WIP] in js, detect if no custom css, then apply this via .wrapper_default-nav-style
