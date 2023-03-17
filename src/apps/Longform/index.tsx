@@ -247,9 +247,9 @@ class Longform extends Component<Props, State> {
 
   logScrollStarted () {
     if (this.state.scrollStartedLogged) return
+    window.removeEventListener('scroll', this.logScrollStarted)
     logEvent(EventNames.SCROLL_STARTED)
     this.setState({ scrollStartedLogged: true })
-    window.removeEventListener('scroll', this.logScrollStarted)
   }
 
   logLongformHalf () {
@@ -284,6 +284,7 @@ class Longform extends Component<Props, State> {
       logLongformEnd,
       logFooterVisible
     } = this
+    console.log(this.state)
 
     // Assign classes and styles
     const wrapperClasses = bem(props.className).block(this.clss)
