@@ -1386,14 +1386,14 @@ export default class Scrollgneugneu extends Component<Props, State> {
           </ResizeObserverComponent>
         </IntersectionObserverComponent>
         {/* HALF LENGTH DETECTION */}
-        <IntersectionObserverComponent
+        {scrollingPanelHeight !== undefined && <IntersectionObserverComponent
           style={{ position: 'absolute', top: `${(scrollingPanelHeight ?? 0) / 2}px` }}
           render={<div />}
           callback={ioEntry => {
             const { onHalfVisible, onHalfHidden } = props
             if (ioEntry.isIntersecting && onHalfVisible !== undefined) return onHalfVisible()
             if (!ioEntry.isIntersecting && onHalfHidden !== undefined) return onHalfHidden()
-          }} />
+          }} />}
         {/* BOTTOM BOUND DETECTION */}
         <IntersectionObserverComponent
           render={<div ref={n => { this.btmBoundRef = n }} />}
