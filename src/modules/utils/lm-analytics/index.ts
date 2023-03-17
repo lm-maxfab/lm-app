@@ -3,7 +3,6 @@
  * TYPES
  * 
  * * * * * * * * * * * * * * * * * * * * * * */
-
 type AmplitudeSdk = {
   logEvent: (
     eventName: string,
@@ -31,13 +30,11 @@ type AtInternetSdk = {
 
 /* * * * * * * * * * * * * * * * * * * * * * *
  *
- * HELPERS
+ * GET TRACKERS
  * 
  * * * * * * * * * * * * * * * * * * * * * * */
-
 function getAmplitudeSdk () {
   const amplitudeSdk = (window as any).amplitude as AmplitudeSdk|undefined
-  // [WIP] remove the console.log
   if (amplitudeSdk === undefined) console.warn('could not find Amplitude SDK in page')
   return amplitudeSdk ?? null
 }
@@ -47,11 +44,38 @@ function getAtInternetTrackerInstance () {
   const tracker = atInternet?.Tracker
   const instances = tracker?.instances
   const instance = instances?.[0]
-  // [WIP] remove the console.log
   if (instance === undefined) console.warn('could not find ATInternet tracker instance in page')
   return instance ?? null
 }
 
+/* * * * * * * * * * * * * * * * * * * * * * *
+ *
+ * LOGGERS
+ * 
+ * * * * * * * * * * * * * * * * * * * * * * */
+export enum EventNames {
+  SCROLL_STARTED,
+  FOOTER_VISIBLE,
+  FOOTER_ITEM_CLICK,
+  SCRLLGNGN_HALF_REACHED,
+  SCRLLGNGN_END_REACHED
+}
+
+/* AMPLITUDE */
+function logToAmplitude (eventName: EventNames) {
+  const amplitudeSdk = getAmplitudeSdk()
+  if (amplitudeSdk === null) return
+  const { logEvent } = amplitudeSdk
+  switch (eventName) {
+    case EventNames.SCROLL_STARTED: return logEvent('scroll: element autre', { scroll_position: 'any' })
+    case EventNames.FOOTER_VISIBLE: return logEvent('bloc: nav footer visuel')
+    case EventNames.FOOTER_ITEM_CLICK: return logEvent('clic: nav footer visuel')
+    case EventNames.SCRLLGNGN_HALF_REACHED: return logEvent('bloc: longform half')
+    case EventNames.SCRLLGNGN_END_REACHED: return logEvent('bloc: longform end')
+  }
+}
+
+/* AT INTERNET */
 const defaultAtInternetPayload: Omit<AtInternetPayload, 'name'> = {
   type: 'action',
   level2: 22,
@@ -66,33 +90,6 @@ function makeAtInternetPayload (
   return {
     ...defaultAtInternetPayload,
     ...partialPayload
-  }
-}
-
-/* * * * * * * * * * * * * * * * * * * * * * *
- *
- * LOGGERS
- * 
- * * * * * * * * * * * * * * * * * * * * * * */
-
-export enum EventNames {
-  SCROLL_STARTED,
-  FOOTER_VISIBLE,
-  FOOTER_ITEM_CLICK,
-  SCRLLGNGN_HALF_REACHED,
-  SCRLLGNGN_END_REACHED
-}
-
-function logToAmplitude (eventName: EventNames) {
-  const amplitudeSdk = getAmplitudeSdk()
-  if (amplitudeSdk === null) return
-  const { logEvent } = amplitudeSdk
-  switch (eventName) {
-    case EventNames.SCROLL_STARTED: return logEvent('scroll: element autre', { scroll_position: 'any' })
-    case EventNames.FOOTER_VISIBLE: return logEvent('bloc: nav footer visuel')
-    case EventNames.FOOTER_ITEM_CLICK: return logEvent('clic: nav footer visuel')
-    case EventNames.SCRLLGNGN_HALF_REACHED: return logEvent('bloc: longform half')
-    case EventNames.SCRLLGNGN_END_REACHED: return logEvent('bloc: longform end')
   }
 }
 
@@ -117,9 +114,7 @@ function logToAtInternet (eventName: EventNames) {
  * EXPORT
  * 
  * * * * * * * * * * * * * * * * * * * * * * */
-
 export function logEvent (eventName: EventNames) {
-  console.log('I log event', eventName)
   logToAmplitude(eventName)
   logToAtInternet(eventName)
 }

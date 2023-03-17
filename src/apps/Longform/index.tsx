@@ -284,7 +284,6 @@ class Longform extends Component<Props, State> {
       logLongformEnd,
       logFooterVisible
     } = this
-    console.log(this.state)
 
     // Assign classes and styles
     const wrapperClasses = bem(props.className).block(this.clss)
