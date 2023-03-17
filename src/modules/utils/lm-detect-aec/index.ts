@@ -1,4 +1,4 @@
-import isProduction from '../production-env-detect'
+import isProduction from '../lm-production-env-detect'
 
 if (!isProduction) console.warn('[message hidden in production] This detection is likely to break some day, use it sparingly')
 

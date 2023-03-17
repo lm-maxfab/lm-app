@@ -37,6 +37,8 @@ type AtInternetSdk = {
 
 function getAmplitudeSdk () {
   const amplitudeSdk = (window as any).amplitude as AmplitudeSdk|undefined
+  // [WIP] remove the console.log
+  if (amplitudeSdk === undefined) console.warn('could not find Amplitude SDK in page')
   return amplitudeSdk ?? null
 }
 
@@ -45,6 +47,8 @@ function getAtInternetTrackerInstance () {
   const tracker = atInternet?.Tracker
   const instances = tracker?.instances
   const instance = instances?.[0]
+  // [WIP] remove the console.log
+  if (instance === undefined) console.warn('could not find ATInternet tracker instance in page')
   return instance ?? null
 }
 
