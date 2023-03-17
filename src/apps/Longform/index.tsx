@@ -248,26 +248,26 @@ class Longform extends Component<Props, State> {
   logScrollStarted () {
     if (this.state.scrollStartedLogged) return
     window.removeEventListener('scroll', this.logScrollStarted)
-    logEvent(EventNames.SCROLL_STARTED)
     this.setState({ scrollStartedLogged: true })
+    logEvent(EventNames.SCROLL_STARTED)
   }
 
   logLongformHalf () {
     if (this.state.longformHalfLogged) return
-    logEvent(EventNames.SCRLLGNGN_HALF_REACHED)
     this.setState({ longformHalfLogged: true })
+    logEvent(EventNames.SCRLLGNGN_HALF_REACHED)
   }
 
   logLongformEnd () {
     if (this.state.longformEndLogged) return
-    logEvent(EventNames.SCRLLGNGN_END_REACHED)
     this.setState({ longformEndLogged: true })
+    logEvent(EventNames.SCRLLGNGN_END_REACHED)
   }
 
   logFooterVisible () {
     if (this.state.footerVisibleLogged) return
-    logEvent(EventNames.FOOTER_VISIBLE)
     this.setState({ footerVisibleLogged: true })
+    logEvent(EventNames.FOOTER_VISIBLE)
   }
 
   logFooterClick () {
