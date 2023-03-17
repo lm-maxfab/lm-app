@@ -1477,5 +1477,18 @@
       "description": "",
       "time": "2023-03-10T17:22:16.732Z"
     }
+  ],
+  "2303-analytics-test": [
+    {
+      "version": {
+        "major": 1,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "",
+      "time": "2023-03-17T10:03:17.888Z"
+    }
   ]
 }
