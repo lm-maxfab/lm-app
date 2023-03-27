@@ -8,6 +8,7 @@ import interpolate from '../../utils/interpolate'
 interface Props {
   progression?: number | null
   images?: string[]
+  height?: number | null
   width?: number | null
 }
 
@@ -123,21 +124,29 @@ class StopMotion extends Component<Props, {}> {
     }
 
     for (const { index, url } of imagesInOrder) {
+
       const img = new Image()
-      await this.loadImage(img, url)
-      this.imageElements[index] = img
-      if (index === currentIndex) {
-        this.imageRatio = img.height / img.width
+
+      try {
+        await this.loadImage(img, url)
+        this.imageElements[index] = img
+        if (index === currentIndex) {
+          this.imageRatio = img.height / img.width
+        }
+      } catch (error) {
+        console.log(error)
       }
+
     }
   }
 
   loadImage(img: HTMLImageElement, url?: string) {
     if (url === null || url === undefined || url === '') return
 
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       img.src = url
       img.onload = (event) => resolve(event)
+      img.onerror = (event) => reject(event)
     })
   }
 
@@ -148,14 +157,27 @@ class StopMotion extends Component<Props, {}> {
 
     if (canvas === null || canvas === undefined) return
 
-    const wrapperWidth = this.props.width ?? this.$canvasWrapper.getBoundingClientRect().width
+    const availableRatio = (this.props.height ?? 1) / (this.props.width ?? 1)
 
-    const calculatedHeight = wrapperWidth * this.imageRatio
-    const dimensionsNeedUpdate = (wrapperWidth != canvas.width) || (calculatedHeight != canvas.height)
+    let newWidth = this.$canvasWrapper.getBoundingClientRect().width
+    let newHeight = this.$canvasWrapper.getBoundingClientRect().height
+    let dimensionsNeedUpdate = false
 
-    if (wrapperWidth && dimensionsNeedUpdate) {
-      canvas.width = wrapperWidth
-      canvas.height = calculatedHeight
+    if (availableRatio < this.imageRatio) {
+      // on se cale sur la hauteur
+      if (this.props.height) newHeight = this.props.height
+      newWidth = newHeight * this.imageRatio
+    } else {
+      // on se cale sur la largeur
+      if (this.props.width) newWidth = this.props.width
+      newHeight = newWidth * this.imageRatio
+    }
+
+    dimensionsNeedUpdate = (newWidth != canvas.width) || (newHeight != canvas.height)
+
+    if (newWidth && newHeight && dimensionsNeedUpdate) {
+      canvas.width = newWidth
+      canvas.height = newHeight
       this.drawCurrentFrameOnCanvas()
     }
   }
