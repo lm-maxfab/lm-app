@@ -4,6 +4,7 @@ import styles from './styles.module.scss'
 import bem from '../../utils/bem'
 import Svg from '../Svg'
 import Img from '../Img'
+import IntersectionObserverComponent, { Props as IOCompProps } from '../IntersectionObserver'
 
 interface Props {
   customClass?: string
@@ -17,13 +18,29 @@ interface Props {
   textAbove?: string|VNode
   articleThumbsData?: ArticleThumbProps[]
   textBelow?: string|VNode
+  onVisible?: (ioEntry: IntersectionObserverEntry) => void
+  onHidden?: (ioEntry: IntersectionObserverEntry) => void
+  visibilityThreshold?: number
 }
 
 class Footer extends Component<Props, {}> {
+  constructor (props: Props) {
+    super(props)
+    this.handleIntersection = this.handleIntersection.bind(this)
+  }
+
   bemClss = bem('lm-article-footer')
 
+  handleIntersection (...args: Parameters<NonNullable<IOCompProps['callback']>>) {
+    const { onVisible, onHidden } = this.props
+    const [ioEntry] = args
+    const isVisible = ioEntry.isIntersecting
+    if (isVisible && onVisible !== undefined) return onVisible(ioEntry)
+    if (!isVisible && onHidden !== undefined) return onHidden(ioEntry)
+  }
+
   render() {
-    const { props, bemClss } = this
+    const { props, bemClss, handleIntersection } = this
 
     // Assign classes and styles
     const wrapperClasses = [props.customClass, bemClss.value, styles['wrapper']]
@@ -47,52 +64,58 @@ class Footer extends Component<Props, {}> {
         ${props.shadeToPos ?? '100%'});`
 
     const bgImageIsSvg = props.bgImageUrl?.endsWith('.svg')
+    const thumbsData = props.articleThumbsData ?? []
 
-    return <div
-      className={wrapperClasses.join(' ')}
-      style={wrapperStyle}>
+    return <IntersectionObserverComponent
+      threshold={props.visibilityThreshold ?? 0}
+      callback={handleIntersection}>
+      <div
+        className={wrapperClasses.join(' ')}
+        style={wrapperStyle}>
 
-      {/* Styles */}
-      {props.customCss && <style>
-        {props.customCss}
-      </style>}
+        {/* Styles */}
+        {props.customCss !== undefined && <style>
+          {props.customCss}
+        </style>}
 
-      {/* Bg image */}
-      {props.bgImageUrl && <div
-        className={backgroundImageClasses.join(' ')}>
-        {bgImageIsSvg
-          // [WIP] maybe Img should do this itself,
-          // this logic is duplicated in ArticleThumb comp
-          // [WIP] no desc/alt here ?
-          ? <Svg src={props.bgImageUrl}></Svg>
-          : <Img src={props.bgImageUrl}></Img>}
-      </div>}
+        {/* Bg image */}
+        {props.bgImageUrl !== undefined && <div
+          className={backgroundImageClasses.join(' ')}>
+          {bgImageIsSvg
+            // [WIP] maybe Img should do this itself,
+            // this logic is duplicated in ArticleThumb comp
+            // [WIP] no desc/alt here ?
+            ? <Svg src={props.bgImageUrl} />
+            : <Img src={props.bgImageUrl} />}
+        </div>}
 
-      {/* Shade */}
-      {displayShade && <div 
-        className={shadeClasses.join(' ')}
-        style={shadeStyle} />}
+        {/* Shade */}
+        {displayShade && <div 
+          className={shadeClasses.join(' ')}
+          style={shadeStyle} />}
 
-      {/* Above */}
-      {props.textAbove && <div
-        className={aboveClasses.join(' ')}>
-        {props.textAbove}
-      </div>}
+        {/* Above */}
+        {props.textAbove !== undefined && <div
+          className={aboveClasses.join(' ')}>
+          {props.textAbove}
+        </div>}
 
-      {/* Thumbs */}
-      <div  
-        className={thumbnailsClasses.join(' ')}>
-        {props.articleThumbsData?.map(articleThumbProps => (
-          <ArticleThumb {...articleThumbProps} />
-        ))}
+        {/* Thumbs */}
+        {thumbsData.length !== 0
+          && <div className={thumbnailsClasses.join(' ')}>
+          {thumbsData?.map(articleThumbProps => (
+            // [WIP] missing a key here?
+            <ArticleThumb {...articleThumbProps} />
+          ))}
+        </div>}
+
+        {/* Below */}
+        {props.textBelow !== undefined && <div
+          className={belowClasses.join(' ')}>
+          {props.textBelow}
+        </div>}
       </div>
-
-      {/* Below */}
-      {props.textBelow && <div
-        className={belowClasses.join(' ')}>
-        {props.textBelow}
-      </div>}
-    </div>
+    </IntersectionObserverComponent>
   }
 }
 

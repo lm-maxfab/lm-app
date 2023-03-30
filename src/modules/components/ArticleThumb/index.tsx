@@ -55,6 +55,7 @@ class ArticleThumbV2 extends Component<Props, {}> {
     const shadeClasses = [bemClss.elt('shade').value, styles['shade']]
 
     // [WIP] variables on wrapper here
+    // [WIP][ELSA] pas sûr qu'il faille une shade par défaut, si aucune des 4 props, on met rien ?
     const shadeStyle = `background: linear-gradient(
       ${fullProps.shadeFromColor ?? 'transparent'} 
       ${fullProps.shadeFromPos ?? '50%'}, 
@@ -73,12 +74,29 @@ class ArticleThumbV2 extends Component<Props, {}> {
       ?? fullProps.shadeToColor
       ?? fullProps.shadeToPos) !== undefined
 
+    {/* [WIP][ELSA] idéalement si le wrapper est contraint en largeur
+      * (via le css du footer par ex), l'image et la shade ne dépassent pas */}
+    {/* [WIP][ELSA] une prop href qui permet de rendre cliquable le thumb ?
+      * Pour l'instant tout le wrapper est cliquable on verra à l'usage s'il faut plus de finesse.
+      * Une prop onClick aussi ?, qui permet de passer une fonction à déclencher au moment du clic
+      * du coup : ajouter une méthode onClick dans ArticleThumb, qui:
+      *   - si props.onClick => await props.onClick() (on await pour avoir le temps d'exec toute la fonction)
+      *   - si props.href => window.location.assign(props.href)
+      *   - si href ou onclick => .wrapper { cursor: pointer; } */}
+    {/* [WIP][ELSA] est-ce que le wrapper ça serait pas un a du coup ?
+      * Même si on lui met jamais d'attribut href ? 
+      * Vraie question, je ne sais pas si c'est bien sémantiquement, je te laisse voir/choisir ? */}
     return <div className={wrapperClasses.join(' ')}>
       {/* Styles */}
       {fullProps.customCss && <style>
         {fullProps.customCss}
       </style>}
       
+      {/* [WIP][ELSA] above, before, after, below, image and shade dimensions via props
+        * maybe via beforeWidth, imageWidth, afterWidth ? maybe also beforeMaxWidth, imageMaxWidth, afterMaxWidth ?*/}
+      {/* [WIP][ELSA] pas sûr que ce soit une bonne idée de contraindre en hauteur above, below et l'image. Pour l'image je pense
+        * qu'il faut que ce soit son ratio à elle qui détermine, mais ça se discute. Une prop imageRatio?
+        * Pourquoi pas, mais du coup imageFit, et imagePosition aussi, si l'image est pas aux dimensions du conteneur ? */}
       {/* Above */}
       {fullProps.textAbove && <div
         className={aboveClasses.join(' ')}>

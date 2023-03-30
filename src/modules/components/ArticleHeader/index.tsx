@@ -17,7 +17,7 @@ type Props = {
   fill2?: string
   fillTransitionTime?: string
   navItems?: NavItem[]
-  navItemsAlign?: string
+  navItemsAlign?: string // [WIP] more specific (left|center|right)
   ctaContent?: string|VNode
   ctaOnClick?: (event: JSX.TargetedMouseEvent<HTMLButtonElement>) => void
   // [WIP] add ctaActionType (toggle-panel, href, scroll-top, etc...)

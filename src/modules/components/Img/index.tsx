@@ -35,10 +35,12 @@ class Img extends Component<Props, {}> {
    * * * * * * * * * * * * * * */
   noAltWarn (): void {
     console.warn(
-      'img elements must have an alt prop,',
-      'either with meaningful text,',
-      'or an empty string for decorative images',
-      'jsx-a11y/alt-text')
+      `${this.props.src}\n` +
+      'img elements must have an alt prop, ' +
+      'either with meaningful text, ' +
+      'or an empty string for decorative images ' +
+      'jsx-a11y/alt-text'
+    )
   }
 
   /* * * * * * * * * * * * * * *
@@ -46,10 +48,9 @@ class Img extends Component<Props, {}> {
    * * * * * * * * * * * * * * */
   render (): JSX.Element {
     const { props } = this
-
     const classes = bem(props.className ?? '').block(this.clss)
+    // [WIP] why this since ...props are added to img below ?
     const inlineStyle: JSX.CSSProperties = { ...props.style }
-
     return <img
       loading='lazy'
       alt=''
