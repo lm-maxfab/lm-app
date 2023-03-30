@@ -1533,6 +1533,17 @@
       },
       "description": "",
       "time": "2023-03-17T10:38:34.585Z"
+    },
+    {
+      "version": {
+        "major": 1,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 5
+      },
+      "description": "",
+      "time": "2023-03-30T09:56:10.446Z"
     }
   ]
 }

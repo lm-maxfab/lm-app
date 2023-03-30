@@ -65,7 +65,7 @@ export enum EventNames {
 function logToAmplitude (eventName: EventNames) {
   const amplitudeSdk = getAmplitudeSdk()
   if (amplitudeSdk === null) return
-  const { logEvent } = amplitudeSdk
+  const logEvent = amplitudeSdk.logEvent.bind(amplitudeSdk)
   switch (eventName) {
     case EventNames.SCROLL_STARTED: return logEvent('scroll: element autre', { scroll_position: 'any' })
     case EventNames.FOOTER_VISIBLE: return logEvent('bloc: nav footer visuel')
