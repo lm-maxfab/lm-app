@@ -1,5 +1,4 @@
 import { Component, VNode } from 'preact'
-import Svg from '../Svg'
 import Img from '../Img'
 import styles from './styles.module.scss'
 import bem from '../../utils/bem'
@@ -20,16 +19,29 @@ type Props = {
   textInsideTop?: string|VNode
   textInsideCenter?: string|VNode
   textInsideBottom?: string|VNode
+  imageMaxWidth?: string
   shadeFromPos?: string
   shadeFromColor?: string
   shadeToPos?: string
   shadeToColor?: string
   status?: string
+  href?: string
+  onClick?: any
   statusOverrides?: { [statusName: string]: Omit<Props, 'status'|'statusOverrides'> }
 }
 
 class ArticleThumbV2 extends Component<Props, {}> {
   bemClss = bem('lm-article-thumbnail')
+
+  constructor(props: Props) {
+    super(props)
+    this.handleClick = this.handleClick.bind(this)
+  }
+
+  async handleClick() {
+    if (this.props.onClick) await this.props.onClick()
+    if (this.props.href) window.location.assign(this.props.href)
+  }
 
   render() {
     const { props, bemClss } = this
@@ -54,15 +66,20 @@ class ArticleThumbV2 extends Component<Props, {}> {
     const imgClasses = [bemClss.elt('image').value, styles['image']]
     const shadeClasses = [bemClss.elt('shade').value, styles['shade']]
 
+    const displayCursorPointer = fullProps.href || fullProps.onClick
+
+    const wrapperStyle = `
+      --footer-img-max-width: ${fullProps.imageMaxWidth ?? 'unset'};
+      ${displayCursorPointer ? 'cursor: pointer;' : ''}
+    `
+
     // [WIP] variables on wrapper here
-    // [WIP][ELSA] pas sûr qu'il faille une shade par défaut, si aucune des 4 props, on met rien ?
     const shadeStyle = `background: linear-gradient(
       ${fullProps.shadeFromColor ?? 'transparent'} 
       ${fullProps.shadeFromPos ?? '50%'}, 
       ${fullProps.shadeToColor ?? 'rgba(0, 0, 0, 0.3)'} 
       ${fullProps.shadeToPos ?? '100%'});`
 
-    const imageIsSvg = fullProps.imageUrl?.endsWith('.svg')
     const displayBefore = (fullProps.textBeforeTop
       ?? fullProps.textBeforeCenter
       ?? fullProps.textBeforeBottom) !== undefined
@@ -76,22 +93,18 @@ class ArticleThumbV2 extends Component<Props, {}> {
 
     {/* [WIP][ELSA] idéalement si le wrapper est contraint en largeur
       * (via le css du footer par ex), l'image et la shade ne dépassent pas */}
-    {/* [WIP][ELSA] une prop href qui permet de rendre cliquable le thumb ?
-      * Pour l'instant tout le wrapper est cliquable on verra à l'usage s'il faut plus de finesse.
-      * Une prop onClick aussi ?, qui permet de passer une fonction à déclencher au moment du clic
-      * du coup : ajouter une méthode onClick dans ArticleThumb, qui:
-      *   - si props.onClick => await props.onClick() (on await pour avoir le temps d'exec toute la fonction)
-      *   - si props.href => window.location.assign(props.href)
-      *   - si href ou onclick => .wrapper { cursor: pointer; } */}
-    {/* [WIP][ELSA] est-ce que le wrapper ça serait pas un a du coup ?
-      * Même si on lui met jamais d'attribut href ? 
-      * Vraie question, je ne sais pas si c'est bien sémantiquement, je te laisse voir/choisir ? */}
-    return <div className={wrapperClasses.join(' ')}>
+
+    return <div
+      className={wrapperClasses.join(' ')}
+      style={wrapperStyle}
+      onClick={this.handleClick}
+    >
+
       {/* Styles */}
       {fullProps.customCss && <style>
         {fullProps.customCss}
       </style>}
-      
+
       {/* [WIP][ELSA] above, before, after, below, image and shade dimensions via props
         * maybe via beforeWidth, imageWidth, afterWidth ? maybe also beforeMaxWidth, imageMaxWidth, afterMaxWidth ?*/}
       {/* [WIP][ELSA] pas sûr que ce soit une bonne idée de contraindre en hauteur above, below et l'image. Pour l'image je pense
@@ -124,11 +137,7 @@ class ArticleThumbV2 extends Component<Props, {}> {
         {/* Image */}
         {fullProps.imageUrl && <div
           className={imgClasses.join(' ')}>
-          {imageIsSvg
-            // [WIP] maybe Img should do this itself,
-            // this logic is duplicated in Footer comp
-            ? <Svg src={fullProps.imageUrl} desc={fullProps.imageAlt} />
-            : <Img src={fullProps.imageUrl} alt={fullProps.imageAlt} />}
+          <Img src={fullProps.imageUrl} alt={fullProps.imageAlt} />
         </div>}
 
         {/* Shade */}
