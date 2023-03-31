@@ -32,6 +32,7 @@ export default class BlockRenderer extends Component<Props> {
             length: 1,
             startIndex: 0,
             padding: 0,
+            mobilePadding: undefined,
             urlTemplate: 'https://lemonde.fr/img-{%}.jpg'
           }
           try {
@@ -41,14 +42,19 @@ export default class BlockRenderer extends Component<Props> {
             if (Array.isArray(parsed)) break;
             if (typeof parsed.length === 'number') stopMotionProps.length = parsed.length
             if (typeof parsed.padding === 'number') stopMotionProps.padding = parsed.padding
+            if (typeof parsed.mobilePadding === 'number') stopMotionProps.mobilePadding = parsed.mobilePadding
             if (typeof parsed.startIndex === 'number') stopMotionProps.startIndex = parsed.startIndex
             if (typeof parsed.urlTemplate === 'string') stopMotionProps.urlTemplate = parsed.urlTemplate
           } catch (err) { }
 
           const progression = context?.progression
 
-          const width = context?.width ? (context?.width - stopMotionProps.padding * 2) : context?.width
-          const height = context?.height ? (context?.height - stopMotionProps.padding * 2) : context?.height
+          const padding = window.innerWidth < 1025 && stopMotionProps.mobilePadding != undefined 
+          ? stopMotionProps.mobilePadding 
+          : stopMotionProps.padding
+
+          const width = context?.width ? (context?.width - padding * 2) : context?.width
+          const height = context?.height ? (context?.height - padding * 2) : context?.height
 
           const images = new Array(stopMotionProps.length).fill(null).map((e, pos) => {
             const { startIndex, urlTemplate } = stopMotionProps
