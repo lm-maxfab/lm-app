@@ -27,48 +27,63 @@ interface SectionSettings extends RowSettings, TriptychSettings { }
 interface SectionProps {
   layout: 'row' | 'columns' | 'triptych'
   settings?: SectionSettings
+  mobileSettings?: SectionSettings
   images: ImageProps[]
 }
+
+interface GallerySettings extends SectionSettings { }
 
 interface Props {
   customClass?: string
   customCss?: string
-  legend: string
+  legend?: string
+  settings?: GallerySettings
+  mobileSettings?: GallerySettings
   sections: SectionProps[]
 }
 
 class ImageGallery extends Component<Props, {}> {
   $wrapper: HTMLDivElement | null = null
   wrapperWidth: number = 0
+  isMobile: boolean = false
+
+  gallerySettings: GallerySettings = {}
 
   constructor(props: Props) {
     super(props)
 
-    this.updateWrapperWidth = this.updateWrapperWidth.bind(this)
+    this.handleResize = this.handleResize.bind(this)
     this.renderSection = this.renderSection.bind(this)
   }
 
   componentDidMount() {
-    this.updateWrapperWidth()
+    this.handleResize()
   }
 
-  updateWrapperWidth() {
+  handleResize() {
     if (this.$wrapper === null) return
 
     const wrapperDimensions = this.$wrapper.getBoundingClientRect()
     this.wrapperWidth = wrapperDimensions.width
+    this.isMobile = this.wrapperWidth < 500
   }
 
   renderSection(section: SectionProps) {
     const sectionClasses = [styles['section']]
     const elementClasses = [styles['element']]
 
-    const gutterWidth = section.settings?.gutterWidth ?? 10
+    const settings = {
+      ...this.gallerySettings,
+      ...section.settings,
+      ...(this.isMobile ? section.mobileSettings : {})
+    }
+
+    const gutterWidth = settings.gutterWidth ?? 10
 
     if (section.layout === 'row') {
       return (
         <GalleryRow
-          {...section.settings}
+          {...settings}
           gutterWidth={gutterWidth}
           width={this.wrapperWidth}
           images={section.images}
@@ -80,7 +95,7 @@ class ImageGallery extends Component<Props, {}> {
 
     if (section.layout === 'triptych') {
       sectionClasses.push(styles['triptych-section'])
-      sectionStyle += ` --lm-triptych-main-column: ${section.settings?.side === 'right' ? 2 : 1};`
+      sectionStyle += ` --lm-triptych-main-column: ${settings.side === 'right' ? 2 : 1};`
     }
 
     return (
@@ -100,24 +115,31 @@ class ImageGallery extends Component<Props, {}> {
   render() {
     const { props } = this
 
-    const wrapperClasses = [props.customClass, styles['wrapper']]
+    const wrapperClasses = ['lm-gallery', props.customClass, styles['wrapper']]
     const legendClasses = [styles['legend']]
 
     const columnsLayout = props.sections.every(section => section.layout === 'columns')
     if (columnsLayout) wrapperClasses.push(styles['columns-wrapper'])
 
+    this.gallerySettings = {
+      ...this.props.settings,
+      ...(this.isMobile ? this.props.mobileSettings : {}),
+    }
+
     const wrapperStyle = `
+      --lm-gallery-gutter-width: ${this.gallerySettings.gutterWidth ?? 10}px;
       --lm-gallery-sections-number: ${props.sections.length};
     `
 
     return (
-      <ResizeObserverComponent onResize={this.updateWrapperWidth}>
+      <ResizeObserverComponent onResize={this.handleResize}>
 
         <div
           style={wrapperStyle}
           className={wrapperClasses.join(' ')}
           ref={n => { this.$wrapper = n }}
         >
+          {props.customCss && <style>{props.customCss}</style>}
           {props.sections.length > 0 && props.sections.map(this.renderSection)}
           {props.legend && <p className={legendClasses.join(' ')}>{props.legend}</p>}
         </div>

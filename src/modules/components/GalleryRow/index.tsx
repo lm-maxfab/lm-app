@@ -30,9 +30,6 @@ class GalleryRow extends Component<Props, {}> {
 
     this.loadImages = this.loadImages.bind(this)
     this.calculateHeight = this.calculateHeight.bind(this)
-
-    if (props.equalColumns != undefined) this.equalColumns = props.equalColumns
-    if (props.gutterWidth != undefined) this.gutterWidth = props.gutterWidth
   }
 
   async componentDidMount(): Promise<any> {
@@ -71,6 +68,9 @@ class GalleryRow extends Component<Props, {}> {
 
     const rowClasses = [styles['row']]
     const elementClasses = [styles['element']]
+
+    if (props.equalColumns != undefined) this.equalColumns = props.equalColumns
+    if (props.gutterWidth != undefined) this.gutterWidth = props.gutterWidth
 
     if (this.equalColumns === true || props.forcedHeight != undefined) rowClasses.push(styles['equal-columns'])
 
