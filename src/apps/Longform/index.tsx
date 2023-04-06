@@ -4,11 +4,13 @@ import appWrapper, { InjectedProps } from '../../modules/utils/app-wrapper-HOC'
 import bem from '../../modules/utils/bem'
 import './styles.scss'
 import { GeneralSettings } from '../types'
-import generateNiceColor from '../../modules/utils/generate-nice-color'
-import { generateContentPage, generateParagraph, generateSentences } from '../../modules/utils/generate-html-placeholders'
+import generateNiceColor, { niceColors } from '../../modules/utils/generate-nice-color'
+import { EightKiloByteOfLoremIpsumSentences, generateContentPage, generateParagraph, generateSentences, generateWord } from '../../modules/utils/generate-html-placeholders'
 import Footer, { Props as FooterProps } from '../../modules/components/Footer'
 import StrToVNode from '../../modules/components/StrToVNodes'
 import { logEvent, EventNames } from '../../modules/utils/lm-analytics'
+import Stripe, { Props as StripeProps } from '../../modules/components/Paver'
+import getPlaceholderImageUrl from '../../modules/utils/get-placeholder-image-url'
 
 interface Props extends InjectedProps {}
 interface State {
@@ -289,10 +291,55 @@ class Longform extends Component<Props, State> {
     const wrapperClasses = bem(props.className).block(this.clss)
     const wrapperStyle: JSX.CSSProperties = { ...props.style }
 
+    // const slots: StripeProps['slots'] = [{
+    //   type: 'stripe',
+    //   fitSlots: false,
+    //   slots: [
+    //     { type: 'item', content: `<div>${generateWord()}</div>` }, 
+    //     { type: 'item', content: `<div>${generateWord()}</div>` }, 
+    //     { type: 'item', content: `<div>${generateWord()}</div>` }]
+    // }, {
+    //   type: 'stripe',
+    //   slots: [
+    //     { type: 'item', content: `<div>${generateWord()}</div>` }, 
+    //     { type: 'item', content: `<div>${generateWord()}</div>` }, 
+    //     { type: 'item', content: `<div>${generateWord()}</div>` }]
+    // }, {
+    //   type: 'stripe',
+    //   slots: [
+    //     { type: 'item', content: `<div>${generateWord()}</div>` }, 
+    //     { type: 'item', content: `<div>${generateWord()}</div>` }, 
+    //     { type: 'item', content: `<div>${generateWord()}</div>` }]
+    // }]
+    const slots: StripeProps['slots'] = [
+      { type: 'stripe', weight: 2, fitSlots: true, slots: [
+        { type: 'item', content: `<img style="width: 100%; height: 100%; object-fit: cover;" src="${getPlaceholderImageUrl()}" />` },
+        { type: 'item', content: `<img style="width: 100%; height: 100%; object-fit: cover;" src="${getPlaceholderImageUrl()}" />` },
+        { type: 'item', content: `<img style="width: 100%; height: 100%; object-fit: cover;" src="${getPlaceholderImageUrl()}" />` },  
+      ] },
+      { type: 'stripe', weight: 8, fitSlots: true, slots:[
+        { type: 'item', weight: 7, content: `<img style="width: 100%; height: 100%; object-fit: cover;" src="${getPlaceholderImageUrl()}" />` },
+        { type: 'item', content: `<img style="width: 100%; height: 100%; object-fit: cover;" src="${getPlaceholderImageUrl()}" />` },
+      ] },
+      { type: 'item', weight: 2, content: `<div>${generateWord()}</div>` },
+      { type: 'item', weight: 2, content: `<div>${generateWord()}</div>` },
+      { type: 'item', weight: 2, content: `<div>${generateWord()}</div>` },
+      { type: 'item', weight: 2, content: `<div>${generateWord()}</div>` },
+    ]
+
     // Display
     return <div
       style={wrapperStyle}
       className={wrapperClasses.value}>
+      <Stripe
+        orientation='horizontal'
+        fitSlots={true}
+        slots={slots} />
+      <div style={{ height: '200px' }} />
+      <Stripe
+        orientation='vertical'
+        fitSlots={true}
+        slots={slots} />
       <Scrollgneugneu
         pages={pagesData}
         thresholdOffset={generalSettings?.thresholdOffset}

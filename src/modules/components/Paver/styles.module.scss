@@ -1,0 +1,16 @@
+.stripe {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.stripe.stripe_vertical {
+  flex-direction: column;
+  height: 100%;
+}
+
+.slot {
+  flex-grow: 0;
+  flex-shrink: 0;
+  max-width: 100%;
+  max-height: 100%;
+}

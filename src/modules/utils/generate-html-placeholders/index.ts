@@ -2,6 +2,15 @@ export const EightKiloByteOfLoremIpsumSentences = 'Etiam consequat interdum elit
     .split('.')
     .map(e => e.trim())
 
+export const generateWord = () => {
+  const sentencePos = Math.floor(Math.random() * EightKiloByteOfLoremIpsumSentences.length)
+  const sentence = EightKiloByteOfLoremIpsumSentences[sentencePos]
+  const words = sentence.replace('.', '').split(/\s+/)
+  const wordPos = Math.floor(Math.random() * words.length)
+  const word = words[wordPos]
+  return word.toLowerCase()
+}
+
 export const generateSentence = () => {
   const pos = Math.floor(Math.random() * EightKiloByteOfLoremIpsumSentences.length)
   return EightKiloByteOfLoremIpsumSentences[pos]
