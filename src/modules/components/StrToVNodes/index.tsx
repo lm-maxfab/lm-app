@@ -5,7 +5,7 @@ import { Options as SanitizeOptions } from '../../utils/clientside-html-sanitize
 
 type Props = {
   content?: string
-  sanitize?: SanitizeOptions
+  sanitize?: SanitizeOptions|false
 }
 
 const { hostname, search } = window.location
@@ -84,13 +84,18 @@ class StrToVNode extends Component<Props, State> {
   }
   
   static getDerivedStateFromProps(props: Props, state: State): State|null {
-    if (props.content === state.content) return null
-    if (props.content === undefined) return { ...state, vNodes: [] }
-    const nodes = strToNodes(props.content, { sanitize: props.sanitize ?? defaultSanitizeOptions })
+    const { content, sanitize } = props
+    if (content === state.content) return null
+    if (content === undefined) return { ...state, vNodes: [] }
+    const nodes = strToNodes(content, {
+      sanitize: sanitize !== false
+        ? sanitize ?? defaultSanitizeOptions
+        : undefined
+    })
     const vNodes = nodesToVNodes(nodes)
     return {
       ...state,
-      content: props.content,
+      content: content,
       vNodes
     }
   }
