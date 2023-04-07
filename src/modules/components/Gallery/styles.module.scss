@@ -42,3 +42,14 @@
     object-fit: cover;
   }
 }
+
+// board
+
+.section--board {
+  columns: var(--lm-board-columns-number);
+
+  > div {
+    break-inside: avoid-column;
+    margin-bottom: var(--lm-gallery-gutter-width);
+  }
+}

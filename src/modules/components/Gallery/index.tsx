@@ -15,6 +15,7 @@ interface ImageProps {
 
 interface RowSettings {
   equalColumns?: boolean
+  colsNumber?: number
   imagesPosition?: 'bottom' | 'center' | 'top'
   forcedHeight?: string
   gutterWidth?: number
@@ -25,10 +26,15 @@ interface TriptychSettings {
   gutterWidth?: number
 }
 
-interface SectionSettings extends RowSettings, TriptychSettings { }
+interface BoardSettings {
+  colsNumber?: number
+  gutterWidth?: number
+}
+
+interface SectionSettings extends RowSettings, TriptychSettings, BoardSettings { }
 
 interface SectionProps {
-  layout: 'row' | 'columns' | 'triptych'
+  layout: 'row' | 'columns' | 'triptych' | 'board'
   settings?: SectionSettings
   mobileSettings?: SectionSettings
   images: ImageProps[]
@@ -101,6 +107,10 @@ class Gallery extends Component<Props, {}> {
 
     if (section.layout === 'triptych') {
       sectionStyle += ` --lm-triptych-main-column: ${settings.side === 'right' ? 2 : 1};`
+    }
+
+    if (section.layout === 'board') {
+      sectionStyle += ` --lm-board-columns-number: ${settings.colsNumber};`
     }
 
     return (

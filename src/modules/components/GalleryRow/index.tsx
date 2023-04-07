@@ -72,6 +72,7 @@ class GalleryRow extends Component<Props, {}> {
     if (props.gutterWidth != undefined) this.gutterWidth = props.gutterWidth
 
     if (this.equalColumns === true || props.forcedHeight != undefined) rowClasses.push(styles['equal-columns'])
+    if (props.colsNumber != undefined) rowClasses.push(styles['contact'])
 
     this.imagesHeight = this.calculateHeight()
 
@@ -79,7 +80,7 @@ class GalleryRow extends Component<Props, {}> {
       --lm-gallery-row-height: ${props.forcedHeight ?? this.imagesHeight + 'px'};
       --lm-gallery-row-img-position: ${props.imagesPosition ?? 'center'};
       --lm-gallery-gutter-width: ${this.gutterWidth}px;
-      --lm-gallery-row-cols: ${this.imagesCount};
+      --lm-gallery-row-cols: ${props.colsNumber ?? this.imagesCount};
     `
 
     return (
