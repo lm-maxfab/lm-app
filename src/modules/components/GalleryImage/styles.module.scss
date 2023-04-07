@@ -1,0 +1,13 @@
+.element {
+  display: flex;
+  flex-direction: column;
+
+  .image {
+    flex-grow: 1;
+
+    img {
+      width: 100%;
+      max-width: 100%;
+    }
+  }
+}

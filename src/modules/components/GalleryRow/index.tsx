@@ -1,8 +1,8 @@
 import { Component, VNode } from 'preact'
 import styles from './styles.module.scss'
 
-import { RowSettings, ImageProps } from '../ImageGallery'
-import Img from '../Img'
+import { RowSettings, ImageProps } from '../Gallery'
+import GalleryImage from '../GalleryImage'
 
 interface Props extends RowSettings {
   images: ImageProps[]
@@ -67,7 +67,6 @@ class GalleryRow extends Component<Props, {}> {
     const { props } = this
 
     const rowClasses = [styles['row']]
-    const elementClasses = [styles['element']]
 
     if (props.equalColumns != undefined) this.equalColumns = props.equalColumns
     if (props.gutterWidth != undefined) this.gutterWidth = props.gutterWidth
@@ -89,9 +88,7 @@ class GalleryRow extends Component<Props, {}> {
         style={rowStyle}
       >
         {props.images.map((img) => {
-          return <div className={elementClasses.join(' ')}>
-            <Img src={img.url} alt={img.alt} />
-          </div>
+          return <GalleryImage {...img} />
         })}
       </div>
     )

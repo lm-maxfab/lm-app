@@ -3,11 +3,14 @@ import styles from './styles.module.scss'
 
 import ResizeObserverComponent from '../ResizeObserver'
 import GalleryRow from '../GalleryRow'
-import Img from '../Img'
+import GalleryImage from '../GalleryImage'
+import ImageLegend from '../ImageLegend'
 
 interface ImageProps {
   url: string
   alt?: string
+  legend?: string
+  credits?: string
 }
 
 interface RowSettings {
@@ -37,12 +40,13 @@ interface Props {
   customClass?: string
   customCss?: string
   legend?: string
+  credits?: string
   settings?: GallerySettings
   mobileSettings?: GallerySettings
   sections: SectionProps[]
 }
 
-class ImageGallery extends Component<Props, {}> {
+class Gallery extends Component<Props, {}> {
   $wrapper: HTMLDivElement | null = null
   wrapperWidth: number = 0
   isMobile: boolean = false
@@ -70,7 +74,7 @@ class ImageGallery extends Component<Props, {}> {
 
   renderSection(section: SectionProps) {
     const sectionClasses = [styles['section']]
-    const elementClasses = [styles['element']]
+    sectionClasses.push(styles[`section--${section.layout}`])
 
     const settings = {
       ...this.gallerySettings,
@@ -82,19 +86,20 @@ class ImageGallery extends Component<Props, {}> {
 
     if (section.layout === 'row') {
       return (
-        <GalleryRow
-          {...settings}
-          gutterWidth={gutterWidth}
-          width={this.wrapperWidth}
-          images={section.images}
-        />
+        <div className={sectionClasses.join(' ')}>
+          <GalleryRow
+            {...settings}
+            gutterWidth={gutterWidth}
+            width={this.wrapperWidth}
+            images={section.images}
+          />
+        </div>
       )
     }
 
     let sectionStyle = `--lm-gallery-gutter-width: ${gutterWidth}px;`
 
     if (section.layout === 'triptych') {
-      sectionClasses.push(styles['triptych-section'])
       sectionStyle += ` --lm-triptych-main-column: ${settings.side === 'right' ? 2 : 1};`
     }
 
@@ -104,9 +109,7 @@ class ImageGallery extends Component<Props, {}> {
         className={sectionClasses.join(' ')}
       >
         {section.images.map((img) => {
-          return <div className={elementClasses.join(' ')}>
-            <Img src={img.url} alt={img.alt} />
-          </div>
+          return <GalleryImage {...img} />
         })}
       </div>
     )
@@ -115,8 +118,13 @@ class ImageGallery extends Component<Props, {}> {
   render() {
     const { props } = this
 
-    const wrapperClasses = ['lm-gallery', props.customClass, styles['wrapper']]
-    const legendClasses = [styles['legend']]
+    const containerClasses = ['lm-gallery', props.customClass, styles['container']]
+    const containerStyle = `
+      --lm-gallery-gutter-width: ${this.gallerySettings.gutterWidth ?? 10}px;
+      --lm-gallery-sections-number: ${props.sections.length};
+    `
+
+    const wrapperClasses = [styles['wrapper']]
 
     const columnsLayout = props.sections.every(section => section.layout === 'columns')
     if (columnsLayout) wrapperClasses.push(styles['columns-wrapper'])
@@ -126,28 +134,28 @@ class ImageGallery extends Component<Props, {}> {
       ...(this.isMobile ? this.props.mobileSettings : {}),
     }
 
-    const wrapperStyle = `
-      --lm-gallery-gutter-width: ${this.gallerySettings.gutterWidth ?? 10}px;
-      --lm-gallery-sections-number: ${props.sections.length};
-    `
+
+    const displayLegend = props.legend || props.credits
 
     return (
-      <ResizeObserverComponent onResize={this.handleResize}>
+      <div
+        style={containerStyle}
+        className={containerClasses.join(' ')}
+      >
+        {props.customCss && <style>{props.customCss}</style>}
 
-        <div
-          style={wrapperStyle}
-          className={wrapperClasses.join(' ')}
-          ref={n => { this.$wrapper = n }}
-        >
-          {props.customCss && <style>{props.customCss}</style>}
-          {props.sections.length > 0 && props.sections.map(this.renderSection)}
-          {props.legend && <p className={legendClasses.join(' ')}>{props.legend}</p>}
-        </div>
+        <ResizeObserverComponent onResize={this.handleResize}>
+          {/* un wrapper à part pour la taille au cas où padding custom sur le container */}
+          <div className={wrapperClasses.join(' ')} ref={n => { this.$wrapper = n }}>
+            {props.sections.length > 0 && props.sections.map(this.renderSection)}
+          </div>
+        </ResizeObserverComponent>
 
-      </ResizeObserverComponent>
+        {displayLegend && <ImageLegend legend={props.legend} credits={props.credits} />}
+      </div>
     )
   }
 }
 
 export type { Props, SectionProps, SectionSettings, RowSettings, ImageProps }
-export default ImageGallery
+export default Gallery
