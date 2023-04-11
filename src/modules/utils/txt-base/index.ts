@@ -1,4 +1,8 @@
-import transform from './transformers'
+import { VNode } from 'preact'
+import {
+  masterTransformer,
+  PrimitiveValue as TransformerPrimitiveValue
+} from './transformers'
 
 export class Base {
   collections: Collection[]
@@ -36,20 +40,25 @@ export class Base {
     return true
   }
 
-  resolver (root: Field|Entry|Collection|Base, path: string) {
+  resolver (root: Field|Entry|Collection|Base, path: string): Field|Entry|Collection|Base|undefined {
     const [firstChunk, ...lastChunks] = path.split('/')    
     let currentItem: Field|Entry|Collection|Base|undefined = undefined
     if (firstChunk === '..') currentItem = root.parent
     else if (firstChunk === '.') currentItem = root
-    else currentItem = this
+    else {
+      currentItem = this
+      lastChunks.unshift(firstChunk)
+    }
     lastChunks.forEach(chunk => {
       if (currentItem === undefined) return
       if (chunk === '..') currentItem = currentItem.parent
+      else if (chunk === '.') currentItem = currentItem
       else {
         if (currentItem instanceof Field) { currentItem = undefined }
         else { currentItem = currentItem.get(chunk) }
       }
     })
+    // [WIP] why does TS think currentItem cannot be undefined ?
     return currentItem
   }
 
@@ -141,10 +150,10 @@ export class Entry {
     return this.fields.find(field => field.name === name)
   }
 
-  create (name: Field['name'], rawValue: Field['rawValue'], type?: Field['type']) {
+  create (name: Field['name'], raw: Field['raw']) {
     const alreadyExists = this.get(name)
     if (alreadyExists !== undefined) return alreadyExists
-    const newField = new Field(name, this, rawValue, type)
+    const newField = new Field(name, this, raw)
     this.fields.push(newField)
     return newField
   }
@@ -180,88 +189,25 @@ export class Entry {
 
 export class Field {
   static nameRegexp = /[a-zA-Z0-9\-\_]+/
-  static allowedTypes = ['string', 'string+', 'number', 'number+', 'boolean', 'boolean+', 'null', 'null+', 'ref', 'ref+'] as const
-  static typeRegexp = /(string)|(string\+)|(number)|(number\+)|(boolean)|(boolean\+)|(null)|(null\+)|(ref)|(ref\+)/
   name: string
   parent: Entry
-  rawValue: string
-  type?: typeof Field.allowedTypes[number]
+  raw: string
   constructor (
     name: Field['name'],
     parent: Entry,
-    rawValue: Field['rawValue'],
-    type?: Field['type']) {
+    raw: Field['raw']) {
     this.name = name
     this.parent = parent
-    this.rawValue = rawValue
-    this.type = type
+    this.raw = raw
     this.updateRaw = this.updateRaw.bind(this)
-    // this.asString = this.asString.bind(this)
-    // this.asNumber = this.asNumber.bind(this)
-    // this.asBoolean = this.asBoolean.bind(this)
-    // this.asNull = this.asNull.bind(this)
-    // this.asRef = this.asRef.bind(this)
-    // this.as = this.as.bind(this)
-    // this.guessType = this.guessType.bind(this)
     this.resolver = this.resolver.bind(this)
     this.resolve = this.resolve.bind(this)
   }
 
-  updateRaw = (updater: (currValue: string) => string) => {
-    const newRawValue = updater(this.rawValue)
-    this.rawValue = newRawValue
+  updateRaw (updater: (curr: string) => string) {
+    const newraw = updater(this.raw)
+    this.raw = newraw
   }
-
-  get transformedValue () {
-    const raw = this.rawValue
-    const [initialValue, ...transformersDescriptors] = raw
-      .split('>>>')
-      .map(chunk => chunk.trim())
-    const transformed = transformersDescriptors.reduce(transform, initialValue)
-    // [WIP] convert Base, Collection, etc... to their values ?
-    return transformed
-  }
-
-  // asString () {
-  //   return this.rawValue
-  // }
-
-  // asNumber () {
-  //   return parseFloat(this.rawValue)
-  // }
-
-  // asBoolean () {
-  //   if (this.rawValue.match(/^true$/igm)) return true
-  //   return false
-  // }
-
-  // asNull () {
-  //   return null
-  // }
-
-  // // [WIP] should not return any
-  // asRef (): any {
-  //   return this.resolve(this.rawValue)
-  // }
-
-  // // [WIP] should not return any
-  // as (type: NonNullable<Field['type']>): any {
-  //   if (type === 'string') return this.asString()
-  //   else if (type === 'number') return this.asNumber()
-  //   else if (type === 'boolean') return this.asBoolean()
-  //   else if (type === 'ref') return this.asRef()
-  //   return this.asNull()
-  // }
-
-  // guessType (): NonNullable<Field['type']> {
-  //   if (this.rawValue.match(/^\s*$/)) return 'string'
-  //   if (this.resolve(this.rawValue) !== undefined) return 'ref'
-  //   else if (this.rawValue.match(/^[0-9]*(\.)?[0-9]+$/)) return 'number'
-  //   else if (this.rawValue.match(/^true$/igm)) return 'boolean'
-  //   else if (this.rawValue.match(/^false$/igm)) return 'boolean'
-  //   else if (this.rawValue.match(/^null$/igm)) return 'null'
-  //   return 'string'
-  // }
 
   resolver (...args: Parameters<Base['resolver']>) {
     return this.parent.resolver(...args)
@@ -271,11 +217,28 @@ export class Field {
     return this.resolver(this, path)
   }
 
+  get transformed () {
+    const raw = this.raw
+    const [initialValue, ...transformersDescriptors] = raw
+      .split('>>>')
+      .map(chunk => chunk.trim())
+    const transformed: TransformerPrimitiveValue|TransformerPrimitiveValue[] = transformersDescriptors.reduce((
+      value: TransformerPrimitiveValue|TransformerPrimitiveValue[],
+      transformerDescriptor: string) => {
+      const [transformerName, ..._transformerStrArgs] = transformerDescriptor.split(' ')
+      const transformerStrArgs = _transformerStrArgs.join(' ')
+      return masterTransformer(
+        value,
+        transformerName,
+        transformerStrArgs,
+        this.resolve
+      )
+    }, initialValue)
+    return transformed
+  }
+
   get value () {
-    return this.transformedValue
-    // if (this.type !== undefined) return this.as(this.type)
-    // const guessedType = this.guessType()
-    // return this.as(guessedType)
+    return this.transformed
   }
 }
 
@@ -289,7 +252,7 @@ function parse (str: string) {
 
   const newCollectionRegexp = new RegExp('^\\s*#\\s*' + Collection.nameRegexp.source)
   const newEntryRegexp = new RegExp('^\\s*##\\s*' + Entry.nameRegexp.source)
-  const newFieldRegexp = new RegExp('^\\s*_\\s*' + Field.nameRegexp.source + '(\\s*:\\s*(' + Field.typeRegexp.source + '))?\\s*:')
+  const newFieldRegexp = new RegExp('^\\s*_\\s*' + Field.nameRegexp.source + '\\s*:')
   const newCommentRegexp = /^\s*\/\//
 
   lines.forEach(line => {
@@ -342,16 +305,16 @@ function parse (str: string) {
     const fieldName = fieldType === undefined
       ? fieldNameWithType
       : fieldNameWithType.replace(/:[a-z]+$/, '')
-    const fieldTypeValidator = (str?: string): str is Field['type'] => {
-      if (str === undefined) return true
-      if ((Field.allowedTypes as unknown as string[]).includes(str)) return true
-      return false
-    }
-    const isFieldTypeValid = fieldTypeValidator(fieldType)
+    // const fieldTypeValidator = (str?: string): str is Field['type'] => {
+    //   if (str === undefined) return true
+    //   if ((Field.allowedTypes as unknown as string[]).includes(str)) return true
+    //   return false
+    // }
+    // const isFieldTypeValid = fieldTypeValidator(fieldType)
     currentField = currentEntry.create(
       fieldName.trim(),
       '',
-      isFieldTypeValid ? fieldType : undefined
+      // isFieldTypeValid ? fieldType : undefined
     )
   }
 
@@ -360,7 +323,5 @@ function parse (str: string) {
     currentField.updateRaw(curr => `${curr}${content.trim()}`)
   }
 }
-
-console.log(Field.typeRegexp)
 
 export default parse
