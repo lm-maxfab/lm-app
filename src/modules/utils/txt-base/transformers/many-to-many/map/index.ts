@@ -10,14 +10,12 @@ export default makeTransformer(
   (value, argsStr, resolver) => {
     const [transformerName, ...otherArgs] = argsStr.split(' ')
     const transformer = getTransformer(transformerName)
-    try {
-      if (transformer === undefined) return value
-      if (transformer.type !== TransformerType.ONE_TO_ONE) return value
-      return value.map(val => {
-        return transformer.apply(val, otherArgs.join(' '), resolver)
-      })
-    } catch (err) {
-      return value
-    }
+    if (transformer === undefined) return value
+    if (transformer.type !== TransformerType.ONE_TO_ONE) return value
+    return value.map(val => transformer.apply(
+      val,
+      otherArgs.join(' '),
+      resolver
+    ))
   }
 )

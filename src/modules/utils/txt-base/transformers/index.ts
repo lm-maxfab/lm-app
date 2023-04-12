@@ -1,12 +1,44 @@
 import { VNode } from 'preact'
 import { Base, Collection, Entry, Field } from '..'
 import { TransformerType } from './types'
-import map from './many-to-many/map'
-import split from './one-to-many/split'
-import join from './many-to-one/join'
+// One to one transformers
+import toString from './one-to-one/toString'
+import toNumber from './one-to-one/toNumber'
+import toBoolean from './one-to-one/toBoolean'
+import toNull from './one-to-one/toNull'
+import toHtml from './one-to-one/toHtml'
+import toRef from './one-to-one/toRef'
 import toLowerCase from './one-to-one/toLowerCase'
-import trim from './one-to-one/trim'
 import toUpperCase from './one-to-one/toUpperCase'
+import trim from './one-to-one/trim'
+// One to many transformers
+import split from './one-to-many/split'
+// Many to one transformers
+import join from './many-to-one/join'
+// Many to many transformers
+import map from './many-to-many/map'
+
+const transformerNamesObj: { [key: string]: Transformer } = {
+  // One to one
+  toString,
+  toNumber,
+  toBoolean,
+  toNull,
+  toHtml,
+  toRef,
+  toLowerCase,
+  toUpperCase,
+  trim,
+  // One to many
+  split,
+  // Many to one
+  join,
+  // Many to many
+  map
+}
+
+const transformersNames: Map<string, Transformer> = new Map(Object.entries(transformerNamesObj))
+export const getTransformer = (name: string) => transformersNames.get(name)
 
 export type PrimitiveValue = string
   |number
@@ -64,19 +96,6 @@ export type Transformer =
   |OneToManyTransformer
   |ManyToOneTransformer
   |ManyToManyTransformer
-
-
-const transformerNamesObj: { [key: string]: Transformer } = {
-  map,
-  split,
-  join,
-  toLowerCase,
-  toUpperCase,
-  trim
-}
-
-const transformersNames: Map<string, Transformer> = new Map(Object.entries(transformerNamesObj))
-export const getTransformer = (name: string) => transformersNames.get(name)
 
 export function makeTransformer<T extends OneToOneTransformer> (name: CommonTransformerStuff['name'], type: TransformerType.ONE_TO_ONE, apply: T['apply']): T
 export function makeTransformer<T extends OneToManyTransformer> (name: CommonTransformerStuff['name'], type: TransformerType.ONE_TO_MANY, apply: T['apply']): T

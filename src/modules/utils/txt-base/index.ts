@@ -7,9 +7,11 @@ import {
 export class Base {
   collections: Collection[]
   parent: this
+  parents: []
   constructor () {
     this.collections = []
     this.parent = this
+    this.parents = []
     this.get = this.get.bind(this)
     this.create = this.create.bind(this)
     this.delete = this.delete.bind(this)
@@ -58,6 +60,16 @@ export class Base {
         else { currentItem = currentItem.get(chunk) }
       }
     })
+    const currentItemParents = currentItem?.parents as Array<Base|Collection|Entry|Field>
+    if (currentItemParents?.includes(root)) {
+      // [WIP] silent log here
+      console.warn('Own descendants references are forbidden, at', root.path)
+      return undefined
+    } else if (currentItem === root) {
+      // [WIP] silent log here
+      console.warn('Self references are forbidden, at', root.path)
+      return undefined
+    }
     // [WIP] why does TS think currentItem cannot be undefined ?
     return currentItem
   }
@@ -73,16 +85,22 @@ export class Base {
     })
     return returned
   }
+
+  get path () {
+    return `/`
+  }
 }
 
 export class Collection {
   static nameRegexp = /[a-zA-Z0-9\-\_]+/
   name: string
   parent: Base
+  parents: [Base]
   entries: Entry[]
   constructor (name: Collection['name'], parent: Base) {
     this.name = name
     this.parent = parent
+    this.parents = [this.parent]
     this.entries = []
     this.get = this.get.bind(this)
     this.create = this.create.bind(this)
@@ -129,16 +147,22 @@ export class Collection {
     })
     return returned
   }
+
+  get path () {
+    return `${this.parent.path}${this.name}/`
+  }
 }
 
 export class Entry {
   static nameRegexp = /[a-zA-Z0-9\-\_]+/
   name: string
   parent: Collection
+  parents: [Base, Collection]
   fields: Field[]
   constructor (name: Entry['name'], parent: Collection) {
     this.name = name
     this.parent = parent
+    this.parents = [...this.parent.parents, this.parent]
     this.fields = []
     this.get = this.get.bind(this)
     this.create = this.create.bind(this)
@@ -185,12 +209,17 @@ export class Entry {
     })
     return returned
   }
+  
+  get path () {
+    return `${this.parent.path}${this.name}/`
+  }
 }
 
 export class Field {
   static nameRegexp = /[a-zA-Z0-9\-\_]+/
   name: string
   parent: Entry
+  parents: [Base, Collection, Entry]
   raw: string
   constructor (
     name: Field['name'],
@@ -198,6 +227,7 @@ export class Field {
     raw: Field['raw']) {
     this.name = name
     this.parent = parent
+    this.parents = [...this.parent.parents, this.parent]
     this.raw = raw
     this.updateRaw = this.updateRaw.bind(this)
     this.resolver = this.resolver.bind(this)
@@ -225,6 +255,7 @@ export class Field {
     const transformed: TransformerPrimitiveValue|TransformerPrimitiveValue[] = transformersDescriptors.reduce((
       value: TransformerPrimitiveValue|TransformerPrimitiveValue[],
       transformerDescriptor: string) => {
+      // [WIP] do better for args, maybe args:string[] to transformers
       const [transformerName, ..._transformerStrArgs] = transformerDescriptor.split(' ')
       const transformerStrArgs = _transformerStrArgs.join(' ')
       return masterTransformer(
@@ -237,8 +268,19 @@ export class Field {
     return transformed
   }
 
-  get value () {
-    return this.transformed
+  get value (): any {
+    const { transformed } = this
+    if (transformed instanceof Field
+      || transformed instanceof Entry
+      || transformed instanceof Collection
+      || transformed instanceof Base) {
+      return transformed.value
+    }
+    return transformed
+  }
+
+  get path () {
+    return `${this.parent.path}${this.name}/`
   }
 }
 
@@ -305,17 +347,7 @@ function parse (str: string) {
     const fieldName = fieldType === undefined
       ? fieldNameWithType
       : fieldNameWithType.replace(/:[a-z]+$/, '')
-    // const fieldTypeValidator = (str?: string): str is Field['type'] => {
-    //   if (str === undefined) return true
-    //   if ((Field.allowedTypes as unknown as string[]).includes(str)) return true
-    //   return false
-    // }
-    // const isFieldTypeValid = fieldTypeValidator(fieldType)
-    currentField = currentEntry.create(
-      fieldName.trim(),
-      '',
-      // isFieldTypeValid ? fieldType : undefined
-    )
+    currentField = currentEntry.create(fieldName.trim(), '')
   }
 
   function addContent (content: string) {
