@@ -5,11 +5,17 @@ import ResizeObserver from '../../components/ResizeObserver'
 import clamp from '../../utils/clamp'
 import interpolate from '../../utils/interpolate'
 
+import styles from './styles.module.scss'
+
 interface Props {
   progression?: number | null
   images?: string[]
   height?: number | null
   width?: number | null
+}
+
+interface State {
+  loading?: boolean
 }
 
 interface imageInfos {
@@ -21,6 +27,10 @@ class StopMotion extends Component<Props, {}> {
   imageRatio: number = 1
   imageElements: HTMLImageElement[] = []
   $canvasWrapper: HTMLDivElement | null = null
+
+  state: State = {
+    loading: true
+  }
 
   constructor(props: Props) {
     super(props)
@@ -133,6 +143,10 @@ class StopMotion extends Component<Props, {}> {
         if (index === currentIndex) {
           this.imageRatio = img.height / img.width
         }
+        // une fois qu'on chargé toutes les images
+        if (this.imageElements.length === this.props.images.length) {
+          this.setState({ loading: false })
+        }
       } catch (error) {
         console.log(error)
       }
@@ -214,8 +228,12 @@ class StopMotion extends Component<Props, {}> {
    * RENDER
    * * * * * * * * * * * * * * */
   render(): (JSX.Element | null) {
+    const loaderClasses = ['lm-stop-motion__loader', styles['loader']]
     return <ResizeObserver onResize={this.setCanvasSize}>
-      <div ref={n => { this.$canvasWrapper = n }}></div>
+      <>
+        {this.state.loading && <span class={loaderClasses.join(' ')}></span>}
+        <div ref={n => { this.$canvasWrapper = n }}></div>
+      </>
     </ResizeObserver>
   }
 }

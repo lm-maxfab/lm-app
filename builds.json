@@ -1481,6 +1481,16 @@
       "version": {
         "major": 2,
         "minor": 0,
+        "patch": 1,
+        "status": "stable",
+        "build": 1
+      },
+      "description": "",
+      "time": "2023-03-30T14:44:29.384Z"
+    }, {
+      "version": {
+        "major": 2,
+        "minor": 0,
         "patch": 2,
         "status": "stable",
         "build": 0
@@ -1498,6 +1508,17 @@
       },
       "description": "",
       "time": "2023-05-02T15:36:38.842Z"
+    },
+    {
+      "version": {
+        "major": 2,
+        "minor": 0,
+        "patch": 1,
+        "status": "stable",
+        "build": 2
+      },
+      "description": "",
+      "time": "2023-03-31T13:58:48.128Z"
     }
   ]
 }

@@ -2,7 +2,6 @@ import { Component, VNode } from 'preact'
 import ArticleThumb, { Props as ArticleThumbProps } from '../ArticleThumb'
 import styles from './styles.module.scss'
 import bem from '../../utils/bem'
-import Svg from '../Svg'
 import Img from '../Img'
 import IntersectionObserverComponent, { Props as IOCompProps } from '../IntersectionObserver'
 
@@ -16,22 +15,23 @@ interface Props {
   shadeToPos?: string
   shadeToColor?: string
   textAbove?: string|VNode
-  articleThumbsData?: ArticleThumbProps[]
   textBelow?: string|VNode
+  articleThumbsData?: ArticleThumbProps[]
+  thumbnailMaxWidth?: string
   onVisible?: (ioEntry: IntersectionObserverEntry) => void
   onHidden?: (ioEntry: IntersectionObserverEntry) => void
   visibilityThreshold?: number
 }
 
 class Footer extends Component<Props, {}> {
-  constructor (props: Props) {
+  constructor(props: Props) {
     super(props)
     this.handleIntersection = this.handleIntersection.bind(this)
   }
 
   bemClss = bem('lm-article-footer')
 
-  handleIntersection (...args: Parameters<NonNullable<IOCompProps['callback']>>) {
+  handleIntersection(...args: Parameters<NonNullable<IOCompProps['callback']>>) {
     const { onVisible, onHidden } = this.props
     const [ioEntry] = args
     const isVisible = ioEntry.isIntersecting
@@ -49,8 +49,11 @@ class Footer extends Component<Props, {}> {
     const thumbnailsClasses = [bemClss.elt('thumbnails').value, styles['thumbnails']]
     const aboveClasses = [bemClss.elt('above').value, styles['above']]
     const belowClasses = [bemClss.elt('below').value, styles['below']]
-    // [WIP] variable here
-    const wrapperStyle = `background-color: ${props.bgColor ?? 'transparent'};`
+
+    const wrapperStyle = `
+      --footer-bg-color: ${props.bgColor ?? 'transparent'};
+    `
+
     const displayShade = (props.shadeFromColor
       ?? props.shadeFromPos
       ?? props.shadeToColor
@@ -63,7 +66,6 @@ class Footer extends Component<Props, {}> {
         ${props.shadeToColor ?? 'transparent'} 
         ${props.shadeToPos ?? '100%'});`
 
-    const bgImageIsSvg = props.bgImageUrl?.endsWith('.svg')
     const thumbsData = props.articleThumbsData ?? []
 
     return <IntersectionObserverComponent
@@ -81,16 +83,11 @@ class Footer extends Component<Props, {}> {
         {/* Bg image */}
         {props.bgImageUrl !== undefined && <div
           className={backgroundImageClasses.join(' ')}>
-          {bgImageIsSvg
-            // [WIP] maybe Img should do this itself,
-            // this logic is duplicated in ArticleThumb comp
-            // [WIP] no desc/alt here ?
-            ? <Svg src={props.bgImageUrl} />
-            : <Img src={props.bgImageUrl} />}
+          <Img src={props.bgImageUrl} />
         </div>}
 
         {/* Shade */}
-        {displayShade && <div 
+        {displayShade && <div
           className={shadeClasses.join(' ')}
           style={shadeStyle} />}
 
@@ -103,11 +100,14 @@ class Footer extends Component<Props, {}> {
         {/* Thumbs */}
         {thumbsData.length !== 0
           && <div className={thumbnailsClasses.join(' ')}>
-          {thumbsData?.map(articleThumbProps => (
-            // [WIP] missing a key here?
-            <ArticleThumb {...articleThumbProps} />
-          ))}
-        </div>}
+            {thumbsData?.map((articleThumbProps, i) => (
+              <ArticleThumb
+                key={i}
+                imageMaxWidth={props.thumbnailMaxWidth}
+                {...articleThumbProps}
+              />
+            ))}
+          </div>}
 
         {/* Below */}
         {props.textBelow !== undefined && <div

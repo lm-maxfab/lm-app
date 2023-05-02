@@ -1,9 +1,12 @@
 import { Component, JSX } from 'preact'
 import bem from '../../utils/bem'
+import Svg from '../Svg'
 
 interface Props extends JSX.HTMLAttributes<HTMLImageElement> {
   className?: string
   style?: JSX.CSSProperties
+  src?: string
+  alt?: string
 }
 
 class Img extends Component<Props, {}> {
@@ -51,12 +54,27 @@ class Img extends Component<Props, {}> {
     const classes = bem(props.className ?? '').block(this.clss)
     // [WIP] why this since ...props are added to img below ?
     const inlineStyle: JSX.CSSProperties = { ...props.style }
-    return <img
-      loading='lazy'
-      alt=''
-      {...props}
-      style={inlineStyle}
-      className={classes.value} />
+
+    const imageIsSvg = props.src?.endsWith('.svg')
+
+    return <>
+      {imageIsSvg
+        ? <Svg
+          src={props.src}
+          desc={props.alt ?? ''}
+          {...props}
+          style={inlineStyle}
+          className={classes.value}
+        />
+        : <img
+          loading='lazy'
+          src={props.src}
+          alt={props.alt ?? ''}
+          {...props}
+          style={inlineStyle}
+          className={classes.value}
+        />}
+    </>
   }
 }
 
