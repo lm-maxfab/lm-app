@@ -251,6 +251,8 @@ async function postbuild () {
       if (pushResult.stderr !== '') console.log(`${chalk.grey(pushResult.stderr.trim())}`)
     } catch (err) {
       console.log(chalk.red(err))
+      console.log(err.message)
+      console.log(err)
       process.exit(1)
     }
   }
