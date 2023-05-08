@@ -9,7 +9,7 @@ function injectCssRule (rule: string, force?: boolean) {
   const alreadyInMap: [string, string]|undefined = rulesArr.find(([_key, val]) => val === rule)
   const shouldInject = force === true || alreadyInMap === undefined
   if (!shouldInject) return alreadyInMap[0]
-  const ruleKey = crypto.randomUUID()
+  const ruleKey = `${Math.random().toString(36)}-${Math.random().toString(36)}-${Math.random().toString(36)}`
   rulesMap.set(ruleKey, rule)
   updateStyleElement()
   return ruleKey
