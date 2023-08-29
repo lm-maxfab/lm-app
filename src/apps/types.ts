@@ -19,6 +19,7 @@ export interface HomeData extends SheetbaseCollectionData {
 export interface ChapterData extends SheetbaseCollectionData {
   title?: VNode
   kicker?: VNode
+  main_color?: string
 }
 
 export interface ImageBlockData extends SheetbaseCollectionData {

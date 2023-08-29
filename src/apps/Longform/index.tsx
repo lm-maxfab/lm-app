@@ -75,9 +75,14 @@ class Longform extends Component<Props, State> {
     const currentRows = (currentChapter ?? {}).rows
     const currentRow = (currentRows ?? [])[state.currentChapterRow]
     const firstBlockInRow = (currentRow ?? [])[0]
-    const bgColor = firstBlockInRow?.bg_color
+    const bgColor = firstBlockInRow?.bg_color ?? currentChapter?.main_color
     const text1Color = firstBlockInRow?.text_1_color
     const text2Color = firstBlockInRow?.text_2_color
+
+    // console.log(currentChapter?.main_color)
+    // console.log(currentRows)
+    // console.log(currentRow)
+    // console.log('-')
     
     // Assign classes and styles
     const wrapperClasses = bem(props.className)

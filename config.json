@@ -1,10 +1,10 @@
 {
-  "assets_root_url": "https://assets-decodeurs.lemonde.fr/redacweb/10-2201-illustrations21-assets",
+  "assets_root_url": "https://assets-decodeurs.lemonde.fr/redacweb/50-2308-photo-rugby-assets",
   "sheetbases": {
-    "production": "https://assets-decodeurs.lemonde.fr/sheets/pjniV966vt5wAkNmJkmQBDqdLfhyTA_1465",
-    "staging": "https://assets-decodeurs.lemonde.fr/sheets/pjniV966vt5wAkNmJkmQBDqdLfhyTA_1466",
-    "testing": "https://assets-decodeurs.lemonde.fr/sheets/pjniV966vt5wAkNmJkmQBDqdLfhyTA_1467",
-    "developpment": "https://assets-decodeurs.lemonde.fr/sheets/pjniV966vt5wAkNmJkmQBDqdLfhyTA_1468"
+    "production": "https://assets-decodeurs.lemonde.fr/sheets/0h2G43EpMaUjXxgzftnx-qSlisT19w_2056",
+    "staging": "https://assets-decodeurs.lemonde.fr/sheets/0h2G43EpMaUjXxgzftnx-qSlisT19w_2057",
+    "testing": "https://assets-decodeurs.lemonde.fr/sheets/0h2G43EpMaUjXxgzftnx-qSlisT19w_2058",
+    "developpment": "https://assets-decodeurs.lemonde.fr/sheets/0h2G43EpMaUjXxgzftnx-qSlisT19w_2059"
   },
   "env": null
 }

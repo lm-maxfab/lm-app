@@ -4,7 +4,7 @@
   "scripts": {
     "lint": "eslint .",
     "dev": "node ./scripts/dev.mjs",
-    "postdev": "vite",
+    "postdev": "vite --port 3002",
     "start": "npm run dev",
     "build": "node ./scripts/build.mjs"
   },
