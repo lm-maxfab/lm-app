@@ -1125,7 +1125,7 @@ export default class Scrollgneugneu extends Component<Props, State> {
         <Header />
       </div>}
       {/* STICKY BLOCKS */}
-      {[...blocks].map(([blockIdentifier, scrollOrStickyBlockData]) => {
+      {[...blocks].map(([blockIdentifier, scrollOrStickyBlockData], blockPos) => {
         const blockDistance = getBlockDistanceFromDisplay(blockIdentifier)
         if (blockDistance === undefined) return null
         if (blockDistance > lazyLoadDistance) return null
