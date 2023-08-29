@@ -1,10 +1,13 @@
-interface ExtendedNavigator extends Navigator {
-  mozConnection?: NetworkInformation
-  webkitConnection?: NetworkInformation
-}
+interface NetworkInformation {}
 
 interface ExtendedConnection extends NetworkInformation {
   downlink?: number
+}
+
+interface ExtendedNavigator extends Navigator {
+  connection?: ExtendedConnection
+  mozConnection?: ExtendedConnection
+  webkitConnection?: ExtendedConnection
 }
 
 export type {
