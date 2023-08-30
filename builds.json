@@ -1550,5 +1550,18 @@
       "description": "",
       "time": "2022-11-28T16:00:22.865Z"
     }
+  ],
+  "51-2309-mondial-rugby": [
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 1
+      },
+      "description": "fix assets url",
+      "time": "2023-08-30T15:20:45.927Z"
+    }
   ]
 }
