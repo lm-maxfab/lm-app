@@ -33,7 +33,8 @@ class Longform extends Component<Props, State> {
     const wrapperClasses = bem(props.className).block(this.clss)
     const wrapperStyle: JSX.CSSProperties = {
       ...props.style,
-      ['--mondial-main-color']: '#3E001F',
+      ['--c-mondial-blue']: '#071080',
+      ['--c-mondial-green']: '#00A259',
     }
 
     const className = bem(this.clss)

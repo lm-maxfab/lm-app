@@ -1,7 +1,7 @@
 import { Component } from 'preact'
 import Gradient from '../../Gradient'
 import bem from '../../../../modules/utils/bem'
-import Svg from "../../../../modules/components/Svg";
+import Svg from "../../../../modules/components/Svg"
 import './styles.scss'
 
 import getConfig from '../../../../modules/utils/get-config'
@@ -21,33 +21,21 @@ export default class TeamImage extends Component<Props, State> {
 
     const bemClass = this.props.className;
 
-    const circleSrc = `${config?.assets_root_url}/circle-${this.props.iso}.svg`
-    const playerSrc = `${config?.assets_root_url}/player-${this.props.iso}.png`
-    // const playerSrc = `${config?.assets_root_url}/player-fra.png`
+    // const shapeSrc = `${config?.assets_root_url}/shape-${this.props.iso}.svg`
+    // const playerSrc = `${config?.assets_root_url}/player-${this.props.iso}.png`
+    const shapeSrc = `${config?.assets_root_url}/shape-eng.svg`
+    const playerSrc = `${config?.assets_root_url}/player-eng.png`
 
     return <div className={bemClass.value}>
-      <div class={bemClass.elt('background-circle').value}>
-        {/* <Svg src={circleSrc} width={undefined} height={undefined} /> */}
-        <img
-          src={circleSrc}
-          className={bemClass.elt('circle').mod({ bg: true }).value} />
-      </div>
+      <img
+        src={shapeSrc}
+        className={bemClass.elt('shape').value} />
 
-      <div class={bemClass.elt('rectangle').value}>
-        <Gradient></Gradient>
-
-        <div class={bemClass.elt('rectangle-inner').value}>
-          {/* <Svg src={circleSrc} width={undefined} height={undefined} /> */}
-          <img
-            src={circleSrc}
-            className={bemClass.elt('circle').mod({ overlay: true }).value} />
-        </div>
-      </div>
+      <Gradient></Gradient>
 
       <div class={bemClass.elt('player').value} >
         <img src={playerSrc} alt="" />
       </div>
-
       <div class={bemClass.elt('overlay').value}>
         <p>Voir la fiche</p>
       </div>

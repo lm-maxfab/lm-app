@@ -1,11 +1,11 @@
 {
-  "assets_root_url": "https://assets-decodeurs.lemonde.fr/redacweb/28-2210-mondial-assets",
+  "assets_root_url": "https://assets-decodeurs.lemonde.fr/redacweb/51-2309-mondial-rugby",
   "statics_root_url": "https://assets-decodeurs.lemonde.fr/redacweb/statics-v2",
   "spreadsheets_urls": {
-    "production": "https://assets-decodeurs.lemonde.fr/sheets/xbXSuH2KcRTv6nmkCAhJp3y_NZmdUA_1379",
-    "staging": "https://assets-decodeurs.lemonde.fr/sheets/xbXSuH2KcRTv6nmkCAhJp3y_NZmdUA_1380",
-    "testing": "https://assets-decodeurs.lemonde.fr/sheets/xbXSuH2KcRTv6nmkCAhJp3y_NZmdUA_1381",
-    "developpment": "https://assets-decodeurs.lemonde.fr/sheets/xbXSuH2KcRTv6nmkCAhJp3y_NZmdUA_1382"
+    "production": "https://assets-decodeurs.lemonde.fr/sheets/AvPnmAnBLiVgXZc4JnjTGRVqRdThrQ_2062",
+    "staging": "https://assets-decodeurs.lemonde.fr/sheets/AvPnmAnBLiVgXZc4JnjTGRVqRdThrQ_2063",
+    "testing": "https://assets-decodeurs.lemonde.fr/sheets/AvPnmAnBLiVgXZc4JnjTGRVqRdThrQ_2064",
+    "developpment": "https://assets-decodeurs.lemonde.fr/sheets/AvPnmAnBLiVgXZc4JnjTGRVqRdThrQ_2065"
   },
   "layouts": [{
     "name": "longform",

@@ -9,7 +9,7 @@ type State = {
 }
 
 interface GroupBlock {
-  randomPosX?: string
+  randomAngle?: number
 }
 
 export const className = bem('mondial-gradient')
@@ -17,12 +17,16 @@ export const className = bem('mondial-gradient')
 class GroupBlock extends Component<Props, State> {
 
   componentWillMount(): void {
-    this.randomPosX = Math.random() * 100 + '%';
+    this.randomAngle = Math.random() * 360;
   }
 
   render() {
+    const inlineStyle = [
+      `--mondial-random-angle: ${this.randomAngle}deg;`
+    ]
+
     return <div className={className.value}>
-      <div style={{ backgroundPositionX: this.randomPosX }} className={className.elt('background').value}></div>
+      <div style={inlineStyle.join(' ')} className={className.elt('background').value}></div>
       <div className={className.elt('grain').value}></div>
     </div>
   }

@@ -53,9 +53,9 @@ class Cover extends Component<Props, State> {
 
     return <div className={className.mod(this.stepClass).value}>
 
-      <div className={className.elt('circle').value}>
+      {/* <div className={className.elt('circle').value}>
         <Circle></Circle>
-      </div>
+      </div> */}
 
       <div className={className.elt('container').value}>
 
@@ -63,9 +63,9 @@ class Cover extends Component<Props, State> {
 
           <Gradient />
 
-          <div className={className.elt('circle').mod('overlay').value}>
+          {/* <div className={className.elt('circle').mod('overlay').value}>
             <Circle></Circle>
-          </div>
+          </div> */}
 
         </div>
 

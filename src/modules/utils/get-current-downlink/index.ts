@@ -1,10 +1,13 @@
-interface ExtendedNavigator extends Navigator {
-  mozConnection?: NetworkInformation
-  webkitConnection?: NetworkInformation
-}
+interface NetworkInformation {}
 
 interface ExtendedConnection extends NetworkInformation {
   downlink?: number
+}
+
+interface ExtendedNavigator extends Navigator {
+  connection?: ExtendedConnection
+  mozConnection?: ExtendedConnection
+  webkitConnection?: ExtendedConnection
 }
 
 export type {
@@ -14,10 +17,7 @@ export type {
 
 export default function getCurrentDownlink (): number|undefined {
   const navigator = window.navigator as ExtendedNavigator|undefined
-  const connection = (
-    navigator?.connection
-    ?? navigator?.mozConnection
-    ?? navigator?.webkitConnection
-  ) as ExtendedConnection|undefined
-  return connection?.downlink
+  const connection = (navigator?.connection ?? navigator?.mozConnection ?? navigator?.webkitConnection) as ExtendedConnection|undefined
+  const downlink = connection?.downlink
+  return downlink
 }

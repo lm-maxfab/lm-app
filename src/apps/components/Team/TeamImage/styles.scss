@@ -1,128 +1,84 @@
 .mondial-team__image {
-  position: relative;
-  --padding: 28px;
-  padding: var(--padding);
   --mondial-team-img-transition: 400ms;
-  cursor: pointer;
+
+  display: grid;
+  width: fit-content;
+  position: relative;
   overflow: hidden;
+  max-width: 100%;
 
-  &__background-circle {
-    z-index: 1;
+  >* {
+    grid-area: 1/-1;
+  }
+}
+
+.mondial-team__image__shape {
+  height: 100%;
+  max-width: 100%;
+}
+
+.mondial-team__image__player {
+  height: 100%;
+  position: absolute;
+  /* [WIP] pour l'ombre, à clean */
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-48%);
+  transition: transform var(--mondial-team-img-transition);
+  z-index: 1;
+
+  img {
+    height: 100%;
+    /* [WIP] exporter à part ? ou gérer à la main position selon orientation du joueur ? */
+    filter: drop-shadow(12px -6px #0000004d);
+  }
+}
+
+.mondial-team__image__overlay {
+  z-index: 5;
+  color: #fff;
+  text-transform: uppercase;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 20px;
+  line-height: 20px;
+  letter-spacing: 0.02em;
+  padding: 32px;
+  opacity: 0;
+  transition: opacity var(--mondial-team-img-transition);
+
+  &::before {
+    content: '';
+    display: block;
     position: absolute;
     top: 0;
     left: 0;
-    height: 100%;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    .mondial-team__image__circle {
-      height: 100%;
-      width: 100%;
-      object-fit: cover;
-    }
-  }
-
-  &__rectangle {
-    position: relative;
-    z-index: 2;
-    padding-bottom: 166%;
-
-    .mondial-gradient {
-      position: absolute;
-
-      & > div {
-        padding-bottom: 166%;
-      }
-    }
-  }
-
-  &__rectangle-inner {
-    position: absolute;
-    top: calc(-1 * var(--padding));
-    left: calc(-1 * var(--padding));
-    bottom: calc(-1 * var(--padding));
-    right: calc(-1 * var(--padding));
-
-    .mondial-team__image__circle {
-      height: 100%;
-      width: 100%;
-      object-fit: cover;
-      mix-blend-mode: overlay;
-    }
-  }
-
-  &__player {
-    position: absolute;
     bottom: 0;
-    left: 50%;
-    transform: translateX(-48%);
-    height: 100%;
-    z-index: 3;
-    transition: transform var(--mondial-team-img-transition);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    img {
-      height: 100%;
-      max-width: unset;
-    }
-  }
-
-  &__overlay {
-    z-index: 5;
-    color: #fff;
-    text-transform: uppercase;
-    position: absolute;
-    top: 0;
-    left: 0;
     right: 0;
-    bottom: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    font-size: 20px;
-    line-height: 20px;
-    letter-spacing: 0.02em;
-    padding: 32px;
-    opacity: 0;
-    transition: opacity var(--mondial-team-img-transition);
-
-    &::before {
-      content: '';
-      display: block;
-      position: absolute;
-      top: 0;
-      left: 0;
-      bottom: 0;
-      right: 0;
-      background-color: var(--mondial-main-color);
-      opacity: 0.6;
-    }
-
-    p {
-      max-width: 160px;
-      user-select: none;
-      z-index: 2;
-    }
-
-    @media screen and (min-width: 800px) {
-      font-size: 30px;
-      line-height: 30px;
-    }
+    background-color: var(--c-mondial-blue);
+    opacity: 0.6;
   }
 
-  &:hover {
-    .mondial-team__image__overlay {
-      opacity: 1;
-    }
+  p {
+    max-width: 160px;
+    user-select: none;
+    z-index: 2;
+  }
+}
 
-    .mondial-team__image__player {
-      transform: translateX(-50%);
-    }
+.mondial-team__image:hover {
+  .mondial-team__image__overlay {
+    opacity: 1;
   }
 
+  .mondial-team__image__player {
+    transform: translateX(-50%);
+  }
 }

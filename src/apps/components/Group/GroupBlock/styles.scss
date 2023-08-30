@@ -11,23 +11,29 @@
   &__teams {
 
     &_default {
+      --mondial-grid-columns: 1;
       display: grid;
-      grid-template-columns: repeat(2, minmax(100px, 280px));
+      grid-template-columns: repeat(var(--mondial-grid-columns), minmax(100px, 280px));
       margin: 24px 0 42px 0;
       grid-row-gap: 26px;
       grid-column-gap: 16px;
       justify-content: space-between;
-  
-      @media screen and (min-width: 480px) {
-        grid-column-gap: 26px;
+
+      @media screen and (min-width: 350px) {
+        --mondial-grid-columns: 2;
       }
-  
-      @media screen and (min-width: 800px) {
-        grid-template-columns: repeat(4, minmax(100px, 280px));
+
+      @media screen and (min-width: 600px) {
+        --mondial-grid-columns: 3;
       }
-  
+
       @media screen and (min-width: 900px) {
         margin: 36px 0 52px 0;
+        --mondial-grid-columns: 5;
+      }
+
+      @media screen and (min-width: 1200px) {
+        grid-column-gap: 26px;
       }
     }
   }

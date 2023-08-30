@@ -14,7 +14,7 @@ const PATHS = {}
 PATHS.ROOT = __dirname
 PATHS.BUILDS_JSON = path.join(__dirname, 'builds.json')
 
-async function postbuild () {
+async function postbuild() {
 
   const doVersionAndCommit = (await prompts({
     type: 'confirm',
@@ -49,7 +49,7 @@ async function postbuild () {
   })).response
   if (doVersionAndCommit) console.log()
   if (doVersionAndCommit) console.log(chalk.bold.bgBlack.rgb(255, 255, 255)(` Preparing build of ${buildVersionNameWithDesc} `))
-  
+
   // Lint
   console.log(chalk.bold('\n👀 Linting...\n'))
   try {
@@ -114,7 +114,7 @@ async function postbuild () {
   await batchFileEdit(pathsToBatchEdit, BUILD.path, fileData => {
     const newContent = fileData.content
       .replace(/[\/\.]*{{ASSETS_ROOT_URL}}/gm, config.assets_root_url)
-      .replace(/http:\/\/localhost:3001/gm, config.statics_root_url)
+      .replace(/http:\/\/localhost:50001/gm, config.statics_root_url)
     return newContent
   })
   console.log(chalk.grey('relinked.'))
@@ -240,12 +240,12 @@ async function postbuild () {
 
   // The end.
   console.log(chalk.bold('\n🍸 That\'s all good my friend!\n'))
-  
-  
 
 
 
-  
+
+
+
   // const dstAssetsFiles = await DST_ASSETS.list()
   // const DST_INDEX_JS = dstAssetsFiles.find(file => file.name.match(/^index.[a-f0-9]{8}.js$/gm))
   // const DST_VENDOR_JS = dstAssetsFiles.find(file => file.name.match(/^vendor.[a-f0-9]{8}.js$/gm))
@@ -256,7 +256,7 @@ async function postbuild () {
   // if (rollupExec.stderr !== '') console.log(chalk.grey(rollupExec.stderr.trim()))
 }
 
-async function deepLs (srcPath) {
+async function deepLs(srcPath) {
   const files = await fse.readdir(srcPath)
   const results = []
   for (let file of files) {
@@ -269,18 +269,18 @@ async function deepLs (srcPath) {
   return results
 }
 
-function isPathInScope (_path, scope = './') {
+function isPathInScope(_path, scope = './') {
   const isScopeAbsolute = path.isAbsolute(scope)
   const absoluteScope = isScopeAbsolute ? scope : path.join(process.cwd(), scope)
   const absolutePath = path.isAbsolute(_path) ? _path : path.join(process.cwd(), _path)
   const relativeToScopePath = path.relative(absoluteScope, absolutePath)
-  const isInScope = relativeToScopePath  
-      && !relativeToScopePath.startsWith('..')
-      && !path.isAbsolute(relativeToScopePath)
+  const isInScope = relativeToScopePath
+    && !relativeToScopePath.startsWith('..')
+    && !path.isAbsolute(relativeToScopePath)
   return isInScope
 }
 
-async function batchFileEdit (paths, scope = './', editorFunc, editorCallback) {
+async function batchFileEdit(paths, scope = './', editorFunc, editorCallback) {
   const isScopeAbsolute = path.isAbsolute(scope)
   const absoluteScope = isScopeAbsolute ? scope : path.join(process.cwd(), scope)
   const absolutePaths = paths.map(relativePath => {
@@ -296,12 +296,12 @@ async function batchFileEdit (paths, scope = './', editorFunc, editorCallback) {
     const basename = path.basename(absolutePath)
     const content = await fse.readFile(absolutePath, 'utf8')
     const newContent = await editorFunc({ path: absolutePath, extension, basename, content })
-    
+
     if (newContent === undefined) {
       await fse.rm(absolutePath, { force: true })
       continue
     }
-    
+
     if (content !== newContent) await fse.writeFile(
       absolutePath,
       newContent,
