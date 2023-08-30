@@ -42,8 +42,8 @@ class Cover extends Component<Props, State> {
   }
 
   render() {
-    const imgPlayer1 = `${config?.assets_root_url}/player-wls-cover.png`
-    const imgPlayer2 = `${config?.assets_root_url}/player-can-cover.png`
+    const imgPlayer1 = 'https://assets-decodeurs.lemonde.fr/redacweb/51-2309-mondial-rugby/player-wls-cover.png'
+    const imgPlayer2 = 'https://assets-decodeurs.lemonde.fr/redacweb/51-2309-mondial-rugby/player-can-cover.png'
 
     if (this.lastStep === 0 && this.props.currentStep === 1) {
       this.stepClass = 'out'

@@ -36,7 +36,7 @@ class Footer extends Component<Props, State> {
 
     const className = bem(this.clss)
 
-    const imgFooter = `${config?.assets_root_url}/footer-${window.innerWidth > 480 ? 'desktop' : 'desktop'}.png`
+    const imgFooter = `https://assets-decodeurs.lemonde.fr/redacweb/51-2309-mondial-rugby/footer-${window.innerWidth > 480 ? 'desktop' : 'desktop'}.png`
 
     // Display
 

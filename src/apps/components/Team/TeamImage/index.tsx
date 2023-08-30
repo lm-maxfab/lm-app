@@ -21,10 +21,10 @@ export default class TeamImage extends Component<Props, State> {
 
     const bemClass = this.props.className;
 
-    // const shapeSrc = `${config?.assets_root_url}/shape-${this.props.iso}.svg`
-    // const playerSrc = `${config?.assets_root_url}/player-${this.props.iso}.png`
-    const shapeSrc = `${config?.assets_root_url}/shape-eng.svg`
-    const playerSrc = `${config?.assets_root_url}/player-eng.png`
+    // const shapeSrc = `https://assets-decodeurs.lemonde.fr/redacweb/51-2309-mondial-rugby/shape-${this.props.iso}.svg`
+    // const playerSrc = `https://assets-decodeurs.lemonde.fr/redacweb/51-2309-mondial-rugby/player-${this.props.iso}.png`
+    const shapeSrc = 'https://assets-decodeurs.lemonde.fr/redacweb/51-2309-mondial-rugby/shape-eng.svg'
+    const playerSrc = 'https://assets-decodeurs.lemonde.fr/redacweb/51-2309-mondial-rugby/player-eng.png'
 
     return <div className={bemClass.value}>
       <img

@@ -43,7 +43,7 @@ class Cover extends Component<Props, State> {
 
     const className = bem(this.clss);
 
-    const imgPlayer = `${config?.assets_root_url}/player-${coverTeam?.iso}.png`
+    const imgPlayer = `https://assets-decodeurs.lemonde.fr/redacweb/51-2309-mondial-rugby/player-${coverTeam?.iso}.png`
 
     // Display    
     return <div
