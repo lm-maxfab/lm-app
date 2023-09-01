@@ -1,4 +1,8 @@
 .mondial-guide-cover {
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out-quint: cubic-bezier(0.86, 0, 0.07, 1);
+  --ease-in-out-back: cubic-bezier(0, 0.55, 0.45, 1);
+
   display: grid;
   height: 100%;
   justify-items: center;
@@ -25,6 +29,18 @@
     height: 100%;
     width: 100%;
     object-fit: cover;
+    transform: scaleX(20);
+    filter: blur(10px);
+    opacity: 0;
+    animation: shapeIn 800ms var(--ease-out-quint) 100ms forwards;
+
+    @keyframes shapeIn {
+      to {
+        transform: scaleX(1);
+        filter: blur(0);
+        opacity: 1;
+      }
+    }
 
     &_desktop {
       display: none;
@@ -91,10 +107,20 @@
       padding: 0;
       padding-left: 16px;
       padding-top: 16px;
+      opacity: 0;
+      filter: blur(10px);
+      animation: headerIn 600ms ease-in-out forwards;
 
       @media screen and (min-width: 800px) {
         padding-left: 0;
         grid-column: 3;
+      }
+
+      @keyframes headerIn {
+        to {
+          opacity: 1;
+          filter: blur(0);
+        }
       }
     }
   }
@@ -111,6 +137,12 @@
     >span {
       display: contents;
 
+      span {
+        --animation-delay: 0ms;
+        transform: translateY(1000px);
+        animation: titleIn 1600ms var(--ease-in-out-quint) var(--animation-delay) forwards;
+      }
+
       span:first-child {
         grid-column: 1;
         text-align: right;
@@ -123,10 +155,18 @@
         grid-column: 1;
         align-self: flex-start;
         text-align: right;
+        --animation-delay: 40ms;
       }
 
       span:last-child {
         text-align: left;
+        --animation-delay: 100ms;
+      }
+    }
+
+    @keyframes titleIn {
+      to {
+        transform: translateY(0);
       }
     }
 
@@ -153,24 +193,56 @@
     font-weight: 500;
     text-shadow: 1px 0px 4px rgba(5, 7, 35, 0.60);
     padding: 24px 48px 20vh 24px;
+    transform: translateY(1000px);
+    filter: blur(20px);
+    opacity: 0;
+    animation: introIn 1600ms var(--ease-in-out-quint) 200ms forwards;
 
     @media screen and (min-width: 800px) {
       padding: 0;
       grid-column: 3;
       padding: 0 48px 20vh 0;
     }
+
+    @keyframes introIn {
+      100% {
+        transform: translateY(0);
+        filter: blur(0);
+        opacity: 1;
+      }
+    }
   }
 
   &__scrollicon {
     position: absolute;
-    bottom: 32;
+    bottom: 32px;
     left: 50%;
-    transform: translateX(-50%);
+    opacity: 0;
+    filter: blur(10px);
+    transform: rotate(280deg) translateX(-300%) translateY(-300%);
+    animation: scrolliconIn 1000ms 1200ms var(--ease-out-quint) forwards;
+
+    @keyframes scrolliconIn {
+      to {
+        opacity: 1;
+        filter: blur(0);
+        transform: translateX(-50%);
+      }
+    }
   }
 
   .mondial-gradient__grain {
     mix-blend-mode: soft-light;
-    opacity: 1;
+    opacity: 0;
+    filter: blur(10px);
+    animation: grainIn 200ms ease-in-out forwards;
+
+    @keyframes grainIn {
+      to {
+        opacity: 1;
+        filter: blur(0);
+      }
+    }
   }
 }
 
