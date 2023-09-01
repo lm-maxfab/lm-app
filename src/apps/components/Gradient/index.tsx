@@ -3,6 +3,7 @@ import bem from '../../../modules/utils/bem'
 import './styles.scss'
 
 type Props = {
+  angle?: number
 }
 
 type State = {
@@ -22,7 +23,7 @@ class GroupBlock extends Component<Props, State> {
 
   render() {
     const inlineStyle = [
-      `--mondial-random-angle: ${this.randomAngle}deg;`
+      `--mondial-angle: ${this.props.angle ?? this.randomAngle}deg;`
     ]
 
     return <div className={className.value}>

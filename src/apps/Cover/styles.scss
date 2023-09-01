@@ -1,33 +1,12 @@
 .mondial-cover {
-  --mondial-cover-padding-left: 38px;
-  --mondial-cover-padding-top: 28px;
-  --mondial-cover-offset-top: 58px;
   display: grid;
   justify-items: center;
-  overflow: hidden;
-  max-width: 1100px;
+  // max-width: 1100px;
   margin: 0;
-  margin-top: 102px;
+  max-height: 750px;
 
   &_in-app {
     margin-top: 60px;
-  }
-
-  @media screen and (min-width: 500px) {
-    margin: 0 24px;
-    --mondial-cover-padding-left: 64px;
-    --mondial-cover-offset-top: 70px;
-  }
-
-  @media screen and (min-width: 900px) {
-    margin-top: 60px;
-    --mondial-cover-padding-left: 125px;
-    --mondial-cover-padding-top: 96px;
-    --mondial-cover-offset-top: 170px;
-  }
-
-  @media screen and (min-width: 1024px) {
-    margin-top: 0;
   }
 
   * {
@@ -39,72 +18,31 @@
   }
 
   &__gradient {
-    height: calc(100% - var(--mondial-cover-padding-top));
-    width: calc(100% - var(--mondial-cover-padding-left) * 2);
-    position: relative;
-    top: var(--mondial-cover-padding-top);
-    padding: 0;
+    height: 100%;
+    width: 100%;
     display: grid;
-    overflow: hidden;
 
     >* {
       grid-area: 1 / -1;
     }
-
-    @media screen and (min-width: 700px) {
-      height: calc(100% - var(--mondial-cover-padding-top) * 2);
-    }
   }
 
-  &__circle {
-    position: relative;
-    top: var(--mondial-cover-offset-top);
-    max-width: unset;
-    width: 150%;
-    height: 0;
-    z-index: 0;
-
-    circle {
-      stroke-dashoffset: var(--mondial-circle-length);
-      animation: 2.6s cubic-bezier(0.33, 1, 0.68, 1) 0s 1 animateCircleIn forwards;
-    }
-
-    &_overlay {
-      width: calc((100% + var(--mondial-cover-padding-left) * 2) * 1.5);
-      left: calc((-1 * var(--mondial-cover-padding-left)) * 1.5 - 25%);
-      top: calc(-1 * var(--mondial-cover-padding-top) + var(--mondial-cover-offset-top));
-      z-index: 1;
-      mix-blend-mode: overlay;
-    }
-
-    @media screen and (min-width: 500px) {
-      width: 100%;
-
-      &_overlay {
-        width: calc(100% + var(--mondial-cover-padding-left)*2);
-        left: calc(-1 * var(--mondial-cover-padding-left));
-      }
-    }
+  &__shape {
+    z-index: 2;
+    max-width: 100%;
   }
 
   &__player {
     align-self: flex-end;
-    z-index: 1;
     position: relative;
-    bottom: -1px;
+    bottom: 0;
     left: 100%;
+    z-index: 3;
     opacity: 0;
+    max-height: 88%;
+    width: 130%;
+    object-fit: contain;
     animation: 2.6s cubic-bezier(0.33, 1, 0.68, 1) 0s 1 animatePlayerIn forwards;
-
-    @media screen and (min-width: 500px) {
-      width: 100%;
-      top: var(--mondial-cover-offset-top);
-      bottom: unset;
-    }
-
-    @media screen and (min-width: 900px) {
-      top: calc(var(--mondial-cover-offset-top) - 60px);
-    }
   }
 }
 

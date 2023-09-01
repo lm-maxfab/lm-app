@@ -19,7 +19,8 @@
       { "class": "mondial-header-root", "type": "snippet" },
       { "class": "mondial-cover-root", "type": "cover" },
       { "class": "mondial-footer-root", "type": "snippet" },
-      { "class": "mondial-sidenote-root", "type": "snippet" }
+      { "class": "mondial-sidenote-root", "type": "snippet" },
+      { "class": "mondial-links-root", "type": "snippet" }
     ]
   }
 ],

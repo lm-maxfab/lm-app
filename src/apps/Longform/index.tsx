@@ -22,7 +22,7 @@ class Longform extends Component<Props, State> {
   render(): JSX.Element {
     const { props } = this
 
-    const generalData = props.sheetBase?.collection('general').value[0] as unknown as GeneralData;
+    const generalData = props.sheetBase?.collection('general').value[0] as unknown as GeneralData
 
     const teamsData = ((props.sheetBase?.collection('teams').value ?? []) as unknown as TeamData[])
 
@@ -43,11 +43,6 @@ class Longform extends Component<Props, State> {
     return <div
       style={wrapperStyle}
       className={wrapperClasses.value}>
-      <div style={{
-        position: 'fixed', top: 0, zIndex: 10
-      }}><ArticleHeader
-          fill1='black'
-          fill2='rgb(0,0,0,.3)' /></div>
 
       <GuideCover
         title={generalData.title}

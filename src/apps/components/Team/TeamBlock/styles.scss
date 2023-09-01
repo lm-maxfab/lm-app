@@ -1,6 +1,14 @@
 .mondial-team {
   text-align: center;
-  color: var(--mondial-main-color);
+  color: var(--c-mondial-blue);
+  position: relative;
+  display: grid;
+  // display: contents;
+
+  // &__info {
+  //   position: absolute;
+  //   bottom: 100%;
+  // }
 
   .mondial-flag {
     img {
@@ -11,5 +19,9 @@
         width: 44px;
       }
     }
+  }
+
+  a {
+    align-self: flex-end;
   }
 }

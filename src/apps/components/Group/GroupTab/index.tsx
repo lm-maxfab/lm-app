@@ -11,9 +11,20 @@ type State = {
 }
 
 export default class GroupTab extends Component<Props, State> {
-  render () {
-    return <div className={this.props.className}>
+  render() {
+    const bemClass = bem(this.props.className)
+
+    const shapeSrc = "https://assets-decodeurs.lemonde.fr/redacweb/51-2309-mondial-rugby/shape.svg"
+
+    return <div className={bemClass.value}>
+      <div className={bemClass.elt('desktop').value}>
         <h3>Groupe {this.props.group}</h3>
+      </div>
+
+      <div className={bemClass.elt('mobile').value}>
+        <img src={shapeSrc} />
+        <h3>Groupe {this.props.group}</h3>
+      </div>
     </div>
   }
 }

@@ -18,7 +18,7 @@ type State = {
 export const className = bem('mondial-group')
 
 export default class GroupBlock extends Component<Props, State> {
-  render () {
+  render() {
 
     const groupClasses = className.mod({
       'navbar': this.props.nav,
@@ -26,18 +26,18 @@ export default class GroupBlock extends Component<Props, State> {
     })
 
     return <div className={groupClasses.value}>
-          <GroupTab 
-            className={groupClasses.elt('tab').value} 
-            group={this.props.group} 
-          />
+      <div className={groupClasses.elt('teams').value}>
+        <GroupTab
+          className={groupClasses.elt('tab').value}
+          group={this.props.group}
+        />
 
-          <div className={groupClasses.elt('teams').value}>
-            {this.props.teams?.map(team => {
-              return this.props.nav 
-              ? <TeamBlockNav team={team}/>
-              : <TeamBlock team={team}/>
-            })}
-          </div>
+        {this.props.teams?.map(team => {
+          return this.props.nav
+            ? <TeamBlockNav team={team} />
+            : <TeamBlock team={team} />
+        })}
+      </div>
     </div>
   }
 }

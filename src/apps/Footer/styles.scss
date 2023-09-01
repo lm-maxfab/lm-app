@@ -1,29 +1,15 @@
 .mondial-footer {
-  --mondial-footer-padding-top: 56px;
-  --mondial-footer-padding-left: 64px;
-  font-family: var(--ff-giorgio-sans);
-  max-width: 800px;
-  padding: 42px 26px 0 26px;
+  font-family: var(--ff-marr-sans);
+  max-width: 950px;
   margin: 0 auto;
 
   a {
     display: grid;
     justify-items: center;
-
-    &:hover {
-      .mondial-button span {
-        border-bottom: 1px solid;
-      }
-    }
   }
 
   .mondial-button {
     z-index: 10;
-  }
-
-  @media screen and (max-width: 600px) {
-    --mondial-footer-padding-top: 24px;
-    --mondial-footer-padding-left: 0px;
   }
 
   * {
@@ -31,7 +17,7 @@
   }
 
   &__marker {
-    width: 100px;
+    width: 220px;
 
     @media (prefers-color-scheme: dark) {
       svg {
@@ -39,29 +25,26 @@
       }
     }
 
-    @media screen and (max-width: 600px) {
-      width: 90px;
+    @media (min-width: 600px) {
+      width: 140px;
     }
   }
 
   &__title {
-    text-transform: uppercase;
-    color: var(--mondial-main-color);
-    font-weight: 300;
-    font-size: 28px;
-    line-height: 32px;
-    letter-spacing: 0.05em;
+    color: var(--c-mondial-blue);
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 120%;
     text-align: center;
-    margin: 16px 0;
+    margin: 16px 32px;
 
     @media (prefers-color-scheme: dark) {
       color: #fff;
     }
 
     @media screen and (min-width: 600px) {
-      font-size: 36px;
-      line-height: 42px;
-      margin: 32px 0 22px 0;
+      font-size: 32px;
+      margin: 62px 0 42px 0;
     }
   }
 
@@ -75,42 +58,32 @@
     >* {
       grid-area: -1 / 1;
     }
+
+    @media (hover: hover) {
+      &:hover {
+        .mondial-footer__overlay {
+          opacity: 0.4;
+        }
+      }
+    }
+  }
+
+  &__overlay {
+    height: 100%;
+    width: 100%;
+    background-color: var(--c-mondial-blue);
+    opacity: 0;
+    transition: opacity 200ms;
   }
 
   &__gradient {
-    height: calc(100% - var(--mondial-footer-padding-top) * 2);
-    width: calc(100% - var(--mondial-footer-padding-left) * 2);
-    display: grid;
-    overflow: hidden;
-
-    >* {
-      grid-area: 1 / -1;
-    }
-  }
-
-  &__circle {
-    align-self: flex-start;
-    position: relative;
-    top: 32px;
-    width: 92%;
-    height: 0;
-    z-index: 0;
-
-    &_overlay {
-      width: calc((100% + var(--mondial-footer-padding-left) * 2) * 0.92);
-      max-width: unset;
-      top: calc((32px - var(--mondial-footer-padding-top)));
-      left: calc((-1 * var(--mondial-footer-padding-left)) * 0.92 + 4%);
-      mix-blend-mode: overlay;
-      z-index: 1;
-    }
-  }
-
-  &__players {
-    z-index: 1;
-    display: grid;
-    justify-items: center;
-    position: relative;
+    height: 100%;
     width: 100%;
+  }
+
+  &__image {
+    img {
+      max-width: 100%;
+    }
   }
 }

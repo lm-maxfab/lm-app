@@ -10,7 +10,7 @@ type State = {
 
 export default class Arrow extends Component<Props, State> {
   render() {
-    const fillColor = this.props.color ?? 'var(--mondial-main-color)'
+    const fillColor = this.props.color ?? 'var(--c-mondial-blue)'
 
     return <svg class="mondial-sidenote__arrow" width="33" height="33" viewBox="0 0 33 33" fill="none" xmlns="http://www.w3.org/2000/svg">
       <circle stroke={fillColor} cx="16.5" cy="16.5" r="16" />

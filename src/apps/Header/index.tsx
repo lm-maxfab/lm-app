@@ -7,6 +7,7 @@ import Burger from '../components/Icons/Burger'
 import Close from '../components/Icons/Close'
 import { TeamData, GeneralData } from '../types'
 import './styles.scss'
+import InfoText from '../components/InfoText'
 
 interface Props extends InjectedProps { }
 interface State {
@@ -55,15 +56,16 @@ class Header extends Component<Props, State> {
 
     const wrapperStyle: JSX.CSSProperties = {
       ...props.style,
-      ['--mondial-main-color']: '#3E001F',
+      ['--c-mondial-blue']: '#071080',
+      ['--c-mondial-green']: '#00A259',
     }
 
     const className = bem(this.clss)
 
     // Display
-    return <div
+    return < div
       style={wrapperStyle}
-      className={wrapperClasses.value}>
+      className={wrapperClasses.value} >
 
       <div className={className.elt('top').value}>
 
@@ -80,19 +82,26 @@ class Header extends Component<Props, State> {
 
       </div>
 
-      <div className={className.elt('groups').value}>
+      <div className={className.elt('scrollable').value}>
 
-        {groupsData?.map(group => {
-          return <GroupBlock
-            nav
-            group={group}
-            teams={teamsData.filter(el => el.group === group)}
-          />
-        })}
+        <div className={className.elt('groups').value}>
+
+          {groupsData?.map(group => {
+            return <GroupBlock
+              nav
+              group={group}
+              teams={teamsData.filter(el => el.group === group)}
+            />
+          })}
+
+        </div>
+
+        <InfoText content={generalData.infoText} />
 
       </div>
 
-    </div>
+
+    </div >
   }
 }
 

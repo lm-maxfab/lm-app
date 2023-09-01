@@ -8,7 +8,7 @@
 
   &__end {
     padding: 160px 0;
-    color: var(--mondial-main-color);
+    color: var(--c-mondial-blue);
     display: flex;
     justify-content: center;
 
@@ -27,7 +27,7 @@
     line-height: 28px;
     padding-bottom: 96px;
     margin-bottom: 32px;
-    border-bottom: 1px solid var(--mondial-main-color);
+    border-bottom: 1px solid var(--c-mondial-blue);
 
     a {
       text-decoration: underline;
@@ -37,6 +37,14 @@
       &:hover {
         text-decoration: none;
       }
+    }
+  }
+
+  .mondial-info {
+    margin: 56px 0;
+
+    @media screen and (min-width: 800px) {
+      margin: 96px 0;
     }
   }
 }

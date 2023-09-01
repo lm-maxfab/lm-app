@@ -1,6 +1,5 @@
 .mondial-sidenote {
-  font-family: var(--ff-giorgio-sans);
-  background-color: var(--mondial-main-color);
+  background-color: var(--c-mondial-blue);
   color: #fff;
   display: grid;
   cursor: pointer;
@@ -10,62 +9,60 @@
     grid-area: 1 / -1;
   }
 
-  >div:last-child {
-    display: grid;
-    grid-template-columns: 85px auto 33px;
-    align-items: center;
-    justify-content: center;
-    padding: 24px 16px;
+  &__content {
+    padding: 24px;
     width: 100%;
     z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   span {
-    margin: 0 12px;
-    font-size: 20px;
-    letter-spacing: 0.02em;
-    font-weight: 400;
-  }
-
-  &:hover span {
+    font-family: var(--ff-marr-sans);
+    margin-left: 24px;
+    font-size: 18px;
+    line-height: 120%;
+    font-weight: 600;
     text-decoration: underline;
     text-decoration-thickness: 1px;
     text-underline-offset: 0.3em;
-  }
+    color: #fff;
 
-  .mondial-marker {
-    position: relative;
-    top: 2px;
-  }
-
-  .mondial-sidenote__arrow {
-    height: 30px;
-  }
-
-  @media screen and (min-width: 400px) {
-    .mondial-gradient__background {
-      background-size: 200%;
+    @media screen and (min-width: 600px) {
+      margin-left: 42px;
+      font-size: 24px;
     }
   }
 
-  @media screen and (min-width: 650px) {
-    >div:last-child {
-      grid-template-columns: 95px auto 33px;
-      padding: 26px 20px;
-      align-items: flex-end;
-    }
+  &__marker {
+    width: 130px;
+    width: 160px;
+    flex-shrink: 0;
 
-    span {
-      margin-left: 24px;
-      font-size: 30px;
+    @media screen and (min-width: 600px) {
+      width: 160px;
     }
+  }
 
-    .mondial-marker {
-      top: -4px;
+  .mondial-gradient {
+    &::after {
+      content: '';
+      display: block;
+      background-color: var(--c-mondial-blue);
+      height: 100%;
+      width: 100%;
+      position: absolute;
+      opacity: 0;
+      transition: opacity 200ms;
     }
+  }
 
-    .mondial-sidenote__arrow {
-      height: 33px;
+  &:hover {
+    .mondial-gradient {
+      &::after {
+        opacity: 0.4;
+      }
     }
   }
 }

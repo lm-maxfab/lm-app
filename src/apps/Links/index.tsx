@@ -1,18 +1,16 @@
 import { Component, JSX } from 'preact'
 import appWrapper, { InjectedProps } from '../../modules/utils/app-wrapper-HOC'
-import Gradient from '../components/Gradient'
-import Marker from '../components/Marker'
-import Arrow from '../components/Icons/Arrow'
 import bem from '../../modules/utils/bem'
 import { GeneralData } from '../types'
 import './styles.scss'
+import InfoText from '../components/InfoText'
 
 interface Props extends InjectedProps { }
 interface State { }
 
-class SideNote extends Component<Props, State> {
-  static clss: string = 'mondial-sidenote'
-  clss = SideNote.clss
+class Links extends Component<Props, State> {
+  static clss: string = 'mondial-links'
+  clss = Links.clss
 
   /* * * * * * * * * * * * * * *
    * RENDER
@@ -20,8 +18,7 @@ class SideNote extends Component<Props, State> {
   render(): JSX.Element {
     const { props } = this
 
-    const generalData = ((props.sheetBase?.collection('general').value ?? []) as unknown as GeneralData[])
-    const sideNoteText = generalData[0]?.sidenote
+    const generalData = props.sheetBase?.collection('general').value[0] as unknown as GeneralData
 
     // Assign classes and styles
     const wrapperClasses = bem(props.className).block(this.clss)
@@ -35,18 +32,10 @@ class SideNote extends Component<Props, State> {
     return <div
       style={wrapperStyle}
       className={wrapperClasses.value}>
-
-      <Gradient angle={320}></Gradient>
-
-      <div className={wrapperClasses.elt('content').value}>
-        <div className={wrapperClasses.elt('marker').value}>
-          <Marker color='#fff'></Marker>
-        </div>
-        <span>{sideNoteText}</span>
-      </div>
+      <InfoText content={generalData.infoText} />
     </div>
   }
 }
 
-export type { Props, SideNote }
-export default appWrapper(SideNote)
+export type { Props, Links }
+export default appWrapper(Links)

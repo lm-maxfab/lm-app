@@ -1,24 +1,80 @@
 .mondial-group__tab {
   h3 {
     text-transform: uppercase;
+    font-family: var(--ff-marr-sans);
+    font-weight: 900;
     color: #fff;
-    letter-spacing: 10%;
-    margin: 0;
   }
 
   &_default {
-    border-bottom: 2px solid var(--c-mondial-green);
+    display: grid;
 
-    h3 {
-      padding: 4px 18px;
-      background-color: var(--c-mondial-green);
-      display: inline-block;
-      font-weight: 700;
-      font-size: 24px;
-      letter-spacing: 0.1em;
+    &__desktop {
+      border-bottom: 2px solid var(--c-mondial-blue);
+      display: none;
 
-      @media screen and (min-width: 900px) {
-        font-size: 28px;
+      h3 {
+        font-size: 18px;
+        padding: 14px 16px;
+        background-color: var(--c-mondial-blue);
+        display: inline-block;
+        letter-spacing: 0.1em;
+
+        @media screen and (min-width: 1200px) {
+          font-size: 24px;
+          padding: 18px 22px;
+        }
+      }
+    }
+
+
+    &__mobile {
+      background-color: var(--c-mondial-blue);
+      align-self: flex-end;
+      display: grid;
+      align-items: center;
+      justify-content: center;
+
+      >* {
+        grid-area: 1/-1;
+      }
+
+      img {
+        width: 100%;
+        opacity: 0;
+      }
+
+      h3 {
+        font-size: 16px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        position: relative;
+        width: fit-content;
+        margin: 0 auto;
+
+        &::after {
+          content: '';
+          display: block;
+          height: 2px;
+          background-color: #fff;
+          width: 60%;
+          margin-top: 9px;
+        }
+      }
+    }
+
+    @media screen and (min-width: 900px) {
+      display: block;
+      grid-column: span 5;
+
+      &__mobile {
+        display: none;
+      }
+
+      &__desktop {
+        display: block;
       }
     }
   }
@@ -26,12 +82,16 @@
   &_navbar {
     border-bottom: 0.5px solid #fff;
 
-    p {
-      font-weight: 300;
-      font-size: 17px;
-      line-height: 20px;
-      letter-spacing: 0.1em;
+    h3 {
+      font-size: 16px;
+      letter-spacing: 0.01em;
+      font-weight: 500;
       padding-bottom: 2px;
+      margin: 0;
+    }
+
+    &__mobile {
+      display: none;
     }
   }
 }

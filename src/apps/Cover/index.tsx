@@ -3,7 +3,6 @@ import appWrapper, { InjectedProps } from '../../modules/utils/app-wrapper-HOC'
 import bem from '../../modules/utils/bem'
 import { TeamData } from '../types'
 import Gradient from '../components/Gradient'
-import Circle from '../components/Circle'
 import './styles.scss'
 
 import getConfig from '../../modules/utils/get-config'
@@ -38,30 +37,29 @@ class Cover extends Component<Props, State> {
 
     const wrapperStyle: JSX.CSSProperties = {
       ...props.style,
-      ['--mondial-main-color']: '#3E001F',
+      ['--c-mondial-blue']: '#071080',
+      ['--c-mondial-green']: '#00A259',
     }
 
     const className = bem(this.clss);
 
-    const imgPlayer = `https://assets-decodeurs.lemonde.fr/redacweb/51-2309-mondial-rugby/player-${coverTeam?.iso}.png`
+    const playerSrc = `https://assets-decodeurs.lemonde.fr/redacweb/51-2309-mondial-rugby/player-${coverTeam?.iso}.png`
+    const shapeSrc = `https://assets-decodeurs.lemonde.fr/redacweb/51-2309-mondial-rugby/shape-cover.svg`
 
     // Display    
     return <div
       style={wrapperStyle}
       className={wrapperClasses.value}>
 
-      <div className={className.elt('circle').value}>
-        <Circle></Circle>
-      </div>
+      <img
+        src={shapeSrc}
+        className={className.elt('shape').value} />
 
       <div className={className.elt('gradient').value}>
         <Gradient></Gradient>
-        <div className={className.elt('circle').mod('overlay').value}>
-          <Circle></Circle>
-        </div>
       </div>
 
-      <img className={className.elt('player').value} src={imgPlayer}></img>
+      <img className={className.elt('player').value} src={playerSrc}></img>
     </div>
   }
 }

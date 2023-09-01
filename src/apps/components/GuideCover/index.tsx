@@ -1,7 +1,7 @@
 import { Component, JSX, VNode } from 'preact'
 import Paginator, { State as PaginatorState } from '../../../modules/components/Paginator'
 import bem from '../../../modules/utils/bem'
-import CoverV2 from './Cover'
+import Cover from './Cover'
 import InfoText from '../InfoText'
 import './styles.scss'
 
@@ -16,7 +16,7 @@ type State = {
 
 export const className = bem('mondial-guide-cover-wrapper')
 
-export default class GuideCoverV2 extends Component<Props, State> {
+export default class GuideCover extends Component<Props, State> {
   state: State = {
     currentPage: undefined
   }
@@ -35,7 +35,7 @@ export default class GuideCoverV2 extends Component<Props, State> {
 
     // Assign classes and styles
     const wrapperStyle: JSX.CSSProperties = {
-      '--height': '101vh',
+      '--height': '100vh',
       '--step-height': '500px',
     }
 
@@ -43,9 +43,9 @@ export default class GuideCoverV2 extends Component<Props, State> {
     return <>
       <div style={wrapperStyle}>
         <div className={className.value}>
-          <CoverV2 currentStep={this.state.currentPage} title={this.props.title} intro={this.props.intro} />
+          <Cover currentStep={this.state.currentPage} title={this.props.title} intro={this.props.intro} />
         </div>
-        <Paginator
+        {/* <Paginator
           thresholdOffset='100%'
           onPageChange={this.handlePageChange}
           style={{ position: 'relative', marginTop: 'calc(-1 * var(--height))', zIndex: 1 }}>
@@ -55,7 +55,7 @@ export default class GuideCoverV2 extends Component<Props, State> {
           <Paginator.Page value={1}>
             <div style={{ height: 'var(--step-height)', backgroundColor: 'transparent' }}></div>
           </Paginator.Page>
-        </Paginator>
+        </Paginator> */}
       </div>
     </>
   }

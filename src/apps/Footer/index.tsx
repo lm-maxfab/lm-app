@@ -3,7 +3,6 @@ import appWrapper, { InjectedProps } from '../../modules/utils/app-wrapper-HOC'
 import bem from '../../modules/utils/bem'
 import Marker from '../components/Marker'
 import Gradient from '../components/Gradient'
-import Circle from '../components/Circle'
 import Button from '../components/Button'
 import { FooterData } from '../types'
 import './styles.scss'
@@ -31,15 +30,15 @@ class Footer extends Component<Props, State> {
     const wrapperClasses = bem(props.className).block(this.clss)
     const wrapperStyle: JSX.CSSProperties = {
       ...props.style,
-      ['--mondial-main-color']: '#3E001F',
+      ['--c-mondial-blue']: '#071080',
+      ['--c-mondial-green']: '#00A259',
     }
 
     const className = bem(this.clss)
 
-    const imgFooter = `https://assets-decodeurs.lemonde.fr/redacweb/51-2309-mondial-rugby/footer-${window.innerWidth > 480 ? 'desktop' : 'desktop'}.png`
+    const imgFooter = 'https://assets-decodeurs.lemonde.fr/redacweb/51-2309-mondial-rugby/footer.png'
 
     // Display
-
     return <div
       style={wrapperStyle}
       className={wrapperClasses.value}>
@@ -54,19 +53,15 @@ class Footer extends Component<Props, State> {
 
         <div className={className.elt('container').value}>
 
-          <div className={className.elt('circle').value}>
-            <Circle></Circle>
-          </div>
-
           <div className={className.elt('gradient').value}>
             <Gradient></Gradient>
-            <div className={className.elt('circle').mod('overlay').value}>
-              <Circle></Circle>
-            </div>
           </div>
 
-          <div className={className.elt('players').value}>
+          <div className={className.elt('image').value}>
             <img src={imgFooter} alt="" />
+          </div>
+
+          <div className={className.elt('overlay').value}>
           </div>
 
           <Button light>{footerData.cta}</Button>

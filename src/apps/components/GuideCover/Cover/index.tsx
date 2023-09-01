@@ -1,12 +1,12 @@
 import { Component, VNode } from 'preact'
 import Gradient from '../../Gradient'
-import Circle from '../../Circle'
 import Marker from '../../Marker'
 import ScrollIcon from '../../Icons/ScrollIcon'
 import bem from '../../../../modules/utils/bem'
 import './styles.scss'
 
 import getConfig from '../../../../modules/utils/get-config'
+import ArticleHeader from '../../../../modules/components/ArticleHeader'
 
 const config = getConfig()
 
@@ -42,57 +42,54 @@ class Cover extends Component<Props, State> {
   }
 
   render() {
-    const imgPlayer1 = 'https://assets-decodeurs.lemonde.fr/redacweb/51-2309-mondial-rugby/player-wls-cover.png'
-    const imgPlayer2 = 'https://assets-decodeurs.lemonde.fr/redacweb/51-2309-mondial-rugby/player-can-cover.png'
-
     if (this.lastStep === 0 && this.props.currentStep === 1) {
       this.stepClass = 'out'
     } else if (this.props.currentStep === 0 && this.stepClass != 'init') {
       this.stepClass = 'back'
     }
 
-    return <div className={className.mod(this.stepClass).value}>
+    const shapeSrc = `https://assets-decodeurs.lemonde.fr/redacweb/51-2309-mondial-rugby/shape-guide-cover.svg`
+    const shapeMobileSrc = `https://assets-decodeurs.lemonde.fr/redacweb/51-2309-mondial-rugby/shape-guide-cover-mobile.svg`
 
-      {/* <div className={className.elt('circle').value}>
-        <Circle></Circle>
-      </div> */}
+    return <div className={className.mod(this.stepClass).value}>
 
       <div className={className.elt('container').value}>
 
         <div className={className.elt('gradient').value}>
-
-          <Gradient />
-
-          {/* <div className={className.elt('circle').mod('overlay').value}>
-            <Circle></Circle>
-          </div> */}
-
+          <Gradient angle={66} />
         </div>
 
-        <div className={className.elt('text-container').value}>
+        <img
+          src={shapeSrc}
+          className={className.elt('shape').mod('desktop').value} />
 
-          <div className={className.elt('text').value}>
+        <img
+          src={shapeMobileSrc}
+          className={className.elt('shape').mod('mobile').value} />
 
-            <div>
-              <div className={className.elt('marker').value}>
+        <div className={className.elt('home-container').value}>
+
+          <div className={className.elt('home-grid').value}>
+
+            <ArticleHeader
+              fill1='#fff'
+              fill2='rgb(255,255,255,0.6)' />
+
+            {/* <div className={className.elt('marker').value}>
                 <Marker color='#fff' />
-              </div>
-              <h1 className={className.elt('title').value}>{this.props.title}</h1>
-              <div className={className.elt('scrollicon').value}>
+              </div> */}
+            <h1 className={className.elt('title').value}>
+              {this.props.title}
+            </h1>
+
+            <h2 className={className.elt('intro').value}>{this.props.intro}</h2>
+
+            {/* <div className={className.elt('scrollicon').value}>
                 <ScrollIcon />
-              </div>
-            </div>
-            <div>
-              <h2 className={className.elt('intro').value}>{this.props.intro}</h2>
-            </div>
+              </div> */}
 
           </div>
 
-        </div>
-
-        <div className={className.elt('players').value}>
-          <img className={className.elt('player').mod('left').value} src={imgPlayer1} />
-          <img className={className.elt('player').mod('right').value} src={imgPlayer2} />
         </div>
       </div>
     </div>

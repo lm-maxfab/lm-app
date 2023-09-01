@@ -1,5 +1,6 @@
 .mondial-button {
-  background-color: var(--mondial-main-color);
+  font-family: var(--ff-marr-sans-condensed);
+  background-color: var(--c-mondial-blue);
   color: #fff;
   display: inline-block;
   text-transform: uppercase;
@@ -19,14 +20,10 @@
 
   &_light {
     background-color: #fff;
-    color: var(--mondial-main-color);
+    color: var(--c-mondial-blue);
   }
 
   & span {
     padding: 3px;
-  }
-
-  &:hover span {
-    border-bottom: 1px solid;
   }
 }

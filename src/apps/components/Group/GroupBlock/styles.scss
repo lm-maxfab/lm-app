@@ -9,13 +9,24 @@
   }
 
   &__teams {
+    padding-top: 24px;
+    border-top: 2px solid var(--c-mondial-blue);
+
+    @media screen and (min-width: 900px) {
+      border-top: 0px solid transparent;
+      padding-top: 0;
+    }
 
     &_default {
-      --mondial-grid-columns: 1;
+      // [WIP] ? 
+      --mondial-grid-columns: 2;
       display: grid;
       grid-template-columns: repeat(var(--mondial-grid-columns), minmax(100px, 280px));
+
       margin: 24px 0 42px 0;
+      // margin: 84px 0 42px 0;
       grid-row-gap: 26px;
+      // grid-row-gap: 86px;
       grid-column-gap: 16px;
       justify-content: space-between;
 
