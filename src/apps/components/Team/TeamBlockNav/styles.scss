@@ -28,8 +28,10 @@
   }
 
   &:hover {
+    opacity: 1 !important;
+
     .mondial-team-nav__title {
-      opacity: 0.6;
+      opacity: 0.6 !important;
     }
   }
 }

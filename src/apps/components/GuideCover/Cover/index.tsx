@@ -84,9 +84,9 @@ class Cover extends Component<Props, State> {
 
             <h2 className={className.elt('intro').value}>{this.props.intro}</h2>
 
-            {/* <div className={className.elt('scrollicon').value}>
-                <ScrollIcon />
-              </div> */}
+            <div className={className.elt('scrollicon').value}>
+              <ScrollIcon />
+            </div>
 
           </div>
 

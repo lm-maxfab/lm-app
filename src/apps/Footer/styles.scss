@@ -7,19 +7,19 @@
     text-decoration: none !important;
   }
 
-  >a {
-    max-width: 950px;
-    margin: 0 auto;
-    display: grid;
-    justify-items: center;
-  }
-
   .mondial-button {
     z-index: 10;
   }
 
   * {
     z-index: 1;
+  }
+
+  &__container {
+    max-width: 950px;
+    margin: 0 auto;
+    display: grid;
+    justify-items: center;
   }
 
   &__marker {
@@ -55,7 +55,7 @@
     }
   }
 
-  &__container {
+  &__block {
     display: grid;
     justify-items: center;
     align-items: center;
@@ -66,11 +66,11 @@
       grid-area: -1 / 1;
     }
 
-    @media (hover: hover) {
-      &:hover {
-        .mondial-footer__overlay {
-          opacity: 0.4;
-        }
+    &:hover {
+      opacity: 1 !important;
+
+      .mondial-footer__overlay {
+        opacity: 0.4;
       }
     }
   }

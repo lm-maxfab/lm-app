@@ -45,15 +45,14 @@ class Footer extends Component<Props, State> {
       style={wrapperStyle}
       className={wrapperClasses.value}>
 
-      <a href={footerData.url}>
+      <div className={className.elt('container').value}>
         <div className={className.elt('marker').value}>
           <Marker></Marker>
         </div>
 
         <p className={className.elt('title').value}>{footerData.title}</p>
 
-        <div className={className.elt('container').value}>
-
+        <a href={footerData.url} className={className.elt('block').value}>
           <div className={className.elt('gradient').value}>
             <Gradient></Gradient>
           </div>
@@ -66,8 +65,8 @@ class Footer extends Component<Props, State> {
           </div>
 
           <Button light>{footerData.cta}</Button>
-        </div>
-      </a>
+        </a>
+      </div>
 
       <InfoText content={generalData.infoText} />
     </div>

@@ -161,6 +161,13 @@
     }
   }
 
+  &__scrollicon {
+    position: absolute;
+    bottom: 32;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
   .mondial-gradient__grain {
     mix-blend-mode: soft-light;
     opacity: 1;

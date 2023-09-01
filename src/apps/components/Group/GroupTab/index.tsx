@@ -14,7 +14,7 @@ export default class GroupTab extends Component<Props, State> {
   render() {
     const bemClass = bem(this.props.className)
 
-    const shapeSrc = "https://assets-decodeurs.lemonde.fr/redacweb/51-2309-mondial-rugby/shape.svg"
+    const shapeSrc = "https://assets-decodeurs.lemonde.fr/redacweb/51-2309-mondial-rugby/shape-eng.svg"
 
     return <div className={bemClass.value}>
       <div className={bemClass.elt('desktop').value}>

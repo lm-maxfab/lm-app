@@ -49,6 +49,10 @@
     width: 120px;
     position: relative;
     transform: translateY(2%);
+
+    &:hover {
+      opacity: 1 !important;
+    }
   }
 
   &__burger {
