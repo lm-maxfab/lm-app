@@ -1,9 +1,15 @@
 .mondial-footer {
   font-family: var(--ff-marr-sans);
-  max-width: 950px;
+  width: fit-content;
   margin: 0 auto;
 
   a {
+    text-decoration: none !important;
+  }
+
+  >a {
+    max-width: 950px;
+    margin: 0 auto;
     display: grid;
     justify-items: center;
   }
@@ -17,7 +23,8 @@
   }
 
   &__marker {
-    width: 220px;
+    display: flex;
+    width: 140px;
 
     @media (prefers-color-scheme: dark) {
       svg {
@@ -26,7 +33,7 @@
     }
 
     @media (min-width: 600px) {
-      width: 140px;
+      width: 220px;
     }
   }
 
@@ -85,5 +92,10 @@
     img {
       max-width: 100%;
     }
+  }
+
+  .mondial-info {
+    max-width: 1200px;
+    margin-top: 86px;
   }
 }

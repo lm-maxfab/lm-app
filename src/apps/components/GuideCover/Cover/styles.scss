@@ -161,10 +161,28 @@
     }
   }
 
-  &_out {}
-
   .mondial-gradient__grain {
     mix-blend-mode: soft-light;
     opacity: 1;
+  }
+}
+
+@keyframes titleBack {
+  from {
+    transform: translateY(-1000px)
+  }
+
+  to {
+    transform: translateY(0)
+  }
+}
+
+@keyframes titleOut {
+  from {
+    transform: translateY(0)
+  }
+
+  to {
+    transform: translateY(-1000px)
   }
 }

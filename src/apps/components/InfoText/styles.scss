@@ -8,6 +8,7 @@
   padding: 18px 22px;
   border: 1px solid #0710804D;
   border-radius: 5px;
+  margin: 0 auto;
 
   @media screen and (min-width: 350px) {
     padding: 18px 36px 18px 22px;
@@ -15,6 +16,11 @@
 
   @media screen and (min-width: 900px) {
     padding: 34px 36px;
+    font-size: 18px;
+  }
+
+  @media screen and (min-width: 1200px) {
+    font-size: 18px;
   }
 
   ul {
@@ -28,7 +34,12 @@
       font-weight: 600;
       text-decoration: underline;
 
+      @media screen and (min-width: 1200px) {
+        font-size: 20px;
+      }
+
       a {
+        text-decoration: none !important;
         transition: opacity 200ms;
 
         &::after {
@@ -51,8 +62,8 @@
     }
 
     @media screen and (min-width: 900px) {
-      display: flex;
-      justify-content: space-between;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
       margin-top: 30px;
 
       li+li {

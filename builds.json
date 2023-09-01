@@ -1562,6 +1562,17 @@
       },
       "description": "fix assets url",
       "time": "2023-08-30T15:20:45.927Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 2
+      },
+      "description": "",
+      "time": "2023-09-01T12:59:52.460Z"
     }
   ]
 }

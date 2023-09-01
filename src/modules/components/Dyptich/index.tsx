@@ -10,13 +10,13 @@ type WithRequired<T, K extends keyof T> = T & { [P in K]-?: T[P] }
 type Props = {
   className?: string
   style?: JSX.CSSProperties
-  leftImagesUrls?: string|string[]
-  rightImagesUrls?: string|string[]
-  mobileBehavior?: 'keep'|'stack'|'merge'
-  mergeOrder?: 'alternate'|'follow'
+  leftImagesUrls?: string | string[]
+  rightImagesUrls?: string | string[]
+  mobileBehavior?: 'keep' | 'stack' | 'merge'
+  mergeOrder?: 'alternate' | 'follow'
   tempo?: number
-  mediaDescription?: string|VNode
-  mediaCredits?: string|VNode
+  mediaDescription?: string | VNode
+  mediaCredits?: string | VNode
 }
 
 type State = {
@@ -27,17 +27,17 @@ export default class Dyptich extends Component<Props, State> {
   static defaultTempo: WithRequired<Props, 'tempo'>['tempo'] = 10
   static defaultMobileBehavior: WithRequired<Props, 'mobileBehavior'>['mobileBehavior'] = 'keep'
   static defaultMergeOrder: WithRequired<Props, 'mergeOrder'>['mergeOrder'] = 'alternate'
-  
+
   static clss = 'lm-dyptich'
   clss = Dyptich.clss
 
-  activateRightPanelTimeout: number|null = null
+  activateRightPanelTimeout: number | null = null
 
   state: State = {
     rightPanelIsPlaying: false
   }
 
-  componentDidMount () {
+  componentDidMount() {
     const tempo = this.props.tempo ?? Dyptich.defaultTempo
     const delay = (1000 * 60) / tempo
     this.activateRightPanelTimeout = window.setTimeout(() => {
@@ -51,7 +51,7 @@ export default class Dyptich extends Component<Props, State> {
     }
   }
 
-  render () {
+  render() {
     const { props, state } = this
     const {
       leftImagesUrls,

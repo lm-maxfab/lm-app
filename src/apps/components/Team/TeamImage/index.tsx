@@ -21,10 +21,8 @@ export default class TeamImage extends Component<Props, State> {
 
     const bemClass = this.props.className;
 
-    // const shapeSrc = `https://assets-decodeurs.lemonde.fr/redacweb/51-2309-mondial-rugby/shape-${this.props.iso}.svg`
-    // const playerSrc = `https://assets-decodeurs.lemonde.fr/redacweb/51-2309-mondial-rugby/player-${this.props.iso}.png`
-    const shapeSrc = 'https://assets-decodeurs.lemonde.fr/redacweb/51-2309-mondial-rugby/shape-eng.svg'
-    const playerSrc = 'https://assets-decodeurs.lemonde.fr/redacweb/51-2309-mondial-rugby/player-eng.png'
+    const shapeSrc = `https://assets-decodeurs.lemonde.fr/redacweb/51-2309-mondial-rugby/shape-${this.props.iso}.svg`
+    const playerSrc = `https://assets-decodeurs.lemonde.fr/redacweb/51-2309-mondial-rugby/player-${this.props.iso}.png`
 
     return <div className={bemClass.value}>
       <img
@@ -36,7 +34,7 @@ export default class TeamImage extends Component<Props, State> {
       <div class={bemClass.elt('player').value} >
         <img src={playerSrc} alt="" />
       </div>
-      
+
       <div class={bemClass.elt('overlay').value}>
         <p>Voir la fiche</p>
       </div>

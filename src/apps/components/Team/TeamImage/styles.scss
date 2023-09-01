@@ -70,6 +70,10 @@
     max-width: 160px;
     user-select: none;
     z-index: 2;
+
+    @media screen and (min-width: 1400px) {
+      font-size: 18px;
+    }
   }
 }
 

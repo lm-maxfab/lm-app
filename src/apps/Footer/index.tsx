@@ -4,10 +4,11 @@ import bem from '../../modules/utils/bem'
 import Marker from '../components/Marker'
 import Gradient from '../components/Gradient'
 import Button from '../components/Button'
-import { FooterData } from '../types'
+import { FooterData, GeneralData } from '../types'
 import './styles.scss'
 
 import getConfig from '../../modules/utils/get-config'
+import InfoText from '../components/InfoText'
 
 const config = getConfig()
 
@@ -24,6 +25,7 @@ class Footer extends Component<Props, State> {
   render(): JSX.Element {
     const { props } = this
 
+    const generalData = props.sheetBase?.collection('general').value[0] as unknown as GeneralData
     const footerData = props.sheetBase?.collection('footer').value[0] as unknown as FooterData;
 
     // Assign classes and styles
@@ -44,7 +46,6 @@ class Footer extends Component<Props, State> {
       className={wrapperClasses.value}>
 
       <a href={footerData.url}>
-
         <div className={className.elt('marker').value}>
           <Marker></Marker>
         </div>
@@ -66,8 +67,9 @@ class Footer extends Component<Props, State> {
 
           <Button light>{footerData.cta}</Button>
         </div>
-
       </a>
+
+      <InfoText content={generalData.infoText} />
     </div>
 
   }
