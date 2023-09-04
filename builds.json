@@ -1595,6 +1595,17 @@
       },
       "description": "animate cover",
       "time": "2023-09-01T15:30:06.497Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 5
+      },
+      "description": "",
+      "time": "2023-09-04T16:57:22.426Z"
     }
   ]
 }

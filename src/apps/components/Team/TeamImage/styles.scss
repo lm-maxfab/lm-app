@@ -11,10 +11,21 @@
   >* {
     grid-area: 1/-1;
   }
+
+  .mondial-gradient {
+    &__background {
+      --c-mondial-blue: #323FDF;
+      --c-mondial-green: #41A97A;
+    }
+
+    &__grain {
+      opacity: 0.5;
+    }
+  }
 }
 
 .mondial-team__image__shape {
-  height: 100%;
+  // height: 100%;
   max-width: 100%;
   z-index: 1;
 }

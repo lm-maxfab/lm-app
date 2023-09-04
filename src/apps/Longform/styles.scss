@@ -1,6 +1,8 @@
 .mondial-longform {
-  font-family: var(--ff-giorgio-sans);
+  font-family: var(--ff-marr-sans-condensed);
   background-color: #fff;
+  min-height: 100vh;
+  width: 100%;
 
   &__wrapper {
     margin: 0 6vw;
@@ -41,6 +43,9 @@
   }
 
   .mondial-info {
+    // [WIP] provisoire
+    display: none !important;
+
     margin: 56px 0;
 
     @media screen and (min-width: 800px) {
@@ -68,10 +73,10 @@
 
 .mondial-longform:has(.mondial-guide-cover_out) .lm-article-header {
   .fill-1 {
-    --fill-1: var(--c-mondial-blue);
+    --fill-1: rgb(0, 0, 0);
   }
 
   .fill-2 {
-    --fill-2: #0710804D;
+    --fill-2: rgb(0, 0, 0, 0.3);
   }
 }
