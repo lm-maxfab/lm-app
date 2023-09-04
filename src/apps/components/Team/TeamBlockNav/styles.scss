@@ -1,8 +1,12 @@
 .mondial-team-nav {
   color: #fff;
-  margin-top: 12px;
+  margin-top: 26px;
   display: block;
   text-decoration: none !important;
+
+  +.mondial-team-nav {
+    margin-top: 14px;
+  }
 
   &__header {
     display: grid;
@@ -23,7 +27,7 @@
     text-transform: uppercase;
     font-size: 22px;
     line-height: 24px;
-    font-weight: 700;
+    font-weight: 600;
     transition: opacity 200ms;
   }
 

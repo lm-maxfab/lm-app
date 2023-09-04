@@ -1,11 +1,10 @@
 .mondial-guide-cover {
   --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-in-out-quint: cubic-bezier(0.86, 0, 0.07, 1);
-  --ease-in-out-back: cubic-bezier(0, 0.55, 0.45, 1);
-
   display: grid;
   height: 100%;
   justify-items: center;
+  transition: opacity 1000ms;
 
   >* {
     grid-area: 1/-1;
@@ -28,11 +27,13 @@
     mix-blend-mode: multiply;
     height: 100%;
     width: 100%;
+    position: fixed;
     object-fit: cover;
     transform: scaleX(20);
     filter: blur(10px);
     opacity: 0;
-    animation: shapeIn 800ms var(--ease-out-quint) 100ms forwards;
+    pointer-events: none;
+    animation: shapeIn 600ms var(--ease-out-quint) 100ms forwards;
 
     @keyframes shapeIn {
       to {
@@ -62,7 +63,13 @@
   }
 
   &__gradient {
-    width: 100%;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    pointer-events: none;
   }
 
   &__home-container {
@@ -71,18 +78,11 @@
     width: 100%;
     display: flex;
     align-items: center;
+    z-index: 3;
 
     @media screen and (min-width: 1440px) {
       max-width: 1280px;
     }
-  }
-
-  &__gradient {
-    z-index: 1;
-  }
-
-  &__home-container {
-    z-index: 3;
   }
 
   &__home-grid {
@@ -140,7 +140,7 @@
       span {
         --animation-delay: 0ms;
         transform: translateY(1000px);
-        animation: titleIn 1600ms var(--ease-in-out-quint) var(--animation-delay) forwards;
+        animation: titleIn 1400ms var(--ease-in-out-quint) var(--animation-delay) forwards;
       }
 
       span:first-child {
@@ -196,7 +196,7 @@
     transform: translateY(1000px);
     filter: blur(20px);
     opacity: 0;
-    animation: introIn 1600ms var(--ease-in-out-quint) 200ms forwards;
+    animation: introIn 1400ms var(--ease-in-out-quint) 200ms forwards;
 
     @media screen and (min-width: 800px) {
       padding: 0;
@@ -220,7 +220,7 @@
     opacity: 0;
     filter: blur(10px);
     transform: rotate(280deg) translateX(-300%) translateY(-300%);
-    animation: scrolliconIn 1000ms 1200ms var(--ease-out-quint) forwards;
+    animation: scrolliconIn 800ms 1000ms var(--ease-out-quint) forwards;
 
     @keyframes scrolliconIn {
       to {
@@ -246,22 +246,6 @@
   }
 }
 
-@keyframes titleBack {
-  from {
-    transform: translateY(-1000px)
-  }
-
-  to {
-    transform: translateY(0)
-  }
-}
-
-@keyframes titleOut {
-  from {
-    transform: translateY(0)
-  }
-
-  to {
-    transform: translateY(-1000px)
-  }
+.mondial-guide-cover_out {
+  opacity: 0 !important;
 }

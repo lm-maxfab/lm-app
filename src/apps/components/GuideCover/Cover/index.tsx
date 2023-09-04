@@ -22,7 +22,6 @@ type State = {
 
 interface Cover {
   stepClass?: string,
-  lastStep?: undefined | number,
 }
 
 export const className = bem('mondial-guide-cover')
@@ -33,20 +32,12 @@ class Cover extends Component<Props, State> {
 
   constructor(props: Props) {
     super(props)
-    this.stepClass = 'init'
-    this.lastStep = undefined
-  }
-
-  componentDidUpdate(): void {
-    this.lastStep = this.props.currentStep ?? 0
+    this.stepClass = 'in'
   }
 
   render() {
-    if (this.lastStep === 0 && this.props.currentStep === 1) {
-      this.stepClass = 'out'
-    } else if (this.props.currentStep === 0 && this.stepClass != 'init') {
-      this.stepClass = 'back'
-    }
+    if (this.props.currentStep === 0) this.stepClass = 'in'
+    else this.stepClass = 'out'
 
     const shapeSrc = `https://assets-decodeurs.lemonde.fr/redacweb/51-2309-mondial-rugby/shape-guide-cover.svg`
     const shapeMobileSrc = `https://assets-decodeurs.lemonde.fr/redacweb/51-2309-mondial-rugby/shape-guide-cover-mobile.svg`
@@ -71,13 +62,12 @@ class Cover extends Component<Props, State> {
 
           <div className={className.elt('home-grid').value}>
 
-            <ArticleHeader
+            {/* <ArticleHeader
               fill1='#fff'
-              fill2='rgb(255,255,255,0.6)' />
+              fill2='rgb(255,255,255,0.6)' /> */}
 
-            {/* <div className={className.elt('marker').value}>
-                <Marker color='#fff' />
-              </div> */}
+            <div></div>
+
             <h1 className={className.elt('title').value}>
               {this.props.title}
             </h1>

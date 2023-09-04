@@ -44,6 +44,10 @@ class Longform extends Component<Props, State> {
       style={wrapperStyle}
       className={wrapperClasses.value}>
 
+      <ArticleHeader
+        fill1='#fff'
+        fill2='rgb(255,255,255,0.6)' />
+
       <GuideCover
         title={generalData.title}
         intro={generalData.intro}

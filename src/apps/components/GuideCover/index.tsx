@@ -28,8 +28,6 @@ export default class GuideCover extends Component<Props, State> {
 
   handlePageChange(e: PaginatorState) {
     this.setState({ currentPage: e.value })
-
-    console.log(this.state.currentPage)
   }
 
   render(): JSX.Element {
@@ -38,21 +36,20 @@ export default class GuideCover extends Component<Props, State> {
     // Assign classes and styles
     const wrapperStyle: JSX.CSSProperties = {
       '--height': '100vh',
-      '--step-height': '10px',
+      '--step-height': '160px',
     }
 
     // Display
     return <>
       <div style={wrapperStyle}>
-        <div className={className.value}>
-          <Cover currentStep={this.state.currentPage} title={this.props.title} intro={this.props.intro} />
-        </div>
         <Paginator
-          thresholdOffset='100%'
+          thresholdOffset='33%'
           onPageChange={this.handlePageChange}
-          style={{ position: 'relative', marginTop: 'calc(-1 * var(--height))', zIndex: 1 }}>
+          style={{ position: 'relative', zIndex: 1 }}>
           <Paginator.Page value={0}>
-            <div style={{ height: 'calc(var(--height))', backgroundColor: 'transparent' }}></div>
+            <div className={className.value}>
+              <Cover currentStep={this.state.currentPage} title={this.props.title} intro={this.props.intro} />
+            </div>
           </Paginator.Page>
           <Paginator.Page value={1}>
             <div style={{ height: 'var(--step-height)', backgroundColor: 'transparent' }}></div>

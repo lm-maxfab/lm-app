@@ -18,12 +18,12 @@ export default class GroupTab extends Component<Props, State> {
 
     return <div className={bemClass.value}>
       <div className={bemClass.elt('desktop').value}>
-        <h3>Groupe {this.props.group}</h3>
+        <h3>Poule {this.props.group}</h3>
       </div>
 
       <div className={bemClass.elt('mobile').value}>
         <img src={shapeSrc} />
-        <h3>Groupe {this.props.group}</h3>
+        <h3>Poule {this.props.group}</h3>
       </div>
     </div>
   }
