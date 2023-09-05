@@ -68,7 +68,9 @@ class Footer extends Component<Props, State> {
         </a>
       </div>
 
-      <InfoText content={generalData.infoText} />
+      <div className={className.elt('links').value}>
+        <InfoText content={generalData.infoText} />
+      </div>
     </div>
 
   }

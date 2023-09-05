@@ -1738,6 +1738,17 @@
       },
       "description": "fix footer",
       "time": "2023-09-05T15:10:28.549Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 18
+      },
+      "description": "fix footer in app",
+      "time": "2023-09-05T15:23:10.675Z"
     }
   ]
 }

@@ -98,9 +98,16 @@
     }
   }
 
-  .mondial-info {
-    max-width: 1248px;
-    margin: 24px auto;
-    margin-top: 86px;
+  &__links {
+    padding: 0 24px;
+
+    .mondial-info {
+      max-width: 1248px;
+      margin-top: 24px;
+
+      @media (min-width: 600px) {
+        margin-top: 86px;
+      }
+    }
   }
 }
