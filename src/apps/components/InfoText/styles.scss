@@ -40,6 +40,7 @@
 
       a {
         text-decoration: none !important;
+        text-decoration-color: inherit;
         transition: opacity 200ms;
 
         &::after {
