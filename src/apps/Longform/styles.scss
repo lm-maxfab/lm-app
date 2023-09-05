@@ -4,18 +4,31 @@
   min-height: 100vh;
   width: 100%;
 
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin: 0 !important;
+  }
+
   &__wrapper {
     margin: 0 6vw;
   }
 
   &__end {
-    padding: 160px 0;
+    padding: 120px 0;
     color: var(--c-mondial-blue);
     display: flex;
     justify-content: center;
 
     >div {
       max-width: 660px;
+    }
+
+    @media screen and (min-width: 800px) {
+      padding: 160px 0;
     }
 
     @media screen and (min-width: 1000px) {
@@ -43,9 +56,6 @@
   }
 
   .mondial-info {
-    // [WIP] provisoire
-    display: none !important;
-
     margin: 56px 0;
 
     @media screen and (min-width: 800px) {
