@@ -4,17 +4,9 @@
   min-height: 100vh;
   width: 100%;
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    margin: 0;
-  }
-
   &__wrapper {
     margin: 0 6vw;
+    z-index: 1;
   }
 
   &__end {
@@ -89,4 +81,13 @@
   .fill-2 {
     --fill-2: rgb(0, 0, 0, 0.3);
   }
+}
+
+.mondial-longform .mondial-longform__wrapper {
+  transition: opacity 800ms;
+  opacity: 0;
+}
+
+.mondial-longform:has(.mondial-guide-cover_out) .mondial-longform__wrapper {
+  opacity: 1;
 }
