@@ -1650,6 +1650,17 @@
       },
       "description": "fix svg marker",
       "time": "2023-09-05T10:31:52.982Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 10
+      },
+      "description": "",
+      "time": "2023-09-05T10:33:11.913Z"
     }
   ]
 }
