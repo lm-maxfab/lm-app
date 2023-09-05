@@ -22,11 +22,11 @@
   }
 
   &__shape {
-    position: absolute;
     z-index: 1;
+    position: fixed;
+    top: 0;
     height: 100%;
     width: 100%;
-    position: fixed;
     object-fit: cover;
     transform: scaleX(20);
     filter: blur(10px);
