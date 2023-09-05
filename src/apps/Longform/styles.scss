@@ -82,12 +82,3 @@
     --fill-2: rgb(0, 0, 0, 0.3);
   }
 }
-
-.mondial-longform .mondial-longform__wrapper {
-  transition: opacity 800ms;
-  opacity: 0;
-}
-
-.mondial-longform:has(.mondial-guide-cover_out) .mondial-longform__wrapper {
-  opacity: 1;
-}

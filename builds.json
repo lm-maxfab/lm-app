@@ -1672,6 +1672,17 @@
       },
       "description": "",
       "time": "2023-09-05T10:43:40.963Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 12
+      },
+      "description": "fix bugs on firefox",
+      "time": "2023-09-05T12:36:21.056Z"
     }
   ]
 }
