@@ -1716,6 +1716,17 @@
       },
       "description": "fix cover ratio (bc contextual nav)",
       "time": "2023-09-05T13:41:55.820Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 16
+      },
+      "description": "fix margins + display footer & header",
+      "time": "2023-09-05T14:02:39.740Z"
     }
   ]
 }

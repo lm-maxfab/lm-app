@@ -1,7 +1,4 @@
 .mondial-footer {
-  // [WIP] provisoire
-  display: none !important;
-
   font-family: var(--ff-marr-sans);
   width: fit-content;
   margin: 0 auto;
@@ -21,8 +18,13 @@
   &__container {
     max-width: 950px;
     margin: 0 auto;
+    margin-top: 156px;
     display: grid;
     justify-items: center;
+
+    @media (min-width: 600px) {
+      margin-top: 72px;
+    }
   }
 
   &__marker {
@@ -54,7 +56,7 @@
 
     @media screen and (min-width: 600px) {
       font-size: 32px;
-      margin: 62px 0 42px 0;
+      margin: 62px 42px 42px 42px;
     }
   }
 
@@ -99,6 +101,7 @@
 
   .mondial-info {
     max-width: 1200px;
+    margin: 24px;
     margin-top: 86px;
   }
 }
