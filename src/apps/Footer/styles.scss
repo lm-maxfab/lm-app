@@ -17,12 +17,12 @@
   &__container {
     max-width: 950px;
     margin: 0 auto;
-    margin-top: 156px;
+    margin-top: 72px;
     display: grid;
     justify-items: center;
 
     @media (min-width: 600px) {
-      margin-top: 72px;
+      margin-top: 156px;
     }
   }
 
