@@ -1694,6 +1694,17 @@
       },
       "description": "fix grain opacity",
       "time": "2023-09-05T12:48:16.753Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 14
+      },
+      "description": "fix gradient colors",
+      "time": "2023-09-05T12:54:25.229Z"
     }
   ]
 }
