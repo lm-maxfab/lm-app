@@ -1727,6 +1727,17 @@
       },
       "description": "fix margins + display footer & header",
       "time": "2023-09-05T14:02:39.740Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 17
+      },
+      "description": "fix footer",
+      "time": "2023-09-05T15:10:28.549Z"
     }
   ]
 }
