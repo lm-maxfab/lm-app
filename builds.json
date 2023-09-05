@@ -1683,6 +1683,17 @@
       },
       "description": "fix bugs on firefox",
       "time": "2023-09-05T12:36:21.056Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 13
+      },
+      "description": "fix grain opacity",
+      "time": "2023-09-05T12:48:16.753Z"
     }
   ]
 }
