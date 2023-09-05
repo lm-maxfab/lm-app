@@ -1639,6 +1639,17 @@
       },
       "description": "fix cover transition",
       "time": "2023-09-05T10:08:41.036Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 9
+      },
+      "description": "fix svg marker",
+      "time": "2023-09-05T10:31:52.982Z"
     }
   ]
 }
