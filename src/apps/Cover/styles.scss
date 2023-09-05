@@ -6,6 +6,10 @@
   max-height: 680px;
   overflow: hidden;
 
+  &_in-app {
+    margin-top: 56px;
+  }
+
   * {
     z-index: 1;
   }
