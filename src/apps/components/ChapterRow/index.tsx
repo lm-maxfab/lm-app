@@ -94,14 +94,36 @@ class ChapterRow extends Component<Props, State> {
 
   scrollABit (_e: Event) {
     if (this.$scroller === null) return
-    const screenWidth = document.body.clientWidth
-    this.$scroller.scrollBy({ left: screenWidth, behavior: 'smooth' })
+    const imgBlockClass = bem(this.clss).elt('image-block').value
+    const imgBlocksWithRects = [...this.$scroller.querySelectorAll(`.${imgBlockClass}`)]
+      .map(block => ({
+        block,
+        rect: block.getBoundingClientRect()
+      }))
+    const firstBlockIndex = imgBlocksWithRects.findIndex(item => item.rect.left > 20)
+    const firstBlock = imgBlocksWithRects[firstBlockIndex]
+    if (firstBlock === undefined) return;
+    this.$scroller.scrollBy({
+      behavior: 'smooth',
+      left: firstBlock.rect.left - 19
+    })
   }
 
   unScrollABit (_e: Event) {
     if (this.$scroller === null) return
-    const screenWidth = document.body.clientWidth
-    this.$scroller.scrollBy({ left: -1 * screenWidth, behavior: 'smooth' })
+    const imgBlockClass = bem(this.clss).elt('image-block').value
+    const imgBlocksWithRects = [...this.$scroller.querySelectorAll(`.${imgBlockClass}`)]
+      .map(block => ({
+        block,
+        rect: block.getBoundingClientRect()
+      }))
+    const firstBlockIndex = imgBlocksWithRects.findIndex(item => item.rect.left > 0)
+    const targetBlock = imgBlocksWithRects[firstBlockIndex - 1]
+    if (targetBlock === undefined) return;
+    this.$scroller.scrollBy({
+      behavior: 'smooth',
+      left: targetBlock.rect.left - 20
+    })
   }
 
   /* * * * * * * * * * * * * * *
