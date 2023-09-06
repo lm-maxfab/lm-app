@@ -30,12 +30,6 @@
     display: flex;
     width: 140px;
 
-    @media (prefers-color-scheme: dark) {
-      svg path {
-        fill: #fff !important;
-      }
-    }
-
     @media (min-width: 600px) {
       width: 220px;
     }
@@ -48,10 +42,6 @@
     line-height: 120%;
     text-align: center;
     margin: 16px 32px !important;
-
-    @media (prefers-color-scheme: dark) {
-      color: #fff;
-    }
 
     @media screen and (min-width: 600px) {
       font-size: 32px;
@@ -108,14 +98,29 @@
       @media (min-width: 600px) {
         margin-top: 86px;
       }
+    }
+  }
+}
 
-      @media (prefers-color-scheme: dark) {
-        color: #fff !important;
-        border: 1px solid #ffffff4D;
 
-        ul li a::after {
-          background-image: url("https://assets-decodeurs.lemonde.fr/redacweb/51-2309-mondial-rugby/arrow-right-white.svg");
-        }
+[data-color-mode="dark"] .mondial-footer {
+  .mondial-footer__marker {
+    svg path {
+      fill: #fff !important;
+    }
+  }
+
+  .mondial-footer__title {
+    color: #fff;
+  }
+
+  .mondial-footer__links {
+    .mondial-info {
+      color: #fff !important;
+      border: 1px solid #ffffff4D;
+
+      ul li a::after {
+        background-image: url("https://assets-decodeurs.lemonde.fr/redacweb/51-2309-mondial-rugby/arrow-right-white.svg");
       }
     }
   }

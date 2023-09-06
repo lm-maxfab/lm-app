@@ -1837,6 +1837,17 @@
       },
       "description": "fix footer dark mode",
       "time": "2023-09-06T11:01:20.522Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 27
+      },
+      "description": "fix dark mode",
+      "time": "2023-09-06T12:35:45.383Z"
     }
   ]
 }
