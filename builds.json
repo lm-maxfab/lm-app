@@ -1815,6 +1815,17 @@
       },
       "description": "fix styles AEC",
       "time": "2023-09-06T10:29:32.207Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 25
+      },
+      "description": "fix header english version",
+      "time": "2023-09-06T10:36:22.186Z"
     }
   ]
 }

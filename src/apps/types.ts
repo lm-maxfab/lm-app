@@ -11,6 +11,7 @@ export interface GeneralData extends SheetBaseCollectionData {
   conclusion?: VNode | string,
   groupTitle?: string,
   cardCTA?: string,
+  headerTitle?: string,
   credits?: VNode | string,
   markerURL?: string,
   infoText?: VNode | string,

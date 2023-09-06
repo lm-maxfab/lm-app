@@ -77,7 +77,7 @@ class Header extends Component<Props, State> {
           {this.state.open
             ? <Close></Close>
             : <Burger></Burger>}
-          <p>Les équipes</p>
+          <p>{generalData.headerTitle ?? 'Les équipes'}</p>
         </div>
 
       </div>
