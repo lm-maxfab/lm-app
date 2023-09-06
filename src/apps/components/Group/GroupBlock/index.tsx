@@ -8,6 +8,8 @@ import './styles.scss'
 
 type Props = {
   group?: string,
+  groupTitle?: string,
+  cardCTA?: string,
   teams?: TeamData[],
   nav?: boolean
 }
@@ -29,13 +31,17 @@ export default class GroupBlock extends Component<Props, State> {
       <div className={groupClasses.elt('teams').value}>
         <GroupTab
           className={groupClasses.elt('tab').value}
+          groupTitle={this.props.groupTitle}
           group={this.props.group}
         />
 
         {this.props.teams?.map(team => {
           return this.props.nav
             ? <TeamBlockNav team={team} />
-            : <TeamBlock team={team} />
+            : <TeamBlock
+              team={team}
+              cardCTA={this.props.cardCTA}
+            />
         })}
       </div>
     </div>

@@ -60,6 +60,8 @@ class Longform extends Component<Props, State> {
           {groupsData?.map(group => {
             return <GroupBlock
               group={group}
+              groupTitle={generalData.groupTitle ?? 'Poule'}
+              cardCTA={generalData.cardCTA ?? 'Voir la fiche'}
               teams={teamsData.filter(el => el.group === group)}
             />
           })}

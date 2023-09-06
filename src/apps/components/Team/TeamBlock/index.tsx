@@ -8,6 +8,7 @@ import './styles.scss'
 
 type Props = {
   team?: TeamData
+  cardCTA?: string
 }
 
 type State = {
@@ -30,6 +31,7 @@ export default class TeamBlock extends Component<Props, State> {
       <a href={this.props.team?.url}>
         <TeamImage
           className={className.elt('image')}
+          cardCTA={this.props.cardCTA}
           iso={this.props.team?.iso}
         />
       </a>

@@ -10,6 +10,7 @@ const config = getConfig()
 
 type Props = {
   className?: any,
+  cardCTA?: string,
   iso?: string,
 }
 
@@ -36,7 +37,7 @@ export default class TeamImage extends Component<Props, State> {
       </div>
 
       <div class={bemClass.elt('overlay').value}>
-        <p>Voir la fiche</p>
+        <p>{this.props.cardCTA}</p>
       </div>
     </div>
   }
