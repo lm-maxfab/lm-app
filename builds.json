@@ -1793,6 +1793,17 @@
       },
       "description": "adaptation for en version",
       "time": "2023-09-06T09:37:05.059Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 23
+      },
+      "description": "fix groupTab header",
+      "time": "2023-09-06T10:07:33.916Z"
     }
   ]
 }

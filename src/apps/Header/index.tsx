@@ -90,6 +90,7 @@ class Header extends Component<Props, State> {
             return <GroupBlock
               nav
               group={group}
+              groupTitle={generalData.groupTitle ?? 'Poule'}
               teams={teamsData.filter(el => el.group === group)}
             />
           })}
