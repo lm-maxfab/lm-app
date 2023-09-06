@@ -383,6 +383,17 @@
       },
       "description": "",
       "time": "2023-09-06T09:31:55.997Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 1,
+        "patch": 3,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "",
+      "time": "2023-09-06T10:53:16.186Z"
     }
   ]
 }
