@@ -61,10 +61,10 @@ class Home extends Component<Props, {}> {
     const wrapperClasses = bem(props.className)
       .block(this.clss)
       .mod({
-        'show-opacifier': state.animationStep >= 1,
-        'show-title': state.animationStep >= 3,
-        'show-kicker': state.animationStep >= 5,
-        'show-intro': state.animationStep >= 9,
+        'show-opacifier': state.animationStep >= 0,
+        'show-title': state.animationStep >= 0,
+        'show-kicker': state.animationStep >= 0,
+        'show-intro': state.animationStep >= 0,
         'hide-image': props.hideImage
       })
     const wrapperStyle: JSX.CSSProperties = { ...props.style }
