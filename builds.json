@@ -1804,6 +1804,17 @@
       },
       "description": "fix groupTab header",
       "time": "2023-09-06T10:07:33.916Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 24
+      },
+      "description": "fix styles AEC",
+      "time": "2023-09-06T10:29:32.207Z"
     }
   ]
 }

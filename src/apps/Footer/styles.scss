@@ -31,8 +31,8 @@
     width: 140px;
 
     @media (prefers-color-scheme: dark) {
-      svg {
-        fill: #fff;
+      svg path {
+        fill: #fff !important;
       }
     }
 
@@ -47,7 +47,7 @@
     font-size: 20px;
     line-height: 120%;
     text-align: center;
-    margin: 16px 32px;
+    margin: 16px 32px !important;
 
     @media (prefers-color-scheme: dark) {
       color: #fff;
@@ -55,7 +55,7 @@
 
     @media screen and (min-width: 600px) {
       font-size: 32px;
-      margin: 62px 42px 42px 42px;
+      margin: 62px 42px 42px 42px !important;
     }
   }
 
@@ -107,6 +107,11 @@
 
       @media (min-width: 600px) {
         margin-top: 86px;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        color: #fff !important;
+        border: 1px solid #fff;
       }
     }
   }
