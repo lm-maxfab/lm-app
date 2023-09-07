@@ -1,6 +1,7 @@
 import { Component, ComponentClass } from 'preact'
 import { SheetBase } from '../sheet-base'
 import getViewportDimensions, { ViewportDimensions } from '../../utils/get-viewport-dimensions'
+import isAEC from '../../utils/is-AEC'
 import { groupDelay } from '../group-delay'
 import bem from '../bem'
 import './styles.scss'
@@ -25,6 +26,7 @@ function wrapper (Wrapped: ComponentClass<InjectedProps>): any {
     static clss: string = 'lm-app'
     static wrapped = Wrapped
     clss = Wrapper.clss
+    isAEC: boolean
     timeouts: number[] = []
     intervals: number[] = []
     state: State = { viewportDimensions: undefined }
@@ -34,6 +36,7 @@ function wrapper (Wrapped: ComponentClass<InjectedProps>): any {
      * * * * * * * * * * * * * * */
     constructor (props: Props) {
       super(props)
+      this.isAEC = isAEC()
       this.setViewportDimensions = this.setViewportDimensions.bind(this)
       this.groupDelayedSetViewportDimensions()
       this.timeouts.push(window.setTimeout(this.groupDelayedSetViewportDimensions, 100))
@@ -82,6 +85,7 @@ function wrapper (Wrapped: ComponentClass<InjectedProps>): any {
     render (): JSX.Element {
       const { props, state } = this
       const wrapperClasses = bem(this.clss).mod({
+        'is-aec': this.isAEC,
         'env-dev': process.env.NODE_ENV === 'development',
         'env-prod': process.env.NODE_ENV === 'production'
       })
