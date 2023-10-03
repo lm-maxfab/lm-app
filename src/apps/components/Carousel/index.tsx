@@ -136,27 +136,40 @@ export default class Carousel extends Component<Props, State> {
   render() {
     const { props, state, cardWidth, cardGap } = this
 
-    const wrapperClasses = [styles['wrapper']]
+    const footerClass = `outoc-footer`
+
+    const wrapperClasses = [`${footerClass}__carousel`, styles['wrapper']]
     const wrapperStyles = {
       ['--cards-nb']: `${props.episodes.length}`,
       ['--card-width']: `${cardWidth}px`,
       ['--card-gap']: `${cardGap}px`
     }
 
-    const arrowLeftClasses = [styles['arrow'], styles['arrow-left']]
-    const arrowRightClasses = [styles['arrow'], styles['arrow-right']]
+    const arrowLeftClasses = [`${footerClass}__arrow`, styles['arrow'], styles['arrow-left']]
+    const arrowRightClasses = [`${footerClass}__arrow`, styles['arrow'], styles['arrow-right']]
 
-    if (state.displayLeftArrow) arrowLeftClasses.push(styles['arrow-visible'])
-    if (state.displayRightArrow) arrowRightClasses.push(styles['arrow-visible'])
+    if (state.displayLeftArrow) {
+      arrowLeftClasses.push(`${footerClass}__arrow_visible`)
+      arrowLeftClasses.push(styles['arrow-visible'])
+    }
+
+    if (state.displayRightArrow) {
+      arrowRightClasses.push(`${footerClass}__arrow_visible`)
+      arrowRightClasses.push(styles['arrow-visible'])
+    }
+
     if (state.isOverflowing) wrapperClasses.push(styles['wrapper_overflowing'])
+
+    const scrollableClasses = [`${footerClass}__scrollable`, styles['scrollable']]
+    const cardsClasses = [`${footerClass}__cards`, styles['cards']]
 
     return <div
       style={wrapperStyles}
       className={wrapperClasses.join(' ')}>
 
       <ResizeObserverComponent onResize={this.calculateDimensions}>
-        <div ref={this.scrollContainer} onScroll={this.handleScroll} className={styles['scrollable']}>
-          <div ref={this.cardsContainer} className={styles['cards']}>
+        <div ref={this.scrollContainer} onScroll={this.handleScroll} className={scrollableClasses.join(' ')}>
+          <div ref={this.cardsContainer} className={cardsClasses.join(' ')}>
             {props.episodes.map((episode) => {
               return <Episode episode={episode as EpisodeData} />
             })}

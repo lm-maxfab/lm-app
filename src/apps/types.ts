@@ -14,6 +14,7 @@ export interface GeneralSettings extends SheetBaseCollectionData {
   headerCustomClass?: string
   headerCustomCss?: string
   headerNavItemsAlign?: string
+  customCss?: string
 }
 
 export interface BlockData extends SheetBaseCollectionData {

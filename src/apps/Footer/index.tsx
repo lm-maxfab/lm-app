@@ -22,11 +22,15 @@ class Footer extends Component<Props, State> {
       .replace(/\s+/igm, ' ')
       .replace(/\n/igm, ' ')
 
-    return <div className={styles['footer']}>
+    const footerClass = `outoc-footer`
+    const footerClasses = [`${footerClass}`, styles['footer']]
+    const headerClasses = [`${footerClass}__header`, styles['header']]
+
+    return <div className={footerClasses.join(' ')}>
 
       <style>{customCss}</style>
 
-      <div className={styles['header']}>
+      <div className={headerClasses.join(' ')}>
         {generalData.header}
       </div>
 
