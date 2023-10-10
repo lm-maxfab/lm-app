@@ -1,0 +1,148 @@
+.mondial-header {
+  --mondial-header-height: 57px;
+  --mondial-header-color: var(--c-mondial-blue);
+
+  font-family: var(--ff-marr-sans-condensed);
+  background-color: var(--mondial-header-color);
+  color: #fff;
+  // height: 860px;
+  max-height: var(--mondial-header-height);
+  transition: max-height 600ms;
+  overflow: hidden;
+  display: grid;
+  grid-template-rows: var(--mondial-header-height) 1fr;
+  position: fixed;
+  top: 59px;
+  left: 0;
+  width: 100%;
+  z-index: 5;
+
+  @media screen and (min-width: 1024px) {
+    top: 57px;
+  }
+
+  &_in-app {
+    top: -1px;
+  }
+
+  &__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 9px 12px;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background-color: var(--mondial-header-color);
+    line-height: 1.1em;
+
+    @media screen and (min-width: 800px) {
+      padding: 16px 36px;
+    }
+  }
+
+  &__marker {
+    width: 120px;
+    position: relative;
+    transform: translateY(2%);
+
+    &:hover {
+      opacity: 1 !important;
+    }
+  }
+
+  &__burger {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    user-select: none;
+
+    svg {
+      width: 16px;
+      margin-right: 8px;
+      top: .5px;
+    }
+
+    p {
+      text-transform: uppercase;
+      font-size: 20px;
+      font-weight: 600;
+    }
+  }
+
+  &__scrollable {
+    overflow-y: scroll;
+    scrollbar-color: var(--mondial-header-color);
+    scrollbar-width: thin;
+    opacity: 0;
+    transition: opacity 600ms;
+    padding: 24px 48px 48px 32px;
+
+    &::-webkit-scrollbar {
+      background: var(--mondial-header-color);
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: var(--mondial-header-color);
+    }
+
+    @media screen and (min-width: 800px) {
+      padding: 24px 62px 48px 62px;
+    }
+  }
+
+  &__groups {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    grid-column-gap: 55px;
+
+
+    @media screen and (min-width: 520px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media screen and (min-width: 1050px) {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  &_open {
+    max-height: 75vh;
+
+    @media screen and (min-width: 1050px) {
+      max-height: min(85vh, 520px);
+    }
+
+    .mondial-header__scrollable {
+      opacity: 1;
+      display: block;
+    }
+
+    @media screen and (max-width: 1050px) {
+      &::after {
+        pointer-events: none;
+        display: block;
+        content: '';
+        width: 100%;
+        height: 62px;
+        position: absolute;
+        bottom: 0;
+        margin-top: -50px;
+        background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, var(--mondial-header-color) 100%);
+      }
+    }
+  }
+
+  .mondial-info {
+    color: #fff;
+    padding: 0;
+    padding-top: 32px;
+    border-radius: 0;
+    border: 0px solid transparent;
+    border-top: 1.5px solid #fff;
+
+    ul li a::after {
+      background-image: url(https://assets-decodeurs.lemonde.fr/redacweb/51-2309-mondial-rugby/arrow-right-white.svg);
+    }
+  }
+}

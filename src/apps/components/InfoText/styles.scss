@@ -1,0 +1,75 @@
+.mondial-info {
+  color: var(--c-mondial-blue);
+  font-family: var(--ff-marr-sans);
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 140%;
+  letter-spacing: 0.05em;
+  padding: 18px 22px;
+  border: 1px solid #0710804D;
+  border-radius: 5px;
+  margin: 0 auto;
+
+  @media screen and (min-width: 350px) {
+    padding: 18px 36px 18px 22px;
+  }
+
+  @media screen and (min-width: 900px) {
+    padding: 34px 36px;
+    font-size: 18px;
+  }
+
+  @media screen and (min-width: 1200px) {
+    font-size: 18px;
+  }
+
+  ul {
+    padding: 0 !important;
+    margin-top: 16px !important;
+    list-style: none;
+
+    li {
+      text-transform: uppercase;
+      font-family: var(--ff-marr-sans-condensed);
+      font-weight: 600;
+      text-decoration: underline;
+
+      @media screen and (min-width: 1200px) {
+        font-size: 20px;
+      }
+
+      a {
+        text-decoration: none !important;
+        text-decoration-color: inherit;
+        transition: opacity 200ms;
+
+        &::after {
+          margin-left: 6px;
+          content: '';
+          display: inline-block;
+          height: 13px;
+          width: 13px;
+          background-image: url("https://assets-decodeurs.lemonde.fr/redacweb/51-2309-mondial-rugby/arrow-right.svg");
+        }
+
+        &:hover {
+          opacity: 0.6 !important;
+        }
+      }
+    }
+
+    li+li {
+      margin-top: 10px;
+    }
+
+    @media screen and (min-width: 900px) {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 30px;
+
+      li+li {
+        margin-top: 0;
+      }
+    }
+  }
+}

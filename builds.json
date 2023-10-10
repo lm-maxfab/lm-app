@@ -271,23 +271,49 @@
       },
       "description": "",
       "time": "2022-02-24T14:46:57.275Z"
+<<<<<<< HEAD
+=======
+    }
+  ],
+  "11-2202-covid": [
+    {
+      "version": {
+        "major": 0,
+        "minor": 1,
+        "patch": 0,
+        "status": "beta",
+        "build": 0
+      },
+      "description": "",
+      "time": "2022-02-14T10:24:09.431Z"
+>>>>>>> 1caabc4f63ba4f5f8f08c558dab0e941d71365da
     },
     {
       "version": {
         "major": 0,
         "minor": 2,
+<<<<<<< HEAD
         "patch": 1,
         "status": "stable",
         "build": 5
       },
       "description": "",
       "time": "2022-02-25T10:26:12.845Z"
+=======
+        "patch": 0,
+        "status": "beta",
+        "build": 0
+      },
+      "description": "",
+      "time": "2022-02-14T13:27:17.069Z"
+>>>>>>> 1caabc4f63ba4f5f8f08c558dab0e941d71365da
     },
     {
       "version": {
         "major": 0,
         "minor": 2,
         "patch": 1,
+<<<<<<< HEAD
         "status": "stable",
         "build": 6
       },
@@ -326,21 +352,147 @@
       },
       "description": "",
       "time": "2022-09-21T09:58:09.080Z"
+=======
+        "status": "beta",
+        "build": 0
+      },
+      "description": "",
+      "time": "2022-02-14T17:35:26.330Z"
     },
     {
       "version": {
         "major": 1,
         "minor": 0,
         "patch": 0,
-        "status": "stable",
+        "status": "alpha",
         "build": 0
       },
-      "description": "",
-      "time": "2022-12-01T13:20:03.659Z"
+      "description": "First version that looks like something",
+      "time": "2022-02-15T13:38:45.482Z"
     },
     {
       "version": {
         "major": 1,
+        "minor": 1,
+        "patch": 0,
+        "status": "alpha",
+        "build": 0
+      },
+      "description": "",
+      "time": "2022-02-15T17:33:19.378Z"
+    },
+    {
+      "version": {
+        "major": 1,
+        "minor": 1,
+        "patch": 1,
+        "status": "alpha",
+        "build": 0
+      },
+      "description": "",
+      "time": "2022-02-15T17:41:36.732Z"
+    },
+    {
+      "version": {
+        "major": 1,
+        "minor": 2,
+        "patch": 0,
+        "status": "beta",
+        "build": 0
+      },
+      "description": "",
+      "time": "2022-02-16T12:52:22.636Z"
+    },
+    {
+      "version": {
+        "major": 1,
+        "minor": 2,
+        "patch": 1,
+        "status": "beta",
+        "build": 0
+      },
+      "description": "",
+      "time": "2022-02-16T13:38:05.766Z"
+    },
+    {
+      "version": {
+        "major": 1,
+        "minor": 2,
+        "patch": 1,
+        "status": "beta",
+        "build": 1
+      },
+      "description": "",
+      "time": "2022-02-16T14:49:45.555Z"
+    },
+    {
+      "version": {
+        "major": 1,
+        "minor": 2,
+        "patch": 1,
+        "status": "beta",
+        "build": 2
+      },
+      "description": "",
+      "time": "2022-02-16T14:51:40.934Z"
+>>>>>>> 1caabc4f63ba4f5f8f08c558dab0e941d71365da
+    },
+    {
+      "version": {
+        "major": 1,
+<<<<<<< HEAD
+        "minor": 0,
+=======
+        "minor": 3,
+>>>>>>> 1caabc4f63ba4f5f8f08c558dab0e941d71365da
+        "patch": 0,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "",
+<<<<<<< HEAD
+      "time": "2022-12-01T13:20:03.659Z"
+=======
+      "time": "2022-02-17T14:30:49.374Z"
+    },
+    {
+      "version": {
+        "major": 1,
+        "minor": 3,
+        "patch": 0,
+        "status": "stable",
+        "build": 1
+      },
+      "description": "",
+      "time": "2022-02-17T15:04:58.410Z"
+    },
+    {
+      "version": {
+        "major": 1,
+        "minor": 3,
+        "patch": 0,
+        "status": "stable",
+        "build": 2
+      },
+      "description": "",
+      "time": "2022-02-17T15:24:11.612Z"
+    },
+    {
+      "version": {
+        "major": 1,
+        "minor": 3,
+        "patch": 0,
+        "status": "stable",
+        "build": 3
+      },
+      "description": "",
+      "time": "2022-02-17T16:25:36.261Z"
+>>>>>>> 1caabc4f63ba4f5f8f08c558dab0e941d71365da
+    },
+    {
+      "version": {
+        "major": 1,
+<<<<<<< HEAD
         "minor": 0,
         "patch": 1,
         "status": "stable",
@@ -351,6 +503,486 @@
     }
   ],
   "50-2309-photo-rugby": [
+=======
+        "minor": 3,
+        "patch": 0,
+        "status": "stable",
+        "build": 4
+      },
+      "description": "",
+      "time": "2022-02-17T17:33:19.246Z"
+    },
+    {
+      "version": {
+        "major": 1,
+        "minor": 3,
+        "patch": 0,
+        "status": "stable",
+        "build": 5
+      },
+      "description": "",
+      "time": "2022-02-17T17:39:30.457Z"
+    },
+    {
+      "version": {
+        "major": 1,
+        "minor": 3,
+        "patch": 0,
+        "status": "stable",
+        "build": 6
+      },
+      "description": "",
+      "time": "2022-02-17T17:44:40.369Z"
+    },
+    {
+      "version": {
+        "major": 1,
+        "minor": 3,
+        "patch": 0,
+        "status": "stable",
+        "build": 7
+      },
+      "description": "",
+      "time": "2022-02-17T18:00:58.469Z"
+    }
+  ],
+  "master": [
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 1
+      },
+      "description": "test",
+      "time": "2022-03-24T11:32:03.400Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 2
+      },
+      "description": "test",
+      "time": "2022-03-24T11:32:27.139Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 3
+      },
+      "description": "test",
+      "time": "2022-03-24T11:33:18.262Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 4
+      },
+      "description": "test",
+      "time": "2022-03-24T11:38:24.582Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 5
+      },
+      "description": "test",
+      "time": "2022-03-24T11:41:11.653Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 6
+      },
+      "description": "",
+      "time": "2022-03-24T11:43:10.623Z"
+    }
+  ],
+  "13-2204-campagne": [
+>>>>>>> 1caabc4f63ba4f5f8f08c558dab0e941d71365da
+    {
+      "version": {
+        "major": 0,
+        "minor": 1,
+        "patch": 0,
+        "status": "stable",
+        "build": 0
+      },
+<<<<<<< HEAD
+      "description": "",
+      "time": "2023-08-29T15:38:17.950Z"
+=======
+      "description": "First STG version",
+      "time": "2022-04-22T09:33:14.639Z"
+>>>>>>> 1caabc4f63ba4f5f8f08c558dab0e941d71365da
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 1,
+<<<<<<< HEAD
+=======
+        "patch": 0,
+        "status": "stable",
+        "build": 1
+      },
+      "description": "",
+      "time": "2022-04-22T09:48:34.889Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 2,
+        "patch": 0,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "Almost ready to go",
+      "time": "2022-04-22T14:47:03.660Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 2,
+        "patch": 0,
+        "status": "stable",
+        "build": 1
+      },
+      "description": "",
+      "time": "2022-04-22T15:42:57.068Z"
+    },
+    {
+      "version": {
+        "major": 1,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "First release",
+      "time": "2022-04-22T16:13:25.078Z"
+    }
+  ],
+  "14-2205-xjg-files": [
+    {
+      "version": {
+        "major": 1,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "",
+      "time": "2022-05-13T14:28:25.202Z"
+    },
+    {
+      "version": {
+        "major": 1,
+        "minor": 0,
+>>>>>>> 1caabc4f63ba4f5f8f08c558dab0e941d71365da
+        "patch": 1,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "",
+<<<<<<< HEAD
+      "time": "2023-08-29T15:45:04.386Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 1,
+=======
+      "time": "2022-05-13T14:51:33.918Z"
+    },
+    {
+      "version": {
+        "major": 1,
+        "minor": 0,
+>>>>>>> 1caabc4f63ba4f5f8f08c558dab0e941d71365da
+        "patch": 2,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "",
+<<<<<<< HEAD
+      "time": "2023-09-06T09:31:55.997Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 1,
+=======
+      "time": "2022-05-13T15:10:56.583Z"
+    },
+    {
+      "version": {
+        "major": 1,
+        "minor": 0,
+>>>>>>> 1caabc4f63ba4f5f8f08c558dab0e941d71365da
+        "patch": 3,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "",
+<<<<<<< HEAD
+      "time": "2023-09-06T10:53:16.186Z"
+=======
+      "time": "2022-05-13T15:17:24.292Z"
+    },
+    {
+      "version": {
+        "major": 1,
+        "minor": 1,
+        "patch": 0,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "",
+      "time": "2022-05-17T14:25:02.886Z"
+    },
+    {
+      "version": {
+        "major": 1,
+        "minor": 1,
+        "patch": 1,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "",
+      "time": "2022-05-17T14:36:38.363Z"
+    },
+    {
+      "version": {
+        "major": 1,
+        "minor": 2,
+        "patch": 0,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "",
+      "time": "2022-05-18T09:21:06.542Z"
+    },
+    {
+      "version": {
+        "major": 1,
+        "minor": 2,
+        "patch": 1,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "",
+      "time": "2022-05-20T09:48:48.161Z"
+    },
+    {
+      "version": {
+        "major": 1,
+        "minor": 2,
+        "patch": 2,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "",
+      "time": "2022-05-20T10:23:04.879Z"
+    },
+    {
+      "version": {
+        "major": 1,
+        "minor": 2,
+        "patch": 3,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "",
+      "time": "2022-05-20T13:54:27.303Z"
+    },
+    {
+      "version": {
+        "major": 1,
+        "minor": 2,
+        "patch": 4,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "",
+      "time": "2022-05-20T16:11:41.273Z"
+    }
+  ],
+  "15-2205-cannes": [
+    {
+      "version": {
+        "major": 1,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "",
+      "time": "2022-05-24T14:11:53.213Z"
+    },
+    {
+      "version": {
+        "major": 1,
+        "minor": 0,
+        "patch": 1,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "",
+      "time": "2022-05-24T14:19:13.081Z"
+    },
+    {
+      "version": {
+        "major": 1,
+        "minor": 0,
+        "patch": 2,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "",
+      "time": "2022-05-24T15:06:25.103Z"
+    },
+    {
+      "version": {
+        "major": 1,
+        "minor": 0,
+        "patch": 3,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "",
+      "time": "2022-05-25T15:00:37.738Z"
+    },
+    {
+      "version": {
+        "major": 1,
+        "minor": 0,
+        "patch": 4,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "",
+      "time": "2022-05-25T15:40:14.552Z"
+    },
+    {
+      "version": {
+        "major": 1,
+        "minor": 0,
+        "patch": 5,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "",
+      "time": "2022-05-26T14:39:58.877Z"
+    }
+  ],
+  "16-2205-deuxieme-monde": [
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 1,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "",
+      "time": "2022-05-27T15:50:38.434Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 2,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "",
+      "time": "2022-05-31T15:01:48.266Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 3,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "",
+      "time": "2022-06-01T15:13:13.528Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 4,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "",
+      "time": "2022-06-02T07:49:53.907Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 5,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "",
+      "time": "2022-06-09T14:02:28.165Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 6,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "",
+      "time": "2022-06-09T15:12:28.088Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 7,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "",
+      "time": "2022-06-09T15:16:18.527Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 8,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "",
+      "time": "2022-06-09T15:30:20.470Z"
+    }
+  ],
+  "17-2206-13-novembre": [
     {
       "version": {
         "major": 0,
@@ -360,7 +992,64 @@
         "build": 0
       },
       "description": "",
-      "time": "2023-08-29T15:38:17.950Z"
+      "time": "2022-06-17T08:50:40.021Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 2,
+        "patch": 0,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "first building test",
+      "time": "2022-06-23T12:45:29.302Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 2,
+        "patch": 0,
+        "status": "stable",
+        "build": 1
+      },
+      "description": "",
+      "time": "2022-06-23T12:52:22.688Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 2,
+        "patch": 1,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "",
+      "time": "2022-06-24T07:16:51.668Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 3,
+        "patch": 0,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "",
+      "time": "2022-06-24T07:19:57.481Z"
+    }
+  ],
+  "18-2206-triton": [
+    {
+      "version": {
+        "major": 0,
+        "minor": 1,
+        "patch": 0,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "",
+      "time": "2022-06-23T14:20:45.222Z"
     },
     {
       "version": {
@@ -371,7 +1060,7 @@
         "build": 0
       },
       "description": "",
-      "time": "2023-08-29T15:45:04.386Z"
+      "time": "2022-06-23T14:34:28.249Z"
     },
     {
       "version": {
@@ -382,18 +1071,887 @@
         "build": 0
       },
       "description": "",
-      "time": "2023-09-06T09:31:55.997Z"
+      "time": "2022-06-24T14:50:46.091Z"
+    }
+  ],
+  "21-2207-syrie": [
+    {
+      "version": {
+        "major": 0,
+        "minor": 1,
+        "patch": 0,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "",
+      "time": "2022-07-20T15:03:56.906Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 2,
+        "patch": 0,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "",
+      "time": "2022-07-21T09:29:51.158Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 2,
+        "patch": 0,
+        "status": "stable",
+        "build": 1
+      },
+      "description": "",
+      "time": "2022-07-22T14:31:13.667Z"
+    }
+  ],
+  "22-2207-randos": [
+    {
+      "version": {
+        "major": 0,
+        "minor": 1,
+        "patch": 0,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "",
+      "time": "2022-07-28T10:10:28.422Z"
     },
     {
       "version": {
         "major": 0,
         "minor": 1,
+        "patch": 1,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "",
+      "time": "2022-07-29T13:57:17.364Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 1,
+        "patch": 2,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "",
+      "time": "2022-07-29T15:15:16.383Z"
+    }
+  ],
+  "23-2208-sable": [
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 1
+      },
+      "description": "",
+      "time": "2022-08-24T13:52:14.160Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 2
+      },
+      "description": "",
+      "time": "2022-08-26T09:23:54.637Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 3
+      },
+      "description": "",
+      "time": "2022-08-31T15:26:03.117Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 4
+      },
+      "description": "",
+      "time": "2022-08-31T15:40:27.303Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 5
+      },
+      "description": "",
+      "time": "2022-09-02T08:02:13.750Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 6
+      },
+      "description": "",
+      "time": "2022-09-02T13:51:46.754Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 7
+      },
+      "description": "",
+      "time": "2022-09-02T13:53:19.101Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 8
+      },
+      "description": "",
+      "time": "2022-09-02T13:54:32.464Z"
+    },
+    {
+      "version": {
+        "major": 1,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "",
+      "time": "2022-09-02T16:18:27.559Z"
+    },
+    {
+      "version": {
+        "major": 1,
+        "minor": 0,
+        "patch": 1,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "",
+      "time": "2022-09-02T17:19:37.839Z"
+    },
+    {
+      "version": {
+        "major": 1,
+        "minor": 0,
+        "patch": 2,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "",
+      "time": "2022-09-02T17:26:45.888Z"
+    },
+    {
+      "version": {
+        "major": 1,
+        "minor": 0,
         "patch": 3,
         "status": "stable",
         "build": 0
       },
       "description": "",
-      "time": "2023-09-06T10:53:16.186Z"
+      "time": "2022-09-02T17:29:30.586Z"
+    },
+    {
+      "version": {
+        "major": 1,
+        "minor": 0,
+        "patch": 4,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "",
+      "time": "2022-09-02T17:38:46.378Z"
+    },
+    {
+      "version": {
+        "major": 1,
+        "minor": 0,
+        "patch": 4,
+        "status": "stable",
+        "build": 1
+      },
+      "description": "",
+      "time": "2022-09-02T17:54:07.937Z"
+    },
+    {
+      "version": {
+        "major": 1,
+        "minor": 0,
+        "patch": 4,
+        "status": "stable",
+        "build": 2
+      },
+      "description": "",
+      "time": "2022-09-02T19:04:29.686Z"
+    },
+    {
+      "version": {
+        "major": 1,
+        "minor": 0,
+        "patch": 4,
+        "status": "stable",
+        "build": 3
+      },
+      "description": "",
+      "time": "2022-09-02T19:19:19.497Z"
+    },
+    {
+      "version": {
+        "major": 1,
+        "minor": 0,
+        "patch": 4,
+        "status": "stable",
+        "build": 4
+      },
+      "description": "",
+      "time": "2022-09-02T19:28:50.102Z"
+    },
+    {
+      "version": {
+        "major": 1,
+        "minor": 0,
+        "patch": 4,
+        "status": "stable",
+        "build": 5
+      },
+      "description": "",
+      "time": "2022-09-02T19:53:16.106Z"
+    },
+    {
+      "version": {
+        "major": 1,
+        "minor": 0,
+        "patch": 4,
+        "status": "stable",
+        "build": 6
+      },
+      "description": "",
+      "time": "2022-09-02T19:59:47.855Z"
+    },
+    {
+      "version": {
+        "major": 1,
+        "minor": 0,
+        "patch": 4,
+        "status": "stable",
+        "build": 7
+      },
+      "description": "",
+      "time": "2022-09-02T21:14:22.817Z"
+    },
+    {
+      "version": {
+        "major": 1,
+        "minor": 0,
+        "patch": 5,
+        "status": "stable",
+        "build": 0
+      },
+      "description": "",
+      "time": "2022-09-09T15:31:35.952Z"
+    },
+    {
+      "version": {
+        "major": 1,
+        "minor": 0,
+        "patch": 5,
+        "status": "stable",
+        "build": 1
+      },
+      "description": "",
+      "time": "2022-09-09T15:32:58.739Z"
+    }
+  ],
+  "28-2210-mondial": [
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 1
+      },
+      "description": "",
+      "time": "2022-11-03T16:57:27.110Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 2
+      },
+      "description": "",
+      "time": "2022-11-04T11:02:23.234Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 3
+      },
+      "description": "",
+      "time": "2022-11-08T16:28:42.449Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 4
+      },
+      "description": "",
+      "time": "2022-11-08T16:52:29.100Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 5
+      },
+      "description": "",
+      "time": "2022-11-09T10:32:37.453Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 6
+      },
+      "description": "",
+      "time": "2022-11-09T11:37:54.239Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 7
+      },
+      "description": "",
+      "time": "2022-11-09T13:36:30.569Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 8
+      },
+      "description": "",
+      "time": "2022-11-09T13:53:32.616Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 9
+      },
+      "description": "",
+      "time": "2022-11-09T15:19:39.185Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 10
+      },
+      "description": "",
+      "time": "2022-11-09T15:33:25.579Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 11
+      },
+      "description": "refonte cover",
+      "time": "2022-11-10T11:29:21.091Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 12
+      },
+      "description": "",
+      "time": "2022-11-10T11:51:54.775Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 13
+      },
+      "description": "",
+      "time": "2022-11-10T12:57:59.420Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 14
+      },
+      "description": "",
+      "time": "2022-11-10T13:15:01.010Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 15
+      },
+      "description": "",
+      "time": "2022-11-10T13:33:53.824Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 16
+      },
+      "description": "",
+      "time": "2022-11-10T13:42:51.636Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 17
+      },
+      "description": "",
+      "time": "2022-11-10T13:55:03.070Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 18
+      },
+      "description": "",
+      "time": "2022-11-10T14:18:42.332Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 19
+      },
+      "description": "",
+      "time": "2022-11-10T17:27:11.866Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 20
+      },
+      "description": "",
+      "time": "2022-11-10T17:40:49.383Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 21
+      },
+      "description": "",
+      "time": "2022-11-15T14:10:25.997Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 22
+      },
+      "description": "",
+      "time": "2022-11-18T10:41:44.360Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 23
+      },
+      "description": "",
+      "time": "2022-11-18T16:16:53.746Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 24
+      },
+      "description": "",
+      "time": "2022-11-28T16:00:22.865Z"
+    }
+  ],
+  "51-2309-mondial-rugby": [
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 1
+      },
+      "description": "fix assets url",
+      "time": "2023-08-30T15:20:45.927Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 2
+      },
+      "description": "",
+      "time": "2023-09-01T12:59:52.460Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 3
+      },
+      "description": "",
+      "time": "2023-09-01T14:17:43.941Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 4
+      },
+      "description": "animate cover",
+      "time": "2023-09-01T15:30:06.497Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 5
+      },
+      "description": "",
+      "time": "2023-09-04T16:57:22.426Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 6
+      },
+      "description": "",
+      "time": "2023-09-05T09:28:25.878Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 7
+      },
+      "description": "",
+      "time": "2023-09-05T09:37:07.764Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 8
+      },
+      "description": "fix cover transition",
+      "time": "2023-09-05T10:08:41.036Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 9
+      },
+      "description": "fix svg marker",
+      "time": "2023-09-05T10:31:52.982Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 10
+      },
+      "description": "",
+      "time": "2023-09-05T10:33:11.913Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 11
+      },
+      "description": "",
+      "time": "2023-09-05T10:43:40.963Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 12
+      },
+      "description": "fix bugs on firefox",
+      "time": "2023-09-05T12:36:21.056Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 13
+      },
+      "description": "fix grain opacity",
+      "time": "2023-09-05T12:48:16.753Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 14
+      },
+      "description": "fix gradient colors",
+      "time": "2023-09-05T12:54:25.229Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 15
+      },
+      "description": "fix cover ratio (bc contextual nav)",
+      "time": "2023-09-05T13:41:55.820Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 16
+      },
+      "description": "fix margins + display footer & header",
+      "time": "2023-09-05T14:02:39.740Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 17
+      },
+      "description": "fix footer",
+      "time": "2023-09-05T15:10:28.549Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 18
+      },
+      "description": "fix footer in app",
+      "time": "2023-09-05T15:23:10.675Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 19
+      },
+      "description": "",
+      "time": "2023-09-05T15:25:47.480Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 20
+      },
+      "description": "",
+      "time": "2023-09-05T15:38:39.079Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 21
+      },
+      "description": "",
+      "time": "2023-09-05T15:50:49.725Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 22
+      },
+      "description": "adaptation for en version",
+      "time": "2023-09-06T09:37:05.059Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 23
+      },
+      "description": "fix groupTab header",
+      "time": "2023-09-06T10:07:33.916Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 24
+      },
+      "description": "fix styles AEC",
+      "time": "2023-09-06T10:29:32.207Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 25
+      },
+      "description": "fix header english version",
+      "time": "2023-09-06T10:36:22.186Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 26
+      },
+      "description": "fix footer dark mode",
+      "time": "2023-09-06T11:01:20.522Z"
+    },
+    {
+      "version": {
+        "major": 0,
+        "minor": 0,
+        "patch": 0,
+        "status": "stable",
+        "build": 27
+      },
+      "description": "fix dark mode",
+      "time": "2023-09-06T12:35:45.383Z"
+>>>>>>> 1caabc4f63ba4f5f8f08c558dab0e941d71365da
     }
   ]
 }

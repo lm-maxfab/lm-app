@@ -1,6 +1,6 @@
 import { VNode } from 'preact'
-import { SheetBaseCollection } from '../modules/le-monde/utils/sheet-base'
 
+<<<<<<< HEAD
 export interface SheetbaseCollectionData {
   id: string
 }
@@ -20,28 +20,34 @@ export interface ChapterData extends SheetbaseCollectionData {
   title?: VNode
   kicker?: VNode
   main_color?: string
+=======
+export interface SheetBaseCollectionData {
+  id: string
 }
 
-export interface ImageBlockData extends SheetbaseCollectionData {
-  layout?: 'photo-top-right'|'photo-top-left'|'photo-above'
-  size?: string
-  image_url?: string
-  bg_color?: string
-  text_1_color?: string
-  text_2_color?: string
-  legend_content?: VNode
-  credits_content?: VNode
-  read_also_content?: VNode
-  read_also_url?: string
-  chapter_number?: number
-  row_number?: number
-  position_in_row?: number
+export interface GeneralData extends SheetBaseCollectionData {
+  title?: VNode | string,
+  intro?: string,
+  sidenote?: string
+  conclusion?: VNode | string,
+  groupTitle?: string,
+  cardCTA?: string,
+  headerTitle?: string,
+  credits?: VNode | string,
+  markerURL?: string,
+  infoText?: VNode | string,
+>>>>>>> 1caabc4f63ba4f5f8f08c558dab0e941d71365da
 }
 
-export interface ConsolidatedChapterData extends ChapterData {
-  rows?: ImageBlockData[][]
+export interface FooterData extends SheetBaseCollectionData {
+  title?: string,
+  cta?: string,
+  url?: string,
 }
 
-export interface CreditsData extends SheetBaseCollection {
-  content?: VNode
+export interface TeamData extends SheetBaseCollectionData {
+  iso?: string,
+  country?: string,
+  group?: string,
+  url?: string,
 }

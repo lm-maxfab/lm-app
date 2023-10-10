@@ -1,0 +1,27 @@
+.mondial-team {
+  text-align: center;
+  color: var(--c-mondial-blue);
+  position: relative;
+  display: grid;
+  // display: contents;
+
+  // &__info {
+  //   position: absolute;
+  //   bottom: 100%;
+  // }
+
+  .mondial-flag {
+    img {
+      margin: 0 auto;
+      width: 32px;
+
+      @media screen and (min-width: 600px) {
+        width: 44px;
+      }
+    }
+  }
+
+  a {
+    align-self: flex-end;
+  }
+}

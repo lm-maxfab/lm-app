@@ -1,75 +1,88 @@
-import { render } from 'preact'
-import SilentLog from './modules/le-monde/utils/silent-log'
-import { SheetBase, tsvToSheetBase } from './modules/le-monde/utils/sheet-base'
-import renderList from './apps/rendered'
+import appsNodes from './apps'
+import fetchSheetBase from './modules/utils/fetch-sheet-base'
+import getConfig, { ConfigLayout } from './modules/utils/get-config'
+import getPageSettings from './modules/utils/get-page-settings'
+import applyPageTemplate from './modules/utils/apply-page-template'
+import applyPageLayout from './modules/utils/apply-page-layout'
+import renderLMApp from './modules/utils/render-app'
+import getHeaderElement from './modules/utils/get-header-element'
+import { CustomCssData } from './sheet-base-entries'
 
-const silentLogger = new SilentLog()
-window.LM_APP_SILENT_LOGGER = silentLogger
+/* Init */
+init()
+  .then(() => {})
+  .catch(() => {})
 
-cronFetchAndRender()
+/* Attach some utils to window */
+if (window.LM_APP === undefined) window.LM_APP = {}
+window.LM_APP.getConfig = getConfig
+window.LM_APP.getPageSettings = getPageSettings
+window.LM_APP.applyPageTemplate = applyPageTemplate
+window.LM_APP.applyPageLayout = applyPageLayout
+window.LM_APP.fetchSheetBase = fetchSheetBase
+window.LM_APP.renderLMApp = renderLMApp
+window.LM_APP.init = init
 
-function getConfig () {
-  const configPre = document.documentElement.querySelector('#lm-app-config')
-  if (configPre === null) throw new Error('#lm-app-config is missing in page.')
-  try {
-    const config = JSON.parse(configPre.innerHTML) as Config
-    silentLogger.log('#lm-app-config content parsed:\n', config)
-    return config
-  } catch (error) {
-    silentLogger.log('#lm-app-config content could not be parsed:\n', configPre.innerHTML)
-    throw error
-  }
-}
-
-async function fetchSheetBase () {
+async function init (): Promise<void> {
+  // Read config in DOM (injected on `npm run dev` or `npm run build`)
   const config = getConfig()
-  const { env } = config
-  const sheetbaseUrl = config.sheetbases[env] || ''
-  if (sheetbaseUrl === '') return undefined
-  try {
-    const res = await window.fetch(sheetbaseUrl)
-    if (!res.ok) throw new Error(`${res.status}: ${res.statusText}`)
-    const tsv = await res.text()
-    const sheetBase = tsvToSheetBase(tsv)
-    silentLogger.log('Received sheetbase:\n', tsv, sheetBase)
-    return sheetBase
-  } catch (error) {
-    silentLogger.log('Error while fetching sheetbase:\n', error)
-    throw error
+  if (config === undefined) throw new Error('Could not load config, app rendering stops.')
+
+  // Remove header
+  function removeHeader () {
+    const $header = document.querySelector('header.multimediaNav')
+    if ($header !== null) $header.remove()
   }
-}
+  window.setTimeout(removeHeader, 100)
+  window.setTimeout(removeHeader, 500)
+  window.setTimeout(removeHeader, 1000)
+  window.setTimeout(removeHeader, 2000)
 
-function renderApp (sheetBase?: SheetBase): void {
-  // DELETE HEADER
-  const headerSelectors = '.Header__nav-container, #Header, .multimediaNav'
-  const headerElements = [...document.querySelectorAll(headerSelectors)]
-  headerElements.forEach(element => element.remove())
+  // Get settings from window.location.search
+  const settings = getPageSettings()
 
-  silentLogger.log('Start rendering apps...')  
-  renderList.map(toRender => {
-    const { app: App, rootNodeClass } = toRender
-    silentLogger.log(`Rendering ${App.wrapped.name} in .${rootNodeClass} ...`)
-    const rootNodes: HTMLCollectionOf<Element> = document.getElementsByClassName(rootNodeClass)
-    for (const rootNode of rootNodes) {
-      render(<App sheetBase={sheetBase} />, rootNode)
-    }
-    if (rootNodes.length == 0) silentLogger.log('No node found to render', App.wrapped.name)
-    else silentLogger.log(`Rendered ${App.wrapped.name} in ${rootNodes.length} nodes.`)
-  })
-}
+  // Detect env via config & settings in order to choose which spreadsheet to load
+  const env = settings?.env === 'production'
+    || settings?.env === 'staging'
+    || settings?.env === 'testing'
+    || settings?.env === 'developpment'
+    ? settings.env
+    : config.env ?? 'production'
+  if (settings?.env === undefined && config.env === undefined) console.warn('config.env and settings?.env are not defined, defaulting to \'production\'')
+  const urls = config.spreadsheets_urls
+  if (urls === undefined) throw new Error('config.spreadsheets_urls is not defined, app rendering stops.')
+  const url = urls[env] ?? ''
 
-async function fetchAndRender () {
-  const sheetBase = await fetchSheetBase()
-  renderApp(sheetBase)
-}
+  // Fetch spreadsheet
+  const sheetBase = url !== '' ? await fetchSheetBase(url) : undefined
+  if (window.LM_APP === undefined) window.LM_APP = {}
+  window.LM_APP.sheetBase = sheetBase
 
-async function cronFetchAndRender (step = 0) {
-  try {
-    await fetchAndRender()
-  } catch (error) {
-    silentLogger.log(error)
-    if (step >= 5) return silentLogger.log('Could not fetch sheetbase in 5 attemps, stop retrying.')
-    silentLogger.log('Something went wrong while fetching sheetBase, new try in 500ms.')
-    window.setTimeout(() => { cronFetchAndRender(step + 1) }, 500)
+  // Apply page custom CSS from sheet base
+  const allCustomCssData = sheetBase?.collection('_custom-css').value as unknown as CustomCssData[]|undefined
+  const customCssData = allCustomCssData?.map(elt => elt.css).join('\n') ?? ''
+  if (customCssData !== '') {
+    const head = document.head
+    const style = document.createElement('style')
+    style.setAttribute('type', 'text/css')
+    const minifiedCustomCssData = customCssData.split('\n').map(e => e.trim()).join('')
+    style.innerText = minifiedCustomCssData
+    head.append(style)  
   }
+
+  // Apply page template in dev
+  if (window.location.hostname === 'localhost') {
+    const template = settings?.template ?? 'article'
+    await applyPageTemplate(template)
+  }
+
+  // Apply page layout in dev
+  if (window.location.hostname === 'localhost') {
+    const layouts = config.layouts
+    const layout: ConfigLayout|undefined = layouts.find(layout => layout.name === settings?.layout) ?? layouts[0]
+    if (layout !== undefined) applyPageLayout(layout)
+  }
+
+  // Render apps
+  renderLMApp(appsNodes, sheetBase)
 }

@@ -1,0 +1,127 @@
+.mondial-footer {
+  font-family: var(--ff-marr-sans);
+  margin: 0 auto;
+
+  a {
+    text-decoration: none !important;
+  }
+
+  .mondial-button {
+    z-index: 10;
+  }
+
+  * {
+    z-index: 1;
+  }
+
+  &__container {
+    max-width: 950px;
+    margin: 0 auto;
+    margin-top: 72px;
+    display: grid;
+    justify-items: center;
+
+    @media (min-width: 600px) {
+      margin-top: 156px;
+    }
+  }
+
+  &__marker {
+    display: flex;
+    width: 140px;
+
+    @media (min-width: 600px) {
+      width: 220px;
+    }
+  }
+
+  &__title {
+    color: var(--c-mondial-blue);
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 120%;
+    text-align: center;
+    margin: 16px 32px !important;
+
+    @media screen and (min-width: 600px) {
+      font-size: 32px;
+      margin: 62px 42px 42px 42px !important;
+    }
+  }
+
+  &__block {
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    width: 100%;
+    overflow: hidden;
+
+    >* {
+      grid-area: -1 / 1;
+    }
+
+    &:hover {
+      opacity: 1 !important;
+
+      .mondial-footer__overlay {
+        opacity: 0.4;
+      }
+    }
+  }
+
+  &__overlay {
+    height: 100%;
+    width: 100%;
+    background-color: var(--c-mondial-blue);
+    opacity: 0;
+    transition: opacity 200ms;
+  }
+
+  &__gradient {
+    height: 100%;
+    width: 100%;
+  }
+
+  &__image {
+    img {
+      max-width: 100%;
+    }
+  }
+
+  &__links {
+    padding: 0 24px;
+
+    .mondial-info {
+      max-width: 1248px;
+      margin-top: 24px;
+
+      @media (min-width: 600px) {
+        margin-top: 86px;
+      }
+    }
+  }
+}
+
+
+[data-color-mode="dark"] .mondial-footer {
+  .mondial-footer__marker {
+    svg path {
+      fill: #fff !important;
+    }
+  }
+
+  .mondial-footer__title {
+    color: #fff;
+  }
+
+  .mondial-footer__links {
+    .mondial-info {
+      color: #fff !important;
+      border: 1px solid #ffffff4D;
+
+      ul li a::after {
+        background-image: url("https://assets-decodeurs.lemonde.fr/redacweb/51-2309-mondial-rugby/arrow-right-white.svg");
+      }
+    }
+  }
+}

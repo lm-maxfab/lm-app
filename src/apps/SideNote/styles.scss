@@ -1,0 +1,74 @@
+.mondial-sidenote {
+  background-color: var(--c-mondial-blue);
+  color: #fff;
+  display: grid;
+  cursor: pointer;
+  width: 100%;
+
+  >* {
+    grid-area: 1 / -1;
+  }
+
+  &__content {
+    padding: 18px;
+    width: 100%;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @media screen and (min-width: 600px) {
+      padding: 24px;
+    }
+  }
+
+  span {
+    font-family: var(--ff-marr-sans);
+    margin-left: 24px;
+    font-size: 16px;
+    line-height: 120%;
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.2em;
+    color: #fff;
+
+    @media screen and (min-width: 600px) {
+      font-size: 18px;
+      margin-left: 42px;
+      font-size: 24px;
+      text-underline-offset: 0.3em;
+    }
+  }
+
+  &__marker {
+    display: flex;
+    width: 110px;
+    flex-shrink: 0;
+
+    @media screen and (min-width: 600px) {
+      width: 160px;
+    }
+  }
+
+  .mondial-gradient {
+    &::after {
+      content: '';
+      display: block;
+      background-color: var(--c-mondial-blue);
+      height: 100%;
+      width: 100%;
+      position: absolute;
+      opacity: 0;
+      transition: opacity 200ms;
+    }
+  }
+
+  &:hover {
+    .mondial-gradient {
+      &::after {
+        opacity: 0.4;
+      }
+    }
+  }
+}

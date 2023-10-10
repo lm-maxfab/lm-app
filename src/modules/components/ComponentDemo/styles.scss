@@ -1,0 +1,37 @@
+.lm-component-demo {
+  margin: 48px 0;
+  padding: 16px;
+  background-color: #FAFAFA;
+  overflow-x: scroll;
+
+  .lm-component-demo__name {
+    font-family: var(--ff-marr-sans);
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    color: #444;
+  }
+
+  .lm-component-demo__description {
+    font-family: var(--ff-the-antiqua-b);
+    // font-style: italic;
+    font-size: 16px;
+    color: #444;
+    margin-bottom: 16px;
+    max-width: 400px;
+  }
+
+  .lm-component-demo__props-description {
+    font-family: monospace;
+    font-size: 14px;
+    font-weight: 100;
+    color: #444;
+    margin-bottom: 32px;
+    display: block;
+  }
+
+  .lm-component-demo__component {
+    background-color: white;
+    box-shadow: 0 0 16px 0 rgb(0, 0, 0, .05);
+  }
+}

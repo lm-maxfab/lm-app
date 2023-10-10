@@ -1,4 +1,5 @@
 import { Component, JSX } from 'preact'
+<<<<<<< HEAD
 import wrapper, { InjectedProps } from '../../wrapper'
 import bem from '../../modules/le-monde/utils/bem'
 import Paginator from '../../modules/le-monde/components/Paginator2'
@@ -13,18 +14,25 @@ import {
   ConsolidatedChapterData,
   CreditsData
 } from '../types'
+=======
+import GuideCover from '../components/GuideCover'
+import InfoText from '../components/InfoText'
+import GroupBlock from '../components/Group/GroupBlock'
+import ArticleHeader from '../../modules/components/ArticleHeader'
+import ArticleCredits from '../../modules/components/ArticleCredits'
+import appWrapper, { InjectedProps } from '../../modules/utils/app-wrapper-HOC'
+import bem from '../../modules/utils/bem'
+import { TeamData, GeneralData } from '../types'
+>>>>>>> 1caabc4f63ba4f5f8f08c558dab0e941d71365da
 import './styles.scss'
 
-interface Props extends InjectedProps {}
-interface State {
-  currentPage: any
-  currentChapter: any
-  currentChapterRow: any
-}
+interface Props extends InjectedProps { }
+interface State { }
 
 class Longform extends Component<Props, State> {
-  static clss: string = 'illus21-longform'
+  static clss: string = 'mondial-longform'
   clss = Longform.clss
+<<<<<<< HEAD
   state: State = {
     currentPage: 'init',
     currentChapter: null,
@@ -41,10 +49,13 @@ class Longform extends Component<Props, State> {
   handlePageChange (val: any) { this.setState({ currentPage: val.value }) }
   handleChapterChange (val: any) { this.setState({ currentChapter: val.value }) }
   handleChapterRowChange (val: any) { this.setState({ currentChapterRow: val.value }) }
+=======
+>>>>>>> 1caabc4f63ba4f5f8f08c558dab0e941d71365da
 
   /* * * * * * * * * * * * * * *
    * RENDER
    * * * * * * * * * * * * * * */
+<<<<<<< HEAD
   render (): JSX.Element {
     const { props, state } = this
 
@@ -84,21 +95,30 @@ class Longform extends Component<Props, State> {
     // console.log(currentRow)
     // console.log('-')
     
+=======
+  render(): JSX.Element {
+    const { props } = this
+
+    const generalData = props.sheetBase?.collection('general').value[0] as unknown as GeneralData
+
+    const teamsData = ((props.sheetBase?.collection('teams').value ?? []) as unknown as TeamData[])
+
+    const groups: string[] = teamsData.map(el => el.group!)
+    const groupsData: string[] = groups.filter((el, index) => groups.indexOf(el) === index)
+
+>>>>>>> 1caabc4f63ba4f5f8f08c558dab0e941d71365da
     // Assign classes and styles
-    const wrapperClasses = bem(props.className)
-      .block(this.clss)
-      .mod({
-        'fix-bg': ['home', 'intro'].includes(state.currentPage)
-      })
+    const wrapperClasses = bem(props.className).block(this.clss)
     const wrapperStyle: JSX.CSSProperties = {
       ...props.style,
-      '--current-bg-color': bgColor ?? '#090B0E',
-      '--current-text-1-color': text1Color ?? '#E8EAEE',
-      '--current-text-2-color': text2Color ?? '#A4A9B4',
-      marginTop: 'var(--len-nav-height)'
+      ['--c-mondial-blue']: '#071080',
+      ['--c-mondial-green']: '#00A259',
     }
 
+    const className = bem(this.clss)
+
     // Display
+<<<<<<< HEAD
     return (
         <div
           style={wrapperStyle}
@@ -195,10 +215,49 @@ class Longform extends Component<Props, State> {
               </div>
             </Paginator.Page>
           </Paginator>
+=======
+    return <div
+      style={wrapperStyle}
+      className={wrapperClasses.value}>
+
+      <ArticleHeader
+        fill1='#fff'
+        fill2='rgb(255,255,255,0.6)' />
+
+      <GuideCover
+        title={generalData.title}
+        intro={generalData.intro}
+      ></GuideCover>
+
+      <div className={className.elt('wrapper').value}>
+        <InfoText content={generalData.infoText} />
+
+        <div>
+          {groupsData?.map(group => {
+            return <GroupBlock
+              group={group}
+              groupTitle={generalData.groupTitle ?? 'Poule'}
+              cardCTA={generalData.cardCTA ?? 'Voir la fiche'}
+              teams={teamsData.filter(el => el.group === group)}
+            />
+          })}
         </div>
-    )
+
+        <div className={className.elt('end').value}>
+          <div>
+            <p className={className.elt('conclusion').value}>{generalData.conclusion}</p>
+            <ArticleCredits
+              className={className.elt('credits').value}
+              content={generalData.credits}
+            ></ArticleCredits>
+          </div>
+>>>>>>> 1caabc4f63ba4f5f8f08c558dab0e941d71365da
+        </div>
+      </div>
+
+    </div>
   }
 }
 
 export type { Props, Longform }
-export default wrapper(Longform)
+export default appWrapper(Longform)

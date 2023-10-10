@@ -3,13 +3,18 @@
   "version": "0.0.0",
   "scripts": {
     "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "dev": "node ./scripts/dev.mjs",
     "postdev": "vite --port 3002",
     "start": "npm run dev",
-    "build": "node ./scripts/build.mjs"
+    "_build": "node ./scripts/build.BAK.mjs",
+    "build": "tsc && vite build",
+    "postbuild": "node ./scripts/postbuild.mjs"
   },
   "dependencies": {
+    "can-autoplay": "^3.0.2",
     "classnames": "^2.3.1",
+    "p5": "^1.4.2",
     "preact": "^10.5.15",
     "react-slick": "^0.28.1",
     "slick-carousel": "^1.8.1",
@@ -20,7 +25,11 @@
     "@babel/core": "^7.16.0",
     "@babel/plugin-transform-modules-umd": "^7.16.0",
     "@preact/preset-vite": "^2.1.5",
+    "@types/can-autoplay": "^3.0.1",
+    "@types/fs-extra": "^9.0.13",
     "@types/node": "^16.11.9",
+    "@types/p5": "^1.4.2",
+    "@types/prompts": "^2.0.14",
     "@types/smoothscroll-polyfill": "^0.3.1",
     "async-prompt": "^1.0.1",
     "chalk": "^4.1.2",

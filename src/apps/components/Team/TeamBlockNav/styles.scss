@@ -1,0 +1,43 @@
+.mondial-team-nav {
+  color: #fff;
+  margin-top: 26px;
+  display: block;
+  text-decoration: none !important;
+  width: fit-content;
+
+  +.mondial-team-nav {
+    margin-top: 14px;
+  }
+
+  &__header {
+    display: grid;
+    grid-template-columns: 35px 1fr;
+    align-items: center;
+    margin-bottom: 4px;
+
+    .mondial-flag {
+      margin-right: 9px;
+
+      img {
+        width: 26px;
+      }
+    }
+  }
+
+  &__title {
+    text-transform: uppercase;
+    font-size: 22px;
+    line-height: 24px;
+    font-weight: 600;
+    transition: opacity 200ms;
+    margin: 0 !important;
+  }
+
+  &:hover {
+    opacity: 1 !important;
+
+    .mondial-team-nav__title {
+      opacity: 0.6 !important;
+    }
+  }
+}

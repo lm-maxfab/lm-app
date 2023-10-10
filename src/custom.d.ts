@@ -1,4 +1,8 @@
-import SilentLog from './modules/le-monde/utils/silent-log'
+import { JSX } from 'preact'
+import { Config, ConfigLayout } from './modules/utils/get-config'
+import { PageSettings } from './modules/utils/get-page-settings'
+import { AppNodeMap } from './modules/utils/render-app'
+import { SheetBase } from './modules/utils/sheet-base'
 
 export interface MyNavigator extends Navigator {
   connection: NetworkInformation
@@ -7,26 +11,16 @@ export interface MyNavigator extends Navigator {
 }
 
 export declare global {
-  interface Config {
-    assets_root_url: string
-    sheetbases: {
-      production: string
-      staging: string
-      testing: string
-      developpment: string
-    }
-    env: 'production'|'staging'|'testing'|'developpment'
-  }
-
   interface Window {
-    LM_APP_SILENT_LOGGER: SilentLog
-    LM_APP_BUILD?: {
-      version: string
-      branch: string
-      time: string
-      vendorJs: string
-      indexJs: string
-      indexCss: string
+    LM_APP?: {
+      getConfig?: () => Config|undefined
+      getPageSettings?: () => PageSettings|undefined
+      applyPageTemplate?: (template: string) => Promise<void>
+      applyPageLayout?: (layout: ConfigLayout) => void
+      fetchSheetBase?: (url: string) => Promise<SheetBase | undefined>
+      renderLMApp?: (renderList: AppNodeMap[], sheetBase?: SheetBase) => JSX.Element[]
+      init?: () => Promise<void>
+      sheetBase?: SheetBase
     }
   }
 }

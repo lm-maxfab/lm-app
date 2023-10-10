@@ -1,0 +1,72 @@
+.mondial-cover {
+  display: grid;
+  justify-items: center;
+  // max-width: 1100px;
+  margin: 0;
+  max-height: 680px;
+  overflow: hidden;
+
+  &_in-app {
+    margin-top: 56px;
+  }
+
+  * {
+    z-index: 1;
+  }
+
+  >* {
+    grid-area: 1 / -1;
+  }
+
+  &__gradient {
+    height: 100%;
+    width: 100%;
+    display: grid;
+
+    >* {
+      grid-area: 1 / -1;
+    }
+  }
+
+  &__shape {
+    z-index: 2;
+    max-width: 100%;
+    clip-path: polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%);
+    animation: coverShapeIn 800ms 200ms cubic-bezier(0.86, 0, 0.07, 1) forwards;
+  }
+
+  @keyframes coverShapeIn {
+    100% {
+      clip-path: polygon(0% 100%, 100% 100%, 100% 0%, 0% 0%);
+    }
+  }
+
+  &__player {
+    align-self: flex-end;
+    position: absolute;
+    bottom: 0;
+    left: 100%;
+    z-index: 2;
+    opacity: 0;
+    max-height: 88%;
+    width: 100%;
+    object-fit: contain;
+    animation: 1.6s cubic-bezier(0.33, 1, 0.68, 1) 0s 1 animatePlayerIn forwards;
+  }
+}
+
+@keyframes animatePlayerIn {
+  0% {
+    opacity: 0;
+    left: 100%;
+  }
+
+  40% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+    left: 0;
+  }
+}

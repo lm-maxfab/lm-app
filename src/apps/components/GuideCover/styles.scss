@@ -1,0 +1,13 @@
+.mondial-guide-cover-wrapper {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: var(--height);
+  z-index: 2;
+  // overflow: hidden;
+}
+
+.lm-paginator {
+  z-index: 3 !important;
+  overflow: unset !important;
+}
