@@ -22,7 +22,7 @@ class Footer extends Component<Props, State> {
       .replace(/\s+/igm, ' ')
       .replace(/\n/igm, ' ')
 
-    const footerClass = `outoc-footer`
+    const footerClass = `outoc-footer-app`
     const footerClasses = [`${footerClass}`, styles['footer']]
     const headerClasses = [`${footerClass}__header`, styles['header']]
 

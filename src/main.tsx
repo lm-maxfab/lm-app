@@ -8,9 +8,17 @@ import renderLMApp from './modules/utils/render-app'
 import { CustomCssData } from './sheet-base-entries'
 
 /* Init */
+let initSucceded = false
 init()
   .then(() => {})
   .catch(() => {})
+
+//   setInterval(() => {
+//   if (initSucceded) return;
+//   init()
+//     .then(() => {})
+//     .catch(() => {})
+// }, 100)
 
 /* Attach some utils to window */
 if (window.LM_APP === undefined) window.LM_APP = {}
